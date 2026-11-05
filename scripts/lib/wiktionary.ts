@@ -81,7 +81,9 @@ function canonical(e: RawEntry): string {
 function usableForms(e: RawEntry): Form[] {
   return (e.forms ?? [])
     .filter((f) => f.form && f.form !== '-' && !(f.tags ?? []).some((t) => SKIP_TAGS.has(t)) && !(f.tags ?? []).includes('canonical'))
-    .map((f) => [wkToApostrophe(f.form), f.tags ?? []]);
+    // Footnote markers in tables ("него́ ²") are dropped; romanisations (Latin) are skipped.
+    .map((f): Form => [wkToApostrophe(f.form).replace(/\s*[¹²³⁴⁵]+$/, '').trim(), f.tags ?? []])
+    .filter(([f]) => /[а-яё]/i.test(f) && !/[a-z]/i.test(f));
 }
 
 const has = (tags: string[], ...want: string[]) => want.every((w) => tags.includes(w));
@@ -148,7 +150,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         comparative: [...new Set(fs.filter(([, t]) => t.includes('comparative')).map(([f]) => f))],
         superlative: [...new Set(fs.filter(([, t]) => t.includes('superlative')).map(([f]) => f))],
       });
-    } else if (e.pos === 'pron' && wanted.pronouns.has(word)) {
+    } else if ((e.pos === 'pron' || e.pos === 'det') && wanted.pronouns.has(word)) {
       push(out.pronouns, word, { canonical: canonical(e), forms: usableForms(e) });
     } else if (e.pos === 'num' && wanted.numerals.has(word)) {
       push(out.numerals, word, { canonical: canonical(e), forms: usableForms(e) });

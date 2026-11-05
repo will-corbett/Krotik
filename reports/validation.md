@@ -209,6 +209,14 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | nouns with at least one diminutive | 1397 |
 
+## Pronouns (Wiktionary)
+
+| count | n |
+|---|---:|
+| personal and interrogative pronouns | 11 |
+| possessive/demonstrative taken from OpenRussian (Wiktionary table not usable) | 1 |
+| possessive and demonstrative pronouns | 10 |
+
 ## Sentences
 
 | count | n |
@@ -230,26 +238,59 @@ nouns: 982 of the top 1000 have at least one sentence.
 
 | count | n |
 |---|---:|
-| kotoryi / kotoryi: candidates (kept up to 1500) | 4224 |
-| chtoby / inf: candidates (kept up to 1500) | 3367 |
-| chtoby / past: candidates (kept up to 1500) | 439 |
-| conditional / cond: candidates (kept up to 1500) | 9880 |
-| negation / net: candidates (kept up to 1500) | 2799 |
-| negation / nipron: candidates (kept up to 1500) | 9922 |
+| kotoryi / kotoryi: candidates (kept up to 1500) | 4072 |
+| chtoby / inf: candidates (kept up to 1500) | 3199 |
+| chtoby / past: candidates (kept up to 1500) | 437 |
+| conditional / cond: candidates (kept up to 1500) | 9542 |
+| negation / net: candidates (kept up to 1500) | 2607 |
+| negation / nipron: candidates (kept up to 1500) | 7182 |
 | negation / ne-ni: candidates (kept up to 1500) | 1500 |
-| indefinite / нибудь: candidates (kept up to 1500) | 6955 |
-| indefinite / то: candidates (kept up to 1500) | 6735 |
-| indefinite / либо: candidates (kept up to 1500) | 527 |
-| indefinite / koe: candidates (kept up to 1500) | 1143 |
-| particles / li: candidates (kept up to 1500) | 4080 |
-| particles / zhe-ved:же: candidates (kept up to 1500) | 4029 |
-| particles / colloquial:даже: candidates (kept up to 1500) | 2095 |
-| particles / colloquial:только: candidates (kept up to 1500) | 5425 |
-| particles / colloquial:ну: candidates (kept up to 1500) | 469 |
-| particles / colloquial:вот: candidates (kept up to 1500) | 1466 |
-| particles / zhe-ved:ведь: candidates (kept up to 1500) | 1431 |
-| particles / ka: candidates (kept up to 1500) | 108 |
+| indefinite / нибудь: candidates (kept up to 1500) | 6355 |
+| indefinite / то: candidates (kept up to 1500) | 5887 |
+| indefinite / либо: candidates (kept up to 1500) | 529 |
+| indefinite / koe: candidates (kept up to 1500) | 1120 |
+| particles / li: candidates (kept up to 1500) | 4074 |
+| particles / zhe-ved:же: candidates (kept up to 1500) | 4031 |
+| particles / colloquial:даже: candidates (kept up to 1500) | 1701 |
+| particles / colloquial:только: candidates (kept up to 1500) | 4975 |
+| particles / colloquial:вот: candidates (kept up to 1500) | 312 |
+| particles / zhe-ved:ведь: candidates (kept up to 1500) | 1418 |
+| particles / colloquial:ну: candidates (kept up to 1500) | 28 |
+| particles / ka: candidates (kept up to 1500) | 28 |
 | particles / ne-ni: candidates (kept up to 1500) | 1500 |
+| prepositions / в:prep: candidates (kept up to 400) | 8284 |
+| prepositions / по:dat: candidates (kept up to 400) | 2297 |
+| prepositions / от:gen: candidates (kept up to 400) | 717 |
+| prepositions / к:dat: candidates (kept up to 400) | 1783 |
+| prepositions / за:acc: candidates (kept up to 400) | 737 |
+| prepositions / против:gen: candidates (kept up to 400) | 32 |
+| prepositions / в:acc: candidates (kept up to 400) | 4560 |
+| prepositions / над:inst: candidates (kept up to 400) | 167 |
+| prepositions / из:gen: candidates (kept up to 400) | 1136 |
+| prepositions / через:acc: candidates (kept up to 400) | 223 |
+| prepositions / на:prep: candidates (kept up to 400) | 4118 |
+| prepositions / за:inst: candidates (kept up to 400) | 1662 |
+| prepositions / на:acc: candidates (kept up to 400) | 3742 |
+| prepositions / после:gen: candidates (kept up to 400) | 369 |
+| prepositions / с:inst: candidates (kept up to 400) | 5157 |
+| prepositions / с:gen: candidates (kept up to 400) | 910 |
+| prepositions / без:gen: candidates (kept up to 400) | 627 |
+| prepositions / о:prep: candidates (kept up to 400) | 882 |
+| prepositions / перед:inst: candidates (kept up to 400) | 566 |
+| prepositions / под:inst: candidates (kept up to 400) | 642 |
+| prepositions / до:gen: candidates (kept up to 400) | 834 |
+| prepositions / для:gen: candidates (kept up to 400) | 359 |
+| prepositions / кроме:gen: candidates (kept up to 400) | 47 |
+| prepositions / при:prep: candidates (kept up to 400) | 154 |
+| prepositions / между:inst: candidates (kept up to 400) | 149 |
+| prepositions / под:acc: candidates (kept up to 400) | 45 |
+| prepositions / у:gen: candidates (kept up to 400) | 171 |
+| prepositions / про:acc: candidates (kept up to 400) | 24 |
+| prepositions / около:gen: candidates (kept up to 400) | 42 |
+| aspectContext / impf: candidates (kept up to 1500) | 241442 |
+| aspectContext / pf: candidates (kept up to 1500) | 183691 |
+| svoy / svoy: candidates (kept up to 1500) | 15968 |
+| svoy / ego: candidates (kept up to 1500) | 1870 |
 
 Typed answers are the sentence’s own word; the blanked token must belong to exactly one lemma. Multiple-choice distractors are only forms seen elsewhere in Tatoeba. Some distractors can also fit a sentence (же/ведь, -то/-нибудь); the English translation is shown as a cue, and only the sentence’s own word counts.
 

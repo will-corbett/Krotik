@@ -59,8 +59,32 @@ deterministically; a round picks the kind first so rare kinds (чтобы + past
 -ка has only ~100 sentences. In multiple choice some distractors can also fit (же/ведь, -то/-нибудь); only
 the sentence's own word counts, and the English translation is the cue.
 
+## Phase D — core grammar from data we have (agreed 2026-11-05)
+1. **Personal pronouns** (личные местоимения): я…они, себя, кто, что in every case; н- forms after
+   prepositions (у него, к ней). Tables from Wiktionary.
+2. **Noun declension** (склонение существительных): singular and plural, chosen cases.
+3. **Prepositions with cases** (предлоги и падежи): Tatoeba sentences, noun after a preposition blanked.
+4. **Aspect in context** (вид глагола в контексте): Tatoeba sentence, choose between the verb and its
+   partner in the same form.
+5. **Possessive and demonstrative pronouns** (мой, наш, свой, этот, тот, весь, чей) agreeing with a noun;
+   **свой vs его/её/их** as multiple choice from Tatoeba.
+6. **Stress drill** (ударение): tap the stressed vowel.
+7. **Phonetic typing**: Latin → Cyrillic as you type (shch → щ, ya → я …), a Display toggle.
+
+## Phase E — topics needing small hand-made lists (each list is checked against the data)
+1. **Verb government** (управление глаголов): ~80 verbs with their case/preposition (hand-made list,
+   each verb checked in the data and illustrated by Tatoeba sentences where the noun really is in that case).
+2. **Prefixed motion verbs** (приставочные глаголы движения): при-, у-, в-, вы-, за-, пере-, про-, под-,
+   от-, до-, об-, с-, раз- … with meanings (hand-made meaning table; verbs from the data).
+3. **Verbs of position** (стоять/ставить/встать, лежать/класть/лечь, сидеть/сажать/сесть, висеть/вешать):
+   multiple choice from Tatoeba.
+4. **Impersonal constructions** (безличные предложения): dative subject with надо/нужно/можно/нельзя/холодно…
+5. **Comparisons**: genitive after a comparative (старше брата) vs чем.
+6. **Conjunctions** (союзы): что / чтобы / если / когда, multiple choice. (if vs whether can't be one
+   blank, because ли sits after the verb; "whether" stays in the particles drill.)
+7. **Time expressions** (выражение времени): в + day (acc.), в + month (prep.), через / назад, from Tatoeba.
+8. **Numbers**: ordinals (первый … сотый), compound numbers (двадцать пять, every part declines), collective
+   numerals (двое, трое …).
+
 ## Still planned from the original brief
-- Stress-marking drill (tap the stressed vowel).
-- Phonetic typing (Latin → Cyrillic as you type).
-- Verb + case government (помогать + dative), prefixed motion verbs.
-- Full noun and adjective declension drills.
+- All folded into phases D and E above.

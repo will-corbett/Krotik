@@ -28,6 +28,7 @@ export interface Manifest {
   /** verbs, adjectives, nouns, participles, diminutives */
   shards: Record<string, { band: number; file: string; count: number }[]>;
   numerals: string;
+  pronouns: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -63,6 +64,14 @@ export type NumeralRow = [string, number, Record<string, string>];
  *  hint (lemma, accented; "" for multiple choice), kind, options ([] = typed answer)]
  */
 export type ClozeRow = [number, string, string, number, number, string, string, string, string[]];
+
+/** [pronoun (accented nominative; "себя" has no nominative), cells by case, cells by case after a preposition] */
+export type PersonalRow = [string, string[], string[]];
+export interface PronounData {
+  personal: PersonalRow[];
+  /** [accented, cells in ADJ_CELLS order] — мой, наш, свой, этот, тот, весь, чей, сам */
+  possessive: [string, string[]][];
+}
 
 /** [noun id, accented, gloss, diminutives cell] */
 export type DiminutiveRow = [number, string, string, string];
