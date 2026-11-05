@@ -5,6 +5,9 @@ Files in this folder are derived data.
 - `verbs.*`, `adjectives.*`, `nouns.*`, `motion.json`: derived from the OpenRussian.org dictionary export
   (https://github.com/Badestrand/russian-dictionary), itself built on Wiktionary. Licensed CC BY-SA 4.0
   (https://creativecommons.org/licenses/by-sa/4.0/). As share-alike material, these derived files are also CC BY-SA 4.0.
+- `participles.*`, `diminutives.*`, `numerals.json`, and some comparatives, superlatives and noun genders in the files
+  above: from Wiktionary (https://en.wiktionary.org) via kaikki.org's wiktextract extract. Wiktionary content is
+  CC BY-SA 4.0 (and GFDL); these derived files are CC BY-SA 4.0.
 - `sentences.*`: sentences and translations from Tatoeba (https://tatoeba.org), CC BY 2.0 FR
   (https://creativecommons.org/licenses/by/2.0/fr/). Each row starts with the Tatoeba sentence id.
 

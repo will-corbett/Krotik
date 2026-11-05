@@ -1,0 +1,149 @@
+/**
+ * Wiktionary (via kaikki.org's gzipped JSONL extract, CC BY-SA) — streamed once, and only the entries we need are
+ * cached in data-raw/kaikki-extract.json (keyed to the dump's sha256 so a new dump re-extracts).
+ *
+ * Forms keep Wiktionary's stress, converted to our apostrophe notation (U+0301 → ').
+ * Forms tagged "dated" (pre-1918 spelling) are skipped.
+ */
+import { createReadStream, existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { createInterface } from 'node:readline';
+import { createGunzip } from 'node:zlib';
+import { join } from 'node:path';
+import { RAW_DIR } from './sources.ts';
+
+export const KAIKKI_FILE = 'kaikki-russian.jsonl.gz';
+const EXTRACT = join(RAW_DIR, 'kaikki-extract.json');
+
+export type Form = [form: string, tags: string[]];
+
+export interface WkVerb {
+  canonical: string;
+  /** adverbial participles (деепричастия) and participles (причастия), nominative masculine */
+  adv_pres: string[];
+  adv_past: string[];
+  act_pres: string[];
+  act_past: string[];
+  pass_pres: string[];
+  pass_past: string[];
+}
+export interface WkParticiple {
+  canonical: string;
+  of: string; // verb lemma (bare)
+  forms: Form[];
+}
+export interface WkNoun {
+  canonical: string;
+  gender: string; // "m" | "f" | "n" | "m-p" … as in the head line; "" if absent
+  animacy: string; // "anim" | "inan" | ""
+  diminutives: string[];
+}
+export interface WkAdjective {
+  canonical: string;
+  comparative: string[];
+  superlative: string[];
+}
+export interface WkNumeral {
+  canonical: string;
+  forms: Form[];
+}
+export interface WkExtract {
+  sha256: string;
+  verbs: Record<string, WkVerb[]>;
+  participles: Record<string, WkParticiple[]>;
+  nouns: Record<string, WkNoun[]>;
+  adjectives: Record<string, WkAdjective[]>;
+  numerals: Record<string, WkNumeral[]>;
+}
+
+/** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
+export function wkToApostrophe(s: string): string {
+  return s.normalize('NFC').replace(/́/g, "'").replace(/̀/g, '');
+}
+
+const SKIP_TAGS = new Set(['dated', 'romanization', 'table-tags', 'inflection-template', 'class', 'alternative', 'obsolete', 'archaic']);
+
+interface RawEntry {
+  word: string;
+  pos: string;
+  forms?: { form: string; tags?: string[] }[];
+  senses?: { glosses?: string[]; form_of?: { word: string }[]; tags?: string[] }[];
+  head_templates?: { expansion?: string }[];
+}
+
+function canonical(e: RawEntry): string {
+  const c = e.forms?.find((f) => f.tags?.includes('canonical'));
+  return wkToApostrophe(c?.form ?? e.word);
+}
+
+function usableForms(e: RawEntry): Form[] {
+  return (e.forms ?? [])
+    .filter((f) => f.form && f.form !== '-' && !(f.tags ?? []).some((t) => SKIP_TAGS.has(t)) && !(f.tags ?? []).includes('canonical'))
+    .map((f) => [wkToApostrophe(f.form), f.tags ?? []]);
+}
+
+const has = (tags: string[], ...want: string[]) => want.every((w) => tags.includes(w));
+
+export interface Wanted {
+  verbs: Set<string>;
+  nouns: Set<string>;
+  adjectives: Set<string>;
+  numerals: Set<string>;
+}
+
+export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: string) => void): Promise<WkExtract> {
+  if (existsSync(EXTRACT)) {
+    const cached = JSON.parse(readFileSync(EXTRACT, 'utf8')) as WkExtract;
+    if (cached.sha256 === sha256) return cached;
+  }
+  log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
+  const out: WkExtract = { sha256, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {} };
+  const push = <T>(m: Record<string, T[]>, k: string, v: T) => (m[k] ??= []).push(v);
+  const rl = createInterface({ input: createReadStream(join(RAW_DIR, KAIKKI_FILE)).pipe(createGunzip()), crlfDelay: Infinity });
+  let n = 0;
+  for await (const line of rl) {
+    n++;
+    // Only cheap check possible: nested objects also have "word" keys, so parse every line.
+    if (!line.includes('"pos"')) continue;
+    const e = JSON.parse(line) as RawEntry;
+    const word = e.word;
+    const isParticiple = e.pos === 'verb' && (e.senses ?? []).some((s) => (s.glosses ?? []).some((g) => / participle of /.test(g)));
+    if (!isParticiple && !wanted.verbs.has(word) && !wanted.nouns.has(word) && !wanted.adjectives.has(word) && !wanted.numerals.has(word)) continue;
+    if (e.pos === 'verb' && isParticiple) {
+      const of = e.senses?.flatMap((s) => s.form_of ?? []).map((f) => f.word.normalize('NFC').replace(/[́̀]/g, ''))[0];
+      if (of && wanted.verbs.has(of) && (e.forms ?? []).some((f) => f.tags?.includes('nominative'))) {
+        push(out.participles, e.word, { canonical: canonical(e), of, forms: usableForms(e) });
+      }
+      continue;
+    }
+    if (e.pos === 'verb' && wanted.verbs.has(word)) {
+      const v: WkVerb = { canonical: canonical(e), adv_pres: [], adv_past: [], act_pres: [], act_past: [], pass_pres: [], pass_past: [] };
+      for (const [f, t] of usableForms(e)) {
+        if (!t.includes('participle')) continue;
+        const k = t.includes('adverbial')
+          ? t.includes('present') ? 'adv_pres' : t.includes('past') ? 'adv_past' : null
+          : has(t, 'active') ? (t.includes('present') ? 'act_pres' : t.includes('past') ? 'act_past' : null)
+          : has(t, 'passive') ? (t.includes('present') ? 'pass_pres' : t.includes('past') ? 'pass_past' : null)
+          : null;
+        if (k && !v[k].includes(f)) v[k].push(f);
+      }
+      push(out.verbs, word, v);
+    } else if (e.pos === 'noun' && wanted.nouns.has(word)) {
+      const head = e.head_templates?.[0]?.expansion ?? '';
+      const g = /\) ((?:m|f|n)(?:-p)?(?: or (?:m|f|n))?)\b(?: (anim|inan))?/.exec(head);
+      const dims = usableForms(e).filter(([, t]) => t.includes('diminutive')).map(([f]) => f);
+      push(out.nouns, word, { canonical: canonical(e), gender: g?.[1] ?? '', animacy: g?.[2] ?? '', diminutives: [...new Set(dims)] });
+    } else if (e.pos === 'adj' && wanted.adjectives.has(word)) {
+      const fs = usableForms(e);
+      push(out.adjectives, word, {
+        canonical: canonical(e),
+        comparative: [...new Set(fs.filter(([, t]) => t.includes('comparative')).map(([f]) => f))],
+        superlative: [...new Set(fs.filter(([, t]) => t.includes('superlative')).map(([f]) => f))],
+      });
+    } else if (e.pos === 'num' && wanted.numerals.has(word)) {
+      push(out.numerals, word, { canonical: canonical(e), forms: usableForms(e) });
+    }
+  }
+  log(`  ${n} lines read`);
+  writeFileSync(EXTRACT, JSON.stringify(out));
+  return out;
+}

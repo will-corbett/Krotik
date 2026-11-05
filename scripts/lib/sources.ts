@@ -13,6 +13,9 @@ export const SOURCES = [
   { file: 'rus_sentences.tsv.bz2', url: `${TATOEBA}/rus/rus_sentences.tsv.bz2` },
   { file: 'eng_sentences.tsv.bz2', url: `${TATOEBA}/eng/eng_sentences.tsv.bz2` },
   { file: 'rus-eng_links.tsv.bz2', url: `${TATOEBA}/rus/rus-eng_links.tsv.bz2` },
+  // Wiktionary via kaikki.org (CC BY-SA 4.0 / GFDL, as Wiktionary): participles, verbal adverbs,
+  // numerals, diminutives, noun gender. 91 MB gzipped (~950 MB uncompressed), streamed.
+  { file: 'kaikki-russian.jsonl.gz', url: 'https://kaikki.org/dictionary/Russian/kaikki.org-dictionary-Russian.jsonl.gz' },
   // Independent frequency list (OpenSubtitles 2018 word forms). Build-time check only; not shipped.
   {
     file: 'ru_50k.txt',

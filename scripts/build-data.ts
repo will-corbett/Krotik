@@ -15,10 +15,12 @@ import { applyOverrides, loadOverrides } from './lib/overrides.ts';
 import { Report } from './lib/report.ts';
 import { checkOrder, loadFreq } from './lib/frequency.ts';
 import { buildMotion } from './lib/motion.ts';
-import { BANDS, writeBands, writeJson } from './lib/shard.ts';
+import { BANDS, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
 import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildSentences } from './lib/sentences.ts';
+import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
+import { NUMERALS, buildDiminutives, buildNumerals, buildParticiples, fillDegrees, fillNounGender } from './lib/phase-b.ts';
 
 const raw = (f: string) => {
   const p = join(RAW_DIR, f);
@@ -58,6 +60,27 @@ checkOrder('Nouns', nouns, freq, report);
 
 const motion = buildMotion(verbs, report);
 
+// ---- Wiktionary (Phase B)
+const sourcesJson = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Record<string, { sha256: string }>;
+raw(KAIKKI_FILE);
+const wk = await loadWiktionary(
+  {
+    verbs: new Set(verbs.map((v) => v.bare)),
+    nouns: new Set(nouns.map((n) => n.bare)),
+    adjectives: new Set(adjectives.map((a) => a.bare)),
+    numerals: new Set(NUMERALS.map(([w]) => w)),
+  },
+  sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
+  console.log,
+);
+fillNounGender(nouns, wk, report);
+fillDegrees(adjectives, wk, report);
+const participleRows = buildParticiples(verbs, wk, report);
+const numeralRows = buildNumerals(wk, report);
+const diminutiveRows = buildDiminutives(nouns, wk, report);
+const verbRank = new Map(verbs.map((v, i) => [v.id, i]));
+const nounRank = new Map(nouns.map((n, i) => [n.id, i]));
+
 // ---- shards
 const sizes: string[] = [];
 const verbRows: VerbRow[] = verbs.map((v) => [v.id, v.accented, v.gloss, v.aspect, v.partners, v.cells]);
@@ -67,7 +90,10 @@ const shards = {
   verbs: writeBands('verbs', verbRows),
   adjectives: writeBands('adjectives', adjRows),
   nouns: writeBands('nouns', nounRows),
+  participles: writeBandsByRank('participles', participleRows, (r) => verbRank.get(r[0])!),
+  diminutives: writeBandsByRank('diminutives', diminutiveRows, (r) => nounRank.get(r[0])!),
 };
+const numeralBytes = writeJson('numerals.json', numeralRows);
 const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
@@ -78,11 +104,8 @@ const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) 
 const manifest: Manifest = {
   built: Object.values(sources).map((s) => s.fetched).sort().at(-1) ?? '',
   bands: BANDS.map((b) => (Number.isFinite(b) ? b : 0)),
-  shards: {
-    verbs: shards.verbs.map(({ bytes: _b, ...s }) => s),
-    adjectives: shards.adjectives.map(({ bytes: _b, ...s }) => s),
-    nouns: shards.nouns.map(({ bytes: _b, ...s }) => s),
-  },
+  shards: Object.fromEntries(Object.entries(shards).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
+  numerals: 'numerals.json',
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
   sources: Object.fromEntries(Object.entries(sources).map(([k, s]) => [k, { url: s.url, sha256: s.sha256, fetched: s.fetched }])),
@@ -91,6 +114,7 @@ writeJson('manifest.json', manifest);
 
 for (const list of Object.values(shards)) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);
 for (const list of Object.values(sentences)) for (const s of list) sizes.push(`| ${s.file} | ${s.lemmas} lemmas, ${s.sentences} sentences | ${(s.bytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [
