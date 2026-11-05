@@ -234,6 +234,19 @@ adjectives: 930 of the top 1000 have at least one sentence.
 
 nouns: 982 of the top 1000 have at least one sentence.
 
+## Hand-made lists (curated/)
+
+| count | n |
+|---|---:|
+| government: verb + pattern entries | 88 |
+| prefixed motion verbs: pairs found in the verb data | 89 |
+| ordinal numbers | 29 |
+| collective numerals | 6 |
+
+### Anomalies
+
+- **prefixed motion verbs: combination not in the data (left out)** (1): вплыть/вплывать, провезти/провозить, доплыть/доплывать, оббежать/оббегать, обплыть/обплывать, обнести/обносить, обвезти/обвозить
+
 ## Sentence drills (Tatoeba)
 
 | count | n |
@@ -291,6 +304,71 @@ nouns: 982 of the top 1000 have at least one sentence.
 | aspectContext / pf: candidates (kept up to 1500) | 183691 |
 | svoy / svoy: candidates (kept up to 1500) | 15968 |
 | svoy / ego: candidates (kept up to 1500) | 1870 |
+| government / dat|доверя'ть: candidates (kept up to 1500) | 51 |
+| government / ot+gen|зави'сеть: candidates (kept up to 1500) | 77 |
+| government / inst|занима'ться: candidates (kept up to 1500) | 155 |
+| government / na+acc|смотре'ть: candidates (kept up to 1500) | 98 |
+| government / dat|помо'чь: candidates (kept up to 1500) | 74 |
+| government / inst|стать: candidates (kept up to 1500) | 355 |
+| government / inst|рабо'тать: candidates (kept up to 1500) | 207 |
+| government / na+prep|игра'ть: candidates (kept up to 1500) | 497 |
+| government / v+prep|уча'ствовать: candidates (kept up to 1500) | 39 |
+| government / inst|воспо'льзоваться: candidates (kept up to 1500) | 56 |
+| government / inst|по'льзоваться: candidates (kept up to 1500) | 178 |
+| government / inst|интересова'ться: candidates (kept up to 1500) | 118 |
+| government / dat|позвони'ть: candidates (kept up to 1500) | 52 |
+| government / v+acc|ве'рить: candidates (kept up to 1500) | 179 |
+| government / ot+gen|отказа'ться: candidates (kept up to 1500) | 49 |
+| government / na+acc|жа'ловаться: candidates (kept up to 1500) | 40 |
+| government / gen|боя'ться: candidates (kept up to 1500) | 225 |
+| government / na+acc|посмотре'ть: candidates (kept up to 1500) | 112 |
+| government / na+acc|отвеча'ть: candidates (kept up to 1500) | 71 |
+| government / inst|управля'ть: candidates (kept up to 1500) | 52 |
+| government / o+prep|забо'титься: candidates (kept up to 1500) | 29 |
+| government / na+acc|отве'тить: candidates (kept up to 1500) | 164 |
+| government / o+prep|ду'мать: candidates (kept up to 1500) | 85 |
+| government / inst|явля'ться: candidates (kept up to 1500) | 185 |
+| government / inst|оказа'ться: candidates (kept up to 1500) | 37 |
+| government / v+acc|влюби'ться: candidates (kept up to 1500) | 28 |
+| government / dat|помога'ть: candidates (kept up to 1500) | 83 |
+| government / k+dat|привы'кнуть: candidates (kept up to 1500) | 68 |
+| government / na+prep|жени'ться: candidates (kept up to 1500) | 48 |
+| government / gen|тре'бовать: candidates (kept up to 1500) | 40 |
+| government / k+dat|относи'ться: candidates (kept up to 1500) | 47 |
+| government / inst|владе'ть: candidates (kept up to 1500) | 27 |
+| government / k+dat|гото'виться: candidates (kept up to 1500) | 74 |
+| government / s+inst|встреча'ться: candidates (kept up to 1500) | 49 |
+| government / dat|ве'рить: candidates (kept up to 1500) | 31 |
+| government / inst|станови'ться: candidates (kept up to 1500) | 52 |
+| government / inst|заня'ться: candidates (kept up to 1500) | 24 |
+| government / inst|наслажда'ться: candidates (kept up to 1500) | 38 |
+| government / ot+gen|отлича'ться: candidates (kept up to 1500) | 60 |
+| government / o+prep|беспоко'иться: candidates (kept up to 1500) | 24 |
+| government / dat|нра'виться: candidates (kept up to 1500) | 30 |
+| government / s+inst|познако'миться: candidates (kept up to 1500) | 42 |
+| position / lie:get: candidates (kept up to 1500) | 599 |
+| position / sit:state: candidates (kept up to 1500) | 1418 |
+| position / lie:state: candidates (kept up to 1500) | 509 |
+| position / stand:get: candidates (kept up to 1500) | 1142 |
+| position / stand:state: candidates (kept up to 1500) | 423 |
+| position / hang:put: candidates (kept up to 1500) | 225 |
+| position / sit:get: candidates (kept up to 1500) | 655 |
+| position / lie:put: candidates (kept up to 1500) | 884 |
+| position / hang:state: candidates (kept up to 1500) | 95 |
+| position / sit:put: candidates (kept up to 1500) | 301 |
+| position / stand:put: candidates (kept up to 1500) | 597 |
+| impersonal / imp-pron: candidates (kept up to 1500) | 2857 |
+| impersonal / imp-noun: candidates (kept up to 1500) | 226 |
+| comparison / cmp-gen: candidates (kept up to 1500) | 302 |
+| conjunctions / conj:что: candidates (kept up to 1500) | 54493 |
+| conjunctions / conj:когда: candidates (kept up to 1500) | 3771 |
+| conjunctions / conj:чтобы: candidates (kept up to 1500) | 12032 |
+| conjunctions / conj:если: candidates (kept up to 1500) | 2966 |
+| time / nazad: candidates (kept up to 1500) | 816 |
+| time / v-month: candidates (kept up to 1500) | 313 |
+| time / v-day: candidates (kept up to 1500) | 774 |
+| time / cherez: candidates (kept up to 1500) | 220 |
+| time / po-days: candidates (kept up to 1500) | 233 |
 
 Typed answers are the sentence’s own word; the blanked token must belong to exactly one lemma. Multiple-choice distractors are only forms seen elsewhere in Tatoeba. Some distractors can also fit a sentence (же/ведь, -то/-нибудь); the English translation is shown as a cue, and only the sentence’s own word counts.
 

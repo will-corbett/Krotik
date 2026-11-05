@@ -22,6 +22,7 @@ import { buildSentences } from './lib/sentences.ts';
 import { buildCloze } from './lib/cloze.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
 import { POSSESSIVES, buildPronouns } from './lib/phase-d.ts';
+import { COLLECTIVES, buildCollectives, buildGovernment, buildOrdinals, buildPrefixedMotion, curated } from './lib/phase-e.ts';
 import { NUMERALS, buildDiminutives, buildNumerals, buildParticiples, fillDegrees, fillNounGender } from './lib/phase-b.ts';
 
 const raw = (f: string) => {
@@ -70,7 +71,7 @@ const wk = await loadWiktionary(
     verbs: new Set(verbs.map((v) => v.bare)),
     nouns: new Set(nouns.map((n) => n.bare)),
     adjectives: new Set(adjectives.map((a) => a.bare)),
-    numerals: new Set(NUMERALS.map(([w]) => w)),
+    numerals: new Set([...NUMERALS, ...COLLECTIVES].map(([w]) => w)),
     pronouns: new Set(['никто', 'ничто', 'я', 'кто', 'что', ...POSSESSIVES]),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
@@ -105,7 +106,13 @@ const others = readTsv(raw('others.csv'));
 const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
 const { shards: sentences, corpus } = await buildSentences({ verbs, adjectives, nouns, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
 
-const cloze = buildCloze({ corpus, verbs, nouns, adjectives, wk, pronouns, report });
+const government = buildGovernment(verbs, report);
+writeJson('government.json', government);
+const prefixedMotion = buildPrefixedMotion(verbs, report);
+writeJson('prefixed-motion.json', prefixedMotion);
+writeJson('ordinals.json', buildOrdinals(adjectives, report));
+writeJson('collectives.json', buildCollectives(wk, report));
+const cloze = buildCloze({ corpus, verbs, nouns, adjectives, wk, pronouns, government, positions: curated.position(), time: curated.time(), report });
 
 const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Manifest['sources'];
 const manifest: Manifest = {
@@ -114,6 +121,10 @@ const manifest: Manifest = {
   shards: Object.fromEntries(Object.entries(shards).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   numerals: 'numerals.json',
   pronouns: 'pronouns.json',
+  government: 'government.json',
+  prefixedMotion: 'prefixed-motion.json',
+  ordinals: 'ordinals.json',
+  collectives: 'collectives.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',

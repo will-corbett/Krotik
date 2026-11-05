@@ -17,6 +17,7 @@ import type { Corpus } from './sentences.ts';
 import { TOKEN } from './sentences.ts';
 import { writeJson } from './shard.ts';
 import type { WkExtract } from './wiktionary.ts';
+import type { PositionFamily, TimeWords } from './phase-e.ts';
 
 const S = 'Sentence drills (Tatoeba)';
 /** Max items per kind, chosen deterministically (by a hash of the sentence id). */
@@ -64,9 +65,18 @@ export const PREPOSITIONS: Record<string, string[]> = {
 };
 const CASE_BITS: Record<string, number[]> = { nom: [0, 6], gen: [1, 7], dat: [2, 8], acc: [3, 9], inst: [4, 10], prep: [5, 11] };
 
+/** Government patterns → [preposition or "", case] */
+export const GOV_PATTERN: Record<string, [string, string]> = {
+  dat: ['', 'dat'], gen: ['', 'gen'], inst: ['', 'inst'], acc: ['', 'acc'], 'o+prep': ['о', 'prep'], 'na+acc': ['на', 'acc'],
+  'na+prep': ['на', 'prep'], 'v+acc': ['в', 'acc'], 'v+prep': ['в', 'prep'], 'ot+gen': ['от', 'gen'], 'k+dat': ['к', 'dat'], 's+inst': ['с', 'inst'],
+};
+
 interface Input {
   corpus: Corpus;
   pronouns?: PronounData;
+  government?: [number, string, string, string][];
+  positions?: PositionFamily[];
+  time?: TimeWords;
   verbs: Verb[];
   nouns: Noun[];
   adjectives: Adjective[];
@@ -119,7 +129,46 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
   const out: Record<string, ClozeRow[]> = {
     kotoryi: [], chtoby: [], conditional: [], negation: [], indefinite: [], particles: [],
     prepositions: [], aspectContext: [], svoy: [],
+    government: [], position: [], impersonal: [], comparison: [], conjunctions: [], time: [],
   };
+  const firstVerb = (bare: string) => inp.verbs.find((v) => v.bare === bare);
+  const nounByBare = new Map<string, Noun>();
+  for (const n of inp.nouns) if (!nounByBare.has(n.bare)) nounByBare.set(n.bare, n);
+
+  // government: verb id → patterns
+  const gov = new Map<number, string[]>();
+  for (const [id, , pattern] of inp.government ?? []) (gov.get(id) ?? gov.set(id, []).get(id)!).push(pattern);
+
+  // position verbs: verb id → [family, role, aspect]
+  const posRole = new Map<number, { fam: PositionFamily; role: 'state' | 'put' | 'get' }>();
+  for (const fam of inp.positions ?? []) {
+    const add = (bare: string, role: 'state' | 'put' | 'get') => {
+      const v = firstVerb(bare);
+      if (v) posRole.set(v.id, { fam, role });
+      else report.anomaly(S, 'position verb not in the verb data', bare);
+    };
+    add(fam.state, 'state');
+    fam.put.forEach((b) => add(b, 'put'));
+    fam.get.forEach((b) => add(b, 'get'));
+  }
+  const famVerb = (fam: PositionFamily, role: 'state' | 'put' | 'get', aspect: string): Verb | undefined => {
+    if (role === 'state') return firstVerb(fam.state);
+    return (role === 'put' ? fam.put : fam.get).map(firstVerb).find((v) => v?.aspect === aspect);
+  };
+
+  const dayIds = new Set((inp.time?.days ?? []).map((w) => nounByBare.get(w)?.id).filter((x): x is number => !!x));
+  const monthIds = new Set((inp.time?.months ?? []).map((w) => nounByBare.get(w)?.id).filter((x): x is number => !!x));
+  const unitIds = new Set((inp.time?.units ?? []).map((w) => nounByBare.get(w)?.id).filter((x): x is number => !!x));
+  const impersonal = new Set(inp.time?.impersonal ?? []);
+  const datPron = new Map<string, string>(); // normalised dative pronoun → [nominative]
+  for (const [who, cells] of inp.pronouns?.personal ?? []) {
+    if (!who || who === 'кто' || who === 'что') continue;
+    for (const f of cellForms(cells[2] ?? '')) if (!datPron.has(normalise(f))) datPron.set(normalise(f), who); // ему → он, not оно
+  }
+  const comparatives = new Set<string>();
+  for (const a of inp.adjectives) for (const f of cellForms(a.extra[4] ?? '')) comparatives.add(normalise(f));
+  for (const w of ['больше', 'меньше', 'более', 'менее']) comparatives.delete(w); // also mean "more/less (of)"
+
   const neNi: ClozeRow[] = [];
 
   for (const { rid, ru, en } of corpus.pairs) {
@@ -257,9 +306,9 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
         if (ci === undefined || o.mask & ~(1 << ci)) continue; // the token must be exactly one cell
         theirs = cellForms(partner.cells[ci] ?? '')[0] ?? '';
       }
-      const mine = t.n;
-      const other = normalise(theirs);
-      if (!other || other === mine || toks.some((x) => x.n === other)) continue;
+      const mine = normalise(v.bare) === t.n ? v.bare : accentedMatch(v.cells[[...Array(12).keys()].find((b) => o.mask & (1 << b))!]!, t.text).replace(/'/g, '');
+      const other = theirs.replace(/'/g, '');
+      if (!other || normalise(other) === t.n || toks.some((x) => x.n === normalise(other))) continue;
       out.aspectContext!.push(row(t, mine, '', v.aspect, v.aspect === 'impf' ? [mine, other] : [other, mine]));
       break;
     }
@@ -286,6 +335,131 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
         const svoyForm = normalise(cellForms(svoy[ADJ_INDEX[key as keyof typeof ADJ_INDEX]] ?? '')[0] ?? '');
         const ans = t.n === 'ее' ? 'её' : t.n;
         if (svoyForm && c !== 'nom') out.svoy!.push(row(t, ans, '', 'ego', ['его', 'её', 'их', svoyForm]));
+      }
+    }
+
+    // --- verb government: verb, then (preposition +) noun in the governed case
+    for (let i = 0; i < toks.length - 1; i++) {
+      const vo = ownerOf(toks[i]!.n, 'verbs');
+      const patterns = vo ? gov.get(vo.id) : undefined;
+      if (!patterns) continue;
+      let done = false;
+      for (const pattern of patterns) {
+        const [prep, c] = GOV_PATTERN[pattern]!;
+        let j = i + 1;
+        if (prep) {
+          if (toks[j]?.n !== prep || !adjacent(ru, toks[i]!, toks[j]!)) continue;
+          j++;
+        }
+        const t = toks[j];
+        if (!t || !adjacent(ru, toks[j - 1]!, t) || count(t.n) !== 1) continue;
+        const o = ownerOf(t.n, 'nouns');
+        if (!o || !CASE_BITS[c]!.some((b) => o.mask & (1 << b))) continue;
+        // Without a preposition, skip forms that could also be nominative (the subject, not the object).
+        if (!prep && c !== 'acc' && CASE_BITS.nom!.some((b) => o.mask & (1 << b))) continue;
+        const n = nounById.get(o.id)!;
+        const cellIdx = CASE_BITS[c]!.find((b) => o.mask & (1 << b))!;
+        const v = verbById.get(vo!.id)!;
+        out.government!.push(row(t, accentedMatch(n.cells[cellIdx]!, t.text), n.accented, `${pattern}|${v.accented}`));
+        done = true;
+        break;
+      }
+      if (done) break;
+    }
+
+    // --- verbs of position: state / put / get-into-position, same form, multiple choice
+    for (const t of toks) {
+      if (count(t.n) !== 1) continue;
+      const o = ownerOf(t.n, 'verbs');
+      const pr = o ? posRole.get(o.id) : undefined;
+      if (!o || !pr) continue;
+      const v = verbById.get(o.id)!;
+      const isInf = normalise(v.bare) === t.n;
+      const ci = isInf ? -1 : [...Array(12).keys()].find((b) => o.mask & (1 << b));
+      if (ci === undefined || (!isInf && o.mask & ~(1 << ci))) break;
+      const aspect = v.aspect;
+      const opts: string[] = [];
+      for (const role of ['state', 'put', 'get'] as const) {
+        const fv = role === pr.role ? v : famVerb(pr.fam, role, aspect === 'both' ? 'impf' : aspect);
+        if (!fv) continue;
+        // Options in the source spelling (keeps ё: лёг), the sentence's own verb matched to its cell.
+        const f = fv === v ? (isInf ? v.bare : accentedMatch(v.cells[ci]!, t.text).replace(/'/g, '')) : isInf ? fv.bare : (cellForms(fv.cells[ci] ?? '')[0] ?? '').replace(/'/g, '');
+        if (f) opts.push(f);
+      }
+      const mineOpt = opts.find((o) => normalise(o) === t.n);
+      if (mineOpt && opts.length >= 2 && new Set(opts.map(normalise)).size === opts.length) out.position!.push(row(t, mineOpt, '', `${pr.fam.family}:${pr.role}`, opts));
+      break;
+    }
+
+    // --- impersonal: dative person + predicative (мне холодно, Тому надо…)
+    for (let i = 1; i < toks.length; i++) {
+      if (!impersonal.has(toks[i]!.n)) continue;
+      const t = toks[i - 1]!;
+      if (!adjacent(ru, t, toks[i]!) || count(t.n) !== 1) continue;
+      const pron = datPron.get(t.n);
+      if (pron) {
+        out.impersonal!.push(row(t, t.n, pron, 'imp-pron'));
+        break;
+      }
+      const o = ownerOf(t.n, 'nouns');
+      if (o && o.mask & ((1 << 2) | (1 << 8)) && !(o.mask & ((1 << 0) | (1 << 6)))) {
+        const n = nounById.get(o.id)!;
+        out.impersonal!.push(row(t, accentedMatch(n.cells[o.mask & (1 << 2) ? 2 : 8]!, t.text), n.accented, 'imp-noun'));
+        break;
+      }
+    }
+
+    // --- comparison: comparative + noun in the genitive (старше брата)
+    for (let i = 0; i < toks.length - 1; i++) {
+      if (!comparatives.has(toks[i]!.n)) continue;
+      const t = toks[i + 1]!;
+      if (!adjacent(ru, toks[i]!, t) || count(t.n) !== 1 || toks[i + 2]?.n === 'чем') continue;
+      const o = ownerOf(t.n, 'nouns');
+      if (!o || !(o.mask & ((1 << 1) | (1 << 7))) || o.mask & ((1 << 0) | (1 << 6))) continue;
+      const n = nounById.get(o.id)!;
+      out.comparison!.push(row(t, accentedMatch(n.cells[o.mask & (1 << 1) ? 1 : 7]!, t.text), n.accented, 'cmp-gen'));
+      break;
+    }
+
+    // --- conjunctions что / чтобы / если / когда (one of them, used as a conjunction)
+    const CONJ = ['что', 'чтобы', 'если', 'когда'];
+    const cj = toks.filter((t) => CONJ.includes(t.n));
+    if (cj.length === 1 && !/\?\s*$/.test(ru)) {
+      const t = cj[0]!;
+      const afterComma = /,\s*$/.test(ru.slice(0, t.start));
+      const initial = t === toks[0];
+      if ((t.n === 'что' && afterComma) || (t.n === 'когда' && (afterComma || initial)) || t.n === 'чтобы' || t.n === 'если') {
+        out.conjunctions!.push(row(t, t.n, '', `conj:${t.n}`, CONJ));
+      }
+    }
+
+    // --- time expressions
+    for (let i = 0; i < toks.length; i++) {
+      const a = toks[i]!;
+      const b = toks[i + 1];
+      const nounAt = (t: Tok | undefined) => (t ? ownerOf(t.n, 'nouns') : null);
+      let hit: { t: Tok; kind: string; cell: number; id: number } | null = null;
+      if ((a.n === 'в' || a.n === 'во') && b && adjacent(ru, a, b)) {
+        const o = nounAt(b);
+        if (o && dayIds.has(o.id) && o.mask & (1 << 3)) hit = { t: b, kind: 'v-day', cell: 3, id: o.id };
+        else if (o && monthIds.has(o.id) && o.mask & (1 << 5)) hit = { t: b, kind: 'v-month', cell: 5, id: o.id };
+      } else if (a.n === 'по' && b && adjacent(ru, a, b)) {
+        const o = nounAt(b);
+        if (o && dayIds.has(o.id) && o.mask & (1 << 8)) hit = { t: b, kind: 'po-days', cell: 8, id: o.id };
+      } else if (a.n === 'через' && b && adjacent(ru, a, b)) {
+        const o = nounAt(b);
+        if (o && unitIds.has(o.id) && o.mask & (1 << 3)) hit = { t: b, kind: 'cherez', cell: 3, id: o.id };
+      } else if (b?.n === 'назад' && adjacent(ru, a, b)) {
+        const o = nounAt(a);
+        if (o && unitIds.has(o.id)) {
+          const cell = [3, 1, 7].find((x) => o.mask & (1 << x));
+          if (cell !== undefined) hit = { t: a, kind: 'nazad', cell, id: o.id };
+        }
+      }
+      if (hit && count(hit.t.n) === 1) {
+        const n = nounById.get(hit.id)!;
+        out.time!.push(row(hit.t, accentedMatch(n.cells[hit.cell]!, hit.t.text), n.accented, hit.kind));
+        break;
       }
     }
 

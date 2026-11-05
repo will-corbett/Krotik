@@ -1,0 +1,28 @@
+# Prefixed verbs of motion (приставочные глаголы движения).
+# A prefix + the unidirectional verb gives a perfective (прийти); prefix + the multidirectional stem gives
+# its imperfective partner (приходить). Candidates are only kept if both verbs exist in the verb data
+# with the right aspect.
+prefixes:
+  при: {en: arrive, ru: прибытие}
+  у: {en: leave, ru: удаление}
+  в: {en: go in, ru: движение внутрь}
+  вы: {en: go out, ru: движение наружу}
+  за: {en: drop in, call at, ru: заход по пути}
+  пере: {en: cross, move across, ru: движение через}
+  про: {en: go past, through, ru: движение мимо, сквозь}
+  под: {en: approach, ru: приближение}
+  от: {en: move away (a little), ru: удаление на небольшое расстояние}
+  до: {en: reach, get as far as, ru: достижение предела}
+  об: {en: go round, ru: движение вокруг}
+  раз: {en: disperse (-ся), ru: движение в разные стороны}
+# Base verbs: unidirectional infinitive stem after a prefix, and the imperfective stem after a prefix.
+# идти becomes -йти (прийти) / -ойти after consonant prefixes (подойти); ехать becomes -ъехать after consonants.
+bases:
+  - {uni: идти, after_vowel: йти, after_consonant: ойти, impf: ходить, en: on foot}
+  - {uni: ехать, after_vowel: ехать, after_consonant: ъехать, impf: езжать, en: by vehicle}
+  - {uni: лететь, after_vowel: лететь, after_consonant: лететь, impf: летать, en: by air}
+  - {uni: бежать, after_vowel: бежать, after_consonant: бежать, impf: бегать, en: running}
+  - {uni: плыть, after_vowel: плыть, after_consonant: плыть, impf: плывать, en: by water, swimming}
+  - {uni: нести, after_vowel: нести, after_consonant: нести, impf: носить, en: carry (on foot)}
+  - {uni: вести, after_vowel: вести, after_consonant: вести, impf: водить, en: lead (on foot)}
+  - {uni: везти, after_vowel: везти, after_consonant: везти, impf: возить, en: transport}

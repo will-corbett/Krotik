@@ -29,6 +29,10 @@ export interface Manifest {
   shards: Record<string, { band: number; file: string; count: number }[]>;
   numerals: string;
   pronouns: string;
+  government: string;
+  prefixedMotion: string;
+  ordinals: string;
+  collectives: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;

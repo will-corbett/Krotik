@@ -150,41 +150,47 @@ const GENDER_KEYS = { masculine: 'm', feminine: 'f', neuter: 'n', plural: 'pl' }
  * Lookup tries the most specific key first (see src/lib/questions/numbers.ts).
  */
 export function buildNumerals(wk: WkExtract, report: Report): NumeralRow[] {
-  const S = 'Numerals (Wiktionary)';
   const rows: NumeralRow[] = [];
   for (const [word, value] of NUMERALS) {
-    const e = wk.numerals[word]?.[0];
-    if (!e) {
-      report.anomaly(S, 'numeral not found in Wiktionary (left out)', word);
-      continue;
-    }
-    const forms: Record<string, string[]> = {};
-    for (const [f, tags] of e.forms) {
-      const cases = Object.entries(CASE_TAG).filter(([, t]) => tags.includes(t)).map(([c]) => c);
-      if (!cases.length) continue;
-      const genders = Object.entries(GENDER_KEYS).filter(([t]) => tags.includes(t)).map(([, g]) => g);
-      const anim = tags.includes('animate') ? 'anim' : tags.includes('inanimate') ? 'inan' : '';
-      for (const c of cases) {
-        for (const g of genders.length ? genders : ['']) {
-          const key = [c, g, anim].filter(Boolean).join('_');
-          (forms[key] ??= []).includes(f) || forms[key]!.push(f);
-        }
+    const r = buildNumeralRow(wk, word, value, report);
+    if (r) rows.push(r);
+  }
+  report.count('Numerals (Wiktionary)', 'numerals with full case tables', rows.length);
+  return rows;
+}
+
+/** One numeral's case table from Wiktionary, keyed generically from tags ("gen", "nom_f", "acc_m_anim" …). */
+export function buildNumeralRow(wk: WkExtract, word: string, value: number, report: Report): NumeralRow | null {
+  const S = 'Numerals (Wiktionary)';
+  const e = wk.numerals[word]?.[0];
+  if (!e) {
+    report.anomaly(S, 'numeral not found in Wiktionary (left out)', word);
+    return null;
+  }
+  const forms: Record<string, string[]> = {};
+  for (const [f, tags] of e.forms) {
+    const cases = Object.entries(CASE_TAG).filter(([, t]) => tags.includes(t)).map(([c]) => c);
+    if (!cases.length) continue;
+    const genders = Object.entries(GENDER_KEYS).filter(([t]) => tags.includes(t)).map(([, g]) => g);
+    const anim = tags.includes('animate') ? 'anim' : tags.includes('inanimate') ? 'inan' : '';
+    for (const c of cases) {
+      for (const g of genders.length ? genders : ['']) {
+        const key = [c, g, anim].filter(Boolean).join('_');
+        (forms[key] ??= []).includes(f) || forms[key]!.push(f);
       }
     }
-    const cells: Record<string, string> = {};
-    for (const [k, fs] of Object.entries(forms)) {
-      const cell = toCell(fs, (f, all) => k.startsWith('inst') && /ю$/.test(bareOf(f)) && all.length > 1);
-      if (cell) cells[k] = cell;
-    }
-    const missing = Object.keys(CASE_TAG).filter((c) => !Object.keys(cells).some((k) => k === c || k.startsWith(`${c}_`)));
-    if (missing.length) {
-      report.anomaly(S, 'numeral missing cases (left out)', `${word}: ${missing.join(', ')}`);
-      continue;
-    }
-    rows.push([e.canonical, value, cells]);
   }
-  report.count(S, 'numerals with full case tables', rows.length);
-  return rows;
+  const cells: Record<string, string> = {};
+  for (const [k, fs] of Object.entries(forms)) {
+    const cell = toCell(fs, (f, all) => k.startsWith('inst') && /ю$/.test(bareOf(f)) && all.length > 1);
+    if (cell) cells[k] = cell;
+  }
+  const missing = Object.keys(CASE_TAG).filter((c) => !Object.keys(cells).some((k) => k === c || k.startsWith(`${c}_`)));
+  if (missing.length) {
+    report.anomaly(S, 'numeral missing cases (left out)', `${word}: ${missing.join(', ')}`);
+    return null;
+  }
+  return [e.canonical, value, cells];
 }
 
 export function buildDiminutives(nouns: Noun[], wk: WkExtract, report: Report): DiminutiveRow[] {

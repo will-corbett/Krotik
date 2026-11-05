@@ -1,0 +1,91 @@
+# Verb government (управление): which case, or preposition + case, a verb takes.
+# pattern: one of dat, gen, inst, acc, o+prep, na+acc, na+prep, v+acc, v+prep, ot+gen, k+dat, s+inst
+# A verb can appear twice with different meanings (отвечать кому / отвечать на что).
+- {verb: помогать, pattern: dat, en: help someone}
+- {verb: помочь, pattern: dat, en: help someone}
+- {verb: звонить, pattern: dat, en: phone someone}
+- {verb: позвонить, pattern: dat, en: phone someone}
+- {verb: советовать, pattern: dat, en: advise someone}
+- {verb: посоветовать, pattern: dat, en: advise someone}
+- {verb: мешать, pattern: dat, en: bother, get in someone's way}
+- {verb: помешать, pattern: dat, en: hinder someone}
+- {verb: верить, pattern: dat, en: believe someone}
+- {verb: поверить, pattern: dat, en: believe someone}
+- {verb: отвечать, pattern: dat, en: answer someone}
+- {verb: ответить, pattern: dat, en: answer someone}
+- {verb: нравиться, pattern: dat, en: be liked by (мне нравится)}
+- {verb: понравиться, pattern: dat, en: be liked by}
+- {verb: завидовать, pattern: dat, en: envy someone}
+- {verb: учиться, pattern: dat, en: learn something (учиться музыке)}
+- {verb: научиться, pattern: dat, en: learn something}
+- {verb: радоваться, pattern: dat, en: be glad about}
+- {verb: удивляться, pattern: dat, en: be surprised at}
+- {verb: удивиться, pattern: dat, en: be surprised at}
+- {verb: принадлежать, pattern: dat, en: belong to}
+- {verb: доверять, pattern: dat, en: trust someone}
+- {verb: служить, pattern: dat, en: serve}
+- {verb: угрожать, pattern: dat, en: threaten}
+- {verb: бояться, pattern: gen, en: be afraid of}
+- {verb: испугаться, pattern: gen, en: get frightened of}
+- {verb: избегать, pattern: gen, en: avoid}
+- {verb: достигать, pattern: gen, en: reach, achieve}
+- {verb: достичь, pattern: gen, en: reach, achieve}
+- {verb: желать, pattern: gen, en: wish (желать удачи)}
+- {verb: требовать, pattern: gen, en: demand}
+- {verb: заниматься, pattern: inst, en: be engaged in, study}
+- {verb: заняться, pattern: inst, en: take up}
+- {verb: интересоваться, pattern: inst, en: be interested in}
+- {verb: увлекаться, pattern: inst, en: be keen on}
+- {verb: гордиться, pattern: inst, en: be proud of}
+- {verb: пользоваться, pattern: inst, en: use}
+- {verb: воспользоваться, pattern: inst, en: make use of}
+- {verb: руководить, pattern: inst, en: manage, lead}
+- {verb: управлять, pattern: inst, en: run, steer}
+- {verb: владеть, pattern: inst, en: own, have command of}
+- {verb: становиться, pattern: inst, en: become}
+- {verb: стать, pattern: inst, en: become}
+- {verb: являться, pattern: inst, en: be (formal)}
+- {verb: казаться, pattern: inst, en: seem}
+- {verb: оказаться, pattern: inst, en: turn out to be}
+- {verb: работать, pattern: inst, en: work as}
+- {verb: восхищаться, pattern: inst, en: admire}
+- {verb: наслаждаться, pattern: inst, en: enjoy}
+- {verb: обладать, pattern: inst, en: possess}
+- {verb: думать, pattern: o+prep, en: think about}
+- {verb: мечтать, pattern: o+prep, en: dream about}
+- {verb: заботиться, pattern: o+prep, en: take care of}
+- {verb: беспокоиться, pattern: o+prep, en: worry about}
+- {verb: рассказывать, pattern: o+prep, en: tell about}
+- {verb: рассказать, pattern: o+prep, en: tell about}
+- {verb: надеяться, pattern: na+acc, en: hope for, rely on}
+- {verb: рассчитывать, pattern: na+acc, en: count on}
+- {verb: жаловаться, pattern: na+acc, en: complain about}
+- {verb: смотреть, pattern: na+acc, en: look at}
+- {verb: посмотреть, pattern: na+acc, en: look at}
+- {verb: сердиться, pattern: na+acc, en: be angry with}
+- {verb: обижаться, pattern: na+acc, en: take offence at}
+- {verb: отвечать, pattern: na+acc, en: answer (a question, a letter)}
+- {verb: ответить, pattern: na+acc, en: answer (a question, a letter)}
+- {verb: играть, pattern: na+prep, en: play (an instrument)}
+- {verb: жениться, pattern: na+prep, en: marry (of a man)}
+- {verb: участвовать, pattern: v+prep, en: take part in}
+- {verb: сомневаться, pattern: v+prep, en: doubt}
+- {verb: верить, pattern: v+acc, en: believe in}
+- {verb: влюбиться, pattern: v+acc, en: fall in love with}
+- {verb: превращаться, pattern: v+acc, en: turn into}
+- {verb: зависеть, pattern: ot+gen, en: depend on}
+- {verb: отличаться, pattern: ot+gen, en: differ from}
+- {verb: отказываться, pattern: ot+gen, en: refuse, give up}
+- {verb: отказаться, pattern: ot+gen, en: refuse, give up}
+- {verb: готовиться, pattern: k+dat, en: prepare for}
+- {verb: привыкать, pattern: k+dat, en: get used to}
+- {verb: привыкнуть, pattern: k+dat, en: get used to}
+- {verb: относиться, pattern: k+dat, en: treat, relate to}
+- {verb: стремиться, pattern: k+dat, en: strive for}
+- {verb: поздравлять, pattern: s+inst, en: congratulate on}
+- {verb: познакомиться, pattern: s+inst, en: get to know}
+- {verb: встречаться, pattern: s+inst, en: meet with, date}
+- {verb: соглашаться, pattern: s+inst, en: agree with}
+- {verb: согласиться, pattern: s+inst, en: agree with}
+- {verb: спорить, pattern: s+inst, en: argue with}
+- {verb: советоваться, pattern: s+inst, en: consult}
