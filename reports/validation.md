@@ -226,3 +226,30 @@ adjectives: 930 of the top 1000 have at least one sentence.
 
 nouns: 982 of the top 1000 have at least one sentence.
 
+## Sentence drills (Tatoeba)
+
+| count | n |
+|---|---:|
+| kotoryi / kotoryi: candidates (kept up to 1500) | 4224 |
+| chtoby / inf: candidates (kept up to 1500) | 3367 |
+| chtoby / past: candidates (kept up to 1500) | 439 |
+| conditional / cond: candidates (kept up to 1500) | 9880 |
+| negation / net: candidates (kept up to 1500) | 2799 |
+| negation / nipron: candidates (kept up to 1500) | 9922 |
+| negation / ne-ni: candidates (kept up to 1500) | 1500 |
+| indefinite / нибудь: candidates (kept up to 1500) | 6955 |
+| indefinite / то: candidates (kept up to 1500) | 6735 |
+| indefinite / либо: candidates (kept up to 1500) | 527 |
+| indefinite / koe: candidates (kept up to 1500) | 1143 |
+| particles / li: candidates (kept up to 1500) | 4080 |
+| particles / zhe-ved:же: candidates (kept up to 1500) | 4029 |
+| particles / colloquial:даже: candidates (kept up to 1500) | 2095 |
+| particles / colloquial:только: candidates (kept up to 1500) | 5425 |
+| particles / colloquial:ну: candidates (kept up to 1500) | 469 |
+| particles / colloquial:вот: candidates (kept up to 1500) | 1466 |
+| particles / zhe-ved:ведь: candidates (kept up to 1500) | 1431 |
+| particles / ka: candidates (kept up to 1500) | 108 |
+| particles / ne-ni: candidates (kept up to 1500) | 1500 |
+
+Typed answers are the sentence’s own word; the blanked token must belong to exactly one lemma. Multiple-choice distractors are only forms seen elsewhere in Tatoeba. Some distractors can also fit a sentence (же/ведь, -то/-нибудь); the English translation is shown as a cue, and only the sentence’s own word counts.
+

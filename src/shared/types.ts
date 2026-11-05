@@ -28,6 +28,8 @@ export interface Manifest {
   /** verbs, adjectives, nouns, participles, diminutives */
   shards: Record<string, { band: number; file: string; count: number }[]>;
   numerals: string;
+  /** sentence drills: topic → file */
+  cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
   motion: string;
   sources: Record<string, { url: string; sha256: string; fetched: string }>;
@@ -56,5 +58,11 @@ export type ParticipleKind = 'act_pres' | 'act_past' | 'pass_pres' | 'pass_past'
 export type ParticipleRow = [number, string, string, Aspect, string, string, [ParticipleKind, string, string[], string[]][]];
 /** [accented numeral, value, cells keyed "case" / "case_gender" / "case_anim" / "case_gender_anim"] */
 export type NumeralRow = [string, number, Record<string, string>];
+/**
+ * Sentence drill item: [tatoeba id, russian, english, blank start, blank end, answer cell,
+ *  hint (lemma, accented; "" for multiple choice), kind, options ([] = typed answer)]
+ */
+export type ClozeRow = [number, string, string, number, number, string, string, string, string[]];
+
 /** [noun id, accented, gloss, diminutives cell] */
 export type DiminutiveRow = [number, string, string, string];

@@ -40,6 +40,17 @@ interface Input {
 }
 export type SentenceShardInfo = { band: number; file: string; lemmas: number; sentences: number; bytes: number };
 
+/** The filtered Tatoeba corpus and form index, reused by the cloze builder. */
+export interface Corpus {
+  pairs: { rid: number; ru: string; en: string }[];
+  /** normalised form → owners ("verbs:12", "adjectives:3", "other:как", "name:Том") */
+  owners: Map<string, Set<string>>;
+  /** `${form}|${owner}` → bitmask of cells */
+  masks: Map<string, number>;
+  /** normalised tokens seen capitalised mid-sentence (likely names) */
+  capitalisedMid: Set<string>;
+}
+
 const PER_LEMMA = 6;
 const S = 'Sentences';
 
@@ -48,9 +59,9 @@ async function* lines(file: string): AsyncGenerator<string> {
   yield* createInterface({ input: stream, crlfDelay: Infinity });
 }
 
-const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
+export const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
 
-export async function buildSentences(inp: Input): Promise<Record<string, SentenceShardInfo[]>> {
+export async function buildSentences(inp: Input): Promise<{ shards: Record<string, SentenceShardInfo[]>; corpus: Corpus }> {
   const { report } = inp;
 
   // ---- form index: normalised form → owners ("type:id") and per-owner cell mask
@@ -127,10 +138,12 @@ export async function buildSentences(inp: Input): Promise<Record<string, Sentenc
   const hits = new Map<string, Hit[]>(); // owner → hits
   let kept = 0;
   let skippedAmbiguous = 0;
+  const pairs: Corpus['pairs'] = [];
   for (const [rid, ru] of rus) {
-    const en = links.get(rid)!.map((e) => eng.get(e)).filter((x): x is string => !!x).sort((a, b) => a.length - b.length)[0];
+    const en = links.get(rid)!.map((e) => eng.get(e)).filter((x): x is string => !!x).sort((a, b) => a.length - b.length || (a < b ? -1 : 1))[0];
     if (!en) continue;
     kept++;
+    pairs.push({ rid, ru, en });
     let first = true;
     for (const m of ru.matchAll(TOKEN)) {
       const tok = m[0];
@@ -201,5 +214,5 @@ export async function buildSentences(inp: Input): Promise<Record<string, Sentenc
     const top = list.slice(0, 1000).filter((l) => hits.has(`${type}:${l.id}`)).length;
     report.note(S, `${type}: ${top} of the top ${Math.min(1000, list.length)} have at least one sentence.`);
   }
-  return out;
+  return { shards: out, corpus: { pairs, owners, masks, capitalisedMid } };
 }

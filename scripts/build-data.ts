@@ -19,6 +19,7 @@ import { BANDS, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
 import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildSentences } from './lib/sentences.ts';
+import { buildCloze } from './lib/cloze.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
 import { NUMERALS, buildDiminutives, buildNumerals, buildParticiples, fillDegrees, fillNounGender } from './lib/phase-b.ts';
 
@@ -69,6 +70,7 @@ const wk = await loadWiktionary(
     nouns: new Set(nouns.map((n) => n.bare)),
     adjectives: new Set(adjectives.map((a) => a.bare)),
     numerals: new Set(NUMERALS.map(([w]) => w)),
+    pronouns: new Set(['никто', 'ничто']),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
   console.log,
@@ -98,7 +100,9 @@ const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
 const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
-const sentences = await buildSentences({ verbs, adjectives, nouns, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
+const { shards: sentences, corpus } = await buildSentences({ verbs, adjectives, nouns, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
+
+const cloze = buildCloze({ corpus, verbs, nouns, adjectives, wk, report });
 
 const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Manifest['sources'];
 const manifest: Manifest = {
@@ -106,6 +110,7 @@ const manifest: Manifest = {
   bands: BANDS.map((b) => (Number.isFinite(b) ? b : 0)),
   shards: Object.fromEntries(Object.entries(shards).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   numerals: 'numerals.json',
+  cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
   sources: Object.fromEntries(Object.entries(sources).map(([k, s]) => [k, { url: s.url, sha256: s.sha256, fetched: s.fetched }])),

@@ -6,6 +6,7 @@
  * Forms tagged "dated" (pre-1918 spelling) are skipped.
  */
 import { createReadStream, existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { createInterface } from 'node:readline';
 import { createGunzip } from 'node:zlib';
 import { join } from 'node:path';
@@ -53,6 +54,8 @@ export interface WkExtract {
   nouns: Record<string, WkNoun[]>;
   adjectives: Record<string, WkAdjective[]>;
   numerals: Record<string, WkNumeral[]>;
+  /** pronoun case tables (никто, ничто) — same shape as numerals */
+  pronouns: Record<string, WkNumeral[]>;
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -88,15 +91,21 @@ export interface Wanted {
   nouns: Set<string>;
   adjectives: Set<string>;
   numerals: Set<string>;
+  pronouns: Set<string>;
 }
 
 export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: string) => void): Promise<WkExtract> {
+  // The cache key covers both the dump and what we ask for, so adding words re-extracts.
+  const key = createHash('sha256')
+    .update(sha256)
+    .update(JSON.stringify(Object.entries(wanted).map(([k, v]) => [k, [...(v as Set<string>)].sort()])))
+    .digest('hex');
   if (existsSync(EXTRACT)) {
     const cached = JSON.parse(readFileSync(EXTRACT, 'utf8')) as WkExtract;
-    if (cached.sha256 === sha256) return cached;
+    if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {} };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {} };
   const push = <T>(m: Record<string, T[]>, k: string, v: T) => (m[k] ??= []).push(v);
   const rl = createInterface({ input: createReadStream(join(RAW_DIR, KAIKKI_FILE)).pipe(createGunzip()), crlfDelay: Infinity });
   let n = 0;
@@ -107,7 +116,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     const e = JSON.parse(line) as RawEntry;
     const word = e.word;
     const isParticiple = e.pos === 'verb' && (e.senses ?? []).some((s) => (s.glosses ?? []).some((g) => / participle of /.test(g)));
-    if (!isParticiple && !wanted.verbs.has(word) && !wanted.nouns.has(word) && !wanted.adjectives.has(word) && !wanted.numerals.has(word)) continue;
+    if (!isParticiple && !wanted.verbs.has(word) && !wanted.nouns.has(word) && !wanted.adjectives.has(word) && !wanted.numerals.has(word) && !wanted.pronouns.has(word)) continue;
     if (e.pos === 'verb' && isParticiple) {
       const of = e.senses?.flatMap((s) => s.form_of ?? []).map((f) => f.word.normalize('NFC').replace(/[́̀]/g, ''))[0];
       if (of && wanted.verbs.has(of) && (e.forms ?? []).some((f) => f.tags?.includes('nominative'))) {
@@ -139,6 +148,8 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         comparative: [...new Set(fs.filter(([, t]) => t.includes('comparative')).map(([f]) => f))],
         superlative: [...new Set(fs.filter(([, t]) => t.includes('superlative')).map(([f]) => f))],
       });
+    } else if (e.pos === 'pron' && wanted.pronouns.has(word)) {
+      push(out.pronouns, word, { canonical: canonical(e), forms: usableForms(e) });
     } else if (e.pos === 'num' && wanted.numerals.has(word)) {
       push(out.numerals, word, { canonical: canonical(e), forms: usableForms(e) });
     }
