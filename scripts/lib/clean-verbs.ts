@@ -78,9 +78,9 @@ export function cleanVerbs(raw: Record<string, string>[], rowIds: Map<Record<str
     const partners: string[] = [];
     for (const p of (r.partner ?? '').split(';').map((x) => x.trim()).filter((x) => x && x !== '-')) {
       const cands = byBare.get(p) ?? [];
-      const want = aspect === 'pf' ? 'impf' : 'pf';
-      const pr = cands.find((c) => ASPECT[c.aspect ?? ''] === want) ?? cands[0];
-      const pAspect = ASPECT[pr?.aspect ?? ''];
+      const want: Aspect = aspect === 'pf' ? 'impf' : 'pf';
+      const pr: Record<string, string> | undefined = cands.find((c) => ASPECT[c.aspect ?? ''] === want) ?? cands[0];
+      const pAspect: Aspect | undefined = ASPECT[pr?.aspect ?? ''];
       if (!pr || !pAspect) {
         report.anomaly(S, 'partner not found in source (ignored)', `${bare} → ${p}`);
         continue;

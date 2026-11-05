@@ -89,10 +89,8 @@ const manifest: Manifest = {
 };
 writeJson('manifest.json', manifest);
 
-for (const [t, list] of Object.entries({ ...shards, ...Object.fromEntries(Object.entries(sentences).map(([k, v]) => [`sentences.${k}`, v])) })) {
-  for (const s of list) sizes.push(`| ${s.file} | ${'count' in s ? s.count : s.lemmas} | ${(s.bytes / 1024).toFixed(0)} KB |`);
-  void t;
-}
+for (const list of Object.values(shards)) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);
+for (const list of Object.values(sentences)) for (const s of list) sizes.push(`| ${s.file} | ${s.lemmas} lemmas, ${s.sentences} sentences | ${(s.bytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

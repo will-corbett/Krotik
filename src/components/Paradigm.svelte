@@ -31,7 +31,8 @@
     {/each}
   </div>
 {:else}
-  <div class="scroll">
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <div class="scroll" tabindex="0" role="region" aria-label="Adjective forms table">
     <table class="adj">
       <thead lang="en">
         <tr><td></td><th scope="col">masc.</th><th scope="col">fem.</th><th scope="col">neut.</th><th scope="col">plural</th></tr>

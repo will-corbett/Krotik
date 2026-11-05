@@ -30,6 +30,8 @@ export function cleanGloss(raw: string): string {
   if (items.join(', ').length < 12 && senses[1]) {
     items = [...items, ...senses[1].split(',').map((s) => s.trim()).filter(Boolean)];
   }
+  // Source items sometimes start with a stray capital ("get, Be obtained").
+  items = items.map((i) => i.replace(/^(Be|To|Get|Have|Make|Do|Go|Become|Take|Put|Give)\b/, (w) => w.toLowerCase()));
   return [...new Set(items)].slice(0, 4).join(', ');
 }
 

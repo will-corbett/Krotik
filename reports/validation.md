@@ -20,14 +20,14 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | nouns.b1.json | 750 | 205 KB |
 | nouns.b2.json | 1500 | 430 KB |
 | nouns.b3.json | 16276 | 5241 KB |
-| sentences.verbs.b0.json | 244 | 111 KB |
-| sentences.verbs.b1.json | 732 | 344 KB |
-| sentences.verbs.b2.json | 1349 | 552 KB |
-| sentences.verbs.b3.json | 3968 | 1119 KB |
-| sentences.adjectives.b0.json | 246 | 132 KB |
-| sentences.adjectives.b1.json | 684 | 367 KB |
-| sentences.adjectives.b2.json | 1103 | 444 KB |
-| sentences.adjectives.b3.json | 1933 | 574 KB |
+| sentences.verbs.b0.json | 244 lemmas, 1419 sentences | 111 KB |
+| sentences.verbs.b1.json | 732 lemmas, 3825 sentences | 344 KB |
+| sentences.verbs.b2.json | 1349 lemmas, 5401 sentences | 552 KB |
+| sentences.verbs.b3.json | 3968 lemmas, 9925 sentences | 1119 KB |
+| sentences.adjectives.b0.json | 246 lemmas, 1405 sentences | 132 KB |
+| sentences.adjectives.b1.json | 684 lemmas, 3198 sentences | 367 KB |
+| sentences.adjectives.b2.json | 1103 lemmas, 3484 sentences | 444 KB |
+| sentences.adjectives.b3.json | 1933 lemmas, 4328 sentences | 574 KB |
 | motion.json | 12 pairs | 7.1 KB |
 
 ## Verbs
