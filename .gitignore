@@ -5,3 +5,5 @@ test-results/
 playwright-report/
 .DS_Store
 *.log
+# Generated data: built by `npm run data` (locally) and by CI before tests and deploy.
+public/data/*.json

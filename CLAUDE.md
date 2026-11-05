@@ -6,7 +6,7 @@ Only UI settings go in localStorage (`drilbur.settings.v1`); never store perform
 ## Commands (Node ≥ 22.12; `.nvmrc` = 22)
 On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PATH` first.
 
-- `npm run dev` / `npm run build` / `npm run preview`
+- `npm run data` first on a fresh clone (no data is committed), then `npm run dev` / `npm run build` / `npm run preview`
 - `npm test` — Vitest unit tests (tests/unit)
 - `npm run e2e` — Playwright smoke tests, desktop + mobile (tests/e2e). First time: `npx playwright install chromium`
 - `npm run check` — svelte-check + tsc for scripts
@@ -20,7 +20,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   flag disagreements in the report.
 - Fix data in `overrides/overrides.yaml` (fix / exclude / gloss / sentence deny), never by editing shards.
   Every `fix` form must pass `npm run data:verify-overrides`.
-- Generated shards in public/data are committed. The build is deterministic: rerunning must give no diff.
+- Generated shards in public/data are NOT committed (gitignored); `npm run data` builds them locally and CI builds
+  them before tests and deploy. The build is deterministic: the same sources give byte-identical output.
+- CI/deploy: `.github/workflows/deploy.yml` (GitHub Pages). Sources are cached per month, so the deployed data
+  refreshes monthly; check the validation-report artifact after a refresh.
 - `reports/validation.md` is regenerated each build. Read it after any pipeline change and report
   regressions honestly.
 - Licences: OpenRussian/Wiktionary-derived data is CC BY-SA 4.0 (share-alike applies to our shards);

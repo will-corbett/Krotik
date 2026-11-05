@@ -1,0 +1,74 @@
+# Build the data from its sources, run every check, and deploy the static site to GitHub Pages.
+name: Build, test and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # Raw sources (~140 MB: OpenRussian, Tatoeba, Wiktionary) are cached per month, so the data is
+      # rebuilt from fresh sources once a month and otherwise from the same files.
+      - name: Month for the source cache
+        id: month
+        run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: data-raw
+          key: data-raw-${{ steps.month.outputs.month }}-${{ hashFiles('scripts/lib/sources.ts') }}
+
+      - name: Build data (fetch sources, clean, validate, shard)
+        run: npm run data
+
+      - name: Upload the validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report
+          path: reports/validation.md
+
+      - run: npm run check
+      - run: npm test
+
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
