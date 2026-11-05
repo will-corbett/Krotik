@@ -1,0 +1,67 @@
+# Hand-maintained corrections, applied to raw source rows before cleaning.
+# Keys are the source `bare` field; a fix applies to the first (most frequent) row with that bare form.
+# Columns use the source CSV column names. Raw cell syntax: variants separated by "," ;
+# "(x)" = optional/archaic variant (accepted, not shown); "-" = intentionally absent.
+#
+# Every form in a `fix` must be attested in Wiktionary: `npm run data:verify-overrides`
+# checks each one against kaikki.org's per-word extract and fails if a form is not found.
+
+verbs:
+  fix:
+    быть:
+      # Source gives "есть" for all six persons. Present-tense drilling of быть is meaningless;
+      # keep past and imperative only.
+      presfut_sg1: "-"
+      presfut_sg2: "-"
+      presfut_sg3: "-"
+      presfut_pl1: "-"
+      presfut_pl2: "-"
+      presfut_pl3: "-"
+    накалять:
+      # imperative_sg and past_pl are swapped in the source.
+      imperative_sg: "накаля'й"
+      past_pl: "накаля'ли"
+    соскучиться:
+      presfut_sg2: "соску'чишься" # source: соску'шься
+  exclude:
+    размежёвывать: all six present forms are the 1sg form
+    выпуститься: past f/n/pl forms are non-reflexive and mismatched
+    надобиться: past forms garbled (надобила/надобило/надобило)
+  gloss:
+    говорить: speak, talk # source: "speak, talk gapirish" (Uzbek)
+    посадить: plant, seat, land (a plane)
+    подвести: bring up, lead up, let down # source starts with a Greek word
+    устроиться: settle in, get a job, get oneself set up
+    пройтись: take a walk, stroll
+    раздаваться: be heard, resound
+    казнить: execute, put to death
+    увлечься: be carried away, get absorbed in
+
+adjectives:
+  fix: {}
+  exclude: {}
+  gloss:
+    абстрактный: abstract # source: "abstract, soyut"
+    непроницаемый: impenetrable, impervious
+    драный: torn, ragged
+    товарищеский: comradely, friendly
+    лёгочный: pulmonary, lung
+    крестьянский: peasant
+
+nouns:
+  fix:
+    год:
+      # Source gives only the irregular лета́ plural; Wiktionary lists го́ды/года́ first
+      # and лет/годо́в for the genitive. лета́ forms kept as optional variants.
+      pl_nom: "го'ды,года',(лета')"
+      pl_gen: "ле'т,годо'в"
+      pl_dat: "года'м,(лета'м)"
+      pl_acc: "го'ды,года',(лета')"
+      pl_inst: "года'ми,(лета'ми)"
+      pl_prep: "года'х,(лета'х)"
+  exclude: {}
+  gloss: {}
+
+sentences:
+  # Tatoeba sentence id → reason
+  deny: {}
