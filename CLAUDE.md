@@ -49,6 +49,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Modes are grouped on the setup screen (Verbs / Adjectives / Nouns); each mode has a generator in
   `src/lib/questions/` and a case in `src/lib/start.ts`. Every grammar term goes through `src/lib/terms.ts`
   so it is shown with its Russian equivalent.
+- Wiktionary (kaikki.org gzipped JSONL) is streamed once by `scripts/lib/wiktionary.ts`; the needed entries are cached
+  in `data-raw/kaikki-extract.json`, keyed to the dump's sha256. `scripts/lib/phase-b.ts` builds participles, verbal
+  adverbs, numerals and diminutives, and fills noun gender (only where both sources agree on animacy) and missing
+  comparatives. Rule-based patterns there only flag disagreements in the report.
 - `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
 - Accessibility: keyboard-only flow (Enter submits and continues), aria-live feedback, visible focus,

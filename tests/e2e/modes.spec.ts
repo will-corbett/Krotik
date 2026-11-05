@@ -10,6 +10,10 @@ const modes: ModeName[] = [
   'Short-form adjectives',
   'Comparatives & superlatives',
   'Plurals',
+  'Verbal adverbs',
+  'Participles',
+  'Numbers',
+  'Diminutives',
 ];
 
 for (const mode of modes) {

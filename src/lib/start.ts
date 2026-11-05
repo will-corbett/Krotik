@@ -1,5 +1,9 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadAdjectives, loadMotion, loadNouns, loadVerbs, toVerb } from './data.ts';
+import { loadAdjectives, loadDiminutives, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
+import { generateAdverbQuestions } from './questions/adverbs.ts';
+import { generateParticipleQuestions } from './questions/participles.ts';
+import { generateNumberQuestions } from './questions/numbers.ts';
+import { generateDiminutiveQuestions } from './questions/diminutives.ts';
 import { generateAdjectiveQuestions } from './questions/adjectives.ts';
 import { generateAspectQuestions } from './questions/aspect.ts';
 import { generateMotionQuestions } from './questions/motion.ts';
@@ -40,6 +44,22 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
     case 'plurals': {
       const pool = await loadNouns(s.band);
       return (n) => generatePluralQuestions(pool, s.plurals, n, rng);
+    }
+    case 'adverbs': {
+      const rows = await loadParticiples(s.band);
+      return (n) => generateAdverbQuestions(rows, s.adverbs, n, rng);
+    }
+    case 'participles': {
+      const [rows, nouns] = await Promise.all([loadParticiples(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND))]);
+      return (n) => generateParticipleQuestions(rows, nouns, s.participles, n, rng);
+    }
+    case 'numbers': {
+      const [nums, nouns] = await Promise.all([loadNumerals(), loadNouns(NOUN_MAX_BAND)]);
+      return (n) => generateNumberQuestions(nums, nouns, s.numbers, n, rng);
+    }
+    case 'diminutives': {
+      const rows = (await loadDiminutives(s.band)).map((r) => r.row);
+      return (n) => generateDiminutiveQuestions(rows, s.diminutives, n, rng);
     }
     case 'aspect': {
       const pool = await loadVerbs(s.band);
@@ -84,6 +104,10 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'verbs' && !s.verbs.groups.length) return 'Choose at least one tense.';
   if (s.mode === 'reflexive' && !s.reflexive.groups.length) return 'Choose at least one tense.';
   if (s.mode === 'compare' && !s.compare.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'adverbs' && !s.adverbs.aspects.length) return 'Choose at least one aspect.';
+  if (s.mode === 'participles' && (!s.participles.kinds.length || !s.participles.types.length)) return 'Choose at least one participle and one question type.';
+  if (s.mode === 'numbers' && (!s.numbers.types.length || !s.numbers.ranges.length || !s.numbers.cases.length)) return 'Choose at least one question type, range and case.';
+  if (s.mode === 'diminutives' && !s.diminutives.directions.length) return 'Choose at least one direction.';
   if (s.mode === 'plurals' && !s.plurals.contexts.length) return 'Choose at least one context.';
   if (s.mode === 'plurals' && s.plurals.contexts.length === 1 && s.plurals.contexts[0] === 'cases' && !s.plurals.cases.length) return 'Choose at least one case.';
   if (s.mode === 'adjectives' && !s.adjectives.cases.length) return 'Choose at least one case.';

@@ -1,6 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
-import type { AdjSettings, AspectSettings, CompareSettings, Mode, MotionSettings, PluralSettings, VerbSettings } from './types.ts';
+import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
   mode: Mode;
@@ -14,6 +14,10 @@ export interface Settings {
   reflexive: VerbSettings;
   compare: CompareSettings;
   plurals: PluralSettings;
+  adverbs: AdverbSettings;
+  participles: ParticipleSettings;
+  numbers: NumberSettings;
+  diminutives: DiminutiveSettings;
   aspect: AspectSettings;
   adjectives: AdjSettings;
   motion: MotionSettings;
@@ -30,6 +34,10 @@ export const DEFAULTS: Settings = {
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
   compare: { types: ['comparative', 'superlative', 'samyi'] },
   plurals: { contexts: ['nom', 'cases', 'numbers', 'quantity'], cases: ['gen', 'dat', 'inst', 'prep'] as Case[] },
+  adverbs: { aspects: ['impf', 'pf'] },
+  participles: { kinds: ['act_pres', 'act_past', 'pass_pres', 'pass_past'], types: ['form', 'short', 'decline'] },
+  numbers: { types: ['alone', 'withNoun'], ranges: ['1-4', '5-20', 'tens'], cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[] },
+  diminutives: { directions: ['to', 'from'] },
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
   motion: { types: ['meaning', 'partner', 'conjugate'] },
@@ -49,6 +57,10 @@ export function loadSettings(): Settings {
       reflexive: { ...DEFAULTS.reflexive, ...saved.reflexive },
       compare: { ...DEFAULTS.compare, ...saved.compare },
       plurals: { ...DEFAULTS.plurals, ...saved.plurals },
+      adverbs: { ...DEFAULTS.adverbs, ...saved.adverbs },
+      participles: { ...DEFAULTS.participles, ...saved.participles },
+      numbers: { ...DEFAULTS.numbers, ...saved.numbers },
+      diminutives: { ...DEFAULTS.diminutives, ...saved.diminutives },
       aspect: { ...DEFAULTS.aspect, ...saved.aspect },
       adjectives: { ...DEFAULTS.adjectives, ...saved.adjectives },
       motion: { ...DEFAULTS.motion, ...saved.motion },

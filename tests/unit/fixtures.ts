@@ -16,3 +16,11 @@ export const motion = json<MotionData>('motion.json');
 export const verb = (bare: string) => verbs.find((v) => v.accented.replace(/'/g, '') === bare)!;
 export const adjective = (bare: string) => adjectives.find((a) => a.accented.replace(/'/g, '') === bare)!;
 export const noun = (bare: string) => nouns.find((n) => n.accented.replace(/'/g, '') === bare)!;
+
+import type { DiminutiveRow, NumeralRow, ParticipleRow } from '../../src/shared/types.ts';
+export const participles: { row: ParticipleRow; band: number }[] = [0, 1].flatMap((b) => json<ParticipleRow[]>(`participles.b${b}.json`).map((row) => ({ row, band: b })));
+export const participle = (bare: string) => participles.find((p) => p.row[1].replace(/'/g, '') === bare)!;
+export const numerals = json<NumeralRow[]>('numerals.json');
+export const numeral = (bare: string) => numerals.find((r) => r[0].replace(/'/g, '') === bare)!;
+export const diminutives = [0, 1].flatMap((b) => json<DiminutiveRow[]>(`diminutives.b${b}.json`));
+export const nouns1000: Noun[] = [...nouns, ...json<NounRow[]>('nouns.b1.json').map((r) => toNoun(r, 1))];

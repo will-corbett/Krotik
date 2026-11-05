@@ -93,6 +93,7 @@
     </button>
     <p class="credit muted">
       Data: <a href="https://en.openrussian.org" rel="noopener">OpenRussian.org</a> (CC BY-SA 4.0) ·
+      <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> via kaikki.org (CC BY-SA 4.0) ·
       <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> (CC BY 2.0 FR)
     </p>
   </footer>

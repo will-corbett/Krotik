@@ -1,8 +1,20 @@
 import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
-import type { LexType } from '../shared/types.ts';
+import type { LexType, ParticipleKind, ParticipleRow } from '../shared/types.ts';
 import type { TaskPart } from './terms.ts';
 
-export type Mode = 'verbs' | 'reflexive' | 'aspect' | 'motion' | 'adjectives' | 'short' | 'compare' | 'plurals';
+export type Mode =
+  | 'verbs'
+  | 'reflexive'
+  | 'aspect'
+  | 'motion'
+  | 'adverbs'
+  | 'participles'
+  | 'adjectives'
+  | 'short'
+  | 'compare'
+  | 'plurals'
+  | 'numbers'
+  | 'diminutives';
 
 export interface Verb {
   id: number;
@@ -36,7 +48,13 @@ export interface Noun {
 }
 
 /** Which word's paradigm to show after answering. */
-export type ParadigmRef = { kind: 'verb'; verb: Verb } | { kind: 'adjective'; adjective: Adjective } | { kind: 'noun'; noun: Noun };
+export type ParadigmRef =
+  | { kind: 'verb'; verb: Verb }
+  | { kind: 'adjective'; adjective: Adjective }
+  | { kind: 'noun'; noun: Noun }
+  | { kind: 'participles'; row: ParticipleRow }
+  /** Simple list of labelled forms (numerals, diminutives). */
+  | { kind: 'list'; rows: { label: TaskPart[]; cell: string }[] };
 
 export interface Question {
   /** Unique within a round (used to avoid duplicates). */
@@ -83,6 +101,21 @@ export interface CompareSettings {
 export interface PluralSettings {
   contexts: ('nom' | 'cases' | 'numbers' | 'quantity')[];
   cases: Case[];
+}
+export interface AdverbSettings {
+  aspects: ('impf' | 'pf')[];
+}
+export interface ParticipleSettings {
+  kinds: ParticipleKind[];
+  types: ('form' | 'short' | 'decline')[];
+}
+export interface NumberSettings {
+  types: ('alone' | 'withNoun')[];
+  ranges: ('1-4' | '5-20' | 'tens')[];
+  cases: Case[];
+}
+export interface DiminutiveSettings {
+  directions: ('to' | 'from')[];
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];

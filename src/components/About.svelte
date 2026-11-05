@@ -5,7 +5,8 @@
 <article class="card about fade-in">
   <h1>About</h1>
   <p>
-    Drilbur is a no-login drill for Russian verb forms, aspect partners, adjective agreement and verbs of motion. Nothing
+    Drilbur is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
+    adjectives, plurals, numbers and diminutives. Nothing
     about your answers is stored; only display settings are remembered in this browser.
   </p>
   <p>
@@ -20,7 +21,13 @@
       dictionary export (<a href="https://github.com/Badestrand/russian-dictionary" rel="noopener">Badestrand/russian-dictionary</a>),
       licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a> and built on
       <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a>. A few forms were corrected by hand after checking
-      them against Wiktionary (via <a href="https://kaikki.org" rel="noopener">kaikki.org</a>).
+      them against Wiktionary.
+    </li>
+    <li>
+      Participles, verbal adverbs, numerals, diminutives, some comparatives and noun genders:
+      <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> contributors, via the machine-readable extract at
+      <a href="https://kaikki.org" rel="noopener">kaikki.org</a> (Tatu Ylonen, wiktextract). Wiktionary text is licensed
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a> and GFDL.
     </li>
     <li>
       Example sentences and translations: <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> contributors, licensed

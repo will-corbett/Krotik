@@ -52,6 +52,23 @@ export const TERMS = {
   plurals: t('Plurals', 'множественное число'),
   afterNumber: t('after a number', 'после числительного'),
   afterQuantity: t('after a quantity word', 'после слов количества'),
+  // Phase B
+  nounsNumbers: t('Nouns & numbers', 'существительные и числительные'),
+  adverbs: t('Verbal adverbs', 'деепричастия'),
+  advImpf: t('Imperfective verbal adverb', 'деепричастие несовершенного вида'),
+  advPf: t('Perfective verbal adverb', 'деепричастие совершенного вида'),
+  participles: t('Participles', 'причастия'),
+  act_pres: t('Present active participle', 'действительное причастие настоящего времени'),
+  act_past: t('Past active participle', 'действительное причастие прошедшего времени'),
+  pass_pres: t('Present passive participle', 'страдательное причастие настоящего времени'),
+  pass_past: t('Past passive participle', 'страдательное причастие прошедшего времени'),
+  shortPassive: t('Short passive participle', 'краткое страдательное причастие'),
+  numbers: t('Numbers', 'числительные'),
+  numeral: t('Numeral', 'числительное'),
+  numeralNoun: t('Numeral + noun', 'числительное с существительным'),
+  diminutives: t('Diminutives', 'уменьшительно-ласкательные формы'),
+  diminutive: t('Diminutive', 'уменьшительная форма'),
+  baseNoun: t('Base noun', 'исходное слово'),
 } satisfies Record<string, Term>;
 
 export const CASE_TERM: Record<Case, Term> = {

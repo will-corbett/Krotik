@@ -1,6 +1,8 @@
 <script lang="ts">
   import { ADJ_EXTRA_INDEX, ADJ_INDEX, CASES, NOUN_INDEX, VERB_CELLS, type AdjCellKey, type AdjSlot } from '../shared/cells.ts';
   import { CASE_ABBR, SLOT_ABBR, TERMS, groupTerm } from '../lib/terms.ts';
+  import { participleTerm } from '../lib/questions/participles.ts';
+  import TermText from './TermText.svelte';
   import { displayForms, renderForm } from '../shared/forms.ts';
   import type { ParadigmRef } from '../lib/types.ts';
 
@@ -47,6 +49,28 @@
     </tbody>
   </table>
   {#if n.counting}<p class="note muted">After numbers 5+ and сколько/несколько: <span lang="ru">{show(n.counting)}</span></p>{/if}
+{:else if ref.kind === 'participles'}
+  {@const row = ref.row}
+  <table>
+    <tbody>
+      {#if row[4]}<tr><th scope="row"><TermText parts={[TERMS.advImpf]} /></th><td lang="ru">{show(row[4])}</td></tr>{/if}
+      {#if row[5]}<tr><th scope="row"><TermText parts={[TERMS.advPf]} /></th><td lang="ru">{show(row[5])}</td></tr>{/if}
+      {#each row[6] as p (p[0])}
+        <tr><th scope="row"><TermText parts={[participleTerm(p[0])]} /></th><td lang="ru">{show(p[1])}</td></tr>
+        {#if p[3].length}
+          <tr><th scope="row"><TermText parts={[TERMS.shortPassive]} /></th><td lang="ru">{p[3].map((c) => show(c)).join(' · ')}</td></tr>
+        {/if}
+      {/each}
+    </tbody>
+  </table>
+{:else if ref.kind === 'list'}
+  <table>
+    <tbody>
+      {#each ref.rows as r, i (i)}
+        <tr><th scope="row"><TermText parts={r.label} /></th><td lang="ru">{show(r.cell)}</td></tr>
+      {/each}
+    </tbody>
+  </table>
 {:else}
   {@const a = ref.adjective}
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->

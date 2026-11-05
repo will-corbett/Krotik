@@ -8,7 +8,11 @@ export type ModeName =
   | 'Adjective agreement'
   | 'Short-form adjectives'
   | 'Comparatives & superlatives'
-  | 'Plurals';
+  | 'Plurals'
+  | 'Verbal adverbs'
+  | 'Participles'
+  | 'Numbers'
+  | 'Diminutives';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   await page.goto('/?seed=42');

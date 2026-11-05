@@ -33,7 +33,7 @@ Grouped mode picker (done for Phase A):
    (149 and 115 of the top 1,000) — Phase B can add more from Wiktionary. Substantivised adjectives
    (будущее, управляющий) count as nouns in the source, so a few quantity questions read oddly (много будущего).
 
-## Phase B — Wiktionary import (kaikki.org JSONL, 950 MB, streamed; CC BY-SA)
+## Phase B — Wiktionary import (kaikki.org JSONL, 91 MB gzipped, streamed; CC BY-SA) — done 2026-11-05
 1. **Verbal adverbs** (деепричастия): present (читая) and past (прочитав).
 2. **Participles** (причастия): active present/past, passive present/past; short passive participles;
    then full declension.

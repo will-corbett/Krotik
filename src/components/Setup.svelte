@@ -3,7 +3,7 @@
   import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
-  import type { CompareSettings, Mode, MotionSettings, PluralSettings } from '../lib/types.ts';
+  import type { CompareSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
@@ -15,6 +15,8 @@
         { id: 'reflexive', title: TERMS.reflexive, blurb: '-ся after consonants, -сь after vowels' },
         { id: 'aspect', title: TERMS.aspectPartners, blurb: 'Imperfective ↔ perfective' },
         { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
+        { id: 'adverbs', title: TERMS.adverbs, blurb: 'читая, прочитав' },
+        { id: 'participles', title: TERMS.participles, blurb: 'читающий, прочитанный, прочитана' },
       ],
     },
     {
@@ -26,14 +28,38 @@
       ],
     },
     {
-      title: TERMS.nouns,
-      modes: [{ id: 'plurals', title: TERMS.plurals, blurb: 'Plural forms, after numbers and quantity words' }],
+      title: TERMS.nounsNumbers,
+      modes: [
+        { id: 'plurals', title: TERMS.plurals, blurb: 'Plural forms, after numbers and quantity words' },
+        { id: 'numbers', title: TERMS.numbers, blurb: 'пяти, двум книгам, тремя друзьями' },
+        { id: 'diminutives', title: TERMS.diminutives, blurb: 'дом → домик, сын → сынок' },
+      ],
     },
   ];
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
     { id: 'superlative', label: { en: 'Superlative (-ейший)', ru: TERMS.superlative.ru } },
     { id: 'samyi', label: TERMS.samyi },
+  ];
+  const PARTICIPLE_KINDS: { id: ParticipleSettings['kinds'][number]; label: Term }[] = [
+    { id: 'act_pres', label: TERMS.act_pres },
+    { id: 'act_past', label: TERMS.act_past },
+    { id: 'pass_pres', label: TERMS.pass_pres },
+    { id: 'pass_past', label: TERMS.pass_past },
+  ];
+  const PARTICIPLE_TYPES: { id: ParticipleSettings['types'][number]; label: Term }[] = [
+    { id: 'form', label: { en: 'Form the participle', ru: 'образование' } },
+    { id: 'short', label: TERMS.shortPassive },
+    { id: 'decline', label: { en: 'Agree with a noun', ru: 'согласование' } },
+  ];
+  const NUMBER_TYPES: { id: NumberSettings['types'][number]; label: Term }[] = [
+    { id: 'alone', label: { en: 'Decline the number', ru: 'склонение числительных' } },
+    { id: 'withNoun', label: TERMS.numeralNoun },
+  ];
+  const NUMBER_RANGES: { id: NumberSettings['ranges'][number]; label: string }[] = [
+    { id: '1-4', label: '1–4 and оба' },
+    { id: '5-20', label: '5–20' },
+    { id: 'tens', label: '30–90, 100–900' },
   ];
   const PLURAL_CONTEXTS: { id: PluralSettings['contexts'][number]; label: Term }[] = [
     { id: 'nom', label: { en: 'Nominative plural', ru: 'именительный падеж, мн. ч.' } },
@@ -162,9 +188,98 @@
           {/each}
         </div>
         <p class="hint muted">
-          The source has comparatives for about 290 adjectives and -ейший superlatives for about 180, mostly the common ones.
+          Comparatives and -ейший superlatives come from OpenRussian and Wiktionary; many adjectives have none.
           With самый, both words agree with the noun in the nominative (<span lang="ru">именительный падеж</span>).
         </p>
+      </fieldset>
+    {:else if settings.mode === 'adverbs'}
+      <fieldset>
+        <legend>Aspect <span class="ru" lang="ru">вид</span></legend>
+        <div class="chips">
+          <label class="chip">
+            <input type="checkbox" checked={settings.adverbs.aspects.includes('impf')} onchange={() => (settings.adverbs.aspects = toggle(settings.adverbs.aspects, 'impf'))} />
+            Imperfective → читая <span class="ru" lang="ru">{TERMS.advImpf.ru}</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" checked={settings.adverbs.aspects.includes('pf')} onchange={() => (settings.adverbs.aspects = toggle(settings.adverbs.aspects, 'pf'))} />
+            Perfective → прочитав <span class="ru" lang="ru">{TERMS.advPf.ru}</span>
+          </label>
+        </div>
+        <p class="hint muted">Forms come from Wiktionary. Where -в and -вши both exist, -в is shown and -вши also accepted.</p>
+      </fieldset>
+    {:else if settings.mode === 'participles'}
+      <fieldset>
+        <legend>Participles <span class="ru" lang="ru">причастия</span></legend>
+        <div class="chips">
+          {#each PARTICIPLE_KINDS as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.participles.kinds.includes(t.id)} onchange={() => (settings.participles.kinds = toggle(settings.participles.kinds, t.id))} />
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          {#each PARTICIPLE_TYPES as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.participles.types.includes(t.id)} onchange={() => (settings.participles.types = toggle(settings.participles.types, t.id))} />
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+        <p class="hint muted">Present participles are drilled for imperfective verbs only. Short forms need the past passive participle.</p>
+      </fieldset>
+    {:else if settings.mode === 'numbers'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          {#each NUMBER_TYPES as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.numbers.types.includes(t.id)} onchange={() => (settings.numbers.types = toggle(settings.numbers.types, t.id))} />
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Numbers</legend>
+        <div class="chips">
+          {#each NUMBER_RANGES as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.numbers.ranges.includes(t.id)} onchange={() => (settings.numbers.ranges = toggle(settings.numbers.ranges, t.id))} />
+              {t.label}
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Cases <span class="ru" lang="ru">падежи</span></legend>
+        <div class="chips">
+          {#each CASES as c (c)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.numbers.cases.includes(c)} onchange={() => (settings.numbers.cases = toggle<Case>(settings.numbers.cases, c))} />
+              {CASE_TERM[c].en} <span class="ru" lang="ru">{CASE_TERM[c].ru.replace(' падеж', '')}</span>
+            </label>
+          {/each}
+        </div>
+        <p class="hint muted">Compound numbers (двадцать пять) aren't included yet. Nouns come from the 1,000 most frequent.</p>
+      </fieldset>
+    {:else if settings.mode === 'diminutives'}
+      <fieldset>
+        <legend>Direction</legend>
+        <div class="chips">
+          <label class="chip">
+            <input type="checkbox" checked={settings.diminutives.directions.includes('to')} onchange={() => (settings.diminutives.directions = toggle(settings.diminutives.directions, 'to'))} />
+            Noun → diminutive <span class="ru" lang="ru">{TERMS.diminutive.ru}</span>
+          </label>
+          <label class="chip">
+            <input type="checkbox" checked={settings.diminutives.directions.includes('from')} onchange={() => (settings.diminutives.directions = toggle(settings.diminutives.directions, 'from'))} />
+            Diminutive → noun <span class="ru" lang="ru">{TERMS.baseNoun.ru}</span>
+          </label>
+        </div>
+        <p class="hint muted">Any diminutive Wiktionary lists is accepted (дом → домик or домок).</p>
       </fieldset>
     {:else if settings.mode === 'plurals'}
       <fieldset>
@@ -205,7 +320,7 @@
       </fieldset>
     {/if}
 
-    {#if settings.mode !== 'motion'}
+    {#if settings.mode !== 'motion' && settings.mode !== 'numbers'}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

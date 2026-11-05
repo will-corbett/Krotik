@@ -1,5 +1,5 @@
 /** Loads the generated shards from public/data, cumulatively by frequency band, with caching. */
-import type { AdjRow, LexType, Manifest, MotionData, NounRow, SentenceRow, SentenceShard, VerbRow } from '../shared/types.ts';
+import type { AdjRow, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 const BASE = `${import.meta.env?.BASE_URL ?? "/"}data/`;
@@ -20,9 +20,9 @@ function getJson<T>(file: string): Promise<T> {
 
 export const loadManifest = () => getJson<Manifest>('manifest.json');
 
-async function loadRows<R>(type: LexType, maxBand: number): Promise<{ row: R; band: number }[]> {
+async function loadRows<R>(type: ShardType, maxBand: number): Promise<{ row: R; band: number }[]> {
   const m = await loadManifest();
-  const shards = m.shards[type].filter((s) => s.band <= maxBand);
+  const shards = (m.shards[type] ?? []).filter((s) => s.band <= maxBand);
   const parts = await Promise.all(shards.map((s) => getJson<R[]>(s.file).then((rows) => rows.map((row) => ({ row, band: s.band })))));
   return parts.flat();
 }
@@ -42,6 +42,15 @@ export async function loadAdjectives(maxBand: number): Promise<Adjective[]> {
 }
 export async function loadNouns(maxBand: number): Promise<Noun[]> {
   return (await loadRows<NounRow>('nouns', maxBand)).map(({ row, band }) => toNoun(row, band));
+}
+export async function loadParticiples(maxBand: number): Promise<{ row: ParticipleRow; band: number }[]> {
+  return loadRows<ParticipleRow>('participles', maxBand);
+}
+export async function loadDiminutives(maxBand: number): Promise<{ row: DiminutiveRow; band: number }[]> {
+  return loadRows<DiminutiveRow>('diminutives', maxBand);
+}
+export async function loadNumerals(): Promise<NumeralRow[]> {
+  return getJson<NumeralRow[]>((await loadManifest()).numerals);
 }
 export async function loadMotion(): Promise<MotionData> {
   return getJson<MotionData>((await loadManifest()).motion);

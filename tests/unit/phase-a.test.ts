@@ -98,9 +98,9 @@ describe('plurals', () => {
     expect(checkAnswer(nominativePluralQuestion(noun('дом'))!, 'дома').correct).toBe(true);
     expect(checkAnswer(nominativePluralQuestion(noun('человек'))!, 'люди').correct).toBe(true);
   });
-  it('includes nouns whose gender is missing in the source', () => {
-    const noGender = nouns.filter((n) => !n.gender);
-    expect(noGender.length).toBeGreaterThan(0);
+  it('includes nouns whose gender is unknown', () => {
+    // Wiktionary filled every gender gap in the top 250, so simulate one.
+    const noGender = nouns.slice(0, 40).map((n) => ({ ...n, gender: '' as const }));
     const qs = generatePluralQuestions(noGender, { contexts: ['nom', 'cases', 'numbers', 'quantity'], cases: ['gen', 'dat'] }, 20, mulberry32(4));
     expect(qs.length).toBe(20);
   });
