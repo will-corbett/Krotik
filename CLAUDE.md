@@ -1,7 +1,7 @@
-# Drilbur — Russian instant-drill site
+# Russian Grammar Drills — instant-drill site
 
 Static, no-login drill app (Svelte 5 + Vite + TypeScript strict). No backend, no analytics.
-Only UI settings go in localStorage (`drilbur.settings.v1`); never store performance/progress.
+Only UI settings go in localStorage (`rgd.settings.v1`); never store performance/progress.
 
 ## Commands (Node ≥ 22.12; `.nvmrc` = 22)
 On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PATH` first.

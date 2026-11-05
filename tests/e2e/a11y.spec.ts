@@ -62,7 +62,7 @@ test('settings are remembered, progress is not', async ({ page }) => {
   await expect(page.getByRole('radio', { name: '40', exact: true })).toBeChecked();
   await expect(page.getByRole('checkbox', { name: 'Stress marks' })).not.toBeChecked();
   const keys = await page.evaluate(() => Object.keys(localStorage));
-  expect(keys).toEqual(['drilbur.settings.v1']);
+  expect(keys).toEqual(['rgd.settings.v1']);
 });
 
 test('no horizontal scroll', async ({ page }) => {

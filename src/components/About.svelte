@@ -5,7 +5,7 @@
 <article class="card about fade-in">
   <h1>About</h1>
   <p>
-    Drilbur is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
+    Russian Grammar Drills is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
     adjectives, plurals, numbers, diminutives, and sentence drills (который, чтобы, conditional, negation,
     indefinite pronouns, particles). Nothing
     about your answers is stored; only display settings are remembered in this browser.

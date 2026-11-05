@@ -68,10 +68,9 @@
 
 <div class="shell">
   <header class="top">
-    <button class="brand" onclick={() => (screen = 'setup')} aria-label="Drilbur, back to settings">
-      <span class="mark" aria-hidden="true">Ж</span> Drilbur
+    <button class="brand" onclick={() => (screen = 'setup')} aria-label="Russian Grammar Drills, back to settings">
+      <span class="mark" aria-hidden="true">Ж</span> Russian Grammar Drills
     </button>
-    <span class="tag">Russian drills</span>
   </header>
 
   <main id="main">
@@ -134,10 +133,6 @@
     background: var(--accent);
     color: var(--accent-text);
     font-family: var(--serif);
-  }
-  .tag {
-    color: var(--muted);
-    font-size: 0.95rem;
   }
   main {
     flex: 1;

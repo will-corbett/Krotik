@@ -64,7 +64,7 @@ export const DEFAULTS: Settings = {
   motion: { types: ['meaning', 'partner', 'conjugate'] },
 };
 
-const KEY = 'drilbur.settings.v1';
+const KEY = 'rgd.settings.v1';
 
 export function loadSettings(): Settings {
   try {

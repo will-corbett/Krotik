@@ -1,10 +1,10 @@
 {
-  "name": "drilbur",
+  "name": "russian-grammar-drills",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "description": "Instant-drill practice for Russian verb forms, aspect, agreement and motion verbs.",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=22.12"
   },
