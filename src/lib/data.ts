@@ -1,5 +1,5 @@
 /** Loads the generated shards from public/data, cumulatively by frequency band, with caching. */
-import type { AdjRow, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
+import type { AdjRow, ClozeRow, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 const BASE = `${import.meta.env?.BASE_URL ?? "/"}data/`;
@@ -51,6 +51,11 @@ export async function loadDiminutives(maxBand: number): Promise<{ row: Diminutiv
 }
 export async function loadNumerals(): Promise<NumeralRow[]> {
   return getJson<NumeralRow[]>((await loadManifest()).numerals);
+}
+export async function loadCloze(topic: string): Promise<ClozeRow[]> {
+  const m = await loadManifest();
+  const c = m.cloze[topic];
+  return c ? getJson<ClozeRow[]>(c.file) : [];
 }
 export async function loadMotion(): Promise<MotionData> {
   return getJson<MotionData>((await loadManifest()).motion);

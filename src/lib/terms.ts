@@ -69,6 +69,15 @@ export const TERMS = {
   diminutives: t('Diminutives', 'уменьшительно-ласкательные формы'),
   diminutive: t('Diminutive', 'уменьшительная форма'),
   baseNoun: t('Base noun', 'исходное слово'),
+  // Phase C
+  sentences: t('Sentences', 'предложения'),
+  kotoryi: t('Relative clauses with который', 'определительные придаточные'),
+  chtoby: t('Purpose with чтобы', 'придаточные цели'),
+  conditional: t('Conditional', 'условное наклонение'),
+  negation: t('Negation', 'отрицание'),
+  indefinite: t('Indefinite pronouns', 'неопределённые местоимения'),
+  particlesTopic: t('Particles', 'частицы'),
+  negativePronoun: t('Negative pronoun', 'отрицательное местоимение'),
 } satisfies Record<string, Term>;
 
 export const CASE_TERM: Record<Case, Term> = {

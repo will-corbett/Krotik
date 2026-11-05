@@ -36,7 +36,11 @@
               <span class="hw" lang={e.q.headwordIsEnglish ? 'en' : 'ru'}>{e.q.headwordIsEnglish ? e.q.headword : r(e.q.headword)}</span>
               <span class="muted"><TermText parts={e.q.task} /></span>
             </div>
-            <div class="ans" lang="ru">{displayForms(e.q.answer).map(r).join(', ')}</div>
+            {#if e.q.source && e.q.frame}
+              <div class="ans" lang="ru">{e.q.frame.replace(/___( \([^)]*\))?/, displayForms(e.q.answer).map(r).join(' / '))}</div>
+            {:else}
+              <div class="ans" lang="ru">{displayForms(e.q.answer).map(r).join(', ')}</div>
+            {/if}
             <div class="you muted">You typed: <span lang="ru">{e.wrong.join(' · ')}</span></div>
           </li>
         {/each}

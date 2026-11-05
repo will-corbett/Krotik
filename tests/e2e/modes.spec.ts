@@ -14,6 +14,12 @@ const modes: ModeName[] = [
   'Participles',
   'Numbers',
   'Diminutives',
+  'Relative clauses with который',
+  'Purpose with чтобы',
+  'Conditional',
+  'Negation',
+  'Indefinite pronouns',
+  'Particles',
 ];
 
 for (const mode of modes) {
@@ -26,7 +32,7 @@ for (const mode of modes) {
     // Every question was missed once: score 0%, all ten listed with the typed answer.
     await expect(page.locator('.big')).toHaveText('0%');
     await expect(page.locator('.missed li')).toHaveCount(10);
-    await expect(page.locator('.missed li').first()).toContainText('You typed: ъъъ');
+    await expect(page.locator('.missed li').first()).toContainText(/You typed: (ъъъ|—)/);
   });
 }
 
@@ -86,6 +92,17 @@ test('plurals after numbers explain the rule', async ({ page }) => {
   await expect(page.locator('.explain')).toContainText(/After (1|2–4|5–20)/);
   await page.locator('.forms summary').click();
   await expect(page.locator('.forms table')).toContainText('мн. ч.');
+});
+
+test('multiple choice works from the keyboard', async ({ page }) => {
+  await setup(page, 'Particles');
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByRole('group', { name: 'Choose the missing word' })).toBeVisible();
+  await page.keyboard.press('2');
+  await expect(page.locator('.feedback .verdict')).toHaveText(/Correct|Not quite/);
+  await expect(page.locator('.src a')).toHaveAttribute('href', /tatoeba\.org/);
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.feedback')).toHaveCount(0);
 });
 
 test('grammar terms show their Russian names', async ({ page }) => {

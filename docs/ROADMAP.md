@@ -42,7 +42,7 @@ Grouped mode picker (done for Phase A):
 4. **Diminutives** (уменьшительно-ласкательные): noun → any listed diminutive (дом → домик, домок).
 5. Bonus: fill missing noun genders from Wiktionary where both sources agree.
 
-## Phase C — sentence drills from Tatoeba
+## Phase C — sentence drills from Tatoeba — done 2026-11-05
 1. **Engine**: real sentence with a blank, lemma in brackets; typed answers for form topics, multiple
    choice for meaning topics. Only tokens that map unambiguously to one lemma and form; sentence deny list
    in overrides.
@@ -53,6 +53,11 @@ Grouped mode picker (done for Phase A):
 6. **Indefinite pronouns** (неопределённые местоимения): -то / -нибудь / кое- (multiple choice).
 7. **Particles** (частицы), multiple choice: ли (incl. indirect questions); же, ведь; не vs ни;
    -ка, вот, ну, даже, только.
+
+Phase C notes: up to 1,500 sentences per item kind (e.g. чтобы + infinitive, чтобы + past), chosen
+deterministically; a round picks the kind first so rare kinds (чтобы + past, ну, -ка) get a fair share.
+-ка has only ~100 sentences. In multiple choice some distractors can also fit (же/ведь, -то/-нибудь); only
+the sentence's own word counts, and the English translation is the cue.
 
 ## Still planned from the original brief
 - Stress-marking drill (tap the stressed vowel).

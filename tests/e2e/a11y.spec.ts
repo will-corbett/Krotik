@@ -66,11 +66,11 @@ test('settings are remembered, progress is not', async ({ page }) => {
 });
 
 test('no horizontal scroll', async ({ page }) => {
-  for (const mode of ['Verb forms', 'Adjective agreement'] as const) {
+  for (const mode of ['Verb forms', 'Adjective agreement', 'Relative clauses with который'] as const) {
     await setup(page, mode);
     await page.getByRole('button', { name: 'Start' }).click();
     await page.getByRole('button', { name: "I don't know" }).click();
-    await page.locator('.forms summary').click();
+    if (await page.locator('.forms summary').count()) await page.locator('.forms summary').click();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(0);
   }

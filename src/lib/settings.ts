@@ -1,5 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
+import type { NegationSettings, ParticleTopicSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
@@ -18,6 +19,8 @@ export interface Settings {
   participles: ParticipleSettings;
   numbers: NumberSettings;
   diminutives: DiminutiveSettings;
+  negation: NegationSettings;
+  particles: ParticleTopicSettings;
   aspect: AspectSettings;
   adjectives: AdjSettings;
   motion: MotionSettings;
@@ -38,6 +41,8 @@ export const DEFAULTS: Settings = {
   participles: { kinds: ['act_pres', 'act_past', 'pass_pres', 'pass_past'], types: ['form', 'short', 'decline'] },
   numbers: { types: ['alone', 'withNoun'], ranges: ['1-4', '5-20', 'tens'], cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[] },
   diminutives: { directions: ['to', 'from'] },
+  negation: { kinds: ['net', 'nipron', 'ne-ni'] },
+  particles: { groups: ['li', 'zhe-ved', 'ne-ni', 'colloquial'] },
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
   motion: { types: ['meaning', 'partner', 'conjugate'] },
@@ -61,6 +66,8 @@ export function loadSettings(): Settings {
       participles: { ...DEFAULTS.participles, ...saved.participles },
       numbers: { ...DEFAULTS.numbers, ...saved.numbers },
       diminutives: { ...DEFAULTS.diminutives, ...saved.diminutives },
+      negation: { ...DEFAULTS.negation, ...saved.negation },
+      particles: { ...DEFAULTS.particles, ...saved.particles },
       aspect: { ...DEFAULTS.aspect, ...saved.aspect },
       adjectives: { ...DEFAULTS.adjectives, ...saved.adjectives },
       motion: { ...DEFAULTS.motion, ...saved.motion },

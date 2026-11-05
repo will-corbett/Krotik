@@ -3,7 +3,7 @@
   import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
-  import type { CompareSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
+  import type { CompareSettings, Mode, MotionSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
@@ -35,6 +35,17 @@
         { id: 'diminutives', title: TERMS.diminutives, blurb: 'дом → домик, сын → сынок' },
       ],
     },
+    {
+      title: TERMS.sentences,
+      modes: [
+        { id: 'kotoryi', title: TERMS.kotoryi, blurb: 'книга, которую я читаю' },
+        { id: 'chtoby', title: TERMS.chtoby, blurb: 'чтобы помочь / чтобы ты помог' },
+        { id: 'conditional', title: TERMS.conditional, blurb: 'я бы пошёл' },
+        { id: 'negation', title: TERMS.negation, blurb: 'нет времени, никого не вижу, не / ни' },
+        { id: 'indefinite', title: TERMS.indefinite, blurb: 'кто-то, кто-нибудь, кое-кто' },
+        { id: 'particles', title: TERMS.particlesTopic, blurb: 'ли, же, ведь, вот, ну, даже, только, -ка' },
+      ],
+    },
   ];
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
@@ -60,6 +71,17 @@
     { id: '1-4', label: '1–4 and оба' },
     { id: '5-20', label: '5–20' },
     { id: 'tens', label: '30–90, 100–900' },
+  ];
+  const NEGATION_KINDS: { id: NegationSettings['kinds'][number]; label: Term }[] = [
+    { id: 'net', label: { en: 'нет / не было + genitive', ru: 'родительный падеж' } },
+    { id: 'nipron', label: { en: 'никто / ничто in any case', ru: TERMS.negativePronoun.ru } },
+    { id: 'ne-ni', label: { en: 'не or ни', ru: 'частицы не и ни' } },
+  ];
+  const PARTICLE_GROUPS: { id: ParticleTopicSettings['groups'][number]; label: string }[] = [
+    { id: 'li', label: 'ли' },
+    { id: 'zhe-ved', label: 'же, ведь' },
+    { id: 'ne-ni', label: 'не / ни' },
+    { id: 'colloquial', label: 'вот, ну, даже, только, -ка' },
   ];
   const PLURAL_CONTEXTS: { id: PluralSettings['contexts'][number]; label: Term }[] = [
     { id: 'nom', label: { en: 'Nominative plural', ru: 'именительный падеж, мн. ч.' } },
@@ -281,6 +303,41 @@
         </div>
         <p class="hint muted">Any diminutive Wiktionary lists is accepted (дом → домик or домок).</p>
       </fieldset>
+    {:else if settings.mode === 'kotoryi' || settings.mode === 'chtoby' || settings.mode === 'conditional' || settings.mode === 'indefinite'}
+      <p class="hint muted first">
+        Real sentences from Tatoeba with one word blanked; the English translation is the cue.
+        {#if settings.mode === 'indefinite'}
+          Pick the missing word from the options. Sometimes more than one could fit; only the sentence's own word counts.
+        {:else}
+          Type the missing word; the dictionary form is given in brackets.
+        {/if}
+      </p>
+    {:else if settings.mode === 'negation'}
+      <fieldset>
+        <legend>Kinds <span class="ru" lang="ru">виды отрицания</span></legend>
+        <div class="chips">
+          {#each NEGATION_KINDS as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.negation.kinds.includes(t.id)} onchange={() => (settings.negation.kinds = toggle(settings.negation.kinds, t.id))} />
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+        <p class="hint muted">The first two are typed; не vs ни is multiple choice.</p>
+      </fieldset>
+    {:else if settings.mode === 'particles'}
+      <fieldset>
+        <legend>Particles <span class="ru" lang="ru">частицы</span></legend>
+        <div class="chips">
+          {#each PARTICLE_GROUPS as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.particles.groups.includes(t.id)} onchange={() => (settings.particles.groups = toggle(settings.particles.groups, t.id))} />
+              <span lang="ru">{t.label}</span>
+            </label>
+          {/each}
+        </div>
+        <p class="hint muted">Multiple choice. Some particles overlap (же/ведь); the English translation is the cue, and only the sentence's own word counts.</p>
+      </fieldset>
     {:else if settings.mode === 'plurals'}
       <fieldset>
         <legend>Contexts</legend>
@@ -320,7 +377,7 @@
       </fieldset>
     {/if}
 
-    {#if settings.mode !== 'motion' && settings.mode !== 'numbers'}
+    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

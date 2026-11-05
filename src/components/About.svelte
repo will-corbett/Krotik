@@ -6,7 +6,8 @@
   <h1>About</h1>
   <p>
     Drilbur is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
-    adjectives, plurals, numbers and diminutives. Nothing
+    adjectives, plurals, numbers, diminutives, and sentence drills (который, чтобы, conditional, negation,
+    indefinite pronouns, particles). Nothing
     about your answers is stored; only display settings are remembered in this browser.
   </p>
   <p>
@@ -30,7 +31,7 @@
       <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a> and GFDL.
     </li>
     <li>
-      Example sentences and translations: <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> contributors, licensed
+      Example sentences, translations and the sentence drills: <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> contributors, licensed
       <a href="https://creativecommons.org/licenses/by/2.0/fr/" rel="noopener">CC BY 2.0 FR</a>. Each sentence links to its
       Tatoeba page.
     </li>

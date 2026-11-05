@@ -53,6 +53,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   in `data-raw/kaikki-extract.json`, keyed to the dump's sha256. `scripts/lib/phase-b.ts` builds participles, verbal
   adverbs, numerals and diminutives, and fills noun gender (only where both sources agree on animacy) and missing
   comparatives. Rule-based patterns there only flag disagreements in the report.
+- Sentence drills (`scripts/lib/cloze.ts` → `public/data/cloze.<topic>.json`): the answer is always the word in the
+  Tatoeba sentence; typed blanks must map to exactly one lemma; multiple-choice distractors must occur elsewhere
+  in the corpus. Deny bad sentences by Tatoeba id in `overrides.yaml` `sentences.deny`.
 - `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
 - Accessibility: keyboard-only flow (Enter submits and continues), aria-live feedback, visible focus,

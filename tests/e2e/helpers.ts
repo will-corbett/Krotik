@@ -12,7 +12,13 @@ export type ModeName =
   | 'Verbal adverbs'
   | 'Participles'
   | 'Numbers'
-  | 'Diminutives';
+  | 'Diminutives'
+  | 'Relative clauses with который'
+  | 'Purpose with чтобы'
+  | 'Conditional'
+  | 'Negation'
+  | 'Indefinite pronouns'
+  | 'Particles';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   await page.goto('/?seed=42');
@@ -39,28 +45,33 @@ export async function playRetryRound(page: Page): Promise<number> {
   const learned = new Map<string, string>();
   const seen = new Set<string>();
   const input = page.getByRole('textbox', { name: 'Your answer' });
+  const choices = page.getByRole('group', { name: 'Choose the missing word' });
   for (let step = 0; step < 200; step++) {
     if (await page.getByRole('heading', { name: /Round (complete|ended)/ }).isVisible()) break;
-    await expect(input).toBeEditable();
+    await expect(page.locator('.task')).toBeVisible();
+    const isChoice = await choices.isVisible();
     const id = await questionId(page);
     const known = learned.get(id);
-    if (known) {
-      await expect(page.locator('.retry')).toBeVisible();
-      await input.fill(known);
+    if (known) await expect(page.locator('.retry')).toBeVisible();
+    if (isChoice) {
+      // Wrong first time via "I don't know"; on the retry, pick the learned option.
+      if (known) await choices.getByRole('button').filter({ hasText: new RegExp(`^\\d\\s*${known.replace(/[-]/g, '\\-')}$`) }).click();
+      else await page.getByRole('button', { name: "I don't know" }).click();
     } else {
-      await input.fill('ъъъ');
+      await expect(input).toBeEditable();
+      await input.fill(known ?? 'ъъъ');
+      await input.press('Enter');
     }
-    await input.press('Enter');
     const feedback = page.locator('.feedback');
     await expect(feedback).toBeVisible();
     if (known) {
       await expect(feedback.locator('.verdict')).toHaveText('Correct');
     } else {
-      await expect(feedback.locator('.verdict')).toHaveText('Not quite');
+      await expect(feedback.locator('.verdict')).toHaveText(isChoice ? 'Answer' : 'Not quite');
       learned.set(id, plain(await feedback.locator('.solution strong').first().innerText()));
       seen.add(id);
     }
-    await input.press('Enter');
+    await page.keyboard.press('Enter');
   }
   await expect(page.getByRole('heading', { name: 'Round complete' })).toBeVisible();
   return seen.size;

@@ -1,9 +1,10 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadAdjectives, loadDiminutives, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
+import { loadAdjectives, loadCloze, loadDiminutives, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
 import { generateDiminutiveQuestions } from './questions/diminutives.ts';
+import { generateClozeQuestions } from './questions/cloze.ts';
 import { generateAdjectiveQuestions } from './questions/adjectives.ts';
 import { generateAspectQuestions } from './questions/aspect.ts';
 import { generateMotionQuestions } from './questions/motion.ts';
@@ -61,6 +62,22 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       const rows = (await loadDiminutives(s.band)).map((r) => r.row);
       return (n) => generateDiminutiveQuestions(rows, s.diminutives, n, rng);
     }
+    case 'kotoryi':
+    case 'chtoby':
+    case 'conditional':
+    case 'indefinite': {
+      const rows = await loadCloze(s.mode);
+      const topic = s.mode;
+      return (n) => generateClozeQuestions(rows, topic, null, n, rng);
+    }
+    case 'negation': {
+      const rows = await loadCloze('negation');
+      return (n) => generateClozeQuestions(rows, 'negation', s.negation.kinds, n, rng);
+    }
+    case 'particles': {
+      const rows = await loadCloze('particles');
+      return (n) => generateClozeQuestions(rows, 'particles', s.particles.groups, n, rng);
+    }
     case 'aspect': {
       const pool = await loadVerbs(s.band);
       return (n) => generateAspectQuestions(pool, s.aspect, n, rng);
@@ -107,6 +124,8 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'adverbs' && !s.adverbs.aspects.length) return 'Choose at least one aspect.';
   if (s.mode === 'participles' && (!s.participles.kinds.length || !s.participles.types.length)) return 'Choose at least one participle and one question type.';
   if (s.mode === 'numbers' && (!s.numbers.types.length || !s.numbers.ranges.length || !s.numbers.cases.length)) return 'Choose at least one question type, range and case.';
+  if (s.mode === 'negation' && !s.negation.kinds.length) return 'Choose at least one kind of negation.';
+  if (s.mode === 'particles' && !s.particles.groups.length) return 'Choose at least one group of particles.';
   if (s.mode === 'diminutives' && !s.diminutives.directions.length) return 'Choose at least one direction.';
   if (s.mode === 'plurals' && !s.plurals.contexts.length) return 'Choose at least one context.';
   if (s.mode === 'plurals' && s.plurals.contexts.length === 1 && s.plurals.contexts[0] === 'cases' && !s.plurals.cases.length) return 'Choose at least one case.';

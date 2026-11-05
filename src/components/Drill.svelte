@@ -37,6 +37,8 @@
   let field = $state<HTMLInputElement>();
   let canSpeak = $state(false);
   let shards = $state<Record<string, SentenceShard>>({});
+  let choiceButtons = $state<HTMLButtonElement[]>([]);
+  let nextButton = $state<HTMLButtonElement>();
 
   const entry = $derived(current(round));
   const q = $derived(entry?.q);
@@ -68,7 +70,18 @@
 
   async function focusField() {
     await tick();
-    field?.focus();
+    if (q?.choices) (phase === 'feedback' ? nextButton : choiceButtons[0])?.focus();
+    else field?.focus();
+  }
+
+  // Multiple choice: number keys pick an option.
+  function onKey(e: KeyboardEvent) {
+    if (!q?.choices || phase !== 'answering' || e.altKey || e.ctrlKey || e.metaKey) return;
+    const i = Number(e.key) - 1;
+    if (Number.isInteger(i) && i >= 0 && i < q.choices.length) {
+      e.preventDefault();
+      grade(q.choices[i]!);
+    }
   }
   $effect(() => {
     void q?.key;
@@ -89,6 +102,7 @@
     result = checkAnswer(q, value);
     wasRetry = (entry?.attempts ?? 0) > 0;
     phase = 'feedback';
+    if (q.choices) focusField();
   }
 
   function dontKnow() {
@@ -138,6 +152,8 @@
   const answers = $derived(q ? displayForms(q.answer) : []);
 </script>
 
+<svelte:window onkeydown={onKey} />
+
 {#if q && entry}
   <section class="drill" aria-labelledby="prompt-word">
     <div class="bar">
@@ -158,13 +174,38 @@
 
     <div class="card prompt">
       <p class="task"><TermText parts={q.task} /></p>
-      <h1 id="prompt-word" class="word" lang={q.headwordIsEnglish ? 'en' : 'ru'}>
+      <h1 id="prompt-word" class="word" class:translation={!!q.source} lang={q.headwordIsEnglish ? 'en' : 'ru'}>
         {q.headwordIsEnglish ? q.headword : r(q.headword)}
       </h1>
       {#if q.gloss}<p class="gloss" lang="en">{q.gloss}</p>{/if}
       {#if q.note}<p class="note" lang="ru">{q.note.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))}</p>{/if}
 
       <form class="answer" onsubmit={submit} autocomplete="off">
+        {#if q.choices}
+          <p class="frame" lang="ru">
+            {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
+            <span class="blank" class:right={phase === 'feedback' && result?.correct} class:wrong={phase === 'feedback' && !result?.correct}>
+              {phase === 'feedback' ? (answers[0] ?? '') : '___'}
+            </span>
+            {#if frameParts[1]}<span class="frame-text">{frameParts[1]}</span>{/if}
+          </p>
+          <div class="choices" role="group" aria-label="Choose the missing word">
+            {#each q.choices as c, i (c)}
+              <button
+                type="button"
+                class="btn choice"
+                class:picked={phase === 'feedback' && typed === c}
+                class:correct-choice={phase === 'feedback' && answers.includes(c)}
+                disabled={phase === 'feedback'}
+                lang="ru"
+                onclick={() => grade(c)}
+                bind:this={choiceButtons[i]}
+              >
+                <span class="num" aria-hidden="true">{i + 1}</span> {c}
+              </button>
+            {/each}
+          </div>
+        {:else}
         <label class="frame" lang="ru">
           <span class="visually-hidden" lang="en">Your answer</span>
           {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
@@ -184,18 +225,20 @@
           />
           {#if frameParts[1]}<span class="frame-text">{frameParts[1]}</span>{/if}
         </label>
+        {/if}
         <div class="actions">
           {#if phase === 'answering'}
-            <button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>
+            {#if !q.choices}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
+            {#if q.choices}<span class="muted kbd-hint">or press 1–{q.choices.length}</span>{/if}
           {:else}
-            <button class="btn primary" type="submit">{!unlimited && isFinished(answer(round, !!result?.correct, typed)) ? 'See results' : 'Next'}</button>
+            <button class="btn primary" type="submit" bind:this={nextButton}>{!unlimited && isFinished(answer(round, !!result?.correct, typed)) ? 'See results' : 'Next'}</button>
             <span class="muted kbd-hint">or press Enter</span>
           {/if}
         </div>
       </form>
 
-      {#if settings.keyboard && phase === 'answering'}
+      {#if settings.keyboard && phase === 'answering' && !q.choices}
         <Keyboard oninsert={insert} onbackspace={backspace} />
       {/if}
     </div>
@@ -211,7 +254,7 @@
           </p>
           {#if !result.correct && typed}
             <p class="typed">
-              You typed <span lang="ru">{typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
+              You {q.choices ? 'chose' : 'typed'} <span lang="ru">{typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
               {#if !wasRetry}It comes back at the end of the round.{/if}
             </p>
           {:else if !result.correct}
@@ -230,10 +273,18 @@
             <div class="example"><Sentence row={sentence} /></div>
           {/if}
 
-          <details class="forms">
-            <summary>Full forms</summary>
-            <Paradigm ref={q.paradigm} {stress} highlight={q.key.startsWith('v:') || q.key.startsWith('m:conj') ? `v${q.key.split(':').at(-1)}` : undefined} />
-          </details>
+          {#if q.source}
+            <p class="src muted">
+              Sentence: <a href="https://tatoeba.org/en/sentences/show/{q.source}" rel="noopener" target="_blank">Tatoeba #{q.source}</a>
+            </p>
+          {/if}
+
+          {#if q.paradigm}
+            <details class="forms">
+              <summary>Full forms</summary>
+              <Paradigm ref={q.paradigm} {stress} highlight={q.key.startsWith('v:') || q.key.startsWith('m:conj') ? `v${q.key.split(':').at(-1)}` : undefined} />
+            </details>
+          {/if}
         </div>
       {/if}
     </div>
@@ -350,6 +401,59 @@
   input.wrong {
     border-color: var(--wrong);
     background: var(--wrong-soft);
+  }
+  .word.translation {
+    font-family: var(--sans);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .blank {
+    display: inline-block;
+    min-width: 3ch;
+    padding: 0 6px;
+    border-bottom: 2px solid var(--accent);
+    font-weight: 700;
+  }
+  .blank.right {
+    color: var(--correct);
+    border-color: var(--correct);
+  }
+  .blank.wrong {
+    color: var(--wrong);
+    border-color: var(--wrong);
+  }
+  .choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .choice {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    min-width: 88px;
+  }
+  .choice .num {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .choice:disabled {
+    opacity: 1;
+  }
+  .choice.picked {
+    border-color: var(--wrong);
+    background: var(--wrong-soft);
+  }
+  .choice.correct-choice {
+    border-color: var(--correct);
+    background: var(--correct-soft);
+  }
+  .src {
+    font-size: 0.85rem;
+    margin: 10px 0 0;
   }
   .actions {
     display: flex;

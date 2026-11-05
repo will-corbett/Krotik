@@ -14,7 +14,13 @@ export type Mode =
   | 'compare'
   | 'plurals'
   | 'numbers'
-  | 'diminutives';
+  | 'diminutives'
+  | 'kotoryi'
+  | 'chtoby'
+  | 'conditional'
+  | 'negation'
+  | 'indefinite'
+  | 'particles';
 
 export interface Verb {
   id: number;
@@ -79,7 +85,12 @@ export interface Question {
   explain?: string;
   /** Label of the target form, for the end screen. */
   label: string;
-  paradigm: ParadigmRef;
+  /** Full forms shown after answering (absent for sentence drills). */
+  paradigm?: ParadigmRef;
+  /** Multiple choice: the options (the answer cell is one of them). */
+  choices?: string[];
+  /** Tatoeba sentence id, for sentence drills. */
+  source?: number;
   sentence?: { type: LexType; lemmaId: number; cell: number; band: number };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
@@ -116,6 +127,12 @@ export interface NumberSettings {
 }
 export interface DiminutiveSettings {
   directions: ('to' | 'from')[];
+}
+export interface NegationSettings {
+  kinds: ('net' | 'nipron' | 'ne-ni')[];
+}
+export interface ParticleTopicSettings {
+  groups: ('li' | 'zhe-ved' | 'ne-ni' | 'colloquial')[];
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];
