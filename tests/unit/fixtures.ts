@@ -24,3 +24,6 @@ export const numerals = json<NumeralRow[]>('numerals.json');
 export const numeral = (bare: string) => numerals.find((r) => r[0].replace(/'/g, '') === bare)!;
 export const diminutives = [0, 1].flatMap((b) => json<DiminutiveRow[]>(`diminutives.b${b}.json`));
 export const nouns1000: Noun[] = [...nouns, ...json<NounRow[]>('nouns.b1.json').map((r) => toNoun(r, 1))];
+
+import type { PronounData } from '../../src/shared/types.ts';
+export const pronouns = json<PronounData>('pronouns.json');

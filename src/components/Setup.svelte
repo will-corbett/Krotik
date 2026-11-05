@@ -14,6 +14,7 @@
         { id: 'verbs', title: TERMS.verbForms, blurb: 'Present/future, past, imperative' },
         { id: 'reflexive', title: TERMS.reflexive, blurb: '-ся after consonants, -сь after vowels' },
         { id: 'aspect', title: TERMS.aspectPartners, blurb: 'Imperfective ↔ perfective' },
+        { id: 'aspectContext', title: TERMS.aspectContext, blurb: 'видел or увидел? in real sentences' },
         { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
         { id: 'adverbs', title: TERMS.adverbs, blurb: 'читая, прочитав' },
         { id: 'participles', title: TERMS.participles, blurb: 'читающий, прочитанный, прочитана' },
@@ -28,8 +29,16 @@
       ],
     },
     {
+      title: TERMS.pronounsGroup,
+      modes: [
+        { id: 'pronouns', title: TERMS.personal, blurb: 'меня, ему, у него, с ней' },
+        { id: 'possessives', title: TERMS.possessives, blurb: 'моему другу, эту книгу, свой / его' },
+      ],
+    },
+    {
       title: TERMS.nounsNumbers,
       modes: [
+        { id: 'nounCases', title: TERMS.nounCases, blurb: 'книгу, книге, книгой' },
         { id: 'plurals', title: TERMS.plurals, blurb: 'Plural forms, after numbers and quantity words' },
         { id: 'numbers', title: TERMS.numbers, blurb: 'пяти, двум книгам, тремя друзьями' },
         { id: 'diminutives', title: TERMS.diminutives, blurb: 'дом → домик, сын → сынок' },
@@ -38,6 +47,7 @@
     {
       title: TERMS.sentences,
       modes: [
+        { id: 'prepositions', title: TERMS.prepositionsMode, blurb: 'в школе, в школу, к другу, с другом' },
         { id: 'kotoryi', title: TERMS.kotoryi, blurb: 'книга, которую я читаю' },
         { id: 'chtoby', title: TERMS.chtoby, blurb: 'чтобы помочь / чтобы ты помог' },
         { id: 'conditional', title: TERMS.conditional, blurb: 'я бы пошёл' },
@@ -45,6 +55,10 @@
         { id: 'indefinite', title: TERMS.indefinite, blurb: 'кто-то, кто-нибудь, кое-кто' },
         { id: 'particles', title: TERMS.particlesTopic, blurb: 'ли, же, ведь, вот, ну, даже, только, -ка' },
       ],
+    },
+    {
+      title: TERMS.pronunciation,
+      modes: [{ id: 'stress', title: TERMS.stress, blurb: 'Tap the stressed vowel' }],
     },
   ];
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
@@ -303,6 +317,85 @@
         </div>
         <p class="hint muted">Any diminutive Wiktionary lists is accepted (дом → домик or домок).</p>
       </fieldset>
+    {:else if settings.mode === 'pronouns'}
+      <fieldset>
+        <legend>Cases <span class="ru" lang="ru">падежи</span></legend>
+        <div class="chips">
+          {#each CASES.filter((c) => c !== 'nom') as c (c)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.pronouns.cases.includes(c)} onchange={() => (settings.pronouns.cases = toggle<Case>(settings.pronouns.cases, c))} />
+              {CASE_TERM[c].en} <span class="ru" lang="ru">{CASE_TERM[c].ru.replace(' падеж', '')}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Context</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.pronouns.prepositions.includes('plain')} onchange={() => (settings.pronouns.prepositions = toggle(settings.pronouns.prepositions, 'plain'))} /> On its own <span class="ru" lang="ru">его, ей</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.pronouns.prepositions.includes('afterPrep')} onchange={() => (settings.pronouns.prepositions = toggle(settings.pronouns.prepositions, 'afterPrep'))} /> After a preposition <span class="ru" lang="ru">у него, к ней</span></label>
+        </div>
+        <p class="hint muted">Includes я … они, себя, кто and что. Tables from Wiktionary.</p>
+      </fieldset>
+    {:else if settings.mode === 'possessives'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.possessives.types.includes('agree')} onchange={() => (settings.possessives.types = toggle(settings.possessives.types, 'agree'))} /> Agree with a noun <span class="ru" lang="ru">согласование</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.possessives.types.includes('svoy')} onchange={() => (settings.possessives.types = toggle(settings.possessives.types, 'svoy'))} /> свой or его/её/их <span class="ru" lang="ru">в предложениях</span></label>
+        </div>
+        <p class="hint muted">мой, твой, свой, наш, ваш, этот, тот, весь, чей, сам. свой/его is multiple choice in Tatoeba sentences.</p>
+      </fieldset>
+    {:else if settings.mode === 'nounCases'}
+      <fieldset>
+        <legend>Cases <span class="ru" lang="ru">падежи</span></legend>
+        <div class="chips">
+          {#each CASES as c (c)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.nounCases.cases.includes(c)} onchange={() => (settings.nounCases.cases = toggle<Case>(settings.nounCases.cases, c))} />
+              {CASE_TERM[c].en} <span class="ru" lang="ru">{CASE_TERM[c].ru.replace(' падеж', '')}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Number <span class="ru" lang="ru">число</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="ncnum" value="sg" bind:group={settings.nounCases.number} /> Singular <span class="ru" lang="ru">единственное</span></label>
+          <label class="chip"><input type="radio" name="ncnum" value="pl" bind:group={settings.nounCases.number} /> Plural <span class="ru" lang="ru">множественное</span></label>
+          <label class="chip"><input type="radio" name="ncnum" value="both" bind:group={settings.nounCases.number} /> Both</label>
+        </div>
+      </fieldset>
+    {:else if settings.mode === 'stress'}
+      <fieldset>
+        <legend>Words</legend>
+        <div class="chips">
+          {#each [['verbs', TERMS.verbs], ['nouns', TERMS.nouns], ['adjectives', TERMS.adjectives]] as [id, t] (id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.stressDrill.sources.includes(id as 'verbs')} onchange={() => (settings.stressDrill.sources = toggle(settings.stressDrill.sources, id as 'verbs'))} />
+              {(t as Term).en} <span class="ru" lang="ru">{(t as Term).ru}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Forms</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="stforms" value="headword" bind:group={settings.stressDrill.forms} /> Dictionary forms</label>
+          <label class="chip"><input type="radio" name="stforms" value="any" bind:group={settings.stressDrill.forms} /> Any form (stress often moves)</label>
+        </div>
+        <p class="hint muted">Words with ё are left out (ё is always stressed). Where both stresses are standard, either counts.</p>
+      </fieldset>
+    {:else if settings.mode === 'prepositions' || settings.mode === 'aspectContext'}
+      <p class="hint muted first">
+        Real sentences from Tatoeba with one word blanked; the English translation is the cue.
+        {#if settings.mode === 'prepositions'}
+          Type the noun after the preposition in the right case (<span lang="ru">падеж</span>); its dictionary form is in brackets.
+        {:else}
+          Choose the imperfective (<span lang="ru">несовершенный вид</span>) or perfective (<span lang="ru">совершенный вид</span>)
+          verb, in the same form. Sometimes both are possible; only the sentence's own word counts.
+        {/if}
+      </p>
     {:else if settings.mode === 'kotoryi' || settings.mode === 'chtoby' || settings.mode === 'conditional' || settings.mode === 'indefinite'}
       <p class="hint muted first">
         Real sentences from Tatoeba with one word blanked; the English translation is the cue.
@@ -377,7 +470,7 @@
       </fieldset>
     {/if}
 
-    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles'].includes(settings.mode)}
+    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">
@@ -403,7 +496,11 @@
       <div class="chips">
         <label class="chip"><input type="checkbox" bind:checked={settings.stress} /> Stress marks <span class="ru" lang="ru">ударение</span></label>
         <label class="chip"><input type="checkbox" bind:checked={settings.keyboard} /> On-screen Cyrillic keyboard</label>
+        <label class="chip"><input type="checkbox" bind:checked={settings.translit} /> Phonetic typing (Latin → Cyrillic)</label>
       </div>
+      {#if settings.translit}
+        <p class="hint muted">sh → ш, zh → ж, ch → ч, shch → щ, kh → х, ya → я, yu → ю, yo → ё, e' → э, ' → ь, '' → ъ.</p>
+      {/if}
     </fieldset>
   </div>
 

@@ -20,7 +20,13 @@ export type Mode =
   | 'conditional'
   | 'negation'
   | 'indefinite'
-  | 'particles';
+  | 'particles'
+  | 'pronouns'
+  | 'possessives'
+  | 'nounCases'
+  | 'prepositions'
+  | 'aspectContext'
+  | 'stress';
 
 export interface Verb {
   id: number;
@@ -91,6 +97,10 @@ export interface Question {
   choices?: string[];
   /** Tatoeba sentence id, for sentence drills. */
   source?: number;
+  /** Stress drill: the unstressed word and the accepted stressed-vowel positions. */
+  stress?: { word: string; positions: number[] };
+  /** Shown as the solution instead of the answer cell (stress drill: the accented word). */
+  display?: string;
   sentence?: { type: LexType; lemmaId: number; cell: number; band: number };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
@@ -133,6 +143,21 @@ export interface NegationSettings {
 }
 export interface ParticleTopicSettings {
   groups: ('li' | 'zhe-ved' | 'ne-ni' | 'colloquial')[];
+}
+export interface PronounSettings {
+  cases: Case[];
+  prepositions: ('plain' | 'afterPrep')[];
+}
+export interface PossessiveSettings {
+  types: ('agree' | 'svoy')[];
+}
+export interface NounCaseSettings {
+  cases: Case[];
+  number: 'sg' | 'pl' | 'both';
+}
+export interface StressSettings {
+  sources: ('verbs' | 'nouns' | 'adjectives')[];
+  forms: 'headword' | 'any';
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];

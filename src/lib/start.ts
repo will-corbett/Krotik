@@ -1,10 +1,13 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadAdjectives, loadCloze, loadDiminutives, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
+import { loadAdjectives, loadCloze, loadDiminutives, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
 import { generateDiminutiveQuestions } from './questions/diminutives.ts';
 import { generateClozeQuestions } from './questions/cloze.ts';
+import { generatePossessiveAgreement, generatePronounQuestions } from './questions/pronouns.ts';
+import { generateNounCaseQuestions } from './questions/nounCases.ts';
+import { generateStressQuestions } from './questions/stress.ts';
 import { generateAdjectiveQuestions } from './questions/adjectives.ts';
 import { generateAspectQuestions } from './questions/aspect.ts';
 import { generateMotionQuestions } from './questions/motion.ts';
@@ -65,7 +68,9 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
     case 'kotoryi':
     case 'chtoby':
     case 'conditional':
-    case 'indefinite': {
+    case 'indefinite':
+    case 'prepositions':
+    case 'aspectContext': {
       const rows = await loadCloze(s.mode);
       const topic = s.mode;
       return (n) => generateClozeQuestions(rows, topic, null, n, rng);
@@ -77,6 +82,37 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
     case 'particles': {
       const rows = await loadCloze('particles');
       return (n) => generateClozeQuestions(rows, 'particles', s.particles.groups, n, rng);
+    }
+    case 'pronouns': {
+      const data = await loadPronouns();
+      return (n) => generatePronounQuestions(data, s.pronouns, n, rng);
+    }
+    case 'possessives': {
+      const [data, nouns, svoyRows] = await Promise.all([loadPronouns(), loadNouns(NOUN_MAX_BAND), s.possessives.types.includes('svoy') ? loadCloze('svoy') : Promise.resolve([])]);
+      return (n) => {
+        const types = s.possessives.types;
+        const agree = types.includes('agree') ? generatePossessiveAgreement(data, nouns, n, rng) : [];
+        const svoy = types.includes('svoy') ? generateClozeQuestions(svoyRows, 'svoy', null, n, rng).map((q) => ({ ...q, mode: 'possessives' as const })) : [];
+        // Interleave the two types evenly.
+        const out = [];
+        for (let i = 0; out.length < n && (i < agree.length || i < svoy.length); i++) {
+          if (agree[i] && (!svoy.length || rng() < 0.5 || !svoy[i])) out.push(agree[i]!);
+          else if (svoy[i]) out.push(svoy[i]!);
+        }
+        return out.slice(0, n);
+      };
+    }
+    case 'nounCases': {
+      const pool = await loadNouns(s.band);
+      return (n) => generateNounCaseQuestions(pool, s.nounCases, n, rng);
+    }
+    case 'stress': {
+      const [verbs, nouns, adjectives] = await Promise.all([
+        s.stressDrill.sources.includes('verbs') ? loadVerbs(s.band) : Promise.resolve([]),
+        s.stressDrill.sources.includes('nouns') ? loadNouns(s.band) : Promise.resolve([]),
+        s.stressDrill.sources.includes('adjectives') ? loadAdjectives(s.band) : Promise.resolve([]),
+      ]);
+      return (n) => generateStressQuestions({ verbs, nouns, adjectives }, s.stressDrill, n, rng);
     }
     case 'aspect': {
       const pool = await loadVerbs(s.band);
@@ -124,6 +160,9 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'adverbs' && !s.adverbs.aspects.length) return 'Choose at least one aspect.';
   if (s.mode === 'participles' && (!s.participles.kinds.length || !s.participles.types.length)) return 'Choose at least one participle and one question type.';
   if (s.mode === 'numbers' && (!s.numbers.types.length || !s.numbers.ranges.length || !s.numbers.cases.length)) return 'Choose at least one question type, range and case.';
+  if (s.mode === 'pronouns' && (!s.pronouns.cases.filter((c) => c !== 'nom').length || !s.pronouns.prepositions.length)) return 'Choose at least one case and one context.';
+  if (s.mode === 'possessives' && !s.possessives.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'stress' && !s.stressDrill.sources.length) return 'Choose at least one kind of word.';
   if (s.mode === 'negation' && !s.negation.kinds.length) return 'Choose at least one kind of negation.';
   if (s.mode === 'particles' && !s.particles.groups.length) return 'Choose at least one group of particles.';
   if (s.mode === 'diminutives' && !s.diminutives.directions.length) return 'Choose at least one direction.';

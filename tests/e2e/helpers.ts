@@ -18,7 +18,13 @@ export type ModeName =
   | 'Conditional'
   | 'Negation'
   | 'Indefinite pronouns'
-  | 'Particles';
+  | 'Particles'
+  | 'Personal pronouns'
+  | 'Possessive & demonstrative pronouns'
+  | 'Noun cases'
+  | 'Prepositions and cases'
+  | 'Aspect in context'
+  | 'Stress';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   await page.goto('/?seed=42');
@@ -30,7 +36,7 @@ export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10
 async function questionId(page: Page): Promise<string> {
   const task = await page.locator('.task').innerText();
   const word = await page.locator('#prompt-word').innerText();
-  const frame = await page.locator('.frame').innerText();
+  const frame = (await page.locator('.frame, .stress-word').first().innerText()).replace(/\s+/g, '');
   return `${task}|${word}|${frame}`;
 }
 
@@ -45,7 +51,7 @@ export async function playRetryRound(page: Page): Promise<number> {
   const learned = new Map<string, string>();
   const seen = new Set<string>();
   const input = page.getByRole('textbox', { name: 'Your answer' });
-  const choices = page.getByRole('group', { name: 'Choose the missing word' });
+  const choices = page.getByRole('group', { name: /Choose the missing word|Tap the stressed vowel/ });
   for (let step = 0; step < 200; step++) {
     if (await page.getByRole('heading', { name: /Round (complete|ended)/ }).isVisible()) break;
     await expect(page.locator('.task')).toBeVisible();
@@ -55,7 +61,8 @@ export async function playRetryRound(page: Page): Promise<number> {
     if (known) await expect(page.locator('.retry')).toBeVisible();
     if (isChoice) {
       // Wrong first time via "I don't know"; on the retry, pick the learned option.
-      if (known) await choices.getByRole('button').filter({ hasText: new RegExp(`^\\d\\s*${known.replace(/[-]/g, '\\-')}$`) }).click();
+      if (known && known.startsWith('#')) await choices.getByRole('button', { name: new RegExp(`letter ${Number(known.slice(1)) + 1}$`) }).click();
+      else if (known) await choices.getByRole('button').filter({ hasText: new RegExp(`^\\d\\s*${known.replace(/[-]/g, '\\-')}$`) }).click();
       else await page.getByRole('button', { name: "I don't know" }).click();
     } else {
       await expect(input).toBeEditable();
@@ -68,7 +75,9 @@ export async function playRetryRound(page: Page): Promise<number> {
       await expect(feedback.locator('.verdict')).toHaveText('Correct');
     } else {
       await expect(feedback.locator('.verdict')).toHaveText(isChoice ? 'Answer' : 'Not quite');
-      learned.set(id, plain(await feedback.locator('.solution strong').first().innerText()));
+      const sol = (await feedback.locator('.solution strong').first().innerText()).normalize('NFC');
+      // Stress drill: remember the stressed letter's index ("#4"); otherwise the answer text.
+      learned.set(id, (await page.locator('.stress-word').count()) ? `#${sol.indexOf('\u0301') - 1}` : plain(sol));
       seen.add(id);
     }
     await page.keyboard.press('Enter');

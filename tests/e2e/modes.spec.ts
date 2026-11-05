@@ -20,6 +20,12 @@ const modes: ModeName[] = [
   'Negation',
   'Indefinite pronouns',
   'Particles',
+  'Personal pronouns',
+  'Possessive & demonstrative pronouns',
+  'Noun cases',
+  'Prepositions and cases',
+  'Aspect in context',
+  'Stress',
 ];
 
 for (const mode of modes) {
@@ -103,6 +109,15 @@ test('multiple choice works from the keyboard', async ({ page }) => {
   await expect(page.locator('.src a')).toHaveAttribute('href', /tatoeba\.org/);
   await page.keyboard.press('Enter');
   await expect(page.locator('.feedback')).toHaveCount(0);
+});
+
+test('phonetic typing turns Latin into Cyrillic', async ({ page }) => {
+  await setup(page, 'Verb forms');
+  await page.getByRole('checkbox', { name: /Phonetic typing/ }).check();
+  await page.getByRole('button', { name: 'Start' }).click();
+  const input = page.getByRole('textbox', { name: 'Your answer' });
+  await input.pressSequentially('shchuka');
+  await expect(input).toHaveValue('щука');
 });
 
 test('grammar terms show their Russian names', async ({ page }) => {

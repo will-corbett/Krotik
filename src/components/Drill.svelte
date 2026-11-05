@@ -3,6 +3,7 @@
   import { displayForms, renderForm } from '../shared/forms.ts';
   import type { LexType, SentenceShard } from '../shared/types.ts';
   import { checkAnswer, type CheckResult } from '../lib/check.ts';
+  import { toCyrillic } from '../lib/translit.ts';
   import { chooseSentence, loadSentences } from '../lib/data.ts';
   import { answer, clearedCount, current, endRound, extendRound, isFinished, type Round } from '../lib/queue.ts';
   import { nextBatch, type Generate } from '../lib/start.ts';
@@ -70,7 +71,7 @@
 
   async function focusField() {
     await tick();
-    if (q?.choices) (phase === 'feedback' ? nextButton : choiceButtons[0])?.focus();
+    if (q?.choices || q?.stress) (phase === 'feedback' ? nextButton : choiceButtons.find(Boolean))?.focus();
     else field?.focus();
   }
 
@@ -102,8 +103,9 @@
     result = checkAnswer(q, value);
     wasRetry = (entry?.attempts ?? 0) > 0;
     phase = 'feedback';
-    if (q.choices) focusField();
+    if (q.choices || q.stress) focusField();
   }
+  const ordinal = (n: number) => `${n}${n % 10 === 1 && n % 100 !== 11 ? 'st' : n % 10 === 2 && n % 100 !== 12 ? 'nd' : n % 10 === 3 && n % 100 !== 13 ? 'rd' : 'th'}`;
 
   function dontKnow() {
     if (phase !== 'answering' || !q) return;
@@ -149,7 +151,7 @@
   }
 
   const frameParts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
-  const answers = $derived(q ? displayForms(q.answer) : []);
+  const answers = $derived(q ? (q.display ? displayForms(q.display) : displayForms(q.answer)) : []);
 </script>
 
 <svelte:window onkeydown={onKey} />
@@ -181,7 +183,26 @@
       {#if q.note}<p class="note" lang="ru">{q.note.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))}</p>{/if}
 
       <form class="answer" onsubmit={submit} autocomplete="off">
-        {#if q.choices}
+        {#if q.stress}
+          <div class="stress-word" role="group" aria-label="Tap the stressed vowel" lang="ru">
+            {#each [...q.stress.word] as ch, i (i)}
+              {#if /[аеиоуыэюяё]/i.test(ch)}
+                <button
+                  type="button"
+                  class="vowel"
+                  class:correct-choice={phase === 'feedback' && q.stress.positions.includes(i)}
+                  class:picked={phase === 'feedback' && typed === String(i) && !q.stress.positions.includes(i)}
+                  disabled={phase === 'feedback'}
+                  aria-label="{ch}, letter {i + 1}"
+                  onclick={() => grade(String(i))}
+                  bind:this={choiceButtons[i]}>{ch}</button
+                >
+              {:else}
+                <span class="cons">{ch}</span>
+              {/if}
+            {/each}
+          </div>
+        {:else if q.choices}
           <p class="frame" lang="ru">
             {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
             <span class="blank" class:right={phase === 'feedback' && result?.correct} class:wrong={phase === 'feedback' && !result?.correct}>
@@ -212,6 +233,9 @@
           <input
             bind:this={field}
             bind:value={input}
+            oninput={() => {
+              if (settings.translit) input = toCyrillic(input);
+            }}
             class:right={phase === 'feedback' && result?.correct}
             class:wrong={phase === 'feedback' && !result?.correct}
             readonly={phase === 'feedback'}
@@ -228,7 +252,7 @@
         {/if}
         <div class="actions">
           {#if phase === 'answering'}
-            {#if !q.choices}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
+            {#if !q.choices && !q.stress}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
             {#if q.choices}<span class="muted kbd-hint">or press 1–{q.choices.length}</span>{/if}
           {:else}
@@ -238,7 +262,7 @@
         </div>
       </form>
 
-      {#if settings.keyboard && phase === 'answering' && !q.choices}
+      {#if settings.keyboard && phase === 'answering' && !q.choices && !q.stress}
         <Keyboard oninsert={insert} onbackspace={backspace} />
       {/if}
     </div>
@@ -250,11 +274,11 @@
             {#if result.correct}Correct{:else if typed}Not quite{:else}Answer{/if}
           </p>
           <p class="solution" lang="ru">
-            {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{r(a)}</strong>{/each}
+            {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{q.stress ? renderForm(a, true) : r(a)}</strong>{/each}
           </p>
           {#if !result.correct && typed}
             <p class="typed">
-              You {q.choices ? 'chose' : 'typed'} <span lang="ru">{typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
+              You {q.choices || q.stress ? 'chose' : 'typed'} <span lang="ru">{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
               {#if !wasRetry}It comes back at the end of the round.{/if}
             </p>
           {:else if !result.correct}
@@ -422,6 +446,42 @@
   .blank.wrong {
     color: var(--wrong);
     border-color: var(--wrong);
+  }
+  .stress-word {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    margin-top: 6px;
+  }
+  .vowel {
+    font: inherit;
+    min-width: 44px;
+    min-height: 52px;
+    padding: 0 4px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--accent-soft);
+    cursor: pointer;
+  }
+  .vowel:hover {
+    border-color: var(--accent);
+  }
+  .vowel:disabled {
+    cursor: default;
+  }
+  .vowel.correct-choice {
+    border-color: var(--correct);
+    background: var(--correct-soft);
+  }
+  .vowel.picked {
+    border-color: var(--wrong);
+    background: var(--wrong-soft);
+  }
+  .cons {
+    padding: 0 1px;
   }
   .choices {
     display: flex;

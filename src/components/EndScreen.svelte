@@ -39,7 +39,7 @@
             {#if e.q.source && e.q.frame}
               <div class="ans" lang="ru">{e.q.frame.replace(/___( \([^)]*\))?/, displayForms(e.q.answer).map(r).join(' / '))}</div>
             {:else}
-              <div class="ans" lang="ru">{displayForms(e.q.answer).map(r).join(', ')}</div>
+              <div class="ans" lang="ru">{e.q.display ? displayForms(e.q.display).map((f) => renderForm(f, true)).join(', ') : displayForms(e.q.answer).map(r).join(', ')}</div>
             {/if}
             <div class="you muted">You typed: <span lang="ru">{e.wrong.join(' · ')}</span></div>
           </li>

@@ -1,6 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
-import type { NegationSettings, ParticleTopicSettings } from './types.ts';
+import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
@@ -10,6 +10,8 @@ export interface Settings {
   count: 0 | 10 | 20 | 40;
   stress: boolean;
   keyboard: boolean;
+  /** Phonetic typing: Latin letters become Cyrillic as you type. */
+  translit: boolean;
   theme: 'system' | 'light' | 'dark';
   verbs: VerbSettings;
   reflexive: VerbSettings;
@@ -20,6 +22,10 @@ export interface Settings {
   numbers: NumberSettings;
   diminutives: DiminutiveSettings;
   negation: NegationSettings;
+  pronouns: PronounSettings;
+  possessives: PossessiveSettings;
+  nounCases: NounCaseSettings;
+  stressDrill: StressSettings;
   particles: ParticleTopicSettings;
   aspect: AspectSettings;
   adjectives: AdjSettings;
@@ -32,6 +38,7 @@ export const DEFAULTS: Settings = {
   count: 20,
   stress: true,
   keyboard: false,
+  translit: false,
   theme: 'system',
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
@@ -42,6 +49,10 @@ export const DEFAULTS: Settings = {
   numbers: { types: ['alone', 'withNoun'], ranges: ['1-4', '5-20', 'tens'], cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[] },
   diminutives: { directions: ['to', 'from'] },
   negation: { kinds: ['net', 'nipron', 'ne-ni'] },
+  pronouns: { cases: ['gen', 'dat', 'acc', 'inst', 'prep'] as Case[], prepositions: ['plain', 'afterPrep'] },
+  possessives: { types: ['agree', 'svoy'] },
+  nounCases: { cases: ['gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
+  stressDrill: { sources: ['verbs', 'nouns', 'adjectives'], forms: 'any' },
   particles: { groups: ['li', 'zhe-ved', 'ne-ni', 'colloquial'] },
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
@@ -67,6 +78,10 @@ export function loadSettings(): Settings {
       numbers: { ...DEFAULTS.numbers, ...saved.numbers },
       diminutives: { ...DEFAULTS.diminutives, ...saved.diminutives },
       negation: { ...DEFAULTS.negation, ...saved.negation },
+      pronouns: { ...DEFAULTS.pronouns, ...saved.pronouns },
+      possessives: { ...DEFAULTS.possessives, ...saved.possessives },
+      nounCases: { ...DEFAULTS.nounCases, ...saved.nounCases },
+      stressDrill: { ...DEFAULTS.stressDrill, ...saved.stressDrill },
       particles: { ...DEFAULTS.particles, ...saved.particles },
       aspect: { ...DEFAULTS.aspect, ...saved.aspect },
       adjectives: { ...DEFAULTS.adjectives, ...saved.adjectives },

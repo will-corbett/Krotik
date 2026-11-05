@@ -4,10 +4,10 @@ import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { ClozeRow } from '../../src/shared/types.ts';
 import { checkAnswer } from '../../src/lib/check.ts';
-import { clozeQuestion, EXPLAIN, generateClozeQuestions, kindGroup, type ClozeTopic } from '../../src/lib/questions/cloze.ts';
+import { clozeQuestion, explainFor, generateClozeQuestions, kindGroup, type ClozeTopic } from '../../src/lib/questions/cloze.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
 
-const TOPICS: ClozeTopic[] = ['kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles'];
+const TOPICS: ClozeTopic[] = ['kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'prepositions', 'aspectContext', 'svoy'];
 const load = (t: ClozeTopic) => JSON.parse(readFileSync(`public/data/cloze.${t}.json`, 'utf8')) as ClozeRow[];
 
 describe('sentence drill data integrity', () => {
@@ -19,7 +19,7 @@ describe('sentence drill data integrity', () => {
         const blank = normalise(ru.slice(start, end));
         expect(cellForms(answer).map(normalise), `${id}`).toContain(blank);
         expect(en.length).toBeGreaterThan(0);
-        expect(EXPLAIN[kind], `explanation for ${kind}`).toBeTruthy();
+        expect(explainFor(kind), `explanation for ${kind}`).toBeTruthy();
         if (options.length) {
           expect(options.map(normalise), `${id}`).toContain(blank);
           expect(new Set(options).size).toBe(options.length);

@@ -3,7 +3,7 @@ import { pick, type Rng } from '../rng.ts';
 import { CASE_TERM, TERMS, type Term } from '../terms.ts';
 import type { Mode, Question } from '../types.ts';
 
-export type ClozeTopic = 'kotoryi' | 'chtoby' | 'conditional' | 'negation' | 'indefinite' | 'particles';
+export type ClozeTopic = 'kotoryi' | 'chtoby' | 'conditional' | 'negation' | 'indefinite' | 'particles' | 'prepositions' | 'aspectContext' | 'svoy';
 
 export const TOPIC_TERM: Record<ClozeTopic, Term> = {
   kotoryi: TERMS.kotoryi,
@@ -12,6 +12,9 @@ export const TOPIC_TERM: Record<ClozeTopic, Term> = {
   negation: TERMS.negation,
   indefinite: TERMS.indefinite,
   particles: TERMS.particlesTopic,
+  prepositions: TERMS.prepositionsMode,
+  aspectContext: TERMS.aspectContext,
+  svoy: TERMS.svoy,
 };
 
 /** Short rule shown after answering, by item kind. Grammar terms carry their Russian names. */
@@ -35,7 +38,28 @@ export const EXPLAIN: Record<string, string> = {
   'colloquial:даже': 'даже: “even”.',
   'colloquial:только': 'только: “only, just”; как только = “as soon as”.',
   ka: '-ка softens an imperative (повелительное наклонение): дай-ка, скажи-ка.',
+  impf: 'Imperfective (несовершенный вид): a process, a repeated or habitual action, or the action as such, with no single completed result.',
+  pf: 'Perfective (совершенный вид): one complete action with a result, or one of a sequence of completed actions.',
+  svoy: 'свой refers back to the subject of the clause: Том взял свою книгу = Tom took his own book.',
+  ego: 'его/её/их mean someone other than the subject, and never change: Том взял его книгу = Tom took his (someone else’s) book.',
 };
+
+const PREP_NOTE: Record<string, string> = {
+  'в:acc': 'direction, “into” (куда?)', 'в:prep': 'location, “in” (где?)', 'на:acc': 'direction, “onto/to” (куда?)',
+  'на:prep': 'location, “on/at” (где?)', 'за:acc': 'direction “behind”, or “for” (спасибо за…)', 'за:inst': 'location “behind”, or “for” = to fetch',
+  'под:acc': 'direction, “under” (куда?)', 'под:inst': 'location, “under” (где?)', 'с:gen': '“from, off” (с горы)', 'с:inst': '“with” (с другом)',
+};
+
+/** Explanation for an item kind; preposition kinds are "prep:case". */
+export function explainFor(kind: string): string | undefined {
+  const m = /^([а-я]+):(gen|dat|acc|inst|prep)$/.exec(kind);
+  if (m) {
+    const c = CASE_TERM[m[2] as keyof typeof CASE_TERM];
+    const note = PREP_NOTE[kind];
+    return `${m[1]} + ${c.en.toLowerCase()} (${c.ru})${note ? `: ${note}` : ''}.`;
+  }
+  return EXPLAIN[kind];
+}
 
 /** Which settings group a kind belongs to (negation kinds and particle groups). */
 export function kindGroup(kind: string): string {
@@ -60,7 +84,7 @@ export function clozeQuestion(row: ClozeRow, topic: ClozeTopic): Question {
     answer,
     others: [],
     label: `${TOPIC_TERM[topic].en} (${TOPIC_TERM[topic].ru})`,
-    explain: EXPLAIN[kind],
+    explain: explainFor(kind),
     ...(options.length ? { choices: options } : {}),
     source: id,
     speak: (f) => `${before}${f.replace(/'/g, '')}${after}`,

@@ -78,6 +78,17 @@ export const TERMS = {
   indefinite: t('Indefinite pronouns', 'неопределённые местоимения'),
   particlesTopic: t('Particles', 'частицы'),
   negativePronoun: t('Negative pronoun', 'отрицательное местоимение'),
+  // Phase D
+  pronounsGroup: t('Pronouns', 'местоимения'),
+  personal: t('Personal pronouns', 'личные местоимения'),
+  possessives: t('Possessive & demonstrative pronouns', 'притяжательные и указательные местоимения'),
+  afterPrep: t('after a preposition', 'после предлога'),
+  nounCases: t('Noun cases', 'склонение существительных'),
+  prepositionsMode: t('Prepositions and cases', 'предлоги и падежи'),
+  aspectContext: t('Aspect in context', 'вид глагола в контексте'),
+  svoy: t('свой or его/её/их', 'возвратное притяжательное местоимение'),
+  stress: t('Stress', 'ударение'),
+  pronunciation: t('Pronunciation', 'произношение'),
 } satisfies Record<string, Term>;
 
 export const CASE_TERM: Record<Case, Term> = {
