@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
@@ -35,7 +35,7 @@ jobs:
       - name: Month for the source cache
         id: month
         run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: data-raw
           key: data-raw-${{ steps.month.outputs.month }}-${{ hashFiles('scripts/lib/sources.ts') }}
@@ -44,7 +44,7 @@ jobs:
         run: npm run data
 
       - name: Upload the validation report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: validation-report
           path: reports/validation.md
@@ -57,7 +57,7 @@ jobs:
 
       - run: npm run build
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         if: github.ref == 'refs/heads/main'
         with:
           path: dist
@@ -71,4 +71,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
