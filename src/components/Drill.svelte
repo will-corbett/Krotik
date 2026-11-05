@@ -4,15 +4,28 @@
   import type { LexType, SentenceShard } from '../shared/types.ts';
   import { checkAnswer, type CheckResult } from '../lib/check.ts';
   import { chooseSentence, loadSentences } from '../lib/data.ts';
-  import { answer, clearedCount, current, endRound, isFinished, type Round } from '../lib/queue.ts';
+  import { answer, clearedCount, current, endRound, extendRound, isFinished, type Round } from '../lib/queue.ts';
+  import { nextBatch, type Generate } from '../lib/start.ts';
   import type { Settings } from '../lib/settings.ts';
   import { hasRussianVoice, speak } from '../lib/speech.ts';
   import type { Question } from '../lib/types.ts';
   import Keyboard from './Keyboard.svelte';
   import Paradigm from './Paradigm.svelte';
   import Sentence from './Sentence.svelte';
+  import TermText from './TermText.svelte';
 
-  let { round: initial, settings, notice, onfinish }: { round: Round<Question>; settings: Settings; notice: string; onfinish: (r: Round<Question>) => void } = $props();
+  let {
+    round: initial,
+    settings,
+    notice,
+    more = null,
+    onfinish,
+  }: { round: Round<Question>; settings: Settings; notice: string; more?: Generate | null; onfinish: (r: Round<Question>) => void } = $props();
+
+  // Unlimited rounds top up the queue whenever it runs low.
+  // svelte-ignore state_referenced_locally
+  const unlimited = !!more;
+  const LOW_WATER = 5;
 
   // svelte-ignore state_referenced_locally
   let round = $state(initial);
@@ -90,6 +103,11 @@
   function next() {
     if (!result) return;
     round = answer(round, result.correct, typed || '—');
+    if (more && round.queue.length < LOW_WATER) {
+      const pending = new Set(round.queue.map((i) => round.entries[i]!.q.key));
+      const recent = round.entries.filter((e) => e.attempts > 0).map((e) => e.q.key);
+      round = extendRound(round, nextBatch(more, pending, recent));
+    }
     input = '';
     result = null;
     phase = 'answering';
@@ -100,20 +118,20 @@
     onfinish(endRound(round));
   }
 
+  // On-screen keys always type at the end. Using the DOM caret made letters land at the front
+  // when the box had been tapped near its left edge (the caret moves there on touch).
   function insert(ch: string) {
-    if (phase !== 'answering' || !field) return;
-    const s = field.selectionStart ?? input.length;
-    const e = field.selectionEnd ?? input.length;
-    input = input.slice(0, s) + ch + input.slice(e);
-    tick().then(() => field?.setSelectionRange(s + ch.length, s + ch.length));
+    if (phase !== 'answering') return;
+    input += ch;
+    placeCaretAtEnd();
   }
   function backspace() {
-    if (phase !== 'answering' || !field) return;
-    const s = field.selectionStart ?? input.length;
-    const e = field.selectionEnd ?? input.length;
-    const from = s === e ? Math.max(0, s - 1) : s;
-    input = input.slice(0, from) + input.slice(e);
-    tick().then(() => field?.setSelectionRange(from, from));
+    if (phase !== 'answering') return;
+    input = [...input].slice(0, -1).join('');
+    placeCaretAtEnd();
+  }
+  function placeCaretAtEnd() {
+    tick().then(() => field?.setSelectionRange(input.length, input.length));
   }
 
   const frameParts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
@@ -123,17 +141,23 @@
 {#if q && entry}
   <section class="drill" aria-labelledby="prompt-word">
     <div class="bar">
-      <p class="count"><strong>{cleared}</strong> of {total} cleared</p>
+      <p class="count">
+        {#if unlimited}<strong>{cleared}</strong> cleared <span class="muted">· unlimited round</span>{:else}<strong>{cleared}</strong> of {total} cleared{/if}
+      </p>
       {#if phase === 'answering' ? entry.attempts > 0 : wasRetry}
         <span class="retry">Retry</span>
       {/if}
-      <button class="btn quiet end" type="button" onclick={end}>End round</button>
+      <button class="btn end" type="button" onclick={end}>End round</button>
     </div>
-    <div class="progress" aria-hidden="true"><span style="width: {(100 * cleared) / total}%"></span></div>
+    {#if !unlimited}
+      <div class="progress" aria-hidden="true"><span style="width: {(100 * cleared) / total}%"></span></div>
+    {:else}
+      <div class="progress-gap"></div>
+    {/if}
     {#if notice}<p class="notice muted">{notice}</p>{/if}
 
     <div class="card prompt">
-      <p class="task">{q.task}</p>
+      <p class="task"><TermText parts={q.task} /></p>
       <h1 id="prompt-word" class="word" lang={q.headwordIsEnglish ? 'en' : 'ru'}>
         {q.headwordIsEnglish ? q.headword : r(q.headword)}
       </h1>
@@ -165,7 +189,7 @@
             <button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
           {:else}
-            <button class="btn primary" type="submit">{isFinished(answer(round, !!result?.correct, typed)) ? 'See results' : 'Next'}</button>
+            <button class="btn primary" type="submit">{!unlimited && isFinished(answer(round, !!result?.correct, typed)) ? 'See results' : 'Next'}</button>
             <span class="muted kbd-hint">or press Enter</span>
           {/if}
         </div>
@@ -235,6 +259,12 @@
   }
   .end {
     margin-left: auto;
+    min-height: 38px;
+    padding: 0.3em 0.9em;
+    font-weight: 400;
+  }
+  .progress-gap {
+    height: 14px;
   }
   .progress {
     height: 4px;

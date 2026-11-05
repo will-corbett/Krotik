@@ -1,0 +1,17 @@
+import { expect, test } from '@playwright/test';
+import { setup } from './helpers.ts';
+
+test('on-screen keys type at the end even after tapping the answer box', async ({ page }) => {
+  await setup(page, 'Verb forms');
+  await page.getByRole('checkbox', { name: 'On-screen Cyrillic keyboard' }).check();
+  await page.getByRole('button', { name: 'Start' }).click();
+  const input = page.getByRole('textbox', { name: 'Your answer' });
+  const kb = page.getByRole('group', { name: 'Cyrillic keyboard' });
+  const mobile = test.info().project.name === 'mobile';
+  const press = (ch: string) => (mobile ? kb.getByRole('button', { name: ch, exact: true }).tap() : kb.getByRole('button', { name: ch, exact: true }).click());
+  for (const ch of 'при') await press(ch);
+  // tap near the left edge of the box, as a thumb often does
+  await (mobile ? input.tap({ position: { x: 4, y: 10 } }) : input.click({ position: { x: 4, y: 10 } }));
+  for (const ch of 'вет') await press(ch);
+  await expect(input).toHaveValue('привет');
+});
