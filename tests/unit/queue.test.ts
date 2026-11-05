@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { answer, clearedCount, createRound, current, endRound, isFinished, isRetry, missed, score } from '../../src/lib/queue.ts';
+import { answer, clearedCount, createRound, current, endRound, extendRound, isFinished, isRetry, missed, score } from '../../src/lib/queue.ts';
+import { nextBatch } from '../../src/lib/start.ts';
 
 describe('retry queue', () => {
   it('finishes after every question is answered correctly once', () => {
@@ -52,6 +53,29 @@ describe('retry queue', () => {
     expect(isFinished(r)).toBe(true);
     expect(current(r)).toBeNull();
     expect(score(r)).toEqual({ firstTry: 1, attempted: 1, total: 3, percent: 100 });
+  });
+
+  it('extends an unlimited round without disturbing retries', () => {
+    let r = createRound(['a', 'b']);
+    r = answer(r, false, 'x'); // a re-queued behind b
+    r = extendRound(r, ['c', 'd']);
+    expect(r.queue.map((i) => r.entries[i]!.q)).toEqual(['b', 'a', 'c', 'd']);
+    expect(isFinished(r)).toBe(false);
+  });
+
+  it('next batch avoids pending and recent questions', () => {
+    let n = 0;
+    const gen = (k: number) => Array.from({ length: k }, () => ({ key: `q${n++ % 50}` }) as never);
+    const batch = nextBatch(gen, new Set(['q0', 'q1']), ['q2', 'q3'], 10) as { key: string }[];
+    expect(batch).toHaveLength(10);
+    for (const q of batch) expect(['q0', 'q1', 'q2', 'q3']).not.toContain(q.key);
+  });
+
+  it('next batch still fills from a tiny pool (repeats allowed, never a pending one)', () => {
+    const gen = (k: number) => Array.from({ length: k }, (_, i) => ({ key: `q${i % 3}` }) as never);
+    const batch = nextBatch(gen, new Set(['q0']), ['q1', 'q2'], 5) as { key: string }[];
+    expect(batch.length).toBeGreaterThan(0);
+    for (const q of batch) expect(q.key).not.toBe('q0');
   });
 
   it('is immutable', () => {

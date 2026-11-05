@@ -1,6 +1,7 @@
 import { VERB_CELLS } from '../../shared/cells.ts';
 import { bare, displayForms } from '../../shared/forms.ts';
-import { groupLabel, verbCellLabel } from '../labels.ts';
+import { verbCellLabel } from '../labels.ts';
+import { groupTerm } from '../terms.ts';
 import { pick, type Rng } from '../rng.ts';
 import type { Question, Verb, VerbSettings } from '../types.ts';
 
@@ -23,7 +24,7 @@ export function verbFormQuestion(v: Verb, cell: number, mode: Question['mode'] =
     mode,
     headword: v.accented,
     gloss: v.gloss,
-    task: `${groupLabel(c.group, v.aspect)} · ${c.person}`,
+    task: [groupTerm(c.group, v.aspect), { ru: c.person }],
     frame,
     answer: v.cells[cell]!,
     others,

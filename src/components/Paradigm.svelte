@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ADJ_INDEX, CASES, CASE_LABEL, VERB_CELLS, type AdjCellKey, type AdjSlot } from '../shared/cells.ts';
+  import { ADJ_INDEX, CASES, VERB_CELLS, type AdjCellKey, type AdjSlot } from '../shared/cells.ts';
+  import { CASE_ABBR, SLOT_ABBR, TERMS, groupTerm } from '../lib/terms.ts';
   import { displayForms, renderForm } from '../shared/forms.ts';
-  import { groupLabel } from '../lib/labels.ts';
   import type { ParadigmRef } from '../lib/types.ts';
 
   let { ref, stress, highlight }: { ref: ParadigmRef; stress: boolean; highlight?: string } = $props();
@@ -20,7 +20,7 @@
       {@const rows = VERB_CELLS.map((c, i) => ({ c, i })).filter((x) => x.c.group === g)}
       {#if rows.some((x) => v.cells[x.i])}
         <table>
-          <caption lang="en">{groupLabel(g, v.aspect)}</caption>
+          <caption lang="en">{groupTerm(g, v.aspect).en} <span lang="ru">{groupTerm(g, v.aspect).ru}</span></caption>
           <tbody>
             {#each rows as { c, i } (i)}
               <tr class:hl={highlight === `v${i}`}><th scope="row">{c.person}</th><td>{show(v.cells[i])}</td></tr>
@@ -35,12 +35,15 @@
   <div class="scroll" tabindex="0" role="region" aria-label="Adjective forms table">
     <table class="adj">
       <thead lang="en">
-        <tr><td></td><th scope="col">masc.</th><th scope="col">fem.</th><th scope="col">neut.</th><th scope="col">plural</th></tr>
+        <tr>
+          <td></td>
+          {#each SLOTS as s (s)}<th scope="col">{SLOT_ABBR[s].en}<br /><span lang="ru">{SLOT_ABBR[s].ru}</span></th>{/each}
+        </tr>
       </thead>
       <tbody lang="ru">
         {#each CASES as c (c)}
           <tr>
-            <th scope="row" lang="en">{CASE_LABEL[c].slice(0, 4)}.</th>
+            <th scope="row" lang="en">{CASE_ABBR[c].en} <span lang="ru">{CASE_ABBR[c].ru}</span></th>
             {#each SLOTS as s (s)}
               {#if c === 'acc' && (s === 'm' || s === 'pl')}
                 <td>{show(adj(s, c))}<br /><span class="anim">{show(adj(s, c, '_anim'))}</span></td>
@@ -52,7 +55,10 @@
         {/each}
       </tbody>
     </table>
-    <p class="note muted">Accusative masculine and plural: inanimate, then <span class="anim">animate</span>.</p>
+    <p class="note muted">
+      Accusative masculine and plural: inanimate (<span lang="ru">{TERMS.inanimate.ru}</span>), then
+      <span class="anim">animate (<span lang="ru">{TERMS.animate.ru}</span>)</span>.
+    </p>
   </div>
 {/if}
 

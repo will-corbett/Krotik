@@ -7,6 +7,7 @@ import { generateMotionQuestions } from '../../src/lib/questions/motion.ts';
 import { generateVerbQuestions, verbFormQuestion } from '../../src/lib/questions/verbs.ts';
 import { chooseSentence, toVerb } from '../../src/lib/data.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
+import { taskText } from '../../src/lib/terms.ts';
 import { adjectives, motion, nouns, verb, verbs } from './fixtures.ts';
 
 describe('verb form questions', () => {
@@ -14,7 +15,7 @@ describe('verb form questions', () => {
     const qs = generateVerbQuestions(verbs, { groups: ['past'] }, 20, mulberry32(1));
     expect(qs).toHaveLength(20);
     expect(new Set(qs.map((q) => q.key)).size).toBe(20);
-    for (const q of qs) expect(q.task).toMatch(/^Past/);
+    for (const q of qs) expect(taskText(q.task)).toMatch(/^Past/);
     expect(new Set(qs.map((q) => q.headword)).size).toBe(20); // distinct verbs
   });
 
@@ -25,8 +26,8 @@ describe('verb form questions', () => {
   });
 
   it('labels present for imperfective and future for perfective', () => {
-    expect(verbFormQuestion(verb('говорить'), 0).task).toBe('Present · я');
-    expect(verbFormQuestion(verb('сказать'), 0).task).toBe('Future · я');
+    expect(taskText(verbFormQuestion(verb('говорить'), 0).task)).toBe('Present · я');
+    expect(taskText(verbFormQuestion(verb('сказать'), 0).task)).toBe('Future · я');
   });
 
   it('never asks for быть present (blanked by override)', () => {
@@ -48,13 +49,28 @@ describe('verb form questions', () => {
   });
 });
 
+describe('Russian grammar terms', () => {
+  it('pairs every English grammar term in a task with its Russian equivalent', () => {
+    const qs = [
+      ...generateVerbQuestions(verbs, { groups: ['presfut', 'past', 'imperative'] }, 20, mulberry32(11)),
+      ...generateAspectQuestions(verbs, { direction: 'both' }, 10, mulberry32(11)),
+      ...generateAdjectiveQuestions(adjectives, nouns, { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'], number: 'both' }, 20, mulberry32(11)),
+    ];
+    for (const q of qs) for (const p of q.task) if (p.en && !/^→|Name the verb/.test(p.en)) expect(p.ru, p.en).toBeTruthy();
+    expect(verbFormQuestion(verb('сказать'), 7).task[0]).toEqual({ en: 'Past', ru: 'прошедшее время' });
+  });
+  it('form labels carry the Russian term too', () => {
+    expect(verbFormQuestion(verb('сказать'), 0).others.find((o) => o.label.startsWith('Past, она'))!.label).toBe('Past, она form (прошедшее время)');
+  });
+});
+
 describe('aspect questions', () => {
   it('asks for the opposite-aspect partner in the chosen direction', () => {
     const qs = generateAspectQuestions(verbs, { direction: 'to-pf' }, 10, mulberry32(2));
     expect(qs).toHaveLength(10);
-    for (const q of qs) expect(q.task).toMatch(/^imperfective → give the perfective/);
+    for (const q of qs) expect(taskText(q.task)).toMatch(/^imperfective · → give the perfective/);
     const back = generateAspectQuestions(verbs, { direction: 'to-impf' }, 10, mulberry32(2));
-    for (const q of back) expect(q.task).toMatch(/^perfective/);
+    for (const q of back) expect(taskText(q.task)).toMatch(/^perfective/);
   });
 });
 
@@ -63,7 +79,7 @@ describe('adjective questions', () => {
     const qs = generateAdjectiveQuestions(adjectives, nouns, { cases: ['dat', 'inst'], number: 'pl' }, 20, mulberry32(4));
     expect(qs).toHaveLength(20);
     for (const q of qs) {
-      expect(q.task).toMatch(/^(Dative|Instrumental) · plural/);
+      expect(taskText(q.task)).toMatch(/^(Dative|Instrumental) · plural/);
       expect(q.frame).toMatch(/^___ /);
     }
   });
@@ -81,7 +97,7 @@ describe('motion questions', () => {
     const qs = generateMotionQuestions(motion.pairs, vmap, { types: ['meaning', 'partner', 'conjugate'] }, 30, mulberry32(6));
     const kinds = new Set(qs.map((q) => q.key.split(':')[1]));
     expect(kinds).toEqual(new Set(['meaning', 'partner', 'conj']));
-    for (const q of qs.filter((x) => x.key.includes(':conj:'))) expect(VERB_CELLS.some((c) => q.task.endsWith(c.person))).toBe(true);
+    for (const q of qs.filter((x) => x.key.includes(':conj:'))) expect(VERB_CELLS.some((c) => taskText(q.task).endsWith(c.person))).toBe(true);
   });
 });
 

@@ -1,26 +1,27 @@
 <script lang="ts">
-  import { CASES, CASE_LABEL, type Case, type VerbGroup } from '../shared/cells.ts';
+  import { CASES, type Case, type VerbGroup } from '../shared/cells.ts';
+  import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
   import type { Mode, MotionSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
-  const MODES: { id: Mode; title: string; blurb: string }[] = [
-    { id: 'verbs', title: 'Verb forms', blurb: 'Present/future, past, imperative' },
-    { id: 'aspect', title: 'Aspect partners', blurb: 'Imperfective ↔ perfective' },
-    { id: 'adjectives', title: 'Adjective agreement', blurb: 'Gender, number, case, animacy' },
-    { id: 'motion', title: 'Motion verbs', blurb: 'идти/ходить and 11 more pairs' },
+  const MODES: { id: Mode; title: Term; blurb: string }[] = [
+    { id: 'verbs', title: TERMS.verbForms, blurb: 'Present/future, past, imperative' },
+    { id: 'aspect', title: TERMS.aspectPartners, blurb: 'Imperfective ↔ perfective' },
+    { id: 'adjectives', title: TERMS.agreement, blurb: 'Gender, number, case, animacy' },
+    { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
   ];
-  const GROUPS: { id: VerbGroup; label: string }[] = [
-    { id: 'presfut', label: 'Present / future' },
-    { id: 'past', label: 'Past' },
-    { id: 'imperative', label: 'Imperative' },
+  const GROUPS: { id: VerbGroup; label: Term }[] = [
+    { id: 'presfut', label: TERMS.presfut },
+    { id: 'past', label: TERMS.past },
+    { id: 'imperative', label: TERMS.imperative },
   ];
-  const MOTION_TYPES: { id: MotionSettings['types'][number]; label: string }[] = [
-    { id: 'meaning', label: 'Name the verb from its meaning' },
-    { id: 'partner', label: 'Give the partner' },
-    { id: 'conjugate', label: 'Conjugate' },
+  const MOTION_TYPES: { id: MotionSettings['types'][number]; label: Term }[] = [
+    { id: 'meaning', label: { en: 'Name the verb from its meaning', ru: 'значение' } },
+    { id: 'partner', label: { en: 'Give the partner', ru: 'пара глаголов' } },
+    { id: 'conjugate', label: TERMS.conjugation },
   ];
   const BANDS = ['Top 250', 'Top 1,000', 'Top 2,500', 'Everything'];
 
@@ -43,7 +44,8 @@
       {#each MODES as m (m.id)}
         <label class="mode" class:selected={settings.mode === m.id}>
           <input type="radio" name="mode" value={m.id} bind:group={settings.mode} />
-          <span class="mode-title">{m.title}</span>
+          <span class="mode-title">{m.title.en}</span>
+          <span class="mode-ru" lang="ru">{m.title.ru}</span>
           <span class="mode-blurb">{m.blurb}</span>
         </label>
       {/each}
@@ -53,47 +55,56 @@
   <div class="card options">
     {#if settings.mode === 'verbs'}
       <fieldset>
-        <legend>Tenses</legend>
+        <legend>Tenses <span class="ru" lang="ru">времена</span></legend>
         <div class="chips">
           {#each GROUPS as g (g.id)}
             <label class="chip">
               <input type="checkbox" checked={settings.verbs.groups.includes(g.id)} onchange={() => (settings.verbs.groups = toggle(settings.verbs.groups, g.id))} />
-              {g.label}
+              {g.label.en} <span class="ru" lang="ru">{g.label.ru}</span>
             </label>
           {/each}
         </div>
-        <p class="hint muted">An imperfective verb's forms are present tense; a perfective verb's are future.</p>
+        <p class="hint muted">
+          An imperfective (<span lang="ru">несовершенный вид</span>) verb's forms are present tense; a perfective
+          (<span lang="ru">совершенный вид</span>) verb's are future.
+        </p>
       </fieldset>
     {:else if settings.mode === 'aspect'}
       <fieldset>
         <legend>Direction</legend>
         <div class="chips">
-          <label class="chip"><input type="radio" name="dir" value="to-pf" bind:group={settings.aspect.direction} /> Imperfective → perfective</label>
-          <label class="chip"><input type="radio" name="dir" value="to-impf" bind:group={settings.aspect.direction} /> Perfective → imperfective</label>
+          <label class="chip"><input type="radio" name="dir" value="to-pf" bind:group={settings.aspect.direction} /> Imperfective → perfective <span class="ru" lang="ru">НСВ → СВ</span></label>
+          <label class="chip"><input type="radio" name="dir" value="to-impf" bind:group={settings.aspect.direction} /> Perfective → imperfective <span class="ru" lang="ru">СВ → НСВ</span></label>
           <label class="chip"><input type="radio" name="dir" value="both" bind:group={settings.aspect.direction} /> Both</label>
         </div>
-        <p class="hint muted">Where a verb has several partners, any of them is accepted.</p>
+        <p class="hint muted">
+          НСВ = <span lang="ru">несовершенный вид</span> (imperfective), СВ = <span lang="ru">совершенный вид</span> (perfective).
+          Where a verb has several partners (<span lang="ru">видовые пары</span>), any of them is accepted.
+        </p>
       </fieldset>
     {:else if settings.mode === 'adjectives'}
       <fieldset>
-        <legend>Cases</legend>
+        <legend>Cases <span class="ru" lang="ru">падежи</span></legend>
         <div class="chips">
           {#each CASES as c (c)}
             <label class="chip">
               <input type="checkbox" checked={settings.adjectives.cases.includes(c)} onchange={() => (settings.adjectives.cases = toggle<Case>(settings.adjectives.cases, c))} />
-              {CASE_LABEL[c]}
+              {CASE_TERM[c].en} <span class="ru" lang="ru">{CASE_TERM[c].ru.replace(' падеж', '')}</span>
             </label>
           {/each}
         </div>
       </fieldset>
       <fieldset>
-        <legend>Number</legend>
+        <legend>Number <span class="ru" lang="ru">число</span></legend>
         <div class="chips">
-          <label class="chip"><input type="radio" name="num" value="sg" bind:group={settings.adjectives.number} /> Singular</label>
-          <label class="chip"><input type="radio" name="num" value="pl" bind:group={settings.adjectives.number} /> Plural</label>
+          <label class="chip"><input type="radio" name="num" value="sg" bind:group={settings.adjectives.number} /> Singular <span class="ru" lang="ru">единственное</span></label>
+          <label class="chip"><input type="radio" name="num" value="pl" bind:group={settings.adjectives.number} /> Plural <span class="ru" lang="ru">множественное</span></label>
           <label class="chip"><input type="radio" name="num" value="both" bind:group={settings.adjectives.number} /> Both</label>
         </div>
-        <p class="hint muted">Nouns come from the 1,000 most frequent. Accusative follows the noun's animacy.</p>
+        <p class="hint muted">
+          Nouns come from the 1,000 most frequent. Accusative (<span lang="ru">винительный падеж</span>) follows the noun's
+          animacy (<span lang="ru">одушевлённость</span>).
+        </p>
       </fieldset>
     {:else}
       <fieldset>
@@ -102,7 +113,7 @@
           {#each MOTION_TYPES as t (t.id)}
             <label class="chip">
               <input type="checkbox" checked={settings.motion.types.includes(t.id)} onchange={() => (settings.motion.types = toggle(settings.motion.types, t.id))} />
-              {t.label}
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
             </label>
           {/each}
         </div>
@@ -126,13 +137,14 @@
         {#each [10, 20, 40] as n (n)}
           <label class="chip"><input type="radio" name="count" value={n} bind:group={settings.count} /> {n}</label>
         {/each}
+        <label class="chip"><input type="radio" name="count" value={0} bind:group={settings.count} /> Unlimited</label>
       </div>
     </fieldset>
 
     <fieldset>
       <legend>Display</legend>
       <div class="chips">
-        <label class="chip"><input type="checkbox" bind:checked={settings.stress} /> Stress marks</label>
+        <label class="chip"><input type="checkbox" bind:checked={settings.stress} /> Stress marks <span class="ru" lang="ru">ударение</span></label>
         <label class="chip"><input type="checkbox" bind:checked={settings.keyboard} /> On-screen Cyrillic keyboard</label>
       </div>
     </fieldset>
@@ -200,6 +212,14 @@
   }
   .mode-title {
     font-weight: 700;
+  }
+  .mode-ru {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+  }
+  .ru {
+    font-family: var(--serif);
+    color: var(--muted);
   }
   .mode-blurb {
     font-size: 0.9rem;

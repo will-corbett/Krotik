@@ -5,7 +5,8 @@ import type { AdjSettings, AspectSettings, Mode, MotionSettings, VerbSettings } 
 export interface Settings {
   mode: Mode;
   band: 0 | 1 | 2 | 3; // top 250 / 1,000 / 2,500 / everything
-  count: 10 | 20 | 40;
+  /** 0 = unlimited (play until End round). */
+  count: 0 | 10 | 20 | 40;
   stress: boolean;
   keyboard: boolean;
   theme: 'system' | 'light' | 'dark';

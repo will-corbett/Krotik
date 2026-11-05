@@ -1,5 +1,6 @@
 import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
 import type { LexType } from '../shared/types.ts';
+import type { TaskPart } from './terms.ts';
 
 export type Mode = 'verbs' | 'aspect' | 'adjectives' | 'motion';
 
@@ -42,8 +43,8 @@ export interface Question {
   /** True when the headword is an English meaning (motion "name the verb" questions). */
   headwordIsEnglish?: boolean;
   gloss: string;
-  /** Short task description, e.g. "Past · она" or "Give the perfective partner". */
-  task: string;
+  /** Task line: grammar terms (English + Russian) and Russian words, e.g. [Past/прошедшее время, она]. */
+  task: TaskPart[];
   /** The frame the answer goes into, with ___ as the slot, e.g. "она ___" or "___ кни'гу". */
   frame?: string;
   /** Secondary line, e.g. the noun's gloss. */

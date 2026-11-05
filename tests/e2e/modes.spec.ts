@@ -45,3 +45,28 @@ test('End round shows the score so far', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Round ended' })).toBeVisible();
   await expect(page.locator('.missed li')).toHaveCount(1);
 });
+
+test('unlimited round keeps going until End round', async ({ page }) => {
+  await page.goto('/?seed=5');
+  await page.getByRole('radio', { name: /Motion verbs/ }).check();
+  await page.getByRole('radio', { name: 'Unlimited' }).check();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByText('unlimited round')).toBeVisible();
+  const input = page.getByRole('textbox', { name: 'Your answer' });
+  // Answer 60 questions with "I don't know" — more than one batch, and more than the motion pool.
+  for (let i = 0; i < 60; i++) {
+    await page.getByRole('button', { name: "I don't know" }).click();
+    await input.press('Enter');
+  }
+  await expect(input).toBeVisible();
+  await page.getByRole('button', { name: 'End round' }).click();
+  await expect(page.getByRole('heading', { name: 'Round ended' })).toBeVisible();
+  await expect(page.locator('.big')).toHaveText('0%');
+});
+
+test('grammar terms show their Russian names', async ({ page }) => {
+  await setup(page, 'Adjective agreement');
+  await expect(page.getByText('дательный', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.locator('.task [lang="ru"]').first()).toContainText(/падеж/);
+});

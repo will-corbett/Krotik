@@ -4,9 +4,10 @@ import type { MotionPair } from '../../shared/types.ts';
 import { pick, shuffle, type Rng } from '../rng.ts';
 import type { MotionSettings, Question, Verb } from '../types.ts';
 import { verbFormQuestion } from './verbs.ts';
+import { TERMS } from '../terms.ts';
 
-const UNI = 'unidirectional — one direction, one trip in progress';
-const MULTI = 'multidirectional — round trips, habitual, or no set direction';
+const UNI = 'one direction, one trip in progress';
+const MULTI = 'round trips, habitual, or no set direction';
 
 function meaningQuestion(p: MotionPair, uni: boolean, verb: Verb): Question {
   return {
@@ -14,10 +15,10 @@ function meaningQuestion(p: MotionPair, uni: boolean, verb: Verb): Question {
     mode: 'motion',
     headword: p.meaning,
     gloss: uni ? UNI : MULTI,
-    task: `Name the ${uni ? 'unidirectional' : 'multidirectional'} verb`,
+    task: [{ en: 'Name the verb' }, uni ? TERMS.uni : TERMS.multi],
     answer: uni ? p.uni : p.multi,
-    others: [{ label: `the ${uni ? 'multidirectional' : 'unidirectional'} verb`, cell: uni ? p.multi : p.uni }],
-    label: `${uni ? 'unidirectional' : 'multidirectional'} verb for “${p.meaning}”`,
+    others: [{ label: uni ? `multidirectional verb (${TERMS.multi.ru})` : `unidirectional verb (${TERMS.uni.ru})`, cell: uni ? p.multi : p.uni }],
+    label: `${(uni ? TERMS.uni : TERMS.multi).en} verb for “${p.meaning}” (${(uni ? TERMS.uni : TERMS.multi).ru})`,
     paradigm: { kind: 'verb', verb },
     sentence: { type: 'verbs', lemmaId: verb.id, cell: -1, band: verb.band },
     speak: (f) => bare(f),
@@ -31,10 +32,10 @@ function partnerQuestion(fromUni: boolean, from: Verb, to: Verb): Question {
     mode: 'motion',
     headword: from.accented,
     gloss: from.gloss,
-    task: `${fromUni ? 'Unidirectional' : 'Multidirectional'} → give the ${fromUni ? 'multidirectional' : 'unidirectional'} partner`,
+    task: [fromUni ? TERMS.uni : TERMS.multi, { en: `→ give the ${(fromUni ? TERMS.multi : TERMS.uni).en} partner`, ru: `→ ${(fromUni ? TERMS.multi : TERMS.uni).ru}` }],
     answer: to.accented,
     others: [],
-    label: `${fromUni ? 'multidirectional' : 'unidirectional'} partner`,
+    label: `${(fromUni ? TERMS.multi : TERMS.uni).en} partner (${(fromUni ? TERMS.multi : TERMS.uni).ru})`,
     paradigm: { kind: 'verb', verb: to },
     sentence: { type: 'verbs', lemmaId: to.id, cell: -1, band: to.band },
     speak: (f) => bare(f),

@@ -53,6 +53,16 @@ export function answer<Q>(r: Round<Q>, correct: boolean, typed: string): Round<Q
   return { entries, queue: correct ? rest : [...rest, i], ended: false };
 }
 
+/** Append new questions (unlimited rounds). */
+export function extendRound<Q>(r: Round<Q>, questions: Q[]): Round<Q> {
+  const start = r.entries.length;
+  return {
+    entries: [...r.entries, ...questions.map((q) => ({ q, attempts: 0, firstTryCorrect: null, wrong: [], cleared: false }))],
+    queue: [...r.queue, ...questions.map((_, i) => start + i)],
+    ended: r.ended,
+  };
+}
+
 export function endRound<Q>(r: Round<Q>): Round<Q> {
   return { ...r, ended: true };
 }

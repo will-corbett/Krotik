@@ -37,7 +37,7 @@ describe('checkAnswer', () => {
     const v = verb('сказать');
     const qq = verbFormQuestion(v, 7);
     expect(checkAnswer(qq, 'сказала').correct).toBe(true);
-    expect(checkAnswer(qq, 'скажу').otherForm).toBe('Future, я form');
+    expect(checkAnswer(qq, 'скажу').otherForm).toBe('Future, я form (будущее время)');
   });
 });
 
@@ -54,7 +54,7 @@ describe('accusative animacy', () => {
     expect(checkAnswer(qa, 'новый').correct).toBe(false);
     expect(checkAnswer(qi, 'новый').correct).toBe(true);
     expect(checkAnswer(qi, 'нового').correct).toBe(false);
-    expect(qa.task).toContain('animate');
+    expect(qa.task).toContainEqual({ en: 'animate', ru: 'одушевлённое' });
   });
 
   it('resolves source variants by matching, not position (большой lists animate first)', () => {
@@ -76,6 +76,6 @@ describe('accusative animacy', () => {
   it('feminine accusative ignores animacy', () => {
     const q = adjectiveQuestion(adjective('новый'), noun('женщина'), 'acc', false)!;
     expect(checkAnswer(q, 'новую').correct).toBe(true);
-    expect(q.task).not.toContain('animate');
+    expect(q.task.map((p) => p.en)).not.toContain('animate');
   });
 });

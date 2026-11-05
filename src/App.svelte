@@ -4,7 +4,7 @@
   import EndScreen from './components/EndScreen.svelte';
   import About from './components/About.svelte';
   import { loadSettings, saveSettings, type Settings } from './lib/settings.ts';
-  import { buildRound } from './lib/start.ts';
+  import { nextBatch, prepareRound, UNLIMITED_BATCH, type Generate } from './lib/start.ts';
   import { createRound, type Round } from './lib/queue.ts';
   import { mulberry32 } from './lib/rng.ts';
   import type { Question } from './lib/types.ts';
@@ -17,6 +17,7 @@
   let loading = $state(false);
   let error = $state('');
   let shortfall = $state('');
+  let generate = $state<Generate | null>(null);
 
   $effect(() => {
     saveSettings($state.snapshot(settings) as Settings);
@@ -36,12 +37,15 @@
     error = '';
     shortfall = '';
     try {
-      const qs = await buildRound($state.snapshot(settings) as Settings, mulberry32(seed()));
+      const gen = await prepareRound($state.snapshot(settings) as Settings, mulberry32(seed()));
+      const unlimited = settings.count === 0;
+      const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(settings.count);
+      generate = unlimited ? gen : null;
       if (!qs.length) {
         error = 'No questions match these settings. Try a larger vocabulary or more options.';
         return;
       }
-      if (qs.length < settings.count) shortfall = `Only ${qs.length} questions match these settings.`;
+      if (!unlimited && qs.length < settings.count) shortfall = `Only ${qs.length} questions match these settings.`;
       round = createRound(qs);
       screen = 'drill';
     } catch (e) {
@@ -74,9 +78,9 @@
     {#if screen === 'setup'}
       <Setup bind:settings {loading} {error} onstart={start} />
     {:else if screen === 'drill' && round}
-      <Drill {round} {settings} notice={shortfall} onfinish={finish} />
+      <Drill {round} {settings} notice={shortfall} more={generate} onfinish={finish} />
     {:else if screen === 'end' && round}
-      <EndScreen {round} stress={settings.stress} onagain={start} onsettings={() => (screen = 'setup')} />
+      <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0} onagain={start} onsettings={() => (screen = 'setup')} />
     {:else if screen === 'about'}
       <About onback={() => (screen = 'setup')} />
     {/if}

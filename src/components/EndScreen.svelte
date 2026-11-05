@@ -2,8 +2,9 @@
   import { displayForms, renderForm } from '../shared/forms.ts';
   import { missed, score, type Round } from '../lib/queue.ts';
   import type { Question } from '../lib/types.ts';
+  import TermText from './TermText.svelte';
 
-  let { round, stress, onagain, onsettings }: { round: Round<Question>; stress: boolean; onagain: () => void; onsettings: () => void } = $props();
+  let { round, stress, unlimited = false, onagain, onsettings }: { round: Round<Question>; stress: boolean; unlimited?: boolean; onagain: () => void; onsettings: () => void } = $props();
 
   const s = $derived(score(round));
   const misses = $derived(missed(round));
@@ -14,10 +15,10 @@
 
 <section class="end fade-in" aria-labelledby="end-title">
   <div class="card">
-    <h1 id="end-title" tabindex="-1" bind:this={heading}>{round.ended && s.attempted < s.total ? 'Round ended' : 'Round complete'}</h1>
+    <h1 id="end-title" tabindex="-1" bind:this={heading}>{unlimited || (round.ended && s.attempted < s.total) ? 'Round ended' : 'Round complete'}</h1>
     <p class="score">
       <span class="big">{s.percent}%</span>
-      <span>right first time: {s.firstTry} of {s.attempted}{s.attempted < s.total ? ` attempted (${s.total} in the round)` : ''}</span>
+      <span>right first time: {s.firstTry} of {s.attempted}{!unlimited && s.attempted < s.total ? ` attempted (${s.total} in the round)` : ''}</span>
     </p>
     <div class="actions">
       <button class="btn primary" onclick={onagain}>New round</button>
@@ -29,11 +30,11 @@
     <div class="card missed">
       <h2>Missed at least once</h2>
       <ul>
-        {#each misses as e (e.q.key)}
+        {#each misses as e, i (i)}
           <li>
             <div class="what">
               <span class="hw" lang={e.q.headwordIsEnglish ? 'en' : 'ru'}>{e.q.headwordIsEnglish ? e.q.headword : r(e.q.headword)}</span>
-              <span class="muted">{e.q.task}</span>
+              <span class="muted"><TermText parts={e.q.task} /></span>
             </div>
             <div class="ans" lang="ru">{displayForms(e.q.answer).map(r).join(', ')}</div>
             <div class="you muted">You typed: <span lang="ru">{e.wrong.join(' · ')}</span></div>

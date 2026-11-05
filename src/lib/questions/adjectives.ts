@@ -1,4 +1,5 @@
-import { ADJ_CELLS, ADJ_INDEX, CASE_LABEL, NOUN_INDEX, SLOT_LABEL, adjCellFor, type AdjSlot, type Case } from '../../shared/cells.ts';
+import { ADJ_CELLS, ADJ_INDEX, NOUN_INDEX, adjCellFor, type AdjSlot, type Case } from '../../shared/cells.ts';
+import { CASE_TERM, TERMS, numberGenderTerm, type TaskPart } from '../terms.ts';
 import { bare, displayForms } from '../../shared/forms.ts';
 import { adjCellLabel } from '../labels.ts';
 import { pick, type Rng } from '../rng.ts';
@@ -14,14 +15,14 @@ export function adjectiveQuestion(a: Adjective, noun: Noun, c: Case, plural: boo
   const others = ADJ_CELLS.map((k, i) => ({ label: adjCellLabel(k), cell: a.cells[i]!, k }))
     .filter((o) => o.k !== key && o.cell)
     .map(({ label, cell }) => ({ label, cell }));
-  const num = plural ? 'plural' : `${SLOT_LABEL[noun.gender]} singular`;
-  const anim = c === 'acc' && (plural || noun.gender === 'm') ? (noun.animate ? ' · animate' : ' · inanimate') : '';
+  const task: TaskPart[] = [CASE_TERM[c], numberGenderTerm(slot)];
+  if (c === 'acc' && (plural || noun.gender === 'm')) task.push(noun.animate ? TERMS.animate : TERMS.inanimate);
   return {
     key: `j:${a.id}:${noun.id}:${c}:${plural ? 'p' : 's'}`,
     mode: 'adjectives',
     headword: a.accented,
     gloss: a.gloss,
-    task: `${CASE_LABEL[c]} · ${num}${anim}`,
+    task,
     frame: `___ ${nounForm}`,
     note: `${noun.accented} — ${noun.gloss}`,
     answer,
