@@ -3,7 +3,9 @@ import { pick, type Rng } from '../rng.ts';
 import { CASE_TERM, TERMS, type Term } from '../terms.ts';
 import type { Mode, Question } from '../types.ts';
 
-export type ClozeTopic = 'kotoryi' | 'chtoby' | 'conditional' | 'negation' | 'indefinite' | 'particles' | 'prepositions' | 'aspectContext' | 'svoy';
+export type ClozeTopic =
+  | 'kotoryi' | 'chtoby' | 'conditional' | 'negation' | 'indefinite' | 'particles' | 'prepositions' | 'aspectContext' | 'svoy'
+  | 'government' | 'position' | 'impersonal' | 'comparison' | 'conjunctions' | 'time';
 
 export const TOPIC_TERM: Record<ClozeTopic, Term> = {
   kotoryi: TERMS.kotoryi,
@@ -15,6 +17,28 @@ export const TOPIC_TERM: Record<ClozeTopic, Term> = {
   prepositions: TERMS.prepositionsMode,
   aspectContext: TERMS.aspectContext,
   svoy: TERMS.svoy,
+  government: TERMS.government,
+  position: TERMS.position,
+  impersonal: TERMS.impersonal,
+  comparison: TERMS.comparison,
+  conjunctions: TERMS.conjunctions,
+  time: TERMS.time,
+};
+
+/** Government patterns as answer labels (no commas: they are answer cells). */
+export const PATTERN_LABEL: Record<string, string> = {
+  dat: '+ дательный (кому? чему?)',
+  gen: '+ родительный (кого? чего?)',
+  inst: '+ творительный (кем? чем?)',
+  acc: '+ винительный (кого? что?)',
+  'o+prep': 'о + предложный (о ком? о чём?)',
+  'na+acc': 'на + винительный (на кого? на что?)',
+  'na+prep': 'на + предложный (на ком? на чём?)',
+  'v+acc': 'в + винительный (во что?)',
+  'v+prep': 'в + предложный (в чём?)',
+  'ot+gen': 'от + родительный (от кого? от чего?)',
+  'k+dat': 'к + дательный (к кому? к чему?)',
+  's+inst': 'с + творительный (с кем? с чем?)',
 };
 
 /** Short rule shown after answering, by item kind. Grammar terms carry their Russian names. */
@@ -42,6 +66,23 @@ export const EXPLAIN: Record<string, string> = {
   pf: 'Perfective (совершенный вид): one complete action with a result, or one of a sequence of completed actions.',
   svoy: 'свой refers back to the subject of the clause: Том взял свою книгу = Tom took his own book.',
   ego: 'его/её/их mean someone other than the subject, and never change: Том взял его книгу = Tom took his (someone else’s) book.',
+  'imp-pron': 'Impersonal sentences (безличные предложения) put the person in the dative (дательный падеж): мне холодно, нам надо идти.',
+  'imp-noun': 'Impersonal sentences (безличные предложения) put the person in the dative (дательный падеж): Тому надо идти.',
+  'cmp-gen': 'After a comparative (сравнительная степень) the thing compared can be in the genitive (родительный падеж): старше брата = старше, чем брат.',
+  'conj:что': 'что: “that”, reporting a fact (Я знаю, что он здесь).',
+  'conj:чтобы': 'чтобы: “so that, in order to”, or after wanting/asking (Я хочу, чтобы ты пришёл).',
+  'conj:если': 'если: “if”, a condition (Если будет дождь, мы останемся дома). “Whether” is ли instead.',
+  'conj:когда': 'когда: “when”.',
+  'v-day': 'в + accusative (винительный падеж) for days: в пятницу, в среду.',
+  'v-month': 'в + prepositional (предложный падеж) for months: в январе, в мае.',
+  'po-days': 'по + dative plural (дательный падеж, множественное число) for every such day: по понедельникам.',
+  cherez: 'через + accusative (винительный падеж): “in” a time from now (через неделю).',
+  nazad: '… назад: “ago”; the unit is in the accusative (неделю назад), or genitive after a number (три часа назад).',
+};
+const ROLE_NOTE: Record<string, string> = {
+  state: 'be in a position (где?) — стоять, лежать, сидеть, висеть',
+  put: 'put something somewhere (куда?) — ставить, класть, сажать, вешать',
+  get: 'get into a position yourself (куда?) — вставать, ложиться, садиться',
 };
 
 const PREP_NOTE: Record<string, string> = {
@@ -52,6 +93,10 @@ const PREP_NOTE: Record<string, string> = {
 
 /** Explanation for an item kind; preposition kinds are "prep:case". */
 export function explainFor(kind: string): string | undefined {
+  const g = /^([a-z+]+)\|(.+)$/.exec(kind);
+  if (g) return `${g[2]!.replace(/'/g, '')} ${PATTERN_LABEL[g[1]!] ?? ''}`.trim() + '.';
+  const pos = /^(stand|lie|sit|hang):(state|put|get)$/.exec(kind);
+  if (pos) return `Verbs of position (глаголы положения): ${ROLE_NOTE[pos[2]!]}.`;
   const m = /^([а-я]+):(gen|dat|acc|inst|prep)$/.exec(kind);
   if (m) {
     const c = CASE_TERM[m[2] as keyof typeof CASE_TERM];

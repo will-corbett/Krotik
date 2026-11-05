@@ -55,6 +55,9 @@ export async function loadNumerals(): Promise<NumeralRow[]> {
 export async function loadPronouns(): Promise<PronounData> {
   return getJson<PronounData>((await loadManifest()).pronouns);
 }
+export async function loadExtraJson<T>(key: 'government' | 'prefixedMotion' | 'ordinals' | 'collectives'): Promise<T> {
+  return getJson<T>((await loadManifest())[key]);
+}
 export async function loadCloze(topic: string): Promise<ClozeRow[]> {
   const m = await loadManifest();
   const c = m.cloze[topic];

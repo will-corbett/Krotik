@@ -1,3 +1,4 @@
+import { adjectiveQuestion } from './adjectives.ts';
 import { CASES, NOUN_INDEX, type Case, type Gender } from '../../shared/cells.ts';
 import { bare, displayForms } from '../../shared/forms.ts';
 import type { NumeralRow } from '../../shared/types.ts';
@@ -144,6 +145,85 @@ export function generateNumberQuestions(numerals: NumeralRow[], nouns: Noun[], s
         : usableNouns.length
           ? numeralNounQuestion(row, pick(rng, usableNouns), pick(rng, cases))
           : null;
+    if (!q || keys.has(q.key)) continue;
+    keys.add(q.key);
+    out.push(q);
+  }
+  return out;
+}
+
+// ---- Phase E: ordinals, compound numbers, collective numerals
+
+
+export type OrdinalRow = [string, number, string[]]; // [accented, value, ADJ_CELLS]
+
+/** Ordinal agreeing with a noun (на третьем этаже), from the ordinal's own adjective table. */
+export function ordinalQuestion(row: OrdinalRow, noun: Noun, c: Case, plural: boolean): Question | null {
+  const pseudo = { id: row[1], accented: row[0], gloss: `${row[1]}${row[1] === 1 ? 'st' : row[1] === 2 ? 'nd' : row[1] === 3 ? 'rd' : 'th'}`, cells: row[2], extra: [], band: 0 };
+  const q = adjectiveQuestion(pseudo, noun, c, plural);
+  if (!q) return null;
+  return { ...q, key: `num:ord:${row[1]}:${noun.id}:${c}:${plural ? 'p' : 's'}`, mode: 'numbers', task: [TERMS.ordinal, ...q.task], sentence: undefined };
+}
+
+/**
+ * Compound number in a case (двадцати пяти): every part declines, and each part's form comes from its
+ * own Wiktionary table. Gender matters for a final 1 or 2 (двадцать одна, двадцать две).
+ */
+export function compoundQuestion(tens: NumeralRow, unit: NumeralRow, c: Case, g: Gender): Question | null {
+  if (tens[1] < 20 || tens[1] % 10 !== 0 || unit[1] < 1 || unit[1] > 9) return null;
+  const anim = c === 'acc' ? false : null; // animate accusative of compounds is unsettled usage: inanimate only
+  const t = numeralForm(tens, c, 'm', anim);
+  const u = numeralForm(unit, c, isGendered(unit) ? g : 'm', anim);
+  if (!t || !u) return null;
+  const value = tens[1] + unit[1];
+  const task: TaskPart[] = [TERMS.compound, CASE_TERM[c]];
+  if (isGendered(unit)) task.push(GENDER_TERM[g]);
+  const nomUnit = numeralForm(unit, 'nom', isGendered(unit) ? g : 'm', null);
+  return {
+    key: `num:cmp:${value}:${c}:${isGendered(unit) ? g : ''}`,
+    mode: 'numbers',
+    headword: `${tens[0]} ${displayForms(nomUnit)[0] ?? unit[0]}`,
+    gloss: String(value),
+    task,
+    frame: '___',
+    answer: combine(t, u),
+    others: [],
+    label: `${value}, ${CASE_TERM[c].en} (${CASE_TERM[c].ru})`,
+    explain: 'In a compound number every part declines: двадцать пять → двадцати пяти, двадцатью пятью.',
+    speak: (f) => bare(f),
+  };
+}
+
+export function generateExtraNumberQuestions(
+  kind: 'ordinal' | 'compound' | 'collective',
+  data: { numerals: NumeralRow[]; ordinals: OrdinalRow[]; collectives: NumeralRow[]; nouns: Noun[] },
+  cases: Case[],
+  n: number,
+  rng: Rng,
+): Question[] {
+  const out: Question[] = [];
+  const keys = new Set<string>();
+  const gendered = data.nouns.filter((x) => x.gender);
+  const tens = data.numerals.filter((r) => r[1] >= 20 && r[1] <= 90 && r[1] % 10 === 0);
+  const units = data.numerals.filter((r) => r[1] >= 1 && r[1] <= 9 && bare(r[0]) !== 'оба');
+  let guard = 0;
+  while (out.length < n && guard++ < n * 100) {
+    const c = pick(rng, cases);
+    const q =
+      kind === 'ordinal'
+        ? data.ordinals.length && gendered.length
+          ? ordinalQuestion(pick(rng, data.ordinals), pick(rng, gendered), c, rng() < 0.25)
+          : null
+        : kind === 'compound'
+          ? tens.length && units.length
+            ? compoundQuestion(pick(rng, tens), pick(rng, units), c, pick(rng, ['m', 'f', 'n'] as Gender[]))
+            : null
+          : data.collectives.length
+            ? (() => {
+                const q0 = numeralAloneQuestion(pick(rng, data.collectives), c, 'm', rng() < 0.5);
+                return q0 && { ...q0, key: q0.key.replace('num:alone', 'num:coll'), task: [TERMS.collective, ...q0.task] };
+              })()
+            : null;
     if (!q || keys.has(q.key)) continue;
     keys.add(q.key);
     out.push(q);

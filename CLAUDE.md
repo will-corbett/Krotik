@@ -56,6 +56,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Sentence drills (`scripts/lib/cloze.ts` → `public/data/cloze.<topic>.json`): the answer is always the word in the
   Tatoeba sentence; typed blanks must map to exactly one lemma; multiple-choice distractors must occur elsewhere
   in the corpus. Deny bad sentences by Tatoeba id in `overrides.yaml` `sentences.deny`.
+- `curated/*.yaml` are small hand-made grammar lists (verb government, motion prefixes, position verbs, time
+  words). They state grammar facts only — never forms — and every entry is checked against the data; misses
+  are listed in the report. Edit them freely, then run `npm run data:build`.
 - `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
 - Accessibility: keyboard-only flow (Enter submits and continues), aria-live feedback, visible focus,

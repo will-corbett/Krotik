@@ -26,6 +26,13 @@ const modes: ModeName[] = [
   'Prepositions and cases',
   'Aspect in context',
   'Stress',
+  'Verb government',
+  'Prefixed motion verbs',
+  'Verbs of position',
+  'Impersonal constructions',
+  'Comparisons',
+  'Conjunctions',
+  'Time expressions',
 ];
 
 for (const mode of modes) {
@@ -109,6 +116,16 @@ test('multiple choice works from the keyboard', async ({ page }) => {
   await expect(page.locator('.src a')).toHaveAttribute('href', /tatoeba\.org/);
   await page.keyboard.press('Enter');
   await expect(page.locator('.feedback')).toHaveCount(0);
+});
+
+test('numbers: ordinal, compound and collective types run', async ({ page }) => {
+  await setup(page, 'Numbers');
+  for (const name of [/Decline the number/, /Numeral \+ noun/]) await page.getByRole('checkbox', { name }).uncheck();
+  for (const name of [/Ordinal numbers/, /Compound numbers/, /Collective numbers/]) await page.getByRole('checkbox', { name }).check();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.locator('.task')).toContainText(/Ordinal|Compound|Collective/);
+  const n = await (await import('./helpers.ts')).playRetryRound(page);
+  expect(n).toBe(10);
 });
 
 test('phonetic typing turns Latin into Cyrillic', async ({ page }) => {

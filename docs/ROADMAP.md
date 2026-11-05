@@ -59,7 +59,7 @@ deterministically; a round picks the kind first so rare kinds (чтобы + past
 -ка has only ~100 sentences. In multiple choice some distractors can also fit (же/ведь, -то/-нибудь); only
 the sentence's own word counts, and the English translation is the cue.
 
-## Phase D — core grammar from data we have (agreed 2026-11-05)
+## Phase D — core grammar from data we have — done 2026-11-05
 1. **Personal pronouns** (личные местоимения): я…они, себя, кто, что in every case; н- forms after
    prepositions (у него, к ней). Tables from Wiktionary.
 2. **Noun declension** (склонение существительных): singular and plural, chosen cases.
@@ -71,7 +71,7 @@ the sentence's own word counts, and the English translation is the cue.
 6. **Stress drill** (ударение): tap the stressed vowel.
 7. **Phonetic typing**: Latin → Cyrillic as you type (shch → щ, ya → я …), a Display toggle.
 
-## Phase E — topics needing small hand-made lists (each list is checked against the data)
+## Phase E — topics needing small hand-made lists — done 2026-11-05
 1. **Verb government** (управление глаголов): ~80 verbs with their case/preposition (hand-made list,
    each verb checked in the data and illustrated by Tatoeba sentences where the noun really is in that case).
 2. **Prefixed motion verbs** (приставочные глаголы движения): при-, у-, в-, вы-, за-, пере-, про-, под-,
@@ -85,6 +85,10 @@ the sentence's own word counts, and the English translation is the cue.
 7. **Time expressions** (выражение времени): в + day (acc.), в + month (prep.), через / назад, from Tatoeba.
 8. **Numbers**: ordinals (первый … сотый), compound numbers (двадцать пять, every part declines), collective
    numerals (двое, трое …).
+
+Phase D/E notes: hand-made lists live in `curated/` (grammar facts only). Prefixed motion verbs: 89 pairs
+found in the data; combinations missing from OpenRussian (e.g. вплыть/вплывать, провезти/провозить) are left
+out and listed in the report. Compound numbers skip the animate accusative (usage is unsettled).
 
 ## Still planned from the original brief
 - All folded into phases D and E above.

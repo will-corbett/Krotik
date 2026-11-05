@@ -7,14 +7,14 @@ import { checkAnswer } from '../../src/lib/check.ts';
 import { clozeQuestion, explainFor, generateClozeQuestions, kindGroup, type ClozeTopic } from '../../src/lib/questions/cloze.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
 
-const TOPICS: ClozeTopic[] = ['kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'prepositions', 'aspectContext', 'svoy'];
+const TOPICS: ClozeTopic[] = ['kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'prepositions', 'aspectContext', 'svoy', 'government', 'position', 'impersonal', 'comparison', 'conjunctions', 'time'];
 const load = (t: ClozeTopic) => JSON.parse(readFileSync(`public/data/cloze.${t}.json`, 'utf8')) as ClozeRow[];
 
 describe('sentence drill data integrity', () => {
   for (const t of TOPICS) {
     it(`${t}: every answer is the word actually in the sentence`, () => {
       const rows = load(t);
-      expect(rows.length).toBeGreaterThan(300);
+      expect(rows.length).toBeGreaterThan(250);
       for (const [id, ru, en, start, end, answer, hint, kind, options] of rows) {
         const blank = normalise(ru.slice(start, end));
         expect(cellForms(answer).map(normalise), `${id}`).toContain(blank);

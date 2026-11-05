@@ -1,5 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
+import type { GovernmentSettings, PrefixedMotionSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
@@ -26,6 +27,8 @@ export interface Settings {
   possessives: PossessiveSettings;
   nounCases: NounCaseSettings;
   stressDrill: StressSettings;
+  government: GovernmentSettings;
+  prefixedMotion: PrefixedMotionSettings;
   particles: ParticleTopicSettings;
   aspect: AspectSettings;
   adjectives: AdjSettings;
@@ -53,6 +56,8 @@ export const DEFAULTS: Settings = {
   possessives: { types: ['agree', 'svoy'] },
   nounCases: { cases: ['gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
   stressDrill: { sources: ['verbs', 'nouns', 'adjectives'], forms: 'any' },
+  government: { types: ['choice', 'sentence'] },
+  prefixedMotion: { types: ['meaning', 'pair', 'conjugate'] },
   particles: { groups: ['li', 'zhe-ved', 'ne-ni', 'colloquial'] },
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
@@ -82,6 +87,8 @@ export function loadSettings(): Settings {
       possessives: { ...DEFAULTS.possessives, ...saved.possessives },
       nounCases: { ...DEFAULTS.nounCases, ...saved.nounCases },
       stressDrill: { ...DEFAULTS.stressDrill, ...saved.stressDrill },
+      government: { ...DEFAULTS.government, ...saved.government },
+      prefixedMotion: { ...DEFAULTS.prefixedMotion, ...saved.prefixedMotion },
       particles: { ...DEFAULTS.particles, ...saved.particles },
       aspect: { ...DEFAULTS.aspect, ...saved.aspect },
       adjectives: { ...DEFAULTS.adjectives, ...saved.adjectives },

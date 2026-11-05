@@ -89,6 +89,17 @@ export const TERMS = {
   svoy: t('свой or его/её/их', 'возвратное притяжательное местоимение'),
   stress: t('Stress', 'ударение'),
   pronunciation: t('Pronunciation', 'произношение'),
+  // Phase E
+  government: t('Verb government', 'управление глаголов'),
+  prefixedMotion: t('Prefixed motion verbs', 'приставочные глаголы движения'),
+  position: t('Verbs of position', 'глаголы положения'),
+  impersonal: t('Impersonal constructions', 'безличные предложения'),
+  comparison: t('Comparisons', 'сравнительные конструкции'),
+  conjunctions: t('Conjunctions', 'союзы'),
+  time: t('Time expressions', 'выражение времени'),
+  ordinal: t('Ordinal numbers', 'порядковые числительные'),
+  compound: t('Compound numbers', 'составные числительные'),
+  collective: t('Collective numbers', 'собирательные числительные'),
 } satisfies Record<string, Term>;
 
 export const CASE_TERM: Record<Case, Term> = {

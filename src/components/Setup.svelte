@@ -18,6 +18,9 @@
         { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
         { id: 'adverbs', title: TERMS.adverbs, blurb: 'читая, прочитав' },
         { id: 'participles', title: TERMS.participles, blurb: 'читающий, прочитанный, прочитана' },
+        { id: 'government', title: TERMS.government, blurb: 'помогать кому, бояться чего, думать о ком' },
+        { id: 'prefixedMotion', title: TERMS.prefixedMotion, blurb: 'прийти / приходить, выйти, перейти' },
+        { id: 'position', title: TERMS.position, blurb: 'стоять / ставить / встать' },
       ],
     },
     {
@@ -54,6 +57,10 @@
         { id: 'negation', title: TERMS.negation, blurb: 'нет времени, никого не вижу, не / ни' },
         { id: 'indefinite', title: TERMS.indefinite, blurb: 'кто-то, кто-нибудь, кое-кто' },
         { id: 'particles', title: TERMS.particlesTopic, blurb: 'ли, же, ведь, вот, ну, даже, только, -ка' },
+        { id: 'impersonal', title: TERMS.impersonal, blurb: 'мне холодно, Тому надо идти' },
+        { id: 'comparison', title: TERMS.comparison, blurb: 'старше брата' },
+        { id: 'conjunctions', title: TERMS.conjunctions, blurb: 'что, чтобы, если, когда' },
+        { id: 'time', title: TERMS.time, blurb: 'в пятницу, в январе, через неделю, час назад' },
       ],
     },
     {
@@ -80,6 +87,9 @@
   const NUMBER_TYPES: { id: NumberSettings['types'][number]; label: Term }[] = [
     { id: 'alone', label: { en: 'Decline the number', ru: 'склонение числительных' } },
     { id: 'withNoun', label: TERMS.numeralNoun },
+    { id: 'ordinal', label: TERMS.ordinal },
+    { id: 'compound', label: TERMS.compound },
+    { id: 'collective', label: TERMS.collective },
   ];
   const NUMBER_RANGES: { id: NumberSettings['ranges'][number]; label: string }[] = [
     { id: '1-4', label: '1–4 and оба' },
@@ -300,7 +310,10 @@
             </label>
           {/each}
         </div>
-        <p class="hint muted">Compound numbers (двадцать пять) aren't included yet. Nouns come from the 1,000 most frequent.</p>
+        <p class="hint muted">
+          Ranges apply to “decline” and “numeral + noun”. Ordinals agree with a noun; compound numbers (двадцать пять) and
+          collective numerals (двое, трое) are declined on their own. Nouns come from the 1,000 most frequent.
+        </p>
       </fieldset>
     {:else if settings.mode === 'diminutives'}
       <fieldset>
@@ -386,6 +399,34 @@
         </div>
         <p class="hint muted">Words with ё are left out (ё is always stressed). Where both stresses are standard, either counts.</p>
       </fieldset>
+    {:else if settings.mode === 'government'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.government.types.includes('choice')} onchange={() => (settings.government.types = toggle(settings.government.types, 'choice'))} /> Which case? <span class="ru" lang="ru">какой падеж?</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.government.types.includes('sentence')} onchange={() => (settings.government.types = toggle(settings.government.types, 'sentence'))} /> In sentences <span class="ru" lang="ru">в предложениях</span></label>
+        </div>
+        <p class="hint muted">The list of about 90 verbs and their cases is hand-made (curated/government.yaml); sentence examples come from Tatoeba.</p>
+      </fieldset>
+    {:else if settings.mode === 'prefixedMotion'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.prefixedMotion.types.includes('meaning')} onchange={() => (settings.prefixedMotion.types = toggle(settings.prefixedMotion.types, 'meaning'))} /> Name the verb from its meaning <span class="ru" lang="ru">значение приставки</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.prefixedMotion.types.includes('pair')} onchange={() => (settings.prefixedMotion.types = toggle(settings.prefixedMotion.types, 'pair'))} /> Aspect partner <span class="ru" lang="ru">видовая пара</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.prefixedMotion.types.includes('conjugate')} onchange={() => (settings.prefixedMotion.types = toggle(settings.prefixedMotion.types, 'conjugate'))} /> Conjugate <span class="ru" lang="ru">спряжение</span></label>
+        </div>
+        <p class="hint muted">при-, у-, в-, вы-, за-, пере-, про-, под-, от-, до-, об-, раз- with eight motion verbs; only pairs found in the dictionary data.</p>
+      </fieldset>
+    {:else if ['position', 'impersonal', 'comparison', 'conjunctions', 'time'].includes(settings.mode)}
+      <p class="hint muted first">
+        Real sentences from Tatoeba with one word blanked; the English translation is the cue.
+        {#if settings.mode === 'position' || settings.mode === 'conjunctions'}
+          Choose the missing word.
+        {:else}
+          Type the missing word; its dictionary form is in brackets.
+        {/if}
+      </p>
     {:else if settings.mode === 'prepositions' || settings.mode === 'aspectContext'}
       <p class="hint muted first">
         Real sentences from Tatoeba with one word blanked; the English translation is the cue.
@@ -470,7 +511,7 @@
       </fieldset>
     {/if}
 
-    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext'].includes(settings.mode)}
+    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

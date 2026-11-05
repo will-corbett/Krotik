@@ -26,7 +26,14 @@ export type Mode =
   | 'nounCases'
   | 'prepositions'
   | 'aspectContext'
-  | 'stress';
+  | 'stress'
+  | 'government'
+  | 'prefixedMotion'
+  | 'position'
+  | 'impersonal'
+  | 'comparison'
+  | 'conjunctions'
+  | 'time';
 
 export interface Verb {
   id: number;
@@ -131,7 +138,7 @@ export interface ParticipleSettings {
   types: ('form' | 'short' | 'decline')[];
 }
 export interface NumberSettings {
-  types: ('alone' | 'withNoun')[];
+  types: ('alone' | 'withNoun' | 'ordinal' | 'compound' | 'collective')[];
   ranges: ('1-4' | '5-20' | 'tens')[];
   cases: Case[];
 }
@@ -158,6 +165,12 @@ export interface NounCaseSettings {
 export interface StressSettings {
   sources: ('verbs' | 'nouns' | 'adjectives')[];
   forms: 'headword' | 'any';
+}
+export interface GovernmentSettings {
+  types: ('choice' | 'sentence')[];
+}
+export interface PrefixedMotionSettings {
+  types: ('meaning' | 'pair' | 'conjugate')[];
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];

@@ -35,6 +35,11 @@
       <a href="https://creativecommons.org/licenses/by/2.0/fr/" rel="noopener">CC BY 2.0 FR</a>. Each sentence links to its
       Tatoeba page.
     </li>
+    <li>
+      A few small grammar lists were written by hand for this site (which case a verb takes, what a motion prefix
+      means, verbs of position, time words). They contain grammar facts only; every word form still comes from the
+      sources above.
+    </li>
     <li>Fonts: PT Serif and PT Sans by ParaType, SIL Open Font License 1.1.</li>
   </ul>
   <p>

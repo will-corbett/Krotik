@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadAdjectives, loadCloze, loadDiminutives, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
+import { loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -8,6 +8,20 @@ import { generateClozeQuestions } from './questions/cloze.ts';
 import { generatePossessiveAgreement, generatePronounQuestions } from './questions/pronouns.ts';
 import { generateNounCaseQuestions } from './questions/nounCases.ts';
 import { generateStressQuestions } from './questions/stress.ts';
+import { generateGovernmentChoice, type GovRow } from './questions/government.ts';
+import { generatePrefixedMotion, type PrefixedData } from './questions/prefixedMotion.ts';
+import { generateExtraNumberQuestions, type OrdinalRow } from './questions/numbers.ts';
+import type { NumeralRow } from '../shared/types.ts';
+import { pick } from './rng.ts';
+import type { Question } from './types.ts';
+
+/** Interleave several question lists into one of length n, drawing from a random non-empty list each time. */
+function mix(rng: Rng, n: number, ...lists: Question[][]): Question[] {
+  const queues = lists.filter((l) => l.length).map((l) => [...l]);
+  const out: Question[] = [];
+  while (out.length < n && queues.some((q) => q.length)) out.push(pick(rng, queues.filter((q) => q.length)).shift()!);
+  return out;
+}
 import { generateAdjectiveQuestions } from './questions/adjectives.ts';
 import { generateAspectQuestions } from './questions/aspect.ts';
 import { generateMotionQuestions } from './questions/motion.ts';
@@ -17,7 +31,6 @@ import { generateCompareQuestions } from './questions/compare.ts';
 import { generatePluralQuestions } from './questions/plurals.ts';
 import type { Rng } from './rng.ts';
 import type { Settings } from './settings.ts';
-import type { Question } from './types.ts';
 
 /** Agreement nouns come from the 1,000 most frequent, so the noun is rarely the hard part. */
 export const NOUN_MAX_BAND = 1;
@@ -58,8 +71,22 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       return (n) => generateParticipleQuestions(rows, nouns, s.participles, n, rng);
     }
     case 'numbers': {
-      const [nums, nouns] = await Promise.all([loadNumerals(), loadNouns(NOUN_MAX_BAND)]);
-      return (n) => generateNumberQuestions(nums, nouns, s.numbers, n, rng);
+      const [nums, nouns, ordinals, collectives] = await Promise.all([
+        loadNumerals(),
+        loadNouns(NOUN_MAX_BAND),
+        loadExtraJson<OrdinalRow[]>('ordinals'),
+        loadExtraJson<NumeralRow[]>('collectives'),
+      ]);
+      return (n) => {
+        const basic = s.numbers.types.filter((t) => t === 'alone' || t === 'withNoun');
+        const lists = [
+          basic.length ? generateNumberQuestions(nums, nouns, { ...s.numbers, types: basic }, n, rng) : [],
+          ...(['ordinal', 'compound', 'collective'] as const)
+            .filter((k) => s.numbers.types.includes(k))
+            .map((k) => generateExtraNumberQuestions(k, { numerals: nums, ordinals, collectives, nouns }, s.numbers.cases.length ? s.numbers.cases : ['gen'], n, rng)),
+        ];
+        return mix(rng, n, ...lists);
+      };
     }
     case 'diminutives': {
       const rows = (await loadDiminutives(s.band)).map((r) => r.row);
@@ -70,7 +97,12 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
     case 'conditional':
     case 'indefinite':
     case 'prepositions':
-    case 'aspectContext': {
+    case 'aspectContext':
+    case 'position':
+    case 'impersonal':
+    case 'comparison':
+    case 'conjunctions':
+    case 'time': {
       const rows = await loadCloze(s.mode);
       const topic = s.mode;
       return (n) => generateClozeQuestions(rows, topic, null, n, rng);
@@ -113,6 +145,19 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
         s.stressDrill.sources.includes('adjectives') ? loadAdjectives(s.band) : Promise.resolve([]),
       ]);
       return (n) => generateStressQuestions({ verbs, nouns, adjectives }, s.stressDrill, n, rng);
+    }
+    case 'government': {
+      const [rows, cz] = await Promise.all([loadExtraJson<GovRow[]>('government'), s.government.types.includes('sentence') ? loadCloze('government') : Promise.resolve([])]);
+      return (n) => mix(
+        rng,
+        n,
+        s.government.types.includes('choice') ? generateGovernmentChoice(rows, n, rng) : [],
+        s.government.types.includes('sentence') ? generateClozeQuestions(cz, 'government', null, n, rng) : [],
+      );
+    }
+    case 'prefixedMotion': {
+      const data = await loadExtraJson<PrefixedData>('prefixedMotion');
+      return (n) => generatePrefixedMotion(data, s.prefixedMotion, n, rng);
     }
     case 'aspect': {
       const pool = await loadVerbs(s.band);
@@ -159,9 +204,11 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'compare' && !s.compare.types.length) return 'Choose at least one question type.';
   if (s.mode === 'adverbs' && !s.adverbs.aspects.length) return 'Choose at least one aspect.';
   if (s.mode === 'participles' && (!s.participles.kinds.length || !s.participles.types.length)) return 'Choose at least one participle and one question type.';
-  if (s.mode === 'numbers' && (!s.numbers.types.length || !s.numbers.ranges.length || !s.numbers.cases.length)) return 'Choose at least one question type, range and case.';
+  if (s.mode === 'numbers' && (!s.numbers.types.length || !s.numbers.cases.length || (s.numbers.types.some((t) => t === 'alone' || t === 'withNoun') && !s.numbers.ranges.length))) return 'Choose at least one question type, range and case.';
   if (s.mode === 'pronouns' && (!s.pronouns.cases.filter((c) => c !== 'nom').length || !s.pronouns.prepositions.length)) return 'Choose at least one case and one context.';
   if (s.mode === 'possessives' && !s.possessives.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'government' && !s.government.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'prefixedMotion' && !s.prefixedMotion.types.length) return 'Choose at least one question type.';
   if (s.mode === 'stress' && !s.stressDrill.sources.length) return 'Choose at least one kind of word.';
   if (s.mode === 'negation' && !s.negation.kinds.length) return 'Choose at least one kind of negation.';
   if (s.mode === 'particles' && !s.particles.groups.length) return 'Choose at least one group of particles.';

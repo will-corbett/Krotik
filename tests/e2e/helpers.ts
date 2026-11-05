@@ -24,7 +24,14 @@ export type ModeName =
   | 'Noun cases'
   | 'Prepositions and cases'
   | 'Aspect in context'
-  | 'Stress';
+  | 'Stress'
+  | 'Verb government'
+  | 'Prefixed motion verbs'
+  | 'Verbs of position'
+  | 'Impersonal constructions'
+  | 'Comparisons'
+  | 'Conjunctions'
+  | 'Time expressions';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   await page.goto('/?seed=42');
@@ -62,7 +69,7 @@ export async function playRetryRound(page: Page): Promise<number> {
     if (isChoice) {
       // Wrong first time via "I don't know"; on the retry, pick the learned option.
       if (known && known.startsWith('#')) await choices.getByRole('button', { name: new RegExp(`letter ${Number(known.slice(1)) + 1}$`) }).click();
-      else if (known) await choices.getByRole('button').filter({ hasText: new RegExp(`^\\d\\s*${known.replace(/[-]/g, '\\-')}$`) }).click();
+      else if (known) await choices.getByRole('button').filter({ hasText: new RegExp(`^\\d\\s*${known.replace(/[.*+?^${}()|[\]\\-]/g, '\\$&')}$`) }).click();
       else await page.getByRole('button', { name: "I don't know" }).click();
     } else {
       await expect(input).toBeEditable();
