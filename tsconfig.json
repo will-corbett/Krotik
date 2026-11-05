@@ -18,7 +18,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "types": [
-      "vite/client"
+      "vite/client",
+      "node"
     ],
     "allowImportingTsExtensions": true,
     "noEmit": true

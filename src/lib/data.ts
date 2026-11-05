@@ -1,0 +1,62 @@
+/** Loads the generated shards from public/data, cumulatively by frequency band, with caching. */
+import type { AdjRow, LexType, Manifest, MotionData, NounRow, SentenceRow, SentenceShard, VerbRow } from '../shared/types.ts';
+import type { Adjective, Noun, Verb } from './types.ts';
+
+const BASE = `${import.meta.env?.BASE_URL ?? "/"}data/`;
+const cache = new Map<string, Promise<unknown>>();
+
+function getJson<T>(file: string): Promise<T> {
+  let p = cache.get(file) as Promise<T> | undefined;
+  if (!p) {
+    p = fetch(BASE + file).then((r) => {
+      if (!r.ok) throw new Error(`Couldn't load ${file} (HTTP ${r.status})`);
+      return r.json() as Promise<T>;
+    });
+    p.catch(() => cache.delete(file));
+    cache.set(file, p);
+  }
+  return p;
+}
+
+export const loadManifest = () => getJson<Manifest>('manifest.json');
+
+async function loadRows<R>(type: LexType, maxBand: number): Promise<{ row: R; band: number }[]> {
+  const m = await loadManifest();
+  const shards = m.shards[type].filter((s) => s.band <= maxBand);
+  const parts = await Promise.all(shards.map((s) => getJson<R[]>(s.file).then((rows) => rows.map((row) => ({ row, band: s.band })))));
+  return parts.flat();
+}
+
+export const toVerb = ([id, accented, gloss, aspect, partners, cells]: VerbRow, band: number): Verb => ({ id, accented, gloss, aspect, partners, cells, band });
+
+export async function loadVerbs(maxBand: number): Promise<Verb[]> {
+  return (await loadRows<VerbRow>('verbs', maxBand)).map(({ row, band }) => toVerb(row, band));
+}
+export async function loadAdjectives(maxBand: number): Promise<Adjective[]> {
+  return (await loadRows<AdjRow>('adjectives', maxBand)).map(({ row: [id, accented, gloss, cells], band }) => ({ id, accented, gloss, cells, band }));
+}
+export async function loadNouns(maxBand: number): Promise<Noun[]> {
+  return (await loadRows<NounRow>('nouns', maxBand)).map(({ row: [id, accented, gloss, gender, animate, sgOnly, cells], band }) => ({
+    id, accented, gloss, gender, animate: animate === 1, sgOnly: sgOnly === 1, cells, band,
+  }));
+}
+export async function loadMotion(): Promise<MotionData> {
+  return getJson<MotionData>((await loadManifest()).motion);
+}
+
+/** Lazily fetch one sentence shard (never blocks the first question). */
+export async function loadSentences(type: LexType, band: number): Promise<SentenceShard> {
+  const m = await loadManifest();
+  const s = m.sentences[type]?.find((x) => x.band === band);
+  return s ? getJson<SentenceShard>(s.file) : {};
+}
+
+/** Prefer a sentence containing the exact target cell; else any form of the lemma. */
+export function chooseSentence(rows: SentenceRow[] | undefined, cell: number): SentenceRow | undefined {
+  if (!rows?.length) return undefined;
+  if (cell >= 0) {
+    const exact = rows.find((r) => (r[3] & (1 << cell)) !== 0);
+    if (exact) return exact;
+  }
+  return rows[0];
+}

@@ -28,7 +28,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.adjectives.b1.json | 684 | 367 KB |
 | sentences.adjectives.b2.json | 1103 | 444 KB |
 | sentences.adjectives.b3.json | 1933 | 574 KB |
-| motion.json | 12 | 1.2 KB |
+| motion.json | 12 pairs | 7.1 KB |
 
 ## Verbs
 

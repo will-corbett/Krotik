@@ -34,3 +34,8 @@ export interface MotionPair {
   uniId: number; // verb ids in the verb shards
   multiId: number;
 }
+
+export interface MotionData {
+  pairs: MotionPair[];
+  verbs: VerbRow[];
+}
