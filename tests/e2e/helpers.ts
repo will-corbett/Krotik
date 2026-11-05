@@ -1,6 +1,14 @@
 import { expect, type Page } from '@playwright/test';
 
-export type ModeName = 'Verb forms' | 'Aspect partners' | 'Adjective agreement' | 'Motion verbs';
+export type ModeName =
+  | 'Verb forms'
+  | 'Reflexive verbs'
+  | 'Aspect partners'
+  | 'Motion verbs'
+  | 'Adjective agreement'
+  | 'Short-form adjectives'
+  | 'Comparatives & superlatives'
+  | 'Plurals';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   await page.goto('/?seed=42');

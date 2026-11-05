@@ -1,6 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
-import type { AdjSettings, AspectSettings, Mode, MotionSettings, VerbSettings } from './types.ts';
+import type { AdjSettings, AspectSettings, CompareSettings, Mode, MotionSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
   mode: Mode;
@@ -11,6 +11,9 @@ export interface Settings {
   keyboard: boolean;
   theme: 'system' | 'light' | 'dark';
   verbs: VerbSettings;
+  reflexive: VerbSettings;
+  compare: CompareSettings;
+  plurals: PluralSettings;
   aspect: AspectSettings;
   adjectives: AdjSettings;
   motion: MotionSettings;
@@ -24,6 +27,9 @@ export const DEFAULTS: Settings = {
   keyboard: false,
   theme: 'system',
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
+  reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
+  compare: { types: ['comparative', 'superlative', 'samyi'] },
+  plurals: { contexts: ['nom', 'cases', 'numbers', 'quantity'], cases: ['gen', 'dat', 'inst', 'prep'] as Case[] },
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
   motion: { types: ['meaning', 'partner', 'conjugate'] },
@@ -40,6 +46,9 @@ export function loadSettings(): Settings {
       ...structuredClone(DEFAULTS),
       ...saved,
       verbs: { ...DEFAULTS.verbs, ...saved.verbs },
+      reflexive: { ...DEFAULTS.reflexive, ...saved.reflexive },
+      compare: { ...DEFAULTS.compare, ...saved.compare },
+      plurals: { ...DEFAULTS.plurals, ...saved.plurals },
       aspect: { ...DEFAULTS.aspect, ...saved.aspect },
       adjectives: { ...DEFAULTS.adjectives, ...saved.adjectives },
       motion: { ...DEFAULTS.motion, ...saved.motion },

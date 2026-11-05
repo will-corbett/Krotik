@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ADJ_INDEX, CASES, VERB_CELLS, type AdjCellKey, type AdjSlot } from '../shared/cells.ts';
+  import { ADJ_EXTRA_INDEX, ADJ_INDEX, CASES, NOUN_INDEX, VERB_CELLS, type AdjCellKey, type AdjSlot } from '../shared/cells.ts';
   import { CASE_ABBR, SLOT_ABBR, TERMS, groupTerm } from '../lib/terms.ts';
   import { displayForms, renderForm } from '../shared/forms.ts';
   import type { ParadigmRef } from '../lib/types.ts';
@@ -30,7 +30,25 @@
       {/if}
     {/each}
   </div>
+{:else if ref.kind === 'noun'}
+  {@const n = ref.noun}
+  <table>
+    <thead lang="en">
+      <tr><td></td><th scope="col">{TERMS.singular.en}<br /><span lang="ru">ед. ч.</span></th><th scope="col">{TERMS.plural.en}<br /><span lang="ru">мн. ч.</span></th></tr>
+    </thead>
+    <tbody lang="ru">
+      {#each CASES as c (c)}
+        <tr>
+          <th scope="row" lang="en">{CASE_ABBR[c].en} <span lang="ru">{CASE_ABBR[c].ru}</span></th>
+          <td>{show(n.cells[NOUN_INDEX[`sg_${c}`]])}</td>
+          <td>{n.sgOnly ? '—' : show(n.cells[NOUN_INDEX[`pl_${c}`]])}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+  {#if n.counting}<p class="note muted">After numbers 5+ and сколько/несколько: <span lang="ru">{show(n.counting)}</span></p>{/if}
 {:else}
+  {@const a = ref.adjective}
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
   <div class="scroll" tabindex="0" role="region" aria-label="Adjective forms table">
     <table class="adj">
@@ -60,6 +78,24 @@
       <span class="anim">animate (<span lang="ru">{TERMS.animate.ru}</span>)</span>.
     </p>
   </div>
+  {#if a.extra.some(Boolean)}
+    <table class="extra">
+      <tbody>
+        {#if a.extra[0]}
+          <tr>
+            <th scope="row">{TERMS.shortForm.en} <span lang="ru">{TERMS.shortForm.ru}</span></th>
+            <td lang="ru">{(['short_m', 'short_f', 'short_n', 'short_pl'] as const).map((k) => show(a.extra[ADJ_EXTRA_INDEX[k]])).join(' · ')}</td>
+          </tr>
+        {/if}
+        {#if a.extra[ADJ_EXTRA_INDEX.comparative]}
+          <tr><th scope="row">{TERMS.comparative.en} <span lang="ru">{TERMS.comparative.ru}</span></th><td lang="ru">{show(a.extra[ADJ_EXTRA_INDEX.comparative])}</td></tr>
+        {/if}
+        {#if a.extra[ADJ_EXTRA_INDEX.superlative]}
+          <tr><th scope="row">{TERMS.superlative.en} <span lang="ru">{TERMS.superlative.ru}</span></th><td lang="ru">{show(a.extra[ADJ_EXTRA_INDEX.superlative])}</td></tr>
+        {/if}
+      </tbody>
+    </table>
+  {/if}
 {/if}
 
 <style>
@@ -106,6 +142,12 @@
   }
   .anim {
     color: var(--muted);
+  }
+  .extra {
+    margin-top: 10px;
+  }
+  .extra th {
+    font-size: 0.85rem;
   }
   .note {
     font-size: 0.85rem;

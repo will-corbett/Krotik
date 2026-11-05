@@ -10,13 +10,13 @@ are the word actually used in a real Tatoeba sentence.
 - Grammar terms shown with their Russian equivalents.
 
 ## Setup screen
-With ~15 sections, the mode picker becomes grouped:
+Grouped mode picker (done for Phase A):
 **Verbs** (forms, reflexive, aspect, motion, verbal adverbs, participles, conditional, чтобы) ·
 **Adjectives** (agreement, short forms, comparatives/superlatives) ·
 **Nouns & numbers** (plurals, diminutives, numbers) ·
 **Sentences** (который, negation, indefinite pronouns, particles).
 
-## Phase A — from data already in the repo (OpenRussian)
+## Phase A — from data already in the repo (OpenRussian) — done 2026-11-05
 1. **Reflexive verbs** (возвратные глаголы): verb forms restricted to -ся/-сь verbs; validation that
    -сь follows vowels and -ся consonants.
 2. **Short-form adjectives** (краткие прилагательные): short_m/f/n/pl columns; stress shifts included.
@@ -28,6 +28,10 @@ With ~15 sections, the mode picker becomes grouped:
    - after numbers: 1 → nom. sg., 2–4 → gen. sg., 5+ → gen. pl.;
    - after quantity words: много, мало, несколько, сколько, нет → gen. pl.
    Plural drills don't need gender, so the ~5,100 nouns without gender in the source can be used here.
+
+   Phase A notes: comparatives exist for only ~290 adjectives and -ейший superlatives for ~180 in OpenRussian
+   (149 and 115 of the top 1,000) — Phase B can add more from Wiktionary. Substantivised adjectives
+   (будущее, управляющий) count as nouns in the source, so a few quantity questions read oddly (много будущего).
 
 ## Phase B — Wiktionary import (kaikki.org JSONL, 950 MB, streamed; CC BY-SA)
 1. **Verbal adverbs** (деепричастия): present (читая) and past (прочитав).

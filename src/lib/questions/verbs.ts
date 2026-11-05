@@ -46,7 +46,7 @@ export function eligibleCells(v: Verb, s: VerbSettings): number[] {
  * n questions; each verb is used at most once per round when the pool allows it,
  * so a round doesn't drill one verb several times.
  */
-export function generateVerbQuestions(pool: Verb[], s: VerbSettings, n: number, rng: Rng): Question[] {
+export function generateVerbQuestions(pool: Verb[], s: VerbSettings, n: number, rng: Rng, mode: Question['mode'] = 'verbs'): Question[] {
   const usable = pool.filter((v) => eligibleCells(v, s).length);
   const out: Question[] = [];
   const usedVerbs = new Set<number>();
@@ -56,11 +56,16 @@ export function generateVerbQuestions(pool: Verb[], s: VerbSettings, n: number, 
     const v = pick(rng, usable);
     if (usedVerbs.has(v.id) && usedVerbs.size < usable.length) continue;
     const cell = pick(rng, eligibleCells(v, s));
-    const q = verbFormQuestion(v, cell);
+    const q = verbFormQuestion(v, cell, mode);
     if (usedKeys.has(q.key)) continue;
     usedVerbs.add(v.id);
     usedKeys.add(q.key);
     out.push(q);
   }
   return out;
+}
+
+/** Reflexive verbs: infinitive ends in -ся/-сь. */
+export function isReflexive(v: Verb): boolean {
+  return /(ся|сь)$/.test(bare(v.accented));
 }

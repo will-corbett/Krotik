@@ -6,7 +6,7 @@ for (const scheme of ['light', 'dark'] as const) {
   test(`no axe violations (${scheme})`, async ({ page }) => {
     // Reduced motion: scans never catch a fade-in mid-animation (and this exercises that path).
     await page.emulateMedia({ colorScheme: scheme, reducedMotion: 'reduce' });
-    await setup(page, 'Adjective agreement');
+    await setup(page, 'Short-form adjectives');
     const scan = async () => {
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
@@ -25,10 +25,10 @@ for (const scheme of ['light', 'dark'] as const) {
 
 test('keyboard only: choose a mode, start, answer, continue', async ({ page }) => {
   await page.goto('/?seed=1');
-  // Tab to the mode radios and pick "Aspect partners" with arrow keys.
+  // Focus the mode radios and move to the next mode ("Reflexive verbs") with an arrow key.
   await page.getByRole('radio', { name: /Verb forms/ }).focus();
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('radio', { name: /Aspect partners/ })).toBeChecked();
+  await expect(page.getByRole('radio', { name: /Reflexive verbs/ })).toBeChecked();
   // Enter in a form control submits the setup form, starting the round.
   await page.keyboard.press('Enter');
   const input = page.getByRole('textbox', { name: 'Your answer' });

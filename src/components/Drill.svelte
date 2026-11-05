@@ -218,6 +218,8 @@
             <p class="typed">It comes back at the end of the round.</p>
           {/if}
 
+          {#if q.explain}<p class="explain">{q.explain}</p>{/if}
+
           {#if canSpeak}
             <button class="btn" type="button" onclick={() => speak(q.speak(answers[0] ?? ''))}>
               <span aria-hidden="true">🔊</span> Hear it
@@ -393,6 +395,12 @@
   }
   .typed {
     margin: 0 0 10px;
+  }
+  .explain {
+    margin: 0 0 10px;
+    padding: 8px 10px;
+    background: var(--surface-2);
+    border-radius: 8px;
   }
   .example {
     margin-top: 14px;

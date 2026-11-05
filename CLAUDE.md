@@ -46,6 +46,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   b0..bk. Sentence shards load lazily after a round starts.
 - Retry rule: wrong → re-queued at the end; round ends only when all are answered correctly (or End round).
   Score = first-attempt correct / attempted.
+- Modes are grouped on the setup screen (Verbs / Adjectives / Nouns); each mode has a generator in
+  `src/lib/questions/` and a case in `src/lib/start.ts`. Every grammar term goes through `src/lib/terms.ts`
+  so it is shown with its Russian equivalent.
+- `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
 - Accessibility: keyboard-only flow (Enter submits and continues), aria-live feedback, visible focus,
   contrast checked by axe in both themes, reduced motion respected, no horizontal scroll at phone width.

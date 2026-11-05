@@ -1,7 +1,16 @@
 import { expect, test } from '@playwright/test';
 import { playRetryRound, setup, type ModeName } from './helpers.ts';
 
-const modes: ModeName[] = ['Verb forms', 'Aspect partners', 'Adjective agreement', 'Motion verbs'];
+const modes: ModeName[] = [
+  'Verb forms',
+  'Reflexive verbs',
+  'Aspect partners',
+  'Motion verbs',
+  'Adjective agreement',
+  'Short-form adjectives',
+  'Comparatives & superlatives',
+  'Plurals',
+];
 
 for (const mode of modes) {
   test(`${mode}: full retry round`, async ({ page }) => {
@@ -62,6 +71,17 @@ test('unlimited round keeps going until End round', async ({ page }) => {
   await page.getByRole('button', { name: 'End round' }).click();
   await expect(page.getByRole('heading', { name: 'Round ended' })).toBeVisible();
   await expect(page.locator('.big')).toHaveText('0%');
+});
+
+test('plurals after numbers explain the rule', async ({ page }) => {
+  await setup(page, 'Plurals');
+  for (const name of [/Nominative plural/, /other cases/, /After много/]) await page.getByRole('checkbox', { name }).uncheck();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.locator('.frame-text').first()).toHaveText(/^\d+ ?$/);
+  await page.getByRole('button', { name: "I don't know" }).click();
+  await expect(page.locator('.explain')).toContainText(/After (1|2–4|5–20)/);
+  await page.locator('.forms summary').click();
+  await expect(page.locator('.forms table')).toContainText('мн. ч.');
 });
 
 test('grammar terms show their Russian names', async ({ page }) => {

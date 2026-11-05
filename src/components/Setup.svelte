@@ -3,15 +3,43 @@
   import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
-  import type { Mode, MotionSettings } from '../lib/types.ts';
+  import type { CompareSettings, Mode, MotionSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
-  const MODES: { id: Mode; title: Term; blurb: string }[] = [
-    { id: 'verbs', title: TERMS.verbForms, blurb: 'Present/future, past, imperative' },
-    { id: 'aspect', title: TERMS.aspectPartners, blurb: 'Imperfective ↔ perfective' },
-    { id: 'adjectives', title: TERMS.agreement, blurb: 'Gender, number, case, animacy' },
-    { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
+  const GROUPS_OF_MODES: { title: Term; modes: { id: Mode; title: Term; blurb: string }[] }[] = [
+    {
+      title: TERMS.verbs,
+      modes: [
+        { id: 'verbs', title: TERMS.verbForms, blurb: 'Present/future, past, imperative' },
+        { id: 'reflexive', title: TERMS.reflexive, blurb: '-ся after consonants, -сь after vowels' },
+        { id: 'aspect', title: TERMS.aspectPartners, blurb: 'Imperfective ↔ perfective' },
+        { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
+      ],
+    },
+    {
+      title: TERMS.adjectives,
+      modes: [
+        { id: 'adjectives', title: TERMS.agreement, blurb: 'Gender, number, case, animacy' },
+        { id: 'short', title: TERMS.shortForms, blurb: 'он нов, она нова́, они новы' },
+        { id: 'compare', title: TERMS.degrees, blurb: 'новее, новейший, самый новый' },
+      ],
+    },
+    {
+      title: TERMS.nouns,
+      modes: [{ id: 'plurals', title: TERMS.plurals, blurb: 'Plural forms, after numbers and quantity words' }],
+    },
+  ];
+  const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
+    { id: 'comparative', label: TERMS.comparative },
+    { id: 'superlative', label: { en: 'Superlative (-ейший)', ru: TERMS.superlative.ru } },
+    { id: 'samyi', label: TERMS.samyi },
+  ];
+  const PLURAL_CONTEXTS: { id: PluralSettings['contexts'][number]; label: Term }[] = [
+    { id: 'nom', label: { en: 'Nominative plural', ru: 'именительный падеж, мн. ч.' } },
+    { id: 'cases', label: { en: 'Plural in other cases', ru: 'косвенные падежи' } },
+    { id: 'numbers', label: { en: 'After numbers (2 стола, 5 столов)', ru: 'после числительных' } },
+    { id: 'quantity', label: { en: 'After много, мало, несколько, сколько, нет', ru: 'после слов количества' } },
   ];
   const GROUPS: { id: VerbGroup; label: Term }[] = [
     { id: 'presfut', label: TERMS.presfut },
@@ -40,30 +68,40 @@
 <form class="setup fade-in" onsubmit={submit}>
   <fieldset class="modes">
     <legend>Practise</legend>
-    <div class="mode-grid">
-      {#each MODES as m (m.id)}
-        <label class="mode" class:selected={settings.mode === m.id}>
-          <input type="radio" name="mode" value={m.id} bind:group={settings.mode} />
-          <span class="mode-title">{m.title.en}</span>
-          <span class="mode-ru" lang="ru">{m.title.ru}</span>
-          <span class="mode-blurb">{m.blurb}</span>
-        </label>
-      {/each}
-    </div>
+    {#each GROUPS_OF_MODES as g (g.title.en)}
+      <h2 class="group">{g.title.en} <span class="ru" lang="ru">{g.title.ru}</span></h2>
+      <div class="mode-grid">
+        {#each g.modes as m (m.id)}
+          <label class="mode" class:selected={settings.mode === m.id}>
+            <input type="radio" name="mode" value={m.id} bind:group={settings.mode} />
+            <span class="mode-title">{m.title.en}</span>
+            <span class="mode-ru" lang="ru">{m.title.ru}</span>
+            <span class="mode-blurb">{m.blurb}</span>
+          </label>
+        {/each}
+      </div>
+    {/each}
   </fieldset>
 
   <div class="card options">
-    {#if settings.mode === 'verbs'}
+    {#if settings.mode === 'verbs' || settings.mode === 'reflexive'}
+      {@const vs = settings.mode === 'verbs' ? settings.verbs : settings.reflexive}
       <fieldset>
         <legend>Tenses <span class="ru" lang="ru">времена</span></legend>
         <div class="chips">
           {#each GROUPS as g (g.id)}
             <label class="chip">
-              <input type="checkbox" checked={settings.verbs.groups.includes(g.id)} onchange={() => (settings.verbs.groups = toggle(settings.verbs.groups, g.id))} />
+              <input type="checkbox" checked={vs.groups.includes(g.id)} onchange={() => (vs.groups = toggle(vs.groups, g.id))} />
               {g.label.en} <span class="ru" lang="ru">{g.label.ru}</span>
             </label>
           {/each}
         </div>
+        {#if settings.mode === 'reflexive'}
+          <p class="hint muted">
+            Only verbs ending in -ся/-сь (<span lang="ru">возвратные глаголы</span>): -ся after a consonant
+            (<span lang="ru">учился</span>), -сь after a vowel (<span lang="ru">училась, учусь</span>).
+          </p>
+        {/if}
         <p class="hint muted">
           An imperfective (<span lang="ru">несовершенный вид</span>) verb's forms are present tense; a perfective
           (<span lang="ru">совершенный вид</span>) verb's are future.
@@ -106,6 +144,53 @@
           animacy (<span lang="ru">одушевлённость</span>).
         </p>
       </fieldset>
+    {:else if settings.mode === 'short'}
+      <p class="hint muted first">
+        Type the short form (<span lang="ru">краткая форма</span>) that agrees with the pronoun: masculine
+        (<span lang="ru">мужской род</span>), feminine (<span lang="ru">женский род</span>), neuter
+        (<span lang="ru">средний род</span>) or plural (<span lang="ru">множественное число</span>). Watch the stress shifts.
+      </p>
+    {:else if settings.mode === 'compare'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          {#each COMPARE_TYPES as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.compare.types.includes(t.id)} onchange={() => (settings.compare.types = toggle(settings.compare.types, t.id))} />
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+        <p class="hint muted">
+          The source has comparatives for about 290 adjectives and -ейший superlatives for about 180, mostly the common ones.
+          With самый, both words agree with the noun in the nominative (<span lang="ru">именительный падеж</span>).
+        </p>
+      </fieldset>
+    {:else if settings.mode === 'plurals'}
+      <fieldset>
+        <legend>Contexts</legend>
+        <div class="chips">
+          {#each PLURAL_CONTEXTS as t (t.id)}
+            <label class="chip">
+              <input type="checkbox" checked={settings.plurals.contexts.includes(t.id)} onchange={() => (settings.plurals.contexts = toggle(settings.plurals.contexts, t.id))} />
+              {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+      {#if settings.plurals.contexts.includes('cases')}
+        <fieldset>
+          <legend>Cases for “other cases” <span class="ru" lang="ru">падежи</span></legend>
+          <div class="chips">
+            {#each CASES.filter((c) => c !== 'nom') as c (c)}
+              <label class="chip">
+                <input type="checkbox" checked={settings.plurals.cases.includes(c)} onchange={() => (settings.plurals.cases = toggle<Case>(settings.plurals.cases, c))} />
+                {CASE_TERM[c].en} <span class="ru" lang="ru">{CASE_TERM[c].ru.replace(' падеж', '')}</span>
+              </label>
+            {/each}
+          </div>
+        </fieldset>
+      {/if}
     {:else}
       <fieldset>
         <legend>Question types</legend>
@@ -178,6 +263,16 @@
   .modes legend {
     font-size: 1.4rem;
     font-family: var(--serif);
+  }
+  .group {
+    font-size: 1rem;
+    margin: 14px 0 8px;
+  }
+  .group:first-of-type {
+    margin-top: 0;
+  }
+  .first {
+    margin: 0 0 18px;
   }
   .mode-grid {
     display: grid;

@@ -2,7 +2,7 @@ import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
 import type { LexType } from '../shared/types.ts';
 import type { TaskPart } from './terms.ts';
 
-export type Mode = 'verbs' | 'aspect' | 'adjectives' | 'motion';
+export type Mode = 'verbs' | 'reflexive' | 'aspect' | 'motion' | 'adjectives' | 'short' | 'compare' | 'plurals';
 
 export interface Verb {
   id: number;
@@ -36,7 +36,7 @@ export interface Noun {
 }
 
 /** Which word's paradigm to show after answering. */
-export type ParadigmRef = { kind: 'verb'; verb: Verb } | { kind: 'adjective'; adjective: Adjective };
+export type ParadigmRef = { kind: 'verb'; verb: Verb } | { kind: 'adjective'; adjective: Adjective } | { kind: 'noun'; noun: Noun };
 
 export interface Question {
   /** Unique within a round (used to avoid duplicates). */
@@ -57,6 +57,8 @@ export interface Question {
   answer: string;
   /** Other forms of the same word, for "what you typed is the … form". */
   others: { label: string; cell: string }[];
+  /** Rule shown after answering (e.g. why 2–4 take genitive singular). */
+  explain?: string;
   /** Label of the target form, for the end screen. */
   label: string;
   paradigm: ParadigmRef;
@@ -74,6 +76,13 @@ export interface AspectSettings {
 export interface AdjSettings {
   cases: Case[];
   number: 'sg' | 'pl' | 'both';
+}
+export interface CompareSettings {
+  types: ('comparative' | 'superlative' | 'samyi')[];
+}
+export interface PluralSettings {
+  contexts: ('nom' | 'cases' | 'numbers' | 'quantity')[];
+  cases: Case[];
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];

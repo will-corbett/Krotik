@@ -3,7 +3,10 @@ import { loadAdjectives, loadMotion, loadNouns, loadVerbs, toVerb } from './data
 import { generateAdjectiveQuestions } from './questions/adjectives.ts';
 import { generateAspectQuestions } from './questions/aspect.ts';
 import { generateMotionQuestions } from './questions/motion.ts';
-import { generateVerbQuestions } from './questions/verbs.ts';
+import { generateVerbQuestions, isReflexive } from './questions/verbs.ts';
+import { generateShortQuestions } from './questions/short.ts';
+import { generateCompareQuestions } from './questions/compare.ts';
+import { generatePluralQuestions } from './questions/plurals.ts';
 import type { Rng } from './rng.ts';
 import type { Settings } from './settings.ts';
 import type { Question } from './types.ts';
@@ -21,6 +24,22 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
     case 'verbs': {
       const pool = await loadVerbs(s.band);
       return (n) => generateVerbQuestions(pool, s.verbs, n, rng);
+    }
+    case 'reflexive': {
+      const pool = (await loadVerbs(s.band)).filter(isReflexive);
+      return (n) => generateVerbQuestions(pool, s.reflexive, n, rng, 'reflexive');
+    }
+    case 'short': {
+      const pool = await loadAdjectives(s.band);
+      return (n) => generateShortQuestions(pool, n, rng);
+    }
+    case 'compare': {
+      const [adjs, nouns] = await Promise.all([loadAdjectives(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND))]);
+      return (n) => generateCompareQuestions(adjs, nouns, s.compare, n, rng);
+    }
+    case 'plurals': {
+      const pool = await loadNouns(s.band);
+      return (n) => generatePluralQuestions(pool, s.plurals, n, rng);
     }
     case 'aspect': {
       const pool = await loadVerbs(s.band);
@@ -63,6 +82,10 @@ export function nextBatch(generate: Generate, pending: Set<string>, recent: stri
 /** Does the mode have at least one option selected? */
 export function settingsValid(s: Settings): string | null {
   if (s.mode === 'verbs' && !s.verbs.groups.length) return 'Choose at least one tense.';
+  if (s.mode === 'reflexive' && !s.reflexive.groups.length) return 'Choose at least one tense.';
+  if (s.mode === 'compare' && !s.compare.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'plurals' && !s.plurals.contexts.length) return 'Choose at least one context.';
+  if (s.mode === 'plurals' && s.plurals.contexts.length === 1 && s.plurals.contexts[0] === 'cases' && !s.plurals.cases.length) return 'Choose at least one case.';
   if (s.mode === 'adjectives' && !s.adjectives.cases.length) return 'Choose at least one case.';
   if (s.mode === 'motion' && !s.motion.types.length) return 'Choose at least one question type.';
   return null;

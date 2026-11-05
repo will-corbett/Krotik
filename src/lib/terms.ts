@@ -37,6 +37,21 @@ export const TERMS = {
   aspectPartners: t('Aspect partners', 'видовые пары'),
   conjugation: t('Conjugate', 'спряжение'),
   verb: t('verb', 'глагол'),
+  // groups
+  verbs: t('Verbs', 'глаголы'),
+  adjectives: t('Adjectives', 'прилагательные'),
+  nouns: t('Nouns', 'существительные'),
+  // Phase A sections
+  reflexive: t('Reflexive verbs', 'возвратные глаголы'),
+  shortForms: t('Short-form adjectives', 'краткие прилагательные'),
+  shortForm: t('Short form', 'краткая форма'),
+  degrees: t('Comparatives & superlatives', 'степени сравнения'),
+  comparative: t('Comparative', 'сравнительная степень'),
+  superlative: t('Superlative', 'превосходная степень'),
+  samyi: t('Superlative with самый', 'составная превосходная степень'),
+  plurals: t('Plurals', 'множественное число'),
+  afterNumber: t('after a number', 'после числительного'),
+  afterQuantity: t('after a quantity word', 'после слов количества'),
 } satisfies Record<string, Term>;
 
 export const CASE_TERM: Record<Case, Term> = {
