@@ -61,6 +61,12 @@ nouns:
       pl_prep: "года'х,(лета'х)"
   exclude: {}
   gloss: {}
+  # Form used after numbers 5+ and after сколько/несколько, where it differs from the ordinary
+  # genitive plural (пять челове'к, not *пять люде'й; пять ле'т, not *пять годо'в).
+  # Both are listed by Wiktionary as genitive plural forms of the noun.
+  counting:
+    человек: "челове'к"
+    год: "ле'т"
 
 sentences:
   # Tatoeba sentence id → reason

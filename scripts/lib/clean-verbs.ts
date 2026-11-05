@@ -72,6 +72,13 @@ export function cleanVerbs(raw: Record<string, string>[], rowIds: Map<Record<str
       report.drop(S, dropReason.replace(/^(\S+) \S+:/, '$1:'), bare);
       continue;
     }
+    if (/(ся|сь)$/.test(bare)) {
+      const bad = reflexiveErrors(cells);
+      if (bad.length) {
+        report.drop(S, 'reflexive -ся/-сь spelling inconsistent (-сь after vowels, -ся after consonants)', `${bare} (${bad.join(', ')})`);
+        continue;
+      }
+    }
     seen.add(key);
     // Keep only partners of the opposite aspect (the source has some same-aspect "partners",
     // e.g. носить → наносить); those are reported, not drilled.
@@ -139,4 +146,22 @@ function validateVerbs(verbs: Verb[], report: Report, ov?: TypeOverrides) {
       if (sus.length && !ov?.gloss?.[v.bare]) report.anomaly(S, `gloss words not in English word list (top ${GLOSS_CHECK_TOP})`, `${v.bare}: "${v.gloss}" [${sus.join(', ')}]`);
     }
   });
+}
+
+/** -сь after a vowel, -ся after a consonant, in every reflexive form. Returns offending forms. */
+export function reflexiveErrors(cells: string[]): string[] {
+  const bad: string[] = [];
+  for (const c of cells) {
+    for (const f of cellForms(c)) {
+      const n = normalise(f);
+      const m = /(.)(ся|сь)$/.exec(n);
+      if (!m) {
+        bad.push(n);
+        continue;
+      }
+      const vowel = /[аеёиоуыэюя]/.test(m[1]!);
+      if (vowel !== (m[2] === 'сь')) bad.push(n);
+    }
+  }
+  return bad;
 }

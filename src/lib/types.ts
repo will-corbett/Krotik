@@ -18,16 +18,20 @@ export interface Adjective {
   accented: string;
   gloss: string;
   cells: string[];
+  /** ADJ_EXTRA order: short m/f/n/pl, comparative, superlative ("" = absent). */
+  extra: string[];
   band: number;
 }
 export interface Noun {
   id: number;
   accented: string;
   gloss: string;
-  gender: Gender;
+  gender: Gender | '';
   animate: boolean;
   sgOnly: boolean;
   cells: string[];
+  /** Form after numbers 5+ / сколько / несколько when it differs from gen. pl. (челове'к). */
+  counting?: string;
   band: number;
 }
 

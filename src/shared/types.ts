@@ -5,11 +5,14 @@ import type { Aspect, Gender } from './cells.ts';
 /** [id, accented infinitive, gloss, aspect, partner infinitives (accented), cells (VERB_CELLS order; "" = absent)] */
 export type VerbRow = [number, string, string, Aspect, string[], string[]];
 
-/** [id, accented, gloss, cells (ADJ_CELLS order; "" = not available)] */
-export type AdjRow = [number, string, string, string[]];
+/** [id, accented, gloss, cells (ADJ_CELLS order; "" = not available), extra cells (ADJ_EXTRA order)] */
+export type AdjRow = [number, string, string, string[], string[]];
 
-/** [id, accented, gloss, gender, animate (0|1), number restriction (0 both, 1 sg only), cells (NOUN_CELLS order)] */
-export type NounRow = [number, string, string, Gender, 0 | 1, 0 | 1, string[]];
+/**
+ * [id, accented, gloss, gender ("" = unknown or common gender), animate (0|1), singular only (0|1),
+ *  cells (NOUN_CELLS order), counting form after numbers (optional; e.g. челове'к, ле'т)]
+ */
+export type NounRow = [number, string, string, Gender | '', 0 | 1, 0 | 1, string[], string?];
 
 /** [tatoeba rus id, russian, english, bitmask of cells the token can be, token start, token end] */
 export type SentenceRow = [number, string, string, number, number, number];

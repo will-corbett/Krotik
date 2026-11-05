@@ -11,23 +11,27 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | verbs.b0.json | 250 | 75 KB |
 | verbs.b1.json | 750 | 240 KB |
 | verbs.b2.json | 1500 | 496 KB |
-| verbs.b3.json | 11657 | 4030 KB |
-| adjectives.b0.json | 250 | 137 KB |
-| adjectives.b1.json | 750 | 489 KB |
-| adjectives.b2.json | 1500 | 1032 KB |
-| adjectives.b3.json | 7602 | 5649 KB |
+| verbs.b3.json | 11656 | 4029 KB |
+| adjectives.b0.json | 250 | 154 KB |
+| adjectives.b1.json | 750 | 540 KB |
+| adjectives.b2.json | 1500 | 1142 KB |
+| adjectives.b3.json | 7602 | 6212 KB |
 | nouns.b0.json | 250 | 62 KB |
-| nouns.b1.json | 750 | 205 KB |
-| nouns.b2.json | 1500 | 430 KB |
-| nouns.b3.json | 16276 | 5241 KB |
-| sentences.verbs.b0.json | 244 lemmas, 1419 sentences | 111 KB |
-| sentences.verbs.b1.json | 732 lemmas, 3825 sentences | 344 KB |
-| sentences.verbs.b2.json | 1349 lemmas, 5401 sentences | 552 KB |
-| sentences.verbs.b3.json | 3968 lemmas, 9925 sentences | 1119 KB |
-| sentences.adjectives.b0.json | 246 lemmas, 1405 sentences | 132 KB |
-| sentences.adjectives.b1.json | 684 lemmas, 3198 sentences | 367 KB |
-| sentences.adjectives.b2.json | 1103 lemmas, 3484 sentences | 444 KB |
-| sentences.adjectives.b3.json | 1933 lemmas, 4328 sentences | 574 KB |
+| nouns.b1.json | 750 | 204 KB |
+| nouns.b2.json | 1500 | 428 KB |
+| nouns.b3.json | 20439 | 6550 KB |
+| sentences.verbs.b0.json | 245 lemmas, 1424 sentences | 111 KB |
+| sentences.verbs.b1.json | 732 lemmas, 3823 sentences | 344 KB |
+| sentences.verbs.b2.json | 1349 lemmas, 5384 sentences | 551 KB |
+| sentences.verbs.b3.json | 3956 lemmas, 9883 sentences | 1115 KB |
+| sentences.adjectives.b0.json | 246 lemmas, 1404 sentences | 132 KB |
+| sentences.adjectives.b1.json | 684 lemmas, 3194 sentences | 366 KB |
+| sentences.adjectives.b2.json | 1103 lemmas, 3482 sentences | 444 KB |
+| sentences.adjectives.b3.json | 1930 lemmas, 4321 sentences | 573 KB |
+| sentences.nouns.b0.json | 245 lemmas, 1339 sentences | 119 KB |
+| sentences.nouns.b1.json | 737 lemmas, 3606 sentences | 360 KB |
+| sentences.nouns.b2.json | 1391 lemmas, 5545 sentences | 605 KB |
+| sentences.nouns.b3.json | 6435 lemmas, 15999 sentences | 1939 KB |
 | motion.json | 12 pairs | 7.1 KB |
 
 ## Verbs
@@ -36,11 +40,11 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | rows in source | 14871 |
 | imperative dropped (capital letter in form), verb kept | 1 |
-| kept without an English gloss | 2028 |
+| kept without an English gloss | 2027 |
 | imperative dropped (fragment (leading/trailing hyphen)), verb kept | 4 |
 | past masculine without -л (мог/шёл type; f/n/pl checked) | 501 |
 | perfective with no imperfective partner (normal for e.g. пойти, закричать) | 2320 |
-| kept | 14157 |
+| kept | 14156 |
 
 **Frequency check** (first 2000 kept lemmas vs OpenSubtitles word-form counts): Spearman ρ = 0.67; 251 lemmas have no form in the 50k list.
 
@@ -53,6 +57,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 - **presfut: other invalid characters** (3): застонать, простонать, скачать
 - **presfut: capital letter in form** (1): записаться
 - **past: unbalanced parenthesis** (1): взъесться
+- **reflexive -ся/-сь spelling inconsistent (-сь after vowels, -ся after consonants)** (1): поставиться (поставлю, поставишь, поставит, поставим, поставите, поставят, поставил, поставила, поставило, поставили, поставь, поставьте)
 - **missing aspect** (1): по-семейному
 
 ### Anomalies
@@ -71,9 +76,18 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | count | n |
 |---|---:|
 | rows in source | 11941 |
+| with short forms | 7019 |
+| with comparative | 289 |
+| with synthetic superlative (-ейший/-айший) | 184 |
+| short forms dropped (empty form) | 22 |
+| no short forms (source marks them * = not in use) | 1321 |
 | pl accusative: inanimate taken from nominative (source listed one variant) | 1 |
+| short forms dropped (other invalid characters) | 249 |
 | m accusative: animate taken from genitive (source listed one variant) | 850 |
 | pl accusative: animate taken from genitive (source listed one variant) | 852 |
+| short forms dropped (Latin letter or digit in form) | 6 |
+| short forms dropped (slash in form) | 1 |
+| short forms dropped (fragment (leading/trailing hyphen)) | 6 |
 | pronominal or possessive -ий declension (pattern check skipped) | 165 |
 | kept | 10102 |
 
@@ -93,6 +107,9 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 ### Anomalies
 
+- **superlative not a single -ший form (dropped)** (30): главный: са'мый гла'вный; правый: са'мый пра'вый; больной: са'мый больно'й; долгий: до'лее; сухой: са'мый сухо'й; интересный: са'мый интере'сный;интере'снейший; задний: са'мый за'дний; богатый: са'мый бога'тый;богате'йший; строгий: са'мый стро'гий; жёсткий: жёстчейщий; правильный: са'мый пра'вильный; невидимый: са'мый неви'димый; жаркий: жа'рчейщий; тесный: са'мый те'сный; скучный: са'мый ску'чный;скучне'йший; ленивый: [[са'мый]] [[лени'вый]];лениве'йший; злобный: зло'бнейшый; успешный: са'мый успе'шный; исполнительный: са'мый исполни'тельный; чувствительный: самый-чувствительный; помятый: помятей; бойкий: са'мый бо'йкий; отвесный: са'мый отве'сный; языческий: са'мый язы'ческий; недостижимый: са'мый недостижи'мый; …
+- **short forms not following the m/f/n/pl pattern (short forms dropped)** (32): собственный: со'бствен,со'бственен со'бственно со'бственна со'бственны; обратный: обра'тен обра'тна обра'тна обра'тны; серебряный: сере'брян сере'бряно сере'бряна сере'бряны; необыкновенный: необыкнове'нен необыкнове'нна необыкнове'нно необыкнове'нн; влажный: вла'жен влажна' вла'жно вла'жн; положительный: положи'телен положи'тельн положи'тельно положи'тельны; отрицательный: отрица'телен отрица'тельн отрица'тельно отрица'тельны; водный: во'ден во'дно во'дна во'дны; устойчивый: усто'йчив усто'йчива усто'йчиво усто'йчив; яростный: я'ростен я'ростно я'ростна я'ростны; некрасивый: некраси'в некраси'в некраси'во некраси'вы; настольный: насто'лен насто'льно насто'льна насто'льны; признанный: при'знан при'знаны при'знано при'знаны; шустрый: шу'стр,шустёр шу'стро шустра' шустры',шу'стры; пятнистый: пятни'ст пятни'ст пятни'сто пятни'ст; надменный: надме'нен надме'нна надме'нно надме'нно; учащийся: уча'щся уча'щася уча'щеся уча'щися; русскоязычный: русскоязы'чен русскоязы'чна русскоязы'чно русскоязы'чн; портативный: портати'вен портати'вно портати'вна портати'вны; прожорливый: прожо'рлив прожо'рлив прожо'рливо прожо'рливы; вероломный: вероло'мен вероло'мно вероло'мна вероло'мны; вышесказанный: вышеска'зан вышеска'занна вышеска'занн вышеска'занн; непромокаемый: непромока'ем непромока'емый непромока'емо непромока'емы; англоязычный: англоязы'чен англоязы'чна англоязы'чно англоязы'чн; гравитационный: гравитацио'нен гравитацио'нно гравитацио'нна гравитацио'нны; …
+- **comparative not usable (dropped)** (4): больной: больн; задний: бо'лее за'дний; языческий: бо'лее язы'ческий; текучий: бо'лее теку'чий
 - **gloss words not in English word list (top 2500)** (20): стоящий: "worthwhile, worth doing" [worthwhile]; ленинградский: "of or relating to the city of Leningrad" [leningrad]; царский: "royal, regal, tsarist, czarist" [tsarist]; сталинский: "Stalinist, related to Stalin" [stalin]; пёстрый: "motley, variegated, particoloured, gay" [particoloured]; ленинский: "Lenin" [lenin]; звёздный: "star, sidereal, starry, starlit" [sidereal]; сосновый: "pine, pinewood, deal" [pinewood]; усатый: "with a big moustache, moustached, whiskered" [moustached]; беззащитный: "defenceless, unprotected" [defenceless]; новогодний: "New Year’s" [year’s]; белокурый: "blond, fair, fair-haired" [blond]; ветхий: "decrepit, ramshackle, tumbledown, dilapidated" [tumbledown]; путный: "sensible, worthwhile" [worthwhile]; неопытный: "inexperienced, unpractised" [unpractised]; нобелевский: "Nobel" [nobel]; хреновый: "lousy, shitty" [shitty]; безоружный: "unarmed, defenceless" [defenceless]; пиратский: "piratic" [piratic]; ювелирный: "jewellery, fine, minute, intricate" [jewellery]
 - **m accusative not resolvable to nom (inanimate) + gen (animate); cells disabled** (3): налоговый: acc "налоговый,ого" nom "налоговый" gen "налогового"; чей-то: acc "чейчьего-то" nom "чей-то" gen "чьего-то"; поставленный: acc "поставленныйпоставленного" nom "поставленный" gen "поставленного"
 - **pl accusative not resolvable to nom (inanimate) + gen (animate); cells disabled** (3): налоговый: acc "налоговые,ых" nom "налоговые" gen "налоговых"; чей-то: acc "чьичьих-то" nom "чьи-то" gen "чьих-то"; поставленный: acc "поставленныхпоставленные" nom "поставленные" gen "поставленных"
@@ -104,33 +121,33 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | count | n |
 |---|---:|
 | rows in source | 26982 |
-| kept | 18776 |
+| kept without gender (missing): plural drills only, not agreement | 5118 |
+| kept without gender (common gender): plural drills only, not agreement | 24 |
+| kept | 22939 |
 
-**Frequency check** (first 2000 kept lemmas vs OpenSubtitles word-form counts): Spearman ρ = 0.67; 61 lemmas have no form in the 50k list.
+**Frequency check** (first 2000 kept lemmas vs OpenSubtitles word-form counts): Spearman ρ = 0.67; 59 lemmas have no form in the 50k list.
 
 ### Dropped
 
-- **gender missing or not m/f/n ("")** (5118): свет, право, сын, шаг, берег, дядя, ветер, зуб, оружие, член, правило, тип, дед, цветок, орган, литература, рыба, щека, кулак, стихи, существо, зверь, тон, крыло, шофёр, …
-- **sg: empty form** (955): пять, грудь, тридцать, бок, спокойствие, продолжение, заговор, ир, злато, столкновение, шнур, уток, мерседес, управляющий, равнодушие, осуществление, уполномоченный, вторжение, джинса, возрождение, экс, карра, проклятие, выплата, фельдмаршал, …
-- **animacy missing** (690): прочее, шум, пятнадцать, вина, одиннадцать, ось, видение, африка, никитина, осторожность, госдума, мгла, недра, пина, чаёк, графика, антарктида, девятнадцать, генсек, эрмитаж, болгария, неизвестность, австрия, неизбежность, невестка, …
+- **animacy missing** (1507): берег, ветер, правило, прочее, стихи, шум, пятнадцать, шофёр, сведение, шёпот, двести, лекарство, санкт, хрен, переговоры, корея, вина, фактор, проволока, одиннадцать, сибирь, лёт, аппетит, вселенная, командующий, …
+- **sg: empty form** (983): пять, грудь, тридцать, бок, спокойствие, продолжение, заговор, млрд, ир, злато, столкновение, шнур, уток, мерседес, управляющий, равнодушие, осуществление, уполномоченный, вторжение, джинса, возрождение, экс, карра, проклятие, выплата, …
 - **proper noun / abbreviation (capitalised)** (399): Россия, Москва, Петербург, США, Германия, СССР, Европа, Ленинград, Париж, Израиль, Франция, Чечня, Украина, Англия, Италия, Берлин, Япония, Лондон, Эстония, Одесса, Польша, Рим, Кавказ, Питер, Азия, …
-- **plural-only (no gender for agreement)** (377): ребята, сутки, штаны, брюки, дрова, выборы, сумерки, корточки, похороны, ребятишки, сани, уста, хлопоты, носилки, цыпочки, чернила, перила, шахматы, аплодисменты, детишки, каникулы, щи, четвереньки, обои, останки, …
+- **plural-only (сутки, брюки: not drilled yet)** (377): ребята, сутки, штаны, брюки, дрова, выборы, сумерки, корточки, похороны, ребятишки, сани, уста, хлопоты, носилки, цыпочки, чернила, перила, шахматы, аплодисменты, детишки, каникулы, щи, четвереньки, обои, останки, …
 - **indeclinable** (278): кино, кофе, пальто, шоссе, цк, радио, метро, кафе, такси, нквд, кгб, интервью, мадам, политбюро, бюро, па, кпсс, виски, купе, леди, си, фсб, оон, миссис, нато, …
-- **animacy flag contradicts the noun's own accusative forms** (205): генерал, тень, личность, участок, дон, следователь, старшина, собеседник, режиссёр, окружающее, хоббит, сынок, коза, чудовище, ветеран, призрак, подружка, держава, парнишка, староста, прожектор, вестибюль, толщина, сирена, бах, …
-- **pl: asterisk in form** (73): пыль, даба, мастерство, барахло, жратва, мытьё, труха, новизна, желтизна, бритьё, хулиганьё, гущина, куга, белиберда, гульба, волшба, мелкота, полузабытьё, ленца, алыча, барда, белена, бечева, богара, божба, …
-- **sg: capital letter in form** (37): господь, америка, костя, константин, китай, белоруссия, египет, бельгия, газпром, кишинев, вильнюс, ялта, шпагина, узбекистан, брюссель, неаполь, дунай, артем, бавария, лозанна, кембридж, кадиллак, чернигов, ватин, стрельна, …
-- **duplicate bare form (kept the earlier row)** (25): бегунок, кегль, ползунок, автохтон, ага, атлас, вафля, ведение, венец, коса, ледник, мука, острота, помело, пора, тамбур, чернобыль, бедуин, рисовка, скорбут, партийка, лист, повод, джин, валенок
-- **gender missing or not m/f/n ("both")** (24): коллега, бедняга, сирота, умница, статистик, бублик, нуждающийся, заика, антонюк, суоми, фря, забулдыга, дегтяренко, харбор, каналья, коняга, молодчага, неумейка, неумёха, сластёна, зёма, фотик, червы, гетеро
+- **animacy flag contradicts the noun's own accusative forms** (207): генерал, тень, личность, участок, дон, следователь, старшина, собеседник, режиссёр, окружающее, хоббит, сынок, коза, чудовище, ветеран, призрак, подружка, держава, парнишка, староста, солнышко, прожектор, вестибюль, толщина, сирена, …
+- **pl: asterisk in form** (160): свет, пыль, существо, добро, даба, простота, мастерство, костра, пух, чутьё, колдовство, чернота, барахло, правота, моща, воровство, белизна, жратва, теплота, духота, родство, житьё, теснота, бора, мура, …
+- **duplicate bare form (kept the earlier row)** (66): бегунок, кегль, ползунок, автохтон, ага, атлас, вафля, ведение, венец, коса, ледник, мука, острота, помело, пора, орган, волна, скала, ужин, комплекс, свойство, транспорт, провод, горечь, тупик, …
+- **sg: capital letter in form** (40): господь, америка, костя, константин, китай, белоруссия, египет, камаз, бельгия, газпром, кишинев, вильнюс, ялта, шпагина, узбекистан, цска, брюссель, неаполь, дунай, артем, бавария, астория, лозанна, кембридж, кадиллак, …
 - **pl: empty form** (11): блеф, гуляние, послесловие, срабатывание, бикфордов, альфа-лучи, дефолиация, заряжание, непреодолимость, смог, уничижительность
-- **pl: other invalid characters** (8): пропасть, церковь, флот, пан, крюк, лоскут, мальчонок, пудель
+- **pl: other invalid characters** (9): пропасть, церковь, флот, пан, крюк, серьга, лоскут, мальчонок, пудель
 - **sg: other invalid characters** (6): чёрт, кий, воз, психоневропатолог, стереоизображение, стеклоочиститель
 
 ### Anomalies
 
 - **fixed by override** (1): год: pl_nom, pl_gen, pl_dat, pl_acc, pl_inst, pl_prep
-- **animacy flag contradicts own accusative (dropped)** (205): генерал (inanimate): sg acc генера'ла, pl acc генера'лов; тень (inanimate): pl acc те'ней; личность (animate): pl acc ли'чности; участок (inanimate): sg acc уча'стка, pl acc уча'стков; дон (inanimate): sg acc до'на, pl acc до'нов; следователь (inanimate): sg acc сле'дователя, pl acc сле'дователей; старшина (inanimate): pl acc старши'н; собеседник (inanimate): sg acc собесе'дника, pl acc собесе'дников; режиссёр (inanimate): sg acc режиссёра, pl acc режиссёров; окружающее (inanimate): pl acc окружа'ющих; хоббит (inanimate): sg acc хо'ббита, pl acc хо'ббитов; сынок (animate): sg acc сыно'к, pl acc сынки'; коза (inanimate): pl acc ко'з; чудовище (inanimate): pl acc чудо'вищ; ветеран (inanimate): sg acc ветера'на, pl acc ветера'нов; призрак (animate): sg acc при'зрак, pl acc при'зраки; подружка (animate): pl acc подру'жки; держава (inanimate): pl acc держа'в; парнишка (animate): pl acc парни'шки; староста (animate): pl acc ста'росты; прожектор (animate): sg acc проже'ктор, pl acc проже'кторы,прожектора'; вестибюль (inanimate): sg acc вестибю'ля, pl acc вестибю'лей; толщина (animate): pl acc толщи'ны; сирена (inanimate): pl acc сире'н; бах (animate): sg acc бах; …
-- **source top-250 but outside frequency top-1000** (1): рубль (#181 → #1810), развитие (#212 → #1006), ладонь (#216 → #1562), институт (#217 → #1157)
-- **source rank > 1000 but frequency top-250** (1): бизнес (#1011 → #236), сэр (#1013 → #28), доказательство (#1022 → #235), свадьба (#1058 → #195), штат (#1062 → #250), идиот (#1077 → #207), удача (#1103 → #200), перевод (#1115 → #175), свидание (#1145 → #117), мистер (#1158 → #22), адвокат (#1389 → #153), пациент (#1605 → #230), дерьмо (#1666 → #139), переводчик (#1757 → #229), прощение (#1769 → #193), том (#1834 → #16), посол (#1838 → #24), офис (#1843 → #182), минутка (#1901 → #208)
+- **animacy flag contradicts own accusative (dropped)** (207): генерал (inanimate): sg acc генера'ла, pl acc генера'лов; тень (inanimate): pl acc те'ней; личность (animate): pl acc ли'чности; участок (inanimate): sg acc уча'стка, pl acc уча'стков; дон (inanimate): sg acc до'на, pl acc до'нов; следователь (inanimate): sg acc сле'дователя, pl acc сле'дователей; старшина (inanimate): pl acc старши'н; собеседник (inanimate): sg acc собесе'дника, pl acc собесе'дников; режиссёр (inanimate): sg acc режиссёра, pl acc режиссёров; окружающее (inanimate): pl acc окружа'ющих; хоббит (inanimate): sg acc хо'ббита, pl acc хо'ббитов; сынок (animate): sg acc сыно'к, pl acc сынки'; коза (inanimate): pl acc ко'з; чудовище (inanimate): pl acc чудо'вищ; ветеран (inanimate): sg acc ветера'на, pl acc ветера'нов; призрак (animate): sg acc при'зрак, pl acc при'зраки; подружка (animate): pl acc подру'жки; держава (inanimate): pl acc держа'в; парнишка (animate): pl acc парни'шки; староста (animate): pl acc ста'росты; солнышко (inanimate): pl acc со'лнышки; прожектор (animate): sg acc проже'ктор, pl acc проже'кторы,прожектора'; вестибюль (inanimate): sg acc вестибю'ля, pl acc вестибю'лей; толщина (animate): pl acc толщи'ны; сирена (inanimate): pl acc сире'н; …
+- **source top-250 but outside frequency top-1000** (1): рубль (#186 → #1822), развитие (#219 → #1033), ладонь (#223 → #1583), институт (#224 → #1184)
+- **source rank > 1000 but frequency top-250** (1): бизнес (#1043 → #243), сэр (#1045 → #28), доказательство (#1054 → #242), свадьба (#1090 → #201), идиот (#1109 → #213), удача (#1138 → #206), перевод (#1150 → #180), свидание (#1181 → #121), мистер (#1194 → #22), адвокат (#1433 → #158), пациент (#1661 → #237), дерьмо (#1723 → #144), переводчик (#1819 → #236), прощение (#1831 → #199), том (#1898 → #16), посол (#1902 → #24), офис (#1908 → #187), минутка (#1973 → #214)
 
 ## Motion verbs
 
@@ -144,11 +161,14 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
 | kept after filters (with an English translation) | 650396 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 170418 |
-| verbs: lemmas with ≥1 sentence | 6293 |
-| adjectives: lemmas with ≥1 sentence | 3966 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 184278 |
+| verbs: lemmas with ≥1 sentence | 6282 |
+| adjectives: lemmas with ≥1 sentence | 3963 |
+| nouns: lemmas with ≥1 sentence | 8808 |
 
-verbs: 976 of the top 1000 have at least one sentence.
+verbs: 977 of the top 1000 have at least one sentence.
 
 adjectives: 930 of the top 1000 have at least one sentence.
+
+nouns: 982 of the top 1000 have at least one sentence.
 

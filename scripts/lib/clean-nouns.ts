@@ -3,7 +3,7 @@ import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import { cleanCell } from './cell.ts';
 import { cleanGloss } from './glosses.ts';
-import type { TypeOverrides } from './overrides.ts';
+import type { Overrides } from './overrides.ts';
 import type { Report } from './report.ts';
 
 export interface Noun {
@@ -11,14 +11,15 @@ export interface Noun {
   bare: string;
   accented: string;
   gloss: string;
-  gender: Gender;
+  gender: Gender | ''; // '' = missing in source or common gender (коллега): not used for agreement
   animate: 0 | 1;
   sgOnly: 0 | 1;
   cells: string[]; // NOUN_CELLS order; plural cells "" when sgOnly
+  counting?: string; // form after numbers 5+ / сколько, when it differs from gen. pl. (override)
 }
 const S = 'Nouns';
 
-export function cleanNouns(raw: Record<string, string>[], rowIds: Map<Record<string, string>, number>, ov: TypeOverrides | undefined, report: Report): Noun[] {
+export function cleanNouns(raw: Record<string, string>[], rowIds: Map<Record<string, string>, number>, ov: Overrides['nouns'], report: Report): Noun[] {
   const out: Noun[] = [];
   const seen = new Set<string>();
   for (const r of raw) {
@@ -26,9 +27,11 @@ export function cleanNouns(raw: Record<string, string>[], rowIds: Map<Record<str
     const fail = (reason: string) => report.drop(S, reason, bare);
     if (/^[А-ЯЁ]/.test(bare)) { fail('proper noun / abbreviation (capitalised)'); continue; }
     if (r.indeclinable === '1') { fail('indeclinable'); continue; }
-    if (r.pl_only === '1') { fail('plural-only (no gender for agreement)'); continue; }
-    const g = r.gender;
-    if (g !== 'm' && g !== 'f' && g !== 'n') { fail(`gender missing or not m/f/n ("${g}")`); continue; }
+    if (r.pl_only === '1') { fail('plural-only (сутки, брюки: not drilled yet)'); continue; }
+    const g0 = r.gender ?? '';
+    if (g0 !== 'm' && g0 !== 'f' && g0 !== 'n' && g0 !== '' && g0 !== 'both') { fail(`gender not m/f/n ("${g0}")`); continue; }
+    const g: Gender | '' = g0 === 'm' || g0 === 'f' || g0 === 'n' ? g0 : '';
+    if (!g) report.count(S, `kept without gender (${g0 ? 'common gender' : 'missing'}): plural drills only, not agreement`);
     if (r.animate !== '0' && r.animate !== '1') { fail('animacy missing'); continue; }
     if (seen.has(bare)) { fail('duplicate bare form (kept the earlier row)'); continue; }
     const sgOnly = r.sg_only === '1' ? 1 : 0;
@@ -47,6 +50,12 @@ export function cleanNouns(raw: Record<string, string>[], rowIds: Map<Record<str
       gloss: ov?.gloss?.[bare] ?? cleanGloss(r.translations_en ?? ''),
       gender: g, animate: r.animate === '1' ? 1 : 0, sgOnly, cells,
     };
+    const counting = ov?.counting?.[bare];
+    if (counting) {
+      const c = cleanCell(counting);
+      if (!c.ok) throw new Error(`counting override for ${bare}: ${c.reason}`);
+      noun.counting = c.cell;
+    }
     const bad = animacyErrors(noun);
     if (bad.length) {
       fail(`animacy flag contradicts the noun's own accusative forms`);

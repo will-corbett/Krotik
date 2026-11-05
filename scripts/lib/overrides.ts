@@ -16,7 +16,8 @@ export interface TypeOverrides {
 export interface Overrides {
   verbs?: TypeOverrides;
   adjectives?: TypeOverrides;
-  nouns?: TypeOverrides;
+  /** counting: bare → form used after numbers / сколько / несколько (пять челове'к, пять ле'т) */
+  nouns?: TypeOverrides & { counting?: Record<string, string> };
   sentences?: { deny?: Record<string, string> };
 }
 

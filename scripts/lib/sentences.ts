@@ -161,7 +161,7 @@ export async function buildSentences(inp: Input): Promise<Record<string, Sentenc
 
   // ---- choose up to PER_LEMMA per lemma: shortest sentences that cover new cells first
   const out: Record<string, SentenceShardInfo[]> = {};
-  for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives]] as const) {
+  for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives], ['nouns', inp.nouns]] as const) {
     const bands: Record<string, SentenceRow[]>[] = [];
     let withAny = 0;
     list.forEach((l, rank) => {

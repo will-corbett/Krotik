@@ -6,6 +6,7 @@ import { pick, type Rng } from '../rng.ts';
 import type { AdjSettings, Adjective, Noun, Question } from '../types.ts';
 
 export function adjectiveQuestion(a: Adjective, noun: Noun, c: Case, plural: boolean): Question | null {
+  if (!noun.gender) return null; // gender unknown in the source: can't drive agreement
   const slot: AdjSlot = plural ? 'pl' : noun.gender;
   const key = adjCellFor(slot, c, noun.animate);
   const answer = a.cells[ADJ_INDEX[key]]!;
@@ -34,7 +35,8 @@ export function adjectiveQuestion(a: Adjective, noun: Noun, c: Case, plural: boo
   };
 }
 
-export function generateAdjectiveQuestions(adjs: Adjective[], nouns: Noun[], s: AdjSettings, n: number, rng: Rng): Question[] {
+export function generateAdjectiveQuestions(adjs: Adjective[], allNouns: Noun[], s: AdjSettings, n: number, rng: Rng): Question[] {
+  const nouns = allNouns.filter((x) => x.gender);
   const out: Question[] = [];
   const usedAdj = new Set<number>();
   const keys = new Set<string>();

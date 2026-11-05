@@ -61,8 +61,8 @@ const motion = buildMotion(verbs, report);
 // ---- shards
 const sizes: string[] = [];
 const verbRows: VerbRow[] = verbs.map((v) => [v.id, v.accented, v.gloss, v.aspect, v.partners, v.cells]);
-const adjRows: AdjRow[] = adjectives.map((a) => [a.id, a.accented, a.gloss, a.cells]);
-const nounRows: NounRow[] = nouns.map((n) => [n.id, n.accented, n.gloss, n.gender, n.animate, n.sgOnly, n.cells]);
+const adjRows: AdjRow[] = adjectives.map((a) => [a.id, a.accented, a.gloss, a.cells, a.extra]);
+const nounRows: NounRow[] = nouns.map((n) => (n.counting ? [n.id, n.accented, n.gloss, n.gender, n.animate, n.sgOnly, n.cells, n.counting] : [n.id, n.accented, n.gloss, n.gender, n.animate, n.sgOnly, n.cells]));
 const shards = {
   verbs: writeBands('verbs', verbRows),
   adjectives: writeBands('adjectives', adjRows),

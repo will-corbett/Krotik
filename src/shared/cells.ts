@@ -51,6 +51,11 @@ export const ADJ_CELLS: readonly AdjCellKey[] = ADJ_SLOTS.flatMap((s) => {
 });
 export const ADJ_INDEX = Object.fromEntries(ADJ_CELLS.map((k, i) => [k, i])) as Record<AdjCellKey, number>;
 
+/** Extra adjective cells (short forms, degrees of comparison); "" = not in the source. */
+export const ADJ_EXTRA = ['short_m', 'short_f', 'short_n', 'short_pl', 'comparative', 'superlative'] as const;
+export type AdjExtraKey = (typeof ADJ_EXTRA)[number];
+export const ADJ_EXTRA_INDEX = Object.fromEntries(ADJ_EXTRA.map((k, i) => [k, i])) as Record<AdjExtraKey, number>;
+
 /** Noun cells: sg nom..prep then pl nom..prep. */
 export const NOUN_CELLS = (['sg', 'pl'] as const).flatMap((num) => CASES.map((c) => `${num}_${c}` as const));
 export type NounCellKey = (typeof NOUN_CELLS)[number];

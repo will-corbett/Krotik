@@ -52,6 +52,14 @@ for (const type of ['verbs', 'adjectives', 'nouns'] as const) {
     }
   }
 }
+for (const [bare, val] of Object.entries(ov.nouns?.counting ?? {})) {
+  const wk = await wiktionaryForms(bare);
+  for (const v of val.split(',').map((x) => x.trim())) {
+    const ok = wk.accented.has(v) || (vowelCount(v) <= 1 && wk.plain.has(normalise(v)));
+    console.log(`${ok ? 'ok  ' : 'FAIL'} nouns/${bare}.counting: ${v}`);
+    if (!ok) failures++;
+  }
+}
 if (failures) {
   console.error(`${failures} override form(s) not attested in Wiktionary`);
   process.exit(1);

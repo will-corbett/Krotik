@@ -29,16 +29,19 @@ async function loadRows<R>(type: LexType, maxBand: number): Promise<{ row: R; ba
 
 export const toVerb = ([id, accented, gloss, aspect, partners, cells]: VerbRow, band: number): Verb => ({ id, accented, gloss, aspect, partners, cells, band });
 
+export const toAdjective = ([id, accented, gloss, cells, extra]: AdjRow, band: number): Adjective => ({ id, accented, gloss, cells, extra, band });
+export const toNoun = ([id, accented, gloss, gender, animate, sgOnly, cells, counting]: NounRow, band: number): Noun => ({
+  id, accented, gloss, gender, animate: animate === 1, sgOnly: sgOnly === 1, cells, band, ...(counting ? { counting } : {}),
+});
+
 export async function loadVerbs(maxBand: number): Promise<Verb[]> {
   return (await loadRows<VerbRow>('verbs', maxBand)).map(({ row, band }) => toVerb(row, band));
 }
 export async function loadAdjectives(maxBand: number): Promise<Adjective[]> {
-  return (await loadRows<AdjRow>('adjectives', maxBand)).map(({ row: [id, accented, gloss, cells], band }) => ({ id, accented, gloss, cells, band }));
+  return (await loadRows<AdjRow>('adjectives', maxBand)).map(({ row, band }) => toAdjective(row, band));
 }
 export async function loadNouns(maxBand: number): Promise<Noun[]> {
-  return (await loadRows<NounRow>('nouns', maxBand)).map(({ row: [id, accented, gloss, gender, animate, sgOnly, cells], band }) => ({
-    id, accented, gloss, gender, animate: animate === 1, sgOnly: sgOnly === 1, cells, band,
-  }));
+  return (await loadRows<NounRow>('nouns', maxBand)).map(({ row, band }) => toNoun(row, band));
 }
 export async function loadMotion(): Promise<MotionData> {
   return getJson<MotionData>((await loadManifest()).motion);

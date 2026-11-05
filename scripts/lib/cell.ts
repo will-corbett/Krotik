@@ -1,6 +1,6 @@
 /**
  * Cleaning a raw source cell into the canonical cell string (see src/shared/forms.ts).
- *  - "," and "//" separate variants (OpenRussian uses "//" for stress variants: "уда'лось//удало'сь")
+ *  - "," "//" ";" and " / " separate variants (OpenRussian uses "//" for stress variants: "уда'лось//удало'сь")
  *  - "(x)" marks an optional/archaic variant
  *  - "-" in an override means "intentionally absent"
  * Anything else odd (*, single /, ?, capitals, Latin, digits, fragments ending in "-") invalidates the cell.
@@ -14,7 +14,8 @@ export function cleanCell(raw: string): CellResult {
   if (!s) return { ok: false, reason: 'empty form' };
   if (s.includes('*')) return { ok: false, reason: 'asterisk in form' };
   if (s.includes('?')) return { ok: false, reason: 'question mark in form' };
-  const parts = s.split(/,|\/\//).map((p) => p.trim()).filter(Boolean);
+  // Variant separators seen in the source: "," "//" ";" and " / " (with spaces).
+  const parts = s.split(/,|\/\/|;|\s+\/\s+/).map((p) => p.trim()).filter(Boolean);
   if (!parts.length) return { ok: false, reason: 'empty form' };
   const out: string[] = [];
   for (const p of parts) {

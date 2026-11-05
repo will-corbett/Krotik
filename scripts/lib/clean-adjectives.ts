@@ -1,4 +1,4 @@
-import { ADJ_CELLS, ADJ_SLOTS, CASES, type AdjCellKey } from '../../src/shared/cells.ts';
+import { ADJ_CELLS, ADJ_EXTRA, ADJ_SLOTS, CASES, type AdjCellKey } from '../../src/shared/cells.ts';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import { cleanCell } from './cell.ts';
@@ -13,6 +13,7 @@ export interface Adjective {
   accented: string;
   gloss: string;
   cells: string[]; // ADJ_CELLS order
+  extra: string[]; // ADJ_EXTRA order: short m/f/n/pl, comparative, superlative ("" = absent)
   pronominal: boolean; // тот/этот/мой… (no regular -ый/-ий/-ой ending)
 }
 const S = 'Adjectives';
@@ -110,7 +111,7 @@ export function cleanAdjectives(raw: Record<string, string>[], rowIds: Map<Recor
       const sus = suspiciousWords(gloss);
       if (sus.length && !ov?.gloss?.[bare]) report.anomaly(S, `gloss words not in English word list (top ${GLOSS_CHECK_TOP})`, `${bare}: "${gloss}" [${sus.join(', ')}]`);
     }
-    out.push({ id: rowIds.get(r)!, bare, accented: r.accented || bare, gloss, cells: ADJ_CELLS.map((k) => cells[k]), pronominal });
+    out.push({ id: rowIds.get(r)!, bare, accented: r.accented || bare, gloss, cells: ADJ_CELLS.map((k) => cells[k]), extra: extraCells(bare, r, report), pronominal });
   }
   report.count(S, 'pronominal or possessive -ий declension (pattern check skipped)', out.filter((a) => a.pronominal).length);
   return out;
@@ -132,3 +133,56 @@ function patternErrors(src: Record<string, string>): string[] {
   return bad;
 }
 const PRONOMINAL = new Set(['мой', 'твой', 'свой', 'кой', 'сам', 'сей', 'весь', 'наш', 'ваш', 'чей']);
+
+/** Expected endings of short forms (first variant): m ends in a consonant, f -а/-я, n -о/-е, pl -ы/-и. */
+const SHORT_PATTERN: Record<string, RegExp> = {
+  short_m: /[бвгджзйклмнпрстфхцчшщь]$/,
+  short_f: /[ая]$/,
+  short_n: /[ое]$/,
+  short_pl: /[ыи]$/,
+};
+
+/**
+ * Short forms are kept as a group (all four valid, or none). Comparative must end -е/-ей or be a
+ * -ший form (бо'льший); superlative must be a single -ший word (compounds like "са'мый гла'вный" are not
+ * synthetic superlatives).
+ */
+function extraCells(bare: string, r: Record<string, string>, report: Report): string[] {
+  const out: Record<(typeof ADJ_EXTRA)[number], string> = { short_m: '', short_f: '', short_n: '', short_pl: '', comparative: '', superlative: '' };
+  const shortRaw = ['short_m', 'short_f', 'short_n', 'short_pl'].map((k) => r[k] ?? '');
+  if (shortRaw.some(Boolean)) {
+    const cleaned = shortRaw.map(cleanCell);
+    const bad = cleaned.findIndex((c) => !c.ok);
+    if (bad >= 0) {
+      const reason = (cleaned[bad] as { reason: string }).reason;
+      report.count(S, reason === 'asterisk in form' ? 'no short forms (source marks them * = not in use)' : `short forms dropped (${reason})`);
+    } else {
+      const cells = cleaned.map((c) => (c as { cell: string }).cell);
+      const keys = ['short_m', 'short_f', 'short_n', 'short_pl'] as const;
+      const wrong = keys.filter((k, i) => !cellForms(cells[i]!).every((f) => SHORT_PATTERN[k]!.test(normalise(f))));
+      if (wrong.length) {
+        report.anomaly(S, 'short forms not following the m/f/n/pl pattern (short forms dropped)', `${bare}: ${cells.join(' ')}`);
+      } else {
+        keys.forEach((k, i) => (out[k] = cells[i]!));
+        report.count(S, 'with short forms');
+      }
+    }
+  }
+  const cmp = r.comparative ?? '';
+  if (cmp) {
+    const c = cleanCell(cmp);
+    if (c.ok && cellForms(c.cell).every((f) => /(е|ей|ший)$/.test(normalise(f)))) {
+      out.comparative = c.cell;
+      report.count(S, 'with comparative');
+    } else report.anomaly(S, 'comparative not usable (dropped)', `${bare}: ${cmp}`);
+  }
+  const sup = r.superlative ?? '';
+  if (sup) {
+    const c = cleanCell(sup);
+    if (c.ok && cellForms(c.cell).every((f) => /ший$/.test(normalise(f)))) {
+      out.superlative = c.cell;
+      report.count(S, 'with synthetic superlative (-ейший/-айший)');
+    } else report.anomaly(S, 'superlative not a single -ший form (dropped)', `${bare}: ${sup}`);
+  }
+  return ADJ_EXTRA.map((k) => out[k]);
+}
