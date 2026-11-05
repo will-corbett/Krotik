@@ -71,7 +71,8 @@ const shards = {
 const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
-const sentences = await buildSentences({ verbs, adjectives, nouns, others, deny: ov.sentences?.deny ?? {}, report });
+const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
+const sentences = await buildSentences({ verbs, adjectives, nouns, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
 
 const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Manifest['sources'];
 const manifest: Manifest = {

@@ -20,6 +20,14 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | nouns.b1.json | 750 | 205 KB |
 | nouns.b2.json | 1500 | 430 KB |
 | nouns.b3.json | 16276 | 5241 KB |
+| sentences.verbs.b0.json | 244 | 111 KB |
+| sentences.verbs.b1.json | 732 | 344 KB |
+| sentences.verbs.b2.json | 1349 | 552 KB |
+| sentences.verbs.b3.json | 3968 | 1119 KB |
+| sentences.adjectives.b0.json | 246 | 132 KB |
+| sentences.adjectives.b1.json | 684 | 367 KB |
+| sentences.adjectives.b2.json | 1103 | 444 KB |
+| sentences.adjectives.b3.json | 1933 | 574 KB |
 | motion.json | 12 | 1.2 KB |
 
 ## Verbs
@@ -129,4 +137,18 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | count | n |
 |---|---:|
 | pairs available | 12 |
+
+## Sentences
+
+| count | n |
+|---|---:|
+| Russian sentences in Tatoeba export | 1233736 |
+| kept after filters (with an English translation) | 650396 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 170418 |
+| verbs: lemmas with ≥1 sentence | 6293 |
+| adjectives: lemmas with ≥1 sentence | 3966 |
+
+verbs: 976 of the top 1000 have at least one sentence.
+
+adjectives: 930 of the top 1000 have at least one sentence.
 
