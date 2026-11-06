@@ -47,8 +47,11 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   the source variants against nom/gen. Source order is unreliable; never use position.
 - Shards: `{type}.b{0..3}.json` = frequency ranks 1–250, 251–1000, 1001–2500, rest. "Top N" loads
   b0..bk. Sentence shards load lazily after a round starts.
-- Retry rule: wrong → re-queued at the end; round ends only when all are answered correctly (or End round).
+- Retry rule: wrong → comes back RETRY_GAP (10) cards later, or at the end if fewer are left (so retries work in
+  unlimited rounds too); round ends only when all are answered correctly (or End round).
   Score = first-attempt correct / attempted.
+- Example sentences: only shown when the highlighted word is exactly the answer form (`chooseSentence`); never
+  fall back to another form of the word.
 - Modes are grouped on the setup screen (Verbs / Adjectives / Nouns); each mode has a generator in
   `src/lib/questions/` and a case in `src/lib/start.ts`. Every grammar term goes through `src/lib/terms.ts`
   so it is shown with its Russian equivalent.
