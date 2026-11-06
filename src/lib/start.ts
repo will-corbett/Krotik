@@ -11,7 +11,8 @@ import { generateStressQuestions } from './questions/stress.ts';
 import { generateGovernmentChoice, type GovRow } from './questions/government.ts';
 import { generatePrefixedMotion, type PrefixedData } from './questions/prefixedMotion.ts';
 import { generateExtraNumberQuestions, type OrdinalRow } from './questions/numbers.ts';
-import type { AdverbRow, DatesData, NumeralRow, SpecialCaseRow } from '../shared/types.ts';
+import type { AdverbRow, Collocations, DatesData, NumeralRow, SpecialCaseRow } from '../shared/types.ts';
+import { partnerPicker, type PartnerPicker } from './pairs.ts';
 import { generateNarechiyaQuestions } from './questions/narechiya.ts';
 import { generateQuestionWordQuestions } from './questions/questionWords.ts';
 import { generateOrdinalQuestions } from './questions/ordinals.ts';
@@ -44,6 +45,15 @@ export const UNLIMITED_BATCH = 30;
 
 export type Generate = (n: number) => Question[];
 
+/**
+ * Nouns for agreement questions: only real partners (Tatoeba pairs) from the 2,500 commonest nouns, so the
+ * pair makes sense whatever the adjective's frequency.
+ */
+async function partners(): Promise<PartnerPicker> {
+  const [pairs, nouns] = await Promise.all([loadExtraJson<Collocations>('collocations'), loadNouns(2)]);
+  return partnerPicker(pairs, nouns);
+}
+
 /** Load the data for these settings once; the returned function generates any number of questions. */
 export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
   switch (s.mode) {
@@ -60,8 +70,8 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       return (n) => generateShortQuestions(pool, n, rng);
     }
     case 'compare': {
-      const [adjs, nouns] = await Promise.all([loadAdjectives(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND))]);
-      return (n) => generateCompareQuestions(adjs, nouns, s.compare, n, rng);
+      const [adjs, nouns, partner] = await Promise.all([loadAdjectives(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND)), partners()]);
+      return (n) => generateCompareQuestions(adjs, nouns, s.compare, n, rng, partner);
     }
     case 'plurals': {
       const pool = await loadNouns(s.band);
@@ -72,15 +82,16 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       return (n) => generateAdverbQuestions(rows, s.adverbs, n, rng);
     }
     case 'participles': {
-      const [rows, nouns] = await Promise.all([loadParticiples(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND))]);
-      return (n) => generateParticipleQuestions(rows, nouns, s.participles, n, rng);
+      const [rows, nouns, partner] = await Promise.all([loadParticiples(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND)), partners()]);
+      return (n) => generateParticipleQuestions(rows, nouns, s.participles, n, rng, partner);
     }
     case 'numbers': {
-      const [nums, nouns, ordinals, collectives] = await Promise.all([
+      const [nums, nouns, ordinals, collectives, partner] = await Promise.all([
         loadNumerals(),
         loadNouns(NOUN_MAX_BAND),
         loadExtraJson<OrdinalRow[]>('ordinals'),
         loadExtraJson<NumeralRow[]>('collectives'),
+        partners(),
       ]);
       return (n) => {
         const basic = s.numbers.types.filter((t) => t === 'alone' || t === 'withNoun');
@@ -88,7 +99,7 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
           basic.length ? generateNumberQuestions(nums, nouns, { ...s.numbers, types: basic }, n, rng) : [],
           ...(['ordinal', 'compound', 'collective'] as const)
             .filter((k) => s.numbers.types.includes(k))
-            .map((k) => generateExtraNumberQuestions(k, { numerals: nums, ordinals, collectives, nouns }, s.numbers.cases.length ? s.numbers.cases : ['gen'], n, rng)),
+            .map((k) => generateExtraNumberQuestions(k, { numerals: nums, ordinals, collectives, nouns, partner }, s.numbers.cases.length ? s.numbers.cases : ['gen'], n, rng)),
         ];
         return mix(rng, n, ...lists);
       };
@@ -125,10 +136,10 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       return (n) => generatePronounQuestions(data, s.pronouns, n, rng);
     }
     case 'possessives': {
-      const [data, nouns, svoyRows] = await Promise.all([loadPronouns(), loadNouns(NOUN_MAX_BAND), s.possessives.types.includes('svoy') ? loadCloze('svoy') : Promise.resolve([])]);
+      const [data, nouns, svoyRows, partner] = await Promise.all([loadPronouns(), loadNouns(NOUN_MAX_BAND), s.possessives.types.includes('svoy') ? loadCloze('svoy') : Promise.resolve([]), partners()]);
       return (n) => {
         const types = s.possessives.types;
-        const agree = types.includes('agree') ? generatePossessiveAgreement(data, nouns, n, rng) : [];
+        const agree = types.includes('agree') ? generatePossessiveAgreement(data, nouns, n, rng, partner) : [];
         const svoy = types.includes('svoy') ? generateClozeQuestions(svoyRows, 'svoy', null, n, rng).map((q) => ({ ...q, mode: 'possessives' as const })) : [];
         // Interleave the two types evenly.
         const out = [];
@@ -169,21 +180,21 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       return (n) => generateAspectQuestions(pool, s.aspect, n, rng);
     }
     case 'adjectives': {
-      const [adjs, nouns] = await Promise.all([loadAdjectives(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND))]);
-      return (n) => generateAdjectiveQuestions(adjs, nouns, s.adjectives, n, rng);
+      const [adjs, nouns, partner] = await Promise.all([loadAdjectives(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND)), partners()]);
+      return (n) => generateAdjectiveQuestions(adjs, nouns, s.adjectives, n, rng, partner);
     }
     case 'narechiya': {
       const [rows, cz] = await Promise.all([loadExtraJson<AdverbRow[]>('adverbs'), s.narechiya.types.includes('sentence') ? loadCloze('narechiya') : Promise.resolve([])]);
       return (n) => generateNarechiyaQuestions(rows, cz, s.narechiya, s.band, n, rng);
     }
     case 'questionWords': {
-      const [pronouns, nouns, adjs, cz] = await Promise.all([loadPronouns(), loadNouns(NOUN_MAX_BAND), loadAdjectives(0), s.questionWords.types.includes('sentence') ? loadCloze('questionWords') : Promise.resolve([])]);
-      const data = { pronouns, nouns, kakoy: adjs.find((a) => a.accented.replace(/'/g, '') === 'какой'), cloze: cz };
+      const [pronouns, nouns, adjs, cz, partner] = await Promise.all([loadPronouns(), loadNouns(NOUN_MAX_BAND), loadAdjectives(0), s.questionWords.types.includes('sentence') ? loadCloze('questionWords') : Promise.resolve([]), partners()]);
+      const data = { pronouns, nouns, kakoy: adjs.find((a) => a.accented.replace(/'/g, '') === 'какой'), cloze: cz, partner };
       return (n) => generateQuestionWordQuestions(data, s.questionWords, n, rng);
     }
     case 'ordinals': {
-      const [ordinals, dates, nouns] = await Promise.all([loadExtraJson<OrdinalRow[]>('ordinals'), loadExtraJson<DatesData>('dates'), loadNouns(NOUN_MAX_BAND)]);
-      return (n) => generateOrdinalQuestions(ordinals, dates, nouns, s.ordinals, n, rng);
+      const [ordinals, dates, nouns, partner] = await Promise.all([loadExtraJson<OrdinalRow[]>('ordinals'), loadExtraJson<DatesData>('dates'), loadNouns(NOUN_MAX_BAND), partners()]);
+      return (n) => generateOrdinalQuestions(ordinals, dates, nouns, s.ordinals, n, rng, partner);
     }
     case 'specialCases': {
       const [rows, cz] = await Promise.all([loadExtraJson<SpecialCaseRow[]>('specialCases'), s.specialCases.types.includes('sentence') ? loadCloze('specialCases') : Promise.resolve([])]);

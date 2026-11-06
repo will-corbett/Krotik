@@ -3,6 +3,7 @@ import { CASE_TERM, TERMS, numberGenderTerm, type TaskPart } from '../terms.ts';
 import { bare, displayForms } from '../../shared/forms.ts';
 import { adjCellLabel } from '../labels.ts';
 import { pick, type Rng } from '../rng.ts';
+import { partnerPicker, type PartnerPicker } from '../pairs.ts';
 import type { AdjSettings, Adjective, Noun, Question } from '../types.ts';
 
 export function adjectiveQuestion(a: Adjective, noun: Noun, c: Case, plural: boolean): Question | null {
@@ -35,7 +36,7 @@ export function adjectiveQuestion(a: Adjective, noun: Noun, c: Case, plural: boo
   };
 }
 
-export function generateAdjectiveQuestions(adjs: Adjective[], allNouns: Noun[], s: AdjSettings, n: number, rng: Rng): Question[] {
+export function generateAdjectiveQuestions(adjs: Adjective[], allNouns: Noun[], s: AdjSettings, n: number, rng: Rng, partner: PartnerPicker = partnerPicker(undefined, allNouns)): Question[] {
   const nouns = allNouns.filter((x) => x.gender);
   const out: Question[] = [];
   const usedAdj = new Set<number>();
@@ -46,7 +47,11 @@ export function generateAdjectiveQuestions(adjs: Adjective[], allNouns: Noun[], 
     const a = pick(rng, adjs);
     if (usedAdj.has(a.id) && usedAdj.size < adjs.length) continue;
     const plural = s.number === 'pl' || (s.number === 'both' && rng() < 0.5);
-    const noun = pick(rng, nouns);
+    const noun = partner({ adj: a.accented }, rng);
+    if (!noun) {
+      usedAdj.add(a.id); // no real partner among the loaded nouns: skip this adjective
+      continue;
+    }
     if (plural && noun.sgOnly) continue;
     const q = adjectiveQuestion(a, noun, pick(rng, s.cases), plural);
     if (!q || keys.has(q.key)) continue;

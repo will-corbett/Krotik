@@ -2,6 +2,7 @@ import { ADJ_EXTRA_CELL_OFFSET, ADJ_EXTRA_INDEX, ADJ_INDEX, NOUN_INDEX, adjCellF
 import { bare, displayForms } from '../../shared/forms.ts';
 import { pick, type Rng } from '../rng.ts';
 import { TERMS, numberGenderTerm } from '../terms.ts';
+import { partnerPicker, type PartnerPicker } from '../pairs.ts';
 import type { Adjective, CompareSettings, Noun, Question } from '../types.ts';
 import { adjectiveOthers, extraLabel } from './short.ts';
 
@@ -56,7 +57,7 @@ export function samyiQuestion(a: Adjective, samyi: Adjective, noun: Noun, plural
   };
 }
 
-export function generateCompareQuestions(adjs: Adjective[], nouns: Noun[], s: CompareSettings, n: number, rng: Rng): Question[] {
+export function generateCompareQuestions(adjs: Adjective[], nouns: Noun[], s: CompareSettings, n: number, rng: Rng, partner: PartnerPicker = partnerPicker(undefined, nouns)): Question[] {
   const samyi = adjs.find((a) => bare(a.accented) === 'самый');
   const types = s.types.filter((t) => t !== 'samyi' || samyi);
   const regular = adjs.filter((a) => /(ый|ий|ой)$/.test(bare(a.accented)) && a !== samyi && !['самый', 'весь', 'сам'].includes(bare(a.accented)));
@@ -69,7 +70,10 @@ export function generateCompareQuestions(adjs: Adjective[], nouns: Noun[], s: Co
     let q: Question | null = null;
     if (t === 'samyi') {
       if (!gendered.length || !regular.length) continue;
-      q = samyiQuestion(pick(rng, regular), samyi!, pick(rng, gendered), rng() < 0.4);
+      const a = pick(rng, regular);
+      const noun = partner({ adj: a.accented }, rng);
+      if (!noun) continue;
+      q = samyiQuestion(a, samyi!, noun, rng() < 0.4);
     } else {
       const pool = adjs.filter((a) => a.extra[ADJ_EXTRA_INDEX[t]]);
       if (!pool.length) continue;

@@ -1,6 +1,7 @@
 import { adjectiveQuestion } from './adjectives.ts';
 import { CASES, NOUN_INDEX, type Case, type Gender } from '../../shared/cells.ts';
 import { bare, displayForms } from '../../shared/forms.ts';
+import type { PartnerPicker } from '../pairs.ts';
 import type { NumeralRow } from '../../shared/types.ts';
 import { pick, type Rng } from '../rng.ts';
 import { CASE_TERM, GENDER_TERM, TERMS, type TaskPart } from '../terms.ts';
@@ -195,7 +196,7 @@ export function compoundQuestion(tens: NumeralRow, unit: NumeralRow, c: Case, g:
 
 export function generateExtraNumberQuestions(
   kind: 'ordinal' | 'compound' | 'collective',
-  data: { numerals: NumeralRow[]; ordinals: OrdinalRow[]; collectives: NumeralRow[]; nouns: Noun[] },
+  data: { numerals: NumeralRow[]; ordinals: OrdinalRow[]; collectives: NumeralRow[]; nouns: Noun[]; partner?: PartnerPicker },
   cases: Case[],
   n: number,
   rng: Rng,
@@ -211,7 +212,11 @@ export function generateExtraNumberQuestions(
     const q =
       kind === 'ordinal'
         ? data.ordinals.length && gendered.length
-          ? ordinalQuestion(pick(rng, data.ordinals), pick(rng, gendered), c, rng() < 0.25)
+          ? (() => {
+              const row = pick(rng, data.ordinals);
+              const noun = data.partner ? data.partner({ adj: row[0] }, rng) : pick(rng, gendered);
+              return noun ? ordinalQuestion(row, noun, c, rng() < 0.25) : null;
+            })()
           : null
         : kind === 'compound'
           ? tens.length && units.length

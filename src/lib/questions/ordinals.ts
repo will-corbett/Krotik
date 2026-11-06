@@ -5,6 +5,7 @@
  */
 import { ADJ_INDEX, CASES } from '../../shared/cells.ts';
 import { bare, cellForms } from '../../shared/forms.ts';
+import { partnerPicker, type PartnerPicker } from '../pairs.ts';
 import type { DatesData } from '../../shared/types.ts';
 import { pick, type Rng } from '../rng.ts';
 import { CASE_TERM, TERMS, type TaskPart } from '../terms.ts';
@@ -74,7 +75,7 @@ export function centuryQuestion(ordinals: OrdinalRow[], dates: DatesData, n: num
   };
 }
 
-export function generateOrdinalQuestions(ordinals: OrdinalRow[], dates: DatesData, nouns: Noun[], s: OrdinalSettings, n: number, rng: Rng): Question[] {
+export function generateOrdinalQuestions(ordinals: OrdinalRow[], dates: DatesData, nouns: Noun[], s: OrdinalSettings, n: number, rng: Rng, partner: PartnerPicker = partnerPicker(undefined, nouns)): Question[] {
   const gendered = nouns.filter((x) => x.gender);
   const out: Question[] = [];
   const keys = new Set<string>();
@@ -83,7 +84,9 @@ export function generateOrdinalQuestions(ordinals: OrdinalRow[], dates: DatesDat
     const t = pick(rng, s.types);
     let q: Question | null = null;
     if (t === 'agree' && gendered.length) {
-      const base = ordinalQuestion(pick(rng, ordinals.filter((r) => r[1] <= 100)), pick(rng, gendered), pick(rng, CASES), rng() < 0.2);
+      const row = pick(rng, ordinals.filter((r) => r[1] <= 100));
+      const noun = partner({ adj: row[0] }, rng);
+      const base = noun ? ordinalQuestion(row, noun, pick(rng, CASES), rng() < 0.2) : null;
       q = base && { ...base, key: `ord:${base.key}`, mode: 'ordinals' };
     } else if (t === 'dates') q = dateQuestion(ordinals, dates, 1 + Math.floor(rng() * 31), Math.floor(rng() * 12), rng() < 0.6);
     else if (t === 'centuries') q = centuryQuestion(ordinals, dates, 1 + Math.floor(rng() * 21), rng() < 0.6);

@@ -58,7 +58,7 @@ export async function loadNumerals(): Promise<NumeralRow[]> {
 export async function loadPronouns(): Promise<PronounData> {
   return getJson<PronounData>((await loadManifest()).pronouns);
 }
-export async function loadExtraJson<T>(key: 'government' | 'prefixedMotion' | 'ordinals' | 'collectives' | 'adverbs' | 'specialCases' | 'dates'): Promise<T> {
+export async function loadExtraJson<T>(key: 'government' | 'prefixedMotion' | 'ordinals' | 'collectives' | 'adverbs' | 'specialCases' | 'dates' | 'collocations'): Promise<T> {
   return getJson<T>((await loadManifest())[key]);
 }
 export async function loadCloze(topic: string): Promise<ClozeRow[]> {

@@ -1,3 +1,4 @@
+import { partnerPicker, type PartnerPicker } from '../pairs.ts';
 import type { AdjSlot } from '../../shared/cells.ts';
 import { CASES } from '../../shared/cells.ts';
 import { bare } from '../../shared/forms.ts';
@@ -97,7 +98,7 @@ export function participleDeclineQuestion(row: ParticipleRow, band: number, k: P
   };
 }
 
-export function generateParticipleQuestions(rows: { row: ParticipleRow; band: number }[], nouns: Noun[], s: ParticipleSettings, n: number, rng: Rng): Question[] {
+export function generateParticipleQuestions(rows: { row: ParticipleRow; band: number }[], nouns: Noun[], s: ParticipleSettings, n: number, rng: Rng, partner: PartnerPicker = partnerPicker(undefined, nouns)): Question[] {
   const out: Question[] = [];
   const keys = new Set<string>();
   const gendered = nouns.filter((x) => x.gender);
@@ -109,7 +110,10 @@ export function generateParticipleQuestions(rows: { row: ParticipleRow; band: nu
     let q: Question | null = null;
     if (t === 'form') q = participleFormQuestion(row, band, pick(rng, s.kinds));
     else if (t === 'short') q = s.kinds.includes('pass_past') ? shortPassiveQuestion(row, band, pick(rng, SLOTS)) : null;
-    else if (gendered.length) q = participleDeclineQuestion(row, band, pick(rng, s.kinds), pick(rng, gendered), pick(rng, CASES), rng() < 0.4);
+    else if (gendered.length) {
+      const noun = partner({ verb: row[0] }, rng);
+      q = noun ? participleDeclineQuestion(row, band, pick(rng, s.kinds), noun, pick(rng, CASES), rng() < 0.4) : null;
+    }
     if (!q || keys.has(q.key)) continue;
     keys.add(q.key);
     out.push(q);

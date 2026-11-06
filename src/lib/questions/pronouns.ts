@@ -1,5 +1,6 @@
 import { ADJ_CELLS, CASES, type Case } from '../../shared/cells.ts';
 import { bare } from '../../shared/forms.ts';
+import { partnerPicker, type PartnerPicker } from '../pairs.ts';
 import type { PersonalRow, PronounData } from '../../shared/types.ts';
 import { pick, type Rng } from '../rng.ts';
 import { CASE_TERM, TERMS, type TaskPart } from '../terms.ts';
@@ -87,13 +88,15 @@ export function possessiveQuestion(row: [string, string[]], noun: Noun, c: Case,
   return { ...q, key: `poss:${bare(row[0])}:${noun.id}:${c}:${plural ? 'p' : 's'}`, mode: 'possessives', sentence: undefined };
 }
 
-export function generatePossessiveAgreement(data: PronounData, nouns: Noun[], n: number, rng: Rng): Question[] {
+export function generatePossessiveAgreement(data: PronounData, nouns: Noun[], n: number, rng: Rng, partner: PartnerPicker = partnerPicker(undefined, nouns)): Question[] {
   const gendered = nouns.filter((x) => x.gender);
   const out: Question[] = [];
   const keys = new Set<string>();
   let guard = 0;
   while (out.length < n && gendered.length && guard++ < n * 100) {
-    const q = possessiveQuestion(pick(rng, data.possessive), pick(rng, gendered), pick(rng, CASES), rng() < 0.35);
+    const row = pick(rng, data.possessive);
+    const noun = partner({ adj: row[0] }, rng);
+    const q = noun ? possessiveQuestion(row, noun, pick(rng, CASES), rng() < 0.35) : null;
     if (!q || keys.has(q.key)) continue;
     keys.add(q.key);
     out.push(q);

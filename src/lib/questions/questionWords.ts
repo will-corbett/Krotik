@@ -4,6 +4,7 @@ import { bare } from '../../shared/forms.ts';
 import type { ClozeRow, PronounData } from '../../shared/types.ts';
 import { pick, type Rng } from '../rng.ts';
 import { TERMS } from '../terms.ts';
+import type { PartnerPicker } from '../pairs.ts';
 import type { Adjective, Noun, Question, QuestionWordSettings } from '../types.ts';
 import { clozeQuestion } from './cloze.ts';
 import { personalQuestion, possessiveQuestion } from './pronouns.ts';
@@ -15,6 +16,8 @@ export interface QuestionWordData {
   kakoy: Adjective | undefined;
   nouns: Noun[];
   cloze: ClozeRow[];
+  /** real partner nouns (чья книга, какой цвет); any gendered noun if absent */
+  partner?: PartnerPicker;
 }
 
 /** кто / что in one case; the prepositional is always shown after о (о ком, о чём). */
@@ -33,7 +36,9 @@ function agreeQuestion(data: QuestionWordData, rng: Rng): Question | null {
   const nouns = data.nouns.filter((x) => x.gender);
   if (!rows.length || !nouns.length) return null;
   const row = pick(rng, rows);
-  const q = possessiveQuestion(row, pick(rng, nouns), pick(rng, CASES), rng() < 0.3);
+  const noun = data.partner ? data.partner({ adj: row[0] }, rng) : pick(rng, nouns);
+  if (!noun) return null;
+  const q = possessiveQuestion(row, noun, pick(rng, CASES), rng() < 0.3);
   return q && { ...q, key: `qw:${q.key}`, mode: 'questionWords', gloss: GLOSS[bare(row[0])] ?? q.gloss };
 }
 

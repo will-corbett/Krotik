@@ -89,6 +89,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   short neuter form), second prepositional / partitive forms of masculine nouns (only -у/-ю forms that differ
   from the ordinary ones), and dates data (month genitives, век). Bad adverb pairings go in `overrides.yaml`
   `adverbs.exclude`. The Wiktionary extract has a version number (`EXTRACT_VERSION`): bump it when its shape changes.
+- Agreement questions (adjectives, possessives, ordinals, participles, самый, какой/чей) pair a word only with nouns it
+  is really used with: `scripts/lib/collocations.ts` collects adjacent, agreeing adjective/participle + noun pairs from
+  Tatoeba into `collocations.json`; `src/lib/pairs.ts` picks from them (наш/ваш borrow мой/твой). A word with no real
+  partner among the loaded nouns is simply not asked. Never pair words at random.
 - `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
 - Themes: `krotik` (default; logo colours — cream #FDF2E7, charcoal #090C13, orange #E36B1C), system, light,
