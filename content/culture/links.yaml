@@ -110,6 +110,16 @@
   about: "Travel vlogs and real conversations with native speakers (the Russian North, the Arctic), with subtitles."
   checked: 2026-11-06
 
+- title: Russian Radio Show
+  url: https://www.youtube.com/@RussianRadioShow
+  type: video
+  kind: learner
+  level: [A2, C1]
+  region: baltics
+  topic: learning
+  about: "Podcast-style videos for learners, each marked with its level (A2–C1), from a Russian-language radio presenter and teacher in Lithuania."
+  checked: 2026-11-06
+
 - title: Inhale Russian
   url: https://www.youtube.com/@InhaleRussian
   type: video
