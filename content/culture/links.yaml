@@ -10,22 +10,24 @@
 # Fields:
 #   title    name as the source gives it
 #   url      https link
-#   type     video | cartoons | podcast | reading | tool
+#   type     video | cartoons | films | podcast | reading | tool
 #   kind     learner (made for learners) | native (made for Russian speakers)
 #   level    [lowest, highest] CEFR level it suits: A1 A2 B1 B2 C1 C2
-#   region   where it is made or about: russia | kazakhstan | ukraine | georgia | worldwide
+#   region   where it is made or about: russia | kazakhstan | central-asia | ukraine | caucasus | baltics | worldwide
+#   topic    learning | language | science | tech | history-culture | books | cooking | travel | lifestyle | games | sport | comedy | kids | films | reference
 #   about    one or two sentences, in English, our own words
 #   note     optional caveat shown with the link
 #   checked  date it was last checked by hand
 
-# ---------------------------------------------------------------- videos for learners
+# ---------------------------------------------------------------- videos
 - title: Russian With Max
   url: https://www.youtube.com/@RussianWithMax
   type: video
   kind: learner
   level: [A2, B1]
   region: worldwide
-  about: Slow, clear Russian from a qualified teacher — stories, vlogs and dialogues, mostly without English. Also a podcast with transcripts.
+  topic: learning
+  about: "Slow, clear Russian from a qualified teacher — stories, vlogs and dialogues, mostly without English. Also a podcast with transcripts."
   checked: 2026-11-06
 
 - title: Easy Russian
@@ -34,7 +36,8 @@
   kind: learner
   level: [A2, C1]
   region: russia
-  about: Street interviews with ordinary people in Russian cities, subtitled in Russian and English. Real, unscripted speech.
+  topic: learning
+  about: "Street interviews with ordinary people in Russian cities, subtitled in Russian and English. Real, unscripted speech."
   checked: 2026-11-06
 
 - title: Russian Progress
@@ -43,7 +46,8 @@
   kind: learner
   level: [B1, C1]
   region: russia
-  about: Vlogs, interviews and conversations at natural or near-natural speed, with Russian subtitles. Made by Artem from Novosibirsk.
+  topic: learning
+  about: "Vlogs, interviews and conversations at natural or near-natural speed, with Russian subtitles. Made by Artem from Novosibirsk."
   checked: 2026-11-06
 
 - title: Comprehensible Russian
@@ -52,7 +56,8 @@
   kind: learner
   level: [A1, A2]
   region: worldwide
-  about: Beginner videos that teach through pictures, objects and simple stories, entirely in Russian.
+  topic: learning
+  about: "Beginner videos that teach through pictures, objects and simple stories, entirely in Russian."
   checked: 2026-11-06
 
 - title: In Simple Russian
@@ -61,7 +66,8 @@
   kind: learner
   level: [A1, A2]
   region: worldwide
-  about: Slow, repetitive beginner lessons and comics, entirely in Russian.
+  topic: learning
+  about: "Slow, repetitive beginner lessons and comics, entirely in Russian."
   checked: 2026-11-06
 
 - title: Real Russian Club
@@ -70,7 +76,8 @@
   kind: learner
   level: [A1, B1]
   region: worldwide
-  about: Lessons from a university teacher — the alphabet, pronunciation, cases and everyday phrases, explained in English.
+  topic: learning
+  about: "Lessons from a university teacher — the alphabet, pronunciation, cases and everyday phrases, explained in English."
   checked: 2026-11-06
 
 - title: Amazing Russian
@@ -79,7 +86,8 @@
   kind: learner
   level: [A1, B2]
   region: worldwide
-  about: Short grammar lessons made for university courses, one point at a time. Useful alongside the drills here.
+  topic: learning
+  about: "Short grammar lessons made for university courses, one point at a time. Useful alongside the drills here."
   checked: 2026-11-06
 
 - title: Be Fluent in Russian
@@ -88,7 +96,8 @@
   kind: learner
   level: [A2, B2]
   region: worldwide
-  about: Lively videos on everyday Russian, slang, culture and reading, mixing English and Russian.
+  topic: learning
+  about: "Lively videos on everyday Russian, slang, culture and reading, mixing English and Russian."
   checked: 2026-11-06
 
 - title: Russian with Dasha
@@ -97,7 +106,8 @@
   kind: learner
   level: [A2, B2]
   region: russia
-  about: Travel vlogs and real conversations with native speakers (the Russian North, the Arctic), with subtitles.
+  topic: learning
+  about: "Travel vlogs and real conversations with native speakers (the Russian North, the Arctic), with subtitles."
   checked: 2026-11-06
 
 - title: Inhale Russian
@@ -106,17 +116,88 @@
   kind: learner
   level: [B1, B2]
   region: worldwide
-  about: Intermediate listening on unusual topics — folklore, museums, history — in clear Russian.
+  topic: learning
+  about: "Intermediate listening on unusual topics — folklore, museums, history — in clear Russian."
   checked: 2026-11-06
 
-# ---------------------------------------------------------------- native videos
+- title: RussianPod101
+  url: https://www.youtube.com/@russianpod101
+  type: video
+  kind: learner
+  level: [A1, B1]
+  region: worldwide
+  topic: learning
+  about: "Short lessons on vocabulary, grammar and the alphabet, explained in English; the channel of a paid course, but the videos are free."
+  checked: 2026-11-06
+
+- title: Natasha RusNow
+  url: https://www.youtube.com/@natasha_rusnow
+  type: video
+  kind: learner
+  level: [A1, C1]
+  region: worldwide
+  topic: learning
+  about: "Two podcasts on video: slow Russian for beginners, and natural conversations (B1–C2) about everyday life and culture."
+  checked: 2026-11-06
+
+- title: Easy Russian with Yula
+  url: https://www.youtube.com/@RussianYula
+  type: video
+  kind: learner
+  level: [A1, A2]
+  region: worldwide
+  topic: learning
+  about: "A step-by-step beginner course: cases, motion verbs, intonation, travel phrases."
+  checked: 2026-11-06
+
+- title: Yaroslava Russian
+  url: https://www.youtube.com/@YaroslavaRussian
+  type: video
+  kind: learner
+  level: [A2, B2]
+  region: worldwide
+  topic: learning
+  about: "Relaxed conversations and vlogs in Russian, plus topics like cursive handwriting and Russian school."
+  checked: 2026-11-06
+
+- title: Learn Russian with Anya and Ivan
+  url: https://www.youtube.com/@russian-ia
+  type: video
+  kind: learner
+  level: [A1, A1]
+  region: worldwide
+  topic: learning
+  about: "Animated beginner stories with a bear and a cat: numbers, prices, hard and soft consonants."
+  checked: 2026-11-06
+
+- title: Stanislav Academy
+  url: https://www.youtube.com/@LearnRussianStanislavAcademy
+  type: video
+  kind: learner
+  level: [A2, B2]
+  region: worldwide
+  topic: learning
+  about: "From the author of the Поехали! textbooks: tricky verbs, motion prefixes, and a calendar of Russian writers and artists."
+  checked: 2026-11-06
+
+- title: Russian with Masha
+  url: https://www.youtube.com/@RussianWithMasha
+  type: video
+  kind: learner
+  level: [A1, B2]
+  region: worldwide
+  topic: learning
+  about: "Practical lessons and vlogs: ordering food, introducing yourself, practising cases."
+  checked: 2026-11-06
+
 - title: ПостНаука
   url: https://www.youtube.com/@postnauka
   type: video
   kind: native
   level: [C1, C2]
   region: russia
-  about: Scientists explain their fields in short talks and long interviews — physics, biology, history, linguistics.
+  topic: science
+  about: "Scientists explain their fields in short talks and long interviews — physics, biology, history, linguistics."
   checked: 2026-11-06
 
 - title: Arzamas
@@ -125,7 +206,8 @@
   kind: native
   level: [C1, C2]
   region: russia
-  about: Lectures on the history of culture — literature, art, music, everyday life in the past.
+  topic: history-culture
+  about: "Lectures on the history of culture — literature, art, music, everyday life in the past."
   checked: 2026-11-06
 
 - title: Научпок
@@ -134,7 +216,8 @@
   kind: native
   level: [B2, C1]
   region: russia
-  about: Fast, funny animated explainers on everyday science questions. Quick speech, but very visual.
+  topic: science
+  about: "Fast, funny animated explainers on everyday science questions. Quick speech, but very visual."
   checked: 2026-11-06
 
 - title: GetAClass — Физика в опытах
@@ -143,6 +226,7 @@
   kind: native
   level: [B1, B2]
   region: russia
+  topic: science
   about: Short physics experiments with a little narration. What you see makes the Russian easy to follow.
   checked: 2026-11-06
 
@@ -152,6 +236,7 @@
   kind: native
   level: [B2, C1]
   region: russia
+  topic: science
   about: Chemistry experiments with clear explanations.
   checked: 2026-11-06
 
@@ -161,7 +246,8 @@
   kind: native
   level: [B2, C2]
   region: worldwide
-  about: The yearly dictation that anyone can take, in Russia and around the world, plus talks on spelling and the Russian language.
+  topic: language
+  about: "The yearly dictation that anyone can take, in Russia and around the world, plus talks on spelling and the Russian language."
   checked: 2026-11-06
 
 - title: AIRAN
@@ -170,7 +256,8 @@
   kind: native
   level: [C1, C2]
   region: kazakhstan
-  about: Video journalism from Almaty about life in Kazakhstan — people, cities, customs and social issues — mostly in Russian.
+  topic: lifestyle
+  about: "Video journalism from Almaty about life in Kazakhstan — people, cities, customs and social issues — mostly in Russian."
   note: Stopped publishing in March 2026; the archive stays online. Some episodes cover current affairs.
   checked: 2026-11-06
 
@@ -180,7 +267,8 @@
   kind: native
   level: [C1, C2]
   region: kazakhstan
-  about: Long conversations with people from Kazakhstan — musicians, film-makers, entrepreneurs. Some in English.
+  topic: lifestyle
+  about: "Long conversations with people from Kazakhstan — musicians, film-makers, entrepreneurs. Some in English."
   checked: 2026-11-06
 
 - title: Орёл и Решка
@@ -189,7 +277,8 @@
   kind: native
   level: [B2, C1]
   region: ukraine
-  about: A long-running travel show made in Ukraine — two presenters visit a city, one with lots of money, one with almost none.
+  topic: travel
+  about: "A long-running travel show made in Ukraine — two presenters visit a city, one with lots of money, one with almost none."
   note: Most seasons up to 2021 are in Russian; recent videos are in Ukrainian.
   checked: 2026-11-06
 
@@ -198,8 +287,253 @@
   type: video
   kind: native
   level: [B1, B2]
-  region: georgia
-  about: Walks around Tbilisi and other Georgian towns, festivals and parks, narrated in calm, clear Russian.
+  region: caucasus
+  topic: travel
+  about: "Walks around Tbilisi and other Georgian towns, festivals and parks, narrated in calm, clear Russian."
+  checked: 2026-11-06
+
+- title: Космос просто
+  url: https://www.youtube.com/@cosmosprosto
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: science
+  about: "Space news and explainers in plain language, with a regular round-up of astronomy discoveries."
+  checked: 2026-11-06
+
+- title: Физика от Побединского
+  url: https://www.youtube.com/@PhysFromPobed
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: science
+  about: "Physics for curious people: time, black holes, why the sky is blue, how planes fly."
+  checked: 2026-11-06
+
+- title: Vert Dider
+  url: https://www.youtube.com/@VertDiderScience
+  type: video
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  topic: science
+  about: "Russian voice-overs of well-known English science channels and lectures (Veritasium, 3Blue1Brown, Robert Sapolsky). Handy if you know the originals."
+  checked: 2026-11-06
+
+- title: SciOne
+  url: https://www.youtube.com/@SciOne
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: science
+  about: "Science and technology stories: batteries, medicine, artificial intelligence, dark matter."
+  checked: 2026-11-06
+
+- title: AlexGyver
+  url: https://www.youtube.com/@AlexGyverShow
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: russia
+  topic: tech
+  about: "Home-made electronics, 3D printing and inventions. Much of it is shown rather than told."
+  checked: 2026-11-06
+
+- title: Wylsacom
+  url: https://www.youtube.com/@Wylsacom
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: tech
+  about: "The best-known Russian tech channel: phones, gadgets and cars, reviewed with lots of colloquial Russian."
+  checked: 2026-11-06
+
+- title: Русский язык с Таней Ключ
+  url: https://www.youtube.com/@tanya_klyuch
+  type: video
+  kind: native
+  level: [B2, C2]
+  region: russia
+  topic: language
+  about: "Lessons for Russian school-leavers on spelling, punctuation and grammar — what native speakers are taught about their own language."
+  checked: 2026-11-06
+
+- title: Диктанты по русскому языку
+  url: https://www.youtube.com/@rus_diktant
+  type: video
+  kind: native
+  level: [B1, C1]
+  region: russia
+  topic: language
+  about: "School dictations read aloud, graded by school year. Write them down and check your spelling."
+  checked: 2026-11-06
+
+- title: Stalic Khankishiev
+  url: https://www.youtube.com/@Stalic62
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: central-asia
+  topic: cooking
+  about: "Plov, lagman, shashlik and other Central Asian and Caucasian dishes, cooked outdoors in a kazan."
+  checked: 2026-11-06
+
+- title: Едим Дома
+  url: https://www.youtube.com/@edimdomaofficial
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: russia
+  topic: cooking
+  about: "The long-running TV cookery show: simple home cooking, plus talk shows on health."
+  checked: 2026-11-06
+
+- title: Кухня наизнанку
+  url: https://www.youtube.com/@min2ru
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: russia
+  topic: cooking
+  about: "Everyday home cooking and preserving: salads, pickles, family recipes."
+  checked: 2026-11-06
+
+- title: Uzbek cuisine with Amina
+  url: https://www.youtube.com/@uzbekskayakuxniya
+  type: video
+  kind: native
+  level: [A2, B1]
+  region: central-asia
+  topic: cooking
+  about: "Uzbek and other home cooking with few words and clear steps: good for kitchen vocabulary."
+  checked: 2026-11-06
+
+- title: Грузинские блюда с Ириной Григорьевной
+  url: https://www.youtube.com/@IrinaGeokitchen
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: caucasus
+  topic: cooking
+  about: Georgian home cooking explained calmly by a Russian woman who lived in Georgia for 25 years.
+  checked: 2026-11-06
+
+- title: Мир наизнанку
+  url: https://www.youtube.com/@naiznankutv
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: ukraine
+  topic: travel
+  about: "A Ukrainian travel series in Russian: off-the-beaten-track trips around the world, and recently around Ukraine itself."
+  note: Some recent episodes are filmed in Ukraine in wartime; travel is the theme.
+  checked: 2026-11-06
+
+- title: ТУРДУР с Ларисой Булиной
+  url: https://www.youtube.com/@larabulina
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: central-asia
+  topic: travel
+  about: "Travel and personal vlogs from a presenter who calls Bishkek her second home: Kyrgyz games, nature, family."
+  checked: 2026-11-06
+
+- title: Оля Гаврилова — Армения глазами культуролога
+  url: https://www.youtube.com/@Olyapath
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: caucasus
+  topic: travel
+  about: "Armenian culture, food, schools and markets, explored in Russian by a guide living in Yerevan."
+  checked: 2026-11-06
+
+- title: GradoBlog Almaty
+  url: https://www.youtube.com/@GradoBlog_ala
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: kazakhstan
+  topic: travel
+  about: "Architecture, cycle lanes and city life in Almaty, and trips around Central Asia."
+  checked: 2026-11-06
+
+- title: Путешествия с Балнур
+  url: https://www.youtube.com/@balnurkz
+  type: video
+  kind: native
+  level: [B1, C1]
+  region: kazakhstan
+  topic: language
+  about: A Kazakh traveller compares Kazakh with other Turkic languages and talks with foreigners about Kazakhstan — in Russian and Kazakh.
+  checked: 2026-11-06
+
+- title: Marmok
+  url: https://www.youtube.com/@MrMarmok
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: russia
+  topic: games
+  about: "Funny cuts of video-game bugs and mishaps. Short, visual, very popular."
+  checked: 2026-11-06
+
+- title: Kuplinov Play
+  url: https://www.youtube.com/@kuplinovplay
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: games
+  about: "Let's-plays, mostly horror and odd indie games, with fast, slangy commentary."
+  note: Some games are for adults.
+  checked: 2026-11-06
+
+- title: Crestbook Chess
+  url: https://www.youtube.com/@Crestbook
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: sport
+  about: "Grandmaster Sergey Shipov, the best-known Russian chess commentator, reviews top games and tournaments."
+  checked: 2026-11-06
+
+- title: Levitov Chess
+  url: https://www.youtube.com/@LevitovChess
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: sport
+  about: "Chess stories, lectures and courses with leading grandmasters."
+  checked: 2026-11-06
+
+- title: Riga Stand Up
+  url: https://www.youtube.com/@RigaStandUp
+  type: video
+  kind: native
+  level: [C1, C2]
+  region: baltics
+  topic: comedy
+  about: "Stand-up and improvisation from Latvia in Russian. Comedy is hard: try it once you're comfortable."
+  note: Adult humour in places.
+  checked: 2026-11-06
+
+- title: Almaty Central Stand Up Club
+  url: https://www.youtube.com/@AlmatyCentralStandUpClub
+  type: video
+  kind: native
+  level: [C1, C2]
+  region: kazakhstan
+  topic: comedy
+  about: "Stand-up and comedy shows from Almaty, mostly in Russian."
+  note: Adult humour in places.
   checked: 2026-11-06
 
 # ---------------------------------------------------------------- cartoons
@@ -209,7 +543,8 @@
   kind: native
   level: [A1, A2]
   region: worldwide
-  about: The official channel of the cartoon about a lively little girl and a patient bear. Short, simple, very clear speech.
+  topic: kids
+  about: "The official channel of the cartoon about a lively little girl and a patient bear. Short, simple, very clear speech."
   checked: 2026-11-06
 
 - title: Смешарики
@@ -218,7 +553,8 @@
   kind: native
   level: [A2, B1]
   region: russia
-  about: The official channel of a much-loved modern cartoon about round animal friends; gentle humour, everyday language.
+  topic: kids
+  about: "The official channel of a much-loved modern cartoon about round animal friends; gentle humour, everyday language."
   checked: 2026-11-06
 
 - title: Союзмультфильм
@@ -227,7 +563,91 @@
   kind: native
   level: [A2, B1]
   region: russia
-  about: The official channel of the classic animation studio — Soviet cartoons everyone knows (Ну, погоди!, Винни-Пух) and new ones.
+  topic: kids
+  about: "The official channel of the classic animation studio — Soviet cartoons everyone knows (Ну, погоди!, Винни-Пух) and new ones."
+  checked: 2026-11-06
+
+- title: Фиксики
+  url: https://www.youtube.com/@fixiki
+  type: cartoons
+  kind: native
+  level: [A2, B1]
+  region: russia
+  topic: kids
+  about: Tiny people who live inside machines explain how things work. Great for everyday technical words.
+  checked: 2026-11-06
+
+- title: Три кота
+  url: https://www.youtube.com/@3-kota
+  type: cartoons
+  kind: native
+  level: [A1, A2]
+  region: russia
+  topic: kids
+  about: "Three kittens and their family; short episodes about everyday life, with simple dialogue."
+  checked: 2026-11-06
+
+- title: Лунтик
+  url: https://www.youtube.com/@luntik
+  type: cartoons
+  kind: native
+  level: [A1, A2]
+  region: russia
+  topic: kids
+  about: A gentle cartoon for small children about a creature from the Moon learning about life on Earth.
+  checked: 2026-11-06
+
+- title: Барбоскины
+  url: https://www.youtube.com/@barboskinyonline
+  type: cartoons
+  kind: native
+  level: [A2, B1]
+  region: russia
+  topic: kids
+  about: "A family of dogs with five children; school, siblings and arguments, in natural family speech."
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- films and series
+- title: Киностудия Горького
+  url: https://www.youtube.com/@gorkyfilmstudio
+  type: films
+  kind: native
+  level: [B2, C2]
+  region: russia
+  topic: films
+  about: "The studio's own channel: Soviet and Russian films, free, from the studio that made many classic children's and adventure films."
+  checked: 2026-11-06
+
+- title: Odesa Film Studio
+  url: https://www.youtube.com/@OdesaFilmStudio
+  type: films
+  kind: native
+  level: [B2, C2]
+  region: ukraine
+  topic: films
+  about: "The Ukrainian studio's own channel: hundreds of Soviet-era films, most of them in Russian."
+  checked: 2026-11-06
+
+- title: Salem Entertainment
+  url: https://www.youtube.com/@Rustem_Omarov
+  type: films
+  kind: native
+  level: [B2, C2]
+  region: kazakhstan
+  topic: films
+  about: "Kazakh web series in Russian (Мошенники, Скорая) on the producer's own channel."
+  note: Dramas with adult themes.
+  checked: 2026-11-06
+
+- title: Freedom Originals
+  url: https://www.youtube.com/@FMediaOriginals
+  type: films
+  kind: native
+  level: [B2, C2]
+  region: kazakhstan
+  topic: films
+  about: "Series from a Kazakh streaming service, free on its own channel; some in Russian, some in Kazakh."
+  note: Dramas with adult themes.
   checked: 2026-11-06
 
 # ---------------------------------------------------------------- podcasts
@@ -237,7 +657,8 @@
   kind: learner
   level: [A2, B2]
   region: worldwide
-  about: Slow, natural podcast episodes on everyday life and ideas, with transcripts and word lists.
+  topic: learning
+  about: "Slow, natural podcast episodes on everyday life and ideas, with transcripts and word lists."
   checked: 2026-11-06
 
 - title: Russian Progress podcast
@@ -246,7 +667,8 @@
   kind: learner
   level: [B1, C1]
   region: russia
-  about: Conversations with guests at intermediate and advanced levels, with transcripts.
+  topic: learning
+  about: "Conversations with guests at intermediate and advanced levels, with transcripts."
   checked: 2026-11-06
 
 - title: Russian with Dasha
@@ -255,6 +677,7 @@
   kind: learner
   level: [A2, B2]
   region: russia
+  topic: learning
   about: Podcast and course site to go with the YouTube channel — real conversations with transcripts and workbooks.
   checked: 2026-11-06
 
@@ -264,17 +687,111 @@
   kind: learner
   level: [A2, C1]
   region: worldwide
-  about: Lessons and a podcast at natural speed for intermediate learners, from the same teacher as the YouTube channel.
+  topic: learning
+  about: "Lessons and a podcast at natural speed for intermediate learners, from the same teacher as the YouTube channel."
   checked: 2026-11-06
 
-# ---------------------------------------------------------------- reading and listening
+- title: "Русский, блин!"
+  url: https://podcasts.apple.com/gb/podcast/id1775072299
+  type: podcast
+  kind: learner
+  level: [B1, C2]
+  region: worldwide
+  topic: learning
+  about: "Two teachers talk naturally about Russian life (Moscow and the provinces, childhood TV, holidays) for intermediate learners."
+  checked: 2026-11-06
+
+- title: Слушаем и говорим по-русски
+  url: https://podcasts.apple.com/gb/podcast/id1786877018
+  type: podcast
+  kind: learner
+  level: [A1, B1]
+  region: worldwide
+  topic: learning
+  about: "Short learner episodes on everyday topics, each with set phrases to practise."
+  checked: 2026-11-06
+
+- title: Лекции Arzamas
+  url: https://podcasts.apple.com/gb/podcast/id1001642707
+  type: podcast
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: history-culture
+  about: "Audio lectures from Arzamas courses on literature, history, art and anthropology."
+  checked: 2026-11-06
+
+- title: Неловкая пауза
+  url: https://podcasts.apple.com/gb/podcast/id1725498964
+  type: podcast
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: history-culture
+  about: "Arzamas's conversation podcast on everyday questions through art and culture: spoilers, fashion, gratitude."
+  checked: 2026-11-06
+
+- title: Тоже Россия
+  url: https://podcasts.apple.com/gb/podcast/id1481569839
+  type: podcast
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: history-culture
+  about: "Anthropologists on the many peoples and ways of life in Russia, from the Nenets to Siberian cities."
+  note: Finished in 2022; all episodes stay online.
+  checked: 2026-11-06
+
+- title: НОРМ
+  url: https://podcasts.apple.com/gb/podcast/id1298752162
+  type: podcast
+  kind: native
+  level: [B2, C1]
+  region: worldwide
+  topic: lifestyle
+  about: "Friendly conversations about relationships, creativity, books and everyday life."
+  checked: 2026-11-06
+
+- title: Неискусственный интеллект
+  url: https://podcasts.apple.com/gb/podcast/id1490579850
+  type: podcast
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: science
+  about: Long conversations with philosophers and scientists about big questions.
+  checked: 2026-11-06
+
+- title: Naked Science
+  url: https://podcasts.apple.com/gb/podcast/id1264527869
+  type: podcast
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: science
+  about: Short science news digests from the Naked Science magazine.
+  checked: 2026-11-06
+
+- title: Подкаст Лайфхакера
+  url: https://podcasts.apple.com/gb/podcast/id1297225487
+  type: podcast
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: lifestyle
+  about: "Practical everyday advice: health, money, work and habits. More than 2,000 short episodes."
+  note: No new episodes since mid-2025.
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- reading and audiobooks
 - title: Чехов on Wikisource
   url: https://ru.wikisource.org/wiki/Антон_Павлович_Чехов
   type: reading
   kind: native
   level: [B2, C2]
   region: russia
-  about: Chekhov's complete works, free and out of copyright. His short stories are the classic first step into Russian literature.
+  topic: books
+  about: "Chekhov's complete works, free and out of copyright. His short stories are the classic first step into Russian literature."
   checked: 2026-11-06
 
 - title: Пушкин on Wikisource
@@ -283,7 +800,8 @@
   kind: native
   level: [B2, C2]
   region: russia
-  about: Pushkin's works, free and out of copyright. Try the short prose (Повести Белкина) before the poetry.
+  topic: books
+  about: "Pushkin's works, free and out of copyright. Try the short prose (Повести Белкина) before the poetry."
   checked: 2026-11-06
 
 - title: LibriVox — Russian audiobooks
@@ -292,6 +810,7 @@
   kind: native
   level: [B2, C2]
   region: worldwide
+  topic: books
   about: Free recordings of public-domain books read by volunteers. Read the text on Wikisource while you listen.
   checked: 2026-11-06
 
@@ -301,7 +820,8 @@
   kind: native
   level: [B2, C2]
   region: worldwide
-  about: Free e-books of Russian classics, downloadable for e-readers.
+  topic: books
+  about: "Free e-books of Russian classics, downloadable for e-readers."
   checked: 2026-11-06
 
 - title: Arzamas
@@ -310,7 +830,8 @@
   kind: native
   level: [C1, C2]
   region: russia
-  about: Free courses on literature, history and art, as texts and audio lectures.
+  topic: history-culture
+  about: "Free courses on literature, history and art, as texts and audio lectures."
   checked: 2026-11-06
 
 - title: ПостНаука
@@ -319,7 +840,8 @@
   kind: native
   level: [C1, C2]
   region: russia
-  about: Articles, glossaries and video courses by scientists, in careful, standard Russian.
+  topic: science
+  about: "Articles, glossaries and video courses by scientists, in careful, standard Russian."
   checked: 2026-11-06
 
 - title: Naked Science
@@ -328,7 +850,8 @@
   kind: native
   level: [B2, C1]
   region: russia
-  about: Short popular-science news — space, animals, technology. Good daily reading practice.
+  topic: science
+  about: "Short popular-science news — space, animals, technology. Good daily reading practice."
   checked: 2026-11-06
 
 - title: Тотальный диктант
@@ -337,7 +860,8 @@
   kind: native
   level: [B2, C2]
   region: worldwide
-  about: The yearly dictation's site — sign up to take it online or in your city (it runs in Kazakhstan and many other countries), plus past texts.
+  topic: language
+  about: "The yearly dictation's site — sign up to take it online or in your city (it runs in Kazakhstan and many other countries), plus past texts."
   checked: 2026-11-06
 
 - title: Викигид
@@ -346,6 +870,7 @@
   kind: native
   level: [B1, C1]
   region: worldwide
+  topic: travel
   about: The free travel guide in Russian. Pick a place you know and read about it — the vocabulary is practical.
   checked: 2026-11-06
 
@@ -355,16 +880,238 @@
   kind: native
   level: [B2, C2]
   region: worldwide
+  topic: reference
   about: The Russian Wikipedia. Reading an article on something you already know well is easier than it sounds.
   checked: 2026-11-06
 
-# ---------------------------------------------------------------- tools
+- title: Толстой on Wikisource
+  url: https://ru.wikisource.org/wiki/Лев_Николаевич_Толстой
+  type: reading
+  kind: native
+  level: [B1, C2]
+  region: russia
+  topic: books
+  about: "Tolstoy's complete works. Start with his stories for children (Азбука), written in very simple Russian."
+  checked: 2026-11-06
+
+- title: Гоголь on Wikisource
+  url: https://ru.wikisource.org/wiki/Николай_Васильевич_Гоголь
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: books
+  about: "Gogol's stories and plays, from Ukrainian folk tales to Petersburg satire."
+  checked: 2026-11-06
+
+- title: Тургенев on Wikisource
+  url: https://ru.wikisource.org/wiki/Иван_Сергеевич_Тургенев
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: russia
+  topic: books
+  about: "Turgenev's clear, classic prose; Муму and the hunting sketches are good starting points."
+  checked: 2026-11-06
+
+- title: Достоевский on Wikisource
+  url: https://ru.wikisource.org/wiki/Фёдор_Михайлович_Достоевский
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: books
+  about: "Dostoevsky's novels and stories. Try a short story such as Белые ночи first."
+  checked: 2026-11-06
+
+- title: Лермонтов on Wikisource
+  url: https://ru.wikisource.org/wiki/Михаил_Юрьевич_Лермонтов
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: russia
+  topic: books
+  about: "Lermontov's poems and his novel set in the Caucasus, Герой нашего времени."
+  checked: 2026-11-06
+
+- title: Крылов on Wikisource
+  url: https://ru.wikisource.org/wiki/Иван_Андреевич_Крылов
+  type: reading
+  kind: native
+  level: [B1, C1]
+  region: russia
+  topic: books
+  about: "Krylov's fables: short animal stories in verse, many of their lines now everyday sayings."
+  checked: 2026-11-06
+
+- title: Народные русские сказки (Афанасьев)
+  url: https://ru.wikisource.org/wiki/Народные_русские_сказки_(Афанасьев)
+  type: reading
+  kind: native
+  level: [B1, C1]
+  region: russia
+  topic: books
+  about: "The classic collection of Russian folk tales: short, repetitive, and full of everyday words."
+  checked: 2026-11-06
+
+- title: Куприн on Wikisource
+  url: https://ru.wikisource.org/wiki/Александр_Иванович_Куприн
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: russia
+  topic: books
+  about: "Kuprin's stories, many of them about animals, children and ordinary people."
+  checked: 2026-11-06
+
+- title: Бунин on Wikisource
+  url: https://ru.wikisource.org/wiki/Иван_Алексеевич_Бунин
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: books
+  about: "Bunin's short stories, famous for their precise, beautiful prose."
+  checked: 2026-11-06
+
+- title: Есенин on Wikisource
+  url: https://ru.wikisource.org/wiki/Сергей_Александрович_Есенин
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: russia
+  topic: books
+  about: "Yesenin's poems about the countryside: among the most loved and most quoted in Russian."
+  checked: 2026-11-06
+
+- title: Лесков on Wikisource
+  url: https://ru.wikisource.org/wiki/Николай_Семёнович_Лесков
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: books
+  about: "Leskov's stories, full of folk speech and wordplay; Левша is the famous one."
+  checked: 2026-11-06
+
+- title: Грибоедов on Wikisource
+  url: https://ru.wikisource.org/wiki/Александр_Сергеевич_Грибоедов
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  topic: books
+  about: "Горе от ума, the comedy in verse that gave Russian dozens of everyday sayings."
+  checked: 2026-11-06
+
+- title: Наука и жизнь
+  url: https://www.nkj.ru
+  type: reading
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: science
+  about: "A popular-science magazine published since 1890: articles on science, history and nature."
+  checked: 2026-11-06
+
+- title: Вокруг света
+  url: https://www.vokrugsveta.ru
+  type: reading
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: travel
+  about: "The classic travel and discovery magazine: places, peoples, animals and history."
+  checked: 2026-11-06
+
+- title: Кот Шрёдингера
+  url: https://kot.sh
+  type: reading
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: science
+  about: "A popular-science magazine for young readers, with short, lively articles."
+  checked: 2026-11-06
+
+- title: Лайфхакер
+  url: https://lifehacker.ru
+  type: reading
+  kind: native
+  level: [B2, C1]
+  region: russia
+  topic: lifestyle
+  about: "Practical articles on everyday life: cooking, health, money, gadgets. Good for modern vocabulary."
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- tools and dictionaries
+- title: Wiktionary — Russian
+  url: https://en.wiktionary.org/wiki/Category:Russian_language
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  topic: reference
+  about: "Full tables, stress and etymology for almost any Russian word, explained in English. Many of Krotik's forms come from here."
+  checked: 2026-11-06
+
+- title: OpenRussian
+  url: https://en.openrussian.org
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  topic: reference
+  about: "A learner's dictionary with tables, stress and example sentences. Krotik's word data comes from here."
+  checked: 2026-11-06
+
+- title: Tatoeba
+  url: https://tatoeba.org/en/
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  topic: reference
+  about: "Hundreds of thousands of example sentences with translations, many with audio. Krotik's sentences come from here."
+  checked: 2026-11-06
+
+- title: Multitran
+  url: https://www.multitran.com
+  type: tool
+  kind: learner
+  level: [B1, C2]
+  region: worldwide
+  topic: reference
+  about: "A huge Russian–English dictionary built by translators, especially strong on phrases and specialist terms."
+  checked: 2026-11-06
+
+- title: Cooljugator
+  url: https://cooljugator.com/ru
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  topic: reference
+  about: "Full conjugation tables for Russian verbs, with stress."
+  checked: 2026-11-06
+
+- title: AnkiWeb shared decks
+  url: https://ankiweb.net/shared/decks
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  topic: reference
+  about: "Free flashcard decks made by other learners for the Anki app: search for Russian."
+  checked: 2026-11-06
+
 - title: Russian National Corpus (НКРЯ)
   url: https://ruscorpora.ru/en
   type: tool
   kind: native
   level: [B1, C2]
   region: russia
+  topic: reference
   about: Search hundreds of millions of words of real Russian to see how a word or construction is actually used.
   checked: 2026-11-06
 
@@ -374,6 +1121,7 @@
   kind: native
   level: [B1, C2]
   region: russia
+  topic: reference
   about: Dictionaries and a spelling and usage reference — where Russians check their own spelling and stress.
   checked: 2026-11-06
 
@@ -383,6 +1131,7 @@
   kind: native
   level: [A1, C2]
   region: worldwide
+  topic: reference
   about: Native speakers recording single words and phrases. Hear a word said by several people.
   checked: 2026-11-06
 
@@ -392,16 +1141,8 @@
   kind: native
   level: [A2, C2]
   region: worldwide
+  topic: reference
   about: Look up a word or phrase and see it in many real translated sentences.
-  checked: 2026-11-06
-
-- title: Wiktionary — Russian
-  url: https://en.wiktionary.org/wiki/Category:Russian_language
-  type: tool
-  kind: learner
-  level: [A1, C2]
-  region: worldwide
-  about: Full tables, stress and etymology for almost any Russian word, explained in English. Many of Krotik's forms come from here.
   checked: 2026-11-06
 
 - title: Викисловарь
@@ -410,23 +1151,16 @@
   kind: native
   level: [B2, C2]
   region: worldwide
-  about: The Russian-language Wiktionary — definitions in Russian, for when you are ready for a monolingual dictionary.
+  topic: reference
+  about: "The Russian-language Wiktionary — definitions in Russian, for when you are ready for a monolingual dictionary."
   checked: 2026-11-06
 
-- title: OpenRussian
-  url: https://en.openrussian.org
+- title: Академик
+  url: https://dic.academic.ru
   type: tool
-  kind: learner
-  level: [A1, C2]
+  kind: native
+  level: [B2, C2]
   region: worldwide
-  about: A learner's dictionary with tables, stress and example sentences. Krotik's word data comes from here.
-  checked: 2026-11-06
-
-- title: Tatoeba
-  url: https://tatoeba.org/en/
-  type: tool
-  kind: learner
-  level: [A1, C2]
-  region: worldwide
-  about: Hundreds of thousands of example sentences with translations, many with audio. Krotik's sentences come from here.
+  topic: reference
+  about: "Dozens of Russian dictionaries in one place: explanatory, etymological, idioms, synonyms."
   checked: 2026-11-06
