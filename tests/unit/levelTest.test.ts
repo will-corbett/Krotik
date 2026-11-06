@@ -1,29 +1,50 @@
 import { readFileSync } from 'node:fs';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { checkAnswer } from '../../src/lib/check.ts';
-import { ASK, buildTest, loadLexicon, PER_LEVEL, POOLS, scoreTest, sentenceQuestion, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
+import { ASK, buildTest, PER_LEVEL, scoreTest, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
+import { loadLexicon, POOLS, sentenceCandidate, type Lexicon } from '../../src/lib/levelTestPool.ts';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { ClozeRow } from '../../src/shared/types.ts';
+import type { ClozeRow, LevelTestData } from '../../src/shared/types.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
 import { ALL_TOPICS } from '../../src/lib/topics.ts';
 import { LEARN_TOPICS } from '../../src/lib/learn.ts';
 import { generateAlphabetQuestions, romanise } from '../../src/lib/questions/alphabet.ts';
 import { nouns } from './fixtures.ts';
 
-// The app loads data with fetch; serve it from public/data.
-beforeAll(() => {
-  vi.stubGlobal('fetch', async (url: string) => {
-    const path = `public/data/${String(url).replace(/^.*data\//, '')}`;
-    return { ok: true, status: 200, json: async () => JSON.parse(readFileSync(path, 'utf8')) };
+const read = <T>(file: string): T => JSON.parse(readFileSync(`public/data/${file}`, 'utf8')) as T;
+
+describe('level test question pool (public/data/level-test.json)', () => {
+  const pool = read<LevelTestData>('level-test.json');
+  it('has every question type of every level, with plenty of candidates for most', () => {
+    for (const l of TEST_LEVELS) expect(pool.slots.filter((s) => s.level === l).length, l).toBe(POOLS[l].length);
+    const thin = pool.slots.filter((s) => s.items.length < 10);
+    expect(thin.map((s) => `${s.level} ${s.topic}`)).toEqual([]);
+  });
+  it('every candidate has exactly one right option among all its options', () => {
+    let n = 0;
+    for (const s of pool.slots)
+      for (const [key, ru, , start, end, , right, wrong, answer] of s.items) {
+        const q = { answer: answer ?? right, others: [] };
+        expect(checkAnswer(q, right).correct, key).toBe(true);
+        expect(wrong.length, key).toBeGreaterThanOrEqual(1);
+        for (const w of wrong) expect(checkAnswer(q, w).correct, `${key} ${w}`).toBe(false);
+        expect(new Set([right, ...wrong].map(normalise)).size, key).toBe(wrong.length + 1);
+        expect(ru.slice(0, start) + ru.slice(end), key).toMatch(/[а-яё]{2,}/i);
+        n++;
+      }
+    expect(n).toBeGreaterThan(1500);
   });
 });
 
 describe('level test', () => {
+  const pool = read<LevelTestData>('level-test.json');
   let items: TestItem[] = [];
-  beforeAll(async () => {
-    items = await buildTest(mulberry32(42));
-  }, 60_000);
+  let lex: Lexicon;
+  beforeAll(() => {
+    items = buildTest(mulberry32(42), pool);
+    lex = loadLexicon(read);
+  });
 
   it('has 60 questions, 12 per level, easiest level first', () => {
     expect(items).toHaveLength(60);
@@ -60,40 +81,39 @@ describe('level test', () => {
       expect(LEARN_TOPICS.has(i.topic), i.topic).toBe(true);
     }
   });
-  it('varies from test to test: different words and a different mix of question types', async () => {
-    const other = await buildTest(mulberry32(7));
+  it('varies from test to test: different words and a different mix of question types', () => {
+    const other = buildTest(mulberry32(7), pool);
     const keysA = new Set(items.map((i) => i.q.key));
     const shared = other.filter((i) => keysA.has(i.q.key)).length;
     expect(shared).toBeLessThan(10);
     const mix = (xs: TestItem[]) => xs.map((i) => i.topic).join(',');
     expect(mix(other)).not.toBe(mix(items));
-  }, 60_000);
+  });
   it('each level has more question types than it uses, so the mix changes', () => {
     for (const l of TEST_LEVELS) expect(POOLS[l].length, l).toBeGreaterThan(PER_LEVEL);
   });
-  it('sentence questions never offer a second form the preposition could also take (в школе / в школу)', async () => {
-    const lex = await loadLexicon();
+  it('sentence questions never offer a second form the preposition could also take (в школе / в школу)', () => {
     const rows = JSON.parse(readFileSync('public/data/cloze.prepositions.json', 'utf8')) as ClozeRow[];
     let checked = 0;
     for (const row of rows.filter((r) => r[7] === 'в:prep' || r[7] === 'на:prep').slice(0, 300)) {
-      const res = sentenceQuestion(row, 'prepositions', lex, mulberry32(row[0]));
+      const res = sentenceCandidate(row, 'prepositions', lex, mulberry32(row[0]));
       if (!res) continue;
       checked++;
+      const [, , , , , , right, wrong] = res.c;
       const noun = lex.byAccented.get(row[6])!;
       const at = noun.cells.findIndex((c) => cellForms(c).some((f) => normalise(f) === normalise(row[1].slice(row[3], row[4]))));
       const acc = cellForms(noun.cells[at >= 6 ? 9 : 3]!).map(normalise);
-      for (const c of res.q.choices!) if (!checkAnswer(res.q, c).correct) expect(acc, `${row[1]} / ${c}`).not.toContain(normalise(c));
-      expect(res.q.choices!.filter((c) => checkAnswer(res.q, c).correct)).toHaveLength(1);
+      for (const c of wrong) expect(acc, `${row[1]} / ${c}`).not.toContain(normalise(c));
+      expect(checkAnswer({ answer: right, others: [] }, right).correct).toBe(true);
     }
     expect(checked).toBeGreaterThan(100);
   });
-  it('a spelling shared by two cells is read in the case the sentence needs (верят в сказки: accusative plural)', async () => {
-    const lex = await loadLexicon();
+  it('a spelling shared by two cells is read in the case the sentence needs (верят в сказки: accusative plural)', () => {
     const rows = JSON.parse(readFileSync('public/data/cloze.government.json', 'utf8')) as ClozeRow[];
     const row = rows.find((r) => r[7].startsWith('v+acc|') && normalise(r[1].slice(r[3], r[4])) === 'сказки');
     if (!row) return;
-    const res = sentenceQuestion(row, 'government', lex, mulberry32(1))!;
-    expect(res.q.choices).not.toContain('ска\'зку');
+    const res = sentenceCandidate(row, 'government', lex, mulberry32(1))!;
+    expect(res.c[7]).not.toContain('ска\'зку');
   });
   it('scores: a level counts while 9 of 12 are right; misses become review topics, easiest first', () => {
     const all = scoreTest(items, items.map(() => ({ correct: true, skipped: false })));

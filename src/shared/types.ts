@@ -39,6 +39,8 @@ export interface Manifest {
   specialCases: string;
   dates: string;
   collocations: string;
+  /** level test question pool */
+  levelTest: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -111,4 +113,14 @@ export interface DatesData {
 export interface Collocations {
   adj: Record<string, number[]>;
   part: Record<string, number[]>;
+}
+
+/**
+ * A level test candidate: [key, Russian sentence, English translation, gap start, gap end, word in brackets ("" if
+ * none), right option, wrong options, answer cell when it isn't just the right option].
+ */
+export type LevelTestCandidate = [string, string, string, number, number, string, string, string[], string?];
+/** public/data/level-test.json: candidates for each question type, by level (built by src/lib/levelTestPool.ts). */
+export interface LevelTestData {
+  slots: { level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1'; w: 1 | 2 | 3; topic: string; ask: string; items: LevelTestCandidate[] }[];
 }

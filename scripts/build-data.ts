@@ -16,9 +16,10 @@ import { applyOverrides, loadOverrides } from './lib/overrides.ts';
 import { Report } from './lib/report.ts';
 import { checkOrder, loadFreq } from './lib/frequency.ts';
 import { buildMotion } from './lib/motion.ts';
-import { BANDS, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
+import { BANDS, OUT_DIR, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
 import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
+import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
 import { buildSentences } from './lib/sentences.ts';
 import { buildCloze } from './lib/cloze.ts';
 import { buildCollocations } from './lib/collocations.ts';
@@ -159,6 +160,7 @@ const manifest: Manifest = {
   specialCases: 'special-cases.json',
   dates: 'dates.json',
   collocations: 'collocations.json',
+  levelTest: 'level-test.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -166,9 +168,19 @@ const manifest: Manifest = {
 };
 writeJson('manifest.json', manifest);
 
+// The level test's questions, made here from the files just written so the browser needn't load the shards.
+const levelTest = buildLevelTestPool(<T>(file: string) => JSON.parse(readFileSync(join(OUT_DIR, file), 'utf8')) as T);
+for (const s of levelTest.slots) {
+  report.count('Level test', `${s.level} question types`);
+  report.count('Level test', 'candidate questions', s.items.length);
+  if (s.items.length < PER_SLOT) report.anomaly('Level test', `question types with fewer than ${PER_SLOT} candidates`, `${s.level} ${s.topic} (w${s.w}): ${s.items.length}`);
+}
+const levelTestBytes = writeJson('level-test.json', levelTest);
+
 for (const list of Object.values(shards)) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);
 for (const list of Object.values(sentences)) for (const s of list) sizes.push(`| ${s.file} | ${s.lemmas} lemmas, ${s.sentences} sentences | ${(s.bytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).toFixed(1)} KB |`);
+sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.length, 0)} questions | ${(levelTestBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

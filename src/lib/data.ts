@@ -2,7 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AdjRow, ClozeRow, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
+import type { AdjRow, ClozeRow, LevelTestData, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 const BASE = `${import.meta.env?.BASE_URL ?? "/"}data/`;
@@ -65,6 +65,10 @@ export async function loadCloze(topic: string): Promise<ClozeRow[]> {
   const m = await loadManifest();
   const c = m.cloze[topic];
   return c ? getJson<ClozeRow[]>(c.file) : [];
+}
+/** The level test's ready-made question pool. */
+export async function loadLevelTest(): Promise<LevelTestData> {
+  return getJson<LevelTestData>((await loadManifest()).levelTest);
 }
 export async function loadMotion(): Promise<MotionData> {
   return getJson<MotionData>((await loadManifest()).motion);

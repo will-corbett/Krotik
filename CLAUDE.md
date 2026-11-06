@@ -42,7 +42,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
   `content/culture/notes/<id>.md` listed in `content/culture/notes.yaml`. YAML is imported at build time by a small
   plugin in `vite.config.ts` (no runtime dependency). Note text is word-checked like Learn pages.
-- Level test (`src/lib/levelTest.ts`, `#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first.
+- Level test (`#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first. The data build makes the
+  questions (`src/lib/levelTestPool.ts` → `public/data/level-test.json`, ~30 checked candidates per question type, listed
+  in the report); the app (`src/lib/levelTest.ts`) only loads that one file and draws from it, so the test starts at once.
   Every question is a real Tatoeba sentence with one gap, a plain instruction (`ASK`, no grammar terms) and the English
   translation as the cue — never a word on its own. Sources: a word's own example sentences (sentence shards) with
   other real forms of that word as wrong options; the gapped sentence drills (word in brackets); the multiple-choice
@@ -50,7 +52,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   also take, other past genders (я/ты could be either), long forms against short forms, sentence-final adjectives.
   Each level draws 12 of a larger pool (at most 2 per topic), ordered by a 1–3 weight; vocabulary graded by frequency
   rank. A level counts at 9/12 and only if every level below counts. Leave out topics where two options can both be
-  right (indefinite pronouns, же/ведь, colloquial particles). Results are never stored.
+  right (indefinite pronouns, же/ведь, colloquial particles). Superlatives are left out: no sentence ties to one word. Results are never stored.
 - `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),

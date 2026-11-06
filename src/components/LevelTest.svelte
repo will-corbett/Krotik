@@ -2,7 +2,8 @@
   import { tick } from 'svelte';
   import { renderForm } from '../shared/forms.ts';
   import { checkAnswer } from '../lib/check.ts';
-  import { buildTest, PASS, PER_LEVEL, scoreTest, TEST_LEVELS, type Response, type TestItem, type TestLevel } from '../lib/levelTest.ts';
+  import { loadTest, PASS, PER_LEVEL, scoreTest, TEST_LEVELS, type Response, type TestItem, type TestLevel } from '../lib/levelTest.ts';
+  import { loadLevelTest } from '../lib/data.ts';
   import { mulberry32 } from '../lib/rng.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
@@ -16,7 +17,6 @@
   let items = $state<TestItem[]>([]);
   let responses = $state<Response[]>([]);
   let i = $state(0);
-  let built = $state(0);
   let error = $state('');
   let heading = $state<HTMLElement>();
 
@@ -36,9 +36,8 @@
   async function start() {
     phase = 'loading';
     error = '';
-    built = 0;
     try {
-      items = await buildTest(mulberry32(seed()), (n) => (built = n));
+      items = await loadTest(mulberry32(seed()));
       responses = [];
       i = 0;
       phase = 'question';
@@ -48,6 +47,11 @@
       phase = 'intro';
     }
   }
+
+  // Fetch the question pool (one small file) while the introduction is being read.
+  $effect(() => {
+    loadLevelTest().catch(() => {});
+  });
 
   function focusTop() {
     tick().then(() => heading?.focus());
@@ -115,7 +119,7 @@
     </ul>
     {#if error}<p class="err">Couldn't prepare the test: {error}</p>{/if}
     <button class="btn primary" onclick={start} disabled={phase === 'loading'}>
-      {phase === 'loading' ? `Preparing… ${built} of 60` : 'Start the test'}
+      {phase === 'loading' ? 'Loading…' : 'Start the test'}
     </button>
   {:else if phase === 'question' && q}
     <div class="top">
