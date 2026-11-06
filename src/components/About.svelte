@@ -46,6 +46,10 @@
     The derived word data published with this site is itself available under CC BY-SA 4.0 (share-alike), and the
     sentence data under CC BY 2.0 FR.
   </p>
+  <p>
+    The Culture page links to other people's channels and sites. Krotik doesn't host, copy or embed their content, isn't
+    connected with them, and loads nothing from them until you follow a link.
+  </p>
   <p class="muted">
     Example sentences are matched to words automatically and conservatively; a mismatch is possible. Speech uses your
     device's own Russian voice, if it has one.

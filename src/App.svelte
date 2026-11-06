@@ -6,6 +6,8 @@
   import Dashboard from './components/Dashboard.svelte';
   import LearnIndex from './components/LearnIndex.svelte';
   import LearnPage from './components/LearnPage.svelte';
+  import Culture from './components/Culture.svelte';
+  import CultureNote from './components/CultureNote.svelte';
   import { loadSettings, saveSettings, type Settings } from './lib/settings.ts';
   import { nextBatch, prepareRound, UNLIMITED_BATCH, type Generate } from './lib/start.ts';
   import { createRound, type Round } from './lib/queue.ts';
@@ -100,6 +102,7 @@
     { label: 'Dashboard', route: { page: 'home' } },
     { label: 'Learn', route: { page: 'learn' } },
     { label: 'Drill', route: { page: 'drill' } },
+    { label: 'Culture', route: { page: 'culture' } },
   ];
 </script>
 
@@ -131,6 +134,10 @@
       <LearnPage topic={route.topic} {settings} />
     {:else if route.page === 'learn'}
       <LearnIndex />
+    {:else if route.page === 'culture' && route.note}
+      <CultureNote id={route.note} {settings} />
+    {:else if route.page === 'culture'}
+      <Culture />
     {:else if route.page === 'about'}
       <About onback={() => (location.hash = '#/')} />
     {:else if screen === 'drill' && round}

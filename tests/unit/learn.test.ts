@@ -45,6 +45,35 @@ for (const w of parse(readFileSync('content/learn/words.yaml', 'utf8')) as strin
 
 const pages = readdirSync('content/learn').filter((f) => f.endsWith('.md'));
 
+/** Russian words in a page's text (data-block lines aside) that aren't real forms in the data. */
+function unknownWords(src: string): string[] {
+  const text = src
+    .split('\n')
+    .filter((l) => !l.trim().startsWith('::'))
+    .join('\n');
+  const unknown = new Set<string>();
+  for (const m of text.matchAll(/(^|[^А-ЯЁа-яё-])([А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*)/g)) {
+    const w = m[2]!;
+    if (m[1] === '-') continue; // endings like -ешь
+    if (w.length === 1) continue; // letters named as letters (after г, к, х …)
+    if (!known.has(normalise(w))) unknown.add(w);
+  }
+  return [...unknown];
+}
+
+describe('Culture notes', () => {
+  const notes = readdirSync('content/culture/notes').filter((f) => f.endsWith('.md'));
+  const listed = (parse(readFileSync('content/culture/notes.yaml', 'utf8')) as { id: string }[]).map((n) => n.id);
+  it('every note is listed, and every listed note exists', () => {
+    expect(notes.map((f) => f.replace(/\.md$/, '')).sort()).toEqual([...listed].sort());
+  });
+  for (const f of notes) {
+    it(`${f}: every Russian word is a real form in the data`, () => {
+      expect(unknownWords(readFileSync(`content/culture/notes/${f}`, 'utf8')), 'words not found in the data').toEqual([]);
+    });
+  }
+});
+
 describe('Learn pages', () => {
   it('there are Learn pages, each for a real topic', () => {
     expect(pages.length).toBeGreaterThan(0);
@@ -102,18 +131,7 @@ describe('Learn pages', () => {
     });
 
     it(`${page}: every Russian word in the text is a real form in the data`, () => {
-      const text = src
-        .split('\n')
-        .filter((l) => !l.trim().startsWith('::'))
-        .join('\n');
-      const unknown = new Set<string>();
-      for (const m of text.matchAll(/(^|[^А-ЯЁа-яё-])([А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*)/g)) {
-        const w = m[2]!;
-        if (m[1] === '-') continue; // endings like -ешь
-        if (w.length === 1) continue; // letters named as letters (after г, к, х …)
-        if (!known.has(normalise(w))) unknown.add(w);
-      }
-      expect([...unknown], 'words not found in the data').toEqual([]);
+      expect(unknownWords(src), 'words not found in the data').toEqual([]);
     });
   }
 });

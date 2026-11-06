@@ -28,6 +28,11 @@
     <button class="btn primary" onclick={oncontinue} disabled={loading}>{loading ? 'Loading…' : 'Continue'}</button>
   </div>
 
+  <a class="card culture-card" href="#/culture">
+    <span><strong>Culture</strong> <span lang="ru" class="ru">культура</span></span>
+    <span class="muted small">Videos, cartoons, podcasts and books in Russian, plus notes on names, ты and вы, holidays and Russian beyond Russia.</span>
+  </a>
+
   <h2 class="map-title">All topics</h2>
   {#each TOPIC_GROUPS as g (g.title.en)}
     <section class="group" aria-labelledby="g-{g.title.en}">
@@ -69,6 +74,16 @@
   }
   .hero p {
     margin: 4px 0 0;
+  }
+  .culture-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .culture-card:hover strong {
+    text-decoration: underline;
   }
   .continue {
     display: flex;

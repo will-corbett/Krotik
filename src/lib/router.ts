@@ -3,12 +3,14 @@
  *   #/                 Dashboard
  *   #/learn            Learn index        #/learn/<topic>   a Learn page
  *   #/drill            Drill setup        #/drill/<topic>   setup with that drill selected
+ *   #/culture          Culture links      #/culture/<note>  a culture note
  *   #/about            About and sources
  */
 export type Route =
   | { page: 'home' }
   | { page: 'learn'; topic?: string }
   | { page: 'drill'; mode?: string }
+  | { page: 'culture'; note?: string }
   | { page: 'about' };
 
 export function parseRoute(hash: string): Route {
@@ -18,6 +20,8 @@ export function parseRoute(hash: string): Route {
       return parts[1] ? { page: 'learn', topic: parts[1] } : { page: 'learn' };
     case 'drill':
       return parts[1] ? { page: 'drill', mode: parts[1] } : { page: 'drill' };
+    case 'culture':
+      return parts[1] ? { page: 'culture', note: parts[1] } : { page: 'culture' };
     case 'about':
       return { page: 'about' };
     default:
@@ -33,6 +37,8 @@ export function href(route: Route): string {
       return route.topic ? `#/learn/${route.topic}` : '#/learn';
     case 'drill':
       return route.mode ? `#/drill/${route.mode}` : '#/drill';
+    case 'culture':
+      return route.note ? `#/culture/${route.note}` : '#/culture';
     case 'about':
       return '#/about';
   }
