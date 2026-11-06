@@ -16,6 +16,7 @@ export const TERMS = {
   presfut: t('Present/future', 'настоящее/будущее время'),
   past: t('Past', 'прошедшее время'),
   imperative: t('Imperative', 'повелительное наклонение'),
+  infinitive: t('Infinitive', 'инфинитив'),
   tense: t('Tense', 'время'),
   impf: t('imperfective', 'несовершенный вид'),
   pf: t('perfective', 'совершенный вид'),
@@ -55,6 +56,7 @@ export const TERMS = {
   // Phase B
   nounsNumbers: t('Nouns & numbers', 'существительные и числительные'),
   adverbs: t('Verbal adverbs', 'деепричастия'),
+  verbalAdverb: t('Verbal adverb', 'деепричастие'),
   advImpf: t('Imperfective verbal adverb', 'деепричастие несовершенного вида'),
   advPf: t('Perfective verbal adverb', 'деепричастие совершенного вида'),
   participles: t('Participles', 'причастия'),

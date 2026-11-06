@@ -19,7 +19,7 @@
 import { ADJ_EXTRA_CELL_OFFSET, ADJ_INDEX, CASES } from '../shared/cells.ts';
 import { cellForms, displayForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
-import type { AdjRow, ClozeRow, LevelTestCandidate, LevelTestData, Manifest, NounRow, ParticipleRow, PronounData, SentenceRow, SentenceShard, VerbRow } from '../shared/types.ts';
+import type { AdjRow, ClozeRow, LevelTestCandidate, LevelTestData, Manifest, NounRow, ParticipleKind, ParticipleRow, PronounData, SentenceRow, SentenceShard, VerbRow } from '../shared/types.ts';
 import { checkAnswer } from './check.ts';
 import { clozeQuestion, type ClozeTopic } from './questions/cloze.ts';
 import { mulberry32, pick, shuffle, type Rng } from './rng.ts';
@@ -29,7 +29,7 @@ export const TEST_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 export type TestLevel = (typeof TEST_LEVELS)[number];
 /** Candidates kept per question type. A test uses at most one or two per type, so tests rarely share a question. */
 export const PER_SLOT = 30;
-/** Wrong options kept per candidate; the app shows three of them. */
+/** Wrong options kept per candidate, closest first; the app shows three or four of them. */
 const MAX_WRONG = 6;
 
 // ---------------------------------------------------------------- instructions (no grammar terms)
@@ -80,7 +80,12 @@ export interface ChoiceSlot extends Base {
   topic: ClozeTopic;
   kinds?: string[];
 }
-export type Slot = FormSlot | GapSlot | ChoiceSlot;
+/** A participle in its own sentence (the verb in brackets): the options are other forms of the same participle. */
+export interface ParticipleSlot extends Base {
+  kind: 'participle';
+  pkinds: ParticipleKind[];
+}
+export type Slot = FormSlot | GapSlot | ChoiceSlot | ParticipleSlot;
 
 const range = (a: number, b: number) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 const adj = (...keys: (keyof typeof ADJ_INDEX)[]) => keys.map((k) => ADJ_INDEX[k]);
@@ -100,6 +105,9 @@ const form = (level: TestLevel, w: Base['w'], type: FormSlot['type'], cells: num
 });
 const gap = (level: TestLevel, w: Base['w'], topic: ClozeTopic, learn: Mode, kinds?: string[], extra: Partial<GapSlot> = {}): GapSlot => ({
   kind: 'gap', level, w, topic, learn, kinds, ask: ASK.form, ...extra,
+});
+const participle = (level: TestLevel, w: Base['w'], pkinds: ParticipleKind[], extra: Partial<ParticipleSlot> = {}): ParticipleSlot => ({
+  kind: 'participle', level, w, pkinds, learn: 'participles', ask: ASK.verb, ...extra,
 });
 const choice = (level: TestLevel, w: Base['w'], topic: ClozeTopic, learn: Mode, ask: string, kinds?: string[]): ChoiceSlot => ({
   kind: 'choice', level, w, topic, learn, ask, kinds,
@@ -149,54 +157,57 @@ export const POOLS: Record<TestLevel, Slot[]> = {
   ],
   B1: [
     form('B1', 1, 'adjectives', SHORT, 'short', { maxRank: 1000 }),
+    form('B1', 1, 'verbs', [...PRESFUT, ...PAST], 'verbs', { minRank: 300, maxRank: 1500 }),
     form('B1', 2, 'nouns', [PL.gen, PL.dat, PL.inst, PL.prep], 'plurals', { maxRank: 1000 }),
     form('B1', 2, 'adjectives', ADJ_PL_OBLIQUE, 'adjectives', { maxRank: 1000 }),
-    form('B1', 2, 'verbs', [...PRESFUT, ...PAST], 'verbs', { minRank: 300, maxRank: 1500 }),
-    choice('B1', 2, 'aspectContext', 'aspectContext', ASK.aspect),
-    choice('B1', 3, 'aspectContext', 'aspectContext', ASK.aspect),
-    choice('B1', 2, 'position', 'position', ASK.position),
+    choice('B1', 2, 'aspectContext', 'aspectContext', ASK.aspect, ['impf@past', 'pf@past']),
+    choice('B1', 3, 'aspectContext', 'aspectContext', ASK.aspect, ['impf@presfut', 'pf@presfut']),
+    choice('B1', 2, 'position', 'position', ASK.position, ['sit:state', 'lie:state', 'stand:state']),
     choice('B1', 2, 'svoy', 'possessives', ASK.svoy),
     gap('B1', 2, 'conditional', 'conditional', undefined, { ask: ASK.verb }),
     gap('B1', 2, 'impersonal', 'impersonal', ['imp-noun']),
     gap('B1', 3, 'kotoryi', 'kotoryi'),
-    gap('B1', 3, 'chtoby', 'chtoby', undefined, { ask: ASK.verb }),
-    gap('B1', 3, 'comparison', 'comparison'),
-    gap('B1', 3, 'government', 'government', undefined, { maxRank: 1000 }),
+    gap('B1', 3, 'chtoby', 'chtoby', ['inf'], { ask: ASK.verb }),
+    gap('B1', 3, 'comparison', 'comparison', undefined, { maxRank: 1000 }),
+    gap('B1', 3, 'government', 'government', undefined, { maxRank: 500 }),
     gap('B1', 3, 'prepositions', 'prepositions', ['за:inst', 'под:inst', 'перед:inst', 'над:inst', 'между:inst', 'при:prep'], { maxRank: 1000 }),
   ],
+  // B2 and C1 test grammar that only advanced learners control (participles, verbal adverbs, aspect in the
+  // imperative and infinitive, verbs of position, the rarer cases after verbs and prepositions), with rarer words.
   B2: [
     form('B2', 1, 'verbs', [...PAST, ...IMPERATIVE], 'verbs', { minRank: 1000 }),
-    form('B2', 2, 'adverb', [0, 1], 'adverbs', { maxRank: 2500 }),
-    form('B2', 3, 'nouns', [SG.gen, SG.dat, SG.inst, SG.prep, PL.gen, PL.dat, PL.inst, PL.prep], 'nounCases', { minRank: 1000 }),
-    form('B2', 3, 'adjectives', [...ADJ_SG_OBLIQUE, ...ADJ_PL_OBLIQUE], 'adjectives', { minRank: 1000 }),
+    form('B2', 1, 'nouns', [SG.gen, SG.dat, SG.inst, SG.prep, PL.gen, PL.dat, PL.inst, PL.prep], 'nounCases', { minRank: 1000 }),
+    form('B2', 2, 'adjectives', [...ADJ_SG_OBLIQUE, ...ADJ_PL_OBLIQUE], 'adjectives', { minRank: 1000 }),
+    form('B2', 2, 'adverb', [0, 1], 'adverbs', { maxRank: 1000 }),
     choice('B2', 2, 'particles', 'particles', ASK.particle, ['li']),
-    choice('B2', 2, 'position', 'position', ASK.position),
-    gap('B2', 2, 'government', 'government', undefined, { minRank: 250 }),
+    gap('B2', 2, 'government', 'government', undefined, { minRank: 500 }),
+    gap('B2', 2, 'chtoby', 'chtoby', ['past'], { ask: ASK.verb }),
+    gap('B2', 2, 'comparison', 'comparison', undefined, { minRank: 1000 }),
+    gap('B2', 3, 'negation', 'negation', ['net'], { minRank: 1000 }),
     gap('B2', 3, 'specialCases', 'specialCases', ['loc']),
     gap('B2', 3, 'prepositions', 'prepositions', undefined, { minRank: 1000 }),
-    gap('B2', 3, 'chtoby', 'chtoby', ['past'], { ask: ASK.verb }),
-    gap('B2', 3, 'kotoryi', 'kotoryi'),
-    choice('B2', 3, 'aspectContext', 'aspectContext', ASK.aspect),
-    gap('B2', 2, 'impersonal', 'impersonal', ['imp-noun']),
-    gap('B2', 3, 'negation', 'negation', ['net'], { minRank: 250 }),
-    gap('B2', 3, 'comparison', 'comparison', undefined, { minRank: 250 }),
+    choice('B2', 3, 'aspectContext', 'aspectContext', ASK.aspect, ['impf@past', 'pf@past', 'impf@presfut', 'pf@presfut']),
+    choice('B2', 3, 'position', 'position', ASK.position),
+    participle('B2', 3, ['act_pres', 'act_past'], { maxRank: 1000 }),
+    gap('B2', 3, 'time', 'time', ['po-days', 'nazad']),
   ],
   C1: [
+    // Only grammar that advanced learners control: no familiar grammar on rare words (для туристов is B1 grammar).
+    form('C1', 1, 'verbs', range(0, 11), 'verbs', { minRank: 1500 }),
     form('C1', 1, 'adverb', [0, 1], 'adverbs', { minRank: 1000 }),
     form('C1', 2, 'adjectives', SHORT, 'short', { minRank: 1000 }),
-    form('C1', 2, 'verbs', range(0, 11), 'verbs', { minRank: 1500 }),
-    form('C1', 3, 'nouns', [PL.gen], 'plurals', { minRank: 1000 }),
-    form('C1', 3, 'nouns', [PL.gen, PL.dat, PL.inst, PL.prep], 'nounCases', { minRank: 1500 }),
-    form('C1', 3, 'adjectives', [...ADJ_SG_OBLIQUE, ...ADJ_PL_OBLIQUE], 'adjectives', { minRank: 1500 }),
-    gap('C1', 2, 'specialCases', 'specialCases', ['loc']),
+    form('C1', 2, 'nouns', [PL.gen], 'plurals', { minRank: 1000 }),
+    participle('C1', 2, ['act_pres', 'act_past'], { minRank: 1000 }),
+    participle('C1', 3, ['pass_pres', 'pass_past']),
+    gap('C1', 2, 'chtoby', 'chtoby', ['past'], { ask: ASK.verb, minRank: 1000 }),
     gap('C1', 3, 'government', 'government', undefined, { minRank: 1000 }),
-    gap('C1', 3, 'prepositions', 'prepositions', undefined, { minRank: 1500 }),
-    gap('C1', 3, 'negation', 'negation', ['net'], { minRank: 1000 }),
-    gap('C1', 3, 'comparison', 'comparison', undefined, { minRank: 250 }),
-    gap('C1', 3, 'kotoryi', 'kotoryi'),
-    gap('C1', 3, 'chtoby', 'chtoby', ['past'], { ask: ASK.verb }),
-    choice('C1', 3, 'aspectContext', 'aspectContext', ASK.aspect),
-    gap('C1', 3, 'time', 'time', ['po-days']),
+    gap('C1', 3, 'government', 'government', undefined, { minRank: 1500 }),
+    gap('C1', 3, 'specialCases', 'specialCases', ['loc'], { minRank: 1000 }),
+    choice('C1', 3, 'aspectContext', 'aspectContext', ASK.aspect, ['impf@imperative', 'pf@imperative']),
+    // Not aspect after an infinitive-taking word (трудно заставить / заставлять): there both are often acceptable.
+    choice('C1', 3, 'aspectContext', 'aspectContext', ASK.aspect, ['impf@presfut', 'pf@presfut']),
+    choice('C1', 2, 'position', 'position', ASK.position),
+    choice('C1', 3, 'position', 'position', ASK.position, ['sit:put', 'lie:put', 'stand:put', 'hang:put', 'sit:get', 'lie:get', 'stand:get']),
   ],
 };
 // ---------------------------------------------------------------- the data (read from public/data at build time)
@@ -238,27 +249,77 @@ export function loadLexicon(read: ReadJson): Lexicon {
   return { byAccented, byId, participles };
 }
 
+/**
+ * Codes naming which form an option is, so the results page can explain it ("genitive plural"): n<cell> noun,
+ * c<case> pronoun, v<cell> verb, inf infinitive, a<cell> adjective (extra forms from ADJ_EXTRA_CELL_OFFSET),
+ * p:<kind>:<cell> participle, adv verbal adverb, loc second prepositional (в лесу). A spelling that is several cells
+ * (новой) has all their codes, joined with "+". "" = no label (the options are different words).
+ */
+const code = (e: Entry, cell: number) => (e.type === 'noun' ? `n${cell}` : e.type === 'pron' ? `c${cell % 6}` : e.type === 'verb' ? `v${cell}` : `a${cell}`);
+
+type Opt = { f: string; code: string };
 /** First displayed form of each cell, skipping any that equal an excluded form or each other. */
-function distinctForms(cells: string[], exclude: Set<string>): string[] {
-  const seen = new Set(exclude);
-  const out: string[] = [];
-  for (const c of cells) {
+function distinctForms(cells: Opt[], exclude: Set<string>): Opt[] {
+  const out = new Map<string, Opt>();
+  for (const { f: c, code } of cells) {
     const f = displayForms(c)[0];
-    if (!f || seen.has(normalise(f))) continue;
-    seen.add(normalise(f));
-    out.push(f);
+    if (!f || exclude.has(normalise(f))) continue;
+    const had = out.get(normalise(f));
+    // A spelling shared by several cells is all of them (новой: genitive, dative, instrumental, prepositional).
+    if (had) had.code = had.code && code ? `${had.code}+${code}` : had.code;
+    else out.set(normalise(f), { f, code });
   }
-  return out;
+  return [...out.values()];
 }
+/** Codes of every cell spelt like `form` (only cells in `among`, if given), joined with "+". */
+function codesFor(e: Entry, form: string, among?: number[]): string {
+  const n = normalise(form);
+  return e.cells
+    .map((c, i) => i)
+    .filter((i) => (!among || among.includes(i)) && cellForms(e.cells[i] ?? '').some((f) => normalise(f) === n))
+    .map((i) => code(e, i))
+    .join('+');
+}
+const sameNumber = (e: Entry, cell: number) => (e.type === 'noun' ? range(cell >= 6 ? 6 : 0, cell >= 6 ? 11 : 5) : e.type === 'adj' && cell < ADJ_EXTRA_CELL_OFFSET ? range(0, ADJ_EXTRA_CELL_OFFSET - 1) : [cell]);
+const cellsOf = (e: Entry, idx: number[]): Opt[] => idx.map((i) => ({ f: e.cells[i] ?? '', code: code(e, i) }));
 const formsOf = (cells: (string | undefined)[]) => new Set(cells.flatMap((c) => cellForms(c ?? '')).map(normalise));
 /** The variant of a cell that the sentence actually uses (keeps the source stress). */
 const usedForm = (cell: string, token: string) => cellForms(cell).find((f) => normalise(f) === normalise(token)) ?? displayForms(cell)[0] ?? token;
 
-/** A candidate: [key, Russian sentence, English, gap start, gap end, word in brackets, right option, wrong options, answer cell if not the right option]. */
-function candidate(key: string, ru: string, en: string, start: number, end: number, hint: string, right: string, wrong: string[], rng: Rng, answer?: string): LevelTestCandidate {
-  const c: LevelTestCandidate = [key, ru, en, start, end, hint, right, shuffle(rng, wrong).slice(0, MAX_WRONG)];
-  if (answer !== undefined && answer !== right) c.push(answer);
-  return c;
+/** Edit distance between two forms (stress and ё ignored): the closest wrong forms are the hardest to rule out. */
+function distance(a: string, b: string): number {
+  const x = normalise(a);
+  const y = normalise(b);
+  let prev = Array.from({ length: y.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= x.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= y.length; j++) cur[j] = Math.min(prev[j]! + 1, cur[j - 1]! + 1, prev[j - 1]! + (x[i - 1] === y[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[y.length]!;
+}
+
+interface Made {
+  key: string;
+  ru: string;
+  en: string;
+  start: number;
+  end: number;
+  hint: string;
+  right: Opt;
+  wrong: Opt[];
+  answer?: string;
+  kind?: string;
+  rank?: number;
+}
+/** A candidate, its wrong options closest to the right one first (the app shows the closest at B1 and above). */
+function candidate(m: Made, rng: Rng): LevelTestCandidate {
+  const wrong = shuffle(rng, m.wrong)
+    .map((o, i) => ({ o, d: distance(o.f, m.right.f), i }))
+    .sort((a, b) => a.d - b.d || a.i - b.i)
+    .slice(0, MAX_WRONG)
+    .map(({ o }) => o);
+  return [m.key, m.ru, m.en, m.start, m.end, m.hint, m.right.f, wrong.map((o) => o.f), m.answer !== undefined && m.answer !== m.right.f ? m.answer : '', m.kind ?? '', m.right.code, wrong.map((o) => o.code), m.rank ?? -1];
 }
 
 // ---------------------------------------------------------------- form questions (a word's own sentences)
@@ -266,25 +327,25 @@ function candidate(key: string, ru: string, en: string, start: number, end: numb
 const NOUN_CASE = (i: number) => CASES[i % 6]!;
 
 /** Wrong options for a word's form, all real forms of the same word, none that could also be right. */
-function wrongForms(e: Entry, bit: number, rowMask: number): string[] {
+function wrongForms(e: Entry, bit: number, rowMask: number): Opt[] {
   const alsoRight = formsOf(e.cells.filter((_, i) => rowMask & (1 << i)));
   alsoRight.add(normalise(displayForms(e.cells[bit] ?? '')[0] ?? ''));
-  let pool: string[];
+  let pool: Opt[];
   if (e.type === 'noun') {
     const plural = bit >= 6;
-    pool = e.cells.filter((_, i) => i !== bit && i >= (plural ? 6 : 0) && i < (plural ? 12 : 6));
+    pool = cellsOf(e, range(plural ? 6 : 0, plural ? 11 : 5).filter((i) => i !== bit));
   } else if (e.type === 'verb') {
     // Present/future: the other persons. Past: present forms and the infinitive (not the other genders: я/ты/вы could
     // be either). Imperative: present forms, infinitive and past (not the other imperative: скажи / скажите).
-    if (bit <= 5) pool = e.cells.slice(0, 6);
-    else if (bit <= 9) pool = [...e.cells.slice(0, 6), e.accented];
-    else pool = [...e.cells.slice(0, 6), e.accented, e.cells[6] ?? ''];
+    const inf = { f: e.accented, code: 'inf' };
+    if (bit <= 5) pool = cellsOf(e, PRESFUT);
+    else if (bit <= 9) pool = [...cellsOf(e, PRESFUT), inf];
+    else pool = [...cellsOf(e, PRESFUT), inf, ...cellsOf(e, [6])];
   } else {
-    const nom = ADJ_NOM.map((i) => e.cells[i] ?? '');
-    if (bit < ADJ_EXTRA_CELL_OFFSET) pool = e.cells.slice(0, ADJ_EXTRA_CELL_OFFSET);
+    if (bit < ADJ_EXTRA_CELL_OFFSET) pool = cellsOf(e, range(0, ADJ_EXTRA_CELL_OFFSET - 1));
     // Short forms: the other short forms only — a long form is often also right as a predicate (она жирная).
-    else if (bit < ADJ_EXTRA_CELL_OFFSET + 4) pool = e.cells.slice(ADJ_EXTRA_CELL_OFFSET, ADJ_EXTRA_CELL_OFFSET + 4);
-    else pool = [...nom, ...e.cells.slice(ADJ_EXTRA_CELL_OFFSET + 4, ADJ_EXTRA_CELL_OFFSET + 6)];
+    else if (bit < ADJ_EXTRA_CELL_OFFSET + 4) pool = cellsOf(e, SHORT);
+    else pool = cellsOf(e, [...ADJ_NOM, ADJ_EXTRA_CELL_OFFSET + 4, ADJ_EXTRA_CELL_OFFSET + 5]);
   }
   return distinctForms(pool, alsoRight);
 }
@@ -307,6 +368,9 @@ function shard(ctx: Ctx, type: 'nouns' | 'verbs' | 'adjectives' | 'participles',
   return s;
 }
 const inRank = (slot: Slot, rank: number) => (slot.maxRank === undefined || rank < slot.maxRank) && (slot.minRank === undefined || rank >= slot.minRank);
+/** An adjective or participle ending the sentence is a predicate (Я богатый / богатая): with я, ты or вы its gender
+ *  depends on who is speaking, so two options could both be right. */
+const endsSentence = (ru: string, end: number) => /^[\s.,!?…»"]*$/.test(ru.slice(end));
 
 function formSlotCandidate(slot: FormSlot, ctx: Ctx, keys: Set<string>): LevelTestCandidate | null {
   const { lex, rng } = ctx;
@@ -324,15 +388,14 @@ function formSlotCandidate(slot: FormSlot, ctx: Ctx, keys: Set<string>): LevelTe
     const bits = slot.cells.filter((c) => row[3] & (1 << c));
     const bit = pick(rng, bits);
     const token = row[1].slice(row[4], row[5]);
-    // An adjective ending the sentence is a predicate (Я богатый / богатая): with я, ты or вы its gender depends on
-    // who is speaking, so two options could both be right. Only adjectives before more of the sentence are used.
-    if (slot.type === 'adjectives' && bit < ADJ_EXTRA_CELL_OFFSET && /^[\s.,!?…»"]*$/.test(row[1].slice(row[5]))) continue;
+    if (slot.type === 'adjectives' && bit < ADJ_EXTRA_CELL_OFFSET && endsSentence(row[1], row[5])) continue;
     // A masculine or feminine short form with я or ты: either gender could be right (я готов / готова).
     if (slot.type === 'adjectives' && (bit === ADJ_EXTRA_CELL_OFFSET || bit === ADJ_EXTRA_CELL_OFFSET + 1) && /(^|[^а-яё])(я|ты)([^а-яё]|$)/i.test(row[1])) continue;
-    const right = usedForm(e.cells[bit] ?? '', token);
     const wrong = wrongForms(e, bit, row[3]);
     if (wrong.length < 2) continue;
-    return candidate(key, row[1], row[2], row[4], row[5], e.accented, right, wrong, rng);
+    const rightF = usedForm(e.cells[bit] ?? '', token);
+    const right = { f: rightF, code: codesFor(e, rightF, sameNumber(e, bit)) || code(e, bit) };
+    return candidate({ key, ru: row[1], en: row[2], start: row[4], end: row[5], hint: e.accented, right, wrong, rank: e.rank }, rng);
   }
   return null;
 }
@@ -354,13 +417,49 @@ function adverbCandidate(slot: FormSlot, ctx: Ctx, keys: Set<string>): LevelTest
     if (keys.has(key)) continue;
     const token = row[1].slice(row[4], row[5]);
     const cell = row[3] & 1 ? advs[0]! : advs[1]!;
-    const right = usedForm(cell, token);
     // The verb's other adverb could also be acceptable, so it isn't offered; participles and finite forms are wrong.
     const exclude = formsOf([p[4], p[5]]);
-    const pool = [v.accented, v.cells[2] ?? '', v.cells[6] ?? '', ...p[6].filter(([k]) => k.startsWith('act')).map(([, nom]) => nom)];
+    const pool: Opt[] = [{ f: v.accented, code: 'inf' }, ...cellsOf(v, [2, 6]), ...p[6].filter(([k]) => k.startsWith('act')).map(([k, nom]) => ({ f: nom, code: `p:${k}:0` }))];
     const wrong = distinctForms(pool, exclude);
     if (wrong.length < 2) continue;
-    return candidate(key, row[1], row[2], row[4], row[5], v.accented, right, wrong, rng);
+    return candidate({ key, ru: row[1], en: row[2], start: row[4], end: row[5], hint: v.accented, right: { f: usedForm(cell, token), code: 'adv' }, wrong, rank: v.rank }, rng);
+  }
+  return null;
+}
+
+/**
+ * A participle in its own sentence, the verb in brackets: знающего vs знающий / знающему / знающим … The wrong options
+ * are the same participle in other genders, numbers and cases, leaving out every cell spelt like the answer. Participles
+ * that are also adjectives in the data (любимый) aren't in the participle sentences, so they never come up.
+ */
+function participleCandidate(slot: ParticipleSlot, ctx: Ctx, keys: Set<string>): LevelTestCandidate | null {
+  const { lex, rng } = ctx;
+  const verbs = [...lex.participles.keys()].map((id) => lex.byId.verbs.get(id)).filter((v): v is Entry => !!v && inRank(slot, v.rank));
+  for (let tries = 0; tries < 80 && verbs.length; tries++) {
+    const v = pick(rng, verbs);
+    const p = lex.participles.get(v.id)!;
+    const rows = shard(ctx, 'participles', v.band)[v.id] ?? [];
+    if (!rows.length) continue;
+    const row = pick(rng, rows);
+    const key = `lt:part:${row[0]}:${row[4]}`;
+    // Ending the sentence it is a predicate, and next to я, ты or вы its gender depends on who is meant (я, знающий /
+    // знающая): two options could both be right.
+    if (keys.has(key) || endsSentence(row[1], row[5]) || /(^|[^а-яё])(я|ты|вы)([^а-яё]|$)/i.test(row[1])) continue;
+    const token = normalise(row[1].slice(row[4], row[5]));
+    // The participle(s) the token is a full form of; it must be exactly one.
+    const hits = p[6].filter(([, , cells]) => cells.some((c) => cellForms(c).some((f) => normalise(f) === token)));
+    if (hits.length !== 1) continue;
+    const [kind, , cells] = hits[0]!;
+    if (!slot.pkinds.includes(kind)) continue;
+    const at = cells.findIndex((c) => cellForms(c).some((f) => normalise(f) === token));
+    const alsoRight = formsOf(cells.filter((c) => cellForms(c).some((f) => normalise(f) === token)));
+    const wrong = distinctForms(cells.map((c, i) => ({ f: c, code: `p:${kind}:${i}` })), alsoRight);
+    if (wrong.length < 3) continue;
+    const right = {
+      f: usedForm(cells[at]!, row[1].slice(row[4], row[5])),
+      code: cells.map((c, i) => (cellForms(c).some((f) => normalise(f) === token) ? `p:${kind}:${i}` : '')).filter(Boolean).join('+'),
+    };
+    return candidate({ key, ru: row[1], en: row[2], start: row[4], end: row[5], hint: v.accented, right, wrong, rank: v.rank }, rng);
   }
   return null;
 }
@@ -400,7 +499,7 @@ export function sentenceCandidate(row: ClozeRow, topic: ClozeTopic, lex: Lexicon
   const at = isInfinitive ? -1 : ((nounLike ? matches.find((i) => want.includes(NOUN_CASE(i))) : undefined) ?? matches[0]!);
   // Forms that would also fit the gap, whatever case they are listed under (закат is both nominative and accusative).
   const alsoRight = new Set(answerSet);
-  let pool: string[];
+  let pool: Opt[];
   if (nounLike) {
     const plural = entry.type === 'noun' && at >= 6;
     const prep = /^([а-я]+):/.exec(row[7])?.[1];
@@ -410,20 +509,24 @@ export function sentenceCandidate(row: ClozeRow, topic: ClozeTopic, lex: Lexicon
       const netOther = row[7] === 'net' && i === (plural ? 1 : 7); // нет книги / нет книг
       if ((sameNumber && fits.has(NOUN_CASE(i))) || netOther) for (const f of cellForms(c)) alsoRight.add(normalise(f));
     });
-    pool = entry.cells.filter((_, i) => i !== at && i >= (plural ? 6 : 0) && i < (plural ? 12 : 6));
+    pool = cellsOf(entry, entry.cells.map((_, i) => i).filter((i) => i !== at && i >= (plural ? 6 : 0) && i < (plural ? 12 : 6)));
   } else if (entry.type === 'verb') {
     // After чтобы and бы: a past form or the infinitive. Wrong options are forms that can never fit there (present
     // tense; the infinitive where a past form is needed, and vice versa) — never another gender of the past, which
     // could be right for a speaker of the other sex (чтобы я пришёл / пришла).
-    pool = isInfinitive ? [entry.cells[6] ?? '', entry.cells[2] ?? '', entry.cells[5] ?? ''] : [hint, ...entry.cells.slice(0, 6)];
+    pool = isInfinitive ? cellsOf(entry, [6, 2, 5]) : [{ f: hint, code: 'inf' }, ...cellsOf(entry, PRESFUT)];
   } else {
-    pool = entry.cells.slice(0, ADJ_EXTRA_CELL_OFFSET).filter((_, i) => i !== at);
+    pool = cellsOf(entry, range(0, ADJ_EXTRA_CELL_OFFSET - 1).filter((i) => i !== at));
   }
   const wrong = distinctForms(pool, alsoRight);
   if (wrong.length < 2) return null;
-  const right = usedForm(row[5], token);
+  // The в лесу form is spelt like the dative (лесу), but it is the second prepositional: label it as such.
+  const rightF = usedForm(row[5], token);
+  // Nouns: the case the sentence needs (the gap's preposition or verb fixes it). Adjectives: every cell spelt so.
+  const rightCode = isInfinitive ? 'inf' : row[7] === 'loc' ? 'loc' : nounLike && want.includes(NOUN_CASE(at)) ? code(entry, at) : codesFor(entry, rightF, sameNumber(entry, at)) || code(entry, at);
+  const right = { f: rightF, code: rightCode };
   const key = `lt:gap:${topic}:${row[0]}:${row[3]}`;
-  return { c: candidate(key, row[1], row[2], row[3], row[4], hint, right, wrong, rng), rank: entry.rank };
+  return { c: candidate({ key, ru: row[1], en: row[2], start: row[3], end: row[4], hint, right, wrong, kind: row[7], rank: entry.type === 'pron' ? -1 : entry.rank }, rng), rank: entry.rank };
 }
 
 function clozeRows(ctx: Ctx, topic: ClozeTopic): ClozeRow[] {
@@ -435,10 +538,11 @@ function clozeRows(ctx: Ctx, topic: ClozeTopic): ClozeRow[] {
   }
   return rows;
 }
-const kindOf = (row: ClozeRow) => row[7].split('@')[0]!;
+/** A slot's kinds match a row's kind with or without its tense (impf, or impf@past). */
+const kindMatches = (slot: GapSlot | ChoiceSlot, row: ClozeRow) => !slot.kinds || slot.kinds.includes(row[7]) || slot.kinds.includes(row[7].split('@')[0]!);
 
 function gapSlotCandidate(slot: GapSlot, ctx: Ctx, keys: Set<string>): LevelTestCandidate | null {
-  const rows = clozeRows(ctx, slot.topic).filter((r) => !slot.kinds || slot.kinds.includes(kindOf(r)));
+  const rows = clozeRows(ctx, slot.topic).filter((r) => kindMatches(slot, r));
   for (let tries = 0; tries < 80 && rows.length; tries++) {
     const res = sentenceCandidate(pick(ctx.rng, rows), slot.topic, ctx.lex, ctx.rng);
     if (!res || keys.has(res.c[0]) || !inRank(slot, res.rank)) continue;
@@ -448,7 +552,7 @@ function gapSlotCandidate(slot: GapSlot, ctx: Ctx, keys: Set<string>): LevelTest
 }
 
 function choiceSlotCandidate(slot: ChoiceSlot, ctx: Ctx, keys: Set<string>): LevelTestCandidate | null {
-  const rows = clozeRows(ctx, slot.topic).filter((r) => r[8].length && (!slot.kinds || slot.kinds.includes(kindOf(r))));
+  const rows = clozeRows(ctx, slot.topic).filter((r) => r[8].length && kindMatches(slot, r));
   for (let tries = 0; tries < 40 && rows.length; tries++) {
     const row = pick(ctx.rng, rows);
     const key = `lt:choice:${slot.topic}:${row[0]}:${row[3]}`;
@@ -457,7 +561,8 @@ function choiceSlotCandidate(slot: ChoiceSlot, ctx: Ctx, keys: Set<string>): Lev
     const right = base.choices!.find((c) => checkAnswer(base, c).correct);
     const wrong = base.choices!.filter((c) => c !== right && !checkAnswer(base, c).correct);
     if (!right || !wrong.length) continue;
-    return candidate(key, row[1], row[2], row[3], row[4], row[6], right, wrong, ctx.rng, base.answer);
+    const opt = (f: string) => ({ f, code: '' });
+    return candidate({ key, ru: row[1], en: row[2], start: row[3], end: row[4], hint: row[6], right: opt(right), wrong: wrong.map(opt), answer: base.answer, kind: row[7] }, ctx.rng);
   }
   return null;
 }
@@ -477,7 +582,11 @@ export function buildLevelTestPool(read: ReadJson, seed = 1): LevelTestData {
       const items: LevelTestCandidate[] = [];
       let misses = 0;
       while (items.length < PER_SLOT && misses < 3) {
-        const c = slot.kind === 'form' ? formSlotCandidate(slot, ctx, keys) : slot.kind === 'gap' ? gapSlotCandidate(slot, ctx, keys) : choiceSlotCandidate(slot, ctx, keys);
+        const c =
+          slot.kind === 'form' ? formSlotCandidate(slot, ctx, keys)
+          : slot.kind === 'participle' ? participleCandidate(slot, ctx, keys)
+          : slot.kind === 'gap' ? gapSlotCandidate(slot, ctx, keys)
+          : choiceSlotCandidate(slot, ctx, keys);
         if (!c) {
           misses++;
           continue;
@@ -491,11 +600,16 @@ export function buildLevelTestPool(read: ReadJson, seed = 1): LevelTestData {
   return { slots };
 }
 
-/** A candidate as a multiple-choice question: the right option and three of the wrong ones, shuffled. */
-export function candidateQuestion(c: LevelTestCandidate, mode: Mode, rng: Rng): Question {
+/** Options shown: three wrong ones at A1–A2 (any three), four at B1 and above (the closest to the right one). */
+export const wrongShown = (level: TestLevel) => (level === 'A1' || level === 'A2' ? 3 : 4);
+
+/** A candidate as a multiple-choice question, options shuffled. */
+export function candidateQuestion(c: LevelTestCandidate, mode: Mode, level: TestLevel, rng: Rng): Question {
   const [key, ru, en, start, end, hint, right, wrong, answer] = c;
   const before = ru.slice(0, start);
   const after = ru.slice(end);
+  const n = wrongShown(level);
+  const shown = n === 3 ? shuffle(rng, wrong).slice(0, 3) : wrong.slice(0, 4);
   return {
     key,
     mode,
@@ -504,10 +618,10 @@ export function candidateQuestion(c: LevelTestCandidate, mode: Mode, rng: Rng): 
     gloss: '',
     task: [],
     frame: `${before}___${hint ? ` (${hint})` : ''}${after}`,
-    answer: answer ?? right,
+    answer: answer || right,
     others: [],
     label: '',
-    choices: shuffle(rng, [right, ...shuffle(rng, wrong).slice(0, 3)]),
+    choices: shuffle(rng, [right, ...shown]),
     speak: (f) => `${before}${f.replace(/'/g, '')}${after}`,
   };
 }

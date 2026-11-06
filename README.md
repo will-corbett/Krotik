@@ -3,7 +3,7 @@
 Learn and drill Russian grammar. There are no accounts and no tracking.
 
 - **Dashboard**: every topic (easiest first in each group), with Learn and Drill links, a Continue button for your last drill, and the level test.
-- **Level test**: 60 multiple-choice questions from A1 to C1, an approximate level, and the Learn pages worth reviewing.
+- **Level test**: 60 multiple-choice questions from A1 to C1, an approximate level with what it means, every wrong answer explained, and the Learn pages worth reviewing.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
   (`content/learn/*.md`).
 - **Drill**: the drills below, with retries, example sentences and audio.

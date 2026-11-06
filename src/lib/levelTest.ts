@@ -3,10 +3,14 @@
  *
  * The questions come ready-checked from public/data/level-test.json (built by the data pipeline from
  * src/lib/levelTestPool.ts, which explains where they come from). Here each test draws 12 question types per level
- * (at most 2 per topic), one unused candidate of each, and orders them by a 1–3 difficulty weight, so no two tests
- * are the same. Nothing is stored.
+ * (at most 2 per topic), one unused candidate of each, and orders them by a 1–3 difficulty weight and then by how
+ * rare the word is, so no two tests are the same.
+ *
+ * Nothing is stored: the test in progress and its result live in memory (`session`) for as long as the tab is open,
+ * so you can visit Learn pages from the results and come back to them. Reloading or closing the tab clears it.
  */
-import type { LevelTestData } from '../shared/types.ts';
+import type { LevelTestCandidate, LevelTestData } from '../shared/types.ts';
+import { checkAnswer } from './check.ts';
 import { loadLevelTest } from './data.ts';
 import { candidateQuestion, TEST_LEVELS, type TestLevel } from './levelTestPool.ts';
 import { pick, shuffle, type Rng } from './rng.ts';
@@ -14,8 +18,8 @@ import type { Mode, Question } from './types.ts';
 
 export { ASK, TEST_LEVELS, type TestLevel } from './levelTestPool.ts';
 export const PER_LEVEL = 12;
-/** A level counts with at least this many of its 12 right (three quarters), and only if every level below counts. */
-export const PASS = 9;
+/** A level counts with at least this many of its 12 right (five in six), and only if every level below counts. */
+export const PASS = 10;
 /** No topic more than this many times in one level. */
 const MAX_PER_TOPIC = 2;
 
@@ -26,6 +30,8 @@ export interface TestItem {
   /** what to do, in plain words */
   instruction: string;
   q: Question;
+  /** the stored question, for the explanations on the results page */
+  c: LevelTestCandidate;
 }
 
 type PoolSlot = LevelTestData['slots'][number];
@@ -47,7 +53,7 @@ export function buildTest(rng: Rng, data: LevelTestData): TestItem[] {
   const items: TestItem[] = [];
   const keys = new Set<string>();
   for (const level of TEST_LEVELS) {
-    const picked: { item: TestItem; w: number; tie: number }[] = [];
+    const picked: { item: TestItem; w: number; order: number }[] = [];
     for (const slot of chooseSlots<PoolSlot>(data.slots.filter((s) => s.level === level), rng)) {
       if (picked.length >= PER_LEVEL) break;
       const fresh = slot.items.filter((c) => !keys.has(c[0]));
@@ -55,9 +61,11 @@ export function buildTest(rng: Rng, data: LevelTestData): TestItem[] {
       const c = pick(rng, fresh);
       keys.add(c[0]);
       const topic = slot.topic as Mode;
-      picked.push({ item: { level, topic, instruction: slot.ask, q: candidateQuestion(c, topic, rng) }, w: slot.w, tie: rng() });
+      // Within a weight, rarer words later; questions with no single word (aspect, conjunctions …) fall in between.
+      const order = c[12] >= 0 ? c[12] : rng() * 2500;
+      picked.push({ item: { level, topic, instruction: slot.ask, q: candidateQuestion(c, topic, level, rng), c }, w: slot.w, order });
     }
-    picked.sort((a, b) => a.w - b.w || a.tie - b.tie);
+    picked.sort((a, b) => a.w - b.w || a.order - b.order);
     items.push(...picked.map((p) => p.item));
   }
   return items;
@@ -68,7 +76,11 @@ export async function loadTest(rng: Rng): Promise<TestItem[]> {
   return buildTest(rng, await loadLevelTest());
 }
 
+/** An answer: the option chosen, or null for "I don't know"; undefined = not answered. */
+export type Answer = string | null | undefined;
 export type Response = { correct: boolean; skipped: boolean } | undefined;
+export const responseOf = (item: TestItem, a: Answer): Response =>
+  a === undefined ? undefined : a === null ? { correct: false, skipped: true } : { correct: checkAnswer(item.q, a).correct, skipped: false };
 
 export interface TestResult {
   /** right answers per level */
@@ -105,3 +117,6 @@ export function scoreTest(items: TestItem[], responses: Response[]): TestResult 
   }
   return { byLevel, level, review: [...review.values()], answered };
 }
+
+/** The test in progress or finished, kept in memory only (never in storage) until the tab is closed or reloaded. */
+export const session: { items: TestItem[]; answers: Answer[]; at: number; finished: boolean } = { items: [], answers: [], at: 0, finished: false };

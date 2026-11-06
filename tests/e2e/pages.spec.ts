@@ -127,7 +127,7 @@ test('the Krotik theme is the default, and the theme picker switches it', async 
 });
 
 for (const theme of ['krotik', 'light', 'dark'] as const) {
-  test(`no axe violations on Dashboard, Learn and Culture (${theme})`, async ({ page }) => {
+  test(`no axe violations on Dashboard, Learn, Culture and the level test (${theme})`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme === 'dark' ? 'dark' : 'light' });
     await page.goto('/');
     await page.getByLabel('Theme').selectOption(theme);
@@ -137,6 +137,21 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       expect(r.violations.map((v) => `${url} ${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
     }
+    // The level test's question (with a chosen option and a chosen "I don't know") and its explained results.
+    const axe = async (where: string) => {
+      const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(r.violations.map((v) => `${where} ${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
+    };
+    await page.getByRole('button', { name: 'Start the test' }).click();
+    await page.keyboard.press('1');
+    await axe('test question, option chosen');
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('0');
+    await axe('test question, I don’t know chosen');
+    await page.keyboard.press('Enter');
+    await page.getByRole('button', { name: 'End test now' }).click();
+    await page.getByText('Right answers').or(page.getByText('To look at again')).first().waitFor();
+    await axe('test results');
   });
 }
 
@@ -220,22 +235,52 @@ test('the alphabet is the first Learn page and the first topic', async ({ page }
   await expect(page.getByRole('link', { name: 'Learn: The alphabet' })).toBeVisible();
 });
 
-test('level test: 60 questions, I don’t know, early end, result and review links', async ({ page }) => {
+test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, explained result kept in memory', async ({ page }) => {
   await page.goto('/?seed=9');
   await page.getByRole('link', { name: 'Take the test' }).click();
   await expect(page).toHaveURL(/#\/test$/);
   await page.getByRole('button', { name: 'Start the test' }).click();
   await expect(page.getByText('Question 1 of 60')).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByRole('button', { name: /I don't know/ })).toBeVisible();
-  for (let n = 0; n < 60; n++) await page.getByRole('button', { name: /I don't know/ }).click();
+  const next = page.getByRole('button', { name: 'Next' });
+  const dunno = page.getByRole('button', { name: /I don't know/ });
+  // Next waits for an answer; choosing selects without moving on.
+  await expect(next).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Back' })).toBeDisabled();
+  await page.getByRole('group', { name: 'Options' }).getByRole('button').first().click();
+  await expect(page.getByText('Question 1 of 60')).toBeVisible();
+  await next.click();
+  await expect(page.getByText('Question 2 of 60')).toBeVisible();
+  // Back keeps the answer; it can be changed.
+  await page.getByRole('button', { name: 'Back' }).click();
+  await expect(page.getByText('Question 1 of 60')).toBeVisible();
+  await expect(page.getByRole('group', { name: 'Options' }).getByRole('button', { pressed: true })).toHaveCount(1);
+  await dunno.click();
+  await expect(dunno).toHaveAttribute('aria-pressed', 'true');
+  await page.keyboard.press('Enter');
+  await expect(page.getByText('Question 2 of 60')).toBeVisible();
+  for (let n = 1; n < 59; n++) {
+    await dunno.click();
+    await next.click();
+  }
+  await expect(page.getByText('Question 60 of 60')).toBeVisible();
+  await dunno.click();
+  await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page.getByRole('heading', { name: 'Your result' })).toBeVisible();
   await expect(page.getByText('Starting out')).toBeVisible();
-  await expect(page.getByRole('link', { name: /^Learn: / }).first()).toBeVisible();
+  await expect(page.getByText('0 right, 60 wrong or “I don\'t know”.')).toBeVisible();
+  await expect(page.getByText('The answer is').first()).toBeVisible();
+  // The result is still there after visiting a Learn page.
+  await page.getByRole('link', { name: /^Learn: / }).first().click();
+  await expect(page).toHaveURL(/#\/learn\//);
+  await page.goBack();
+  await expect(page.getByRole('heading', { name: 'Your result' })).toBeVisible();
   await page.getByRole('button', { name: 'Take the test again' }).click();
   await page.getByRole('button', { name: 'Start the test' }).click();
   await expect(page.getByText('Question 1 of 60')).toBeVisible({ timeout: 30_000 });
   await page.keyboard.press('1');
+  await page.keyboard.press('Enter');
   await expect(page.getByText('Question 2 of 60')).toBeVisible();
   await page.getByRole('button', { name: 'End test now' }).click();
   await expect(page.getByText('Based on the 1 questions you answered.')).toBeVisible();
+  await expect(page.getByText(/You chose|right, 0 wrong/).first()).toBeVisible();
 });

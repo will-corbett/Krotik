@@ -117,9 +117,11 @@ export interface Collocations {
 
 /**
  * A level test candidate: [key, Russian sentence, English translation, gap start, gap end, word in brackets ("" if
- * none), right option, wrong options, answer cell when it isn't just the right option].
+ * none), right option, wrong options (closest to the right one first), answer cell ("" = the right option), sentence
+ * drill kind ("" if none), code of the right option's form, codes of the wrong options, frequency rank of the word
+ * (-1 if none)]. Codes are explained in src/lib/levelTestPool.ts.
  */
-export type LevelTestCandidate = [string, string, string, number, number, string, string, string[], string?];
+export type LevelTestCandidate = [string, string, string, number, number, string, string, string[], string, string, string, string[], number];
 /** public/data/level-test.json: candidates for each question type, by level (built by src/lib/levelTestPool.ts). */
 export interface LevelTestData {
   slots: { level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1'; w: 1 | 2 | 3; topic: string; ask: string; items: LevelTestCandidate[] }[];

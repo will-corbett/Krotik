@@ -45,7 +45,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
 | sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| level-test.json | 2280 questions | 547 KB |
+| level-test.json | 2250 questions | 649 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -471,9 +471,9 @@ Typed answers are the sentence’s own word; the blanked token must belong to ex
 | count | n |
 |---|---:|
 | A1 question types | 17 |
-| candidate questions | 2280 |
+| candidate questions | 2250 |
 | A2 question types | 14 |
 | B1 question types | 15 |
 | B2 question types | 15 |
-| C1 question types | 15 |
+| C1 question types | 14 |
 

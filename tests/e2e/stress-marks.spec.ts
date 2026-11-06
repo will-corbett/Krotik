@@ -14,7 +14,9 @@ test('no raw stress apostrophes in the level test, culture notes or quick checks
     await page.getByText('Question 1 of 60').waitFor({ timeout: 30000 });
     for (let i = 0; i < 60; i++) {
       await scan(`test q${i}`);
-      await page.getByRole('button', { name: /I don't know/ }).click();
+      // Choose the first option, so the results explain wrong answers (and their forms) too.
+      await page.keyboard.press('1');
+      await page.getByRole('button', { name: i === 59 ? 'Submit' : 'Next' }).click();
     }
     await scan('test results');
   }

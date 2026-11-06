@@ -3,6 +3,8 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { checkAnswer } from '../../src/lib/check.ts';
 import { ASK, buildTest, PER_LEVEL, scoreTest, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
 import { loadLexicon, POOLS, sentenceCandidate, type Lexicon } from '../../src/lib/levelTestPool.ts';
+import { formTerm } from '../../src/lib/levelTestExplain.ts';
+import { ADJ_INDEX } from '../../src/shared/cells.ts';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { ClozeRow, LevelTestData } from '../../src/shared/types.ts';
@@ -25,7 +27,7 @@ describe('level test question pool (public/data/level-test.json)', () => {
     let n = 0;
     for (const s of pool.slots)
       for (const [key, ru, , start, end, , right, wrong, answer] of s.items) {
-        const q = { answer: answer ?? right, others: [] };
+        const q = { answer: answer || right, others: [] };
         expect(checkAnswer(q, right).correct, key).toBe(true);
         expect(wrong.length, key).toBeGreaterThanOrEqual(1);
         for (const w of wrong) expect(checkAnswer(q, w).correct, `${key} ${w}`).toBe(false);
@@ -34,6 +36,25 @@ describe('level test question pool (public/data/level-test.json)', () => {
         n++;
       }
     expect(n).toBeGreaterThan(1500);
+  });
+  it('every option of a word-form question says which form it is, for the explanations', () => {
+    for (const s of pool.slots)
+      for (const [key, , , , , , , wrong, , , rightCode, wrongCodes] of s.items) {
+        expect(wrongCodes, key).toHaveLength(wrong.length);
+        if (!rightCode) continue;
+        expect(formTerm(rightCode), `${key} ${rightCode}`).not.toBeNull();
+        for (const c of wrongCodes) expect(formTerm(c), `${key} ${c}`).not.toBeNull();
+      }
+  });
+  it('labels forms in English with the Russian term', () => {
+    expect(formTerm('n7')).toEqual({ en: 'genitive plural', ru: 'родительный падеж, множественное число' });
+    expect(formTerm('v7')!.en).toBe('past feminine');
+    expect(formTerm('loc')!.ru).toContain('второй предложный');
+  });
+  it('B2 and C1 have the harder grammar: participles, verbal adverbs, aspect in the imperative', () => {
+    const topics = (l: string) => new Set(pool.slots.filter((s) => s.level === l).map((s) => s.topic));
+    for (const t of ['participles', 'adverbs', 'aspectContext', 'position']) expect(topics('C1').has(t), t).toBe(true);
+    expect(topics('C1').has('kotoryi')).toBe(false);
   });
 });
 
@@ -71,6 +92,16 @@ describe('level test', () => {
       // A real sentence around the gap: Russian words outside the gap and any bracketed dictionary form.
       expect(`${before} ${after!.replace(/^\s*\([^)]*\)/, '')}`, q.key).toMatch(/[а-яё]{2,}/i);
     }
+  });
+  it('A1–A2 offer four options, B1 and above five where the word has enough forms', () => {
+    for (const { level, q, c } of items) {
+      const n = level === 'A1' || level === 'A2' ? 3 : 4;
+      expect(q.choices!.length, q.key).toBe(1 + Math.min(n, c[7].length));
+    }
+    expect(items.filter((i) => i.q.choices!.length === 5).length).toBeGreaterThan(15);
+  });
+  it('the answer to each question is the stored right option', () => {
+    for (const { q, c } of items) expect(checkAnswer(q, c[6]).correct, q.key).toBe(true);
   });
   it('no question appears twice', () => {
     expect(new Set(items.map((i) => i.q.key)).size).toBe(items.length);
@@ -115,7 +146,7 @@ describe('level test', () => {
     const res = sentenceCandidate(row, 'government', lex, mulberry32(1))!;
     expect(res.c[7]).not.toContain('ска\'зку');
   });
-  it('scores: a level counts while 9 of 12 are right; misses become review topics, easiest first', () => {
+  it('scores: a level counts while 10 of 12 are right; misses become review topics, easiest first', () => {
     const all = scoreTest(items, items.map(() => ({ correct: true, skipped: false })));
     expect(all.level).toBe('C1');
     expect(all.review).toEqual([]);
@@ -128,6 +159,10 @@ describe('level test', () => {
     // A gap stops the climb: A1 passed, A2 failed, B1 passed → A1
     const gap = scoreTest(items, items.map((i) => ({ correct: i.level !== 'A2', skipped: false })));
     expect(gap.level).toBe('A1');
+    // 9 of 12 at A1 is no longer enough; 10 is.
+    const a1 = (k: number) => scoreTest(items, items.map((it, n) => (it.level === 'A1' ? { correct: n < k, skipped: false } : undefined))).level;
+    expect(a1(9)).toBeNull();
+    expect(a1(10)).toBe('A1');
   });
   it('an early-ended test is judged on what was answered', () => {
     const first12 = items.map((_, i) => (i < 12 ? { correct: true, skipped: false } : undefined));
@@ -155,5 +190,16 @@ describe('alphabet drill', () => {
       if (q.choices) expect(q.choices.filter((c) => checkAnswer(q, c).correct)).toHaveLength(1);
       else expect(checkAnswer(q, q.answer).correct).toBe(true);
     }
+  });
+});
+
+describe('level test explanations', () => {
+  it('a spelling that is several forms is labelled as all of them', () => {
+    // новой: feminine singular genitive, dative, instrumental and prepositional (a8, a9, a12, a13 in ADJ_CELLS order)
+    const f = ['f_gen', 'f_dat', 'f_inst', 'f_prep'].map((k) => `a${ADJ_INDEX[k as keyof typeof ADJ_INDEX]}`).join('+');
+    expect(formTerm(f)).toEqual({ en: 'feminine singular genitive, dative, instrumental or prepositional', ru: 'женский род, единственное число; родительный, дательный, творительный или предложный падеж' });
+    expect(formTerm(`a${ADJ_INDEX.m_gen}+a${ADJ_INDEX.n_gen}`)!.en).toBe('masculine singular or neuter singular genitive');
+    expect(formTerm(`p:act_pres:${ADJ_INDEX.f_gen}+p:act_pres:${ADJ_INDEX.f_dat}`)!.en).toBe('present active participle, feminine singular genitive or dative');
+    expect(formTerm('c4')).toEqual({ en: 'instrumental', ru: 'творительный падеж' });
   });
 });
