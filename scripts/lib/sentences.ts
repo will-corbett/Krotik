@@ -18,6 +18,7 @@ import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import bz2 from 'unbzip2-stream';
 import { cellForms } from '../../src/shared/forms.ts';
+import { VERB_INFINITIVE_CELL } from '../../src/shared/cells.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { SentenceRow } from '../../src/shared/types.ts';
 import { RAW_DIR } from './sources.ts';
@@ -28,11 +29,17 @@ interface Lemma {
   id: number;
   bare: string;
   cells: string[];
+  /** Adjectives: short forms, comparative, superlative — indexed as cells 26–31. */
+  extra?: string[];
+  /** Frequency rank when it isn't the position in the list (participles follow their verb's rank). */
+  rank?: number;
 }
 interface Input {
   verbs: Lemma[];
   adjectives: Lemma[];
   nouns: Lemma[];
+  /** Verbal adverbs and participles per verb: every form, in a fixed order (bit = index mod 31). */
+  participles?: Lemma[];
   others: Record<string, string>[];
   properNouns: Record<string, string>[];
   deny: Record<string, string>;
@@ -51,7 +58,10 @@ export interface Corpus {
   capitalisedMid: Set<string>;
 }
 
-const PER_LEMMA = 6;
+/** Up to this many sentences per lemma, chosen to cover as many different forms as possible. */
+const PER_LEMMA = 10;
+/** Bit used for a verb's infinitive in sentence masks (the 12 verb cells are bits 0–11). */
+const INFINITIVE_BIT = VERB_INFINITIVE_CELL;
 const S = 'Sentences';
 
 async function* lines(file: string): AsyncGenerator<string> {
@@ -67,21 +77,27 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
   // ---- form index: normalised form → owners ("type:id") and per-owner cell mask
   const owners = new Map<string, Set<string>>();
   const masks = new Map<string, number>(); // `${form}|${type}:${id}` → mask
+  // Participle/adverb forms live in their own index, consulted only for tokens that aren't a form of any
+  // other word, so adding them never makes an existing match ambiguous (будущее the noun stays a noun).
+  const pOwners = new Map<string, Set<string>>();
   const addOwner = (form: string, owner: string, cell: number) => {
     const n = normalise(form);
     if (!n) return;
-    let o = owners.get(n);
-    if (!o) owners.set(n, (o = new Set()));
+    const map = owner.startsWith('participles:') ? pOwners : owners;
+    let o = map.get(n);
+    if (!o) map.set(n, (o = new Set()));
     o.add(owner);
     if (cell >= 0) {
       const k = `${n}|${owner}`;
       masks.set(k, (masks.get(k) ?? 0) | (1 << cell));
     }
   };
-  for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives], ['nouns', inp.nouns]] as const) {
+  for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives], ['nouns', inp.nouns], ['participles', inp.participles ?? []]] as const) {
     for (const l of list) {
-      addOwner(l.bare, `${type}:${l.id}`, -1);
-      l.cells.forEach((c, i) => cellForms(c).forEach((f) => addOwner(f, `${type}:${l.id}`, i)));
+      // Verb infinitives are cell 12 (after the 12 verb cells), so infinitive answers can find sentences too.
+      addOwner(l.bare, `${type}:${l.id}`, type === 'verbs' ? INFINITIVE_BIT : -1);
+      const cells = type === 'adjectives' ? [...l.cells, ...(l.extra ?? [])] : l.cells;
+      cells.forEach((c, i) => cellForms(c).forEach((f) => addOwner(f, `${type}:${l.id}`, type === 'participles' ? i % 31 : i)));
     }
   }
   for (const o of inp.others) addOwner(o.bare!, `other:${o.bare}`, -1);
@@ -153,14 +169,14 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
       const n = normalise(tok);
       const capital = /^[А-ЯЁ]/.test(tok);
       if (capital && (!isFirst || capitalisedMid.has(n))) continue;
-      const o = owners.get(n);
+      const o = owners.get(n) ?? pOwners.get(n);
       if (!o) continue;
       if (o.size !== 1) {
         skippedAmbiguous++;
         continue;
       }
       const owner = [...o][0]!;
-      if (!/^(verbs|adjectives|nouns):/.test(owner)) continue;
+      if (!/^(verbs|adjectives|nouns|participles):/.test(owner)) continue;
       const mask = masks.get(`${n}|${owner}`) ?? 0;
       if (!mask) continue; // matched the infinitive / headword only
       const list = hits.get(owner);
@@ -174,10 +190,11 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
 
   // ---- choose up to PER_LEMMA per lemma: shortest sentences that cover new cells first
   const out: Record<string, SentenceShardInfo[]> = {};
-  for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives], ['nouns', inp.nouns]] as const) {
+  for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives], ['nouns', inp.nouns], ['participles', inp.participles ?? []]] as const) {
     const bands: Record<string, SentenceRow[]>[] = [];
     let withAny = 0;
-    list.forEach((l, rank) => {
+    list.forEach((l, index) => {
+      const rank = l.rank ?? index;
       const hs = hits.get(`${type}:${l.id}`);
       if (!hs) return;
       withAny++;
@@ -211,8 +228,8 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
       const n = Object.values(shard).reduce((a, s) => a + s.length, 0);
       out[type].push({ band: b, file, lemmas: Object.keys(shard).length, sentences: n, bytes: writeJson(file, shard) });
     }
-    const top = list.slice(0, 1000).filter((l) => hits.has(`${type}:${l.id}`)).length;
-    report.note(S, `${type}: ${top} of the top ${Math.min(1000, list.length)} have at least one sentence.`);
+    const top = list.filter((l, i) => (l.rank ?? i) < 1000).filter((l) => hits.has(`${type}:${l.id}`)).length;
+    report.note(S, `${type}: ${top} of the top-1000 lemmas have at least one sentence.`);
   }
   return { shards: out, corpus: { pairs, owners, masks, capitalisedMid } };
 }

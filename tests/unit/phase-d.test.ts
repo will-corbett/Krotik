@@ -116,3 +116,11 @@ describe('phonetic typing', () => {
     expect(toCyrillic('уже')).toBe('уже');
   });
 });
+
+describe('example sentences match the practised form', () => {
+  it('participle and verbal-adverb sentences exist and are keyed by verb', async () => {
+    const { readFileSync } = await import('node:fs');
+    const shard = JSON.parse(readFileSync('public/data/sentences.participles.b0.json', 'utf8')) as Record<string, [number, string, string, number, number, number][]>;
+    expect(Object.keys(shard).length).toBeGreaterThan(100);
+  });
+});

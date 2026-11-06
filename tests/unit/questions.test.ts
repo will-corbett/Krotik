@@ -106,9 +106,16 @@ describe('chooseSentence', () => {
     [1, 'Он сказал.', 'He said.', 1 << 6, 3, 9],
     [2, 'Она сказала.', 'She said.', 1 << 7, 4, 11],
   ];
-  it('prefers the exact cell, else falls back to any form', () => {
-    expect(chooseSentence(rows, 7)![0]).toBe(2);
-    expect(chooseSentence(rows, 0)![0]).toBe(1);
-    expect(chooseSentence(undefined, 0)).toBeUndefined();
+  it('only returns a sentence whose highlighted word is the answer form', () => {
+    expect(chooseSentence(rows, 7, "сказа'ла")![0]).toBe(2);
+    expect(chooseSentence(rows, 6, "сказа'л")![0]).toBe(1);
+  });
+  it('never falls back to another form of the word', () => {
+    expect(chooseSentence(rows, 0, "скажу'")).toBeUndefined();
+    expect(chooseSentence(rows, -1, 'читающий')).toBeUndefined();
+    expect(chooseSentence(undefined, 0, "сказа'л")).toBeUndefined();
+  });
+  it('accepts any variant of the answer', () => {
+    expect(chooseSentence(rows, -1, "сказа'л,(сказа'ла)")![0]).toBe(1);
   });
 });

@@ -18,7 +18,7 @@ async function wiktionaryForms(word: string): Promise<{ accented: Set<string>; p
   const file = join(CACHE, `${word}.jsonl`);
   if (!existsSync(file)) {
     const url = `https://kaikki.org/dictionary/Russian/meaning/${encodeURIComponent(word[0]!)}/${encodeURIComponent(word.slice(0, 2))}/${encodeURIComponent(word)}.jsonl`;
-    const res = await fetch(url, { headers: { 'User-Agent': 'russian-grammar-drills-data-pipeline' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'krotik-data-pipeline' } });
     if (!res.ok) throw new Error(`${word}: HTTP ${res.status} from ${url}`);
     writeFileSync(file, await res.text());
   }

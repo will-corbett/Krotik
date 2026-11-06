@@ -1,6 +1,7 @@
 import type { MotionData, MotionPair, VerbRow } from '../../src/shared/types.ts';
 import type { Verb } from './clean-verbs.ts';
 import type { Report } from './report.ts';
+import { bandOf } from './shard.ts';
 
 /** Hand-curated: the 12 basic pairs (unidirectional, multidirectional) and English meanings. */
 export const MOTION_PAIRS: [string, string, string][] = [
@@ -35,5 +36,6 @@ export function buildMotion(verbs: Verb[], report: Report): MotionData {
   // Embed the verbs' own rows so the motion mode never needs the big verb shards.
   const ids = new Set(out.flatMap((p) => [p.uniId, p.multiId]));
   const rows: VerbRow[] = verbs.filter((v) => ids.has(v.id)).map((v) => [v.id, v.accented, v.gloss, v.aspect, v.partners, v.cells]);
-  return { pairs: out, verbs: rows };
+  const bands = Object.fromEntries(verbs.map((v, i) => [v.id, bandOf(i)]).filter(([id]) => ids.has(id as number)));
+  return { pairs: out, verbs: rows, bands };
 }

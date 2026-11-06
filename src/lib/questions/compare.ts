@@ -1,4 +1,4 @@
-import { ADJ_EXTRA_INDEX, ADJ_INDEX, NOUN_INDEX, adjCellFor, type AdjSlot } from '../../shared/cells.ts';
+import { ADJ_EXTRA_CELL_OFFSET, ADJ_EXTRA_INDEX, ADJ_INDEX, NOUN_INDEX, adjCellFor, type AdjSlot } from '../../shared/cells.ts';
 import { bare, displayForms } from '../../shared/forms.ts';
 import { pick, type Rng } from '../rng.ts';
 import { TERMS, numberGenderTerm } from '../terms.ts';
@@ -20,7 +20,7 @@ export function degreeQuestion(a: Adjective, kind: 'comparative' | 'superlative'
     others: adjectiveOthers(a, i),
     label: extraLabel(i),
     paradigm: { kind: 'adjective', adjective: a },
-    sentence: { type: 'adjectives', lemmaId: a.id, cell: -1, band: a.band },
+    sentence: { type: 'adjectives', lemmaId: a.id, cell: ADJ_EXTRA_CELL_OFFSET + i, band: a.band },
     speak: (f) => bare(f),
   };
 }

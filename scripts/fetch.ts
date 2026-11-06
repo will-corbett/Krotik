@@ -40,7 +40,7 @@ for (const src of SOURCES) {
     continue;
   }
   process.stdout.write(`fetch  ${src.file} … `);
-  const res = await fetch(src.url, { headers: { 'User-Agent': 'russian-grammar-drills-data-pipeline' } });
+  const res = await fetch(src.url, { headers: { 'User-Agent': 'krotik-data-pipeline' } });
   if (!res.ok || !res.body) throw new Error(`${src.url}: HTTP ${res.status}`);
   await pipeline(Readable.fromWeb(res.body as ReadableStream), createWriteStream(dest + '.part'));
   renameSync(dest + '.part', dest);

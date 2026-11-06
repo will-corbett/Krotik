@@ -1,5 +1,5 @@
 import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
-import type { LexType, ParticipleKind, ParticipleRow } from '../shared/types.ts';
+import type { ParticipleKind, ParticipleRow, SentenceType } from '../shared/types.ts';
 import type { TaskPart } from './terms.ts';
 
 export type Mode =
@@ -108,7 +108,8 @@ export interface Question {
   stress?: { word: string; positions: number[] };
   /** Shown as the solution instead of the answer cell (stress drill: the accented word). */
   display?: string;
-  sentence?: { type: LexType; lemmaId: number; cell: number; band: number };
+  /** Where to look for an example sentence; only one containing the exact answer form is shown. */
+  sentence?: { type: SentenceType; lemmaId: number; cell: number; band: number };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
 }

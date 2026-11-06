@@ -104,7 +104,20 @@ const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
 const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
-const { shards: sentences, corpus } = await buildSentences({ verbs, adjectives, nouns, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
+const adjectiveBares = new Set(adjectives.map((a) => a.bare));
+// Participle and verbal-adverb forms, per verb, for example sentences (order fixed: adverbs, then each participle).
+const participleLemmas = participleRows.map((r) => ({
+  id: r[0],
+  bare: '',
+  rank: verbRank.get(r[0])!,
+  cells: [
+    r[4],
+    r[5],
+    // A participle that is also an adjective in the data (любимый, известный) is the same word: index it once, as the adjective.
+    ...r[6].filter(([, nom]) => !adjectiveBares.has(nom.split(',')[0]!.replace(/[()']/g, ''))).flatMap(([, nom, cells, short]) => [nom, ...cells, ...short]),
+  ].filter(Boolean),
+}));
+const { shards: sentences, corpus } = await buildSentences({ verbs, adjectives, nouns, participles: participleLemmas, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
 
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);

@@ -1,4 +1,4 @@
-import { VERB_CELLS } from '../../shared/cells.ts';
+import { VERB_CELLS, VERB_INFINITIVE_CELL } from '../../shared/cells.ts';
 import { bare } from '../../shared/forms.ts';
 import type { MotionPair } from '../../shared/types.ts';
 import { pick, shuffle, type Rng } from '../rng.ts';
@@ -20,7 +20,7 @@ function meaningQuestion(p: MotionPair, uni: boolean, verb: Verb): Question {
     others: [{ label: uni ? `multidirectional verb (${TERMS.multi.ru})` : `unidirectional verb (${TERMS.uni.ru})`, cell: uni ? p.multi : p.uni }],
     label: `${(uni ? TERMS.uni : TERMS.multi).en} verb for “${p.meaning}” (${(uni ? TERMS.uni : TERMS.multi).ru})`,
     paradigm: { kind: 'verb', verb },
-    sentence: { type: 'verbs', lemmaId: verb.id, cell: -1, band: verb.band },
+    sentence: { type: 'verbs', lemmaId: verb.id, cell: VERB_INFINITIVE_CELL, band: verb.band },
     speak: (f) => bare(f),
     headwordIsEnglish: true,
   };
@@ -37,7 +37,7 @@ function partnerQuestion(fromUni: boolean, from: Verb, to: Verb): Question {
     others: [],
     label: `${(fromUni ? TERMS.multi : TERMS.uni).en} partner (${(fromUni ? TERMS.multi : TERMS.uni).ru})`,
     paradigm: { kind: 'verb', verb: to },
-    sentence: { type: 'verbs', lemmaId: to.id, cell: -1, band: to.band },
+    sentence: { type: 'verbs', lemmaId: to.id, cell: VERB_INFINITIVE_CELL, band: to.band },
     speak: (f) => bare(f),
   };
 }

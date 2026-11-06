@@ -123,7 +123,6 @@ export function numeralNounQuestion(row: NumeralRow, noun: Noun, c: Case): Quest
     label: `${v} + ${bare(noun.accented)}, ${CASE_TERM[c].en} (${CASE_TERM[c].ru})`,
     explain: rule,
     paradigm: numeralParadigm(row, noun.gender),
-    sentence: { type: 'nouns', lemmaId: noun.id, cell: -1, band: noun.band },
     speak: (f) => bare(f),
   };
 }

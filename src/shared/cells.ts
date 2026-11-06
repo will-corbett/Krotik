@@ -17,6 +17,10 @@ export const VERB_CELLS = [
   { key: 'imp_pl', group: 'imperative', person: 'вы' },
 ] as const;
 export type VerbGroup = (typeof VERB_CELLS)[number]['group'];
+/** In example-sentence masks a verb's infinitive is bit 12, after its 12 cells. */
+export const VERB_INFINITIVE_CELL = 12;
+/** In example-sentence masks an adjective's extra cells (short forms, degrees) follow its 26 declension cells. */
+export const ADJ_EXTRA_CELL_OFFSET = 26;
 
 export const CASES = ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as const;
 export type Case = (typeof CASES)[number];

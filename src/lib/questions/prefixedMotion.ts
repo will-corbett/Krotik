@@ -1,4 +1,4 @@
-import { VERB_CELLS } from '../../shared/cells.ts';
+import { VERB_CELLS, VERB_INFINITIVE_CELL } from '../../shared/cells.ts';
 import { bare } from '../../shared/forms.ts';
 import type { VerbRow } from '../../shared/types.ts';
 import { pick, shuffle, type Rng } from '../rng.ts';
@@ -8,7 +8,7 @@ import { toVerb } from '../data.ts';
 import { verbFormQuestion } from './verbs.ts';
 
 export interface PrefixedPair { prefix: string; en: string; ru: string; base: string; pf: number; impf: number }
-export interface PrefixedData { pairs: PrefixedPair[]; verbs: VerbRow[] }
+export interface PrefixedData { pairs: PrefixedPair[]; verbs: VerbRow[]; bands: Record<string, number> }
 
 export function prefixedMeaningQuestion(p: PrefixedPair, v: Verb, partner: Verb): Question {
   const aspect = v.aspect === 'pf' ? TERMS.pf : TERMS.impf;
@@ -24,7 +24,7 @@ export function prefixedMeaningQuestion(p: PrefixedPair, v: Verb, partner: Verb)
     label: `${p.prefix}-: ${p.en}, ${p.base}, ${aspect.en}`,
     explain: `${p.prefix}- = ${p.en} (${p.ru}). Prefix + unidirectional verb → perfective (${bare(p.pf === v.id ? v.accented : partner.accented)}); prefix + multidirectional stem → imperfective (${bare(p.impf === v.id ? v.accented : partner.accented)}).`,
     paradigm: { kind: 'verb', verb: v },
-    sentence: { type: 'verbs', lemmaId: v.id, cell: -1, band: 0 },
+    sentence: { type: 'verbs', lemmaId: v.id, cell: VERB_INFINITIVE_CELL, band: v.band },
     speak: (f) => bare(f),
   };
 }
@@ -42,13 +42,13 @@ export function prefixedPairQuestion(p: PrefixedPair, from: Verb, to: Verb): Que
     label: `${target.en} partner (${target.ru})`,
     explain: `${p.prefix}- = ${p.en} (${p.ru}).`,
     paradigm: { kind: 'verb', verb: to },
-    sentence: { type: 'verbs', lemmaId: to.id, cell: -1, band: 0 },
+    sentence: { type: 'verbs', lemmaId: to.id, cell: VERB_INFINITIVE_CELL, band: to.band },
     speak: (f) => bare(f),
   };
 }
 
 export function generatePrefixedMotion(data: PrefixedData, s: PrefixedMotionSettings, n: number, rng: Rng): Question[] {
-  const verbs = new Map(data.verbs.map((r) => [r[0], toVerb(r, 0)]));
+  const verbs = new Map(data.verbs.map((r) => [r[0], toVerb(r, data.bands[r[0]] ?? 0)]));
   const all: Question[] = [];
   for (const p of data.pairs) {
     const pf = verbs.get(p.pf);

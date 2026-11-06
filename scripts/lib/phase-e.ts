@@ -10,6 +10,7 @@ import type { Verb } from './clean-verbs.ts';
 import type { Report } from './report.ts';
 import type { WkExtract } from './wiktionary.ts';
 import { buildNumeralRow } from './phase-b.ts';
+import { bandOf } from './shard.ts';
 
 const S = 'Hand-made lists (curated/)';
 const load = <T>(f: string) => parse(readFileSync(`curated/${f}`, 'utf8')) as T;
@@ -57,7 +58,7 @@ const VOICELESS = /^[кпстфхцчшщ]/;
  * Prefixed motion verbs: build the candidate spellings from prefix + base (with the о/ъ links and раз-/рас-),
  * and keep a pair only if both verbs exist in the data with the expected aspect (pf / impf).
  */
-export function buildPrefixedMotion(verbs: Verb[], report: Report): { pairs: PrefixedPair[]; verbs: VerbRow[] } {
+export function buildPrefixedMotion(verbs: Verb[], report: Report): { pairs: PrefixedPair[]; verbs: VerbRow[]; bands: Record<string, number> } {
   const { prefixes, bases } = curated.motion();
   const byBare = new Map<string, Verb[]>();
   for (const v of verbs) (byBare.get(v.bare) ?? byBare.set(v.bare, []).get(v.bare)!).push(v);
@@ -90,7 +91,8 @@ export function buildPrefixedMotion(verbs: Verb[], report: Report): { pairs: Pre
   if (missing.length) report.anomaly(S, 'prefixed motion verbs: combination not in the data (left out)', missing.join(', '));
   const ids = new Set(pairs.flatMap((x) => [x.pf, x.impf]));
   const rows: VerbRow[] = verbs.filter((v) => ids.has(v.id)).map((v) => [v.id, v.accented, v.gloss, v.aspect, v.partners, v.cells]);
-  return { pairs, verbs: rows };
+  const bands = Object.fromEntries(verbs.map((v, i) => [v.id, bandOf(i)]).filter(([id]) => ids.has(id as number)));
+  return { pairs, verbs: rows, bands };
 }
 
 export const ORDINALS: [string, number][] = [

@@ -46,7 +46,7 @@ export function participleFormQuestion(row: ParticipleRow, band: number, k: Part
     others: participleOthers(row, k),
     label: `${KIND_TERM[k].en} (${KIND_TERM[k].ru})`,
     paradigm: { kind: 'participles', row },
-    sentence: { type: 'verbs', lemmaId: row[0], cell: -1, band },
+    sentence: { type: 'participles', lemmaId: row[0], cell: -1, band },
     speak: (f) => bare(f),
   };
 }
@@ -75,7 +75,7 @@ export function shortPassiveQuestion(row: ParticipleRow, band: number, slot: Adj
     ],
     label: `${TERMS.shortPassive.en}, ${ng.en} (${TERMS.shortPassive.ru}, ${ng.ru})`,
     paradigm: { kind: 'participles', row },
-    sentence: { type: 'verbs', lemmaId: row[0], cell: -1, band },
+    sentence: { type: 'participles', lemmaId: row[0], cell: -1, band },
     speak: (f) => `${PRONOUN[slot]} ${bare(f)}`,
   };
 }
@@ -93,7 +93,7 @@ export function participleDeclineQuestion(row: ParticipleRow, band: number, k: P
     mode: 'participles',
     task: [KIND_TERM[k], ...q.task],
     note: `${q.note} · ${TERMS.verb.en} ${row[1].replace(/'/g, '')}`,
-    sentence: { type: 'verbs', lemmaId: row[0], cell: -1, band },
+    sentence: { type: 'participles', lemmaId: row[0], cell: -1, band },
   };
 }
 

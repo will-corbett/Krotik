@@ -1,4 +1,4 @@
-import { ADJ_CELLS, ADJ_EXTRA, ADJ_EXTRA_INDEX, type AdjSlot } from '../../shared/cells.ts';
+import { ADJ_CELLS, ADJ_EXTRA, ADJ_EXTRA_CELL_OFFSET, ADJ_EXTRA_INDEX, type AdjSlot } from '../../shared/cells.ts';
 import { bare } from '../../shared/forms.ts';
 import { adjCellLabel } from '../labels.ts';
 import { pick, type Rng } from '../rng.ts';
@@ -41,7 +41,7 @@ export function shortQuestion(a: Adjective, slot: AdjSlot): Question | null {
     others: adjectiveOthers(a, i),
     label: extraLabel(i),
     paradigm: { kind: 'adjective', adjective: a },
-    sentence: { type: 'adjectives', lemmaId: a.id, cell: -1, band: a.band },
+    sentence: { type: 'adjectives', lemmaId: a.id, cell: ADJ_EXTRA_CELL_OFFSET + i, band: a.band },
     speak: (f) => `${PRONOUN[slot]} ${bare(f)}`,
   };
 }

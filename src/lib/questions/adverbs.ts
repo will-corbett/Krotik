@@ -23,7 +23,7 @@ export function adverbQuestion(row: ParticipleRow, band: number, want: 'impf' | 
     others: participleOthers(row, want === 'impf' ? 'adv_pres' : 'adv_past'),
     label: `${term.en} (${term.ru})`,
     paradigm: { kind: 'participles', row },
-    sentence: { type: 'verbs', lemmaId: id, cell: -1, band },
+    sentence: { type: 'participles', lemmaId: id, cell: -1, band },
     speak: (f) => bare(f),
   };
 }

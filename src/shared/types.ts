@@ -21,6 +21,8 @@ export type SentenceShard = Record<string, SentenceRow[]>;
 
 export type LexType = 'verbs' | 'adjectives' | 'nouns';
 export type ShardType = LexType | 'participles' | 'diminutives';
+/** Example-sentence shards: per word type, plus participle/verbal-adverb forms (keyed by verb id). */
+export type SentenceType = LexType | 'participles';
 
 export interface Manifest {
   built: string;
@@ -51,6 +53,8 @@ export interface MotionPair {
 export interface MotionData {
   pairs: MotionPair[];
   verbs: VerbRow[];
+  /** verb id → frequency band (to find its example sentences) */
+  bands: Record<string, number>;
 }
 
 /** Participle kinds: active/passive × present/past. */

@@ -169,7 +169,7 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
     }
     case 'motion': {
       const m = await loadMotion();
-      const verbs = new Map(m.verbs.map((r) => [r[0], toVerb(r, 0)]));
+      const verbs = new Map(m.verbs.map((r) => [r[0], toVerb(r, m.bands[r[0]] ?? 0)]));
       return (n) => generateMotionQuestions(m.pairs, verbs, s.motion, n, rng);
     }
   }

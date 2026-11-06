@@ -1,4 +1,7 @@
 /** Loads the generated shards from public/data, cumulatively by frequency band, with caching. */
+import { cellForms } from '../shared/forms.ts';
+import { normalise } from '../shared/normalise.ts';
+import type { SentenceType } from '../shared/types.ts';
 import type { AdjRow, ClozeRow, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
@@ -68,18 +71,23 @@ export async function loadMotion(): Promise<MotionData> {
 }
 
 /** Lazily fetch one sentence shard (never blocks the first question). */
-export async function loadSentences(type: LexType, band: number): Promise<SentenceShard> {
+export async function loadSentences(type: SentenceType, band: number): Promise<SentenceShard> {
   const m = await loadManifest();
   const s = m.sentences[type]?.find((x) => x.band === band);
   return s ? getJson<SentenceShard>(s.file) : {};
 }
 
-/** Prefer a sentence containing the exact target cell; else any form of the lemma. */
-export function chooseSentence(rows: SentenceRow[] | undefined, cell: number): SentenceRow | undefined {
+/**
+ * A sentence whose highlighted word is exactly one of the answer's forms (never another form of the
+ * same word). Among those, prefer one tagged with the target cell. None found → no example shown.
+ */
+export function chooseSentence(rows: SentenceRow[] | undefined, cell: number, answer: string): SentenceRow | undefined {
   if (!rows?.length) return undefined;
+  const forms = new Set(cellForms(answer).map(normalise));
+  const exact = rows.filter((r) => forms.has(normalise(r[1].slice(r[4], r[5]))));
   if (cell >= 0) {
-    const exact = rows.find((r) => (r[3] & (1 << cell)) !== 0);
-    if (exact) return exact;
+    const tagged = exact.find((r) => (r[3] & (1 << cell)) !== 0);
+    if (tagged) return tagged;
   }
-  return rows[0];
+  return exact[0];
 }
