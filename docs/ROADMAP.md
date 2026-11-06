@@ -100,3 +100,25 @@ Three pages: Dashboard, Learn, Drill. Learn pages are written in batches for rev
 
 ## Still planned from the original brief
 - All folded into phases D and E above.
+
+## Syllabus review (agreed 2026-11-06)
+An outside review of the Learn pages found verb grammar well covered and sentence-level and some noun grammar
+thin. Aim: comfortably A1–B2, with selected C1. Topics that can't be drilled from verified data get
+Learn-only pages (marked as such on the Dashboard). Words first, then sentences, then deeper existing pages.
+
+4. **Batch 4 — word-level topics (done 2026-11-06):** each with a drill and a Learn page.
+   - **Adverbs** (наречия): adjective → adverb (Wiktionary, paired by etymology or the short neuter form),
+     adverb → comparative, and "adverb or adjective?" in Tatoeba sentences.
+   - **Question words** (вопросительные местоимения): кто/что in every case, чей/какой agreeing with a noun,
+     real Tatoeba questions to complete (multiple choice among forms of the same word).
+   - **Ordinals and dates** (порядковые числительные): agreement, dates (пятого мая), centuries
+     (в двадцатом веке); fractions explained on the Learn page.
+   - **Special case forms**: the second prepositional (в лесу / о лесе; ~100 masculine nouns from
+     Wiktionary) drilled; the partitive (чашка чаю) explained only, because it is optional.
+5. **Batch 5 — sentence-level (next):** Learn-only pages where a drill can't be verified:
+   complex and subordinate clauses (cause, concession, consequence, contrast; потому что, хотя, поэтому,
+   несмотря на то что — these can get a Tatoeba multiple-choice drill), passive constructions,
+   word order (тема и рема), reported speech.
+6. **Batch 6 — deeper existing pages:** noun declension patterns, verb conjugation and spelling rules, aspect
+   with modals and negation, more on prepositions and negation, irregular adjectives.
+- Left out for now: interjections and introductory words, vocative forms (мам, пап).

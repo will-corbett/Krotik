@@ -74,6 +74,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - `curated/*.yaml` are small hand-made grammar lists (verb government, motion prefixes, position verbs, time
   words). They state grammar facts only — never forms — and every entry is checked against the data; misses
   are listed in the report. Edit them freely, then run `npm run data:build`.
+- `scripts/lib/phase-f.ts` (batch 4): adverbs paired with their adjective by the Wiktionary etymology (or the
+  short neuter form), second prepositional / partitive forms of masculine nouns (only -у/-ю forms that differ
+  from the ordinary ones), and dates data (month genitives, век). Bad adverb pairings go in `overrides.yaml`
+  `adverbs.exclude`. The Wiktionary extract has a version number (`EXTRACT_VERSION`): bump it when its shape changes.
 - `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
 - Themes: `krotik` (default; logo colours — cream #FDF2E7, charcoal #090C13, orange #E36B1C), system, light,
