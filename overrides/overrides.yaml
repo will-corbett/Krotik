@@ -70,4 +70,12 @@ nouns:
 
 sentences:
   # Tatoeba sentence id → reason
-  deny: {}
+  deny:
+    4763116: "vulgar English translation; was picked as a Learn page example"
+
+
+adverbs:
+  # adjective bare → reason. The adjective gets no "make the adverb" question.
+  exclude:
+    должный: "должно' is a predicative (должно быть), not the adverb of должный"
+    добрый: "добро' as an adverb is dated; the everyday word is the noun добро'"

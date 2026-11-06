@@ -35,6 +35,9 @@ export interface Manifest {
   prefixedMotion: string;
   ordinals: string;
   collectives: string;
+  adverbs: string;
+  specialCases: string;
+  dates: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -83,3 +86,22 @@ export interface PronounData {
 
 /** [noun id, accented, gloss, diminutives cell] */
 export type DiminutiveRow = [number, string, string, string];
+
+/** [adjective id, adjective accented, adverb cell, comparative cell ("" if none), adverb gloss, frequency band of the adjective] */
+export type AdverbRow = [number, string, string, string, string, number];
+/**
+ * Nouns with a second prepositional (locative) or partitive form:
+ * [noun id, accented, gloss, locative cell, prepositions Wiktionary gives with it (в/на), ordinary prepositional cell,
+ *  partitive cell, band]; locative/partitive "" when absent.
+ */
+export type SpecialCaseRow = [number, string, string, string, string[], string, string, number];
+
+/** Dates and centuries: month genitives, век, and the tens used in compound ordinals (двадцать первое). */
+export interface DatesData {
+  /** [month accented, genitive singular cell, English] */
+  months: [string, string, string][];
+  /** век: [accented, nominative cell, prepositional cell] */
+  century: [string, string, string];
+  /** "20" / "30" → nominative cell of the cardinal (двадцать) */
+  tens: Record<string, string>;
+}

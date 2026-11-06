@@ -24,6 +24,7 @@ import { buildCloze } from './lib/cloze.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
 import { POSSESSIVES, buildPronouns } from './lib/phase-d.ts';
 import { COLLECTIVES, buildCollectives, buildGovernment, buildOrdinals, buildPrefixedMotion, curated } from './lib/phase-e.ts';
+import { adverbCandidates, buildAdverbs, buildDates, buildSpecialCases } from './lib/phase-f.ts';
 import { NUMERALS, buildDiminutives, buildNumerals, buildParticiples, fillDegrees, fillNounGender } from './lib/phase-b.ts';
 
 const raw = (f: string) => {
@@ -77,6 +78,7 @@ const wk = await loadWiktionary(
     adjectives: new Set(adjectives.map((a) => a.bare)),
     numerals: new Set([...NUMERALS, ...COLLECTIVES].map(([w]) => w)),
     pronouns: new Set(['никто', 'ничто', 'я', 'кто', 'что', ...POSSESSIVES]),
+    adverbs: adverbCandidates(adjectives),
     attest: new Set(learnWords),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
@@ -133,7 +135,12 @@ const prefixedMotion = buildPrefixedMotion(verbs, report);
 writeJson('prefixed-motion.json', prefixedMotion);
 writeJson('ordinals.json', buildOrdinals(adjectives, report));
 writeJson('collectives.json', buildCollectives(wk, report));
-const cloze = buildCloze({ corpus, verbs, nouns, adjectives, wk, pronouns, government, positions: curated.position(), time: curated.time(), report });
+const adverbRows = buildAdverbs(adjectives, wk, ov.adverbs?.exclude ?? {}, report);
+writeJson('adverbs.json', adverbRows);
+const specialRows = buildSpecialCases(nouns, wk, report);
+writeJson('special-cases.json', specialRows);
+writeJson('dates.json', buildDates(nouns, numeralRows, curated.time().months, report));
+const cloze = buildCloze({ corpus, verbs, nouns, adjectives, wk, pronouns, government, positions: curated.position(), time: curated.time(), adverbs: adverbRows, specialCases: specialRows, report });
 
 const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Manifest['sources'];
 const manifest: Manifest = {
@@ -146,6 +153,9 @@ const manifest: Manifest = {
   prefixedMotion: 'prefixed-motion.json',
   ordinals: 'ordinals.json',
   collectives: 'collectives.json',
+  adverbs: 'adverbs.json',
+  specialCases: 'special-cases.json',
+  dates: 'dates.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',

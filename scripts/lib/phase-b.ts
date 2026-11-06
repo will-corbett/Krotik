@@ -263,7 +263,7 @@ export function fillDegrees(adjs: Adjective[], wk: WkExtract, report: Report) {
 }
 
 /** "(по)краси'вее" → [["краси'вее", main], ["покраси'вее", optional]] */
-function expandPrefix(forms: string[], prefix: string): [string, boolean][] {
+export function expandPrefix(forms: string[], prefix: string): [string, boolean][] {
   const out: [string, boolean][] = [];
   for (const f of forms) {
     const m = new RegExp(`^\\(${prefix}\\)(.+)$`).exec(f);
@@ -272,7 +272,7 @@ function expandPrefix(forms: string[], prefix: string): [string, boolean][] {
   }
   return out;
 }
-function degreeCell(forms: [string, boolean][], alsoOptional: (f: string, main: string[]) => boolean): string {
+export function degreeCell(forms: [string, boolean][], alsoOptional: (f: string, main: string[]) => boolean): string {
   const main = forms.filter(([, o]) => !o).map(([f]) => f);
   const cells: string[] = [];
   for (const [f, opt] of forms) {

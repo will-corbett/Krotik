@@ -19,6 +19,8 @@ export interface Overrides {
   /** counting: bare → form used after numbers / сколько / несколько (пять челове'к, пять ле'т) */
   nouns?: TypeOverrides & { counting?: Record<string, string> };
   sentences?: { deny?: Record<string, string> };
+  /** adverbs.exclude: adjective bare → reason; that adjective gets no adverb question (the pairing is wrong or misleading) */
+  adverbs?: { exclude?: Record<string, string> };
 }
 
 export function loadOverrides(path = 'overrides/overrides.yaml'): Overrides {

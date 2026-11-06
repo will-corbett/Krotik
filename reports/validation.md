@@ -31,7 +31,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.verbs.b0.json | 247 lemmas, 2232 sentences | 182 KB |
 | sentences.verbs.b1.json | 736 lemmas, 5429 sentences | 511 KB |
 | sentences.verbs.b2.json | 1371 lemmas, 6741 sentences | 703 KB |
-| sentences.verbs.b3.json | 4345 lemmas, 11947 sentences | 1372 KB |
+| sentences.verbs.b3.json | 4344 lemmas, 11946 sentences | 1372 KB |
 | sentences.adjectives.b0.json | 248 lemmas, 2181 sentences | 219 KB |
 | sentences.adjectives.b1.json | 697 lemmas, 4288 sentences | 500 KB |
 | sentences.adjectives.b2.json | 1131 lemmas, 4143 sentences | 521 KB |
@@ -176,7 +176,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 11 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 14 |
 
 ## Participles and verbal adverbs (Wiktionary)
 
@@ -232,9 +232,9 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | count | n |
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
-| kept after filters (with an English translation) | 650396 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 275429 |
-| verbs: lemmas with ≥1 sentence | 6699 |
+| kept after filters (with an English translation) | 650395 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 275428 |
+| verbs: lemmas with ≥1 sentence | 6698 |
 | adjectives: lemmas with ≥1 sentence | 4192 |
 | nouns: lemmas with ≥1 sentence | 8781 |
 | participles: lemmas with ≥1 sentence | 1479 |
@@ -255,10 +255,36 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | prefixed motion verbs: pairs found in the verb data | 89 |
 | ordinal numbers | 29 |
 | collective numerals | 6 |
+| dates: months with a genitive | 12 |
 
 ### Anomalies
 
 - **prefixed motion verbs: combination not in the data (left out)** (1): вплыть/вплывать, провезти/провозить, доплыть/доплывать, оббежать/оббегать, обплыть/обплывать, обнести/обносить, обвезти/обвозить
+
+## Adverbs (Wiktionary)
+
+| count | n |
+|---|---:|
+| adverbs paired with their adjective by Wiktionary etymology | 882 |
+| adverbs paired by matching the OpenRussian short neuter form | 91 |
+| adverbs with a comparative | 478 |
+| … of which taken from the adjective (the adverb entry lists none) | 296 |
+
+### Dropped
+
+- **other invalid characters** (1): тендѐнцио'зно
+
+### Anomalies
+
+- **excluded by override** (2): должный (должно' is a predicative (должно быть), not the adverb of должный); добрый (добро' as an adverb is dated; the everyday word is the noun добро')
+
+## Second prepositional and partitive (Wiktionary)
+
+| count | n |
+|---|---:|
+| masculine nouns with a second prepositional form | 103 |
+| masculine nouns with a partitive form | 146 |
+| non-masculine nouns with such forms (left out: they differ only in stress) | 23 |
 
 ## Sentence drills (Tatoeba)
 
@@ -382,6 +408,16 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | time / v-day: candidates (kept up to 1500) | 774 |
 | time / cherez: candidates (kept up to 1500) | 220 |
 | time / po-days: candidates (kept up to 1500) | 233 |
+| narechiya / adj: candidates (kept up to 1500) | 18686 |
+| narechiya / adv: candidates (kept up to 1500) | 17718 |
+| questionWords / kakoy: candidates (kept up to 1500) | 3165 |
+| questionWords / chto: candidates (kept up to 1500) | 8148 |
+| questionWords / kakoy-prep: candidates (kept up to 1500) | 787 |
+| questionWords / kto: candidates (kept up to 1500) | 3441 |
+| questionWords / chto-prep: candidates (kept up to 1500) | 1225 |
+| questionWords / kto-prep: candidates (kept up to 1500) | 465 |
+| questionWords / chey: candidates (kept up to 1500) | 112 |
+| specialCases / loc: candidates (kept up to 1500) | 543 |
 
 Typed answers are the sentence’s own word; the blanked token must belong to exactly one lemma. Multiple-choice distractors are only forms seen elsewhere in Tatoeba. Some distractors can also fit a sentence (же/ведь, -то/-нибудь); the English translation is shown as a cue, and only the sentence’s own word counts.
 

@@ -37,6 +37,18 @@ export interface WkNoun {
   gender: string; // "m" | "f" | "n" | "m-p" … as in the head line; "" if absent
   animacy: string; // "anim" | "inan" | ""
   diminutives: string[];
+  /** second prepositional (locative) forms, sometimes with their preposition ("в чаю'"); colloquial/regional left out */
+  loc: string[];
+  /** partitive (second genitive) forms (ча'ю) */
+  part: string[];
+}
+/** An adverb whose Wiktionary etymology names the adjective it comes from (бы'стрый + -о → бы'стро). */
+export interface WkAdverb {
+  canonical: string;
+  /** adjective lemma (bare) named by the etymology; "" when the etymology names none */
+  of: string;
+  comparative: string[];
+  gloss: string;
 }
 export interface WkAdjective {
   canonical: string;
@@ -56,6 +68,8 @@ export interface WkExtract {
   numerals: Record<string, WkNumeral[]>;
   /** pronoun case tables (никто, ничто) — same shape as numerals */
   pronouns: Record<string, WkNumeral[]>;
+  /** adverbs (keyed by the adverb) that come from an adjective by their etymology, or that were asked for */
+  adverbs: Record<string, WkAdverb[]>;
   /** words from `wanted.attest` found in Wiktionary as a headword or as a form of one */
   attested: string[];
 }
@@ -73,6 +87,21 @@ interface RawEntry {
   forms?: { form: string; tags?: string[] }[];
   senses?: { glosses?: string[]; form_of?: { word: string }[]; tags?: string[] }[];
   head_templates?: { expansion?: string }[];
+  etymology_text?: string;
+}
+
+/** Bump when the extract's shape changes, so an old cache is rebuilt. */
+const EXTRACT_VERSION = 2;
+const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
+
+/**
+ * The adjective an adverb comes from, by its etymology: "бы́стрый (býstryj) + -о" or "Adverbial form of ру́сский".
+ * Returns the bare adjective, or null.
+ */
+export function adverbSource(ety: string | undefined): string | null {
+  const t = ety?.trim() ?? '';
+  const m = /^Adverbial form of ([а-яё\u0301\u0300-]+)/i.exec(t) ?? /^([а-яё\u0301\u0300-]+)(?: \([^)]*\))*\s*\+ -[а-яё\u0301]+(?: \([^)]*\))*\.?$/i.exec(t);
+  return m ? m[1]!.normalize('NFC').replace(/[\u0301\u0300]/g, '').toLowerCase() : null;
 }
 
 function canonical(e: RawEntry): string {
@@ -96,6 +125,8 @@ export interface Wanted {
   adjectives: Set<string>;
   numerals: Set<string>;
   pronouns: Set<string>;
+  /** adverbs to look up even without an etymology link (adjectives' short neuter forms: бы'стро) */
+  adverbs: Set<string>;
   /** words that only need to be shown to exist (Learn page vocabulary) */
   attest: Set<string>;
 }
@@ -104,6 +135,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
   // The cache key covers both the dump and what we ask for, so adding words re-extracts.
   const key = createHash('sha256')
     .update(sha256)
+    .update(String(EXTRACT_VERSION))
     .update(JSON.stringify(Object.entries(wanted).map(([k, v]) => [k, [...(v as Set<string>)].sort()])))
     .digest('hex');
   if (existsSync(EXTRACT)) {
@@ -111,7 +143,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, attested: [] };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [] };
   const attested = new Set<string>();
   const push = <T>(m: Record<string, T[]>, k: string, v: T) => (m[k] ??= []).push(v);
   const rl = createInterface({ input: createReadStream(join(RAW_DIR, KAIKKI_FILE)).pipe(createGunzip()), crlfDelay: Infinity });
@@ -128,6 +160,16 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         const plain = f.form.normalize('NFC').replace(/[\u0301\u0300]/g, '');
         if (wanted.attest.has(plain)) attested.add(plain);
       }
+    }
+    if (e.pos === 'adv') {
+      const src = adverbSource(e.etymology_text);
+      const of = src && src !== word && wanted.adjectives.has(src) ? src : '';
+      if ((of || wanted.adverbs.has(word)) && /[оеи]$/.test(word)) {
+        const fs = usableForms(e);
+        const gloss = (e.senses ?? []).flatMap((x) => x.glosses ?? [])[0] ?? '';
+        push(out.adverbs, word, { canonical: canonical(e), of, comparative: [...new Set(fs.filter(([, t]) => t.includes('comparative')).map(([f]) => f))], gloss });
+      }
+      continue;
     }
     const isParticiple = e.pos === 'verb' && (e.senses ?? []).some((s) => (s.glosses ?? []).some((g) => / participle of /.test(g)));
     if (!isParticiple && !wanted.verbs.has(word) && !wanted.nouns.has(word) && !wanted.adjectives.has(word) && !wanted.numerals.has(word) && !wanted.pronouns.has(word)) continue;
@@ -153,8 +195,12 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     } else if (e.pos === 'noun' && wanted.nouns.has(word)) {
       const head = e.head_templates?.[0]?.expansion ?? '';
       const g = /\) ((?:m|f|n)(?:-p)?(?: or (?:m|f|n))?)\b(?: (anim|inan))?/.exec(head);
-      const dims = usableForms(e).filter(([, t]) => t.includes('diminutive')).map(([f]) => f);
-      push(out.nouns, word, { canonical: canonical(e), gender: g?.[1] ?? '', animacy: g?.[2] ?? '', diminutives: [...new Set(dims)] });
+      const fs = usableForms(e);
+      const dims = fs.filter(([, t]) => t.includes('diminutive')).map(([f]) => f);
+      const strict = (t: string[], tag: string) => t.includes(tag) && t.includes('singular') && !t.some((x) => LOOSE_TAGS.has(x));
+      const loc = [...new Set(fs.filter(([, t]) => strict(t, 'locative')).map(([f]) => f))];
+      const part = [...new Set(fs.filter(([, t]) => strict(t, 'partitive')).map(([f]) => f))];
+      push(out.nouns, word, { canonical: canonical(e), gender: g?.[1] ?? '', animacy: g?.[2] ?? '', diminutives: [...new Set(dims)], loc, part });
     } else if (e.pos === 'adj' && wanted.adjectives.has(word)) {
       const fs = usableForms(e);
       push(out.adjectives, word, {

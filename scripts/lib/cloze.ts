@@ -7,7 +7,7 @@
  */
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { ClozeRow, PronounData } from '../../src/shared/types.ts';
+import type { AdverbRow, ClozeRow, PronounData, SpecialCaseRow } from '../../src/shared/types.ts';
 import { ADJ_INDEX } from '../../src/shared/cells.ts';
 import type { Adjective } from './clean-adjectives.ts';
 import type { Noun } from './clean-nouns.ts';
@@ -77,6 +77,8 @@ interface Input {
   government?: [number, string, string, string][];
   positions?: PositionFamily[];
   time?: TimeWords;
+  adverbs?: AdverbRow[];
+  specialCases?: SpecialCaseRow[];
   verbs: Verb[];
   nouns: Noun[];
   adjectives: Adjective[];
@@ -130,7 +132,59 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
     kotoryi: [], chtoby: [], conditional: [], negation: [], indefinite: [], particles: [],
     prepositions: [], aspectContext: [], svoy: [],
     government: [], position: [], impersonal: [], comparison: [], conjunctions: [], time: [],
+    narechiya: [], questionWords: [], specialCases: [],
   };
+
+  // Every token in the corpus: multiple-choice distractors must be among them.
+  const freq = new Map<string, number>();
+  for (const { ru } of corpus.pairs) for (const t of tokens(ru)) freq.set(t.n, (freq.get(t.n) ?? 0) + 1);
+  /** Distractors must be common enough in the corpus to be familiar (not just attested once). */
+  const seen = { has: (n: string) => (freq.get(n) ?? 0) >= 5 };
+  /** Sentences per noun for the second prepositional, so one idiom (иметь в виду) doesn't take over. */
+  const perNoun = new Map<number, number>();
+  const plainOf = (f: string) => f.replace(/'/g, '');
+  /** The token belongs to this lemma only (or to no indexed lemma at all). */
+  const onlyOwner = (n: string, owner: string) => {
+    const o = corpus.owners.get(n);
+    return !o || (o.size === 1 && o.has(owner));
+  };
+
+  // --- adverbs vs adjectives (хорошо / хороший)
+  const advByN = new Map<string, AdverbRow>();
+  const advByAdj = new Map<number, AdverbRow>();
+  for (const r of inp.adverbs ?? []) {
+    for (const f of cellForms(r[2])) if (!advByN.has(normalise(f))) advByN.set(normalise(f), r);
+    advByAdj.set(r[0], r);
+  }
+  const adjById = new Map(inp.adjectives.map((a) => [a.id, a]));
+
+  // --- question words: case forms of кто, что, чей, какой
+  const QW: [string, string, string[]][] = [];
+  for (const [w, cells] of inp.pronouns?.personal ?? []) if (w === 'кто' || w === 'что') QW.push([w === 'кто' ? 'kto' : 'chto', w, cells]);
+  const chey = inp.pronouns?.possessive.find(([w]) => w === 'чей');
+  if (chey) QW.push(['chey', chey[0], chey[1]]);
+  const kakoy = inp.adjectives.find((a) => a.bare === 'какой');
+  if (kakoy) QW.push(['kakoy', kakoy.accented, kakoy.cells]);
+  else report.anomaly(S, 'question word missing from the data', 'какой');
+  const qwForms = new Map<string, { kind: string; forms: string[] }>(); // normalised form → lemma's distinct forms
+  const qwAmbiguous = new Set<string>();
+  for (const [kind, , cells] of QW) {
+    const fs: string[] = [];
+    for (const c of cells) for (const f of cellForms(c)) if (!fs.some((x) => normalise(x) === normalise(f))) fs.push(plainOf(f));
+    for (const f of fs) {
+      if (qwForms.has(normalise(f)) && qwForms.get(normalise(f))!.kind !== kind) qwAmbiguous.add(normalise(f));
+      qwForms.set(normalise(f), { kind, forms: fs });
+    }
+  }
+
+  // --- second prepositional: в/на лесу́ vs о ле'се
+  const locByN = new Map<string, SpecialCaseRow>();
+  const regByN = new Map<string, SpecialCaseRow>();
+  for (const r of inp.specialCases ?? []) {
+    if (!r[3]) continue;
+    for (const f of cellForms(r[3])) locByN.set(normalise(f), r);
+    for (const f of cellForms(r[5])) regByN.set(normalise(f), r);
+  }
   const firstVerb = (bare: string) => inp.verbs.find((v) => v.bare === bare);
   const nounByBare = new Map<string, Noun>();
   for (const n of inp.nouns) if (!nounByBare.has(n.bare)) nounByBare.set(n.bare, n);
@@ -469,6 +523,74 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
         out.time!.push(row(hit.t, accentedMatch(n.cells[hit.cell]!, hit.t.text), n.accented, hit.kind));
         break;
       }
+    }
+
+    // --- adverb or adjective? (Он хорошо говорит / Это хорошая книга)
+    for (let i = 0; i < toks.length; i++) {
+      const t = toks[i]!;
+      if (count(t.n) !== 1) continue;
+      const adv = advByN.get(t.n);
+      if (adv) {
+        // Next to a verb: Он бы'стро бежит, говорит по-ру'сски.
+        const nearVerb = [toks[i - 1], toks[i + 1]].some((x) => x && adjacent(ru, t, x) && ownerOf(x.n, 'verbs'));
+        const adj = adjById.get(adv[0]);
+        const adjForm = adj ? plainOf(cellForms(adj.cells[0] ?? '')[0] ?? '') : '';
+        if (nearVerb && adjForm && seen.has(normalise(adjForm)) && normalise(adjForm) !== t.n) {
+          const mine = plainOf(accentedMatch(adv[2], t.text));
+          out.narechiya!.push(row(t, mine, '', 'adv', [adjForm, mine]));
+          break;
+        }
+        continue;
+      }
+      // A long adjective right before its noun: хорошая книга.
+      const o = corpus.owners.get(t.n);
+      const owner = o?.size === 1 ? [...o][0]! : '';
+      if (!owner.startsWith('adjectives:')) continue;
+      const id = Number(owner.split(':')[1]);
+      const ar = advByAdj.get(id);
+      const mask = corpus.masks.get(`${t.n}|${owner}`) ?? 0;
+      const next = toks[i + 1];
+      if (!ar || !(mask & 0x3ffffff) || mask >>> 26 || !next || !adjacent(ru, t, next) || !ownerOf(next.n, 'nouns')) continue;
+      const advForm = plainOf(cellForms(ar[2])[0] ?? '');
+      if (!seen.has(normalise(advForm))) continue;
+      const cellIdx = [...Array(26).keys()].find((b) => mask & (1 << b))!;
+      const mine = plainOf(accentedMatch(adjById.get(id)!.cells[cellIdx]!, t.text));
+      out.narechiya!.push(row(t, mine, '', 'adj', [mine, advForm]));
+      break;
+    }
+
+    // --- question words: Кому ты звонил? О чём ты думаешь?
+    if (/\?\s*$/.test(ru) && toks.length >= 2) {
+      // Sentence-initial words are capitalised (and may look like names), so go by the raw text here.
+      const raw = (x: Tok) => normalise(x.text);
+      const lead = PREPOSITIONS[raw(toks[0]!)] && adjacent(ru, toks[0]!, toks[1]!) ? 1 : 0;
+      const t = { ...toks[lead]!, n: raw(toks[lead]!) };
+      const q = qwForms.get(t.n);
+      if (q && !qwAmbiguous.has(t.n) && toks.filter((x) => raw(x) === t.n).length === 1) {
+        const mine = q.forms.find((f) => normalise(f) === t.n)!;
+        // что and чего can both follow some verbs (Что/Чего ты хочешь?), so neither is offered for the other.
+        const clash = (f: string) => q.kind === 'chto' && ['что', 'чего'].includes(t.n) && ['что', 'чего'].includes(normalise(f));
+        const pool = q.forms.filter((f) => normalise(f) !== t.n && seen.has(normalise(f)) && !clash(f));
+        const picked = [...pool].sort((a, b) => hash(rid * 31 + a.length * 7 + a.charCodeAt(0)) - hash(rid * 31 + b.length * 7 + b.charCodeAt(0))).slice(0, 3);
+        if (picked.length >= 2) {
+          const opts = q.forms.filter((f) => f === mine || picked.includes(f));
+          out.questionWords!.push(row(t, mine, '', `${q.kind}${lead ? '-prep' : ''}`, opts));
+        }
+      }
+    }
+
+    // --- second prepositional (в лесу́) and the ordinary prepositional after о (о ле'се)
+    for (let i = 0; i < toks.length - 1; i++) {
+      const p = toks[i]!.n;
+      const t = toks[i + 1]!;
+      if (!adjacent(ru, toks[i]!, t) || count(t.n) !== 1) continue;
+      const loc = (p === 'в' || p === 'во' || p === 'на') && locByN.get(t.n);
+      const reg = (p === 'о' || p === 'об') && regByN.get(t.n);
+      const r = loc || reg;
+      if (!r || !onlyOwner(t.n, `nouns:${r[0]}`) || (perNoun.get(r[0]) ?? 0) >= 30) continue;
+      perNoun.set(r[0], (perNoun.get(r[0]) ?? 0) + 1);
+      out.specialCases!.push(row(t, accentedMatch(loc ? r[3] : r[5], t.text), r[1], loc ? 'loc' : 'o-prep'));
+      break;
     }
 
     // -ка on an imperative (давай-ка, скажи-ка)
