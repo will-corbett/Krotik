@@ -57,6 +57,12 @@ jobs:
       - run: npm run check
       - run: npm test
 
+      # The test browser is cached (keyed to the Playwright version in the lockfile); the system libraries it needs
+      # are still installed each time.
+      - uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('package-lock.json') }}
       - run: npx playwright install --with-deps chromium
       - run: npm run e2e
 
@@ -73,22 +79,39 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url || steps.retry.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.retry.outputs.page_url || steps.retry2.outputs.page_url }}
     steps:
-      # GitHub Pages sometimes stalls at "syncing_files" and the step times out after 10 minutes. If that happens, wait a
-      # minute and deploy once more. (A deployment can only be named after a real commit, so the retry reuses this one.)
-      # If a stall outlasts the retry, push an empty commit to deploy again. Run this workflow by hand with test_retry
-      # to check the retry path.
+      # A healthy deploy takes about 10 seconds, but GitHub Pages sometimes leaves one stuck at "deployment_queued" or
+      # "syncing_files", and a fresh deployment usually gets through. So give up on an attempt after 3 minutes and
+      # try again, allowing longer each time (5, then 10 minutes) in case Pages is just slow. A deployment can only be
+      # named after a real commit, so the retries reuse this one. If all three stall, push an empty commit. Run this
+      # workflow by hand with test_retry to check the retry path.
       - id: deployment
         if: ${{ !inputs.test_retry }}
         continue-on-error: true
         uses: actions/deploy-pages@v5
+        with:
+          timeout: 180000
 
       - name: Wait before retrying
         if: ${{ inputs.test_retry || steps.deployment.outcome == 'failure' }}
-        run: sleep 60
+        run: sleep 15
 
       - id: retry
         name: Retry the deployment
         if: ${{ inputs.test_retry || steps.deployment.outcome == 'failure' }}
+        continue-on-error: true
         uses: actions/deploy-pages@v5
+        with:
+          timeout: 300000
+
+      - name: Wait before the last try
+        if: ${{ steps.retry.outcome == 'failure' }}
+        run: sleep 15
+
+      - id: retry2
+        name: Last try
+        if: ${{ steps.retry.outcome == 'failure' }}
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 600000

@@ -3,6 +3,8 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
+  // GitHub's Linux runners have 4 CPUs; Playwright's default would use only 2 there.
+  workers: process.env.CI ? 4 : undefined,
   timeout: 60_000,
   reporter: [['list']],
   use: { baseURL: 'http://localhost:4173', trace: 'retain-on-failure' },

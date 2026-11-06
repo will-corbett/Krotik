@@ -124,7 +124,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   after "@": `impf@past`).
 - Within each group in `topics.ts`, topics run from the most basic and most needed to the more advanced or less
   essential; "Getting started" (the alphabet) comes first.
-- Deploys: GitHub Pages sometimes stalls at "syncing_files". The deploy job waits a minute and retries once (a
-  deployment can only be named after a real commit, so it reuses the same one); run the workflow by hand with
-  `test_retry` to check the retry path. If a stall outlasts the retry, push an empty commit.
+- Deploys: GitHub Pages sometimes leaves a deployment stuck ("deployment_queued" / "syncing_files"); a fresh one
+  usually gets through. The deploy job gives up on an attempt after 3 minutes and tries again with 5, then 10 minutes
+  (a deployment can only be named after a real commit, so retries reuse the same one); run the workflow by hand with
+  `test_retry` to check the retry path. If all three stall, push an empty commit. Browser tests run on 4 workers in CI.
 - Small, well-named commits. Say why before adding a dependency.
