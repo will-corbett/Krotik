@@ -2,7 +2,9 @@
 import { ADJ_CELLS, ADJ_EXTRA, ADJ_EXTRA_CELL_OFFSET, NOUN_CELLS, VERB_CELLS, VERB_INFINITIVE_CELL } from '../shared/cells.ts';
 import { bare } from '../shared/forms.ts';
 import type { SentenceRow } from '../shared/types.ts';
-import { chooseSentence, loadAdjectives, loadNouns, loadPronouns, loadSentences, loadVerbs } from './data.ts';
+import { chooseSentence, loadAdjectives, loadExtraJson, loadNouns, loadNumerals, loadParticiples, loadPronouns, loadSentences, loadVerbs } from './data.ts';
+import { normalise } from '../shared/normalise.ts';
+import type { NumeralRow, ParticipleRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 const LEARN_BAND = 1; // top 1,000
@@ -37,6 +39,31 @@ export function resolveCell(what: 'noun' | 'verb' | 'adjective', lemma: Verb | N
   if (i >= 0 && a.cells[i]) return [i, a.cells[i]!];
   const e = (ADJ_EXTRA as readonly string[]).indexOf(key);
   return e >= 0 && a.extra[e] ? [ADJ_EXTRA_CELL_OFFSET + e, a.extra[e]!] : null;
+}
+
+/** The participles and verbal adverbs of a verb (top 1,000 verbs). */
+export async function findParticiples(verb: string): Promise<{ row: ParticipleRow; band: number } | undefined> {
+  const rows = await loadParticiples(LEARN_BAND);
+  return rows.find((r) => bare(r.row[1]) === verb);
+}
+
+/** A numeral's case table (cardinal or collective). */
+export async function findNumeral(word: string): Promise<NumeralRow | undefined> {
+  const [nums, coll] = await Promise.all([loadNumerals(), loadExtraJson<NumeralRow[]>('collectives')]);
+  return [...nums, ...coll].find((r) => bare(r[0]) === word);
+}
+
+/** A possessive/demonstrative pronoun's table, in adjective cell order. */
+export async function findPossessive(word: string): Promise<[string, string[]] | undefined> {
+  return (await loadPronouns()).possessive.find(([w]) => bare(w) === word);
+}
+
+/** A sentence containing exactly this participle or verbal-adverb form of the verb. */
+export async function findParticipleSentence(verb: string, form: string): Promise<SentenceRow | undefined> {
+  const p = await findParticiples(verb);
+  if (!p) return undefined;
+  const shard = await loadSentences('participles', p.band);
+  return (shard[p.row[0]] ?? []).find((r) => normalise(r[1].slice(r[4], r[5])) === normalise(form));
 }
 
 /** A Tatoeba sentence containing exactly that form of the word, or undefined. */

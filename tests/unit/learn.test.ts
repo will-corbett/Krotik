@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { AdjRow, NounRow, NumeralRow, PronounData, SentenceRow, VerbRow } from '../../src/shared/types.ts';
+import type { AdjRow, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, VerbRow } from '../../src/shared/types.ts';
 import { parseMarkdown } from '../../src/lib/learn.ts';
 import { ALL_TOPICS } from '../../src/lib/topics.ts';
 import { DEFAULTS } from '../../src/lib/settings.ts';
@@ -21,6 +21,7 @@ const verbs = bands.flatMap((b) => json<VerbRow[]>(`verbs.b${b}.json`).map((r) =
 const nouns = bands.flatMap((b) => json<NounRow[]>(`nouns.b${b}.json`).map((r) => toNoun(r, b)));
 const adjs = bands.flatMap((b) => json<AdjRow[]>(`adjectives.b${b}.json`).map((r) => toAdjective(r, b)));
 const pron = json<PronounData>('pronouns.json');
+const participles = [0, 1].flatMap((b) => json<ParticipleRow[]>(`participles.b${b}.json`).map((row) => ({ row, band: b })));
 
 const known = new Set<string>();
 const add = (cell: string | undefined) => cell && cellForms(cell).forEach((f) => known.add(normalise(f)));
@@ -29,6 +30,8 @@ for (const n of nouns) [n.accented, ...n.cells].forEach(add);
 for (const a of adjs) [a.accented, ...a.cells, ...a.extra].forEach(add);
 for (const [w, a, b] of pron.personal) [w, ...a, ...b].forEach(add);
 for (const [w, c] of pron.possessive) [w, ...c].forEach(add);
+for (const b of bands) for (const r of json<ParticipleRow[]>(`participles.b${b}.json`)) [r[4], r[5], ...r[6].flatMap(([, n, c, sh]) => [n, ...c, ...sh])].forEach(add);
+for (const [w, , c] of json<[string, number, string[]][]>('ordinals.json')) [w, ...c].forEach(add);
 for (const [w, , cells] of [...json<NumeralRow[]>('numerals.json'), ...json<NumeralRow[]>('collectives.json')]) [w, ...Object.values(cells)].forEach(add);
 if (existsSync('data-raw/others.csv')) {
   for (const line of readFileSync('data-raw/others.csv', 'utf8').split(/\r?\n/).slice(1)) add(line.split('\t')[0]);
@@ -58,15 +61,31 @@ describe('Learn pages', () => {
           const key = b.mode === 'stress' ? 'stressDrill' : b.mode;
           const base = (DEFAULTS as unknown as Record<string, unknown>)[key];
           for (const k of Object.keys(b.settings)) expect(Object.keys(base as object), `::drill ${b.mode} setting ${k}`).toContain(k);
-        } else if (b.what !== 'pronouns') {
-          const lemma = (top1000[b.what] as { accented: string }[]).find((x) => x.accented.replace(/'/g, '') === b.word);
-          expect(lemma, `${b.what} “${b.word}” in the top 1,000`).toBeTruthy();
+        } else if (b.kind === 'table' && b.what === 'pronouns') {
+          expect(pron.personal.length).toBeGreaterThan(5);
+        } else if (b.kind === 'table' && b.what === 'possessive') {
+          expect(pron.possessive.find(([w]) => w.replace(/'/g, '') === b.word), `possessive ${b.word}`).toBeTruthy();
+        } else if (b.kind === 'table' && b.what === 'numeral') {
+          const nums = [...json<NumeralRow[]>('numerals.json'), ...json<NumeralRow[]>('collectives.json')];
+          expect(nums.find((r) => r[0].replace(/'/g, '') === b.word), `numeral ${b.word}`).toBeTruthy();
+        } else if (b.what === 'participles' || b.what === 'participle') {
+          const row = participles.find((p) => p.row[1].replace(/'/g, '') === b.word);
+          expect(row, `participles of ${b.word} (top 1,000 verbs)`).toBeTruthy();
           if (b.kind === 'sentence') {
-            const cell = resolveCell(b.what, lemma as never, b.cell);
+            const shard = json<Record<string, SentenceRow[]>>(`sentences.participles.b${row!.band}.json`);
+            const hit = (shard[row!.row[0]] ?? []).find((r) => normalise(r[1].slice(r[4], r[5])) === normalise(b.cell));
+            expect(hit, `a sentence with ${b.cell} (${b.word})`).toBeTruthy();
+          }
+        } else {
+          const what = b.what as 'verb' | 'noun' | 'adjective';
+          const lemma = (top1000[what] as { accented: string }[]).find((x) => x.accented.replace(/'/g, '') === b.word);
+          expect(lemma, `${what} “${b.word}” in the top 1,000`).toBeTruthy();
+          if (b.kind === 'sentence') {
+            const cell = resolveCell(what, lemma as never, b.cell);
             expect(cell, `cell ${b.cell} of ${b.word}`).toBeTruthy();
             // …and Tatoeba has a sentence with exactly that form.
             const l = lemma as unknown as { id: number; band: number };
-            const type = b.what === 'verb' ? 'verbs' : b.what === 'noun' ? 'nouns' : 'adjectives';
+            const type = what === 'verb' ? 'verbs' : what === 'noun' ? 'nouns' : 'adjectives';
             const shard = json<Record<string, SentenceRow[]>>(`sentences.${type}.b${l.band}.json`);
             expect(chooseSentence(shard[l.id], cell![0], cell![1]), `a sentence with ${b.word} ${b.cell}`).toBeTruthy();
           }

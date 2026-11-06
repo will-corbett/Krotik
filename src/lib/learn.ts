@@ -4,8 +4,10 @@
  * Supported Markdown: ## and ### headings, paragraphs, "- " lists, "> " tips, | tables |, and inline
  * **bold**, *italic*, `code`. Lines starting with "::" are data blocks, so examples always come from
  * the data rather than being typed in:
- *   ::table noun книга            full paradigm from the data (also: verb, adjective, pronouns)
+ *   ::table noun книга            full paradigm from the data (also: verb, adjective, pronouns,
+ *                                  participles <verb>, numeral <word>, possessive <word>)
  *   ::sentence verb читать past_f  a Tatoeba sentence containing exactly that form (cell key, or "inf")
+ *   ::sentence participle читать читая   …or, for participles/verbal adverbs, the exact form
  *   ::drill nounCases {"cases":["acc"]} 5   a short on-page drill (mode, settings for that mode, count)
  */
 const files = import.meta.glob('/content/learn/*.md', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>;
@@ -19,6 +21,10 @@ export async function loadLearn(topic: string): Promise<string | null> {
   return f ? f() : null;
 }
 
+export type TableKind = 'noun' | 'verb' | 'adjective' | 'pronouns' | 'participles' | 'numeral' | 'possessive';
+export type SentenceKind = 'noun' | 'verb' | 'adjective' | 'participle';
+const TABLE_KINDS: TableKind[] = ['noun', 'verb', 'adjective', 'pronouns', 'participles', 'numeral', 'possessive'];
+
 export type Inline = { text: string; bold?: boolean; italic?: boolean; code?: boolean };
 export type Block =
   | { type: 'heading'; level: 2 | 3; text: Inline[] }
@@ -26,8 +32,8 @@ export type Block =
   | { type: 'tip'; text: Inline[] }
   | { type: 'list'; items: Inline[][] }
   | { type: 'table'; head: Inline[][]; rows: Inline[][][] }
-  | { type: 'data'; kind: 'table'; what: 'noun' | 'verb' | 'adjective' | 'pronouns'; word: string }
-  | { type: 'data'; kind: 'sentence'; what: 'noun' | 'verb' | 'adjective'; word: string; cell: string }
+  | { type: 'data'; kind: 'table'; what: TableKind; word: string }
+  | { type: 'data'; kind: 'sentence'; what: SentenceKind; word: string; cell: string }
   | { type: 'data'; kind: 'drill'; mode: string; settings: Record<string, unknown>; count: number };
 
 /** **bold**, *italic*, `code` */
@@ -52,13 +58,14 @@ function parseDirective(line: string): Block {
   const [, kind, rest] = m as unknown as [string, string, string];
   if (kind === 'table') {
     const [what, word = ''] = rest.split(/\s+/);
-    if (!['noun', 'verb', 'adjective', 'pronouns'].includes(what!)) throw new Error(`::table: unknown type ${what}`);
-    return { type: 'data', kind: 'table', what: what as 'noun', word };
+    if (!TABLE_KINDS.includes(what as TableKind)) throw new Error(`::table: unknown type ${what}`);
+    return { type: 'data', kind: 'table', what: what as TableKind, word };
   }
   if (kind === 'sentence') {
     const [what, word, cell] = rest.split(/\s+/);
     if (!what || !word || !cell) throw new Error(`::sentence needs type, word and cell: ${line}`);
-    return { type: 'data', kind: 'sentence', what: what as 'noun', word, cell };
+    if (!['noun', 'verb', 'adjective', 'participle'].includes(what)) throw new Error(`::sentence: unknown type ${what}`);
+    return { type: 'data', kind: 'sentence', what: what as SentenceKind, word, cell };
   }
   if (kind === 'drill') {
     const dm = /^(\w+)\s*(\{.*\})?\s*(\d+)?$/.exec(rest.trim());
