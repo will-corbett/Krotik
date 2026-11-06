@@ -41,7 +41,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
-  `::sentence verb читать past_f` (or `::sentence participle читать читая`), `::drill nounCases {"cases":["acc"]} 5`.
+  `::sentence verb читать past_f` (or `::sentence participle читать читая`), `::drill nounCases {"cases":["acc"]} 5`,
+  `::examples chtoby past 3` (shortest real sentences of one sentence-drill kind).
   Tables and sentences always come from the data. `tests/unit/learn.test.ts` fails if any Russian word in the
   text isn't a real form in the data, or a block doesn't resolve (word in the top 1,000; sentence exists).
   Words not in the drill data go in `content/learn/words.yaml`; the data build checks them against Wiktionary.

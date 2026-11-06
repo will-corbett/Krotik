@@ -7,6 +7,7 @@
   import Inline from './Inline.svelte';
   import LearnData from './LearnData.svelte';
   import MiniDrill from './MiniDrill.svelte';
+  import LearnExamples from './LearnExamples.svelte';
 
   let { topic, settings }: { topic: string; settings: Settings } = $props();
   const t = $derived(topicById(topic));
@@ -41,6 +42,10 @@
         <p><Inline parts={b.text} /></p>
       {:else if b.type === 'tip'}
         <aside class="tip"><Inline parts={b.text} /></aside>
+      {:else if b.type === 'list' && b.ordered}
+        <ol>
+          {#each b.items as it, j (j)}<li><Inline parts={it} /></li>{/each}
+        </ol>
       {:else if b.type === 'list'}
         <ul>
           {#each b.items as it, j (j)}<li><Inline parts={it} /></li>{/each}
@@ -59,6 +64,8 @@
         <MiniDrill mode={b.mode as Mode} overrides={b.settings} count={b.count} {settings} />
       {:else if b.type === 'data' && b.kind === 'table'}
         <LearnData kind="table" what={b.what} word={b.word} stress={settings.stress} />
+      {:else if b.type === 'data' && b.kind === 'examples'}
+        <LearnExamples topic={b.topic} item={b.item} count={b.count} />
       {:else if b.type === 'data' && b.kind === 'sentence'}
         <LearnData kind="sentence" what={b.what} word={b.word} cell={b.cell} stress={settings.stress} />
       {/if}

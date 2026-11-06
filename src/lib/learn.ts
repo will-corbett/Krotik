@@ -1,7 +1,7 @@
 /**
  * Learn pages: one Markdown file per topic in content/learn/<topic>.md, loaded on demand.
  *
- * Supported Markdown: ## and ### headings, paragraphs, "- " lists, "> " tips, | tables |, and inline
+ * Supported Markdown: ## and ### headings, paragraphs, "- " and "1. " lists, "> " tips, | tables |, and inline
  * **bold**, *italic*, `code`. Lines starting with "::" are data blocks, so examples always come from
  * the data rather than being typed in:
  *   ::table noun книга            full paradigm from the data (also: verb, adjective, pronouns,
@@ -9,6 +9,7 @@
  *   ::sentence verb читать past_f  a Tatoeba sentence containing exactly that form (cell key, or "inf")
  *   ::sentence participle читать читая   …or, for participles/verbal adverbs, the exact form
  *   ::drill nounCases {"cases":["acc"]} 5   a short on-page drill (mode, settings for that mode, count)
+ *   ::examples chtoby past 3       the shortest real sentences of one sentence-drill kind, target highlighted
  */
 const files = import.meta.glob('/content/learn/*.md', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>;
 
@@ -30,11 +31,12 @@ export type Block =
   | { type: 'heading'; level: 2 | 3; text: Inline[] }
   | { type: 'para'; text: Inline[] }
   | { type: 'tip'; text: Inline[] }
-  | { type: 'list'; items: Inline[][] }
+  | { type: 'list'; items: Inline[][]; ordered?: boolean }
   | { type: 'table'; head: Inline[][]; rows: Inline[][][] }
   | { type: 'data'; kind: 'table'; what: TableKind; word: string }
   | { type: 'data'; kind: 'sentence'; what: SentenceKind; word: string; cell: string }
-  | { type: 'data'; kind: 'drill'; mode: string; settings: Record<string, unknown>; count: number };
+  | { type: 'data'; kind: 'drill'; mode: string; settings: Record<string, unknown>; count: number }
+  | { type: 'data'; kind: 'examples'; topic: string; item: string; count: number };
 
 /** **bold**, *italic*, `code` */
 export function parseInline(s: string): Inline[] {
@@ -72,6 +74,11 @@ function parseDirective(line: string): Block {
     if (!dm) throw new Error(`::drill: ${line}`);
     return { type: 'data', kind: 'drill', mode: dm[1]!, settings: dm[2] ? JSON.parse(dm[2]) : {}, count: dm[3] ? Number(dm[3]) : 5 };
   }
+  if (kind === 'examples') {
+    const [topic, item, n] = rest.split(/\s+/);
+    if (!topic || !item) throw new Error(`::examples needs a topic and a kind: ${line}`);
+    return { type: 'data', kind: 'examples', topic, item, count: n ? Number(n) : 3 };
+  }
   throw new Error(`Unknown data block ::${kind}`);
 }
 
@@ -103,6 +110,12 @@ export function parseMarkdown(src: string): Block[] {
       while (i < lines.length && lines[i]!.trim().startsWith('- ')) items.push(parseInline(lines[i++]!.trim().slice(2)));
       i--;
       blocks.push({ type: 'list', items });
+    } else if (/^\d+\.\s/.test(t)) {
+      flush();
+      const items: Inline[][] = [];
+      while (i < lines.length && /^\d+\.\s/.test(lines[i]!.trim())) items.push(parseInline(lines[i++]!.trim().replace(/^\d+\.\s+/, '')));
+      i--;
+      blocks.push({ type: 'list', items, ordered: true });
     } else if (t.startsWith('> ')) {
       flush();
       const tip: string[] = [];

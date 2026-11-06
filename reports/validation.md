@@ -176,7 +176,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 9 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 11 |
 
 ## Participles and verbal adverbs (Wiktionary)
 
@@ -264,7 +264,7 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 
 | count | n |
 |---|---:|
-| kotoryi / kotoryi: candidates (kept up to 1500) | 4072 |
+| kotoryi / kotoryi: candidates (kept up to 1500) | 3916 |
 | chtoby / inf: candidates (kept up to 1500) | 3199 |
 | chtoby / past: candidates (kept up to 1500) | 437 |
 | conditional / cond: candidates (kept up to 1500) | 9525 |
@@ -370,8 +370,8 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | position / hang:state: candidates (kept up to 1500) | 95 |
 | position / sit:put: candidates (kept up to 1500) | 301 |
 | position / stand:put: candidates (kept up to 1500) | 597 |
-| impersonal / imp-pron: candidates (kept up to 1500) | 2857 |
-| impersonal / imp-noun: candidates (kept up to 1500) | 226 |
+| impersonal / imp-pron: candidates (kept up to 1500) | 2854 |
+| impersonal / imp-noun: candidates (kept up to 1500) | 146 |
 | comparison / cmp-gen: candidates (kept up to 1500) | 293 |
 | conjunctions / conj:что: candidates (kept up to 1500) | 54493 |
 | conjunctions / conj:когда: candidates (kept up to 1500) | 3771 |

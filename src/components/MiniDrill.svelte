@@ -66,7 +66,8 @@
     input = '';
     tick().then(() => field?.focus());
   }
-  const parts = $derived((q?.frame ?? '___').split('___'));
+  // Hints like "(кото'рый)" are shown with a stress mark, as in the main drill.
+  const parts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
 </script>
 
 <div class="mini" role="group" aria-label="Quick check">

@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { AdjRow, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, VerbRow } from '../../src/shared/types.ts';
+import type { AdjRow, ClozeRow, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, VerbRow } from '../../src/shared/types.ts';
 import { parseMarkdown } from '../../src/lib/learn.ts';
 import { ALL_TOPICS } from '../../src/lib/topics.ts';
 import { DEFAULTS } from '../../src/lib/settings.ts';
@@ -56,6 +56,11 @@ describe('Learn pages', () => {
     it(`${page}: every data block resolves`, () => {
       for (const b of blocks) {
         if (b.type !== 'data') continue;
+        if (b.kind === 'examples') {
+          const rows = json<ClozeRow[]>(`cloze.${b.topic}.json`).filter((r) => r[7] === b.item);
+          expect(rows.length, `::examples ${b.topic} ${b.item}`).toBeGreaterThanOrEqual(b.count);
+          continue;
+        }
         if (b.kind === 'drill') {
           expect(ALL_TOPICS.map((t) => t.id), `::drill ${b.mode}`).toContain(b.mode);
           const key = b.mode === 'stress' ? 'stressDrill' : b.mode;
@@ -108,4 +113,13 @@ describe('Learn pages', () => {
       expect([...unknown], 'words not found in the data').toEqual([]);
     });
   }
+});
+
+describe('Markdown reader', () => {
+  it('reads numbered lists, bullets, tips, tables and data blocks', () => {
+    const b = parseMarkdown('1. one\n2. two\n\n- a\n- b\n\n> tip\n\n| x | y |\n|---|---|\n| 1 | 2 |\n\n::table noun книга\n::examples chtoby past 2');
+    expect(b.map((x) => x.type)).toEqual(['list', 'list', 'tip', 'table', 'data', 'data']);
+    expect((b[0] as { ordered?: boolean }).ordered).toBe(true);
+    expect((b[1] as { ordered?: boolean }).ordered).toBeUndefined();
+  });
 });

@@ -2,9 +2,9 @@
 import { ADJ_CELLS, ADJ_EXTRA, ADJ_EXTRA_CELL_OFFSET, NOUN_CELLS, VERB_CELLS, VERB_INFINITIVE_CELL } from '../shared/cells.ts';
 import { bare } from '../shared/forms.ts';
 import type { SentenceRow } from '../shared/types.ts';
-import { chooseSentence, loadAdjectives, loadExtraJson, loadNouns, loadNumerals, loadParticiples, loadPronouns, loadSentences, loadVerbs } from './data.ts';
+import { chooseSentence, loadAdjectives, loadCloze, loadExtraJson, loadNouns, loadNumerals, loadParticiples, loadPronouns, loadSentences, loadVerbs } from './data.ts';
 import { normalise } from '../shared/normalise.ts';
-import type { NumeralRow, ParticipleRow } from '../shared/types.ts';
+import type { ClozeRow, NumeralRow, ParticipleRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 const LEARN_BAND = 1; // top 1,000
@@ -64,6 +64,21 @@ export async function findParticipleSentence(verb: string, form: string): Promis
   if (!p) return undefined;
   const shard = await loadSentences('participles', p.band);
   return (shard[p.row[0]] ?? []).find((r) => normalise(r[1].slice(r[4], r[5])) === normalise(form));
+}
+
+/**
+ * The shortest real sentences of one sentence-drill kind (e.g. chtoby/past), as example rows with the
+ * target word highlighted. Shortest first: they are usually the clearest.
+ */
+export async function findExamples(topic: string, item: string, count: number): Promise<SentenceRow[]> {
+  const rows = (await loadCloze(topic)).filter((r) => r[7] === item);
+  return pickExamples(rows, count);
+}
+export function pickExamples(rows: ClozeRow[], count: number): SentenceRow[] {
+  return [...rows]
+    .sort((a, b) => a[1].length - b[1].length || a[0] - b[0])
+    .slice(0, count)
+    .map(([id, ru, en, start, end]) => [id, ru, en, 0, start, end]);
 }
 
 /** A Tatoeba sentence containing exactly that form of the word, or undefined. */

@@ -178,8 +178,14 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
     const row = (t: { start: number; end: number }, answer: string, hint: string, kind: string, options: string[] = []): ClozeRow => [rid, ru, en, t.start, t.end, answer, hint, kind, options];
 
     // --- который
+    // Relative clauses only: который right after a comma, or after a comma and a preposition (", в котором").
+    // (A question like "Которое пиво твоё?" is a different use.)
     const kt = toks.filter((t) => kotoryiForms.has(t.n));
-    if (kt.length === 1) out.kotoryi!.push(row(kt[0]!, kotoryiForms.get(kt[0]!.n)!, 'кото\'рый', 'kotoryi'));
+    const nextAfterKt = kt.length === 1 ? toks[toks.indexOf(kt[0]!) + 1] : undefined;
+    // "Который час?" means "what time is it?", an idiom rather than a relative clause.
+    if (kt.length === 1 && normalise(nextAfterKt?.text ?? '') !== 'час' && /,\s*(?:[а-яё]+\s+)?$/i.test(ru.slice(0, kt[0]!.start)) && (/,\s*$/.test(ru.slice(0, kt[0]!.start)) || PREPOSITIONS[normalise(ru.slice(0, kt[0]!.start).replace(/^.*,\s*/, '').trim())])) {
+      out.kotoryi!.push(row(kt[0]!, kotoryiForms.get(kt[0]!.n)!, 'кото\'рый', 'kotoryi'));
+    }
 
     // --- чтобы + infinitive / past
     const ci = toks.findIndex((t) => t.n === 'чтобы');
@@ -396,6 +402,8 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
       if (!impersonal.has(toks[i]!.n)) continue;
       const t = toks[i - 1]!;
       if (!adjacent(ru, t, toks[i]!) || count(t.n) !== 1) continue;
+      // After a preposition it isn't the dative person: "в комнате жарко" is a location.
+      if (i >= 2 && PREPOSITIONS[normalise(toks[i - 2]!.text)] && adjacent(ru, toks[i - 2]!, t)) continue;
       const pron = datPron.get(t.n);
       if (pron) {
         out.impersonal!.push(row(t, t.n, pron, 'imp-pron'));
