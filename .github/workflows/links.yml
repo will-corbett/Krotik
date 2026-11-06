@@ -1,0 +1,25 @@
+# Monthly check that every Culture page link still works. A failed run (GitHub emails the repository
+# owner) means a link is dead: fix or remove it in content/culture/links.yaml. Separate from deploy, so a
+# dead link never blocks the site.
+name: Check culture links
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run links:check
