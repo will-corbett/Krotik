@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { checkAnswer } from '../../src/lib/check.ts';
-import { buildTest, loadLexicon, PER_LEVEL, POOLS, scoreTest, sentenceQuestion, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
+import { ASK, buildTest, loadLexicon, PER_LEVEL, POOLS, scoreTest, sentenceQuestion, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { ClozeRow } from '../../src/shared/types.ts';
@@ -36,6 +36,19 @@ describe('level test', () => {
       expect(q.choices!.length, q.key).toBeGreaterThanOrEqual(2);
       expect(q.choices!.filter((c) => checkAnswer(q, c).correct), q.key).toHaveLength(1);
       expect(new Set(q.choices).size, q.key).toBe(q.choices!.length);
+    }
+  });
+  it('every question is a whole sentence with a plain instruction, and no grammar terms', () => {
+    const asks = Object.values(ASK) as string[];
+    const grammar = /nominative|genitive|dative|accusative|instrumental|prepositional|case|tense|singular|plural|aspect|participle|imperative|perfective|падеж|время/i;
+    for (const { q, instruction } of items) {
+      expect(asks, q.key).toContain(instruction);
+      expect(instruction, q.key).not.toMatch(grammar);
+      expect(q.task, q.key).toEqual([]);
+      expect(q.headwordIsEnglish, q.key).toBe(true); // the English translation is the cue
+      const [before, after] = q.frame!.split('___');
+      // A real sentence around the gap: Russian words outside the gap and any bracketed dictionary form.
+      expect(`${before} ${after!.replace(/^\s*\([^)]*\)/, '')}`, q.key).toMatch(/[а-яё]{2,}/i);
     }
   });
   it('no question appears twice', () => {

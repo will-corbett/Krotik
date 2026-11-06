@@ -37,18 +37,20 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
 - `src/components/` — Svelte UI. Five pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Level test (`#/test`), Learn
-  (`#/learn`, `#/learn/<topic>`), Drill (`#/drill`, `#/drill/<topic>`), Culture (`#/culture`), plus `#/about`.
+  (`#/learn`, `#/learn/<topic>`), Drill (`#/drill` to choose, `#/drill/<topic>` for that drill's settings), Culture
+  (`#/culture`), plus `#/about`. Every Drill link elsewhere goes straight to `#/drill/<topic>`.
 - Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
   `content/culture/notes/<id>.md` listed in `content/culture/notes.yaml`. YAML is imported at build time by a small
   plugin in `vite.config.ts` (no runtime dependency). Note text is word-checked like Learn pages.
 - Level test (`src/lib/levelTest.ts`, `#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first.
-  Each level draws 12 of a larger pool of question types (at most 2 per topic), ordered by a 1–3 difficulty weight;
-  words are random and graded by frequency rank (A1 commonest only, B2/C1 rarer). Two sources: drill questions (other
-  real forms of the same word as wrong options) and gapped Tatoeba sentences with the lemma in brackets (wrong options
-  are other forms of that lemma, never one the preposition or нет could also take; a spelling shared by two cells is
-  read in the case the sentence needs). Every question must have exactly one right option. A level counts at 9/12 and
-  only if every level below counts. Leave out topics where two options can both be right (indefinite pronouns).
-  Results are never stored.
+  Every question is a real Tatoeba sentence with one gap, a plain instruction (`ASK`, no grammar terms) and the English
+  translation as the cue — never a word on its own. Sources: a word's own example sentences (sentence shards) with
+  other real forms of that word as wrong options; the gapped sentence drills (word in brackets); the multiple-choice
+  sentence drills. Wrong options must never also fit: forms with the same spelling, cases the preposition/нет could
+  also take, other past genders (я/ты could be either), long forms against short forms, sentence-final adjectives.
+  Each level draws 12 of a larger pool (at most 2 per topic), ordered by a 1–3 weight; vocabulary graded by frequency
+  rank. A level counts at 9/12 and only if every level below counts. Leave out topics where two options can both be
+  right (indefinite pronouns, же/ведь, colloquial particles). Results are never stored.
 - `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
@@ -110,6 +112,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   not just its name: a channel called "Simple Russian" turned out to be political.
 - Every typed answer offers the on-screen Cyrillic keyboard (drills and Learn quick checks share `settings.keyboard`);
   the Culture search box is the only exception.
+- Drills whose verb can be in several tenses let you choose them (sentence drills carry the tense in the row kind
+  after "@": `impf@past`).
 - Within each group in `topics.ts`, topics run from the most basic and most needed to the more advanced or less
   essential; "Getting started" (the alphabet) comes first.
 - Deploys: GitHub Pages sometimes stalls at "syncing_files". The deploy job waits a minute and retries once (a

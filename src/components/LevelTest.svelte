@@ -7,7 +7,6 @@
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { topicById } from '../lib/topics.ts';
-  import TermText from './TermText.svelte';
 
   /** Nothing here is stored: the result exists only on this page until you leave it. */
   let { settings }: { settings: Settings } = $props();
@@ -89,8 +88,6 @@
 
   const q = $derived(items[i]?.q);
   const r = (f: string) => renderForm(f, settings.stress);
-  /** Russian words in source notation (буты'лка) inside running text → stress marks (or plain, if stress is off). */
-  const stressText = (t: string) => t.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w));
   const parts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
   const result = $derived(phase === 'results' ? scoreTest(items, responses) : null);
   const cyr = (s: string) => /[а-яё]/i.test(s);
@@ -107,8 +104,8 @@
     <h1 id="test-h1">Level test <span lang="ru" class="ru">тест на уровень</span></h1>
     <p>
       Sixty multiple-choice questions on grammar and reading, starting easy and getting harder: twelve each at A1, A2,
-      B1, B2 and C1. Many are gaps in real sentences, where you work out the right form yourself. The questions are
-      different every time. It takes about 15–20 minutes; at the end you get an approximate level and a list of Learn
+      B1, B2 and C1. Every question is a gap in a real sentence, with the English meaning as a clue: you work out which
+      form fits from the sentence itself. The questions are different every time. It takes about 15–20 minutes; at the end you get an approximate level and a list of Learn
       pages worth reviewing.
     </p>
     <ul class="muted">
@@ -128,10 +125,8 @@
     <div class="bar" aria-hidden="true"><span style="width: {(i / items.length) * 100}%"></span></div>
 
     <div class="card question">
-      <p class="task"><TermText parts={q.task} /></p>
-      <p class="word" lang={q.headwordIsEnglish ? 'en' : 'ru'}>{q.headwordIsEnglish ? q.headword : r(q.headword)}</p>
-      {#if q.gloss}<p class="muted gloss">{q.gloss}</p>{/if}
-      {#if q.note}<p class="muted gloss">{stressText(q.note)}</p>{/if}
+      <p class="instruction">{items[i]!.instruction}</p>
+      <p class="meaning muted" lang="en">“{q.headword}”</p>
       {#if q.frame && q.frame !== '___'}
         <p class="frame" lang="ru">{parts[0]}<span class="blank">___</span>{parts[1]}</p>
       {/if}
@@ -244,19 +239,18 @@
     height: 100%;
     background: var(--primary-bg);
   }
-  .task {
+  .instruction {
     margin: 0 0 6px;
+    font-weight: 700;
   }
-  .word {
-    font-family: var(--serif);
-    font-size: 1.8rem;
+  .meaning {
     margin: 0;
-  }
-  .gloss {
-    margin: 2px 0 0;
+    font-style: italic;
   }
   .frame {
-    font-size: 1.15rem;
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    line-height: 1.5;
     margin: 12px 0 0;
   }
   .blank {
