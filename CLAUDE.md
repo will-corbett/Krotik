@@ -92,5 +92,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   no music or lyrics; no sanctioned outlets or people; nothing whose main theme is politics or the war; links only,
   never embeds (no third-party requests or cookies); descriptions in our own words; nothing that would stop the site
   being run commercially. Check each link by hand before adding it and set `checked`. `npm run links:check` runs
-  monthly (`.github/workflows/links.yml`); 401/403/429 from bot protection is reported, not failed.
+  monthly (`.github/workflows/links.yml`); 401/403/429 from bot protection and repeated timeouts are reported, not
+  failed. Each link has a type, level range, region (russia, kazakhstan, central-asia, ukraine, caucasus, baltics,
+  worldwide) and topic; the page filters on these plus free text. Check what a channel actually posts (recent videos),
+  not just its name: a channel called "Simple Russian" turned out to be political.
 - Small, well-named commits. Say why before adding a dependency.

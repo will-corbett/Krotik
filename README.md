@@ -6,7 +6,7 @@ Learn and drill Russian grammar. There are no accounts and no tracking.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
   (`content/learn/*.md`).
 - **Drill**: the drills below, with retries, example sentences and audio.
-- **Culture**: hand-picked links to videos, cartoons, podcasts, books and tools (`content/culture/links.yaml`),
+- **Culture**: about 110 hand-picked links to videos, cartoons, films, podcasts, books and tools, filterable by level, topic and region (`content/culture/links.yaml`),
   and short culture notes (`content/culture/notes/*.md`). `npm run links:check` checks the links (monthly in CI).
 
 Modes are grouped as follows:
