@@ -4,7 +4,7 @@
   import type { Settings } from '../lib/settings.ts';
   import { TOPIC_GROUPS, topicById } from '../lib/topics.ts';
 
-  let { settings, loading, oncontinue }: { settings: Settings; loading: boolean; oncontinue: () => void } = $props();
+  let { settings, loading, oncontinue, onhide }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void } = $props();
   const last = $derived(topicById(settings.mode));
 </script>
 
@@ -17,21 +17,21 @@
     </div>
   </div>
 
+  {#if !settings.hideContinue}
   <div class="card continue">
-    <div>
+    <div class="c-text">
       <p class="label muted">Continue drilling</p>
       {#if last}
         <p class="what"><strong>{last.title.en}</strong> <span lang="ru" class="ru">{last.title.ru}</span></p>
         <p class="muted small">{settings.count === 0 ? 'Unlimited' : `${settings.count} questions`}, with your last settings.</p>
       {/if}
     </div>
-    <button class="btn primary" onclick={oncontinue} disabled={loading}>{loading ? 'Loading…' : 'Continue'}</button>
+    <div class="c-actions">
+      <button class="btn primary" onclick={oncontinue} disabled={loading}>{loading ? 'Loading…' : 'Continue'}</button>
+      <button class="btn quiet" onclick={onhide} aria-label="Hide Continue drilling until your next drill">Hide</button>
+    </div>
   </div>
-
-  <a class="card culture-card" href="#/culture">
-    <span><strong>Culture</strong> <span lang="ru" class="ru">культура</span></span>
-    <span class="muted small">Videos, cartoons, podcasts and books in Russian, plus notes on names, ты and вы, holidays and Russian beyond Russia.</span>
-  </a>
+  {/if}
 
   <h2 class="map-title">All topics</h2>
   {#each TOPIC_GROUPS as g (g.title.en)}
@@ -75,15 +75,10 @@
   .hero p {
     margin: 4px 0 0;
   }
-  .culture-card {
+  .c-actions {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    text-decoration: none;
-    color: inherit;
-  }
-  .culture-card:hover strong {
-    text-decoration: underline;
+    gap: 8px;
+    align-items: center;
   }
   .continue {
     display: flex;

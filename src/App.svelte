@@ -76,6 +76,7 @@
       if (!unlimited && qs.length < settings.count) shortfall = `Only ${qs.length} questions match these settings.`;
       round = createRound(qs);
       screen = 'drill';
+      settings.hideContinue = false;
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);
     } finally {
@@ -129,7 +130,7 @@
 
   <main id="main">
     {#if route.page === 'home'}
-      <Dashboard {settings} {loading} oncontinue={continueDrill} />
+      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} />
     {:else if route.page === 'learn' && route.topic}
       <LearnPage topic={route.topic} {settings} />
     {:else if route.page === 'learn'}

@@ -15,6 +15,8 @@ export interface Settings {
   translit: boolean;
   /** krotik = the logo's colours (default); system follows the device's light/dark setting. */
   theme: 'krotik' | 'system' | 'light' | 'dark';
+  /** The Dashboard's "Continue drilling" card was dismissed; it comes back when the next round starts. */
+  hideContinue: boolean;
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -48,6 +50,7 @@ export const DEFAULTS: Settings = {
   keyboard: false,
   translit: false,
   theme: 'krotik',
+  hideContinue: false,
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
   compare: { types: ['comparative', 'superlative', 'samyi'] },
