@@ -17,7 +17,7 @@
 
   let {
     round: initial,
-    settings,
+    settings = $bindable(),
     notice,
     more = null,
     onfinish,
@@ -255,6 +255,19 @@
             {#if !q.choices && !q.stress}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
             {#if q.choices}<span class="muted kbd-hint">or press 1–{q.choices.length}</span>{/if}
+            {#if !q.choices && !q.stress}
+              <button
+                class="btn quiet kb-toggle"
+                type="button"
+                aria-pressed={settings.keyboard}
+                onclick={() => {
+                  settings.keyboard = !settings.keyboard;
+                  focusField();
+                }}
+              >
+                <span aria-hidden="true">⌨</span> {settings.keyboard ? 'Hide keyboard' : 'Cyrillic keyboard'}
+              </button>
+            {/if}
           {:else}
             <button class="btn primary" type="submit" bind:this={nextButton}>{!unlimited && isFinished(answer(round, !!result?.correct, typed)) ? 'See results' : 'Next'}</button>
             <span class="muted kbd-hint">or press Enter</span>
@@ -521,6 +534,12 @@
     flex-wrap: wrap;
     gap: 8px 12px;
     margin-top: 12px;
+  }
+  .kb-toggle {
+    margin-left: auto;
+  }
+  .kb-toggle[aria-pressed='true'] {
+    color: var(--text);
   }
   .kbd-hint {
     font-size: 0.9rem;

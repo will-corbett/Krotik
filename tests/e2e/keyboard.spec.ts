@@ -15,3 +15,26 @@ test('on-screen keys type at the end even after tapping the answer box', async (
   for (const ch of 'вет') await press(ch);
   await expect(input).toHaveValue('привет');
 });
+
+test('the on-screen keyboard can be switched on and off during a drill', async ({ page }) => {
+  await setup(page, 'Verb forms');
+  await page.getByRole('checkbox', { name: 'On-screen Cyrillic keyboard' }).uncheck();
+  await page.getByRole('button', { name: 'Start' }).click();
+  const input = page.getByRole('textbox', { name: 'Your answer' });
+  const kb = page.getByRole('group', { name: 'Cyrillic keyboard' });
+  const toggle = page.getByRole('button', { name: /Cyrillic keyboard|Hide keyboard/ });
+  await expect(kb).toHaveCount(0);
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await toggle.click();
+  await expect(kb).toBeVisible();
+  await expect(input).toHaveAttribute('inputmode', 'none');
+  await expect(input).toBeFocused();
+  await kb.getByRole('button', { name: 'д', exact: true }).click();
+  await expect(input).toHaveValue('д');
+  await toggle.click();
+  await expect(kb).toHaveCount(0);
+  await expect(input).toHaveAttribute('inputmode', 'text');
+  // The choice is remembered for the next round.
+  await page.getByRole('link', { name: 'Drill', exact: true }).click();
+  await expect(page.getByRole('checkbox', { name: 'On-screen Cyrillic keyboard' })).not.toBeChecked();
+});

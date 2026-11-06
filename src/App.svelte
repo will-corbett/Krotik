@@ -111,7 +111,15 @@
     </a>
     <nav aria-label="Main">
       {#each NAV as n (n.label)}
-        <a class="nav-link" href={href(n.route)} aria-current={route.page === n.route.page ? 'page' : undefined}>{n.label}</a>
+        <a
+          class="nav-link"
+          href={href(n.route)}
+          aria-current={route.page === n.route.page ? 'page' : undefined}
+          onclick={() => {
+            // Already on the Drill page (mid-round or results): the address doesn't change, so go back to setup here.
+            if (n.route.page === 'drill' && route.page === 'drill') screen = 'setup';
+          }}>{n.label}</a
+        >
       {/each}
     </nav>
   </header>
@@ -126,7 +134,7 @@
     {:else if route.page === 'about'}
       <About onback={() => (location.hash = '#/')} />
     {:else if screen === 'drill' && round}
-      <Drill {round} {settings} notice={shortfall} more={generate} onfinish={finish} />
+      <Drill {round} bind:settings notice={shortfall} more={generate} onfinish={finish} />
     {:else if screen === 'end' && round}
       <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0} onagain={start} onsettings={() => (screen = 'setup')} />
     {:else}
