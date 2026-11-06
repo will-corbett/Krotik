@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { filterLinks, LEVELS, LINK_TYPES, LINKS, NOTES, REGIONS, TOPICS, type CultureFilter } from '../../src/lib/culture.ts';
 
-const ANY: CultureFilter = { level: 'any', kind: 'any', region: 'any', topic: 'any', text: '' };
+const ANY: CultureFilter = { level: 'any', kind: 'any', region: 'any', topic: 'any', type: 'any', text: '' };
 
 describe('culture links', () => {
   it('there are 100–160 links', () => {
@@ -55,6 +55,9 @@ describe('culture links', () => {
     expect(filterLinks(LINKS, { ...ANY, text: 'орел решка' }).map((l) => l.title)).toContain('Орёл и Решка');
     for (const l of filterLinks(LINKS, { ...ANY, topic: 'cooking' })) expect(l.topic).toBe('cooking');
     expect(filterLinks(LINKS, { ...ANY, text: 'zzzz nothing' })).toEqual([]);
+    const pods = filterLinks(LINKS, { ...ANY, type: 'podcast' });
+    expect(pods.length).toBeGreaterThan(5);
+    for (const l of pods) expect(l.type).toBe('podcast');
   });
   it('every region and type is used', () => {
     for (const r of REGIONS) expect(LINKS.some((l) => l.region === r), r).toBe(true);

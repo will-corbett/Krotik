@@ -17,8 +17,29 @@ test('Continue starts a round with the saved settings', async ({ page }) => {
   await page.getByRole('radio', { name: '10', exact: true }).check();
   await page.getByRole('link', { name: 'Dashboard', exact: true }).click();
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByText('0 of 10 cleared')).toBeVisible();
+});
+
+test('the Continue card can be hidden, and comes back after the next drill', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText('Continue drilling')).toBeVisible();
+  await page.getByRole('button', { name: /Hide Continue drilling/ }).click();
+  await expect(page.getByText('Continue drilling')).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByText('Continue drilling')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
+  await page.goto('/?seed=4#/drill');
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
+  await page.getByRole('link', { name: 'Dashboard', exact: true }).click();
+  await expect(page.getByText('Continue drilling')).toBeVisible();
+});
+
+test('the Dashboard has no Culture card; Culture is in the top menu', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('main').getByRole('link', { name: /Culture/ })).toHaveCount(0);
+  await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
 });
 
 test('a Learn page shows data tables, real sentences and a working quick check', async ({ page }) => {
@@ -95,6 +116,10 @@ test('Culture lists links that open in a new tab, filters them, and opens notes'
   await page.getByRole('button', { name: 'Clear filters' }).click();
   await page.getByLabel('Topic').selectOption('cooking');
   await expect(page.getByRole('link', { name: /Stalic/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await page.getByLabel('Media').selectOption('podcast');
+  await expect(page.getByRole('heading', { name: /Podcasts/, level: 3 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Videos/, level: 3 })).toHaveCount(0);
   await page.getByRole('link', { name: /Names and patronymics/ }).click();
   await expect(page).toHaveURL(/#\/culture\/names$/);
   await expect(page.getByRole('heading', { name: /Names and patronymics/, level: 1 })).toBeVisible();

@@ -79,6 +79,7 @@ export interface CultureFilter {
   kind: 'learner' | 'native' | 'any';
   region: Region | 'any';
   topic: Topic | 'any';
+  type: LinkType | 'any';
   /** free text, matched against title and description (case-insensitive, ё = е) */
   text: string;
 }
@@ -91,6 +92,7 @@ export function filterLinks(links: CultureLink[], f: CultureFilter): CultureLink
     if (f.kind !== 'any' && l.kind !== f.kind) return false;
     if (f.region !== 'any' && l.region !== f.region) return false;
     if (f.topic !== 'any' && l.topic !== f.topic) return false;
+    if (f.type !== 'any' && l.type !== f.type) return false;
     const words = fold(f.text).split(/\s+/).filter(Boolean);
     if (words.length) {
       const hay = fold(`${l.title} ${l.about} ${l.note ?? ''} ${hostOf(l.url)}`);

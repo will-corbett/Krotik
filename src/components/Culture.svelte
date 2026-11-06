@@ -3,9 +3,9 @@
   import { href } from '../lib/router.ts';
 
   /** The filter is page state only (not saved): it describes what you're browsing, not your progress. */
-  let filter = $state<CultureFilter>({ level: 'any', kind: 'any', region: 'any', topic: 'any', text: '' });
-  const reset = () => (filter = { level: 'any', kind: 'any', region: 'any', topic: 'any', text: '' });
-  const filtered = $derived(filter.level !== 'any' || filter.kind !== 'any' || filter.region !== 'any' || filter.topic !== 'any' || filter.text.trim() !== '');
+  let filter = $state<CultureFilter>({ level: 'any', kind: 'any', region: 'any', topic: 'any', type: 'any', text: '' });
+  const reset = () => (filter = { level: 'any', kind: 'any', region: 'any', topic: 'any', type: 'any', text: '' });
+  const filtered = $derived(filter.level !== 'any' || filter.kind !== 'any' || filter.region !== 'any' || filter.topic !== 'any' || filter.type !== 'any' || filter.text.trim() !== '');
   const shown = $derived(filterLinks(LINKS, filter));
   const groups = $derived(LINK_TYPES.map((t) => ({ type: t, links: shown.filter((l) => l.type === t) })).filter((g) => g.links.length));
 </script>
@@ -35,6 +35,13 @@
     <label class="search">
       Search
       <input type="search" bind:value={filter.text} placeholder="e.g. chess, Chekhov, Almaty" />
+    </label>
+    <label>
+      Media
+      <select bind:value={filter.type}>
+        <option value="any">All media</option>
+        {#each LINK_TYPES as t (t)}<option value={t}>{TYPE_LABEL[t].en}</option>{/each}
+      </select>
     </label>
     <label>
       Topic
