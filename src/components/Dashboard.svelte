@@ -129,12 +129,12 @@
     border-radius: var(--radius);
     background: var(--surface);
   }
+  /* Text wraps; the Learn and Drill buttons never do, so they stay lined up down the right-hand side. */
   .topic {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    justify-content: space-between;
     gap: 8px 12px;
-    flex-wrap: wrap;
     padding: 10px 14px;
     border-top: 1px solid var(--border);
   }
@@ -145,6 +145,7 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
+    overflow-wrap: anywhere;
   }
   .t-en {
     font-weight: 700;
@@ -157,6 +158,8 @@
   .links {
     display: flex;
     gap: 6px;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
   .small-btn {
     min-height: 38px;
