@@ -19,7 +19,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | nouns.b0.json | 250 | 62 KB |
 | nouns.b1.json | 750 | 204 KB |
 | nouns.b2.json | 1500 | 428 KB |
-| nouns.b3.json | 20439 | 6553 KB |
+| nouns.b3.json | 20437 | 6552 KB |
 | participles.b0.json | 249 | 366 KB |
 | participles.b1.json | 749 | 1171 KB |
 | participles.b2.json | 1495 | 2438 KB |
@@ -36,10 +36,10 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.adjectives.b1.json | 697 lemmas, 4288 sentences | 500 KB |
 | sentences.adjectives.b2.json | 1131 lemmas, 4143 sentences | 521 KB |
 | sentences.adjectives.b3.json | 2116 lemmas, 5298 sentences | 683 KB |
-| sentences.nouns.b0.json | 245 lemmas, 1621 sentences | 153 KB |
-| sentences.nouns.b1.json | 735 lemmas, 3983 sentences | 413 KB |
-| sentences.nouns.b2.json | 1387 lemmas, 5685 sentences | 628 KB |
-| sentences.nouns.b3.json | 6414 lemmas, 15979 sentences | 1939 KB |
+| sentences.nouns.b0.json | 245 lemmas, 1627 sentences | 154 KB |
+| sentences.nouns.b1.json | 736 lemmas, 3985 sentences | 413 KB |
+| sentences.nouns.b2.json | 1387 lemmas, 5688 sentences | 628 KB |
+| sentences.nouns.b3.json | 6412 lemmas, 15971 sentences | 1938 KB |
 | sentences.participles.b0.json | 172 lemmas, 603 sentences | 83 KB |
 | sentences.participles.b1.json | 325 lemmas, 888 sentences | 121 KB |
 | sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
@@ -138,7 +138,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | rows in source | 26982 |
 | kept without gender (missing): plural drills only, not agreement | 5118 |
 | kept without gender (common gender): plural drills only, not agreement | 24 |
-| kept | 22939 |
+| kept | 22937 |
 | gender filled from Wiktionary (animacy agrees in both sources) | 2942 |
 | gender not filled: Wiktionary animacy disagrees | 75 |
 
@@ -162,9 +162,11 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 ### Anomalies
 
 - **fixed by override** (1): год: pl_nom, pl_gen, pl_dat, pl_acc, pl_inst, pl_prep
+- **excluded by override** (2): мол (the particle мол (“he says”) merged with the rare noun мол (breakwater); not a useful noun to drill); стен (the obsolete unit sthene; the word is really the genitive plural of стена)
+- **gloss words not in English word list (top 2500)** (42): мама: "mom, mama, mommy, mummy" [mom, mama]; господин: "gentleman, Monsieur, Signor, Herr" [signor, herr]; область: "oblast, province, region" [oblast]; сапог: "boot, top-boot, jackboot" [jackboot]; бабушка: "grandmother, grandmamma, grandma, granny" [grandmamma]; царь: "tsar, czar, tzar, king" [tzar]; настроение: "mood, humour, sentiments, mindset" [mindset]; ручка: "pen, ballpoint" [ballpoint]; дедушка: "grandfather, grandad, grand-dad, grandpa" [grandad]; платок: "shawl, handkerchief, headscarf" [headscarf]; пресса: "the press, pressmen" [pressmen]; горизонт: "horizon, skyline, level" [skyline]; портфель: "briefcase, bag, portfolio" [briefcase]; роза: "rose, rose-bush, rosace, rose window" [rosace]; руль: "rudder, helm, wheel, handlebars" [handlebars]; перемена: "change, volte-face, interval, break" [volte]; советник: "adviser, counsellor, councillor" [counsellor, councillor]; барин: "barin, gentleman, landowner, lord of the manor" [barin]; раб: "slave, serf, bondman, bondslave" [bondslave]; маска: "mask, deathmask" [deathmask]; фюрер: "Fuhrer" [fuhrer]; рюкзак: "backpack" [backpack]; холодильник: "refrigerator, fridge, wine-cooler, cold store" [fridge]; хоббит: "hobbit" [hobbit]; злость: "malice, spite, ill-naturedness, fury" [naturedness]; …
 - **animacy flag contradicts own accusative (dropped)** (207): генерал (inanimate): sg acc генера'ла, pl acc генера'лов; тень (inanimate): pl acc те'ней; личность (animate): pl acc ли'чности; участок (inanimate): sg acc уча'стка, pl acc уча'стков; дон (inanimate): sg acc до'на, pl acc до'нов; следователь (inanimate): sg acc сле'дователя, pl acc сле'дователей; старшина (inanimate): pl acc старши'н; собеседник (inanimate): sg acc собесе'дника, pl acc собесе'дников; режиссёр (inanimate): sg acc режиссёра, pl acc режиссёров; окружающее (inanimate): pl acc окружа'ющих; хоббит (inanimate): sg acc хо'ббита, pl acc хо'ббитов; сынок (animate): sg acc сыно'к, pl acc сынки'; коза (inanimate): pl acc ко'з; чудовище (inanimate): pl acc чудо'вищ; ветеран (inanimate): sg acc ветера'на, pl acc ветера'нов; призрак (animate): sg acc при'зрак, pl acc при'зраки; подружка (animate): pl acc подру'жки; держава (inanimate): pl acc держа'в; парнишка (animate): pl acc парни'шки; староста (animate): pl acc ста'росты; солнышко (inanimate): pl acc со'лнышки; прожектор (animate): sg acc проже'ктор, pl acc проже'кторы,прожектора'; вестибюль (inanimate): sg acc вестибю'ля, pl acc вестибю'лей; толщина (animate): pl acc толщи'ны; сирена (inanimate): pl acc сире'н; …
-- **source top-250 but outside frequency top-1000** (1): рубль (#186 → #1822), развитие (#219 → #1033), ладонь (#223 → #1583), институт (#224 → #1184)
-- **source rank > 1000 but frequency top-250** (1): бизнес (#1043 → #243), сэр (#1045 → #28), доказательство (#1054 → #242), свадьба (#1090 → #201), идиот (#1109 → #213), удача (#1138 → #206), перевод (#1150 → #180), свидание (#1181 → #121), мистер (#1194 → #22), адвокат (#1433 → #158), пациент (#1661 → #237), дерьмо (#1723 → #144), переводчик (#1819 → #236), прощение (#1831 → #199), том (#1898 → #16), посол (#1902 → #24), офис (#1908 → #187), минутка (#1973 → #214)
+- **source top-250 but outside frequency top-1000** (1): рубль (#186 → #1821), развитие (#219 → #1032), ладонь (#223 → #1583), институт (#224 → #1183)
+- **source rank > 1000 but frequency top-250** (1): бизнес (#1041 → #242), сэр (#1043 → #28), доказательство (#1052 → #241), свадьба (#1088 → #201), идиот (#1107 → #213), удача (#1136 → #206), перевод (#1148 → #180), свидание (#1179 → #121), мистер (#1192 → #22), адвокат (#1431 → #158), пациент (#1659 → #236), дерьмо (#1721 → #144), переводчик (#1817 → #235), прощение (#1829 → #199), том (#1896 → #16), посол (#1900 → #24), офис (#1906 → #187), минутка (#1971 → #214)
 
 ## Motion verbs
 
@@ -176,7 +178,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 56 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 69 |
 
 ## Participles and verbal adverbs (Wiktionary)
 
@@ -233,17 +235,17 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
 | kept after filters (with an English translation) | 650395 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 275428 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 274946 |
 | verbs: lemmas with ≥1 sentence | 6698 |
 | adjectives: lemmas with ≥1 sentence | 4192 |
-| nouns: lemmas with ≥1 sentence | 8781 |
+| nouns: lemmas with ≥1 sentence | 8780 |
 | participles: lemmas with ≥1 sentence | 1479 |
 
 verbs: 983 of the top-1000 lemmas have at least one sentence.
 
 adjectives: 945 of the top-1000 lemmas have at least one sentence.
 
-nouns: 980 of the top-1000 lemmas have at least one sentence.
+nouns: 981 of the top-1000 lemmas have at least one sentence.
 
 participles: 497 of the top-1000 lemmas have at least one sentence.
 
@@ -310,21 +312,21 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | particles / colloquial:ну: candidates (kept up to 1500) | 28 |
 | particles / ka: candidates (kept up to 1500) | 28 |
 | particles / ne-ni: candidates (kept up to 1500) | 1500 |
-| prepositions / в:prep: candidates (kept up to 400) | 8284 |
+| prepositions / в:prep: candidates (kept up to 400) | 8283 |
 | prepositions / по:dat: candidates (kept up to 400) | 2297 |
 | prepositions / от:gen: candidates (kept up to 400) | 714 |
-| prepositions / к:dat: candidates (kept up to 400) | 1783 |
-| prepositions / за:acc: candidates (kept up to 400) | 737 |
+| prepositions / к:dat: candidates (kept up to 400) | 1786 |
+| prepositions / за:acc: candidates (kept up to 400) | 738 |
 | prepositions / против:gen: candidates (kept up to 400) | 31 |
-| prepositions / в:acc: candidates (kept up to 400) | 4560 |
+| prepositions / в:acc: candidates (kept up to 400) | 4572 |
 | prepositions / над:inst: candidates (kept up to 400) | 167 |
 | prepositions / из:gen: candidates (kept up to 400) | 1123 |
-| prepositions / через:acc: candidates (kept up to 400) | 223 |
-| prepositions / на:prep: candidates (kept up to 400) | 4118 |
+| prepositions / через:acc: candidates (kept up to 400) | 230 |
+| prepositions / на:prep: candidates (kept up to 400) | 4120 |
 | prepositions / за:inst: candidates (kept up to 400) | 1662 |
-| prepositions / на:acc: candidates (kept up to 400) | 3743 |
+| prepositions / на:acc: candidates (kept up to 400) | 3791 |
 | prepositions / после:gen: candidates (kept up to 400) | 367 |
-| prepositions / с:inst: candidates (kept up to 400) | 5155 |
+| prepositions / с:inst: candidates (kept up to 400) | 5154 |
 | prepositions / с:gen: candidates (kept up to 400) | 906 |
 | prepositions / без:gen: candidates (kept up to 400) | 619 |
 | prepositions / о:prep: candidates (kept up to 400) | 882 |
@@ -336,7 +338,7 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | prepositions / при:prep: candidates (kept up to 400) | 154 |
 | prepositions / между:inst: candidates (kept up to 400) | 149 |
 | prepositions / под:acc: candidates (kept up to 400) | 45 |
-| prepositions / у:gen: candidates (kept up to 400) | 169 |
+| prepositions / у:gen: candidates (kept up to 400) | 170 |
 | prepositions / про:acc: candidates (kept up to 400) | 24 |
 | prepositions / около:gen: candidates (kept up to 400) | 42 |
 | aspectContext / impf: candidates (kept up to 1500) | 240992 |
@@ -359,7 +361,7 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | government / ot+gen|отказа'ться: candidates (kept up to 1500) | 48 |
 | government / na+acc|жа'ловаться: candidates (kept up to 1500) | 40 |
 | government / gen|боя'ться: candidates (kept up to 1500) | 225 |
-| government / na+acc|посмотре'ть: candidates (kept up to 1500) | 111 |
+| government / na+acc|посмотре'ть: candidates (kept up to 1500) | 112 |
 | government / na+acc|отвеча'ть: candidates (kept up to 1500) | 62 |
 | government / inst|управля'ть: candidates (kept up to 1500) | 52 |
 | government / o+prep|забо'титься: candidates (kept up to 1500) | 29 |
@@ -408,7 +410,7 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | time / v-day: candidates (kept up to 1500) | 774 |
 | time / cherez: candidates (kept up to 1500) | 220 |
 | time / po-days: candidates (kept up to 1500) | 233 |
-| narechiya / adj: candidates (kept up to 1500) | 18686 |
+| narechiya / adj: candidates (kept up to 1500) | 18688 |
 | narechiya / adv: candidates (kept up to 1500) | 17718 |
 | questionWords / kakoy: candidates (kept up to 1500) | 3165 |
 | questionWords / chto: candidates (kept up to 1500) | 8148 |

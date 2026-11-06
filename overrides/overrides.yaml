@@ -59,8 +59,19 @@ nouns:
       pl_acc: "го'ды,года',(лета')"
       pl_inst: "года'ми,(лета'ми)"
       pl_prep: "года'х,(лета'х)"
-  exclude: {}
-  gloss: {}
+  exclude:
+    мол: "the particle мол (“he says”) merged with the rare noun мол (breakwater); not a useful noun to drill"
+    стен: "the obsolete unit sthene; the word is really the genitive plural of стена"
+  # Typos and garbled glosses in the source (spotted by a dictionary scan of the top 2,500).
+  gloss:
+    хозяйка: "mistress, owner, proprietress, hostess, landlady, wife"
+    огород: "vegetable garden, kitchen garden"
+    закуска: "appetizer, snack, hors d'oeuvre"
+    презрение: "contempt, scorn, disdain"
+    земляк: "fellow countryman, fellow townsman, fellow villager"
+    прикосновение: "touch, contact"
+    охранник: "guard, security guard"
+    сталкер: "stalker; someone who explores off-limits places"
   # Form used after numbers 5+ and after сколько/несколько, where it differs from the ordinary
   # genitive plural (пять челове'к, not *пять люде'й; пять ле'т, not *пять годо'в).
   # Both are listed by Wiktionary as genitive plural forms of the noun.

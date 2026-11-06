@@ -2,7 +2,8 @@ import { NOUN_CELLS, type Gender } from '../../src/shared/cells.ts';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import { cleanCell } from './cell.ts';
-import { cleanGloss } from './glosses.ts';
+import { cleanGloss, suspiciousWords } from './glosses.ts';
+import { GLOSS_CHECK_TOP } from './clean-verbs.ts';
 import type { Overrides } from './overrides.ts';
 import type { Report } from './report.ts';
 
@@ -50,6 +51,10 @@ export function cleanNouns(raw: Record<string, string>[], rowIds: Map<Record<str
       gloss: ov?.gloss?.[bare] ?? cleanGloss(r.translations_en ?? ''),
       gender: g, animate: r.animate === '1' ? 1 : 0, sgOnly, cells,
     };
+    if (out.length < GLOSS_CHECK_TOP && !ov?.gloss?.[bare]) {
+      const sus = suspiciousWords(noun.gloss);
+      if (sus.length) report.anomaly(S, `gloss words not in English word list (top ${GLOSS_CHECK_TOP})`, `${bare}: "${noun.gloss}" [${sus.join(', ')}]`);
+    }
     const counting = ov?.counting?.[bare];
     if (counting) {
       const c = cleanCell(counting);
