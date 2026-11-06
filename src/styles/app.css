@@ -175,6 +175,11 @@ select {
   cursor: pointer;
   font-weight: 700;
 }
+/* Links styled as buttons look like buttons: no underline, button text colour. */
+a.btn {
+  color: var(--text);
+  text-decoration: none;
+}
 .btn:hover {
   border-color: var(--accent);
 }
