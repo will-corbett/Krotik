@@ -7,10 +7,29 @@ import notesData from '../../content/culture/notes.yaml';
 
 export const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 export type Level = (typeof LEVELS)[number];
-export const LINK_TYPES = ['video', 'cartoons', 'podcast', 'reading', 'tool'] as const;
+export const LINK_TYPES = ['video', 'cartoons', 'films', 'podcast', 'reading', 'tool'] as const;
 export type LinkType = (typeof LINK_TYPES)[number];
-export const REGIONS = ['russia', 'kazakhstan', 'ukraine', 'georgia', 'worldwide'] as const;
+export const REGIONS = ['russia', 'kazakhstan', 'central-asia', 'ukraine', 'caucasus', 'baltics', 'worldwide'] as const;
 export type Region = (typeof REGIONS)[number];
+export const TOPICS = ['learning', 'language', 'science', 'tech', 'history-culture', 'books', 'cooking', 'travel', 'lifestyle', 'games', 'sport', 'comedy', 'kids', 'films', 'reference'] as const;
+export type Topic = (typeof TOPICS)[number];
+export const TOPIC_LABEL: Record<Topic, string> = {
+  learning: 'Learning Russian',
+  language: 'The Russian language',
+  science: 'Science',
+  tech: 'Technology',
+  'history-culture': 'History and culture',
+  books: 'Literature',
+  cooking: 'Cooking',
+  travel: 'Travel and places',
+  lifestyle: 'Lifestyle',
+  games: 'Video games',
+  sport: 'Sport and chess',
+  comedy: 'Comedy',
+  kids: 'For children',
+  films: 'Films and series',
+  reference: 'Dictionaries and reference',
+};
 
 export interface CultureLink {
   title: string;
@@ -19,6 +38,7 @@ export interface CultureLink {
   kind: 'learner' | 'native';
   level: [Level, Level];
   region: Region;
+  topic: Topic;
   about: string;
   note?: string;
   checked: string;
@@ -36,6 +56,7 @@ export const NOTES = notesData as CultureNote[];
 export const TYPE_LABEL: Record<LinkType, { en: string; ru: string }> = {
   video: { en: 'Videos', ru: 'видео' },
   cartoons: { en: 'Cartoons', ru: 'мультфильмы' },
+  films: { en: 'Films and series', ru: 'фильмы и сериалы' },
   podcast: { en: 'Podcasts', ru: 'подкасты' },
   reading: { en: 'Reading and audiobooks', ru: 'чтение и аудиокниги' },
   tool: { en: 'Tools and dictionaries', ru: 'словари и инструменты' },
@@ -43,22 +64,38 @@ export const TYPE_LABEL: Record<LinkType, { en: string; ru: string }> = {
 export const REGION_LABEL: Record<Region, string> = {
   russia: 'Russia',
   kazakhstan: 'Kazakhstan',
+  'central-asia': 'Central Asia',
   ukraine: 'Ukraine',
-  georgia: 'Georgia',
+  caucasus: 'Caucasus',
+  baltics: 'Baltic states',
   worldwide: 'Anywhere',
 };
+
+/** "youtube.com", "ru.wikisource.org" — shown so it's clear where a link goes. */
+export const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
 export interface CultureFilter {
   level: Level | 'any';
   kind: 'learner' | 'native' | 'any';
   region: Region | 'any';
+  topic: Topic | 'any';
+  /** free text, matched against title and description (case-insensitive, ё = е) */
+  text: string;
 }
+
+const fold = (s: string) => s.toLowerCase().replace(/ё/g, 'е');
 
 /** Links that suit the filter: the level falls in the link's range. */
 export function filterLinks(links: CultureLink[], f: CultureFilter): CultureLink[] {
   return links.filter((l) => {
     if (f.kind !== 'any' && l.kind !== f.kind) return false;
     if (f.region !== 'any' && l.region !== f.region) return false;
+    if (f.topic !== 'any' && l.topic !== f.topic) return false;
+    const words = fold(f.text).split(/\s+/).filter(Boolean);
+    if (words.length) {
+      const hay = fold(`${l.title} ${l.about} ${l.note ?? ''} ${hostOf(l.url)}`);
+      if (!words.every((w) => hay.includes(w))) return false;
+    }
     if (f.level !== 'any') {
       const i = LEVELS.indexOf(f.level);
       if (i < LEVELS.indexOf(l.level[0]) || i > LEVELS.indexOf(l.level[1])) return false;
@@ -69,8 +106,6 @@ export function filterLinks(links: CultureLink[], f: CultureFilter): CultureLink
 
 export const levelText = (l: CultureLink) => (l.level[0] === l.level[1] ? l.level[0] : `${l.level[0]}–${l.level[1]}`);
 
-/** "youtube.com", "ru.wikisource.org" — shown so it's clear where a link goes. */
-export const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, '');
 
 const files = import.meta.glob('/content/culture/notes/*.md', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>;
 export async function loadNote(id: string): Promise<string | null> {

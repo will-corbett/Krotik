@@ -87,6 +87,14 @@ test('Culture lists links that open in a new tab, filters them, and opens notes'
   await expect(count).not.toHaveText(all);
   await expect(page.getByRole('link', { name: /AIRAN/ })).toBeVisible();
   await expect(page.getByRole('link', { name: /Russian With Max/ })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await expect(count).toHaveText(all);
+  await page.getByLabel('Search').fill('chess');
+  await expect(page.getByRole('link', { name: /Crestbook Chess/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Russian With Max/ })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await page.getByLabel('Topic').selectOption('cooking');
+  await expect(page.getByRole('link', { name: /Stalic/ })).toBeVisible();
   await page.getByRole('link', { name: /Names and patronymics/ }).click();
   await expect(page).toHaveURL(/#\/culture\/names$/);
   await expect(page.getByRole('heading', { name: /Names and patronymics/, level: 1 })).toBeVisible();

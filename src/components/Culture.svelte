@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { filterLinks, hostOf, levelText, LEVELS, LINK_TYPES, LINKS, NOTES, REGION_LABEL, REGIONS, TYPE_LABEL, type CultureFilter } from '../lib/culture.ts';
+  import { filterLinks, hostOf, levelText, LEVELS, LINK_TYPES, LINKS, NOTES, REGION_LABEL, REGIONS, TOPIC_LABEL, TOPICS, TYPE_LABEL, type CultureFilter } from '../lib/culture.ts';
   import { href } from '../lib/router.ts';
 
   /** The filter is page state only (not saved): it describes what you're browsing, not your progress. */
-  let filter = $state<CultureFilter>({ level: 'any', kind: 'any', region: 'any' });
+  let filter = $state<CultureFilter>({ level: 'any', kind: 'any', region: 'any', topic: 'any', text: '' });
+  const reset = () => (filter = { level: 'any', kind: 'any', region: 'any', topic: 'any', text: '' });
+  const filtered = $derived(filter.level !== 'any' || filter.kind !== 'any' || filter.region !== 'any' || filter.topic !== 'any' || filter.text.trim() !== '');
   const shown = $derived(filterLinks(LINKS, filter));
   const groups = $derived(LINK_TYPES.map((t) => ({ type: t, links: shown.filter((l) => l.type === t) })).filter((g) => g.links.length));
 </script>
@@ -11,8 +13,8 @@
 <section class="culture fade-in" aria-labelledby="culture-h1">
   <h1 id="culture-h1">Culture <span lang="ru" class="ru">культура</span></h1>
   <p class="muted intro">
-    Russian outside the drills: videos, cartoons, podcasts, books and tools, from Russia, Kazakhstan, Ukraine, Georgia and
-    beyond. Every link goes to the creator's or rights holder's own channel or site, and opens in a new tab.
+    Russian outside the drills: videos, cartoons, films, podcasts, books and tools, from Russia, Kazakhstan, Central Asia,
+    Ukraine, the Caucasus, the Baltic states and beyond. Every link goes to the creator's or rights holder's own channel or site, and opens in a new tab.
   </p>
 
   <h2>Culture notes</h2>
@@ -30,6 +32,17 @@
 
   <h2>Watch, listen, read</h2>
   <form class="filters" aria-label="Filter links" onsubmit={(e) => e.preventDefault()}>
+    <label class="search">
+      Search
+      <input type="search" bind:value={filter.text} placeholder="e.g. chess, Chekhov, Almaty" />
+    </label>
+    <label>
+      Topic
+      <select bind:value={filter.topic}>
+        <option value="any">All topics</option>
+        {#each TOPICS.filter((t) => LINKS.some((l) => l.topic === t)) as t (t)}<option value={t}>{TOPIC_LABEL[t]}</option>{/each}
+      </select>
+    </label>
     <label>
       My level
       <select bind:value={filter.level}>
@@ -53,7 +66,10 @@
       </select>
     </label>
   </form>
-  <p class="muted small" aria-live="polite">{shown.length} of {LINKS.length} links</p>
+  <p class="muted small count" aria-live="polite">
+    {shown.length} of {LINKS.length} links
+    {#if filtered}<button type="button" class="btn quiet small-btn" onclick={reset}>Clear filters</button>{/if}
+  </p>
 
   {#each groups as g (g.type)}
     <section class="group" aria-labelledby="t-{g.type}">
@@ -67,6 +83,7 @@
             <span class="meta">
               <span class="tag">{levelText(l)}</span>
               <span class="tag">{l.kind === 'learner' ? 'For learners' : 'Native'}</span>
+              <span class="tag">{TOPIC_LABEL[l.topic]}</span>
               {#if l.region !== 'worldwide'}<span class="tag">{REGION_LABEL[l.region]}</span>{/if}
               <span class="host">{hostOf(l.url)}</span>
             </span>
@@ -77,7 +94,7 @@
       </ul>
     </section>
   {:else}
-    <p class="muted">No links match. Try a different level or region.</p>
+    <p class="muted">No links match. Descriptions are in English, so try an English word (Almaty, chess, cooking) or fewer filters.</p>
   {/each}
 
   <p class="muted small fine">
@@ -150,6 +167,23 @@
   }
   .filters select {
     min-width: 9rem;
+  }
+  .search {
+    flex: 1 1 100%;
+  }
+  .search input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    max-width: 28rem;
+  }
+  .count {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .links {
     list-style: none;
