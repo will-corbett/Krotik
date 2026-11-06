@@ -9,9 +9,10 @@
   import { toCyrillic } from '../lib/translit.ts';
   import type { Mode, Question } from '../lib/types.ts';
   import TermText from './TermText.svelte';
+  import Keyboard from './Keyboard.svelte';
 
   /** A short check on a Learn page: a few questions, answer shown after each, nothing stored. */
-  let { mode, overrides, count, settings }: { mode: Mode; overrides: Record<string, unknown>; count: number; settings: Settings } = $props();
+  let { mode, overrides, count, settings = $bindable() }: { mode: Mode; overrides: Record<string, unknown>; count: number; settings: Settings } = $props();
 
   let questions = $state<Question[]>([]);
   let i = $state(0);
@@ -66,6 +67,21 @@
     input = '';
     tick().then(() => field?.focus());
   }
+  // On-screen keys always type at the end (as in the main drill), keeping focus in the field.
+  function insert(ch: string) {
+    if (result) return;
+    input += ch;
+    tick().then(() => field?.setSelectionRange(input.length, input.length));
+  }
+  function backspace() {
+    if (result) return;
+    input = [...input].slice(0, -1).join('');
+    tick().then(() => field?.setSelectionRange(input.length, input.length));
+  }
+  function toggleKeyboard() {
+    settings.keyboard = !settings.keyboard;
+    tick().then(() => field?.focus());
+  }
   // Hints like "(кото'рый)" are shown with a stress mark, as in the main drill.
   const parts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
 </script>
@@ -103,6 +119,7 @@
               if (settings.translit) input = toCyrillic(input);
             }}
             readonly={!!result}
+            inputmode={settings.keyboard ? 'none' : 'text'}
             class:right={result?.correct}
             class:wrong={result && !result.correct}
             lang="ru"
@@ -114,12 +131,20 @@
       {/if}
       <div class="row">
         {#if !result}
-          {#if !q.choices}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
+          {#if !q.choices}
+            <button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>
+            <button class="btn quiet kb-toggle" type="button" aria-pressed={settings.keyboard} onclick={toggleKeyboard}>
+              <span aria-hidden="true">⌨</span> {settings.keyboard ? 'Hide keyboard' : 'Cyrillic keyboard'}
+            </button>
+          {/if}
         {:else}
           <button class="btn primary" type="submit" bind:this={nextBtn}>{i + 1 < questions.length ? 'Next' : 'Finish'}</button>
         {/if}
       </div>
     </form>
+    {#if settings.keyboard && !result && !q.choices}
+      <Keyboard oninsert={insert} onbackspace={backspace} />
+    {/if}
     <div role="status" aria-live="polite">
       {#if result}
         <p class:ok={result.correct} class:bad={!result.correct} class="verdict">
@@ -135,6 +160,12 @@
 </div>
 
 <style>
+  .kb-toggle {
+    margin-left: auto;
+  }
+  .kb-toggle[aria-pressed='true'] {
+    color: var(--text);
+  }
   .mini {
     margin: 16px 0 20px;
     padding: 14px 16px;

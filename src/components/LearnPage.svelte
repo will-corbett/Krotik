@@ -5,7 +5,7 @@
   import { topicById } from '../lib/topics.ts';
   import MarkdownBlocks from './MarkdownBlocks.svelte';
 
-  let { topic, settings }: { topic: string; settings: Settings } = $props();
+  let { topic, settings = $bindable() }: { topic: string; settings: Settings } = $props();
   const t = $derived(topicById(topic));
   let blocks = $state<Block[] | null>(null);
   let error = $state('');
@@ -29,7 +29,7 @@
   {#if error}
     <p class="muted">{error}</p>
   {:else if blocks}
-    <MarkdownBlocks {blocks} {settings} />
+    <MarkdownBlocks {blocks} bind:settings />
     {#if t}
       <div class="drill-cta">
         <p>Ready to practise properly?</p>

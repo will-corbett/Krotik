@@ -8,7 +8,7 @@
   import MiniDrill from './MiniDrill.svelte';
   import LearnExamples from './LearnExamples.svelte';
 
-  let { blocks, settings }: { blocks: Block[]; settings: Settings } = $props();
+  let { blocks, settings = $bindable() }: { blocks: Block[]; settings: Settings } = $props();
 </script>
 
 {#each blocks as b, i (i)}
@@ -39,7 +39,7 @@
       </table>
     </div>
   {:else if b.type === 'data' && b.kind === 'drill'}
-    <MiniDrill mode={b.mode as Mode} overrides={b.settings} count={b.count} {settings} />
+    <MiniDrill mode={b.mode as Mode} overrides={b.settings} count={b.count} bind:settings />
   {:else if b.type === 'data' && b.kind === 'table'}
     <LearnData kind="table" what={b.what} word={b.word} stress={settings.stress} />
   {:else if b.type === 'data' && b.kind === 'examples'}

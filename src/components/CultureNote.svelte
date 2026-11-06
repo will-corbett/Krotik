@@ -4,7 +4,7 @@
   import type { Settings } from '../lib/settings.ts';
   import MarkdownBlocks from './MarkdownBlocks.svelte';
 
-  let { id, settings }: { id: string; settings: Settings } = $props();
+  let { id, settings = $bindable() }: { id: string; settings: Settings } = $props();
   const meta = $derived(NOTES.find((n) => n.id === id));
   let blocks = $state<Block[] | null>(null);
   let error = $state('');
@@ -27,7 +27,7 @@
   {#if error}
     <p class="muted">{error}</p>
   {:else if blocks}
-    <MarkdownBlocks {blocks} {settings} />
+    <MarkdownBlocks {blocks} bind:settings />
   {:else}
     <p class="muted">Loading…</p>
   {/if}
