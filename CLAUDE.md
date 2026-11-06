@@ -36,11 +36,16 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (cell syntax, stress rendering), `cells.ts` (fixed cell layouts), `types.ts` (shard row formats).
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
-- `src/components/` — Svelte UI. Four pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Learn
+- `src/components/` — Svelte UI. Five pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Level test (`#/test`), Learn
   (`#/learn`, `#/learn/<topic>`), Drill (`#/drill`, `#/drill/<topic>`), Culture (`#/culture`), plus `#/about`.
 - Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
   `content/culture/notes/<id>.md` listed in `content/culture/notes.yaml`. YAML is imported at build time by a small
   plugin in `vite.config.ts` (no runtime dependency). Note text is word-checked like Learn pages.
+- Level test (`src/lib/levelTest.ts`, `#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first,
+  built from the drill generators (typed questions become multiple choice with other real forms of the same word as
+  wrong options; every question must have exactly one right option). The level of each slot is our judgement; a level
+  counts at 8/12 and only if every level below counts. Leave out topics where two options can both be right (indefinite
+  pronouns). Results are never stored.
 - `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
@@ -96,4 +101,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   failed. Each link has a type, level range, region (russia, kazakhstan, central-asia, ukraine, caucasus, baltics,
   worldwide) and topic; the page filters on these plus free text. Check what a channel actually posts (recent videos),
   not just its name: a channel called "Simple Russian" turned out to be political.
+- Every typed answer offers the on-screen Cyrillic keyboard (drills and Learn quick checks share `settings.keyboard`);
+  the Culture search box is the only exception.
+- Within each group in `topics.ts`, topics run from the most basic and most needed to the more advanced or less
+  essential; "Getting started" (the alphabet) comes first.
+- Deploys: GitHub Pages sometimes stalls at "syncing_files". The deploy job retries automatically with a fresh deployment
+  named `<sha>-retry-<attempt>`; run the workflow by hand with `test_retry` to check the retry path.
 - Small, well-named commits. Say why before adding a dependency.

@@ -122,3 +122,9 @@ Learn-only pages (marked as such on the Dashboard). Words first, then sentences,
 6. **Batch 6 — deeper existing pages:** noun declension patterns, verb conjugation and spelling rules, aspect
    with modals and negation, more on prepositions and negation, irregular adjectives.
 - Left out for now: interjections and introductory words, vocative forms (мам, пап).
+
+## Level test and alphabet (done 2026-11-06)
+- Level test: 60 multiple-choice questions (A1–C1), approximate level, review list.
+- The alphabet: first Learn page and first topic, with its own drill (letters, reading, writing).
+- Topics ordered easiest first within each group; on-screen keyboard in Learn quick checks.
+- Next from the syllabus review: batch 5 (sentence-level, Learn-only where needed) and batch 6.

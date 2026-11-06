@@ -2,7 +2,8 @@
 
 Learn and drill Russian grammar. There are no accounts and no tracking.
 
-- **Dashboard**: every topic, with Learn and Drill links, and a Continue button for your last drill.
+- **Dashboard**: every topic (easiest first in each group), with Learn and Drill links, a Continue button for your last drill, and the level test.
+- **Level test**: 60 multiple-choice questions from A1 to C1, an approximate level, and the Learn pages worth reviewing.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
   (`content/learn/*.md`).
 - **Drill**: the drills below, with retries, example sentences and audio.
@@ -10,6 +11,7 @@ Learn and drill Russian grammar. There are no accounts and no tracking.
   and short culture notes (`content/culture/notes/*.md`). `npm run links:check` checks the links (monthly in CI).
 
 Modes are grouped as follows:
+- **Getting started:** the alphabet.
 - **Verbs:** forms, reflexives, aspect partners and aspect in context, motion verbs (plain and prefixed), verbal adverbs, participles, government, verbs of position.
 - **Pronouns:** personal, possessive and demonstrative, question words.
 - **Adjectives:** agreement, short forms, comparatives and superlatives, adverbs.
