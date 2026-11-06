@@ -100,6 +100,20 @@ export const TERMS = {
   ordinal: t('Ordinal numbers', 'порядковые числительные'),
   compound: t('Compound numbers', 'составные числительные'),
   collective: t('Collective numbers', 'собирательные числительные'),
+  // Batch 4
+  narechiya: t('Adverbs', 'наречия'),
+  adverb: t('Adverb', 'наречие'),
+  adjective: t('Adjective', 'прилагательное'),
+  adverbOrAdjective: t('Adverb or adjective?', 'наречие или прилагательное?'),
+  questionWords: t('Question words', 'вопросительные местоимения'),
+  ordinalsTopic: t('Ordinals and dates', 'порядковые числительные и даты'),
+  date: t('Date', 'дата'),
+  onDate: t('On a date', 'когда? (дата)'),
+  century: t('Century', 'век'),
+  inCentury: t('In a century', 'в каком веке?'),
+  specialCases: t('Special case forms', 'особые формы падежей'),
+  locative: t('Second prepositional (location)', 'второй предложный (местный) падеж'),
+  partitive: t('Partitive', 'второй родительный (количественный) падеж'),
 } satisfies Record<string, Term>;
 
 export const CASE_TERM: Record<Case, Term> = {

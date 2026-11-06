@@ -349,6 +349,44 @@
         </div>
         <p class="hint muted">The list of about 90 verbs and their cases is hand-made (curated/government.yaml); sentence examples come from Tatoeba.</p>
       </fieldset>
+    {:else if settings.mode === 'narechiya'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.narechiya.types.includes('form')} onchange={() => (settings.narechiya.types = toggle(settings.narechiya.types, 'form'))} /> Adjective → adverb <span class="ru" lang="ru">быстрый → быстро</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.narechiya.types.includes('comparative')} onchange={() => (settings.narechiya.types = toggle(settings.narechiya.types, 'comparative'))} /> Comparative <span class="ru" lang="ru">быстрее</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.narechiya.types.includes('sentence')} onchange={() => (settings.narechiya.types = toggle(settings.narechiya.types, 'sentence'))} /> Adverb or adjective? (sentences) <span class="ru" lang="ru">хорошо или хороший?</span></label>
+        </div>
+        <p class="hint muted">Adverbs and their comparatives come from Wiktionary, paired with the adjective they come from; the sentences are from Tatoeba.</p>
+      </fieldset>
+    {:else if settings.mode === 'questionWords'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.questionWords.types.includes('table')} onchange={() => (settings.questionWords.types = toggle(settings.questionWords.types, 'table'))} /> Cases and agreement <span class="ru" lang="ru">кому, чью книгу</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.questionWords.types.includes('sentence')} onchange={() => (settings.questionWords.types = toggle(settings.questionWords.types, 'sentence'))} /> In real questions <span class="ru" lang="ru">в предложениях</span></label>
+        </div>
+        <p class="hint muted">кто and что in every case; чей and какой agreeing with a noun; and real questions from Tatoeba to complete.</p>
+      </fieldset>
+    {:else if settings.mode === 'ordinals'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.ordinals.types.includes('agree')} onchange={() => (settings.ordinals.types = toggle(settings.ordinals.types, 'agree'))} /> With a noun <span class="ru" lang="ru">на третьем этаже</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.ordinals.types.includes('dates')} onchange={() => (settings.ordinals.types = toggle(settings.ordinals.types, 'dates'))} /> Dates <span class="ru" lang="ru">пятого мая</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.ordinals.types.includes('centuries')} onchange={() => (settings.ordinals.types = toggle(settings.ordinals.types, 'centuries'))} /> Centuries <span class="ru" lang="ru">в двадцатом веке</span></label>
+        </div>
+        <p class="hint muted">Ordinals decline like adjectives; in a compound ordinal only the last word changes.</p>
+      </fieldset>
+    {:else if settings.mode === 'specialCases'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.specialCases.types.includes('form')} onchange={() => (settings.specialCases.types = toggle(settings.specialCases.types, 'form'))} /> в/на … or о …? <span class="ru" lang="ru">в лесу / о лесе</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.specialCases.types.includes('sentence')} onchange={() => (settings.specialCases.types = toggle(settings.specialCases.types, 'sentence'))} /> In sentences <span class="ru" lang="ru">в предложениях</span></label>
+        </div>
+        <p class="hint muted">About a hundred masculine nouns take a stressed -у/-ю after в and на (Wiktionary); after о they keep the ordinary -е.</p>
+      </fieldset>
     {:else if settings.mode === 'prefixedMotion'}
       <fieldset>
         <legend>Question types</legend>
@@ -452,7 +490,7 @@
       </fieldset>
     {/if}
 
-    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time'].includes(settings.mode)}
+    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

@@ -5,7 +5,8 @@ import type { Mode, Question } from '../types.ts';
 
 export type ClozeTopic =
   | 'kotoryi' | 'chtoby' | 'conditional' | 'negation' | 'indefinite' | 'particles' | 'prepositions' | 'aspectContext' | 'svoy'
-  | 'government' | 'position' | 'impersonal' | 'comparison' | 'conjunctions' | 'time';
+  | 'government' | 'position' | 'impersonal' | 'comparison' | 'conjunctions' | 'time'
+  | 'narechiya' | 'questionWords' | 'specialCases';
 
 export const TOPIC_TERM: Record<ClozeTopic, Term> = {
   kotoryi: TERMS.kotoryi,
@@ -23,6 +24,9 @@ export const TOPIC_TERM: Record<ClozeTopic, Term> = {
   comparison: TERMS.comparison,
   conjunctions: TERMS.conjunctions,
   time: TERMS.time,
+  narechiya: TERMS.narechiya,
+  questionWords: TERMS.questionWords,
+  specialCases: TERMS.locative,
 };
 
 /** Government patterns as answer labels (no commas: they are answer cells). */
@@ -78,6 +82,17 @@ export const EXPLAIN: Record<string, string> = {
   'po-days': 'по + dative plural (дательный падеж, множественное число) for every such day: по понедельникам.',
   cherez: 'через + accusative (винительный падеж): “in” a time from now (через неделю).',
   nazad: '… назад: “ago”; the unit is in the accusative (неделю назад), or genitive after a number (три часа назад).',
+  adv: 'An adverb (наречие) describes a verb or a whole statement and never changes: он хорошо говорит, здесь опасно.',
+  adj: 'An adjective (прилагательное) describes a noun and agrees with it in gender, number and case: хорошая книга, у старого стула.',
+  kto: 'кто declines: кого, кому, кем, о ком. Its case is set by the verb: Кому ты звонил? Кого ты видел?',
+  'kto-prep': 'After a preposition, кто takes the case the preposition needs: с кем, у кого, о ком, за кого.',
+  chto: 'что declines: чего, чему, чем, о чём. Its case is set by the verb: Чем ты занимаешься?',
+  'chto-prep': 'After a preposition, что takes the case the preposition needs: о чём, с чем, на что, из-за чего.',
+  kakoy: 'какой agrees with its noun in gender, number and case, like an adjective: Какую книгу? В каком году?',
+  'kakoy-prep': 'какой agrees with its noun, in the case the preposition needs: в каком году, из какой страны.',
+  chey: 'чей (whose) agrees with the thing owned, not the owner: чей дом, чья книга, чьё письмо, чьи деньги.',
+  loc: 'Some masculine nouns take a stressed -у/-ю after в and на for a place (второй предложный падеж): в лесу, на мосту. After о it is the ordinary -е: о лесе.',
+  'o-prep': 'After о the ordinary prepositional (-е) is used, even for nouns with в/на -у forms: в лесу, but о лесе.',
 };
 const ROLE_NOTE: Record<string, string> = {
   state: 'be in a position (где?) — стоять, лежать, сидеть, висеть',

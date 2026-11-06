@@ -31,7 +31,11 @@ export type ModeName =
   | 'Impersonal constructions'
   | 'Comparisons'
   | 'Conjunctions'
-  | 'Time expressions';
+  | 'Time expressions'
+  | 'Adverbs'
+  | 'Question words'
+  | 'Ordinals and dates'
+  | 'Special case forms';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   // A fresh page load each time (the unique query forces it), straight to the Drill page.

@@ -1,6 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
-import type { GovernmentSettings, PrefixedMotionSettings } from './types.ts';
+import type { GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
@@ -34,6 +34,10 @@ export interface Settings {
   aspect: AspectSettings;
   adjectives: AdjSettings;
   motion: MotionSettings;
+  narechiya: NarechiyaSettings;
+  questionWords: QuestionWordSettings;
+  ordinals: OrdinalSettings;
+  specialCases: SpecialCaseSettings;
 }
 
 export const DEFAULTS: Settings = {
@@ -63,6 +67,10 @@ export const DEFAULTS: Settings = {
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
   motion: { types: ['meaning', 'partner', 'conjugate'] },
+  narechiya: { types: ['form', 'comparative', 'sentence'] },
+  questionWords: { types: ['table', 'sentence'] },
+  ordinals: { types: ['agree', 'dates', 'centuries'] },
+  specialCases: { types: ['form', 'sentence'] },
 };
 
 const KEY = 'krotik.settings.v1';
@@ -96,6 +104,10 @@ export function loadSettings(): Settings {
       aspect: { ...DEFAULTS.aspect, ...saved.aspect },
       adjectives: { ...DEFAULTS.adjectives, ...saved.adjectives },
       motion: { ...DEFAULTS.motion, ...saved.motion },
+      narechiya: { ...DEFAULTS.narechiya, ...saved.narechiya },
+      questionWords: { ...DEFAULTS.questionWords, ...saved.questionWords },
+      ordinals: { ...DEFAULTS.ordinals, ...saved.ordinals },
+      specialCases: { ...DEFAULTS.specialCases, ...saved.specialCases },
     };
   } catch {
     return structuredClone(DEFAULTS);

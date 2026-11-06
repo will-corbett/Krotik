@@ -33,7 +33,11 @@ export type Mode =
   | 'impersonal'
   | 'comparison'
   | 'conjunctions'
-  | 'time';
+  | 'time'
+  | 'narechiya'
+  | 'questionWords'
+  | 'ordinals'
+  | 'specialCases';
 
 export interface Verb {
   id: number;
@@ -172,6 +176,18 @@ export interface GovernmentSettings {
 }
 export interface PrefixedMotionSettings {
   types: ('meaning' | 'pair' | 'conjugate')[];
+}
+export interface NarechiyaSettings {
+  types: ('form' | 'comparative' | 'sentence')[];
+}
+export interface QuestionWordSettings {
+  types: ('table' | 'sentence')[];
+}
+export interface OrdinalSettings {
+  types: ('agree' | 'dates' | 'centuries')[];
+}
+export interface SpecialCaseSettings {
+  types: ('form' | 'sentence')[];
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];

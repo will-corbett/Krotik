@@ -37,6 +37,7 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       { id: 'adjectives', title: TERMS.agreement, blurb: 'Gender, number, case, animacy' },
       { id: 'short', title: TERMS.shortForms, blurb: 'он нов, она нова́, они новы' },
       { id: 'compare', title: TERMS.degrees, blurb: 'новее, новейший, самый новый' },
+      { id: 'narechiya', title: TERMS.narechiya, blurb: 'быстрый → быстро, по-русски, быстрее' },
     ],
   },
   {
@@ -44,6 +45,7 @@ export const TOPIC_GROUPS: TopicGroup[] = [
     modes: [
       { id: 'pronouns', title: TERMS.personal, blurb: 'меня, ему, у него, с ней' },
       { id: 'possessives', title: TERMS.possessives, blurb: 'моему другу, эту книгу, свой / его' },
+      { id: 'questionWords', title: TERMS.questionWords, blurb: 'кому, о чём, чью, в каком' },
     ],
   },
   {
@@ -52,6 +54,8 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       { id: 'nounCases', title: TERMS.nounCases, blurb: 'книгу, книге, книгой' },
       { id: 'plurals', title: TERMS.plurals, blurb: 'Plural forms, after numbers and quantity words' },
       { id: 'numbers', title: TERMS.numbers, blurb: 'пяти, двум книгам, тремя друзьями' },
+      { id: 'ordinals', title: TERMS.ordinalsTopic, blurb: 'на третьем этаже, пятого мая, в двадцатом веке' },
+      { id: 'specialCases', title: TERMS.specialCases, blurb: 'в лесу, в аэропорту, чашка чаю' },
       { id: 'diminutives', title: TERMS.diminutives, blurb: 'дом → домик, сын → сынок' },
     ],
   },

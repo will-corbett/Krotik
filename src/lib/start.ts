@@ -11,7 +11,11 @@ import { generateStressQuestions } from './questions/stress.ts';
 import { generateGovernmentChoice, type GovRow } from './questions/government.ts';
 import { generatePrefixedMotion, type PrefixedData } from './questions/prefixedMotion.ts';
 import { generateExtraNumberQuestions, type OrdinalRow } from './questions/numbers.ts';
-import type { NumeralRow } from '../shared/types.ts';
+import type { AdverbRow, DatesData, NumeralRow, SpecialCaseRow } from '../shared/types.ts';
+import { generateNarechiyaQuestions } from './questions/narechiya.ts';
+import { generateQuestionWordQuestions } from './questions/questionWords.ts';
+import { generateOrdinalQuestions } from './questions/ordinals.ts';
+import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
 import { pick } from './rng.ts';
 import type { Question } from './types.ts';
 
@@ -167,6 +171,23 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       const [adjs, nouns] = await Promise.all([loadAdjectives(s.band), loadNouns(Math.min(s.band, NOUN_MAX_BAND))]);
       return (n) => generateAdjectiveQuestions(adjs, nouns, s.adjectives, n, rng);
     }
+    case 'narechiya': {
+      const [rows, cz] = await Promise.all([loadExtraJson<AdverbRow[]>('adverbs'), s.narechiya.types.includes('sentence') ? loadCloze('narechiya') : Promise.resolve([])]);
+      return (n) => generateNarechiyaQuestions(rows, cz, s.narechiya, s.band, n, rng);
+    }
+    case 'questionWords': {
+      const [pronouns, nouns, adjs, cz] = await Promise.all([loadPronouns(), loadNouns(NOUN_MAX_BAND), loadAdjectives(0), s.questionWords.types.includes('sentence') ? loadCloze('questionWords') : Promise.resolve([])]);
+      const data = { pronouns, nouns, kakoy: adjs.find((a) => a.accented.replace(/'/g, '') === 'какой'), cloze: cz };
+      return (n) => generateQuestionWordQuestions(data, s.questionWords, n, rng);
+    }
+    case 'ordinals': {
+      const [ordinals, dates, nouns] = await Promise.all([loadExtraJson<OrdinalRow[]>('ordinals'), loadExtraJson<DatesData>('dates'), loadNouns(NOUN_MAX_BAND)]);
+      return (n) => generateOrdinalQuestions(ordinals, dates, nouns, s.ordinals, n, rng);
+    }
+    case 'specialCases': {
+      const [rows, cz] = await Promise.all([loadExtraJson<SpecialCaseRow[]>('specialCases'), s.specialCases.types.includes('sentence') ? loadCloze('specialCases') : Promise.resolve([])]);
+      return (n) => generateSpecialCaseQuestions(rows, cz, s.specialCases, s.band, n, rng);
+    }
     case 'motion': {
       const m = await loadMotion();
       const verbs = new Map(m.verbs.map((r) => [r[0], toVerb(r, m.bands[r[0]] ?? 0)]));
@@ -217,5 +238,9 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'plurals' && s.plurals.contexts.length === 1 && s.plurals.contexts[0] === 'cases' && !s.plurals.cases.length) return 'Choose at least one case.';
   if (s.mode === 'adjectives' && !s.adjectives.cases.length) return 'Choose at least one case.';
   if (s.mode === 'motion' && !s.motion.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'narechiya' && !s.narechiya.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'questionWords' && !s.questionWords.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'ordinals' && !s.ordinals.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'specialCases' && !s.specialCases.types.length) return 'Choose at least one question type.';
   return null;
 }

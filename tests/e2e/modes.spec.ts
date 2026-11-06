@@ -33,6 +33,10 @@ const modes: ModeName[] = [
   'Comparisons',
   'Conjunctions',
   'Time expressions',
+  'Adverbs',
+  'Question words',
+  'Ordinals and dates',
+  'Special case forms',
 ];
 
 for (const mode of modes) {
