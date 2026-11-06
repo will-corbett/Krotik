@@ -21,6 +21,7 @@ import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildSentences } from './lib/sentences.ts';
 import { buildCloze } from './lib/cloze.ts';
+import { buildCollocations } from './lib/collocations.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
 import { POSSESSIVES, buildPronouns } from './lib/phase-d.ts';
 import { COLLECTIVES, buildCollectives, buildGovernment, buildOrdinals, buildPrefixedMotion, curated } from './lib/phase-e.ts';
@@ -140,6 +141,7 @@ writeJson('adverbs.json', adverbRows);
 const specialRows = buildSpecialCases(nouns, wk, report);
 writeJson('special-cases.json', specialRows);
 writeJson('dates.json', buildDates(nouns, numeralRows, curated.time().months, report));
+writeJson('collocations.json', buildCollocations(corpus, adjectives, nouns, participleRows, curated.time().months, report));
 const cloze = buildCloze({ corpus, verbs, nouns, adjectives, wk, pronouns, government, positions: curated.position(), time: curated.time(), adverbs: adverbRows, specialCases: specialRows, report });
 
 const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Manifest['sources'];
@@ -156,6 +158,7 @@ const manifest: Manifest = {
   adverbs: 'adverbs.json',
   specialCases: 'special-cases.json',
   dates: 'dates.json',
+  collocations: 'collocations.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',

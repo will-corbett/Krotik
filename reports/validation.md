@@ -288,6 +288,16 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | masculine nouns with a partitive form | 146 |
 | non-masculine nouns with such forms (left out: they differ only in stress) | 23 |
 
+## Adjective + noun pairs (Tatoeba)
+
+| count | n |
+|---|---:|
+| adjectives with at least one attested noun | 2702 |
+| adjectives with at least three | 994 |
+| verbs whose participles have an attested noun | 221 |
+
+Agreement drills pair an adjective, possessive, ordinal or participle only with nouns it is seen with in these sentences.
+
 ## Sentence drills (Tatoeba)
 
 | count | n |

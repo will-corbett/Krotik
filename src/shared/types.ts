@@ -38,6 +38,7 @@ export interface Manifest {
   adverbs: string;
   specialCases: string;
   dates: string;
+  collocations: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -104,4 +105,10 @@ export interface DatesData {
   century: [string, string, string];
   /** "20" / "30" → nominative cell of the cardinal (двадцать) */
   tens: Record<string, string>;
+}
+
+/** Real pairs from Tatoeba: adjective (bare) → noun ids; verb id → noun ids its participles go with. */
+export interface Collocations {
+  adj: Record<string, number[]>;
+  part: Record<string, number[]>;
 }
