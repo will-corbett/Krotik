@@ -81,6 +81,9 @@ test('End round shows the score so far', async ({ page }) => {
   await page.getByRole('button', { name: 'End round' }).click();
   await expect(page.getByRole('heading', { name: 'Round ended' })).toBeVisible();
   await expect(page.locator('.missed li')).toHaveCount(1);
+  await page.getByRole('link', { name: 'Back to Dashboard' }).click();
+  await expect(page).toHaveURL(/#\/$/);
+  await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
 });
 
 test('unlimited round keeps going until End round', async ({ page }) => {

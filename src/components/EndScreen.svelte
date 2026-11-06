@@ -24,6 +24,7 @@
     <div class="actions">
       <button class="btn primary" onclick={onagain}>New round</button>
       <button class="btn" onclick={onsettings}>Change settings</button>
+      <a class="btn" href="#/">Back to Dashboard</a>
     </div>
   </div>
 
