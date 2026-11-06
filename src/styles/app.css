@@ -12,6 +12,10 @@
   --correct-soft: #e3f3e8;
   --wrong: #b42318;
   --wrong-soft: #fbe8e6;
+  --score-red: #b42318;
+  --score-orange: #b54708;
+  --score-yellow: #866400;
+  --score-green: #1b6e37;
   --mark: #fff0b3;
   --focus: #1f4fd1;
   /* Filled buttons and bars. Separate from --accent so a theme can fill with a colour that is too light for text. */
@@ -38,6 +42,10 @@
     --correct-soft: #18301f;
     --wrong: #ff958a;
     --wrong-soft: #3a1e1c;
+    --score-red: #ff958a;
+    --score-orange: #ffb36b;
+    --score-yellow: #f2d14b;
+    --score-green: #6fd394;
     --mark: #5a4a12;
     --focus: #86a8ff;
     --shadow: none;
@@ -58,6 +66,10 @@
   --correct-soft: #18301f;
   --wrong: #ff958a;
   --wrong-soft: #3a1e1c;
+  --score-red: #ff958a;
+  --score-orange: #ffb36b;
+  --score-yellow: #f2d14b;
+  --score-green: #6fd394;
   --mark: #5a4a12;
   --focus: #86a8ff;
   --shadow: none;
@@ -85,6 +97,10 @@
   --correct-soft: #e2f1e2;
   --wrong: #a8261a;
   --wrong-soft: #fbe3dc;
+  --score-red: #b42318;
+  --score-orange: #b54708;
+  --score-yellow: #866400;
+  --score-green: #1b6e37;
   --mark: #f8cda6;
   --focus: #090c13;
   --shadow: 0 1px 2px rgb(9 12 19 / 0.06), 0 4px 16px rgb(9 12 19 / 0.06);
@@ -203,3 +219,9 @@ select {
     }
   }
 }
+
+/* Scores coloured by achievement (src/lib/scoreBand.ts). */
+.score-red { color: var(--score-red); }
+.score-orange { color: var(--score-orange); }
+.score-yellow { color: var(--score-yellow); }
+.score-green { color: var(--score-green); }

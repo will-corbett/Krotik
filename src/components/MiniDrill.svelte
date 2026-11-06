@@ -10,6 +10,7 @@
   import type { Mode, Question } from '../lib/types.ts';
   import TermText from './TermText.svelte';
   import Keyboard from './Keyboard.svelte';
+  import { scoreBand } from '../lib/scoreBand.ts';
 
   /** A short check on a Learn page: a few questions, answer shown after each, nothing stored. */
   let { mode, overrides, count, settings = $bindable() }: { mode: Mode; overrides: Record<string, unknown>; count: number; settings: Settings } = $props();
@@ -91,7 +92,7 @@
   {#if error}
     <p class="muted">Couldn't load this check: {error}</p>
   {:else if done}
-    <p>You got <strong>{right} of {questions.length}</strong> right.</p>
+    <p>You got <strong class="score-{scoreBand((right / questions.length) * 100)}">{right} of {questions.length}</strong> right.</p>
     <div class="row">
       <button class="btn" onclick={load}>Another set</button>
       <a class="btn primary" href={href({ page: 'drill', mode })}>Drill this topic</a>

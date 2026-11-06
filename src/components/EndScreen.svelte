@@ -1,6 +1,7 @@
 <script lang="ts">
   import { displayForms, renderForm } from '../shared/forms.ts';
   import { missed, score, type Round } from '../lib/queue.ts';
+  import { scoreBand } from '../lib/scoreBand.ts';
   import type { Question } from '../lib/types.ts';
   import TermText from './TermText.svelte';
 
@@ -17,7 +18,7 @@
   <div class="card">
     <h1 id="end-title" tabindex="-1" bind:this={heading}>{unlimited || (round.ended && s.attempted < s.total) ? 'Round ended' : 'Round complete'}</h1>
     <p class="score">
-      <span class="big">{s.percent}%</span>
+      <span class="big score-{scoreBand(s.percent)}">{s.percent}%</span>
       <span>right first time: {s.firstTry} of {s.attempted}{!unlimited && s.attempted < s.total ? ` attempted (${s.total} in the round)` : ''}</span>
     </p>
     <div class="actions">
@@ -73,7 +74,6 @@
   .big {
     font-size: 2.6rem;
     font-weight: 700;
-    color: var(--accent);
   }
   .actions {
     display: flex;
