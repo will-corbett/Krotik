@@ -176,7 +176,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 45 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 56 |
 
 ## Participles and verbal adverbs (Wiktionary)
 

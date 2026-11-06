@@ -16,3 +16,27 @@
   title: Russian beyond Russia
   ru: русский язык за пределами России
   blurb: Russian in Kazakhstan and elsewhere, and the local words you'll hear.
+- id: food
+  title: Food and the table
+  ru: еда и застолье
+  blurb: Three meals, soup every day, tea with everything, and what to say at the table.
+- id: visiting
+  title: Visiting someone's home
+  ru: в гостях
+  blurb: Shoes off, flowers in odd numbers, and never arrive with empty hands.
+- id: superstitions
+  title: Superstitions
+  ru: приметы и суеверия
+  blurb: Sitting before a journey, not shaking hands across a threshold, and touching wood.
+- id: idioms
+  title: Idioms and proverbs
+  ru: идиомы и пословицы
+  blurb: The sayings you'll hear every week, and what they really mean.
+- id: slang
+  title: Everyday slang and texting
+  ru: разговорная речь и переписка
+  blurb: Short forms, fillers and what people type in messages.
+- id: cartoons-films
+  title: Cartoons and films everyone knows
+  ru: мультфильмы и фильмы, которые знают все
+  blurb: The Soviet classics people still quote, and where to watch them legally.
