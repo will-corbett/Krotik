@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { AdjRow, ClozeRow, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, VerbRow } from '../../src/shared/types.ts';
+import type { AdjRow, AdverbRow, ClozeRow, DatesData, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, SpecialCaseRow, VerbRow } from '../../src/shared/types.ts';
 import { parseMarkdown } from '../../src/lib/learn.ts';
 import { ALL_TOPICS } from '../../src/lib/topics.ts';
 import { DEFAULTS } from '../../src/lib/settings.ts';
@@ -33,6 +33,9 @@ for (const [w, c] of pron.possessive) [w, ...c].forEach(add);
 for (const b of bands) for (const r of json<ParticipleRow[]>(`participles.b${b}.json`)) [r[4], r[5], ...r[6].flatMap(([, n, c, sh]) => [n, ...c, ...sh])].forEach(add);
 for (const [w, , c] of json<[string, number, string[]][]>('ordinals.json')) [w, ...c].forEach(add);
 for (const [w, , cells] of [...json<NumeralRow[]>('numerals.json'), ...json<NumeralRow[]>('collectives.json')]) [w, ...Object.values(cells)].forEach(add);
+for (const r of json<AdverbRow[]>('adverbs.json')) [r[2], r[3]].forEach(add);
+for (const r of json<SpecialCaseRow[]>('special-cases.json')) [r[3], r[5], r[6]].forEach(add);
+for (const m of json<DatesData>('dates.json').months) [m[0], m[1]].forEach(add);
 if (existsSync('data-raw/others.csv')) {
   for (const line of readFileSync('data-raw/others.csv', 'utf8').split(/\r?\n/).slice(1)) add(line.split('\t')[0]);
 }

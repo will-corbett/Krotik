@@ -1,5 +1,7 @@
 A verbal adverb (деепричастие) turns a verb into a phrase meaning "while doing" or "having done". It never changes its ending, and its subject is always the same as the subject of the main verb.
 
+It isn't the same as an ordinary adverb (наречие) like быстро or хорошо: those come from adjectives and have their own topic, Adverbs.
+
 ## Two kinds
 
 | | Imperfective | Perfective |

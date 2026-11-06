@@ -75,10 +75,17 @@ export async function findExamples(topic: string, item: string, count: number): 
   return pickExamples(rows, count);
 }
 export function pickExamples(rows: ClozeRow[], count: number): SentenceRow[] {
-  return [...rows]
-    .sort((a, b) => a[1].length - b[1].length || a[0] - b[0])
-    .slice(0, count)
-    .map(([id, ru, en, start, end]) => [id, ru, en, 0, start, end]);
+  // Skip near-repeats: the same highlighted word after the same word (С кем ты живёшь? / С кем Вы живёте?).
+  const seen = new Set<string>();
+  const out: ClozeRow[] = [];
+  for (const r of [...rows].sort((a, b) => a[1].length - b[1].length || a[0] - b[0])) {
+    const key = normalise(`${r[1].slice(0, r[3]).trim().split(/\s+/).at(-1) ?? ''} ${r[1].slice(r[3], r[4])}`);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(r);
+    if (out.length >= count) break;
+  }
+  return out.map(([id, ru, en, start, end]) => [id, ru, en, 0, start, end]);
 }
 
 /** A Tatoeba sentence containing exactly that form of the word, or undefined. */

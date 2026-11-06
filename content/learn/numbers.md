@@ -36,6 +36,8 @@ In a compound number every part declines: двадцать пять → двад
 
 ::table numeral двое
 
+Ordinal numbers (первый, второй), dates and fractions have their own topic: Ordinals and dates.
+
 ## Quick check
 
 ::drill numbers {"types":["alone","withNoun"],"ranges":["1-4","5-20"]} 6
