@@ -236,12 +236,6 @@
     gap: 8px;
     color: var(--muted);
   }
-  .theme select {
-    padding: 6px 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-  }
   .credit {
     flex-basis: 100%;
     margin: 4px 0 0;

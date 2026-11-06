@@ -123,6 +123,15 @@ select {
   font: inherit;
   color: inherit;
 }
+/* Dropdowns take the theme's colours; left to the browser, some (Linux Chromium in dark mode) keep a light
+   background under light text. */
+select {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
