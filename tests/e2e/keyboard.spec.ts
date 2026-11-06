@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { setup } from './helpers.ts';
+import { setup, goTo } from './helpers.ts';
 
 test('on-screen keys type at the end even after tapping the answer box', async ({ page }) => {
   await setup(page, 'Verb forms');
@@ -35,6 +35,6 @@ test('the on-screen keyboard can be switched on and off during a drill', async (
   await expect(kb).toHaveCount(0);
   await expect(input).toHaveAttribute('inputmode', 'text');
   // The choice is remembered for the next round.
-  await page.getByRole('link', { name: 'Drill', exact: true }).click();
+  await goTo(page, 'Drill');
   await expect(page.getByRole('checkbox', { name: 'On-screen Cyrillic keyboard' })).not.toBeChecked();
 });

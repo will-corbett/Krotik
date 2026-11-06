@@ -98,3 +98,9 @@ export async function playRetryRound(page: Page): Promise<number> {
   await expect(page.getByRole('heading', { name: 'Round complete' })).toBeVisible();
   return seen.size;
 }
+
+/** Open the main menu and follow one of its links. */
+export async function goTo(page: Page, label: 'Dashboard' | 'Level test' | 'Learn' | 'Drill' | 'Culture') {
+  await page.getByRole('button', { name: 'Menu' }).click();
+  await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: label, exact: true }).click();
+}

@@ -100,6 +100,19 @@
     screen = 'end';
   }
 
+  // Main menu: a dropdown, so more pages can be added without crowding the header.
+  let menuOpen = $state(false);
+  let menuEl = $state<HTMLElement>();
+  function onWindowKey(e: KeyboardEvent) {
+    if (e.key === 'Escape' && menuOpen) {
+      menuOpen = false;
+      menuEl?.querySelector<HTMLButtonElement>('.menu-btn')?.focus();
+    }
+  }
+  function onWindowClick(e: MouseEvent) {
+    if (menuOpen && menuEl && !menuEl.contains(e.target as Node)) menuOpen = false;
+  }
+
   const NAV: { label: string; route: Route }[] = [
     { label: 'Dashboard', route: { page: 'home' } },
     { label: 'Level test', route: { page: 'test' } },
@@ -109,24 +122,36 @@
   ];
 </script>
 
+<svelte:window onkeydown={onWindowKey} onclick={onWindowClick} onhashchange={() => (menuOpen = false)} />
+
 <div class="shell">
   <header class="top">
     <a class="brand" href="#/" aria-label="Krotik, dashboard">
       <img src="./brand/krotik-128.png" alt="" width="40" height="40" />
       <span>Krotik</span>
     </a>
-    <nav aria-label="Main">
-      {#each NAV as n (n.label)}
-        <a
-          class="nav-link"
-          href={href(n.route)}
-          aria-current={route.page === n.route.page ? 'page' : undefined}
-          onclick={() => {
-            // Already on the Drill page (mid-round or results): the address doesn't change, so go back to setup here.
-            if (n.route.page === 'drill' && route.page === 'drill') screen = 'setup';
-          }}>{n.label}</a
-        >
-      {/each}
+    <nav aria-label="Main" class="menu" bind:this={menuEl}>
+      <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
+        <span aria-hidden="true">☰</span> Menu
+      </button>
+      {#if menuOpen}
+        <ul id="main-menu" class="menu-list">
+          {#each NAV as n (n.label)}
+            <li>
+              <a
+                class="nav-link"
+                href={href(n.route)}
+                aria-current={route.page === n.route.page ? 'page' : undefined}
+                onclick={() => {
+                  menuOpen = false;
+                  // Already on the Drill page (mid-round or results): the address doesn't change, so go back to setup here.
+                  if (n.route.page === 'drill' && route.page === 'drill') screen = 'setup';
+                }}>{n.label}</a
+              >
+            </li>
+          {/each}
+        </ul>
+      {/if}
     </nav>
   </header>
 
@@ -201,35 +226,38 @@
   .brand img {
     border-radius: 10px;
   }
-  nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 4px;
+  .menu {
+    position: relative;
     margin-left: auto;
   }
+  .menu-btn {
+    font-weight: 700;
+  }
+  .menu-list {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 20;
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    min-width: 12rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow), 0 8px 24px rgb(0 0 0 / 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
   .nav-link {
-    padding: 8px 12px;
-    border-radius: 999px;
+    display: block;
+    padding: 9px 14px;
+    border-radius: 8px;
     color: var(--text);
     text-decoration: none;
     font-weight: 700;
     white-space: nowrap;
-  }
-  /* Phones: the five tabs get their own full-width row under the logo, wrapping if they must. */
-  @media (max-width: 560px) {
-    nav {
-      margin-left: 0;
-      width: 100%;
-      justify-content: flex-start;
-    }
-    nav {
-      gap: 2px;
-    }
-    .nav-link {
-      padding: 6px 7px;
-      font-size: 0.9rem;
-    }
   }
   .nav-link:hover {
     background: var(--surface-2);
