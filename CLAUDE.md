@@ -36,8 +36,11 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (cell syntax, stress rendering), `cells.ts` (fixed cell layouts), `types.ts` (shard row formats).
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
-- `src/components/` — Svelte UI. Three pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Learn
-  (`#/learn`, `#/learn/<topic>`), Drill (`#/drill`, `#/drill/<topic>`), plus `#/about`.
+- `src/components/` — Svelte UI. Four pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Learn
+  (`#/learn`, `#/learn/<topic>`), Drill (`#/drill`, `#/drill/<topic>`), Culture (`#/culture`), plus `#/about`.
+- Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
+  `content/culture/notes/<id>.md` listed in `content/culture/notes.yaml`. YAML is imported at build time by a small
+  plugin in `vite.config.ts` (no runtime dependency). Note text is word-checked like Learn pages.
 - `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
@@ -85,4 +88,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   text uses `--accent` #9A420B. Logo files are in `public/brand/`.
 - Accessibility: keyboard-only flow (Enter submits and continues), aria-live feedback, visible focus,
   contrast checked by axe in both themes, reduced motion respected, no horizontal scroll at phone width.
+- Culture links: only a creator's or rights holder's own channel or site (no re-uploads, no unclear rights);
+  no music or lyrics; no sanctioned outlets or people; nothing whose main theme is politics or the war; links only,
+  never embeds (no third-party requests or cookies); descriptions in our own words; nothing that would stop the site
+  being run commercially. Check each link by hand before adding it and set `checked`. `npm run links:check` runs
+  monthly (`.github/workflows/links.yml`); 401/403/429 from bot protection is reported, not failed.
 - Small, well-named commits. Say why before adding a dependency.

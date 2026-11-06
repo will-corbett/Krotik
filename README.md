@@ -6,12 +6,14 @@ Learn and drill Russian grammar. There are no accounts and no tracking.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
   (`content/learn/*.md`).
 - **Drill**: the drills below, with retries, example sentences and audio.
+- **Culture**: hand-picked links to videos, cartoons, podcasts, books and tools (`content/culture/links.yaml`),
+  and short culture notes (`content/culture/notes/*.md`). `npm run links:check` checks the links (monthly in CI).
 
 Modes are grouped as follows:
 - **Verbs:** forms, reflexives, aspect partners and aspect in context, motion verbs (plain and prefixed), verbal adverbs, participles, government, verbs of position.
-- **Pronouns:** personal, possessive and demonstrative.
-- **Adjectives:** agreement, short forms, comparatives and superlatives.
-- **Nouns & numbers:** cases, plurals, numbers, diminutives.
+- **Pronouns:** personal, possessive and demonstrative, question words.
+- **Adjectives:** agreement, short forms, comparatives and superlatives, adverbs.
+- **Nouns & numbers:** cases, plurals, numbers, ordinals and dates, special case forms, diminutives.
 - **Sentences:** который, чтобы, conditional, negation, indefinite pronouns, particles, prepositions, impersonal constructions, comparisons, conjunctions, time.
 - **Pronunciation:** stress.
 
