@@ -349,6 +349,16 @@
         </div>
         <p class="hint muted">The list of about 90 verbs and their cases is hand-made (curated/government.yaml); sentence examples come from Tatoeba.</p>
       </fieldset>
+    {:else if settings.mode === 'alphabet'}
+      <fieldset>
+        <legend>Question types</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.alphabet.types.includes('letters')} onchange={() => (settings.alphabet.types = toggle(settings.alphabet.types, 'letters'))} /> Letter → sound <span class="ru" lang="ru">буквы</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.alphabet.types.includes('read')} onchange={() => (settings.alphabet.types = toggle(settings.alphabet.types, 'read'))} /> Read a word <span class="ru" lang="ru">читать</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.alphabet.types.includes('write')} onchange={() => (settings.alphabet.types = toggle(settings.alphabet.types, 'write'))} /> Write a word <span class="ru" lang="ru">писать</span></label>
+        </div>
+        <p class="hint muted">Words are common nouns from the vocabulary you choose below. Writing uses the Cyrillic keyboard or phonetic typing.</p>
+      </fieldset>
     {:else if settings.mode === 'narechiya'}
       <fieldset>
         <legend>Question types</legend>

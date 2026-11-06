@@ -1,6 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
-import type { GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
+import type { AlphabetSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
@@ -40,6 +40,7 @@ export interface Settings {
   questionWords: QuestionWordSettings;
   ordinals: OrdinalSettings;
   specialCases: SpecialCaseSettings;
+  alphabet: AlphabetSettings;
 }
 
 export const DEFAULTS: Settings = {
@@ -74,6 +75,7 @@ export const DEFAULTS: Settings = {
   questionWords: { types: ['table', 'sentence'] },
   ordinals: { types: ['agree', 'dates', 'centuries'] },
   specialCases: { types: ['form', 'sentence'] },
+  alphabet: { types: ['letters', 'read', 'write'] },
 };
 
 const KEY = 'krotik.settings.v1';
@@ -111,6 +113,7 @@ export function loadSettings(): Settings {
       questionWords: { ...DEFAULTS.questionWords, ...saved.questionWords },
       ordinals: { ...DEFAULTS.ordinals, ...saved.ordinals },
       specialCases: { ...DEFAULTS.specialCases, ...saved.specialCases },
+      alphabet: { ...DEFAULTS.alphabet, ...saved.alphabet },
     };
   } catch {
     return structuredClone(DEFAULTS);

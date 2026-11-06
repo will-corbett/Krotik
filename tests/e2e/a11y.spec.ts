@@ -26,10 +26,10 @@ for (const scheme of ['light', 'dark', 'krotik'] as const) {
 
 test('keyboard only: choose a mode, start, answer, continue', async ({ page }) => {
   await page.goto('/?seed=1#/drill');
-  // Focus the mode radios and move to the next mode ("Reflexive verbs") with an arrow key.
+  // Focus the mode radios and move to the next mode ("Aspect partners") with an arrow key.
   await page.getByRole('radio', { name: /Verb forms/ }).focus();
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('radio', { name: /Reflexive verbs/ })).toBeChecked();
+  await expect(page.getByRole('radio', { name: /Aspect partners/ })).toBeChecked();
   // Enter in a form control submits the setup form, starting the round.
   await page.keyboard.press('Enter');
   const input = page.getByRole('textbox', { name: 'Your answer' });

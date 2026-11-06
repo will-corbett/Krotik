@@ -37,7 +37,8 @@ export type Mode =
   | 'narechiya'
   | 'questionWords'
   | 'ordinals'
-  | 'specialCases';
+  | 'specialCases'
+  | 'alphabet';
 
 export interface Verb {
   id: number;
@@ -188,6 +189,9 @@ export interface OrdinalSettings {
 }
 export interface SpecialCaseSettings {
   types: ('form' | 'sentence')[];
+}
+export interface AlphabetSettings {
+  types: ('letters' | 'read' | 'write')[];
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];

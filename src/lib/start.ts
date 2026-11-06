@@ -16,6 +16,7 @@ import { generateNarechiyaQuestions } from './questions/narechiya.ts';
 import { generateQuestionWordQuestions } from './questions/questionWords.ts';
 import { generateOrdinalQuestions } from './questions/ordinals.ts';
 import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
+import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { pick } from './rng.ts';
 import type { Question } from './types.ts';
 
@@ -188,6 +189,10 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       const [rows, cz] = await Promise.all([loadExtraJson<SpecialCaseRow[]>('specialCases'), s.specialCases.types.includes('sentence') ? loadCloze('specialCases') : Promise.resolve([])]);
       return (n) => generateSpecialCaseQuestions(rows, cz, s.specialCases, s.band, n, rng);
     }
+    case 'alphabet': {
+      const nouns = await loadNouns(Math.min(s.band, 1));
+      return (n) => generateAlphabetQuestions(nouns, s.alphabet, n, rng);
+    }
     case 'motion': {
       const m = await loadMotion();
       const verbs = new Map(m.verbs.map((r) => [r[0], toVerb(r, m.bands[r[0]] ?? 0)]));
@@ -242,5 +247,6 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'questionWords' && !s.questionWords.types.length) return 'Choose at least one question type.';
   if (s.mode === 'ordinals' && !s.ordinals.types.length) return 'Choose at least one question type.';
   if (s.mode === 'specialCases' && !s.specialCases.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'alphabet' && !s.alphabet.types.length) return 'Choose at least one question type.';
   return null;
 }

@@ -113,6 +113,11 @@ export const TERMS = {
   inCentury: t('In a century', 'в каком веке?'),
   specialCases: t('Special case forms', 'особые формы падежей'),
   locative: t('Second prepositional (location)', 'второй предложный (местный) падеж'),
+  gettingStarted: t('Getting started', 'начало'),
+  alphabet: t('The alphabet', 'алфавит'),
+  letterSound: t('Which sound?', 'какой звук?'),
+  readWord: t('Read the word', 'прочитайте слово'),
+  writeWord: t('Write it in Cyrillic', 'напишите по-русски'),
   partitive: t('Partitive', 'второй родительный (количественный) падеж'),
 } satisfies Record<string, Term>;
 

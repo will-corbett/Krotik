@@ -37,6 +37,7 @@ const modes: ModeName[] = [
   'Question words',
   'Ordinals and dates',
   'Special case forms',
+  'The alphabet',
 ];
 
 for (const mode of modes) {
