@@ -1,6 +1,7 @@
 /**
- * Round state with the retry rule: a wrong answer is re-queued at the end (flagged retry),
- * and the round only finishes when every question has been answered correctly once.
+ * Round state with the retry rule: a wrong answer comes back RETRY_GAP cards later (or at the end,
+ * if fewer cards are left), flagged retry, so it also comes back in unlimited rounds. The round only
+ * finishes when every question has been answered correctly once.
  * Score = share answered correctly on the first attempt. Pure and immutable.
  */
 export interface Entry<Q> {
@@ -38,6 +39,9 @@ export function isRetry<Q>(r: Round<Q>): boolean {
   return (current(r)?.attempts ?? 0) > 0;
 }
 
+/** How many cards later a missed card comes back. */
+export const RETRY_GAP = 10;
+
 export function answer<Q>(r: Round<Q>, correct: boolean, typed: string): Round<Q> {
   const [i, ...rest] = r.queue;
   if (i === undefined || r.ended) return r;
@@ -50,7 +54,9 @@ export function answer<Q>(r: Round<Q>, correct: boolean, typed: string): Round<Q
     cleared: correct,
   };
   const entries = r.entries.map((x, j) => (j === i ? updated : x));
-  return { entries, queue: correct ? rest : [...rest, i], ended: false };
+  if (correct) return { entries, queue: rest, ended: false };
+  const at = Math.min(RETRY_GAP, rest.length);
+  return { entries, queue: [...rest.slice(0, at), i, ...rest.slice(at)], ended: false };
 }
 
 /** Append new questions (unlimited rounds). */

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { tick } from 'svelte';
   import { displayForms, renderForm } from '../shared/forms.ts';
-  import type { LexType, SentenceShard } from '../shared/types.ts';
+  import type { SentenceShard, SentenceType } from '../shared/types.ts';
   import { checkAnswer, type CheckResult } from '../lib/check.ts';
   import { toCyrillic } from '../lib/translit.ts';
   import { chooseSentence, loadSentences } from '../lib/data.ts';
-  import { answer, clearedCount, current, endRound, extendRound, isFinished, type Round } from '../lib/queue.ts';
+  import { answer, clearedCount, current, endRound, extendRound, isFinished, RETRY_GAP, type Round } from '../lib/queue.ts';
   import { nextBatch, type Generate } from '../lib/start.ts';
   import type { Settings } from '../lib/settings.ts';
   import { hasRussianVoice, speak } from '../lib/speech.ts';
@@ -54,7 +54,7 @@
   $effect(() => {
     const need = new Set(initial.entries.map((e) => e.q.sentence).filter((s) => !!s).map((s) => `${s!.type}:${s!.band}`));
     for (const k of need) {
-      const [type, band] = k.split(':') as [LexType, string];
+      const [type, band] = k.split(':') as [SentenceType, string];
       loadSentences(type, Number(band))
         .then((s) => (shards[k] = s))
         .catch(() => {
@@ -66,7 +66,7 @@
   const sentence = $derived.by(() => {
     const s = q?.sentence;
     if (!s) return undefined;
-    return chooseSentence(shards[`${s.type}:${s.band}`]?.[s.lemmaId], s.cell);
+    return chooseSentence(shards[`${s.type}:${s.band}`]?.[s.lemmaId], s.cell, q.answer);
   });
 
   async function focusField() {
@@ -279,10 +279,10 @@
           {#if !result.correct && typed}
             <p class="typed">
               You {q.choices || q.stress ? 'chose' : 'typed'} <span lang="ru">{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
-              {#if !wasRetry}It comes back at the end of the round.{/if}
+              {#if !wasRetry}It comes back {round.queue.length > RETRY_GAP ? `in ${RETRY_GAP} cards` : 'at the end of the round'}.{/if}
             </p>
           {:else if !result.correct}
-            <p class="typed">It comes back at the end of the round.</p>
+            <p class="typed">It comes back {round.queue.length > RETRY_GAP ? `in ${RETRY_GAP} cards` : 'at the end of the round'}.</p>
           {/if}
 
           {#if q.explain}<p class="explain">{q.explain}</p>{/if}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { answer, clearedCount, createRound, current, endRound, extendRound, isFinished, isRetry, missed, score } from '../../src/lib/queue.ts';
+import { answer, clearedCount, createRound, current, endRound, extendRound, isFinished, isRetry, missed, RETRY_GAP, score } from '../../src/lib/queue.ts';
 import { nextBatch } from '../../src/lib/start.ts';
 
 describe('retry queue', () => {
@@ -76,6 +76,26 @@ describe('retry queue', () => {
     const batch = nextBatch(gen, new Set(['q0']), ['q1', 'q2'], 5) as { key: string }[];
     expect(batch.length).toBeGreaterThan(0);
     for (const q of batch) expect(q.key).not.toBe('q0');
+  });
+
+  it('brings a miss back RETRY_GAP cards later when the round is long enough', () => {
+    const qs = Array.from({ length: 25 }, (_, i) => `q${i}`);
+    let r = createRound(qs);
+    r = answer(r, false, 'x'); // q0 wrong
+    const order = r.queue.map((i) => r.entries[i]!.q);
+    expect(order.indexOf('q0')).toBe(RETRY_GAP);
+    expect(order[RETRY_GAP - 1]).toBe(`q${RETRY_GAP}`);
+    for (let k = 0; k < RETRY_GAP; k++) r = answer(r, true, '');
+    expect(current(r)!.q).toBe('q0');
+    expect(isRetry(r)).toBe(true);
+  });
+
+  it('comes back in an unlimited round even as new cards are appended', () => {
+    let r = createRound(Array.from({ length: 12 }, (_, i) => `a${i}`));
+    r = answer(r, false, 'x'); // a0 wrong → 10 cards later
+    r = extendRound(r, Array.from({ length: 30 }, (_, i) => `b${i}`)); // the queue keeps growing
+    const order = r.queue.map((i) => r.entries[i]!.q);
+    expect(order.indexOf('a0')).toBe(RETRY_GAP);
   });
 
   it('is immutable', () => {

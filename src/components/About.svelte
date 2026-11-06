@@ -5,13 +5,13 @@
 <article class="card about fade-in">
   <h1>About</h1>
   <p>
-    Russian Grammar Drills is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
+    Krotik is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
     adjectives, plurals, numbers, diminutives, and sentence drills (который, чтобы, conditional, negation,
     indefinite pronouns, particles). Nothing
     about your answers is stored; only display settings are remembered in this browser.
   </p>
   <p>
-    A wrong answer comes back at the end of the round, and a round finishes only when every question has been answered
+    A wrong answer comes back about ten cards later (or at the end, if fewer are left, so it also works in unlimited rounds), and a round finishes only when every question has been answered
     correctly. The score counts answers that were right the first time.
   </p>
 
