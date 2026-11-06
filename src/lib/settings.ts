@@ -64,11 +64,13 @@ export const DEFAULTS: Settings = {
   motion: { types: ['meaning', 'partner', 'conjugate'] },
 };
 
-const KEY = 'rgd.settings.v1';
+const KEY = 'krotik.settings.v1';
+/** Earlier names of the key: read once, then removed, so saved settings survive the rename. */
+const OLD_KEYS = ['rgd.settings.v1'];
 
 export function loadSettings(): Settings {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(KEY) ?? OLD_KEYS.map((k) => localStorage.getItem(k)).find((v) => v !== null) ?? null;
     if (!raw) return structuredClone(DEFAULTS);
     const saved = JSON.parse(raw) as Partial<Settings>;
     return {
@@ -102,6 +104,7 @@ export function loadSettings(): Settings {
 export function saveSettings(s: Settings): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(s));
+    for (const k of OLD_KEYS) localStorage.removeItem(k);
   } catch {
     /* storage unavailable (private mode etc.) — settings just won't persist */
   }

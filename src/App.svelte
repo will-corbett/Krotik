@@ -68,8 +68,8 @@
 
 <div class="shell">
   <header class="top">
-    <button class="brand" onclick={() => (screen = 'setup')} aria-label="Russian Grammar Drills, back to settings">
-      <span class="mark" aria-hidden="true">Ж</span> Russian Grammar Drills
+    <button class="brand" onclick={() => (screen = 'setup')} aria-label="Krotik, back to settings">
+      <span class="mark" aria-hidden="true">Ж</span> Krotik
     </button>
   </header>
 

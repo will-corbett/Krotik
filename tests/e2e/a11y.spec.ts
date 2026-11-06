@@ -62,7 +62,7 @@ test('settings are remembered, progress is not', async ({ page }) => {
   await expect(page.getByRole('radio', { name: '40', exact: true })).toBeChecked();
   await expect(page.getByRole('checkbox', { name: 'Stress marks' })).not.toBeChecked();
   const keys = await page.evaluate(() => Object.keys(localStorage));
-  expect(keys).toEqual(['rgd.settings.v1']);
+  expect(keys).toEqual(['krotik.settings.v1']);
 });
 
 test('no horizontal scroll', async ({ page }) => {
@@ -74,4 +74,17 @@ test('no horizontal scroll', async ({ page }) => {
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(0);
   }
+});
+
+test('settings saved under the previous name carry over', async ({ page }) => {
+  await page.goto('/');
+  // A returning visitor: only the old key exists.
+  await page.evaluate(() => {
+    localStorage.clear();
+    localStorage.setItem('rgd.settings.v1', JSON.stringify({ mode: 'motion', count: 40 }));
+  });
+  await page.reload();
+  await expect(page.getByRole('radio', { name: /Motion verbs/ })).toBeChecked();
+  await page.getByRole('radio', { name: '10', exact: true }).check();
+  expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['krotik.settings.v1']);
 });

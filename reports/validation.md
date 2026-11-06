@@ -28,20 +28,24 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | diminutives.b1.json | 269 | 17 KB |
 | diminutives.b2.json | 332 | 21 KB |
 | diminutives.b3.json | 656 | 40 KB |
-| sentences.verbs.b0.json | 245 lemmas, 1424 sentences | 111 KB |
-| sentences.verbs.b1.json | 732 lemmas, 3823 sentences | 344 KB |
-| sentences.verbs.b2.json | 1349 lemmas, 5384 sentences | 551 KB |
-| sentences.verbs.b3.json | 3956 lemmas, 9883 sentences | 1115 KB |
-| sentences.adjectives.b0.json | 246 lemmas, 1404 sentences | 132 KB |
-| sentences.adjectives.b1.json | 684 lemmas, 3194 sentences | 366 KB |
-| sentences.adjectives.b2.json | 1103 lemmas, 3482 sentences | 444 KB |
-| sentences.adjectives.b3.json | 1930 lemmas, 4321 sentences | 573 KB |
-| sentences.nouns.b0.json | 245 lemmas, 1339 sentences | 119 KB |
-| sentences.nouns.b1.json | 737 lemmas, 3606 sentences | 360 KB |
-| sentences.nouns.b2.json | 1391 lemmas, 5545 sentences | 605 KB |
-| sentences.nouns.b3.json | 6435 lemmas, 15999 sentences | 1939 KB |
+| sentences.verbs.b0.json | 247 lemmas, 2232 sentences | 182 KB |
+| sentences.verbs.b1.json | 736 lemmas, 5429 sentences | 511 KB |
+| sentences.verbs.b2.json | 1371 lemmas, 6741 sentences | 703 KB |
+| sentences.verbs.b3.json | 4345 lemmas, 11947 sentences | 1372 KB |
+| sentences.adjectives.b0.json | 248 lemmas, 2181 sentences | 219 KB |
+| sentences.adjectives.b1.json | 697 lemmas, 4288 sentences | 500 KB |
+| sentences.adjectives.b2.json | 1131 lemmas, 4143 sentences | 521 KB |
+| sentences.adjectives.b3.json | 2116 lemmas, 5298 sentences | 683 KB |
+| sentences.nouns.b0.json | 245 lemmas, 1621 sentences | 153 KB |
+| sentences.nouns.b1.json | 735 lemmas, 3983 sentences | 413 KB |
+| sentences.nouns.b2.json | 1387 lemmas, 5685 sentences | 628 KB |
+| sentences.nouns.b3.json | 6414 lemmas, 15979 sentences | 1939 KB |
+| sentences.participles.b0.json | 172 lemmas, 603 sentences | 83 KB |
+| sentences.participles.b1.json | 325 lemmas, 888 sentences | 121 KB |
+| sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
+| sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| motion.json | 12 pairs | 7.1 KB |
+| motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
 
@@ -223,16 +227,19 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
 | kept after filters (with an English translation) | 650396 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 184278 |
-| verbs: lemmas with ≥1 sentence | 6282 |
-| adjectives: lemmas with ≥1 sentence | 3963 |
-| nouns: lemmas with ≥1 sentence | 8808 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 275429 |
+| verbs: lemmas with ≥1 sentence | 6699 |
+| adjectives: lemmas with ≥1 sentence | 4192 |
+| nouns: lemmas with ≥1 sentence | 8781 |
+| participles: lemmas with ≥1 sentence | 1479 |
 
-verbs: 977 of the top 1000 have at least one sentence.
+verbs: 983 of the top-1000 lemmas have at least one sentence.
 
-adjectives: 930 of the top 1000 have at least one sentence.
+adjectives: 945 of the top-1000 lemmas have at least one sentence.
 
-nouns: 982 of the top 1000 have at least one sentence.
+nouns: 980 of the top-1000 lemmas have at least one sentence.
+
+participles: 497 of the top-1000 lemmas have at least one sentence.
 
 ## Hand-made lists (curated/)
 
@@ -254,8 +261,8 @@ nouns: 982 of the top 1000 have at least one sentence.
 | kotoryi / kotoryi: candidates (kept up to 1500) | 4072 |
 | chtoby / inf: candidates (kept up to 1500) | 3199 |
 | chtoby / past: candidates (kept up to 1500) | 437 |
-| conditional / cond: candidates (kept up to 1500) | 9542 |
-| negation / net: candidates (kept up to 1500) | 2607 |
+| conditional / cond: candidates (kept up to 1500) | 9525 |
+| negation / net: candidates (kept up to 1500) | 2534 |
 | negation / nipron: candidates (kept up to 1500) | 7182 |
 | negation / ne-ni: candidates (kept up to 1500) | 1500 |
 | indefinite / нибудь: candidates (kept up to 1500) | 6355 |
@@ -273,59 +280,58 @@ nouns: 982 of the top 1000 have at least one sentence.
 | particles / ne-ni: candidates (kept up to 1500) | 1500 |
 | prepositions / в:prep: candidates (kept up to 400) | 8284 |
 | prepositions / по:dat: candidates (kept up to 400) | 2297 |
-| prepositions / от:gen: candidates (kept up to 400) | 717 |
+| prepositions / от:gen: candidates (kept up to 400) | 714 |
 | prepositions / к:dat: candidates (kept up to 400) | 1783 |
 | prepositions / за:acc: candidates (kept up to 400) | 737 |
-| prepositions / против:gen: candidates (kept up to 400) | 32 |
+| prepositions / против:gen: candidates (kept up to 400) | 31 |
 | prepositions / в:acc: candidates (kept up to 400) | 4560 |
 | prepositions / над:inst: candidates (kept up to 400) | 167 |
-| prepositions / из:gen: candidates (kept up to 400) | 1136 |
+| prepositions / из:gen: candidates (kept up to 400) | 1123 |
 | prepositions / через:acc: candidates (kept up to 400) | 223 |
 | prepositions / на:prep: candidates (kept up to 400) | 4118 |
 | prepositions / за:inst: candidates (kept up to 400) | 1662 |
-| prepositions / на:acc: candidates (kept up to 400) | 3742 |
-| prepositions / после:gen: candidates (kept up to 400) | 369 |
-| prepositions / с:inst: candidates (kept up to 400) | 5157 |
-| prepositions / с:gen: candidates (kept up to 400) | 910 |
-| prepositions / без:gen: candidates (kept up to 400) | 627 |
+| prepositions / на:acc: candidates (kept up to 400) | 3743 |
+| prepositions / после:gen: candidates (kept up to 400) | 367 |
+| prepositions / с:inst: candidates (kept up to 400) | 5155 |
+| prepositions / с:gen: candidates (kept up to 400) | 906 |
+| prepositions / без:gen: candidates (kept up to 400) | 619 |
 | prepositions / о:prep: candidates (kept up to 400) | 882 |
-| prepositions / перед:inst: candidates (kept up to 400) | 566 |
-| prepositions / под:inst: candidates (kept up to 400) | 642 |
-| prepositions / до:gen: candidates (kept up to 400) | 834 |
-| prepositions / для:gen: candidates (kept up to 400) | 359 |
-| prepositions / кроме:gen: candidates (kept up to 400) | 47 |
+| prepositions / перед:inst: candidates (kept up to 400) | 563 |
+| prepositions / под:inst: candidates (kept up to 400) | 639 |
+| prepositions / до:gen: candidates (kept up to 400) | 833 |
+| prepositions / для:gen: candidates (kept up to 400) | 358 |
+| prepositions / кроме:gen: candidates (kept up to 400) | 44 |
 | prepositions / при:prep: candidates (kept up to 400) | 154 |
 | prepositions / между:inst: candidates (kept up to 400) | 149 |
 | prepositions / под:acc: candidates (kept up to 400) | 45 |
-| prepositions / у:gen: candidates (kept up to 400) | 171 |
+| prepositions / у:gen: candidates (kept up to 400) | 169 |
 | prepositions / про:acc: candidates (kept up to 400) | 24 |
 | prepositions / около:gen: candidates (kept up to 400) | 42 |
-| aspectContext / impf: candidates (kept up to 1500) | 241442 |
-| aspectContext / pf: candidates (kept up to 1500) | 183691 |
+| aspectContext / impf: candidates (kept up to 1500) | 240992 |
+| aspectContext / pf: candidates (kept up to 1500) | 182732 |
 | svoy / svoy: candidates (kept up to 1500) | 15968 |
-| svoy / ego: candidates (kept up to 1500) | 1870 |
+| svoy / ego: candidates (kept up to 1500) | 1857 |
 | government / dat|доверя'ть: candidates (kept up to 1500) | 51 |
-| government / ot+gen|зави'сеть: candidates (kept up to 1500) | 77 |
+| government / ot+gen|зави'сеть: candidates (kept up to 1500) | 75 |
 | government / inst|занима'ться: candidates (kept up to 1500) | 155 |
-| government / na+acc|смотре'ть: candidates (kept up to 1500) | 98 |
 | government / dat|помо'чь: candidates (kept up to 1500) | 74 |
 | government / inst|стать: candidates (kept up to 1500) | 355 |
 | government / inst|рабо'тать: candidates (kept up to 1500) | 207 |
 | government / na+prep|игра'ть: candidates (kept up to 1500) | 497 |
 | government / v+prep|уча'ствовать: candidates (kept up to 1500) | 39 |
 | government / inst|воспо'льзоваться: candidates (kept up to 1500) | 56 |
-| government / inst|по'льзоваться: candidates (kept up to 1500) | 178 |
+| government / inst|по'льзоваться: candidates (kept up to 1500) | 177 |
 | government / inst|интересова'ться: candidates (kept up to 1500) | 118 |
 | government / dat|позвони'ть: candidates (kept up to 1500) | 52 |
 | government / v+acc|ве'рить: candidates (kept up to 1500) | 179 |
-| government / ot+gen|отказа'ться: candidates (kept up to 1500) | 49 |
+| government / ot+gen|отказа'ться: candidates (kept up to 1500) | 48 |
 | government / na+acc|жа'ловаться: candidates (kept up to 1500) | 40 |
 | government / gen|боя'ться: candidates (kept up to 1500) | 225 |
-| government / na+acc|посмотре'ть: candidates (kept up to 1500) | 112 |
-| government / na+acc|отвеча'ть: candidates (kept up to 1500) | 71 |
+| government / na+acc|посмотре'ть: candidates (kept up to 1500) | 111 |
+| government / na+acc|отвеча'ть: candidates (kept up to 1500) | 62 |
 | government / inst|управля'ть: candidates (kept up to 1500) | 52 |
 | government / o+prep|забо'титься: candidates (kept up to 1500) | 29 |
-| government / na+acc|отве'тить: candidates (kept up to 1500) | 164 |
+| government / na+acc|отве'тить: candidates (kept up to 1500) | 143 |
 | government / o+prep|ду'мать: candidates (kept up to 1500) | 85 |
 | government / inst|явля'ться: candidates (kept up to 1500) | 185 |
 | government / inst|оказа'ться: candidates (kept up to 1500) | 37 |
@@ -334,6 +340,7 @@ nouns: 982 of the top 1000 have at least one sentence.
 | government / k+dat|привы'кнуть: candidates (kept up to 1500) | 68 |
 | government / na+prep|жени'ться: candidates (kept up to 1500) | 48 |
 | government / gen|тре'бовать: candidates (kept up to 1500) | 40 |
+| government / na+acc|смотре'ть: candidates (kept up to 1500) | 89 |
 | government / k+dat|относи'ться: candidates (kept up to 1500) | 47 |
 | government / inst|владе'ть: candidates (kept up to 1500) | 27 |
 | government / k+dat|гото'виться: candidates (kept up to 1500) | 74 |
@@ -342,24 +349,24 @@ nouns: 982 of the top 1000 have at least one sentence.
 | government / inst|станови'ться: candidates (kept up to 1500) | 52 |
 | government / inst|заня'ться: candidates (kept up to 1500) | 24 |
 | government / inst|наслажда'ться: candidates (kept up to 1500) | 38 |
-| government / ot+gen|отлича'ться: candidates (kept up to 1500) | 60 |
+| government / ot+gen|отлича'ться: candidates (kept up to 1500) | 59 |
 | government / o+prep|беспоко'иться: candidates (kept up to 1500) | 24 |
 | government / dat|нра'виться: candidates (kept up to 1500) | 30 |
 | government / s+inst|познако'миться: candidates (kept up to 1500) | 42 |
-| position / lie:get: candidates (kept up to 1500) | 599 |
+| position / lie:get: candidates (kept up to 1500) | 600 |
 | position / sit:state: candidates (kept up to 1500) | 1418 |
-| position / lie:state: candidates (kept up to 1500) | 509 |
+| position / lie:state: candidates (kept up to 1500) | 357 |
 | position / stand:get: candidates (kept up to 1500) | 1142 |
-| position / stand:state: candidates (kept up to 1500) | 423 |
 | position / hang:put: candidates (kept up to 1500) | 225 |
 | position / sit:get: candidates (kept up to 1500) | 655 |
+| position / stand:state: candidates (kept up to 1500) | 149 |
 | position / lie:put: candidates (kept up to 1500) | 884 |
 | position / hang:state: candidates (kept up to 1500) | 95 |
 | position / sit:put: candidates (kept up to 1500) | 301 |
 | position / stand:put: candidates (kept up to 1500) | 597 |
 | impersonal / imp-pron: candidates (kept up to 1500) | 2857 |
 | impersonal / imp-noun: candidates (kept up to 1500) | 226 |
-| comparison / cmp-gen: candidates (kept up to 1500) | 302 |
+| comparison / cmp-gen: candidates (kept up to 1500) | 293 |
 | conjunctions / conj:что: candidates (kept up to 1500) | 54493 |
 | conjunctions / conj:когда: candidates (kept up to 1500) | 3771 |
 | conjunctions / conj:чтобы: candidates (kept up to 1500) | 12032 |

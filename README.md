@@ -1,4 +1,4 @@
-# Russian Grammar Drills
+# Krotik
 
 Instant drills for Russian grammar. Open the page, pick options and start. There are no accounts and no tracking.
 
