@@ -14,6 +14,9 @@
   --wrong-soft: #fbe8e6;
   --mark: #fff0b3;
   --focus: #1f4fd1;
+  /* Filled buttons and bars. Separate from --accent so a theme can fill with a colour that is too light for text. */
+  --primary-bg: var(--accent);
+  --primary-text: var(--accent-text);
   --shadow: 0 1px 2px rgb(20 30 50 / 0.06), 0 4px 16px rgb(20 30 50 / 0.06);
   --serif: 'PT Serif', Georgia, 'Times New Roman', serif;
   --sans: 'PT Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -21,7 +24,7 @@
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
+  :root:not([data-theme='light']):not([data-theme='krotik']) {
     --bg: #11151c;
     --surface: #1a2029;
     --surface-2: #212833;
@@ -59,6 +62,33 @@
   --focus: #86a8ff;
   --shadow: none;
   color-scheme: dark;
+}
+
+/*
+ * Krotik theme, from the logo: warm cream #FDF2E7, deep charcoal #090C13, burnt orange #E36B1C.
+ * Orange on cream is only 3:1, so the orange fills buttons and bars (with charcoal text, 6:1), and
+ * small orange text uses a deeper shade of it (#9A420B, 6:1).
+ */
+:root[data-theme='krotik'] {
+  --bg: #fdf2e7;
+  --surface: #fffaf4;
+  --surface-2: #f9e8d7;
+  --border: #e9cfb5;
+  --text: #090c13;
+  --muted: #4b4540;
+  --accent: #9a420b;
+  --accent-text: #fdf2e7;
+  --accent-soft: #fadcc2;
+  --primary-bg: #e36b1c;
+  --primary-text: #090c13;
+  --correct: #1b6a35;
+  --correct-soft: #e2f1e2;
+  --wrong: #a8261a;
+  --wrong-soft: #fbe3dc;
+  --mark: #f8cda6;
+  --focus: #090c13;
+  --shadow: 0 1px 2px rgb(9 12 19 / 0.06), 0 4px 16px rgb(9 12 19 / 0.06);
+  color-scheme: light;
 }
 
 *,
@@ -124,9 +154,9 @@ select {
   border-color: var(--accent);
 }
 .btn.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-text);
+  background: var(--primary-bg);
+  border-color: var(--primary-bg);
+  color: var(--primary-text);
 }
 .btn.quiet {
   border-color: transparent;

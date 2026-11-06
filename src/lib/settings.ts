@@ -13,7 +13,8 @@ export interface Settings {
   keyboard: boolean;
   /** Phonetic typing: Latin letters become Cyrillic as you type. */
   translit: boolean;
-  theme: 'system' | 'light' | 'dark';
+  /** krotik = the logo's colours (default); system follows the device's light/dark setting. */
+  theme: 'krotik' | 'system' | 'light' | 'dark';
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -42,7 +43,7 @@ export const DEFAULTS: Settings = {
   stress: true,
   keyboard: false,
   translit: false,
-  theme: 'system',
+  theme: 'krotik',
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
   compare: { types: ['comparative', 'superlative', 'samyi'] },
