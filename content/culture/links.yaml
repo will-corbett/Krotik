@@ -1,0 +1,432 @@
+# Culture page links. Hand-picked; each one checked by hand on the date in `checked`, and by
+# `npm run links:check` (monthly in CI) since.
+#
+# Rules (see CLAUDE.md):
+# - Only official sources: a creator's or rights holder's own channel or site. No re-uploads, no music,
+#   no lyrics, no sanctioned outlets, nothing whose main theme is politics or the war.
+# - Links only: nothing is embedded or copied. Descriptions are our own words.
+# - Nothing that would stop the site being run commercially later (we only link).
+#
+# Fields:
+#   title    name as the source gives it
+#   url      https link
+#   type     video | cartoons | podcast | reading | tool
+#   kind     learner (made for learners) | native (made for Russian speakers)
+#   level    [lowest, highest] CEFR level it suits: A1 A2 B1 B2 C1 C2
+#   region   where it is made or about: russia | kazakhstan | ukraine | georgia | worldwide
+#   about    one or two sentences, in English, our own words
+#   note     optional caveat shown with the link
+#   checked  date it was last checked by hand
+
+# ---------------------------------------------------------------- videos for learners
+- title: Russian With Max
+  url: https://www.youtube.com/@RussianWithMax
+  type: video
+  kind: learner
+  level: [A2, B1]
+  region: worldwide
+  about: Slow, clear Russian from a qualified teacher — stories, vlogs and dialogues, mostly without English. Also a podcast with transcripts.
+  checked: 2026-11-06
+
+- title: Easy Russian
+  url: https://www.youtube.com/@EasyRussianVideos
+  type: video
+  kind: learner
+  level: [A2, C1]
+  region: russia
+  about: Street interviews with ordinary people in Russian cities, subtitled in Russian and English. Real, unscripted speech.
+  checked: 2026-11-06
+
+- title: Russian Progress
+  url: https://www.youtube.com/@RussianProgress
+  type: video
+  kind: learner
+  level: [B1, C1]
+  region: russia
+  about: Vlogs, interviews and conversations at natural or near-natural speed, with Russian subtitles. Made by Artem from Novosibirsk.
+  checked: 2026-11-06
+
+- title: Comprehensible Russian
+  url: https://www.youtube.com/@ComprehensibleRussian
+  type: video
+  kind: learner
+  level: [A1, A2]
+  region: worldwide
+  about: Beginner videos that teach through pictures, objects and simple stories, entirely in Russian.
+  checked: 2026-11-06
+
+- title: In Simple Russian
+  url: https://www.youtube.com/@insimplerussian
+  type: video
+  kind: learner
+  level: [A1, A2]
+  region: worldwide
+  about: Slow, repetitive beginner lessons and comics, entirely in Russian.
+  checked: 2026-11-06
+
+- title: Real Russian Club
+  url: https://www.youtube.com/@RealRussianClub
+  type: video
+  kind: learner
+  level: [A1, B1]
+  region: worldwide
+  about: Lessons from a university teacher — the alphabet, pronunciation, cases and everyday phrases, explained in English.
+  checked: 2026-11-06
+
+- title: Amazing Russian
+  url: https://www.youtube.com/@AmazingRussian
+  type: video
+  kind: learner
+  level: [A1, B2]
+  region: worldwide
+  about: Short grammar lessons made for university courses, one point at a time. Useful alongside the drills here.
+  checked: 2026-11-06
+
+- title: Be Fluent in Russian
+  url: https://www.youtube.com/@BeFluentinRussian
+  type: video
+  kind: learner
+  level: [A2, B2]
+  region: worldwide
+  about: Lively videos on everyday Russian, slang, culture and reading, mixing English and Russian.
+  checked: 2026-11-06
+
+- title: Russian with Dasha
+  url: https://www.youtube.com/@RussianwithDasha
+  type: video
+  kind: learner
+  level: [A2, B2]
+  region: russia
+  about: Travel vlogs and real conversations with native speakers (the Russian North, the Arctic), with subtitles.
+  checked: 2026-11-06
+
+- title: Inhale Russian
+  url: https://www.youtube.com/@InhaleRussian
+  type: video
+  kind: learner
+  level: [B1, B2]
+  region: worldwide
+  about: Intermediate listening on unusual topics — folklore, museums, history — in clear Russian.
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- native videos
+- title: ПостНаука
+  url: https://www.youtube.com/@postnauka
+  type: video
+  kind: native
+  level: [C1, C2]
+  region: russia
+  about: Scientists explain their fields in short talks and long interviews — physics, biology, history, linguistics.
+  checked: 2026-11-06
+
+- title: Arzamas
+  url: https://www.youtube.com/@Arzamaschannel
+  type: video
+  kind: native
+  level: [C1, C2]
+  region: russia
+  about: Lectures on the history of culture — literature, art, music, everyday life in the past.
+  checked: 2026-11-06
+
+- title: Научпок
+  url: https://www.youtube.com/@nowchpok
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  about: Fast, funny animated explainers on everyday science questions. Quick speech, but very visual.
+  checked: 2026-11-06
+
+- title: GetAClass — Физика в опытах
+  url: https://www.youtube.com/@getaclassphys
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: russia
+  about: Short physics experiments with a little narration. What you see makes the Russian easy to follow.
+  checked: 2026-11-06
+
+- title: Thoisoi
+  url: https://www.youtube.com/@Thoisoi
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: russia
+  about: Chemistry experiments with clear explanations.
+  checked: 2026-11-06
+
+- title: Тотальный диктант
+  url: https://www.youtube.com/@totaldict
+  type: video
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  about: The yearly dictation that anyone can take, in Russia and around the world, plus talks on spelling and the Russian language.
+  checked: 2026-11-06
+
+- title: AIRAN
+  url: https://www.youtube.com/@airan_media
+  type: video
+  kind: native
+  level: [C1, C2]
+  region: kazakhstan
+  about: Video journalism from Almaty about life in Kazakhstan — people, cities, customs and social issues — mostly in Russian.
+  note: Stopped publishing in March 2026; the archive stays online. Some episodes cover current affairs.
+  checked: 2026-11-06
+
+- title: Esquire Kazakhstan
+  url: https://www.youtube.com/@esquirekazakhstan
+  type: video
+  kind: native
+  level: [C1, C2]
+  region: kazakhstan
+  about: Long conversations with people from Kazakhstan — musicians, film-makers, entrepreneurs. Some in English.
+  checked: 2026-11-06
+
+- title: Орёл и Решка
+  url: https://www.youtube.com/@OreliReshka
+  type: video
+  kind: native
+  level: [B2, C1]
+  region: ukraine
+  about: A long-running travel show made in Ukraine — two presenters visit a city, one with lots of money, one with almost none.
+  note: Most seasons up to 2021 are in Russian; recent videos are in Ukrainian.
+  checked: 2026-11-06
+
+- title: Elen About Georgia
+  url: https://www.youtube.com/@ElenAboutGeorgia
+  type: video
+  kind: native
+  level: [B1, B2]
+  region: georgia
+  about: Walks around Tbilisi and other Georgian towns, festivals and parks, narrated in calm, clear Russian.
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- cartoons
+- title: Маша и Медведь
+  url: https://www.youtube.com/@MashaBearRUSSIAN
+  type: cartoons
+  kind: native
+  level: [A1, A2]
+  region: worldwide
+  about: The official channel of the cartoon about a lively little girl and a patient bear. Short, simple, very clear speech.
+  checked: 2026-11-06
+
+- title: Смешарики
+  url: https://www.youtube.com/@smeshariki
+  type: cartoons
+  kind: native
+  level: [A2, B1]
+  region: russia
+  about: The official channel of a much-loved modern cartoon about round animal friends; gentle humour, everyday language.
+  checked: 2026-11-06
+
+- title: Союзмультфильм
+  url: https://www.youtube.com/@soyuzmultfilm
+  type: cartoons
+  kind: native
+  level: [A2, B1]
+  region: russia
+  about: The official channel of the classic animation studio — Soviet cartoons everyone knows (Ну, погоди!, Винни-Пух) and new ones.
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- podcasts
+- title: Comprehensible Russian Podcast (Russian With Max)
+  url: https://www.russianwithmax.com
+  type: podcast
+  kind: learner
+  level: [A2, B2]
+  region: worldwide
+  about: Slow, natural podcast episodes on everyday life and ideas, with transcripts and word lists.
+  checked: 2026-11-06
+
+- title: Russian Progress podcast
+  url: https://russianprogress.com
+  type: podcast
+  kind: learner
+  level: [B1, C1]
+  region: russia
+  about: Conversations with guests at intermediate and advanced levels, with transcripts.
+  checked: 2026-11-06
+
+- title: Russian with Dasha
+  url: https://russianwithdasha.com
+  type: podcast
+  kind: learner
+  level: [A2, B2]
+  region: russia
+  about: Podcast and course site to go with the YouTube channel — real conversations with transcripts and workbooks.
+  checked: 2026-11-06
+
+- title: Real Russian Club
+  url: https://realrussianclub.com
+  type: podcast
+  kind: learner
+  level: [A2, C1]
+  region: worldwide
+  about: Lessons and a podcast at natural speed for intermediate learners, from the same teacher as the YouTube channel.
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- reading and listening
+- title: Чехов on Wikisource
+  url: https://ru.wikisource.org/wiki/Антон_Павлович_Чехов
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: russia
+  about: Chekhov's complete works, free and out of copyright. His short stories are the classic first step into Russian literature.
+  checked: 2026-11-06
+
+- title: Пушкин on Wikisource
+  url: https://ru.wikisource.org/wiki/Александр_Сергеевич_Пушкин
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: russia
+  about: Pushkin's works, free and out of copyright. Try the short prose (Повести Белкина) before the poetry.
+  checked: 2026-11-06
+
+- title: LibriVox — Russian audiobooks
+  url: https://librivox.org/search?primary_key=54&search_category=language&search_page=1&search_form=get_results
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  about: Free recordings of public-domain books read by volunteers. Read the text on Wikisource while you listen.
+  checked: 2026-11-06
+
+- title: Project Gutenberg — Russian
+  url: https://www.gutenberg.org/browse/languages/ru
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  about: Free e-books of Russian classics, downloadable for e-readers.
+  checked: 2026-11-06
+
+- title: Arzamas
+  url: https://arzamas.academy/courses
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  about: Free courses on literature, history and art, as texts and audio lectures.
+  checked: 2026-11-06
+
+- title: ПостНаука
+  url: https://postnauka.org
+  type: reading
+  kind: native
+  level: [C1, C2]
+  region: russia
+  about: Articles, glossaries and video courses by scientists, in careful, standard Russian.
+  checked: 2026-11-06
+
+- title: Naked Science
+  url: https://naked-science.ru
+  type: reading
+  kind: native
+  level: [B2, C1]
+  region: russia
+  about: Short popular-science news — space, animals, technology. Good daily reading practice.
+  checked: 2026-11-06
+
+- title: Тотальный диктант
+  url: https://totaldict.ru
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  about: The yearly dictation's site — sign up to take it online or in your city (it runs in Kazakhstan and many other countries), plus past texts.
+  checked: 2026-11-06
+
+- title: Викигид
+  url: https://ru.wikivoyage.org
+  type: reading
+  kind: native
+  level: [B1, C1]
+  region: worldwide
+  about: The free travel guide in Russian. Pick a place you know and read about it — the vocabulary is practical.
+  checked: 2026-11-06
+
+- title: Википедия
+  url: https://ru.wikipedia.org
+  type: reading
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  about: The Russian Wikipedia. Reading an article on something you already know well is easier than it sounds.
+  checked: 2026-11-06
+
+# ---------------------------------------------------------------- tools
+- title: Russian National Corpus (НКРЯ)
+  url: https://ruscorpora.ru/en
+  type: tool
+  kind: native
+  level: [B1, C2]
+  region: russia
+  about: Search hundreds of millions of words of real Russian to see how a word or construction is actually used.
+  checked: 2026-11-06
+
+- title: Грамота.ру
+  url: https://gramota.ru
+  type: tool
+  kind: native
+  level: [B1, C2]
+  region: russia
+  about: Dictionaries and a spelling and usage reference — where Russians check their own spelling and stress.
+  checked: 2026-11-06
+
+- title: Forvo — Russian
+  url: https://forvo.com/languages/ru/
+  type: tool
+  kind: native
+  level: [A1, C2]
+  region: worldwide
+  about: Native speakers recording single words and phrases. Hear a word said by several people.
+  checked: 2026-11-06
+
+- title: Reverso Context
+  url: https://context.reverso.net/translation/russian-english/
+  type: tool
+  kind: native
+  level: [A2, C2]
+  region: worldwide
+  about: Look up a word or phrase and see it in many real translated sentences.
+  checked: 2026-11-06
+
+- title: Wiktionary — Russian
+  url: https://en.wiktionary.org/wiki/Category:Russian_language
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  about: Full tables, stress and etymology for almost any Russian word, explained in English. Many of Krotik's forms come from here.
+  checked: 2026-11-06
+
+- title: Викисловарь
+  url: https://ru.wiktionary.org
+  type: tool
+  kind: native
+  level: [B2, C2]
+  region: worldwide
+  about: The Russian-language Wiktionary — definitions in Russian, for when you are ready for a monolingual dictionary.
+  checked: 2026-11-06
+
+- title: OpenRussian
+  url: https://en.openrussian.org
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  about: A learner's dictionary with tables, stress and example sentences. Krotik's word data comes from here.
+  checked: 2026-11-06
+
+- title: Tatoeba
+  url: https://tatoeba.org/en/
+  type: tool
+  kind: learner
+  level: [A1, C2]
+  region: worldwide
+  about: Hundreds of thousands of example sentences with translations, many with audio. Krotik's sentences come from here.
+  checked: 2026-11-06

@@ -1,0 +1,18 @@
+# Culture notes: short pages in content/culture/notes/<id>.md, listed in this order.
+# The Russian in them is checked like the Learn pages (tests/unit/learn.test.ts).
+- id: names
+  title: Names and patronymics
+  ru: имя, отчество, фамилия
+  blurb: Why Александр is also Саша, and when to use someone's отчество.
+- id: ty-vy
+  title: ты or вы?
+  ru: на ты и на вы
+  blurb: Who you call ты, who you call вы, and how to switch.
+- id: holidays
+  title: Holidays and greetings
+  ru: праздники и поздравления
+  blurb: New Year comes first; Christmas is in January; С праздником!
+- id: russian-beyond-russia
+  title: Russian beyond Russia
+  ru: русский язык за пределами России
+  blurb: Russian in Kazakhstan and elsewhere, and the local words you'll hear.
