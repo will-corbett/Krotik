@@ -41,11 +41,14 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
   `content/culture/notes/<id>.md` listed in `content/culture/notes.yaml`. YAML is imported at build time by a small
   plugin in `vite.config.ts` (no runtime dependency). Note text is word-checked like Learn pages.
-- Level test (`src/lib/levelTest.ts`, `#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first,
-  built from the drill generators (typed questions become multiple choice with other real forms of the same word as
-  wrong options; every question must have exactly one right option). The level of each slot is our judgement; a level
-  counts at 8/12 and only if every level below counts. Leave out topics where two options can both be right (indefinite
-  pronouns). Results are never stored.
+- Level test (`src/lib/levelTest.ts`, `#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first.
+  Each level draws 12 of a larger pool of question types (at most 2 per topic), ordered by a 1–3 difficulty weight;
+  words are random and graded by frequency rank (A1 commonest only, B2/C1 rarer). Two sources: drill questions (other
+  real forms of the same word as wrong options) and gapped Tatoeba sentences with the lemma in brackets (wrong options
+  are other forms of that lemma, never one the preposition or нет could also take; a spelling shared by two cells is
+  read in the case the sentence needs). Every question must have exactly one right option. A level counts at 9/12 and
+  only if every level below counts. Leave out topics where two options can both be right (indefinite pronouns).
+  Results are never stored.
 - `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
