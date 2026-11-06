@@ -53,7 +53,8 @@ export function generateMotionQuestions(pairs: MotionPair[], verbs: Map<number, 
     if (s.types.includes('partner')) all.push(partnerQuestion(true, u, m), partnerQuestion(false, m, u));
     if (s.types.includes('conjugate')) {
       for (const v of [u, m]) {
-        const cells = VERB_CELLS.map((c, i) => [c, i] as const).filter(([c, i]) => c.group !== 'imperative' && v.cells[i]);
+        const groups = s.groups?.length ? s.groups : (['presfut', 'past'] as const);
+        const cells = VERB_CELLS.map((c, i) => [c, i] as const).filter(([c, i]) => (groups as readonly string[]).includes(c.group) && v.cells[i]);
         // two random cells per verb keeps the candidate list balanced against the other types
         for (const [, i] of shuffle(rng, cells).slice(0, 2)) all.push({ ...verbFormQuestion(v, i, 'motion'), key: `m:conj:${v.id}:${i}` });
       }

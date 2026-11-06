@@ -8,7 +8,7 @@
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { AdverbRow, ClozeRow, PronounData, SpecialCaseRow } from '../../src/shared/types.ts';
-import { ADJ_INDEX } from '../../src/shared/cells.ts';
+import { ADJ_INDEX, VERB_CELLS } from '../../src/shared/cells.ts';
 import type { Adjective } from './clean-adjectives.ts';
 import type { Noun } from './clean-nouns.ts';
 import type { Verb } from './clean-verbs.ts';
@@ -20,6 +20,9 @@ import type { WkExtract } from './wiktionary.ts';
 import type { PositionFamily, TimeWords } from './phase-e.ts';
 
 const S = 'Sentence drills (Tatoeba)';
+/** Tense tag for a verb token: its cell's group (presfut / past / imperative), or inf for the infinitive. Appended to a
+ *  row's kind after "@" so a drill can be limited to the tenses the learner chooses. */
+const tenseOf = (cell: number | undefined) => (cell === undefined || cell < 0 ? 'inf' : (VERB_CELLS[cell]?.group ?? 'inf'));
 /** Max items per kind, chosen deterministically (by a hash of the sentence id). */
 const CAP = 1500;
 
@@ -48,7 +51,7 @@ const hash = (n: number) => {
   return (x ^ (x >>> 16)) >>> 0;
 };
 /** Per-topic caps where a topic has many kinds (one per preposition). */
-const TOPIC_CAP: Record<string, number> = { prepositions: 400 };
+const TOPIC_CAP: Record<string, number> = { prepositions: 400, aspectContext: 400, position: 300 };
 function capped(rows: ClozeRow[], cap = CAP): ClozeRow[] {
   return [...rows].sort((a, b) => hash(a[0]) - hash(b[0]) || a[0] - b[0]).slice(0, cap);
 }
@@ -369,7 +372,8 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
       const mine = normalise(v.bare) === t.n ? v.bare : accentedMatch(v.cells[[...Array(12).keys()].find((b) => o.mask & (1 << b))!]!, t.text).replace(/'/g, '');
       const other = theirs.replace(/'/g, '');
       if (!other || normalise(other) === t.n || toks.some((x) => x.n === normalise(other))) continue;
-      out.aspectContext!.push(row(t, mine, '', v.aspect, v.aspect === 'impf' ? [mine, other] : [other, mine]));
+      const cellNo = normalise(v.bare) === t.n ? -1 : [...Array(12).keys()].find((b) => o.mask & (1 << b));
+      out.aspectContext!.push(row(t, mine, '', `${v.aspect}@${tenseOf(cellNo)}`, v.aspect === 'impf' ? [mine, other] : [other, mine]));
       break;
     }
 
@@ -447,7 +451,7 @@ export function buildCloze(inp: Input): Record<string, { file: string; count: nu
         if (f) opts.push(f);
       }
       const mineOpt = opts.find((o) => normalise(o) === t.n);
-      if (mineOpt && opts.length >= 2 && new Set(opts.map(normalise)).size === opts.length) out.position!.push(row(t, mineOpt, '', `${pr.fam.family}:${pr.role}`, opts));
+      if (mineOpt && opts.length >= 2 && new Set(opts.map(normalise)).size === opts.length) out.position!.push(row(t, mineOpt, '', `${pr.fam.family}:${pr.role}@${tenseOf(ci)}`, opts));
       break;
     }
 

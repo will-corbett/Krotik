@@ -177,6 +177,15 @@ export interface GovernmentSettings {
 }
 export interface PrefixedMotionSettings {
   types: ('meaning' | 'pair' | 'conjugate')[];
+  /** tenses for "conjugate" (present/future and past if absent) */
+  groups?: VerbGroup[];
+}
+/** Sentence drills whose verb can be in any tense: which ones to practise (inf = the infinitive). */
+export interface TenseSettings {
+  tenses: ('presfut' | 'past' | 'imperative' | 'inf')[];
+}
+export interface ChtobySettings {
+  kinds: ('inf' | 'past')[];
 }
 export interface NarechiyaSettings {
   types: ('form' | 'comparative' | 'sentence')[];
@@ -195,4 +204,6 @@ export interface AlphabetSettings {
 }
 export interface MotionSettings {
   types: ('meaning' | 'partner' | 'conjugate')[];
+  /** tenses for "conjugate" (present/future and past if absent) */
+  groups?: VerbGroup[];
 }

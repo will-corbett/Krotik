@@ -108,13 +108,21 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
       const rows = (await loadDiminutives(s.band)).map((r) => r.row);
       return (n) => generateDiminutiveQuestions(rows, s.diminutives, n, rng);
     }
+    case 'aspectContext':
+    case 'position': {
+      const rows = await loadCloze(s.mode);
+      const topic = s.mode;
+      const tenses = s[topic].tenses;
+      return (n) => generateClozeQuestions(rows, topic, null, n, rng, tenses);
+    }
+    case 'chtoby': {
+      const rows = await loadCloze('chtoby');
+      return (n) => generateClozeQuestions(rows, 'chtoby', s.chtoby.kinds, n, rng);
+    }
     case 'kotoryi':
-    case 'chtoby':
     case 'conditional':
     case 'indefinite':
     case 'prepositions':
-    case 'aspectContext':
-    case 'position':
     case 'impersonal':
     case 'comparison':
     case 'conjunctions':
@@ -254,6 +262,10 @@ export function settingsValid(s: Settings): string | null {
   if (s.mode === 'plurals' && s.plurals.contexts.length === 1 && s.plurals.contexts[0] === 'cases' && !s.plurals.cases.length) return 'Choose at least one case.';
   if (s.mode === 'adjectives' && !s.adjectives.cases.length) return 'Choose at least one case.';
   if (s.mode === 'motion' && !s.motion.types.length) return 'Choose at least one question type.';
+  if (s.mode === 'motion' && s.motion.types.includes('conjugate') && !s.motion.groups?.length) return 'Choose at least one tense.';
+  if (s.mode === 'prefixedMotion' && s.prefixedMotion.types.includes('conjugate') && !s.prefixedMotion.groups?.length) return 'Choose at least one tense.';
+  if ((s.mode === 'aspectContext' || s.mode === 'position') && !s[s.mode].tenses.length) return 'Choose at least one tense.';
+  if (s.mode === 'chtoby' && !s.chtoby.kinds.length) return 'Choose at least one form.';
   if (s.mode === 'narechiya' && !s.narechiya.types.length) return 'Choose at least one question type.';
   if (s.mode === 'questionWords' && !s.questionWords.types.length) return 'Choose at least one question type.';
   if (s.mode === 'ordinals' && !s.ordinals.types.length) return 'Choose at least one question type.';

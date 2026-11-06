@@ -106,8 +106,13 @@ const PREP_NOTE: Record<string, string> = {
   'под:acc': 'direction, “under” (куда?)', 'под:inst': 'location, “under” (где?)', 'с:gen': '“from, off” (с горы)', 'с:inst': '“with” (с другом)',
 };
 
+/** A kind may carry its verb's tense after "@" (impf@past, sit:get@presfut). */
+export const kindBase = (kind: string) => kind.split('@')[0]!;
+export const kindTense = (kind: string): string | undefined => kind.split('@')[1];
+
 /** Explanation for an item kind; preposition kinds are "prep:case". */
-export function explainFor(kind: string): string | undefined {
+export function explainFor(fullKind: string): string | undefined {
+  const kind = kindBase(fullKind);
   const g = /^([a-z+]+)\|(.+)$/.exec(kind);
   if (g) return `${g[2]!.replace(/'/g, '')} ${PATTERN_LABEL[g[1]!] ?? ''}`.trim() + '.';
   const pos = /^(stand|lie|sit|hang):(state|put|get)$/.exec(kind);
@@ -122,7 +127,8 @@ export function explainFor(kind: string): string | undefined {
 }
 
 /** Which settings group a kind belongs to (negation kinds and particle groups). */
-export function kindGroup(kind: string): string {
+export function kindGroup(fullKind: string): string {
+  const kind = kindBase(fullKind);
   if (kind.startsWith('zhe-ved')) return 'zhe-ved';
   if (kind.startsWith('colloquial') || kind === 'ka') return 'colloquial';
   return kind;
@@ -155,10 +161,12 @@ export function clozeQuestion(row: ClozeRow, topic: ClozeTopic): Question {
  * Pick a kind first (uniformly among the allowed ones), then a sentence of that kind, so rare
  * kinds (чтобы + past, ну, -ка) aren't swamped by common ones.
  */
-export function generateClozeQuestions(rows: ClozeRow[], topic: ClozeTopic, groups: string[] | null, n: number, rng: Rng): Question[] {
+export function generateClozeQuestions(rows: ClozeRow[], topic: ClozeTopic, groups: string[] | null, n: number, rng: Rng, tenses?: string[]): Question[] {
   const byKind = new Map<string, ClozeRow[]>();
   for (const r of rows) {
     if (groups && !groups.includes(kindGroup(r[7]))) continue;
+    const tense = kindTense(r[7]);
+    if (tenses && tense && !tenses.includes(tense)) continue;
     (byKind.get(r[7]) ?? byKind.set(r[7], []).get(r[7])!).push(r);
   }
   const kinds = [...byKind.keys()].sort();

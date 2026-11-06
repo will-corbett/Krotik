@@ -58,7 +58,8 @@ export function generatePrefixedMotion(data: PrefixedData, s: PrefixedMotionSett
     if (s.types.includes('pair')) all.push(prefixedPairQuestion(p, pf, impf), prefixedPairQuestion(p, impf, pf));
     if (s.types.includes('conjugate')) {
       for (const v of [pf, impf]) {
-        const cells = VERB_CELLS.map((c, i) => [c, i] as const).filter(([c, i]) => c.group !== 'imperative' && v.cells[i]);
+        const groups = s.groups?.length ? s.groups : (['presfut', 'past'] as const);
+        const cells = VERB_CELLS.map((c, i) => [c, i] as const).filter(([c, i]) => (groups as readonly string[]).includes(c.group) && v.cells[i]);
         if (cells.length) {
           const [, i] = pick(rng, cells);
           all.push({ ...verbFormQuestion(v, i, 'prefixedMotion'), key: `pm:conj:${v.id}:${i}` });

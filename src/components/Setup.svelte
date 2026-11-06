@@ -5,7 +5,7 @@
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
-  import type { CompareSettings, Mode, MotionSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
+  import type { CompareSettings, Mode, MotionSettings, TenseSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
@@ -59,6 +59,12 @@
     { id: 'presfut', label: TERMS.presfut },
     { id: 'past', label: TERMS.past },
     { id: 'imperative', label: TERMS.imperative },
+  ];
+  const SENTENCE_TENSES: { id: TenseSettings['tenses'][number]; label: Term }[] = [
+    { id: 'presfut', label: TERMS.presfut },
+    { id: 'past', label: TERMS.past },
+    { id: 'imperative', label: TERMS.imperative },
+    { id: 'inf', label: { en: 'Infinitive', ru: 'инфинитив' } },
   ];
   const MOTION_TYPES: { id: MotionSettings['types'][number]; label: Term }[] = [
     { id: 'meaning', label: { en: 'Name the verb from its meaning', ru: 'значение' } },
@@ -490,6 +496,36 @@
               {t.label.en} <span class="ru" lang="ru">{t.label.ru}</span>
             </label>
           {/each}
+        </div>
+      </fieldset>
+    {/if}
+
+    {#snippet tenseChips(chosen: string[], options: { id: string; label: Term }[], ontoggle: (id: string) => void)}
+      <fieldset>
+        <legend>Tenses <span class="ru" lang="ru">времена</span></legend>
+        <div class="chips">
+          {#each options as o (o.id)}
+            <label class="chip">
+              <input type="checkbox" checked={chosen.includes(o.id)} onchange={() => ontoggle(o.id)} />
+              {o.label.en} <span class="ru" lang="ru">{o.label.ru}</span>
+            </label>
+          {/each}
+        </div>
+      </fieldset>
+    {/snippet}
+    {#if settings.mode === 'motion' && settings.motion.types.includes('conjugate')}
+      {@render tenseChips(settings.motion.groups ?? [], GROUPS, (id) => (settings.motion.groups = toggle(settings.motion.groups ?? [], id as VerbGroup)))}
+    {:else if settings.mode === 'prefixedMotion' && settings.prefixedMotion.types.includes('conjugate')}
+      {@render tenseChips(settings.prefixedMotion.groups ?? [], GROUPS, (id) => (settings.prefixedMotion.groups = toggle(settings.prefixedMotion.groups ?? [], id as VerbGroup)))}
+    {:else if settings.mode === 'aspectContext' || settings.mode === 'position'}
+      {@const key = settings.mode}
+      {@render tenseChips(settings[key].tenses, SENTENCE_TENSES, (id) => (settings[key].tenses = toggle(settings[key].tenses, id as TenseSettings['tenses'][number])))}
+    {:else if settings.mode === 'chtoby'}
+      <fieldset>
+        <legend>After чтобы <span class="ru" lang="ru">после чтобы</span></legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.chtoby.kinds.includes('inf')} onchange={() => (settings.chtoby.kinds = toggle(settings.chtoby.kinds, 'inf'))} /> Infinitive (same subject) <span class="ru" lang="ru">инфинитив</span></label>
+          <label class="chip"><input type="checkbox" checked={settings.chtoby.kinds.includes('past')} onchange={() => (settings.chtoby.kinds = toggle(settings.chtoby.kinds, 'past'))} /> Past tense (different subject) <span class="ru" lang="ru">прошедшее время</span></label>
         </div>
       </fieldset>
     {/if}

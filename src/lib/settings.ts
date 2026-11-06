@@ -1,6 +1,6 @@
 /** UI settings only (never progress), remembered in localStorage when available. */
 import type { Case, VerbGroup } from '../shared/cells.ts';
-import type { AlphabetSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
+import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
@@ -41,6 +41,9 @@ export interface Settings {
   ordinals: OrdinalSettings;
   specialCases: SpecialCaseSettings;
   alphabet: AlphabetSettings;
+  aspectContext: TenseSettings;
+  position: TenseSettings;
+  chtoby: ChtobySettings;
 }
 
 export const DEFAULTS: Settings = {
@@ -66,16 +69,19 @@ export const DEFAULTS: Settings = {
   nounCases: { cases: ['gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
   stressDrill: { sources: ['verbs', 'nouns', 'adjectives'], forms: 'any' },
   government: { types: ['choice', 'sentence'] },
-  prefixedMotion: { types: ['meaning', 'pair', 'conjugate'] },
+  prefixedMotion: { types: ['meaning', 'pair', 'conjugate'], groups: ['presfut', 'past'] as VerbGroup[] },
   particles: { groups: ['li', 'zhe-ved', 'ne-ni', 'colloquial'] },
   aspect: { direction: 'both' },
   adjectives: { cases: ['nom', 'gen', 'dat', 'acc', 'inst', 'prep'] as Case[], number: 'sg' },
-  motion: { types: ['meaning', 'partner', 'conjugate'] },
+  motion: { types: ['meaning', 'partner', 'conjugate'], groups: ['presfut', 'past'] as VerbGroup[] },
   narechiya: { types: ['form', 'comparative', 'sentence'] },
   questionWords: { types: ['table', 'sentence'] },
   ordinals: { types: ['agree', 'dates', 'centuries'] },
   specialCases: { types: ['form', 'sentence'] },
   alphabet: { types: ['letters', 'read', 'write'] },
+  aspectContext: { tenses: ['presfut', 'past', 'imperative', 'inf'] },
+  position: { tenses: ['presfut', 'past', 'imperative', 'inf'] },
+  chtoby: { kinds: ['inf', 'past'] },
 };
 
 const KEY = 'krotik.settings.v1';
@@ -114,6 +120,9 @@ export function loadSettings(): Settings {
       ordinals: { ...DEFAULTS.ordinals, ...saved.ordinals },
       specialCases: { ...DEFAULTS.specialCases, ...saved.specialCases },
       alphabet: { ...DEFAULTS.alphabet, ...saved.alphabet },
+      aspectContext: { ...DEFAULTS.aspectContext, ...saved.aspectContext },
+      position: { ...DEFAULTS.position, ...saved.position },
+      chtoby: { ...DEFAULTS.chtoby, ...saved.chtoby },
     };
   } catch {
     return structuredClone(DEFAULTS);
