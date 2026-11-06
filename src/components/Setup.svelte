@@ -1,14 +1,15 @@
 <script lang="ts">
   import { CASES, type Case, type VerbGroup } from '../shared/cells.ts';
   import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
-  import { TOPIC_GROUPS } from '../lib/topics.ts';
+  import { topicById } from '../lib/topics.ts';
+  import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
   import type { CompareSettings, Mode, MotionSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
-  const GROUPS_OF_MODES = TOPIC_GROUPS;
+  const topic = $derived(topicById(settings.mode));
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
     { id: 'superlative', label: { en: 'Superlative (-ейший)', ru: TERMS.superlative.ru } },
@@ -79,22 +80,15 @@
 </script>
 
 <form class="setup fade-in" onsubmit={submit}>
-  <fieldset class="modes">
-    <legend>Practise</legend>
-    {#each GROUPS_OF_MODES as g (g.title.en)}
-      <h2 class="group">{g.title.en} <span class="ru" lang="ru">{g.title.ru}</span></h2>
-      <div class="mode-grid">
-        {#each g.modes as m (m.id)}
-          <label class="mode" class:selected={settings.mode === m.id}>
-            <input type="radio" name="mode" value={m.id} bind:group={settings.mode} />
-            <span class="mode-title">{m.title.en}</span>
-            <span class="mode-ru" lang="ru">{m.title.ru}</span>
-            <span class="mode-blurb">{m.blurb}</span>
-          </label>
-        {/each}
-      </div>
-    {/each}
-  </fieldset>
+  <header class="setup-head">
+    <h1>Set up your drill</h1>
+    {#if topic}
+      <p class="chosen">
+        You've chosen <strong>{topic.title.en}</strong> <span class="ru" lang="ru">{topic.title.ru}</span>: {topic.blurb}.
+        <a href={href({ page: 'drill' })}>Choose a different drill</a>
+      </p>
+    {/if}
+  </header>
 
   <div class="card options">
     {#if settings.mode === 'verbs' || settings.mode === 'reflexive'}
@@ -559,64 +553,19 @@
     margin-bottom: 8px;
     padding: 0;
   }
-  .modes legend {
-    font-size: 1.4rem;
-    font-family: var(--serif);
-  }
-  .group {
-    font-size: 1rem;
-    margin: 14px 0 8px;
-  }
-  .group:first-of-type {
-    margin-top: 0;
-  }
   .first {
     margin: 0 0 18px;
   }
-  .mode-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-  }
-  .mode {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 14px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-  }
-  .mode input {
-    position: absolute;
-    opacity: 0;
-    inset: 0;
-    cursor: pointer;
-  }
-  .mode:has(input:focus-visible) {
-    outline: 3px solid var(--focus);
-    outline-offset: 2px;
-  }
-  .mode.selected {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-    box-shadow: inset 0 0 0 1px var(--accent);
-  }
-  .mode-title {
-    font-weight: 700;
-  }
-  .mode-ru {
+  .setup-head h1 {
     font-family: var(--serif);
-    font-size: 0.95rem;
+    margin: 4px 0 6px;
+  }
+  .chosen {
+    margin: 0 0 16px;
+    line-height: 1.6;
   }
   .ru {
     font-family: var(--serif);
-    color: var(--muted);
-  }
-  .mode-blurb {
-    font-size: 0.9rem;
     color: var(--muted);
   }
   .options {

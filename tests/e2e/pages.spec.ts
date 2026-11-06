@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
-import { goTo } from './helpers.ts';
+import { goTo, setup } from './helpers.ts';
 
 test('dashboard lists every topic with Drill links, and Learn links where written', async ({ page }) => {
   await page.goto('/');
@@ -9,13 +9,25 @@ test('dashboard lists every topic with Drill links, and Learn links where writte
   await expect(page.getByRole('link', { name: 'Learn: Noun cases' })).toBeVisible();
   await page.getByRole('link', { name: 'Drill: Aspect partners' }).click();
   await expect(page).toHaveURL(/#\/drill\/aspect$/);
-  await expect(page.getByRole('radio', { name: /Aspect partners/ })).toBeChecked();
+  await expect(page.getByRole('heading', { name: 'Set up your drill' })).toBeVisible();
+  await expect(page.getByText(/You've chosen Aspect partners/)).toBeVisible();
+});
+
+test('choosing a drill shows "Set up your drill", which leads to that drill’s settings', async ({ page }) => {
+  await page.goto('/#/drill');
+  await expect(page.getByRole('link', { name: 'Set up your drill' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Start' })).toHaveCount(0);
+  await page.getByRole('radio', { name: /Plurals/ }).check();
+  await page.getByRole('link', { name: 'Set up your drill' }).click();
+  await expect(page).toHaveURL(/#\/drill\/plurals$/);
+  await expect(page.getByText(/You've chosen Plurals/)).toBeVisible();
+  await page.getByRole('link', { name: 'Choose a different drill' }).click();
+  await expect(page).toHaveURL(/#\/drill$/);
+  await expect(page.getByRole('radio', { name: /Plurals/ })).toBeChecked();
 });
 
 test('Continue starts a round with the saved settings', async ({ page }) => {
-  await page.goto('/?seed=3#/drill');
-  await page.getByRole('radio', { name: /Motion verbs/ }).check();
-  await page.getByRole('radio', { name: '10', exact: true }).check();
+  await setup(page, 'Motion verbs');
   await goTo(page, 'Dashboard');
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
@@ -30,7 +42,7 @@ test('the Continue card can be hidden, and comes back after the next drill', asy
   await page.reload();
   await expect(page.getByText('Continue drilling')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
-  await page.goto('/?seed=4#/drill');
+  await page.goto('/?seed=4#/drill/verbs');
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
   await goTo(page, 'Dashboard');
@@ -74,7 +86,8 @@ test('a Learn page shows data tables, real sentences and a working quick check',
   await check.getByRole('button', { name: 'Next' }).click();
   await expect(check.getByText('Question 2 of 5')).toBeVisible();
   await page.getByRole('link', { name: 'Drill: Noun cases' }).click();
-  await expect(page.getByRole('radio', { name: /Noun cases/ })).toBeChecked();
+  await expect(page).toHaveURL(/#\/drill\/nounCases$/);
+  await expect(page.getByText(/You've chosen Noun cases/)).toBeVisible();
 });
 
 test('every written Learn page loads without errors', async ({ page }) => {

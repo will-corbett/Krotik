@@ -39,9 +39,10 @@ export type ModeName =
   | 'The alphabet';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
-  // A fresh page load each time (the unique query forces it), straight to the Drill page.
+  // A fresh page load each time (the unique query forces it): choose the drill, then go to its settings page.
   await page.goto(`/?seed=42&t=${Date.now()}#/drill`);
-  await page.getByRole('radio', { name: new RegExp(mode) }).check();
+  await page.getByRole('radio', { name: new RegExp(mode) }).click(); // a click, as a user would (it may already be selected)
+  await page.getByRole('link', { name: 'Set up your drill' }).click();
   await page.getByRole('radio', { name: String(count), exact: true }).check();
 }
 

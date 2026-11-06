@@ -1,5 +1,6 @@
 <script lang="ts">
   import Setup from './components/Setup.svelte';
+  import DrillChoose from './components/DrillChoose.svelte';
   import Drill from './components/Drill.svelte';
   import EndScreen from './components/EndScreen.svelte';
   import About from './components/About.svelte';
@@ -85,10 +86,17 @@
     }
   }
 
-  /** Dashboard "Continue": go to the Drill page and start a round with the saved settings. */
+  /** The settings page for the current drill (from the round's end screen). */
+  function openSettings() {
+    screen = 'setup';
+    const target = href({ page: 'drill', mode: settings.mode });
+    if (location.hash !== target) location.hash = target;
+  }
+
+  /** Dashboard "Continue": go to the drill's page and start a round with the saved settings. */
   async function continueDrill() {
     if (route.page !== 'drill') {
-      route = { page: 'drill' };
+      route = { page: 'drill', mode: settings.mode };
       history.pushState(null, '', href(route));
     }
     screen = 'setup';
@@ -173,7 +181,9 @@
     {:else if screen === 'drill' && round}
       <Drill {round} bind:settings notice={shortfall} more={generate} onfinish={finish} />
     {:else if screen === 'end' && round}
-      <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0} onagain={start} onsettings={() => (screen = 'setup')} />
+      <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0} onagain={start} onsettings={openSettings} />
+    {:else if route.page === 'drill' && !route.mode}
+      <DrillChoose bind:settings onnext={(m) => (location.hash = href({ page: 'drill', mode: m }))} />
     {:else}
       <Setup bind:settings {loading} {error} onstart={start} />
     {/if}

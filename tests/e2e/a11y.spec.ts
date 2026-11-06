@@ -30,7 +30,11 @@ test('keyboard only: choose a mode, start, answer, continue', async ({ page }) =
   await page.getByRole('radio', { name: /Verb forms/ }).focus();
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('radio', { name: /Aspect partners/ })).toBeChecked();
-  // Enter in a form control submits the setup form, starting the round.
+  // Enter on the chosen drill goes to its settings page; Enter on Start begins the round.
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/#\/drill\/aspect$/);
+  await expect(page.getByText(/You've chosen Aspect partners/)).toBeVisible();
+  await page.getByRole('button', { name: 'Start' }).focus();
   await page.keyboard.press('Enter');
   const input = page.getByRole('textbox', { name: 'Your answer' });
   await expect(input).toBeFocused();
@@ -59,7 +63,7 @@ test('settings are remembered, progress is not', async ({ page }) => {
   await setup(page, 'Motion verbs', 40);
   await page.getByRole('checkbox', { name: 'Stress marks' }).uncheck();
   await page.reload();
-  await expect(page.getByRole('radio', { name: /Motion verbs/ })).toBeChecked();
+  await expect(page.getByText(/You've chosen Motion verbs/)).toBeVisible();
   await expect(page.getByRole('radio', { name: '40', exact: true })).toBeChecked();
   await expect(page.getByRole('checkbox', { name: 'Stress marks' })).not.toBeChecked();
   const keys = await page.evaluate(() => Object.keys(localStorage));
@@ -86,6 +90,7 @@ test('settings saved under the previous name carry over', async ({ page }) => {
   });
   await page.reload();
   await expect(page.getByRole('radio', { name: /Motion verbs/ })).toBeChecked();
+  await page.goto('/#/drill/motion');
   await page.getByRole('radio', { name: '10', exact: true }).check();
   expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['krotik.settings.v1']);
 });

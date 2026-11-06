@@ -87,8 +87,7 @@ test('End round shows the score so far', async ({ page }) => {
 });
 
 test('unlimited round keeps going until End round', async ({ page }) => {
-  await page.goto('/?seed=5#/drill');
-  await page.getByRole('radio', { name: /Motion verbs/ }).check();
+  await setup(page, 'Motion verbs');
   await page.getByRole('radio', { name: 'Unlimited' }).check();
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText('unlimited round')).toBeVisible();
