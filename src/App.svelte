@@ -7,6 +7,7 @@
   import LearnIndex from './components/LearnIndex.svelte';
   import LearnPage from './components/LearnPage.svelte';
   import Culture from './components/Culture.svelte';
+  import LevelTest from './components/LevelTest.svelte';
   import CultureNote from './components/CultureNote.svelte';
   import { loadSettings, saveSettings, type Settings } from './lib/settings.ts';
   import { nextBatch, prepareRound, UNLIMITED_BATCH, type Generate } from './lib/start.ts';
@@ -101,6 +102,7 @@
 
   const NAV: { label: string; route: Route }[] = [
     { label: 'Dashboard', route: { page: 'home' } },
+    { label: 'Level test', route: { page: 'test' } },
     { label: 'Learn', route: { page: 'learn' } },
     { label: 'Drill', route: { page: 'drill' } },
     { label: 'Culture', route: { page: 'culture' } },
@@ -132,11 +134,13 @@
     {#if route.page === 'home'}
       <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} />
     {:else if route.page === 'learn' && route.topic}
-      <LearnPage topic={route.topic} {settings} />
+      <LearnPage topic={route.topic} bind:settings />
     {:else if route.page === 'learn'}
       <LearnIndex />
+    {:else if route.page === 'test'}
+      <LevelTest {settings} />
     {:else if route.page === 'culture' && route.note}
-      <CultureNote id={route.note} {settings} />
+      <CultureNote id={route.note} bind:settings />
     {:else if route.page === 'culture'}
       <Culture />
     {:else if route.page === 'about'}
@@ -199,6 +203,8 @@
   }
   nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 4px;
     margin-left: auto;
   }
@@ -208,6 +214,22 @@
     color: var(--text);
     text-decoration: none;
     font-weight: 700;
+    white-space: nowrap;
+  }
+  /* Phones: the five tabs get their own full-width row under the logo, wrapping if they must. */
+  @media (max-width: 560px) {
+    nav {
+      margin-left: 0;
+      width: 100%;
+      justify-content: flex-start;
+    }
+    nav {
+      gap: 2px;
+    }
+    .nav-link {
+      padding: 6px 7px;
+      font-size: 0.9rem;
+    }
   }
   .nav-link:hover {
     background: var(--surface-2);

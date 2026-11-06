@@ -86,7 +86,7 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme === 'dark' ? 'dark' : 'light' });
     await page.goto('/');
     await page.getByLabel('Theme').selectOption(theme);
-    for (const url of ['/#/', '/#/learn', '/#/learn/pronouns', '/#/culture', '/#/culture/names']) {
+    for (const url of ['/#/', '/#/learn', '/#/learn/pronouns', '/#/learn/alphabet', '/#/culture', '/#/culture/names', '/#/test']) {
       await page.goto(url);
       await expect(page.locator('main')).not.toContainText('Loading…');
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
@@ -138,12 +138,58 @@ test('no embedded players or third-party requests on the Culture page', async ({
   expect(external).toEqual([]);
 });
 
-test('the four-tab menu fits a phone screen without horizontal scroll', async ({ page }) => {
+test('the five-tab menu fits a phone screen without horizontal scroll', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 740 });
-  for (const url of ['/#/', '/#/culture', '/#/culture/russian-beyond-russia']) {
+  for (const url of ['/#/', '/#/test', '/#/culture', '/#/culture/russian-beyond-russia']) {
     await page.goto(url);
     await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, url).toBeLessThanOrEqual(0);
   }
+});
+
+test('Learn quick checks offer the on-screen keyboard, which types into the answer', async ({ page }) => {
+  await page.goto('/#/learn/nounCases');
+  const check = page.getByRole('group', { name: 'Quick check' });
+  await expect(check.getByText('Question 1 of 5')).toBeVisible();
+  await check.getByRole('button', { name: /Cyrillic keyboard/ }).click();
+  const kb = check.getByRole('group', { name: 'Cyrillic keyboard' });
+  await kb.getByRole('button', { name: 'к', exact: true }).click();
+  await kb.getByRole('button', { name: 'о', exact: true }).click();
+  await kb.getByRole('button', { name: 'т', exact: true }).click();
+  await expect(check.getByRole('textbox', { name: 'Your answer' })).toHaveValue('кот');
+  await kb.getByRole('button', { name: 'Backspace' }).click();
+  await expect(check.getByRole('textbox', { name: 'Your answer' })).toHaveValue('ко');
+  await check.getByRole('button', { name: 'Hide keyboard' }).click();
+  await expect(kb).toHaveCount(0);
+});
+
+test('the alphabet is the first Learn page and the first topic', async ({ page }) => {
+  await page.goto('/#/learn');
+  await expect(page.locator('main li a').first()).toHaveAttribute('href', '#/learn/alphabet');
+  await page.locator('main li a').first().click();
+  await expect(page.getByRole('heading', { name: /The alphabet/, level: 1 })).toBeVisible();
+  await expect(page.getByRole('group', { name: 'Quick check' }).getByText('Question 1 of 6')).toBeVisible();
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: 'Learn: The alphabet' })).toBeVisible();
+});
+
+test('level test: 60 questions, I don’t know, early end, result and review links', async ({ page }) => {
+  await page.goto('/?seed=9');
+  await page.getByRole('link', { name: 'Take the test' }).click();
+  await expect(page).toHaveURL(/#\/test$/);
+  await page.getByRole('button', { name: 'Start the test' }).click();
+  await expect(page.getByText('Question 1 of 60')).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('button', { name: /I don't know/ })).toBeVisible();
+  for (let n = 0; n < 60; n++) await page.getByRole('button', { name: /I don't know/ }).click();
+  await expect(page.getByRole('heading', { name: 'Your result' })).toBeVisible();
+  await expect(page.getByText('Starting out')).toBeVisible();
+  await expect(page.getByRole('link', { name: /^Learn: / }).first()).toBeVisible();
+  await page.getByRole('button', { name: 'Take the test again' }).click();
+  await page.getByRole('button', { name: 'Start the test' }).click();
+  await expect(page.getByText('Question 1 of 60')).toBeVisible({ timeout: 30_000 });
+  await page.keyboard.press('1');
+  await expect(page.getByText('Question 2 of 60')).toBeVisible();
+  await page.getByRole('button', { name: 'End test now' }).click();
+  await expect(page.getByText('Based on the 1 questions you answered.')).toBeVisible();
 });

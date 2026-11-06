@@ -33,6 +33,15 @@
   </div>
   {/if}
 
+  <div class="card continue test-card">
+    <div class="c-text">
+      <p class="label muted">Level test</p>
+      <p class="what"><strong>Find your level</strong> <span lang="ru" class="ru">тест на уровень</span></p>
+      <p class="muted small">60 multiple-choice questions from A1 to C1, about 15–20 minutes, with Learn pages to review at the end.</p>
+    </div>
+    <a class="btn" href={href({ page: 'test' })}>Take the test</a>
+  </div>
+
   <h2 class="map-title">All topics</h2>
   {#each TOPIC_GROUPS as g (g.title.en)}
     <section class="group" aria-labelledby="g-{g.title.en}">
