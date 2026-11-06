@@ -4,19 +4,27 @@
   import { TOPIC_GROUPS } from '../lib/topics.ts';
   import type { Mode } from '../lib/types.ts';
 
-  /** Choose a drill. Once you pick one, a button appears at the bottom of the screen to go to its settings. */
+  /**
+   * Choose a drill. Nothing is selected when you arrive; once you pick one, a button appears at the bottom of the
+   * screen to go to its settings (and the choice becomes the current drill).
+   */
   let { settings = $bindable(), onnext }: { settings: Settings; onnext: (mode: Mode) => void } = $props();
-  let picked = $state(false);
+  let chosen = $state<Mode | null>(null);
+  const picked = $derived(chosen !== null);
 
+  function choose(m: Mode) {
+    chosen = m;
+    settings.mode = m;
+  }
   function submit(e: SubmitEvent) {
     e.preventDefault();
-    onnext(settings.mode);
+    if (chosen) onnext(chosen);
   }
   // Keyboard: Enter on a drill goes to its settings (a form with no submit button doesn't submit on Enter by itself).
   function onkey(e: KeyboardEvent) {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && chosen) {
       e.preventDefault();
-      onnext(settings.mode);
+      onnext(chosen);
     }
   }
 </script>
@@ -28,8 +36,8 @@
       <h2 class="group">{g.title.en} <span class="ru" lang="ru">{g.title.ru}</span></h2>
       <div class="mode-grid">
         {#each g.modes as m (m.id)}
-          <label class="mode" class:selected={settings.mode === m.id}>
-            <input type="radio" name="mode" value={m.id} bind:group={settings.mode} onclick={() => (picked = true)} onchange={() => (picked = true)} onkeydown={onkey} />
+          <label class="mode" class:selected={chosen === m.id}>
+            <input type="radio" name="mode" value={m.id} checked={chosen === m.id} onchange={() => choose(m.id)} onkeydown={onkey} />
             <span class="mode-title">{m.title.en}</span>
             <span class="mode-ru" lang="ru">{m.title.ru}</span>
             <span class="mode-blurb">{m.blurb}</span>
@@ -40,8 +48,8 @@
   </fieldset>
 
   {#if picked}
-    <a class="btn primary next" href={href({ page: 'drill', mode: settings.mode })}>
-      <span aria-hidden="true">↓</span> Set up your drill
+    <a class="btn primary next" href={href({ page: 'drill', mode: chosen! })}>
+      Set up your drill <span aria-hidden="true">✓</span>
     </a>
   {/if}
 </form>

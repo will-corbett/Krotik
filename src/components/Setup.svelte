@@ -7,7 +7,7 @@
   import { settingsValid } from '../lib/start.ts';
   import type { CompareSettings, Mode, MotionSettings, TenseSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
-  let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
+  let { settings = $bindable(), loading, error, onstart, onback }: { settings: Settings; loading: boolean; error: string; onstart: () => void; onback: () => void } = $props();
 
   const topic = $derived(topicById(settings.mode));
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
@@ -90,7 +90,7 @@
     <h1>Set up your drill</h1>
     {#if topic}
       <p class="chosen">
-        You've chosen <strong>{topic.title.en}</strong> <span class="ru" lang="ru">{topic.title.ru}</span>: {topic.blurb}.
+        You've chosen: <strong>{topic.title.en}</strong> (<span lang="ru">{topic.title.ru}</span>).
         <a href={href({ page: 'drill' })}>Choose a different drill</a>
       </p>
     {/if}
@@ -568,6 +568,7 @@
     <button class="btn primary start" type="submit" disabled={!!invalid || loading}>
       {loading ? 'Loading…' : 'Start'}
     </button>
+    <button class="btn back" type="button" onclick={onback}>Back</button>
     <p class="status" role="status" aria-live="polite">
       {#if invalid}<span class="err">{invalid}</span>{:else if error}<span class="err">{error}</span>{/if}
     </p>
@@ -646,6 +647,12 @@
   }
   .start {
     min-width: 160px;
+    font-size: 1.1rem;
+  }
+  /* White with black text, unlike the filled Start button. */
+  .back {
+    background: #fff;
+    color: #090c13;
     font-size: 1.1rem;
   }
   .status {

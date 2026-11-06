@@ -33,7 +33,7 @@ test('keyboard only: choose a mode, start, answer, continue', async ({ page }) =
   // Enter on the chosen drill goes to its settings page; Enter on Start begins the round.
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/#\/drill\/aspect$/);
-  await expect(page.getByText(/You've chosen Aspect partners/)).toBeVisible();
+  await expect(page.getByText(/You've chosen: Aspect partners/)).toBeVisible();
   await page.getByRole('button', { name: 'Start' }).focus();
   await page.keyboard.press('Enter');
   const input = page.getByRole('textbox', { name: 'Your answer' });
@@ -63,7 +63,7 @@ test('settings are remembered, progress is not', async ({ page }) => {
   await setup(page, 'Motion verbs', 40);
   await page.getByRole('checkbox', { name: 'Stress marks' }).uncheck();
   await page.reload();
-  await expect(page.getByText(/You've chosen Motion verbs/)).toBeVisible();
+  await expect(page.getByText(/You've chosen: Motion verbs/)).toBeVisible();
   await expect(page.getByRole('radio', { name: '40', exact: true })).toBeChecked();
   await expect(page.getByRole('checkbox', { name: 'Stress marks' })).not.toBeChecked();
   const keys = await page.evaluate(() => Object.keys(localStorage));
@@ -88,8 +88,8 @@ test('settings saved under the previous name carry over', async ({ page }) => {
     localStorage.clear();
     localStorage.setItem('rgd.settings.v1', JSON.stringify({ mode: 'motion', count: 40 }));
   });
-  await page.reload();
-  await expect(page.getByRole('radio', { name: /Motion verbs/ })).toBeChecked();
+  await page.goto('/#/');
+  await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible(); // the Continue card
   await page.goto('/#/drill/motion');
   await page.getByRole('radio', { name: '10', exact: true }).check();
   expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['krotik.settings.v1']);

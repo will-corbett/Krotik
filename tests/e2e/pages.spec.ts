@@ -10,7 +10,7 @@ test('dashboard lists every topic with Drill links, and Learn links where writte
   await page.getByRole('link', { name: 'Drill: Aspect partners' }).click();
   await expect(page).toHaveURL(/#\/drill\/aspect$/);
   await expect(page.getByRole('heading', { name: 'Set up your drill' })).toBeVisible();
-  await expect(page.getByText(/You've chosen Aspect partners/)).toBeVisible();
+  await expect(page.getByText(/You've chosen: Aspect partners/)).toBeVisible();
 });
 
 test('choosing a drill shows "Set up your drill", which leads to that drill’s settings', async ({ page }) => {
@@ -20,10 +20,23 @@ test('choosing a drill shows "Set up your drill", which leads to that drill’s 
   await page.getByRole('radio', { name: /Plurals/ }).check();
   await page.getByRole('link', { name: 'Set up your drill' }).click();
   await expect(page).toHaveURL(/#\/drill\/plurals$/);
-  await expect(page.getByText(/You've chosen Plurals/)).toBeVisible();
+  await expect(page.getByText(/You've chosen: Plurals/)).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Back' })).toBeVisible();
+  await page.getByRole('button', { name: 'Back' }).click();
+  await expect(page).toHaveURL(/#\/drill$/);
+  await expect(page.getByRole('radio', { checked: true })).toHaveCount(0);
+  await page.getByRole('radio', { name: /Plurals/ }).check();
+  await page.getByRole('link', { name: 'Set up your drill' }).click();
   await page.getByRole('link', { name: 'Choose a different drill' }).click();
   await expect(page).toHaveURL(/#\/drill$/);
-  await expect(page.getByRole('radio', { name: /Plurals/ })).toBeChecked();
+});
+
+test('from the menu, the choose page has no drill selected', async ({ page }) => {
+  await page.goto('/#/drill/plurals');
+  await goTo(page, 'Drill');
+  await expect(page).toHaveURL(/#\/drill$/);
+  await expect(page.getByRole('radio', { checked: true })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Set up your drill' })).toHaveCount(0);
 });
 
 test('Continue starts a round with the saved settings', async ({ page }) => {
@@ -87,7 +100,7 @@ test('a Learn page shows data tables, real sentences and a working quick check',
   await expect(check.getByText('Question 2 of 5')).toBeVisible();
   await page.getByRole('link', { name: 'Drill: Noun cases' }).click();
   await expect(page).toHaveURL(/#\/drill\/nounCases$/);
-  await expect(page.getByText(/You've chosen Noun cases/)).toBeVisible();
+  await expect(page.getByText(/You've chosen: Noun cases/)).toBeVisible();
 });
 
 test('every written Learn page loads without errors', async ({ page }) => {

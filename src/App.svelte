@@ -41,7 +41,15 @@
   });
 
   /** Follow the address bar (links, back/forward). Entering the Drill page shows its setup screen. */
+  /** Pages visited inside the app this session, so Back can return to the previous one. */
+  let visited = 0;
+  function goBack() {
+    if (visited > 0) history.back();
+    else location.hash = href({ page: 'drill' });
+  }
+
   function applyRoute(next: Route) {
+    visited++;
     if (next.page === 'drill' && route.page !== 'drill') screen = 'setup';
     if (next.page === 'drill' && next.mode) {
       if (topicById(next.mode)) settings.mode = next.mode as Mode;
@@ -185,7 +193,7 @@
     {:else if route.page === 'drill' && !route.mode}
       <DrillChoose bind:settings onnext={(m) => (location.hash = href({ page: 'drill', mode: m }))} />
     {:else}
-      <Setup bind:settings {loading} {error} onstart={start} />
+      <Setup bind:settings {loading} {error} onstart={start} onback={goBack} />
     {/if}
   </main>
 
