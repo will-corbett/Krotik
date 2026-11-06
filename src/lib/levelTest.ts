@@ -18,8 +18,15 @@ import type { Mode, Question } from './types.ts';
 
 export { ASK, TEST_LEVELS, type TestLevel } from './levelTestPool.ts';
 export const PER_LEVEL = 12;
-/** A level counts with at least this many of its 12 right (five in six), and only if every level below counts. */
+/**
+ * Reaching a level L needs all three:
+ *  - L itself: at least PASS of its 12 right;
+ *  - A1 to L together: at least PASS in 12 right overall, so a slip at an easier level is made up by strong results;
+ *  - no level below L under FLOOR of 12, so a real gap still stops you.
+ * (Counts are scaled to 12, so an early-ended test is judged on the questions answered.)
+ */
 export const PASS = 10;
+export const FLOOR = 8;
 /** No topic more than this many times in one level. */
 const MAX_PER_TOPIC = 2;
 
@@ -85,8 +92,10 @@ export const responseOf = (item: TestItem, a: Answer): Response =>
 export interface TestResult {
   /** right answers per level */
   byLevel: Record<TestLevel, { right: number; total: number }>;
-  /** highest level passed in order from A1 (stops at the first level not passed); null = below A1 */
+  /** highest level reached (see PASS); null = below A1 */
   level: TestLevel | null;
+  /** levels below the result with fewer than PASS right: slips that the levels above made up for */
+  slips: TestLevel[];
   /** topics with a wrong or "I don't know" answer, easiest level first, with how many were missed */
   review: { topic: Mode; level: TestLevel; missed: number }[];
   answered: number;
@@ -108,14 +117,18 @@ export function scoreTest(items: TestItem[], responses: Response[]): TestResult 
       review.set(it.topic, e);
     }
   });
-  let level: TestLevel | null = null;
-  for (const l of TEST_LEVELS) {
-    const { right, total } = byLevel[l];
-    // Scaled to 12 so an early-ended test is judged on the questions actually answered.
-    if (total && (right / total) * PER_LEVEL >= PASS) level = l;
-    else break;
-  }
-  return { byLevel, level, review: [...review.values()], answered };
+  const scaled = (l: TestLevel) => (byLevel[l].total ? (byLevel[l].right / byLevel[l].total) * PER_LEVEL : 0);
+  const reaches = (at: number) => {
+    const upTo = TEST_LEVELS.slice(0, at + 1);
+    const right = upTo.reduce((n, l) => n + byLevel[l].right, 0);
+    const total = upTo.reduce((n, l) => n + byLevel[l].total, 0);
+    return scaled(TEST_LEVELS[at]!) >= PASS && (right / total) * PER_LEVEL >= PASS && upTo.every((l) => byLevel[l].total && scaled(l) >= FLOOR);
+  };
+  let reached = -1;
+  for (let at = 0; at < TEST_LEVELS.length; at++) if (reaches(at)) reached = at;
+  const level = reached < 0 ? null : TEST_LEVELS[reached]!;
+  const slips = TEST_LEVELS.slice(0, reached).filter((l) => scaled(l) < PASS);
+  return { byLevel, level, slips, review: [...review.values()], answered };
 }
 
 /** The test in progress or finished, kept in memory only (never in storage) until the tab is closed or reloaded. */

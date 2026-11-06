@@ -52,8 +52,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   also take, other past genders (я/ты could be either), long forms against short forms, sentence-final adjectives.
   Each level draws 12 of a larger pool (at most 2 per topic), ordered by a 1–3 weight, then by word frequency rank.
   B2/C1 test advanced grammar (participles, verbal adverbs, aspect, verbs of position, government), never just
-  familiar grammar on rare words. Four options at A1–A2, five at B1+ (the wrong forms closest to the answer). A level
-  counts at 10/12 and only if every level below counts. Leave out topics where two options can both be right
+  familiar grammar on rare words. Four options at A1–A2, five at B1+ (the wrong forms closest to the answer). You reach
+  level L with ≥10/12 at L, ≥10/12 pooled over A1..L, and no level below L under 8/12 (`scoreTest`); slips below
+  the result are pointed out. Leave out topics where two options can both be right
   (indefinite pronouns, же/ведь, colloquial particles, aspect after трудно-type words). Superlatives are left out: no
   sentence ties to one word. Each option carries a form code (`levelTestPool.ts`) so the results explain every wrong
   answer (`levelTestExplain.ts`); a spelling that is several forms is labelled as all of them. Next/Back/Submit; the

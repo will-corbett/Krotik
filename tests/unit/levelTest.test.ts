@@ -146,7 +146,7 @@ describe('level test', () => {
     const res = sentenceCandidate(row, 'government', lex, mulberry32(1))!;
     expect(res.c[7]).not.toContain('ска\'зку');
   });
-  it('scores: a level counts while 10 of 12 are right; misses become review topics, easiest first', () => {
+  it('scores: a level needs 10 of 12 right; misses become review topics, easiest first', () => {
     const all = scoreTest(items, items.map(() => ({ correct: true, skipped: false })));
     expect(all.level).toBe('C1');
     expect(all.review).toEqual([]);
@@ -163,6 +163,25 @@ describe('level test', () => {
     const a1 = (k: number) => scoreTest(items, items.map((it, n) => (it.level === 'A1' ? { correct: n < k, skipped: false } : undefined))).level;
     expect(a1(9)).toBeNull();
     expect(a1(10)).toBe('A1');
+  });
+  it('pools the levels: a slip at an easier level is made up for above it, a real gap is not', () => {
+    // Right answers per level, A1 → C1 (the first k questions of each level right).
+    const score = (rights: number[]) => {
+      const seen: Record<string, number> = {};
+      return scoreTest(items, items.map((it) => {
+        const k = (seen[it.level] = (seen[it.level] ?? 0) + 1);
+        return { correct: k <= rights[TEST_LEVELS.indexOf(it.level)]!, skipped: false };
+      }));
+    };
+    const a = score([9, 12, 12, 12, 12]);
+    expect(a.level).toBe('C1');
+    expect(a.slips).toEqual(['A1']);
+    expect(score([12, 9, 11, 10, 4]).level).toBe('B2');
+    expect(score([12, 12, 6, 11, 10]).level).toBe('A2'); // B1 is a real gap
+    expect(score([9, 9, 9, 9, 9]).level).toBeNull();
+    expect(score([12, 12, 12, 7, 12]).level).toBe('B1'); // B2 under the floor stops C1
+    expect(score([10, 10, 10, 10, 10]).level).toBe('C1');
+    expect(score([10, 10, 10, 10, 10]).slips).toEqual([]);
   });
   it('an early-ended test is judged on what was answered', () => {
     const first12 = items.map((_, i) => (i < 12 ? { correct: true, skipped: false } : undefined));

@@ -3,7 +3,7 @@
   import { renderForm } from '../shared/forms.ts';
   import { loadLevelTest } from '../lib/data.ts';
   import { formTerm, ruleFor, termText } from '../lib/levelTestExplain.ts';
-  import { loadTest, PASS, PER_LEVEL, responseOf, scoreTest, session, TEST_LEVELS, type Answer, type TestItem, type TestLevel } from '../lib/levelTest.ts';
+  import { FLOOR, loadTest, PASS, PER_LEVEL, responseOf, scoreTest, session, TEST_LEVELS, type Answer, type TestItem, type TestLevel } from '../lib/levelTest.ts';
   import { mulberry32 } from '../lib/rng.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
@@ -263,11 +263,20 @@
           <a href={href({ page: 'learn', topic: 'alphabet' })}>the alphabet</a>, then the first topics in each group.
         </p>
       {/if}
+      {#each result.slips as l (l)}
+        {@const b = result.byLevel[l]}
+        <p class="slip">
+          You missed {b.total - b.right} of the {b.total} questions at {l}; your results at the levels above made up for
+          it, but they're worth a quick look (they're in the list below).
+        </p>
+      {/each}
       {#if result.answered < items.length}<p class="muted small">Based on the {result.answered} questions you answered.</p>{/if}
       <p class="muted small">
-        A level counts when {PASS} of its {PER_LEVEL} questions are right, and every level below it counts too. This is a
-        rough guide to grammar and reading, not an official CEFR result; the descriptions are our summary of the Council
-        of Europe's CEFR levels.
+        You reach a level when you get at least {PASS} of its {PER_LEVEL} questions right, at least {PASS} in {PER_LEVEL}
+        right across it and all the levels below, and no level below it under {FLOOR} of {PER_LEVEL}. So a slip at an
+        easier level is made up for by strong results above it, but a real gap isn't. This is a rough guide to grammar
+        and reading, not an official CEFR result; the descriptions are our summary of the Council of Europe's CEFR
+        levels.
       </p>
     </div>
 
@@ -467,6 +476,10 @@
     font-family: var(--serif);
     font-size: 2.4rem;
     margin: 0;
+  }
+  .slip {
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
   }
   .can {
     margin: 0 0 8px;
