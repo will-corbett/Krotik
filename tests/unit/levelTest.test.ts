@@ -1,7 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { checkAnswer } from '../../src/lib/check.ts';
-import { buildTest, PER_LEVEL, scoreTest, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
+import { buildTest, loadLexicon, PER_LEVEL, POOLS, scoreTest, sentenceQuestion, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
+import { cellForms } from '../../src/shared/forms.ts';
+import { normalise } from '../../src/shared/normalise.ts';
+import type { ClozeRow } from '../../src/shared/types.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
 import { ALL_TOPICS } from '../../src/lib/topics.ts';
 import { LEARN_TOPICS } from '../../src/lib/learn.ts';
@@ -44,7 +47,42 @@ describe('level test', () => {
       expect(LEARN_TOPICS.has(i.topic), i.topic).toBe(true);
     }
   });
-  it('scores: a level counts while 8 of 12 are right; misses become review topics, easiest first', () => {
+  it('varies from test to test: different words and a different mix of question types', async () => {
+    const other = await buildTest(mulberry32(7));
+    const keysA = new Set(items.map((i) => i.q.key));
+    const shared = other.filter((i) => keysA.has(i.q.key)).length;
+    expect(shared).toBeLessThan(10);
+    const mix = (xs: TestItem[]) => xs.map((i) => i.topic).join(',');
+    expect(mix(other)).not.toBe(mix(items));
+  }, 60_000);
+  it('each level has more question types than it uses, so the mix changes', () => {
+    for (const l of TEST_LEVELS) expect(POOLS[l].length, l).toBeGreaterThan(PER_LEVEL);
+  });
+  it('sentence questions never offer a second form the preposition could also take (в школе / в школу)', async () => {
+    const lex = await loadLexicon();
+    const rows = JSON.parse(readFileSync('public/data/cloze.prepositions.json', 'utf8')) as ClozeRow[];
+    let checked = 0;
+    for (const row of rows.filter((r) => r[7] === 'в:prep' || r[7] === 'на:prep').slice(0, 300)) {
+      const res = sentenceQuestion(row, 'prepositions', lex, mulberry32(row[0]));
+      if (!res) continue;
+      checked++;
+      const noun = lex.byAccented.get(row[6])!;
+      const at = noun.cells.findIndex((c) => cellForms(c).some((f) => normalise(f) === normalise(row[1].slice(row[3], row[4]))));
+      const acc = cellForms(noun.cells[at >= 6 ? 9 : 3]!).map(normalise);
+      for (const c of res.q.choices!) if (!checkAnswer(res.q, c).correct) expect(acc, `${row[1]} / ${c}`).not.toContain(normalise(c));
+      expect(res.q.choices!.filter((c) => checkAnswer(res.q, c).correct)).toHaveLength(1);
+    }
+    expect(checked).toBeGreaterThan(100);
+  });
+  it('a spelling shared by two cells is read in the case the sentence needs (верят в сказки: accusative plural)', async () => {
+    const lex = await loadLexicon();
+    const rows = JSON.parse(readFileSync('public/data/cloze.government.json', 'utf8')) as ClozeRow[];
+    const row = rows.find((r) => r[7].startsWith('v+acc|') && normalise(r[1].slice(r[3], r[4])) === 'сказки');
+    if (!row) return;
+    const res = sentenceQuestion(row, 'government', lex, mulberry32(1))!;
+    expect(res.q.choices).not.toContain('ска\'зку');
+  });
+  it('scores: a level counts while 9 of 12 are right; misses become review topics, easiest first', () => {
     const all = scoreTest(items, items.map(() => ({ correct: true, skipped: false })));
     expect(all.level).toBe('C1');
     expect(all.review).toEqual([]);

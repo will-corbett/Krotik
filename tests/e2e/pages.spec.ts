@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { goTo } from './helpers.ts';
 
 test('dashboard lists every topic with Drill links, and Learn links where written', async ({ page }) => {
   await page.goto('/');
@@ -15,7 +16,7 @@ test('Continue starts a round with the saved settings', async ({ page }) => {
   await page.goto('/?seed=3#/drill');
   await page.getByRole('radio', { name: /Motion verbs/ }).check();
   await page.getByRole('radio', { name: '10', exact: true }).check();
-  await page.getByRole('link', { name: 'Dashboard', exact: true }).click();
+  await goTo(page, 'Dashboard');
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByText('0 of 10 cleared')).toBeVisible();
@@ -32,14 +33,32 @@ test('the Continue card can be hidden, and comes back after the next drill', asy
   await page.goto('/?seed=4#/drill');
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
-  await page.getByRole('link', { name: 'Dashboard', exact: true }).click();
+  await goTo(page, 'Dashboard');
   await expect(page.getByText('Continue drilling')).toBeVisible();
 });
 
-test('the Dashboard has no Culture card; Culture is in the top menu', async ({ page }) => {
+test('the Dashboard has no Culture card; Culture is in the main menu', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('main').getByRole('link', { name: /Culture/ })).toHaveCount(0);
+  await page.getByRole('button', { name: 'Menu' }).click();
   await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
+});
+
+test('the main menu is a dropdown: opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
+  await page.goto('/#/learn');
+  const menu = page.getByRole('button', { name: 'Menu' });
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await menu.click();
+  await expect(menu).toHaveAttribute('aria-expanded', 'true');
+  const nav = page.getByRole('navigation', { name: 'Main' });
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Level test', 'Learn', 'Drill', 'Culture']);
+  await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
+  await page.keyboard.press('Escape');
+  await expect(nav.getByRole('link')).toHaveCount(0);
+  await expect(menu).toBeFocused();
+  await goTo(page, 'Culture');
+  await expect(page).toHaveURL(/#\/culture$/);
+  await expect(nav.getByRole('link')).toHaveCount(0);
 });
 
 test('a Learn page shows data tables, real sentences and a working quick check', async ({ page }) => {
@@ -97,7 +116,7 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
 
 test('Culture lists links that open in a new tab, filters them, and opens notes', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'Culture', exact: true }).click();
+  await goTo(page, 'Culture');
   await expect(page.getByRole('heading', { name: /Culture/, level: 1 })).toBeVisible();
   const max = page.getByRole('link', { name: /Russian With Max/ }).first();
   await expect(max).toHaveAttribute('target', '_blank');
@@ -138,10 +157,11 @@ test('no embedded players or third-party requests on the Culture page', async ({
   expect(external).toEqual([]);
 });
 
-test('the five-tab menu fits a phone screen without horizontal scroll', async ({ page }) => {
+test('the menu and pages fit a phone screen without horizontal scroll', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 740 });
   for (const url of ['/#/', '/#/test', '/#/culture', '/#/culture/russian-beyond-russia']) {
     await page.goto(url);
+    await page.getByRole('button', { name: 'Menu' }).click();
     await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, url).toBeLessThanOrEqual(0);

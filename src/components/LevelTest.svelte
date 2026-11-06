@@ -89,6 +89,8 @@
 
   const q = $derived(items[i]?.q);
   const r = (f: string) => renderForm(f, settings.stress);
+  /** Russian words in source notation (буты'лка) inside running text → stress marks (or plain, if stress is off). */
+  const stressText = (t: string) => t.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w));
   const parts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
   const result = $derived(phase === 'results' ? scoreTest(items, responses) : null);
   const cyr = (s: string) => /[а-яё]/i.test(s);
@@ -105,8 +107,9 @@
     <h1 id="test-h1">Level test <span lang="ru" class="ru">тест на уровень</span></h1>
     <p>
       Sixty multiple-choice questions on grammar and reading, starting easy and getting harder: twelve each at A1, A2,
-      B1, B2 and C1. It takes about 15–20 minutes. At the end you get an approximate level and a list of Learn pages
-      worth reviewing.
+      B1, B2 and C1. Many are gaps in real sentences, where you work out the right form yourself. The questions are
+      different every time. It takes about 15–20 minutes; at the end you get an approximate level and a list of Learn
+      pages worth reviewing.
     </p>
     <ul class="muted">
       <li>If you don't know, choose <strong>I don't know</strong> rather than guessing: guesses make the result less useful.</li>
@@ -128,7 +131,7 @@
       <p class="task"><TermText parts={q.task} /></p>
       <p class="word" lang={q.headwordIsEnglish ? 'en' : 'ru'}>{q.headwordIsEnglish ? q.headword : r(q.headword)}</p>
       {#if q.gloss}<p class="muted gloss">{q.gloss}</p>{/if}
-      {#if q.note}<p class="muted gloss">{q.note}</p>{/if}
+      {#if q.note}<p class="muted gloss">{stressText(q.note)}</p>{/if}
       {#if q.frame && q.frame !== '___'}
         <p class="frame" lang="ru">{parts[0]}<span class="blank">___</span>{parts[1]}</p>
       {/if}
@@ -153,7 +156,7 @@
       {/if}
       {#if result.answered < items.length}<p class="muted small">Based on the {result.answered} questions you answered.</p>{/if}
       <p class="muted small">
-        A level counts when about two thirds of its questions ({PASS} of {PER_LEVEL}) are right, and every level below it
+        A level counts when three quarters of its questions ({PASS} of {PER_LEVEL}) are right, and every level below it
         counts too. This is a rough guide to grammar and reading, not an official CEFR result.
       </p>
     </div>
