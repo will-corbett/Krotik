@@ -8,6 +8,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import type { AdjRow, Manifest, NounRow, VerbRow } from '../src/shared/types.ts';
 import { readTsv } from './lib/csv.ts';
+import { parse as parseYaml } from 'yaml';
 import { cleanVerbs } from './lib/clean-verbs.ts';
 import { cleanAdjectives } from './lib/clean-adjectives.ts';
 import { cleanNouns } from './lib/clean-nouns.ts';
@@ -63,6 +64,9 @@ checkOrder('Nouns', nouns, freq, report);
 
 const motion = buildMotion(verbs, report);
 
+// ---- Learn page vocabulary that isn't drill data: must be attested in Wiktionary (checked below)
+const learnWords = existsSync('content/learn/words.yaml') ? ((parseYaml(readFileSync('content/learn/words.yaml', 'utf8')) ?? []) as string[]) : [];
+
 // ---- Wiktionary (Phase B)
 const sourcesJson = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Record<string, { sha256: string }>;
 raw(KAIKKI_FILE);
@@ -73,10 +77,14 @@ const wk = await loadWiktionary(
     adjectives: new Set(adjectives.map((a) => a.bare)),
     numerals: new Set([...NUMERALS, ...COLLECTIVES].map(([w]) => w)),
     pronouns: new Set(['никто', 'ничто', 'я', 'кто', 'что', ...POSSESSIVES]),
+    attest: new Set(learnWords),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
   console.log,
 );
+const unattested = learnWords.filter((w) => !wk.attested.includes(w));
+if (unattested.length) throw new Error(`content/learn/words.yaml: not found in Wiktionary: ${unattested.join(', ')}`);
+report.count('Learn pages', 'extra words in content/learn/words.yaml, all found in Wiktionary', learnWords.length);
 fillNounGender(nouns, wk, report);
 fillDegrees(adjectives, wk, report);
 const participleRows = buildParticiples(verbs, wk, report);

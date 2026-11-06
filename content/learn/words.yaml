@@ -1,0 +1,9 @@
+# Words used in Learn page explanations that aren't in the drill data (prepositions with an added vowel,
+# grammar terms, irregular forms). The data build checks every word here against Wiktionary and fails if
+# one isn't found, so nothing unverified appears on a Learn page.
+- со
+- во
+- буду
+- будешь
+- однонаправленный
+- разнонаправленный

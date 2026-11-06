@@ -1,73 +1,14 @@
 <script lang="ts">
   import { CASES, type Case, type VerbGroup } from '../shared/cells.ts';
   import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
+  import { TOPIC_GROUPS } from '../lib/topics.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
   import type { CompareSettings, Mode, MotionSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart }: { settings: Settings; loading: boolean; error: string; onstart: () => void } = $props();
 
-  const GROUPS_OF_MODES: { title: Term; modes: { id: Mode; title: Term; blurb: string }[] }[] = [
-    {
-      title: TERMS.verbs,
-      modes: [
-        { id: 'verbs', title: TERMS.verbForms, blurb: 'Present/future, past, imperative' },
-        { id: 'reflexive', title: TERMS.reflexive, blurb: '-ся after consonants, -сь after vowels' },
-        { id: 'aspect', title: TERMS.aspectPartners, blurb: 'Imperfective ↔ perfective' },
-        { id: 'aspectContext', title: TERMS.aspectContext, blurb: 'видел or увидел? in real sentences' },
-        { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs' },
-        { id: 'adverbs', title: TERMS.adverbs, blurb: 'читая, прочитав' },
-        { id: 'participles', title: TERMS.participles, blurb: 'читающий, прочитанный, прочитана' },
-        { id: 'government', title: TERMS.government, blurb: 'помогать кому, бояться чего, думать о ком' },
-        { id: 'prefixedMotion', title: TERMS.prefixedMotion, blurb: 'прийти / приходить, выйти, перейти' },
-        { id: 'position', title: TERMS.position, blurb: 'стоять / ставить / встать' },
-      ],
-    },
-    {
-      title: TERMS.adjectives,
-      modes: [
-        { id: 'adjectives', title: TERMS.agreement, blurb: 'Gender, number, case, animacy' },
-        { id: 'short', title: TERMS.shortForms, blurb: 'он нов, она нова́, они новы' },
-        { id: 'compare', title: TERMS.degrees, blurb: 'новее, новейший, самый новый' },
-      ],
-    },
-    {
-      title: TERMS.pronounsGroup,
-      modes: [
-        { id: 'pronouns', title: TERMS.personal, blurb: 'меня, ему, у него, с ней' },
-        { id: 'possessives', title: TERMS.possessives, blurb: 'моему другу, эту книгу, свой / его' },
-      ],
-    },
-    {
-      title: TERMS.nounsNumbers,
-      modes: [
-        { id: 'nounCases', title: TERMS.nounCases, blurb: 'книгу, книге, книгой' },
-        { id: 'plurals', title: TERMS.plurals, blurb: 'Plural forms, after numbers and quantity words' },
-        { id: 'numbers', title: TERMS.numbers, blurb: 'пяти, двум книгам, тремя друзьями' },
-        { id: 'diminutives', title: TERMS.diminutives, blurb: 'дом → домик, сын → сынок' },
-      ],
-    },
-    {
-      title: TERMS.sentences,
-      modes: [
-        { id: 'prepositions', title: TERMS.prepositionsMode, blurb: 'в школе, в школу, к другу, с другом' },
-        { id: 'kotoryi', title: TERMS.kotoryi, blurb: 'книга, которую я читаю' },
-        { id: 'chtoby', title: TERMS.chtoby, blurb: 'чтобы помочь / чтобы ты помог' },
-        { id: 'conditional', title: TERMS.conditional, blurb: 'я бы пошёл' },
-        { id: 'negation', title: TERMS.negation, blurb: 'нет времени, никого не вижу, не / ни' },
-        { id: 'indefinite', title: TERMS.indefinite, blurb: 'кто-то, кто-нибудь, кое-кто' },
-        { id: 'particles', title: TERMS.particlesTopic, blurb: 'ли, же, ведь, вот, ну, даже, только, -ка' },
-        { id: 'impersonal', title: TERMS.impersonal, blurb: 'мне холодно, Тому надо идти' },
-        { id: 'comparison', title: TERMS.comparison, blurb: 'старше брата' },
-        { id: 'conjunctions', title: TERMS.conjunctions, blurb: 'что, чтобы, если, когда' },
-        { id: 'time', title: TERMS.time, blurb: 'в пятницу, в январе, через неделю, час назад' },
-      ],
-    },
-    {
-      title: TERMS.pronunciation,
-      modes: [{ id: 'stress', title: TERMS.stress, blurb: 'Tap the stressed vowel' }],
-    },
-  ];
+  const GROUPS_OF_MODES = TOPIC_GROUPS;
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
     { id: 'superlative', label: { en: 'Superlative (-ейший)', ru: TERMS.superlative.ru } },

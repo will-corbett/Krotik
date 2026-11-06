@@ -353,7 +353,7 @@
   .progress span {
     display: block;
     height: 100%;
-    background: var(--accent);
+    background: var(--primary-bg);
   }
   @media (prefers-reduced-motion: no-preference) {
     .progress span {

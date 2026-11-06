@@ -2,11 +2,12 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { setup } from './helpers.ts';
 
-for (const scheme of ['light', 'dark'] as const) {
+for (const scheme of ['light', 'dark', 'krotik'] as const) {
   test(`no axe violations (${scheme})`, async ({ page }) => {
     // Reduced motion: scans never catch a fade-in mid-animation (and this exercises that path).
-    await page.emulateMedia({ colorScheme: scheme, reducedMotion: 'reduce' });
+    await page.emulateMedia({ colorScheme: scheme === 'dark' ? 'dark' : 'light', reducedMotion: 'reduce' });
     await setup(page, 'Short-form adjectives');
+    await page.getByLabel('Theme').selectOption(scheme === 'krotik' ? 'krotik' : 'system');
     const scan = async () => {
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
       expect(r.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
@@ -24,7 +25,7 @@ for (const scheme of ['light', 'dark'] as const) {
 }
 
 test('keyboard only: choose a mode, start, answer, continue', async ({ page }) => {
-  await page.goto('/?seed=1');
+  await page.goto('/?seed=1#/drill');
   // Focus the mode radios and move to the next mode ("Reflexive verbs") with an arrow key.
   await page.getByRole('radio', { name: /Verb forms/ }).focus();
   await page.keyboard.press('ArrowRight');
@@ -77,7 +78,7 @@ test('no horizontal scroll', async ({ page }) => {
 });
 
 test('settings saved under the previous name carry over', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/#/drill');
   // A returning visitor: only the old key exists.
   await page.evaluate(() => {
     localStorage.clear();

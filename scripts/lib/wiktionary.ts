@@ -56,6 +56,8 @@ export interface WkExtract {
   numerals: Record<string, WkNumeral[]>;
   /** pronoun case tables (никто, ничто) — same shape as numerals */
   pronouns: Record<string, WkNumeral[]>;
+  /** words from `wanted.attest` found in Wiktionary as a headword or as a form of one */
+  attested: string[];
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -94,6 +96,8 @@ export interface Wanted {
   adjectives: Set<string>;
   numerals: Set<string>;
   pronouns: Set<string>;
+  /** words that only need to be shown to exist (Learn page vocabulary) */
+  attest: Set<string>;
 }
 
 export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: string) => void): Promise<WkExtract> {
@@ -107,7 +111,8 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {} };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, attested: [] };
+  const attested = new Set<string>();
   const push = <T>(m: Record<string, T[]>, k: string, v: T) => (m[k] ??= []).push(v);
   const rl = createInterface({ input: createReadStream(join(RAW_DIR, KAIKKI_FILE)).pipe(createGunzip()), crlfDelay: Infinity });
   let n = 0;
@@ -117,6 +122,13 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (!line.includes('"pos"')) continue;
     const e = JSON.parse(line) as RawEntry;
     const word = e.word;
+    if (wanted.attest.size) {
+      if (wanted.attest.has(word)) attested.add(word);
+      for (const f of e.forms ?? []) {
+        const plain = f.form.normalize('NFC').replace(/[\u0301\u0300]/g, '');
+        if (wanted.attest.has(plain)) attested.add(plain);
+      }
+    }
     const isParticiple = e.pos === 'verb' && (e.senses ?? []).some((s) => (s.glosses ?? []).some((g) => / participle of /.test(g)));
     if (!isParticiple && !wanted.verbs.has(word) && !wanted.nouns.has(word) && !wanted.adjectives.has(word) && !wanted.numerals.has(word) && !wanted.pronouns.has(word)) continue;
     if (e.pos === 'verb' && isParticiple) {
@@ -157,6 +169,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     }
   }
   log(`  ${n} lines read`);
+  out.attested = [...attested].sort();
   writeFileSync(EXTRACT, JSON.stringify(out));
   return out;
 }

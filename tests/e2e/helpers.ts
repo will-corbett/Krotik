@@ -34,7 +34,8 @@ export type ModeName =
   | 'Time expressions';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
-  await page.goto('/?seed=42');
+  // A fresh page load each time (the unique query forces it), straight to the Drill page.
+  await page.goto(`/?seed=42&t=${Date.now()}#/drill`);
   await page.getByRole('radio', { name: new RegExp(mode) }).check();
   await page.getByRole('radio', { name: String(count), exact: true }).check();
 }

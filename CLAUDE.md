@@ -36,7 +36,14 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (cell syntax, stress rendering), `cells.ts` (fixed cell layouts), `types.ts` (shard row formats).
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
-- `src/components/` — Svelte UI.
+- `src/components/` — Svelte UI. Three pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Learn
+  (`#/learn`, `#/learn/<topic>`), Drill (`#/drill`, `#/drill/<topic>`), plus `#/about`.
+- `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
+- `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
+  `::table noun книга`, `::sentence verb читать past_f`, `::drill nounCases {"cases":["acc"]} 5`.
+  Tables and sentences always come from the data. `tests/unit/learn.test.ts` fails if any Russian word in the
+  text isn't a real form in the data, or a block doesn't resolve (word in the top 1,000; sentence exists).
+  Words not in the drill data go in `content/learn/words.yaml`; the data build checks them against Wiktionary.
 
 ## Conventions
 - Cell string syntax: variants separated by `,`; `(x)` = optional/archaic variant (accepted, not shown);
@@ -52,7 +59,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   Score = first-attempt correct / attempted.
 - Example sentences: only shown when the highlighted word is exactly the answer form (`chooseSentence`); never
   fall back to another form of the word.
-- Modes are grouped on the setup screen (Verbs / Adjectives / Nouns); each mode has a generator in
+- Modes are grouped (Verbs / Adjectives / Pronouns / Nouns & numbers / Sentences / Pronunciation); each mode has a generator in
   `src/lib/questions/` and a case in `src/lib/start.ts`. Every grammar term goes through `src/lib/terms.ts`
   so it is shown with its Russian equivalent.
 - Wiktionary (kaikki.org gzipped JSONL) is streamed once by `scripts/lib/wiktionary.ts`; the needed entries are cached
@@ -67,6 +74,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   are listed in the report. Edit them freely, then run `npm run data:build`.
 - `overrides.yaml` `nouns.counting` holds counting forms (пять челове'к, пять ле'т), verified like fixes.
 - `?seed=N` in the URL makes question generation reproducible (used by e2e tests).
+- Themes: `krotik` (default; logo colours — cream #FDF2E7, charcoal #090C13, orange #E36B1C), system, light,
+  dark. The orange is only 3:1 on cream, so it fills buttons/bars (`--primary-bg`, charcoal text) and small orange
+  text uses `--accent` #9A420B. Logo files are in `public/brand/`.
 - Accessibility: keyboard-only flow (Enter submits and continues), aria-live feedback, visible focus,
   contrast checked by axe in both themes, reduced motion respected, no horizontal scroll at phone width.
 - Small, well-named commits. Say why before adding a dependency.

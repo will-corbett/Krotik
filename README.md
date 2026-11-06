@@ -1,6 +1,11 @@
 # Krotik
 
-Instant drills for Russian grammar. Open the page, pick options and start. There are no accounts and no tracking.
+Learn and drill Russian grammar. There are no accounts and no tracking.
+
+- **Dashboard**: every topic, with Learn and Drill links, and a Continue button for your last drill.
+- **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
+  (`content/learn/*.md`).
+- **Drill**: the drills below, with retries, example sentences and audio.
 
 Modes are grouped as follows:
 - **Verbs:** forms, reflexives, aspect partners and aspect in context, motion verbs (plain and prefixed), verbal adverbs, participles, government, verbs of position.

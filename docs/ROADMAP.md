@@ -90,5 +90,11 @@ Phase D/E notes: hand-made lists live in `curated/` (grammar facts only). Prefix
 found in the data; combinations missing from OpenRussian (e.g. вплыть/вплывать, провезти/провозить) are left
 out and listed in the report. Compound numbers skip the animate accusative (usage is unsettled).
 
+## Learn section (agreed 2026-11-06)
+Three pages: Dashboard, Learn, Drill. Learn pages are written in batches for review:
+1. **Batch 1 (done):** noun cases, verb forms, aspect, motion verbs, adjective agreement, personal pronouns.
+2. **Batch 2:** the remaining verb, adjective, noun and number topics.
+3. **Batch 3:** the sentence topics and stress.
+
 ## Still planned from the original brief
 - All folded into phases D and E above.
