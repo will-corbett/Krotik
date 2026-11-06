@@ -34,7 +34,9 @@ test('the on-screen keyboard can be switched on and off during a drill', async (
   await toggle.click();
   await expect(kb).toHaveCount(0);
   await expect(input).toHaveAttribute('inputmode', 'text');
-  // The choice is remembered for the next round.
+  // The choice is remembered for the next round (the menu leads to "Choose a drill", then to that drill's settings).
   await goTo(page, 'Drill');
+  await page.getByRole('radio', { name: /Verb forms/ }).click();
+  await page.getByRole('link', { name: 'Set up your drill' }).click();
   await expect(page.getByRole('checkbox', { name: 'On-screen Cyrillic keyboard' })).not.toBeChecked();
 });
