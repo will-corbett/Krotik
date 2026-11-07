@@ -38,7 +38,8 @@ export type ModeName =
   | 'Special case forms'
   | 'The alphabet'
   | 'Mixed review'
-  | 'Translate and compare';
+  | 'Translate and compare'
+  | 'Vocabulary';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   // A fresh page load each time (the unique query forces it): choose the drill, then go to its settings page.
@@ -52,7 +53,7 @@ export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10
 async function questionId(page: Page): Promise<string> {
   const task = await page.locator('.task').innerText();
   const word = await page.locator('#prompt-word').innerText();
-  const frame = (await page.locator('.frame, .stress-word').first().innerText()).replace(/\s+/g, '');
+  const frame = (await page.locator('.frame, .stress-word, .meanings').first().innerText()).replace(/\s+/g, '');
   return `${task}|${word}|${frame}`;
 }
 
@@ -67,7 +68,7 @@ export async function playRetryRound(page: Page): Promise<number> {
   const learned = new Map<string, string>();
   const seen = new Set<string>();
   const input = page.getByRole('textbox', { name: 'Your answer' });
-  const choices = page.getByRole('group', { name: /Choose the missing word|Tap the stressed vowel/ });
+  const choices = page.getByRole('group', { name: /Choose the missing word|Choose the meaning|Tap the stressed vowel/ });
   for (let step = 0; step < 200; step++) {
     if (await page.getByRole('heading', { name: /Round (complete|ended)/ }).isVisible()) break;
     await expect(page.locator('.task')).toBeVisible();

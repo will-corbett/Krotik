@@ -65,8 +65,8 @@
   let textEl = $state<HTMLElement>();
   let buttons: HTMLButtonElement[] = [];
 
-  function show(e: Event, word: string, i: number) {
-    clearTimeout(hideTimer);
+  function show(e: Event, word: string, i: number, pin = true) {
+    pinned = pin;
     active = i;
     const readings = unit?.words[normalise(word)] ?? [];
     const btn = e.currentTarget as HTMLElement;
@@ -80,6 +80,7 @@
   }
   function hide() {
     shown = null;
+    pinned = false;
   }
   async function move(e: KeyboardEvent, i: number) {
     const to = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? wordCount - 1 : null;
@@ -106,12 +107,11 @@
   }
   const keyed = (r: WordReading): r is [string, string, string, string, string, number] => r.length === 6;
   const allIn = $derived(!!unit && unit.keyWords.every(([k]) => mineKeys.has(k)));
-  // A mouse moving from a word to its box (to press Add) mustn't close it on the way.
-  let hideTimer: ReturnType<typeof setTimeout> | undefined;
-  function hideSoon() {
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(hide, 250);
-  }
+  /**
+   * A word clicked, tapped or focused is pinned: its box stays while the mouse moves (over other words too) and takes
+   * clicks, so Add can be pressed. Hovering only shows a box that ignores the mouse, so the words under it still work.
+   */
+  let pinned = $state(false);
 
   // ---- questions
   let answers = $state<(number | undefined)[]>([]);
@@ -174,8 +174,8 @@
                 class:on={shown && active === wi}
                 tabindex={active === wi ? 0 : -1}
                 bind:this={buttons[wi]}
-                onpointerenter={(e) => e.pointerType === 'mouse' && show(e, p.text, wi)}
-                onpointerleave={(e) => e.pointerType === 'mouse' && hideSoon()}
+                onpointerenter={(e) => e.pointerType === 'mouse' && !pinned && show(e, p.text, wi, false)}
+                onpointerleave={(e) => e.pointerType === 'mouse' && !pinned && hide()}
                 onfocus={(e) => show(e, p.text, wi)}
                 onclick={(e) => show(e, p.text, wi)}
                 onkeydown={(e) => move(e, wi)}
@@ -185,16 +185,8 @@
       {/each}
 
       {#if shown}
-        {@const addable = settings.progress ? shown.readings.filter(keyed).filter((r) => !r[3].includes('n')) : []}
-        <div
-          class="pop"
-          class:below={shown.below}
-          style="left: {shown.x}px; top: {shown.y}px"
-          lang="en"
-          role="presentation"
-          onpointerenter={() => clearTimeout(hideTimer)}
-          onpointerleave={(e) => e.pointerType === 'mouse' && hideSoon()}
-        >
+        {@const addable = settings.progress && pinned ? shown.readings.filter(keyed).filter((r) => !r[3].includes('n')) : []}
+        <div class="pop" class:below={shown.below} class:pinned style="left: {shown.x}px; top: {shown.y}px" lang="en">
         <div id="word-info" role="tooltip">
           {#if !shown.readings.length}
             <p><strong lang="ru">{shown.word}</strong></p>
@@ -388,6 +380,9 @@
     font-size: 0.95rem;
     line-height: 1.4;
     pointer-events: none;
+  }
+  .pop.pinned {
+    pointer-events: auto;
   }
   .pop.below {
     transform: translate(-50%, 0);
