@@ -275,6 +275,10 @@ interface QuestionEntry {
   id: string;
   work: string;
   section: string;
+  /** which section of that title (1 = first), where a book repeats a title (Тепло) */
+  part?: number;
+  /** the title shown, where the book's own would be ambiguous */
+  title?: string;
   questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion }[];
 }
 export const loadQuestions = (): QuestionEntry[] => (parse(readFileSync('content/reading/questions.yaml', 'utf8')) as QuestionEntry[] | null) ?? [];
@@ -294,7 +298,7 @@ export function buildReading(lex: Lexicon, report: Report): { index: ReadingInde
   const ids = new Set<string>();
   for (const q of loadQuestions()) {
     const wi = LITERATURE.findIndex((w) => w.id === q.work);
-    const s = all.find((x) => x.work === wi && x.title === q.section);
+    const s = all.filter((x) => x.work === wi && x.title === q.section)[(q.part ?? 1) - 1];
     if (!s) throw new Error(`content/reading/questions.yaml: ${q.id}: no section «${q.section}» in ${q.work}`);
     if (ids.has(q.id) || !/^[a-z0-9-]+$/.test(q.id)) throw new Error(`content/reading/questions.yaml: bad or repeated id ${q.id}`);
     ids.add(q.id);
@@ -303,7 +307,7 @@ export function buildReading(lex: Lexicon, report: Report): { index: ReadingInde
     for (const x of q.questions) {
       if (x.en.options.length !== x.ru.options.length || x.answer < 0 || x.answer >= x.en.options.length) throw new Error(`content/reading/questions.yaml: ${q.id}: question options don't match`);
     }
-    units.push({ id: q.id, w: wi, title: s.title, genre: s.genre, lines: s.lines, words, questions: q.questions });
+    units.push({ id: q.id, w: wi, title: q.title ?? s.title, genre: s.genre, lines: s.lines, words, questions: q.questions });
   }
   const index: ReadingIndex = {
     works: LITERATURE.map((w) => ({ id: w.id, author: w.author, authorEn: w.authorEn, title: w.title, titleEn: w.titleEn, year: w.year, kind: w.kind, level: w.level, source: `https://ru.wikisource.org/w/index.php?oldid=${w.revision}` })),

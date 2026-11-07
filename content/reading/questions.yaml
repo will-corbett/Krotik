@@ -357,3 +357,540 @@
     - answer: 0
       en: { q: "How does the play end?", options: ["They get engaged and start arguing about the dogs again", "Natalya Stepanovna refuses him", "Lomov goes home"] }
       ru: { q: "Чем кончается пьеса?", options: ["Они обручаются и снова начинают спорить о собаках", "Наталья Степановна ему отказывает", "Ломов уезжает домой"] }
+
+# ---------------------------------------------------------------- Tolstoy: the rest of the book
+- id: osyol-v-lvinoy-shkure
+  work: tolstoy-reader-2
+  section: Осёл в львиной шкуре
+  questions:
+    - answer: 1
+      en: { q: "Why did everyone run away at first?", options: ["The donkey was kicking", "They thought the donkey was a lion", "A storm was coming"] }
+      ru: { q: "Почему сначала все побежали?", options: ["Осёл бил ногами", "Все думали, что это лев", "Начиналась буря"] }
+    - answer: 0
+      en: { q: "What gave the donkey away?", options: ["The wind blew the skin open", "It started to bray", "It lost the skin in the river"] }
+      ru: { q: "Почему все увидели, что это осёл?", options: ["Подул ветер, и шкура распахнулась", "Осёл закричал", "Шкура упала в реку"] }
+
+- id: kakaya-byvaet-rosa
+  work: tolstoy-reader-2
+  section: Какая бывает роса на траве
+  questions:
+    - answer: 2
+      en: { q: "What look like diamonds in the grass?", options: ["Pieces of glass", "Little white flowers", "Drops of dew"] }
+      ru: { q: "Что в траве похоже на алмазы?", options: ["Куски стекла", "Маленькие белые цветы", "Капли росы"] }
+    - answer: 0
+      en: { q: "Why don't the drops wet the leaf?", options: ["The leaf is soft and fluffy inside, like velvet", "The leaf is made of wax", "They vanish at once in the sun"] }
+      ru: { q: "Почему капли не мочат листок?", options: ["Листок внутри мохнат и пушист, как бархат", "Листок как будто из воска", "От солнца они сразу пропадают"] }
+
+- id: indeets-i-anglichanin
+  work: tolstoy-reader-2
+  section: Индеец и англичанин
+  questions:
+    - answer: 1
+      en: { q: "What had the English done to the old Indian?", options: ["Burnt his tent", "Killed his son", "Taken his land"] }
+      ru: { q: "Что сделали англичане старому индейцу?", options: ["Сожгли его шалаш", "Убили его сына", "Взяли его землю"] }
+    - answer: 2
+      en: { q: "Why did he save the young Englishman?", options: ["He wanted a ransom", "He needed a guide", "He thought of his own son and felt sorry for him"] }
+      ru: { q: "Почему индеец спас англичанина?", options: ["Хотел получить за него деньги", "Ему нужен был проводник", "Он вспомнил о своём сыне, и ему стало жаль англичанина"] }
+
+- id: olen-i-lanchuk
+  work: tolstoy-reader-2
+  section: Олень и ланчук
+  questions:
+    - answer: 0
+      en: { q: "What does the young deer ask the old one?", options: ["Why he is afraid of dogs, when he is bigger and faster", "Where to find water", "How to grow antlers"] }
+      ru: { q: "О чём ланчук спрашивает оленя?", options: ["Почему он боится собак, если он больше и резвее их", "Где найти воду", "Как вырастить рога"] }
+    - answer: 1
+      en: { q: "What is the old deer's answer?", options: ["Dogs are really stronger", "He runs before he has time to think", "He isn't afraid at all"] }
+      ru: { q: "Что отвечает олень?", options: ["Собаки правда сильнее", "Он бежит, не успев подумать", "Он совсем не боится"] }
+
+- id: zhiletka
+  work: tolstoy-reader-2
+  section: Жилетка
+  questions:
+    - answer: 2
+      en: { q: "What did Ivan Petrov do?", options: ["He lost the merchant's shop", "He ran away to Siberia", "He stole twenty thousand roubles"] }
+      ru: { q: "Что сделал Иван Петров?", options: ["Потерял лавку купца", "Убежал в Сибирь", "Украл двадцать тысяч денег"] }
+    - answer: 0
+      en: { q: "Why does the merchant forgive him?", options: ["Long ago, Ivan lent him a waistcoat for his wedding", "Ivan gave the money back", "Ivan was his brother"] }
+      ru: { q: "Почему купец его прощает?", options: ["Когда-то Иван дал ему свою жилетку надеть под венец", "Иван отдал деньги", "Иван был его брат"] }
+
+- id: samokrutka
+  work: tolstoy-reader-2
+  section: Самокрутка
+  questions:
+    - answer: 1
+      en: { q: "What kind of mill did the peasant want to build?", options: ["A mill on the river", "One that would run by itself, with no water, wind or horses", "A very large windmill"] }
+      ru: { q: "Какую мельницу хотел сделать мужик?", options: ["Мельницу на реке", "Такую, чтобы сама ходила, без воды, ветра и лошадей", "Очень большую ветряную"] }
+    - answer: 0
+      en: { q: "What did the gentleman tell him?", options: ["Such a mill can't be made; learned people have tried", "To ask a merchant for money", "To learn to read first, and then build it"] }
+      ru: { q: "Что сказал ему барин?", options: ["Такой мельницы сделать нельзя, много ученых людей пробовали", "Попросить денег у купца", "Сначала выучиться грамоте, потом строить"] }
+    - answer: 2
+      en: { q: "How does the story end?", options: ["The mill works", "The merchant forgives the debt", "The gentleman pays for him and gives him work building ordinary mills"] }
+      ru: { q: "Чем кончается рассказ?", options: ["Мельница работает", "Купец прощает долг", "Барин дал ему денег и взял его строить простые мельницы"] }
+
+- id: osyazanie-i-zrenie
+  work: tolstoy-reader-2
+  section: Осязание и зрение
+  questions:
+    - answer: 1
+      en: { q: "With crossed fingers and closed eyes, how many balls do you seem to feel?", options: ["One", "Two", "None"] }
+      ru: { q: "Сколько шариков покажется пальцам с закрытыми глазами?", options: ["Один", "Два", "Ни одного"] }
+    - answer: 0
+      en: { q: "What does the mirror show?", options: ["That the eyes can be fooled, and the fingers put them right", "That the fingers are always right", "That mirrors are windows"] }
+      ru: { q: "Что показывает зеркало?", options: ["Что глаза могут обмануть, а пальцы поправят", "Что пальцы всегда правы", "Что зеркало — это окно"] }
+
+- id: lisitsa-i-kozel
+  work: tolstoy-reader-2
+  section: Лисица и козел
+  questions:
+    - answer: 2
+      en: { q: "Why couldn't the goat get back out?", options: ["The fox was in the way", "He had hurt his leg", "He had drunk too much and grown heavy"] }
+      ru: { q: "Почему козел не мог выбраться?", options: ["Лисица мешала", "Он ушиб ногу", "Он напился и отяжелел"] }
+    - answer: 0
+      en: { q: "What does the fox tell him?", options: ["He should have thought how to get out before climbing down", "To wait for the farmer", "To jump higher"] }
+      ru: { q: "Что говорит ему лисица?", options: ["Прежде чем слезать, надо было подумать, как выбраться", "Ждать хозяина", "Прыгнуть выше"] }
+
+- id: kak-muzhik-ubral-kamen
+  work: tolstoy-reader-2
+  section: Как мужик убрал камень
+  questions:
+    - answer: 1
+      en: { q: "Why did the stone need moving?", options: ["It was going to fall", "It took up space and got in the way of traffic", "The town wanted to sell it"] }
+      ru: { q: "Почему надо было убрать камень?", options: ["Он мог упасть", "Он занимал много места и мешал езде", "Город хотел его продать"] }
+    - answer: 0
+      en: { q: "What was the peasant's idea?", options: ["Dig a big hole beside it and drop the stone in", "Break it up with gunpowder", "Roll it away on a roller"] }
+      ru: { q: "Что придумал мужик?", options: ["Выкопать рядом большую яму и свалить в неё камень", "Разбить камень порохом", "Свезти его на катке"] }
+
+- id: shat-i-don
+  work: tolstoy-reader-2
+  section: Шат и дон
+  title: Шат и Дон
+  questions:
+    - answer: 2
+      en: { q: "Which brother obeyed his father?", options: ["Shat, the elder", "Both of them", "Don, the younger and weaker one"] }
+      ru: { q: "Какой брат слушался отца?", options: ["Старший, Шат", "Оба брата", "Младший и слабый, Дон"] }
+    - answer: 1
+      en: { q: "What happened to the real rivers?", options: ["Both reach the Sea of Azov", "The Don crosses Russia to the Sea of Azov; the Shat winds about and flows into the Upa", "The Shat is the bigger river"] }
+      ru: { q: "Что стало с реками?", options: ["Обе впали в Азовское море", "Дон прошел через всю Россию и впал в Азовское море, а Шат впал в Упу", "Шат стал большой рекой"] }
+
+- id: sudoma
+  work: tolstoy-reader-2
+  section: Судома
+  questions:
+    - answer: 0
+      en: { q: "How did the chain on the hill decide who was right?", options: ["Only someone in the right could reach it", "It rang for the guilty one", "It fell on the liar"] }
+      ru: { q: "Как цепь на горе решала, кто прав?", options: ["Кто был прав, тот доставал до цепи рукой", "Она звенела над виноватым", "Она падала на того, кто лгал"] }
+    - answer: 2
+      en: { q: "How did the guilty man trick it?", options: ["He climbed a tree", "He paid the judge", "He hid the money in his crutch and gave it to the other man to hold"] }
+      ru: { q: "Как виноватый обманул всех?", options: ["Залез на дерево", "Дал денег судье", "Спрятал деньги в костыль и дал его подержать тому, кому был должен"] }
+
+- id: sova-i-zayats
+  work: tolstoy-reader-2
+  section: Сова и заяц
+  questions:
+    - answer: 1
+      en: { q: "Why didn't the old owl attack the hare?", options: ["She wasn't hungry", "The hare was too big; it would drag her into the thicket", "She didn't see it"] }
+      ru: { q: "Почему старая сова не ловила зайца?", options: ["Ей не хотелось есть", "Заяц большой, он уволочет её в чащу", "Она его не видела"] }
+    - answer: 0
+      en: { q: "What happened to the young owl?", options: ["The hare tore her in two", "She caught the hare", "She flew away in time"] }
+      ru: { q: "Что стало с молодой совой?", options: ["Заяц разорвал её", "Она поймала зайца", "Она вовремя улетела"] }
+
+- id: volk-i-zhuravl
+  work: tolstoy-reader-2
+  section: Волк и журавль
+  questions:
+    - answer: 2
+      en: { q: "Why did the wolf need the crane?", options: ["To find food", "To carry a message", "To pull a bone out of his throat"] }
+      ru: { q: "Зачем волку был нужен журавль?", options: ["Найти еды", "Передать что-то", "Вытащить кость из глотки"] }
+    - answer: 0
+      en: { q: "What 'reward' does the wolf give?", options: ["Not biting the crane's head off", "A piece of meat", "Nothing, and he runs away"] }
+      ru: { q: "Какую награду даёт волк?", options: ["Что не откусил ему голову", "Кусок мяса", "Ничего, и убегает"] }
+
+- id: orel
+  work: tolstoy-reader-2
+  section: Орел
+  questions:
+    - answer: 1
+      en: { q: "What happened to the eagle's first fish?", options: ["It fell into the sea", "People threw stones at the eagle and took the fish", "The eaglets ate it"] }
+      ru: { q: "Что стало с первой рыбой орла?", options: ["Она упала в море", "Люди бросали в орла каменьями и взяли рыбу", "Ее съели орлята"] }
+    - answer: 2
+      en: { q: "What did the tired eagle do in the end?", options: ["Slept in the nest", "Found food on the road", "Flew back to the sea and brought another fish"] }
+      ru: { q: "Что сделал усталый орел в конце?", options: ["Уснул в гнезде", "Нашёл корм на дороге", "Снова полетел к морю и принёс другую рыбу"] }
+
+- id: utka-i-mesyats
+  work: tolstoy-reader-2
+  section: Утка и месяц
+  questions:
+    - answer: 0
+      en: { q: "What did the duck dive for?", options: ["The moon in the water, which she took for a fish", "A real fish", "A stone on the bottom"] }
+      ru: { q: "За чем нырнула утка?", options: ["За месяцем в воде: она подумала, что это рыба", "За настоящей рыбой", "За камнем на дне"] }
+    - answer: 2
+      en: { q: "What happened to her afterwards?", options: ["She became a better hunter", "She flew to another river", "She was so ashamed she stopped catching fish, and starved"] }
+      ru: { q: "Что с ней было потом?", options: ["Она стала лучше ловить", "Она улетела на другую реку", "Ей было так стыдно, что она перестала ловить рыбу и умерла с голода"] }
+
+- id: medved-na-povozke
+  work: tolstoy-reader-2
+  section: Медведь на повозке
+  questions:
+    - answer: 1
+      en: { q: "Why did the bear climb into the cart?", options: ["To ride home", "It smelt the калачи in the hay", "It was frightened"] }
+      ru: { q: "Почему медведь влез в повозку?", options: ["Чтобы доехать домой", "Он учуял калачи", "Он испугался"] }
+    - answer: 0
+      en: { q: "What did the driver's wife see when the horses got home?", options: ["A bear climbing off the cart", "Her husband, drunk", "An empty cart"] }
+      ru: { q: "Что увидела хозяйка, когда лошади прискакали домой?", options: ["С телеги лезет медведь", "Пьяного хозяина", "Пустую телегу"] }
+
+- id: volk-v-pyli
+  work: tolstoy-reader-2
+  section: Волк в пыли
+  questions:
+    - answer: 2
+      en: { q: "Why was the wolf walking in the flock's dust?", options: ["He was lost", "He wanted to cure his eyes", "So that the dogs wouldn't smell him while he caught a sheep"] }
+      ru: { q: "Зачем волк зашел под ветер в пыль от стада?", options: ["Он заблудился", "Хотел вылечить глаза", "Чтобы поймать овцу"] }
+    - answer: 0
+      en: { q: "What excuse does he give the sheepdog?", options: ["That the dust is good for his sore eyes", "That he is just passing", "That he is looking for his cub"] }
+      ru: { q: "Что волк говорит собаке?", options: ["Что пыль от стада хорошо глаза вылечивает", "Что он просто идёт мимо", "Что он ищет волчонка"] }
+
+- id: kak-volki-uchat
+  work: tolstoy-reader-2
+  section: Как волки учат своих детей
+  questions:
+    - answer: 1
+      en: { q: "Who was carrying the lamb at first?", options: ["The old wolf", "The young wolf", "The shepherd boy"] }
+      ru: { q: "Кто сначала нес ягненка?", options: ["Старый волк", "Молодой волк", "Мальчик-пастух"] }
+    - answer: 0
+      en: { q: "When did the old wolf take the lamb himself?", options: ["When the people and dogs came", "When the young wolf got tired", "At the edge of the forest"] }
+      ru: { q: "Когда старый волк сам взял ягненка?", options: ["Когда увидал собак и народ", "Когда молодой устал", "У края леса"] }
+
+- id: zaytsy-i-lyagushki
+  work: tolstoy-reader-2
+  section: Зайцы и лягушки
+  questions:
+    - answer: 2
+      en: { q: "Why did the hares go to the lake?", options: ["To drink", "To catch frogs", "To drown themselves, tired of living in fear"] }
+      ru: { q: "Зачем зайцы пошли на озеро?", options: ["Напиться", "Ловить лягушек", "Топиться: им надоело жить в страхе"] }
+    - answer: 1
+      en: { q: "Why did they change their minds?", options: ["The water was cold", "The frogs were afraid of them, so the frogs had a worse life", "A hunter came"] }
+      ru: { q: "Почему они передумали?", options: ["Вода была холодная", "Лягушки их боятся: значит, лягушачье житье еще хуже", "Пришел охотник"] }
+
+- id: zhivchik
+  work: tolstoy-reader-2
+  section: Как тетушка рассказывала о том, как у нее был ручной воробей — живчик
+  title: Как тетушка рассказывала о том, как у нее был ручной воробей — Живчик
+  questions:
+    - answer: 0
+      en: { q: "Why did the children start feeding the young sparrows?", options: ["The mother bird was killed when the shutter was closed", "The nest fell down", "The birds were ill"] }
+      ru: { q: "Почему дети стали кормить воробушков?", options: ["Старого воробья раздавили, когда закрывали ставень", "Гнездо упало", "Птички были больны"] }
+    - answer: 2
+      en: { q: "Why did four of the five die, according to what the children were told?", options: ["It was too cold", "A cat got them", "They had been overfed"] }
+      ru: { q: "Почему умерли воробушки, как сказали детям?", options: ["Было холодно", "Их поймала кошка", "Их окормили"] }
+    - answer: 1
+      en: { q: "What did Живчик learn to do?", options: ["Talk", "Fly to the sister when she called his name", "Open the window"] }
+      ru: { q: "Что умел делать Живчик?", options: ["Говорить", "Прилетать к сестре, когда она его звала", "Открывать окно"] }
+
+- id: tysyacha-zolotykh
+  work: tolstoy-reader-2
+  section: 1000 золотых
+  questions:
+    - answer: 1
+      en: { q: "How did the rich man say the money should be given?", options: ["Shared equally among the poor", "All of it to the first poor person who came to the priest", "To the priest himself"] }
+      ru: { q: "Кому богатый велел отдать деньги?", options: ["Всем бедным поровну", "Тому бедному, кто первый придет к священнику", "Самому священнику"] }
+    - answer: 0
+      en: { q: "Why did the poor man go to the priest?", options: ["To ask why Scripture said something untrue about the righteous", "To ask for money", "To confess"] }
+      ru: { q: "Зачем бедный пошел к священнику?", options: ["Спросить, как так неправда сказана в Писании", "Просить денег", "Исповедоваться"] }
+
+- id: petr-i-muzhik
+  work: tolstoy-reader-2
+  section: Петр i и мужик
+  title: Пётр I и мужик
+  questions:
+    - answer: 2
+      en: { q: "What does 'throwing money into the water' mean, for the peasant?", options: ["Wasting it on drink", "Paying his debts", "Bringing up his daughters, who will marry and leave"] }
+      ru: { q: "Что значит у мужика «в воду мечу»?", options: ["Пропиваю деньги", "Плачу долг", "Дочерей рощу"] }
+    - answer: 0
+      en: { q: "How should the peasant recognise the tsar?", options: ["He'll be the only one with his hat on", "By his crown", "By his horse"] }
+      ru: { q: "Как мужик узнает царя?", options: ["Все будут без шапок, один царь в шапке", "По короне", "По лошади"] }
+    - answer: 1
+      en: { q: "How does the peasant realise who he is with?", options: ["Someone tells him", "Only the two of them keep their hats on", "He sees the tsar's portrait"] }
+      ru: { q: "Как мужик понимает, кто с ним едет?", options: ["Ему говорят", "Только они двое в шапках", "Он видит портрет царя"] }
+
+- id: beshenaya-sobaka
+  work: tolstoy-reader-2
+  section: Бешеная собака
+  questions:
+    - answer: 0
+      en: { q: "How did Дружок save the children?", options: ["He fought the rabid dog", "He barked to warn them", "He led them home"] }
+      ru: { q: "Как Дружок спас детей?", options: ["Кинулся на бешеную собаку и стал с ней грызться", "Залаял", "Отвел их домой"] }
+    - answer: 2
+      en: { q: "What happened to Дружок ten days later?", options: ["He ran away", "He was given away", "He went mad himself"] }
+      ru: { q: "Что стало с Дружком через десять дней?", options: ["Он убежал", "Его отдали", "Он сам стал бешеный"] }
+    - answer: 1
+      en: { q: "Why did the master's shot miss the head?", options: ["The gun was old", "His hand was shaking", "The dog jumped"] }
+      ru: { q: "Почему барин не попал в голову?", options: ["Ружье было старое", "У него тряслась рука", "Собака прыгнула"] }
+
+- id: rovnoe-nasledstvo
+  work: tolstoy-reader-2
+  section: Ровное наследство
+  questions:
+    - answer: 1
+      en: { q: "What did the wanderer advise the mother?", options: ["To hide money for the younger son", "To tell the sons that the elder gets everything", "To ask the father to share equally"] }
+      ru: { q: "Что посоветовал странник матери?", options: ["Спрятать деньги для меньшого", "Объявить сыновьям, что старшему достанется все", "Просить мужа разделить поровну"] }
+    - answer: 0
+      en: { q: "Why did it work out equally in the end?", options: ["The younger son learned trades and got rich; the elder learned nothing and lost everything", "The father changed his mind", "The brothers shared"] }
+      ru: { q: "Почему вышло поровну?", options: ["Младший выучился и стал богат, а старший ничему не учился и прожил все", "Отец передумал", "Братья поделились"] }
+
+- id: tri-vora
+  work: tolstoy-reader-2
+  section: Три вора
+  questions:
+    - answer: 2
+      en: { q: "How did the first thief steal the goat without being noticed?", options: ["At night", "He bought it", "He moved its bell to the donkey's tail"] }
+      ru: { q: "Как первый вор украл козу?", options: ["Ночью", "Купил её", "Привесил её бубенчик к хвосту осла"] }
+    - answer: 0
+      en: { q: "How did the second thief get the donkey?", options: ["He offered to hold it while the peasant chased the goat", "He frightened it", "He swapped it"] }
+      ru: { q: "Как второй вор взял осла?", options: ["Взялся подержать осла, пока мужик догонял козу", "Напугал его", "Обменял его"] }
+    - answer: 1
+      en: { q: "How did the third thief get his clothes?", options: ["He asked for them", "He invented a bag of gold in the pond, and stole the clothes while the peasant looked for it", "He took them at night"] }
+      ru: { q: "Как третий вор украл платье?", options: ["Попросил его", "Сказал про мешок с золотом в пруду и украл платье, пока мужик искал", "Взял его ночью"] }
+
+- id: otets-i-synovya
+  work: tolstoy-reader-2
+  section: Отец и сыновья
+  questions:
+    - answer: 1
+      en: { q: "What couldn't the sons do with the whole broom?", options: ["Lift it", "Break it", "Untie it"] }
+      ru: { q: "Что сыновья не смогли сделать с веником?", options: ["Поднять", "Сломать", "Развязать"] }
+    - answer: 0
+      en: { q: "What does the father want them to learn?", options: ["Together no one can beat them; apart, anyone can", "To sweep the house", "To obey their mother"] }
+      ru: { q: "Чему отец хочет их научить?", options: ["Если будут жить в согласии, никто их не одолеет", "Мести дом", "Слушаться мать"] }
+
+- id: otchego-byvaet-veter
+  work: tolstoy-reader-2
+  section: Отчего бывает ветер?
+  questions:
+    - answer: 2
+      en: { q: "When you open the door of a warm room, which way does the air go at the bottom?", options: ["Out of the room", "It doesn't move", "In from outside"] }
+      ru: { q: "Куда дует ветер низом, когда отворишь дверь в теплую горницу?", options: ["Из горницы на двор", "Никуда", "Со двора в горницу"] }
+    - answer: 0
+      en: { q: "What causes wind, according to the text?", options: ["Air warming in one place and cooling in another", "Trees moving", "The sea"] }
+      ru: { q: "Отчего бывает ветер?", options: ["Где-то воздух разогреется, а в другом месте остынет", "Деревья качаются", "От моря"] }
+
+- id: dlya-chego-veter
+  work: tolstoy-reader-2
+  section: Для чего ветер?
+  questions:
+    - answer: 1
+      en: { q: "Which of these does the text NOT name as needing wind?", options: ["Kites and windmills", "Cooking food", "Sailing boats"] }
+      ru: { q: "Для чего ветер НЕ нужен, если судить по тексту?", options: ["Пускать змея и молоть зерно", "Варить еду", "Плавать с парусом"] }
+    - answer: 0
+      en: { q: "How does wind help plants make seeds?", options: ["It carries pollen from flower to flower", "It waters them", "It warms them"] }
+      ru: { q: "Как ветер помогает растениям?", options: ["Переносит пыль с цветка на цветок", "Поливает их", "Греет их"] }
+    - answer: 2
+      en: { q: "Without wind, where would the rain fall?", options: ["Everywhere equally", "Only on fields", "Only over water, so the land would dry out"] }
+      ru: { q: "Где был бы дождь, если бы не было ветра?", options: ["Везде", "Только на полях", "Только над водой, а земля бы пересохла"] }
+
+- id: samye-luchshie-grushi
+  work: tolstoy-reader-2
+  section: Самые лучшие груши
+  questions:
+    - answer: 2
+      en: { q: "How did the servant check that every pear was good?", options: ["He smelt them", "He asked the merchant", "He bit a little off each one"] }
+      ru: { q: "Как слуга узнал, что все груши хороши?", options: ["Понюхал их", "Спросил купца", "Откусил понемногу от каждой"] }
+    - answer: 0
+      en: { q: "What did his master do?", options: ["Sent him away", "Thanked him", "Ate the pears"] }
+      ru: { q: "Что сделал барин?", options: ["Прогнал его", "Поблагодарил его", "Съел груши"] }
+
+- id: volga-i-vazuza
+  work: tolstoy-reader-2
+  section: Волга и вазуза
+  title: Волга и Вазуза
+  questions:
+    - answer: 1
+      en: { q: "How did Vazuza cheat?", options: ["She took the Volga's water", "She set off at night, by the straight road, while the Volga slept", "She hid the way"] }
+      ru: { q: "Как Вазуза обманула Волгу?", options: ["Взяла её воду", "Ночью, когда Волга заснула, побежала прямой дорогой", "Спрятала дорогу"] }
+    - answer: 0
+      en: { q: "What happened when the Volga caught up?", options: ["Vazuza called herself the younger sister and asked to be taken along", "They fought", "Vazuza ran away"] }
+      ru: { q: "Что было, когда Волга догнала Вазузу?", options: ["Вазуза назвалась меньшой сестрой и попросила довести её", "Они подрались", "Вазуза убежала"] }
+
+- id: zolotovolosaya-tsarevna
+  work: tolstoy-reader-2
+  section: Золотоволосая царевна
+  questions:
+    - answer: 2
+      en: { q: "Who kept trying to get rid of the princess?", options: ["Her father", "The fishermen", "Her stepmother"] }
+      ru: { q: "Кто хотел погубить царевну?", options: ["Отец", "Рыбаки", "Злая мачеха"] }
+    - answer: 0
+      en: { q: "What did the princess become in Japan?", options: ["A silkworm", "A butterfly first", "A mulberry tree"] }
+      ru: { q: "Кем стала царевна в Японии?", options: ["Шелковичный червь", "Сразу бабочка", "Тутовое дерево"] }
+    - answer: 1
+      en: { q: "What does the story explain?", options: ["Why lions live in deserts", "Why silkworms sleep five times, and the names of their sleeps", "How silk is dyed"] }
+      ru: { q: "Что объясняет эта сказка?", options: ["Почему львы живут в пустыне", "Почему черви пять раз засыпают и как называются их сны", "Как красят шелк"] }
+
+- id: sokol-i-petukh
+  work: tolstoy-reader-2
+  section: Сокол и петух
+  questions:
+    - answer: 0
+      en: { q: "What does the falcon accuse the rooster of?", options: ["Ingratitude: he runs from his masters", "Laziness", "Being too loud"] }
+      ru: { q: "В чём сокол упрекает петуха?", options: ["В нём нет благодарности, он бегает от хозяина", "Он ленивый", "Он громко кричит"] }
+    - answer: 2
+      en: { q: "What is the rooster's reply?", options: ["Falcons are cruel", "He is too busy", "People don't roast falcons, but they roast roosters all the time"] }
+      ru: { q: "Что отвечает петух?", options: ["Соколы злые", "Ему некогда", "Сокол не видал жареного сокола, а петухи то и дело видят жареных петухов"] }
+
+- id: teplo-1
+  work: tolstoy-reader-2
+  section: Тепло
+  part: 1
+  title: Тепло (часть 1)
+  questions:
+    - answer: 1
+      en: { q: "Why are rail ends laid with gaps between them?", options: ["To save iron", "Iron stretches in the heat of summer and would push the rails up", "So that trains are quieter"] }
+      ru: { q: "Почему концы рельсов не сходятся?", options: ["Чтобы было меньше железа", "Летом от жару железо растягивается, и рельсы поднялись бы", "Чтобы поезд шёл тише"] }
+    - answer: 0
+      en: { q: "Why does a glass crack when you pour in boiling water?", options: ["One part warms and stretches while the rest doesn't", "The water is too heavy", "The glass is thin"] }
+      ru: { q: "Почему стакан лопается от кипятка?", options: ["Одно место разогревается и растягивается, а другое нет", "Вода слишком тяжелая", "Стакан тонкий"] }
+
+- id: teplo-2
+  work: tolstoy-reader-2
+  section: Тепло
+  part: 2
+  title: Тепло (часть 2)
+  questions:
+    - answer: 2
+      en: { q: "Why does snow melt on your hand but not on a fur coat?", options: ["The coat is wet", "The hand is cleaner", "Warmth passes from the hand into the snow, but fur doesn't let it through"] }
+      ru: { q: "Почему снег тает на руке, а на шубе остается?", options: ["Шуба мокрая", "Рука чище", "Тепло руки переходит в снег, а шуба не пропускает тепла"] }
+    - answer: 0
+      en: { q: "Why do people cover dough with a fur coat?", options: ["Fur keeps the warmth in", "To keep flies off", "To make it heavier"] }
+      ru: { q: "Для чего закрывают квашню шубой?", options: ["Шуба не пропустит тепла", "Чтобы мухи не сели", "Чтобы было тяжелее"] }
+
+- id: teplo-3
+  work: tolstoy-reader-2
+  section: Тепло
+  part: 3
+  title: Тепло (часть 3)
+  questions:
+    - answer: 1
+      en: { q: "Why do you feel colder in wind without frost than in frost without wind?", options: ["Wind is always colder", "The wind takes away the warm air around your body", "Frost warms the air"] }
+      ru: { q: "Почему на ветру зябнешь больше, чем в мороз без ветра?", options: ["Ветер всегда холоднее", "Ветер относит теплый воздух вокруг тела", "Мороз греет воздух"] }
+
+- id: shakaly-i-slon
+  work: tolstoy-reader-2
+  section: Шакалы и слон
+  questions:
+    - answer: 0
+      en: { q: "How did the jackals trick the elephant?", options: ["They invited him to be their king and led him into a swamp", "They dug a pit", "They poisoned his food"] }
+      ru: { q: "Как шакалы обманули слона?", options: ["Позвали его в цари и привели в болото", "Выкопали яму", "Дали ему плохой еды"] }
+    - answer: 2
+      en: { q: "Why does the jackal laugh at the elephant's order?", options: ["The elephant spoke badly", "He doesn't want to obey", "The elephant has ordered something impossible, like their old king"] }
+      ru: { q: "Почему шакал смеется над приказом слона?", options: ["Слон плохо говорит", "Он не хочет слушаться", "Слон приказывает то, чего нельзя сделать, как прежний царь"] }
+
+- id: magnit
+  work: tolstoy-reader-2
+  section: Магнит
+  questions:
+    - answer: 1
+      en: { q: "How did the shepherd Magnis discover the magnet?", options: ["He found it in a book", "The iron nails in his boots stuck to the stones", "His sheep found it"] }
+      ru: { q: "Как пастух Магнис узнал о магните?", options: ["Прочел в книге", "Гвозди в его сапогах прилипали к камням", "Его нашла овца"] }
+    - answer: 0
+      en: { q: "Which way does a free magnetic needle point?", options: ["South at one end, north at the other", "Towards the nearest iron", "Up"] }
+      ru: { q: "Куда смотрит магнитная иголка?", options: ["Одним концом на юг, другим на север", "Туда, где железо", "Вверх"] }
+    - answer: 2
+      en: { q: "What did the magnet change for sailors?", options: ["Ships became faster", "Ships no longer needed sails", "They could sail far from the shore and find new seas"] }
+      ru: { q: "Что дал магнит морякам?", options: ["Корабли стали быстрее", "Не нужны стали паруса", "Стали ездить дальше от берегов и узнали много новых морей"] }
+
+- id: tsaplya-ryby-i-rak
+  work: tolstoy-reader-2
+  section: Цапля, рыбы и рак
+  questions:
+    - answer: 2
+      en: { q: "What did the old heron tell the fish?", options: ["That a storm was coming", "That she was their friend", "That people would drain the pond, and she could carry them to a better one"] }
+      ru: { q: "Что цапля сказала рыбам?", options: ["Что будет буря", "Что она им друг", "Что люди хотят спустить пруд, а она перенесет их в другой"] }
+    - answer: 0
+      en: { q: "What did the crayfish do?", options: ["Saw the fish bones, strangled the heron and told the fish", "Swam away", "Was eaten too"] }
+      ru: { q: "Что сделал рак?", options: ["Увидал рыбьи косточки, удавил цаплю и рассказал рыбам", "Уплыл", "Его тоже съели"] }
+
+- id: kak-dyadya-ezdil-verkhom
+  work: tolstoy-reader-2
+  section: Как дядя рассказывал про то, как он ездил верхом
+  questions:
+    - answer: 1
+      en: { q: "Why wouldn't Воронок gallop for the youngest brother?", options: ["He was lame", "He was old and worn out by the other brothers' rides", "He didn't like the boy"] }
+      ru: { q: "Почему Воронок не хотел скакать?", options: ["Он хромал", "Он был старый и измучен", "Ему не нравился мальчик"] }
+    - answer: 0
+      en: { q: "What did the old servant compare the horse to?", options: ["Old Pimen Timofeich, who was ninety", "A child", "A broken cart"] }
+      ru: { q: "С кем дядька сравнил лошадь?", options: ["Со стариком Пименом Тимофеичем", "С ребенком", "С телегой"] }
+    - answer: 2
+      en: { q: "What did the boy do in the end?", options: ["Asked for another horse", "Rode home crying", "Kissed the horse and asked it to forgive him"] }
+      ru: { q: "Что сделал мальчик в конце?", options: ["Попросил другую лошадь", "Поехал домой и плакал", "Стал целовать Воронка и просить у него прощенья"] }
+
+- id: yozh-i-zayats
+  work: tolstoy-reader-2
+  section: Ёж и заяц
+  questions:
+    - answer: 2
+      en: { q: "How did the hedgehog 'win' the race?", options: ["He ran faster", "He took a short cut", "His wife waited at the other end, and the hare took her for him"] }
+      ru: { q: "Как ёж обогнал зайца?", options: ["Бежал быстрее", "Пошёл короче", "Жена ждала на другом конце, и заяц думал, что это ёж"] }
+    - answer: 0
+      en: { q: "How did it end for the hare?", options: ["He ran back and forth until he was worn out, and gave up", "He found out the trick", "He won the last race"] }
+      ru: { q: "Чем кончилось для зайца?", options: ["Скакал из конца в конец, выбился из сил и покорился", "Он понял, в чём дело", "Он победил в последний раз"] }
+
+- id: dva-brata
+  work: tolstoy-reader-2
+  section: Два брата
+  questions:
+    - answer: 1
+      en: { q: "What did the stone tell the reader to do?", options: ["Go home", "Cross the river, take a bear's cubs and run up the hill to find happiness", "Dig under the stone"] }
+      ru: { q: "Что было написано на камне?", options: ["Идти домой", "Переплыть реку, отнять медвежат у медведицы и бежать в гору", "Копать под камнем"] }
+    - answer: 0
+      en: { q: "What happened to the younger brother?", options: ["He became a king, then lost his kingdom after five years", "He was killed by the bear", "He never found the house"] }
+      ru: { q: "Что стало с меньшим братом?", options: ["Его сделали царем, но через пять лет прогнали", "Его задрала медведица", "Он не нашёл дома"] }
+    - answer: 2
+      en: { q: "Why doesn't the younger brother regret it?", options: ["He is rich now", "His brother is unhappy", "He has a life worth remembering"] }
+      ru: { q: "Почему меньшой брат не тужит?", options: ["Он теперь богат", "Брату плохо", "Ему есть чем помянуть свою жизнь"] }
+
+- id: vodyanoy-i-zhemchuzhina
+  work: tolstoy-reader-2
+  section: Водяной и жемчужина
+  questions:
+    - answer: 1
+      en: { q: "What was the man doing with his bucket?", options: ["Fishing", "Emptying the sea to find his pearl", "Watering his garden"] }
+      ru: { q: "Что делал человек с ведром?", options: ["Ловил рыбу", "Черпал воду, чтобы найти жемчуг", "Поливал сад"] }
+    - answer: 0
+      en: { q: "Why did the water spirit give the pearl back?", options: ["The man said he would not stop until the sea was dry", "He felt sorry for him", "The man paid him"] }
+      ru: { q: "Почему водяной отдал жемчуг?", options: ["Человек сказал, что перестанет, только когда высушит море", "Ему стало жаль человека", "Человек дал ему денег"] }
+
+- id: kambiz-i-psamenit
+  work: tolstoy-reader-2
+  section: Камбиз и псаменит
+  title: Камбиз и Псаменит
+  questions:
+    - answer: 2
+      en: { q: "When did Psammenitus finally weep?", options: ["When he saw his daughter", "When he saw his son led to death", "When he saw an old friend begging"] }
+      ru: { q: "Когда Псаменит заплакал?", options: ["Когда увидел дочь", "Когда вели на смерть сына", "Когда увидел товарища, который просил милостыню"] }
+    - answer: 0
+      en: { q: "How does he explain this?", options: ["His own grief was too great to weep over", "He didn't love his children", "He was afraid of Cambyses"] }
+      ru: { q: "Как он это объясняет?", options: ["Его собственное горе так велико, что о нем и плакать нельзя", "Он не любил детей", "Он боялся Камбиза"] }
+
+- id: otchego-poteyut-okna
+  work: tolstoy-reader-2
+  section: Отчего потеют окна и бывает роса?
+  questions:
+    - answer: 1
+      en: { q: "What does the text compare air to?", options: ["A cloud", "A sponge that holds water until it is squeezed", "A bucket"] }
+      ru: { q: "С чем сравнивается воздух?", options: ["С тучей", "С губкой, которая держит в себе воду", "С ведром"] }
+    - answer: 0
+      en: { q: "Why do drops form on a cold pot brought up from the cellar?", options: ["The air around it cools and lets out its water", "The pot leaks", "Someone splashed it"] }
+      ru: { q: "Почему на холодном горшке из погреба садятся капли?", options: ["Воздух вокруг горшка остыл, и капли сели", "Горшок течет", "Его облили"] }
+
+- id: arkhierey-i-razboynik
+  work: tolstoy-reader-2
+  section: Архиерей и разбойник
+  questions:
+    - answer: 2
+      en: { q: "What did the robber steal from the bishop?", options: ["Money", "Food", "A silver candlestick"] }
+      ru: { q: "Что украл разбойник у архиерея?", options: ["Деньги", "Еду", "Серебряный подсвечник"] }
+    - answer: 0
+      en: { q: "What did the bishop do when the police brought the robber back?", options: ["Gave him the other candlestick too, as a present", "Had him taken away", "Asked for the candlestick back"] }
+      ru: { q: "Что сделал архиерей, когда привели вора?", options: ["Подал ему второй подсвечник и сказал, что подарил оба", "Велел его увести", "Попросил отдать подсвечник"] }
+    - answer: 1
+      en: { q: "How did the robber respond?", options: ["He ran away", "He wept, confessed and asked the bishop to pray for him", "He laughed"] }
+      ru: { q: "Что сделал разбойник?", options: ["Убежал", "Заплакал, признался и попросил помолиться за него", "Засмеялся"] }

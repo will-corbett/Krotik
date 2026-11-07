@@ -148,5 +148,5 @@ Done in batches, each reviewed before the next.
 - Reading (pilot, 2026-11-07): the owner tried a gap-fill drill on literature and rejected it (it rewards memorising
   the author's choice, e.g. tense, over what's grammatical). Replaced by a Reading section: 15 Tolstoy stories and both
   Chekhov comedies scene by scene, every word explained on hover/tap, 2–3 comprehension questions per text in English
-  or Russian. Next: the rest of Tolstoy's book once the pilot is reviewed.
+  or Russian. Then (2026-11-07) the rest of Tolstoy's book: 60 stories in all; four stay out (Уж, Лозина and Ермак have too many dialect words to gloss reliably; Воробей и ласточки has a transcription error, всб for всё, and the text is never edited).
 - Not doing: model-answer writing.

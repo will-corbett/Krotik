@@ -47,7 +47,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | numerals.json | 37 | 8.4 KB |
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
-| reading.json, reading.*.json | 33 texts, 61 questions | 566 KB |
+| reading.json, reading.*.json | 78 texts, 161 questions | 1223 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -259,69 +259,69 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | count | n |
 |---|---:|
 | tolstoy-reader-2 «Девочка и грибы» (Быль), 175 words: words not explained | 0 |
-| tolstoy-reader-2 «Осёл в львиной шкуре» (Басня), 24 words: words not explained | 1 |
+| tolstoy-reader-2 «Осёл в львиной шкуре» (Басня), 24 words: words not explained | 0 |
 | tolstoy-reader-2 «Какая бывает роса на траве» (Описание), 109 words: words not explained | 0 |
 | tolstoy-reader-2 «Курица и ласточка» (Басня), 24 words: words not explained | 0 |
 | tolstoy-reader-2 «Индеец и англичанин» (Быль), 128 words: words not explained | 0 |
-| tolstoy-reader-2 «Олень и ланчук» (Басня), 52 words: words not explained | 3 |
+| tolstoy-reader-2 «Олень и ланчук» (Басня), 52 words: words not explained | 0 |
 | tolstoy-reader-2 «Жилетка» (Быль), 134 words: words not explained | 0 |
 | tolstoy-reader-2 «Лисица и виноград» (Басня), 27 words: words not explained | 0 |
 | tolstoy-reader-2 «Удача» (Быль), 83 words: words not explained | 0 |
 | tolstoy-reader-2 «Работницы и петух» (Басня), 37 words: words not explained | 0 |
-| tolstoy-reader-2 «Самокрутка» (Быль), 359 words: words not explained | 4 |
+| tolstoy-reader-2 «Самокрутка» (Быль), 359 words: words not explained | 0 |
 | tolstoy-reader-2 «Рыбак и рыбка» (Басня), 47 words: words not explained | 0 |
-| tolstoy-reader-2 «Осязание и зрение» (Рассуждение), 70 words: words not explained | 1 |
-| tolstoy-reader-2 «Лисица и козел» (Басня), 52 words: words not explained | 1 |
-| tolstoy-reader-2 «Как мужик убрал камень» (Быль), 130 words: words not explained | 1 |
+| tolstoy-reader-2 «Осязание и зрение» (Рассуждение), 70 words: words not explained | 0 |
+| tolstoy-reader-2 «Лисица и козел» (Басня), 52 words: words not explained | 0 |
+| tolstoy-reader-2 «Как мужик убрал камень» (Быль), 130 words: words not explained | 0 |
 | tolstoy-reader-2 «Собака и ее тень» (Басня), 49 words: words not explained | 0 |
 | tolstoy-reader-2 «Шат и дон» (Сказка), 169 words: words not explained | 0 |
 | tolstoy-reader-2 «Журавль и аист» (Басня), 62 words: words not explained | 0 |
 | tolstoy-reader-2 «Судома» (Сказка), 188 words: words not explained | 0 |
 | tolstoy-reader-2 «Садовник и сыновья» (Басня), 63 words: words not explained | 0 |
 | tolstoy-reader-2 «Сова и заяц» (Басня), 139 words: words not explained | 0 |
-| tolstoy-reader-2 «Волк и журавль» (Басня), 64 words: words not explained | 1 |
-| tolstoy-reader-2 «Орел» (Быль), 189 words: words not explained | 1 |
-| tolstoy-reader-2 «Утка и месяц» (Басня), 64 words: words not explained | 1 |
-| tolstoy-reader-2 «Медведь на повозке» (Басня), 186 words: words not explained | 2 |
-| tolstoy-reader-2 «Волк в пыли» (Басня), 54 words: words not explained | 2 |
+| tolstoy-reader-2 «Волк и журавль» (Басня), 64 words: words not explained | 0 |
+| tolstoy-reader-2 «Орел» (Быль), 189 words: words not explained | 0 |
+| tolstoy-reader-2 «Утка и месяц» (Басня), 64 words: words not explained | 0 |
+| tolstoy-reader-2 «Медведь на повозке» (Басня), 186 words: words not explained | 0 |
+| tolstoy-reader-2 «Волк в пыли» (Басня), 54 words: words not explained | 0 |
 | tolstoy-reader-2 «Лозина» (Быль), 367 words: words not explained | 14 |
 | tolstoy-reader-2 «Мышь под амбаром» (Басня), 68 words: words not explained | 0 |
 | tolstoy-reader-2 «Как волки учат своих детей» (Рассказ), 145 words: words not explained | 0 |
-| tolstoy-reader-2 «Зайцы и лягушки» (Басня), 67 words: words not explained | 1 |
-| tolstoy-reader-2 «Как тетушка рассказывала о том, как у нее был ручной воробей — живчик» (Рассказ), 589 words: words not explained | 3 |
+| tolstoy-reader-2 «Зайцы и лягушки» (Басня), 67 words: words not explained | 0 |
+| tolstoy-reader-2 «Как тетушка рассказывала о том, как у нее был ручной воробей — живчик» (Рассказ), 589 words: words not explained | 0 |
 | tolstoy-reader-2 «Три калача и одна баранка» (Басня), 72 words: words not explained | 0 |
-| tolstoy-reader-2 «1000 золотых» (Быль), 176 words: words not explained | 2 |
+| tolstoy-reader-2 «1000 золотых» (Быль), 176 words: words not explained | 0 |
 | tolstoy-reader-2 «Петр i и мужик» (Быль), 264 words: words not explained | 0 |
 | tolstoy-reader-2 «Бешеная собака» (Быль), 318 words: words not explained | 0 |
 | tolstoy-reader-2 «Две лошади» (Басня), 74 words: words not explained | 0 |
 | tolstoy-reader-2 «Лев и собачка» (Быль), 319 words: words not explained | 0 |
-| tolstoy-reader-2 «Ровное наследство» (Басня), 191 words: words not explained | 1 |
+| tolstoy-reader-2 «Ровное наследство» (Басня), 191 words: words not explained | 0 |
 | tolstoy-reader-2 «Три вора» (Быль), 265 words: words not explained | 0 |
-| tolstoy-reader-2 «Отец и сыновья» (Басня), 66 words: words not explained | 1 |
-| tolstoy-reader-2 «Отчего бывает ветер?» (Рассуждение), 180 words: words not explained | 1 |
-| tolstoy-reader-2 «Для чего ветер?» (Рассуждение), 559 words: words not explained | 5 |
+| tolstoy-reader-2 «Отец и сыновья» (Басня), 66 words: words not explained | 0 |
+| tolstoy-reader-2 «Отчего бывает ветер?» (Рассуждение), 180 words: words not explained | 0 |
+| tolstoy-reader-2 «Для чего ветер?» (Рассуждение), 559 words: words not explained | 0 |
 | tolstoy-reader-2 «Самые лучшие груши» (Басня), 67 words: words not explained | 0 |
 | tolstoy-reader-2 «Волга и вазуза» (Сказка), 198 words: words not explained | 0 |
 | tolstoy-reader-2 «Теленок на льду» (Басня), 87 words: words not explained | 0 |
-| tolstoy-reader-2 «Золотоволосая царевна» (Сказка), 368 words: words not explained | 3 |
+| tolstoy-reader-2 «Золотоволосая царевна» (Сказка), 368 words: words not explained | 0 |
 | tolstoy-reader-2 «Сокол и петух» (Басня), 103 words: words not explained | 0 |
 | tolstoy-reader-2 «Тепло» (Рассуждение), 110 words: words not explained | 0 |
-| tolstoy-reader-2 «Тепло», 228 words: words not explained | 3 |
+| tolstoy-reader-2 «Тепло», 228 words: words not explained | 0 |
 | tolstoy-reader-2 «Тепло», 77 words: words not explained | 0 |
-| tolstoy-reader-2 «Шакалы и слон» (Басня), 168 words: words not explained | 1 |
-| tolstoy-reader-2 «Магнит» (Описание), 497 words: words not explained | 4 |
-| tolstoy-reader-2 «Цапля, рыбы и рак» (Басня), 173 words: words not explained | 2 |
-| tolstoy-reader-2 «Как дядя рассказывал про то, как он ездил верхом» (Рассказ), 489 words: words not explained | 1 |
-| tolstoy-reader-2 «Ёж и заяц» (Басня), 312 words: words not explained | 1 |
-| tolstoy-reader-2 «Два брата» (Сказка), 519 words: words not explained | 1 |
+| tolstoy-reader-2 «Шакалы и слон» (Басня), 168 words: words not explained | 0 |
+| tolstoy-reader-2 «Магнит» (Описание), 497 words: words not explained | 0 |
+| tolstoy-reader-2 «Цапля, рыбы и рак» (Басня), 173 words: words not explained | 0 |
+| tolstoy-reader-2 «Как дядя рассказывал про то, как он ездил верхом» (Рассказ), 489 words: words not explained | 0 |
+| tolstoy-reader-2 «Ёж и заяц» (Басня), 312 words: words not explained | 0 |
+| tolstoy-reader-2 «Два брата» (Сказка), 519 words: words not explained | 0 |
 | tolstoy-reader-2 «Водяной и жемчужина» (Басня), 79 words: words not explained | 0 |
 | tolstoy-reader-2 «Уж» (Сказка), 551 words: words not explained | 7 |
 | tolstoy-reader-2 «Воробей и ласточки» (Рассказ), 180 words: words not explained | 4 |
-| tolstoy-reader-2 «Камбиз и псаменит» (История), 307 words: words not explained | 2 |
+| tolstoy-reader-2 «Камбиз и псаменит» (История), 307 words: words not explained | 0 |
 | tolstoy-reader-2 «Акула» (Рассказ), 375 words: words not explained | 0 |
-| tolstoy-reader-2 «Отчего потеют окна и бывает роса?» (Рассуждение), 509 words: words not explained | 6 |
-| tolstoy-reader-2 «Архиерей и разбойник» (Быль), 383 words: words not explained | 1 |
-| tolstoy-reader-2 «Ермак» (История), 2079 words: words not explained | 23 |
+| tolstoy-reader-2 «Отчего потеют окна и бывает роса?» (Рассуждение), 509 words: words not explained | 0 |
+| tolstoy-reader-2 «Архиерей и разбойник» (Быль), 383 words: words not explained | 0 |
+| tolstoy-reader-2 «Ермак» (История), 2079 words: words not explained | 22 |
 | chekhov-bear «Явление I», 439 words: words not explained | 0 |
 | chekhov-bear «Явление II», 63 words: words not explained | 0 |
 | chekhov-bear «Явление III», 63 words: words not explained | 0 |
@@ -340,14 +340,14 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | chekhov-proposal «Явление V», 182 words: words not explained | 0 |
 | chekhov-proposal «Явление VI», 464 words: words not explained | 0 |
 | chekhov-proposal «Явление VII», 594 words: words not explained | 0 |
-| texts published (with questions, every word explained) | 33 |
-| comprehension questions | 61 |
-| words labelled old-fashioned (Wiktionary has them only as archaic, obsolete or dated) | 15 |
+| texts published (with questions, every word explained) | 78 |
+| comprehension questions | 161 |
+| words labelled old-fashioned (Wiktionary has them only as archaic, obsolete or dated) | 38 |
 | words Wiktionary mis-tags as old, accepted by hand (curated/literature.yaml notOld) | 1 |
 
 ### Anomalies
 
-- **words not explained (their text stays unpublished)** (105): исколотили (tolstoy-reader-2 «Осёл в львиной шкуре»); Ланчук (tolstoy-reader-2 «Олень и ланчук»); Примеч (tolstoy-reader-2 «Олень и ланчук»); дитятко (tolstoy-reader-2 «Олень и ланчук»); переладил (tolstoy-reader-2 «Самокрутка»); посходили (tolstoy-reader-2 «Самокрутка»); поумнее (tolstoy-reader-2 «Самокрутка»); рушку (tolstoy-reader-2 «Самокрутка»); потрогивай (tolstoy-reader-2 «Осязание и зрение»); кручь (tolstoy-reader-2 «Лисица и козел»); заровняю (tolstoy-reader-2 «Как мужик убрал камень»); выперхнуть (tolstoy-reader-2 «Волк и журавль»); засвистали (tolstoy-reader-2 «Орел»); заробела (tolstoy-reader-2 «Утка и месяц»); постораниваться (tolstoy-reader-2 «Медведь на повозке»); шибче (tolstoy-reader-2 «Медведь на повозке»); Овчарная (tolstoy-reader-2 «Волк в пыли»); собаченька (tolstoy-reader-2 «Волк в пыли»); Лозина (tolstoy-reader-2 «Лозина»); Склали (tolstoy-reader-2 «Лозина»); взлез (tolstoy-reader-2 «Лозина»); гудьмя (tolstoy-reader-2 «Лозина»); лозина (tolstoy-reader-2 «Лозина»); лозине (tolstoy-reader-2 «Лозина»); лозинки (tolstoy-reader-2 «Лозина»); …
+- **words not explained (their text stays unpublished)** (47): Лозина (tolstoy-reader-2 «Лозина»); Склали (tolstoy-reader-2 «Лозина»); взлез (tolstoy-reader-2 «Лозина»); гудьмя (tolstoy-reader-2 «Лозина»); лозина (tolstoy-reader-2 «Лозина»); лозине (tolstoy-reader-2 «Лозина»); лозинки (tolstoy-reader-2 «Лозина»); лозиннику (tolstoy-reader-2 «Лозина»); лозиной (tolstoy-reader-2 «Лозина»); лозину (tolstoy-reader-2 «Лозина»); лозины (tolstoy-reader-2 «Лозина»); окореняться (tolstoy-reader-2 «Лозина»); сажались (tolstoy-reader-2 «Лозина»); сселили (tolstoy-reader-2 «Лозина»); засипел (tolstoy-reader-2 «Уж»); кукушечкой (tolstoy-reader-2 «Уж»); оиа (tolstoy-reader-2 «Уж»); покличу (tolstoy-reader-2 «Уж»); соловейчиком (tolstoy-reader-2 «Уж»); ужак (tolstoy-reader-2 «Уж»); ужовая (tolstoy-reader-2 «Уж»); всб (tolstoy-reader-2 «Воробей и ласточки»); зачирикал (tolstoy-reader-2 «Воробей и ласточки»); клювике (tolstoy-reader-2 «Воробей и ласточки»); табунок (tolstoy-reader-2 «Воробей и ласточки»); …
 
 ## Hand-made lists (curated/)
 
