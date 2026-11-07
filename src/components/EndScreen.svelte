@@ -64,7 +64,7 @@
           <li>
             <div class="what">
               <span class="hw" lang={e.q.headwordIsEnglish ? 'en' : 'ru'}>{e.q.headwordIsEnglish ? e.q.headword : r(e.q.headword)}</span>
-              <span class="muted"><TermText parts={e.q.task} /></span>
+              <TermText parts={e.q.task} variant="chips" />
             </div>
             {#if e.q.selfMark}
               <div class="ans" lang="ru">{e.q.answer}</div>

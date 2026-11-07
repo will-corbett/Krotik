@@ -98,7 +98,7 @@
       <a class="btn primary" href={href({ page: 'drill', mode })}>Drill this topic</a>
     </div>
   {:else if q}
-    <p class="task"><TermText parts={q.task} /></p>
+    <p class="task"><TermText parts={q.task} variant="chips" shown={q.frame ?? ''} /></p>
     <p class="word" lang={q.headwordIsEnglish ? 'en' : 'ru'}>{q.headwordIsEnglish ? q.headword : r(q.headword)}</p>
     {#if q.gloss}<p class="muted gloss">{q.gloss}</p>{/if}
     <form onsubmit={submit} autocomplete="off">
@@ -178,10 +178,7 @@
     margin: 0 0 6px;
   }
   .task {
-    margin: 0;
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.9rem;
+    margin: 0 0 4px;
   }
   .word {
     font-family: var(--serif);

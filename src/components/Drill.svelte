@@ -217,7 +217,7 @@
     {#if notice}<p class="notice muted">{notice}</p>{/if}
 
     <div class="card prompt">
-      <p class="task"><TermText parts={q.task} /></p>
+      <p class="task"><TermText parts={q.task} variant="chips" shown={q.frame ?? ''} /></p>
       <h1 id="prompt-word" class="word" class:translation={!!q.source && !q.selfMark} class:to-translate={q.selfMark} lang={q.headwordIsEnglish ? 'en' : 'ru'}>
         {q.headwordIsEnglish ? q.headword : r(q.headword)}
       </h1>
@@ -415,10 +415,7 @@
     font-size: 0.9rem;
   }
   .task {
-    margin: 0;
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.95rem;
+    margin: 0 0 6px;
   }
   .word {
     font-family: var(--serif);
