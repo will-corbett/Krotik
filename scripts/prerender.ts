@@ -114,7 +114,7 @@ pages.push({
   route: { page: 'home' },
   description: SITE_DESCRIPTION,
   index: true,
-  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p><ul><li>${a({ page: 'learn' }, 'Learn & drill')}: every topic, from the alphabet to participles</li><li>${a({ page: 'test' }, 'Grammar test')}: 60 questions from A1 to C1</li><li>${a({ page: 'reading' }, 'Reading')}: Tolstoy and Chekhov, every word explained</li><li>${a({ page: 'culture' }, 'Culture')}: films, podcasts, books and notes</li></ul>`,
+  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p><ul><li>${a({ page: 'start' }, 'Start here')}: a short guide for new learners</li><li>${a({ page: 'learn' }, 'Learn & drill')}: every topic, from the alphabet to participles</li><li>${a({ page: 'test' }, 'Grammar test')}: 60 questions from A1 to C1</li><li>${a({ page: 'reading' }, 'Reading')}: Tolstoy and Chekhov, every word explained</li><li>${a({ page: 'culture' }, 'Culture')}: films, podcasts, books and notes</li></ul>`,
 });
 pages.push({
   route: { page: 'test' },
@@ -224,6 +224,15 @@ for (const n of notes) {
     body: `<p>${a({ page: 'culture' }, 'Culture')} ›</p><h1>${esc(n.title)} <span lang="ru">${esc(n.ru)}</span></h1>${markdown(readFileSync(`content/culture/notes/${n.id}.md`, 'utf8'))}`,
   });
 }
+pages.push({
+  route: { page: 'start' },
+  description: 'How to learn Russian grammar with Krotik: what is here, the order to start in, and how the drills work.',
+  index: true,
+  body: `<h1>Start here <span lang="ru">с чего начать</span></h1><p>Krotik is a free place to learn Russian grammar and practise it until it's automatic, with no account.</p><h2>New to Russian? Try this order</h2><ol>${(['alphabet', 'stress', 'pronouns', 'verbs', 'nounCases', 'prepositions', 'adjectives', 'plurals', 'questionWords', 'numbers', 'time'] as const)
+    .map((id) => topicById(id)!)
+    .map((t) => `<li>${a({ page: 'learn', topic: t.id }, t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></li>`)
+    .join('')}</ol><h2>Already know some Russian?</h2><p>Take the ${a({ page: 'test' }, 'Grammar test')}, then review the Learn pages it suggests.</p><h2>How drills work</h2><p>Type the answer and press Enter. A wrong answer comes back about ten cards later; the round ends when everything is right. Use the on-screen keyboard or phonetic typing (zh → ж, ch → ч, sh → ш) if you have no Russian keyboard.</p>`,
+});
 pages.push(PROGRESS_PAGE);
 pages.push({
   route: { page: 'about' },

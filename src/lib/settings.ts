@@ -18,6 +18,8 @@ export interface Settings {
   theme: 'krotik' | 'system' | 'light' | 'dark';
   /** The Dashboard's "Continue drilling" card was dismissed; it comes back when the next round starts. */
   hideContinue: boolean;
+  /** The home page's "New here? Start here" card was dismissed. */
+  hideStart: boolean;
   /**
    * Keep a record of your rounds in this browser (src/lib/progress.ts). Off by default; turning it off deletes the record.
    * The setting itself is a UI setting; the record is stored under its own key and never leaves the browser.
@@ -65,6 +67,7 @@ export const DEFAULTS: Settings = {
   translit: false,
   theme: 'krotik',
   hideContinue: false,
+  hideStart: false,
   progress: false,
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },

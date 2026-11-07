@@ -1,6 +1,7 @@
 /**
  * Page addresses: real paths under SITE_BASE, so each page can be found and prerendered.
  *   /                   Dashboard
+ *   /start/             Start here (the beginner's guide)
  *   /test/              Grammar test
  *   /learn/             Learn index        /learn/<topic>/   a Learn page
  *   /drill/             Choose a drill     /drill/<topic>/   that drill's settings
@@ -15,6 +16,7 @@ import { SITE_BASE } from '../shared/site.ts';
 export type Route =
   | { page: 'home' }
   | { page: 'test' }
+  | { page: 'start' }
   | { page: 'learn'; topic?: string }
   | { page: 'drill'; mode?: string }
   | { page: 'reading'; text?: string }
@@ -26,6 +28,8 @@ function fromParts(parts: string[]): Route {
   switch (parts[0]) {
     case 'test':
       return { page: 'test' };
+    case 'start':
+      return { page: 'start' };
     case 'learn':
       return parts[1] ? { page: 'learn', topic: parts[1] } : { page: 'learn' };
     case 'drill':
@@ -60,6 +64,8 @@ export function pathOf(route: Route): string {
       return '';
     case 'test':
       return 'test/';
+    case 'start':
+      return 'start/';
     case 'learn':
       return route.topic ? `learn/${route.topic}/` : 'learn/';
     case 'drill':

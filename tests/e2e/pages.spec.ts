@@ -176,7 +176,7 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme === 'dark' ? 'dark' : 'light' });
     await page.goto('./');
     await page.getByLabel('Theme').selectOption(theme);
-    for (const url of ['./#/', './#/learn', './#/learn/pronouns', './#/learn/alphabet', './#/learn/sounds', './#/learn/wordOrder', './#/culture', './#/culture/names', './#/test']) {
+    for (const url of ['./#/', './start/', './#/learn', './#/learn/pronouns', './#/learn/alphabet', './#/learn/sounds', './#/learn/wordOrder', './#/culture', './#/culture/names', './#/test']) {
       await page.goto(url);
       await expect(page.locator('main')).not.toContainText('Loading…');
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
@@ -336,4 +336,21 @@ test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, exp
   await page.getByRole('button', { name: 'End test now' }).click();
   await expect(page.getByText('Based on the 1 questions you answered.')).toBeVisible();
   await expect(page.getByText(/You chose|right, 0 wrong/).first()).toBeVisible();
+});
+
+test('first visit: the home page offers Start here; the guide lists a first path; Hide keeps it in the footer', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toBeVisible();
+  await page.getByRole('main').getByRole('link', { name: 'Start here' }).click();
+  await expect(page).toHaveURL(/\/Krotik\/start\/(\?.*)?$/);
+  await expect(page.getByRole('heading', { name: /Start here/, level: 1 })).toBeVisible();
+  await expect(page.locator('.path li')).toHaveCount(11);
+  await expect(page.locator('.path li').first()).toContainText('The alphabet');
+  await page.goto('./');
+  await page.getByRole('button', { name: /Hide the guide card/ }).click();
+  await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toHaveCount(0);
+  await page.getByRole('contentinfo').getByRole('link', { name: 'Start here' }).click();
+  await expect(page).toHaveURL(/\/Krotik\/start\/(\?.*)?$/);
 });

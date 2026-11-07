@@ -13,8 +13,9 @@
     loading,
     oncontinue,
     onhide,
+    onhidestart,
     onprogress,
-  }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void; onprogress: (on: boolean) => void } = $props();
+  }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void; onhidestart: () => void; onprogress: (on: boolean) => void } = $props();
   const last = $derived(topicById(settings.mode));
   const topics = ALL_TOPICS.filter((t) => t.learn !== false).length;
   const drills = ALL_TOPICS.filter(isDrill).length;
@@ -29,6 +30,19 @@
       <p class="muted">Learn and drill Russian grammar. <span lang="ru">Учись и тренируйся.</span></p>
     </div>
   </div>
+
+  {#if !settings.hideStart}
+    <div class="card welcome">
+      <div>
+        <h2>New to Krotik?</h2>
+        <p class="muted small">A two-minute guide: what's here, the order to start in, and how drills work.</p>
+      </div>
+      <div class="strip-actions">
+        <a class="btn primary" href={href({ page: 'start' })}>Start here</a>
+        <button class="btn quiet small-btn" onclick={onhidestart} aria-label="Hide the guide card (it stays in the footer)">Hide</button>
+      </div>
+    </div>
+  {/if}
 
   {#if !settings.hideContinue && last}
     <div class="strip">
@@ -98,6 +112,22 @@
     font-size: 2.1rem;
   }
   .hero p {
+    margin: 2px 0 0;
+  }
+  .welcome {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin: 0 0 14px;
+    border-left: 4px solid var(--primary-bg);
+  }
+  .welcome h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+  .welcome p {
     margin: 2px 0 0;
   }
   .strip {

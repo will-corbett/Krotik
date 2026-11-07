@@ -5,6 +5,7 @@ import { SITE_BASE } from '../../src/shared/site.ts';
 const routes: Route[] = [
   { page: 'home' },
   { page: 'test' },
+  { page: 'start' },
   { page: 'learn' },
   { page: 'learn', topic: 'aspect' },
   { page: 'drill' },
