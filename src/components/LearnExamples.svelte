@@ -6,12 +6,17 @@
   /** Real sentences from a sentence drill's data, with the target word highlighted. */
   let { topic, item, count }: { topic: string; item: string; count: number } = $props();
   let rows = $state<SentenceRow[] | null>(null);
+  let failed = $state(false);
   $effect(() => {
-    findExamples(topic, item, count).then((r) => (rows = r));
+    findExamples(topic, item, count)
+      .then((r) => (rows = r))
+      .catch(() => (failed = true));
   });
 </script>
 
-{#if rows && rows.length}
+{#if failed}
+  <p class="muted">(Couldn’t load the examples. Check your connection and reload the page.)</p>
+{:else if rows && rows.length}
   <div class="examples">
     {#each rows as r (r[0])}<div class="ex"><Sentence row={r} /></div>{/each}
   </div>

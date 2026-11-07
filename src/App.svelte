@@ -55,11 +55,10 @@
 
   function applyRoute(next: Route) {
     visited++;
-    if (next.page === 'drill' && route.page !== 'drill') screen = 'setup';
-    if (next.page === 'drill' && next.mode) {
-      if (isDrillId(next.mode)) settings.mode = next.mode as Mode;
-      screen = 'setup';
-    }
+    // Arriving at a Drill address (a link, Back or Forward) always shows that page, choose or settings: a round
+    // in progress is left (starting a round never changes the address, so this can't end one by accident).
+    if (next.page === 'drill') screen = 'setup';
+    if (next.page === 'drill' && next.mode && isDrillId(next.mode)) settings.mode = next.mode as Mode;
     route = next;
     window.scrollTo({ top: 0 });
   }

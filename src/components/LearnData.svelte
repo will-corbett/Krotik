@@ -24,6 +24,8 @@
   let pronouns = $state<PronounData | null>(null);
   let sentence = $state<SentenceRow | null>(null);
   let missing = $state(false);
+  /** the data couldn't be fetched (offline, or a failed request) */
+  let failed = $state(false);
   let numeral = $state<NumeralRow | null>(null);
 
   $effect(() => {
@@ -52,7 +54,7 @@
         sentence = (await findSentence(what as 'noun' | 'verb' | 'adjective', word, cell)) ?? null;
         if (!sentence) missing = true;
       }
-    })();
+    })().catch(() => (failed = true));
   });
   const show = (c: string | undefined) => (c ? displayForms(c).map((f) => renderForm(f, stress)).join(', ') : '—');
   const PERSONS = ['я', 'ты', 'он', 'она', 'оно', 'мы', 'вы', 'они'];
@@ -75,7 +77,9 @@
   };
 </script>
 
-{#if kind === 'table' && ref}
+{#if failed}
+  <p class="muted">(Couldn’t load this {kind === 'table' ? 'table' : 'example'}. Check your connection and reload the page.)</p>
+{:else if kind === 'table' && ref}
   <div class="data-block"><Paradigm {ref} {stress} /></div>
 {:else if kind === 'table' && pronouns}
   <!-- svelte-ignore a11y_no_noninteractive_tabindex -->

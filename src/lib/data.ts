@@ -11,10 +11,15 @@ const cache = new Map<string, Promise<unknown>>();
 function getJson<T>(file: string): Promise<T> {
   let p = cache.get(file) as Promise<T> | undefined;
   if (!p) {
-    p = fetch(BASE + file).then((r) => {
-      if (!r.ok) throw new Error(`Couldn't load ${file} (HTTP ${r.status})`);
-      return r.json() as Promise<T>;
-    });
+    // A failed request is forgotten (below), so trying again really fetches again.
+    p = fetch(BASE + file)
+      .catch(() => {
+        throw new Error(`Couldn't load the data (${file}). Check your connection and try again.`);
+      })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Couldn't load the data (${file}, HTTP ${r.status}). Try again in a moment.`);
+        return r.json() as Promise<T>;
+      });
     p.catch(() => cache.delete(file));
     cache.set(file, p);
   }
