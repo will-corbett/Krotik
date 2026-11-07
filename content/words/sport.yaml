@@ -15,3 +15,19 @@ groups:
     words: ["игра = game", матч, "команда = team", "игрок = player", "тренер = coach", мяч, стадион, "счёт = score"]
   - title: Doing sport
     words: ["заниматься = do (sport), go in for", "тренироваться = train", "играть = play", "выиграть = win", "проиграть = lose", "победа = win, victory", "сильный = strong", "быстрый = fast"]
+dialogues:
+  - title: "Watching the match"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты смотрел вчера футбол?", "Did you watch the football yesterday?"]
+      - [Дима, "Конечно! Наша команда выиграла три — один.", "Of course! Our team won three to one."]
+      - [Олег, "А я не успел. Кто забил?", "And I missed it. Who scored?"]
+      - [Дима, "Новый игрок, два гола. Тренер очень доволен.", "The new player, two goals. The coach is very pleased."]
+  - title: "Keeping fit"
+    reviewed: ""
+    lines:
+      - [Анна, "Ты занимаешься спортом?", "Do you do any sport?"]
+      - [Олег, "Да, я бегаю по утрам и плаваю два раза в неделю.", "Yes, I run in the mornings and swim twice a week."]
+      - [Анна, "А я зимой катаюсь на лыжах, а летом на велосипеде.", "And I ski in winter and cycle in summer."]
+      - [Олег, "Давай вместе ходить в бассейн!", "Let's go to the pool together!"]
+      - [Анна, "Хорошая идея!", "Good idea!"]

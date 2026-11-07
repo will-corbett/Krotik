@@ -16,3 +16,21 @@ groups:
     words: ["снимать = rent (a flat)", "снять = rent (a flat)", "сдавать = rent out, let", "аренда = rent, renting", "договор = contract, agreement", "плата = payment, rent", "залог = deposit", "объявление = advert, notice"]
   - title: Moving and fixing
     words: ["переезжать = move (house)", "переехать = move (house)", "ремонт = repairs, redecoration", "чинить = repair, fix", "сломаться = break (down)", мебель, "уютный = cosy", "шумный = noisy"]
+dialogues:
+  - title: "Looking for a flat"
+    reviewed: ""
+    lines:
+      - [Анна, "Здравствуйте, я по объявлению. Вы сдаёте квартиру?", "Hello, I'm calling about the advert. Are you renting out a flat?"]
+      - [Хозяин, "Да. Две комнаты, в тихом районе.", "Yes. Two rooms, in a quiet area."]
+      - [Анна, "Сколько стоит аренда?", "How much is the rent?"]
+      - [Хозяин, "Тридцать тысяч в месяц и залог за первый месяц.", "Thirty thousand a month, and a deposit of one month's rent."]
+      - [Анна, "А можно посмотреть квартиру сегодня?", "Can I see the flat today?"]
+      - [Хозяин, "Конечно. Приходите в шесть.", "Of course. Come at six."]
+  - title: "Moving house"
+    reviewed: ""
+    lines:
+      - [Олег, "Мы переезжаем в субботу. Поможешь?", "We're moving on Saturday. Will you help?"]
+      - [Дима, "Конечно. Много у вас мебели?", "Of course. Do you have a lot of furniture?"]
+      - [Олег, "Немного: диван, шкаф и стол. В новой квартире всё уже есть.", "Not much: a sofa, a wardrobe and a table. The new flat already has everything."]
+      - [Дима, "А ремонт там нужен?", "Does it need doing up?"]
+      - [Олег, "Нет, хозяин всё сделал. Очень уютно.", "No, the landlord has done everything. It is very cosy."]

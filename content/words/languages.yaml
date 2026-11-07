@@ -2,7 +2,7 @@ title: Languages and nationalities
 ru: Языки и национальности
 level: A1
 blurb: "Which languages you speak, and where people are from."
-names: []
+names: [Испании]
 # Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
 use:
   русский:a: 10960833
@@ -16,3 +16,20 @@ groups:
     words: ["говорить = speak, talk", "понимать = understand", "понять = understand", "знать = know", "учить = learn; teach", "переводить = translate", "повторить = repeat", медленно, "громко = loudly"]
   - title: Where from
     words: ["страна = country", "родина = homeland", иностранец, иностранный, "родной = native (language); dear", "откуда = where from"]
+dialogues:
+  - title: "What languages do you speak?"
+    reviewed: ""
+    lines:
+      - [Анна, "Какие языки вы знаете?", "What languages do you know?"]
+      - [Олег, "Мой родной язык — русский. Ещё я говорю по-английски и немного по-немецки.", "My native language is Russian. I also speak English and a little German."]
+      - [Анна, "А где вы учили немецкий?", "And where did you learn German?"]
+      - [Олег, "В школе. Но я уже много забыл.", "At school. But I've already forgotten a lot."]
+      - [Анна, "А я сейчас учу китайский. Это очень трудно!", "And I am learning Chinese now. It is very hard!"]
+  - title: "Could you repeat that?"
+    reviewed: ""
+    lines:
+      - [Иностранец, "Извините, я плохо говорю по-русски.", "Excuse me, I don't speak Russian well."]
+      - [Олег, "Ничего. Откуда вы?", "No problem. Where are you from?"]
+      - [Иностранец, "Из Испании. Вы не могли бы говорить медленнее?", "From Spain. Could you speak more slowly?"]
+      - [Олег, "Конечно. Вы меня понимаете?", "Of course. Do you understand me?"]
+      - [Иностранец, "Да, теперь понимаю. Спасибо!", "Yes, I understand now. Thank you!"]

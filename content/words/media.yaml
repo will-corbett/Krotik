@@ -15,3 +15,19 @@ groups:
     words: ["статья = article", "журналист = journalist", заголовок, "событие = event", "сообщать = report, inform", интервью, "репортаж = report (on TV, radio)"]
   - title: Taking it in
     words: [читать, "смотреть = watch", "узнать = find out, learn", "верить = believe", правда, "слух = rumour", мнение, "известный = well-known"]
+dialogues:
+  - title: "Have you heard the news?"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты слышала новости?", "Have you heard the news?"]
+      - [Анна, "Нет, я сегодня не смотрела телевизор. А что случилось?", "No, I haven't watched TV today. What's happened?"]
+      - [Олег, "В нашем городе откроют новый музей. Об этом написали во всех газетах.", "A new museum is opening in our town. It was in all the papers."]
+      - [Анна, "Это правда или просто слухи?", "Is that true or just rumours?"]
+      - [Олег, "Правда. Я читал интервью с директором.", "True. I read an interview with the director."]
+  - title: "Too many adverts"
+    reviewed: ""
+    lines:
+      - [Маша, "Какую передачу ты смотришь?", "What programme are you watching?"]
+      - [Дима, "Фильм на втором канале. Но там всё время реклама!", "A film on channel two. But there are adverts all the time!"]
+      - [Маша, "Поэтому я смотрю фильмы в интернете.", "That's why I watch films online."]
+      - [Дима, "Ты права. Давай выключим телевизор.", "You're right. Let's turn the TV off."]

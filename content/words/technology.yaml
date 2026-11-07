@@ -10,3 +10,21 @@ groups:
     words: ["интернет = the internet", сайт, "сеть = network; social network", "пароль = password", сообщение, "письмо = letter; email", файл, фото]
   - title: Doing it
     words: ["звонить = call, ring", "позвонить = call, ring", "писа'ть = write", "отправить = send", "получить = get, receive", "скачать = download", включить, "выключить = turn off"]
+dialogues:
+  - title: "My phone is dead"
+    reviewed: ""
+    lines:
+      - [Анна, "Можно позвонить с твоего телефона? Мой разрядился.", "Can I make a call from your phone? Mine has run out of battery."]
+      - [Олег, "Конечно, вот. А зарядка у тебя есть?", "Of course, here. Do you have a charger?"]
+      - [Анна, "Нет, я её забыла дома.", "No, I left it at home."]
+      - [Олег, "Возьми мою. Розетка рядом с компьютером.", "Take mine. The socket is next to the computer."]
+      - [Анна, "Спасибо, ты меня спас!", "Thank you, you saved me!"]
+  - title: "Did you get my message?"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты получила моё сообщение?", "Did you get my message?"]
+      - [Анна, "Нет. Когда ты его отправил?", "No. When did you send it?"]
+      - [Олег, "Утром. Там был файл с фото.", "This morning. There was a file with photos."]
+      - [Анна, "Подожди, у меня не работает интернет.", "Wait, my internet isn't working."]
+      - [Олег, "Попробуй выключить и включить телефон.", "Try turning your phone off and on again."]
+      - [Анна, "О, работает! Сейчас посмотрю.", "Oh, it works! I'll have a look now."]

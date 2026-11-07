@@ -13,3 +13,19 @@ groups:
     words: ["бедность = poverty", безработица, равенство, "свобода = freedom", "безопасность = safety, security", "возможность = opportunity, possibility"]
   - title: Taking part
     words: ["участвовать = take part", "помогать = help", волонтёр, "благотворительность = charity", "уважать = respect", "общественный = public, social", социальный]
+dialogues:
+  - title: "Volunteering"
+    reviewed: ""
+    lines:
+      - [Анна, "Чем ты занимаешься по выходным?", "What do you do at weekends?"]
+      - [Олег, "Я волонтёр. Мы помогаем пожилым людям.", "I volunteer. We help elderly people."]
+      - [Анна, "Как интересно! А что вы делаете?", "How interesting! What do you do?"]
+      - [Олег, "Покупаем продукты, разговариваем с ними. Многие живут одни.", "We buy groceries and talk to them. Many live alone."]
+      - [Анна, "Можно мне тоже участвовать?", "Can I take part too?"]
+  - title: "Two generations"
+    reviewed: ""
+    lines:
+      - [Дима, "Почему наши родители нас не понимают?", "Why don't our parents understand us?"]
+      - [Катя, "Они из другого поколения. У них другие традиции и привычки.", "They are from another generation. They have different traditions and habits."]
+      - [Дима, "Но мы же их уважаем.", "But we respect them."]
+      - [Катя, "Конечно. Просто надо больше разговаривать.", "Of course. We just need to talk more."]

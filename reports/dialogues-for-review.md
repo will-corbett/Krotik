@@ -135,6 +135,31 @@ Written for Krotik's Vocabulary section. Each needs a native speaker's check bef
 | 4 | **Анна:** Здесь было жарко. Закрой его, если холодно. | It was hot in here. Close it if you are cold. |
 | 5 | **Олег:** Нет, не холодно. Пусть будет открыто. | No, I am not cold. Leave it open. |
 
+## Daily routine: An ordinary day
+
+`content/words/daily-routine.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Во сколько ты обычно встаёшь? | What time do you usually get up? |
+| 2 | **Олег:** В семь. Потом принимаю душ и завтракаю. | At seven. Then I have a shower and breakfast. |
+| 3 | **Анна:** А когда ты начинаешь работать? | And when do you start work? |
+| 4 | **Олег:** В девять. Обедаю в час, а домой прихожу в шесть. | At nine. I have lunch at one and get home at six. |
+| 5 | **Анна:** А что ты делаешь вечером? | And what do you do in the evening? |
+| 6 | **Олег:** Ужинаю, гуляю с собакой и рано ложусь спать. | I have dinner, walk the dog and go to bed early. |
+
+## Daily routine: The alarm clock
+
+`content/words/daily-routine.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Мама:** Таня, вставай! Уже восемь часов! | Tanya, get up! It's already eight o'clock! |
+| 2 | **Таня:** Как восемь? Почему будильник не звонил? | What do you mean, eight? Why didn't the alarm go off? |
+| 3 | **Мама:** Не знаю. Быстрее одевайся и умывайся. | I don't know. Hurry up, get dressed and wash. |
+| 4 | **Таня:** А завтракать некогда! | And there's no time for breakfast! |
+| 5 | **Мама:** Возьми с собой бутерброд. | Take a sandwich with you. |
+
 ## Time, days and dates: What time is it?
 
 `content/words/time.yaml`, dialogue 1
@@ -211,6 +236,30 @@ Written for Krotik's Vocabulary section. Each needs a native speaker's check bef
 | 3 | **Анна:** Тогда надень хотя бы тёплую куртку. | Then at least put on a warm jacket. |
 | 4 | **Олег:** Хорошо. А где мои ботинки? | All right. Where are my boots? |
 | 5 | **Анна:** Под диваном. | Under the sofa. |
+
+## Languages and nationalities: What languages do you speak?
+
+`content/words/languages.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Какие языки вы знаете? | What languages do you know? |
+| 2 | **Олег:** Мой родной язык — русский. Ещё я говорю по-английски и немного по-немецки. | My native language is Russian. I also speak English and a little German. |
+| 3 | **Анна:** А где вы учили немецкий? | And where did you learn German? |
+| 4 | **Олег:** В школе. Но я уже много забыл. | At school. But I've already forgotten a lot. |
+| 5 | **Анна:** А я сейчас учу китайский. Это очень трудно! | And I am learning Chinese now. It is very hard! |
+
+## Languages and nationalities: Could you repeat that?
+
+`content/words/languages.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Иностранец:** Извините, я плохо говорю по-русски. | Excuse me, I don't speak Russian well. |
+| 2 | **Олег:** Ничего. Откуда вы? | No problem. Where are you from? |
+| 3 | **Иностранец:** Из Испании. Вы не могли бы говорить медленнее? | From Spain. Could you speak more slowly? |
+| 4 | **Олег:** Конечно. Вы меня понимаете? | Of course. Do you understand me? |
+| 5 | **Иностранец:** Да, теперь понимаю. Спасибо! | Yes, I understand now. Thank you! |
 
 ## Around town and directions: Asking the way
 
@@ -359,6 +408,79 @@ Written for Krotik's Vocabulary section. Each needs a native speaker's check bef
 | 3 | **Олег:** В парке, в шесть часов. | In the park, at six o'clock. |
 | 4 | **Анна:** Отлично. Встретимся у входа. | Great. Let's meet at the entrance. |
 
+## Sport and fitness: Watching the match
+
+`content/words/sport.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты смотрел вчера футбол? | Did you watch the football yesterday? |
+| 2 | **Дима:** Конечно! Наша команда выиграла три — один. | Of course! Our team won three to one. |
+| 3 | **Олег:** А я не успел. Кто забил? | And I missed it. Who scored? |
+| 4 | **Дима:** Новый игрок, два гола. Тренер очень доволен. | The new player, two goals. The coach is very pleased. |
+
+## Sport and fitness: Keeping fit
+
+`content/words/sport.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Ты занимаешься спортом? | Do you do any sport? |
+| 2 | **Олег:** Да, я бегаю по утрам и плаваю два раза в неделю. | Yes, I run in the mornings and swim twice a week. |
+| 3 | **Анна:** А я зимой катаюсь на лыжах, а летом на велосипеде. | And I ski in winter and cycle in summer. |
+| 4 | **Олег:** Давай вместе ходить в бассейн! | Let's go to the pool together! |
+| 5 | **Анна:** Хорошая идея! | Good idea! |
+
+## Holidays and celebrations: A birthday
+
+`content/words/holidays.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Олег, с днём рождения! Это тебе подарок. | Happy birthday, Oleg! This is a present for you. |
+| 2 | **Олег:** Спасибо! Какая красивая книга! | Thank you! What a beautiful book! |
+| 3 | **Анна:** Желаю тебе счастья и здоровья! | I wish you happiness and good health! |
+| 4 | **Олег:** Спасибо. Проходи, гости уже за столом. | Thank you. Come in, the guests are already at the table. |
+| 5 | **Анна:** А торт будет? | Will there be cake? |
+| 6 | **Олег:** Конечно! Мама испекла. | Of course! Mum baked it. |
+
+## Holidays and celebrations: New Year
+
+`content/words/holidays.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Где вы будете встречать Новый год? | Where will you see in the New Year? |
+| 2 | **Дима:** Дома, с семьёй. Мы уже купили ёлку. | At home, with the family. We've already bought a tree. |
+| 3 | **Маша:** А подарки? | And presents? |
+| 4 | **Дима:** Подарки тоже готовы. А ты? | The presents are ready too. And you? |
+| 5 | **Маша:** Меня пригласили друзья. Будем петь и танцевать. | Some friends have invited me. We will sing and dance. |
+
+## Phones and computers: My phone is dead
+
+`content/words/technology.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Можно позвонить с твоего телефона? Мой разрядился. | Can I make a call from your phone? Mine has run out of battery. |
+| 2 | **Олег:** Конечно, вот. А зарядка у тебя есть? | Of course, here. Do you have a charger? |
+| 3 | **Анна:** Нет, я её забыла дома. | No, I left it at home. |
+| 4 | **Олег:** Возьми мою. Розетка рядом с компьютером. | Take mine. The socket is next to the computer. |
+| 5 | **Анна:** Спасибо, ты меня спас! | Thank you, you saved me! |
+
+## Phones and computers: Did you get my message?
+
+`content/words/technology.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты получила моё сообщение? | Did you get my message? |
+| 2 | **Анна:** Нет. Когда ты его отправил? | No. When did you send it? |
+| 3 | **Олег:** Утром. Там был файл с фото. | This morning. There was a file with photos. |
+| 4 | **Анна:** Подожди, у меня не работает интернет. | Wait, my internet isn't working. |
+| 5 | **Олег:** Попробуй выключить и включить телефон. | Try turning your phone off and on again. |
+| 6 | **Анна:** О, работает! Сейчас посмотрю. | Oh, it works! I'll have a look now. |
+
 ## Nature and animals: At the dacha
 
 `content/words/nature.yaml`, dialogue 1
@@ -405,4 +527,412 @@ Written for Krotik's Vocabulary section. Each needs a native speaker's check bef
 | 3 | **Олег:** Он на тебя похож? | Is he like you? |
 | 4 | **Анна:** Нет, я спокойная, а он всегда спорит. | No, I am calm, and he always argues. |
 | 5 | **Олег:** Значит, с ним не скучно! | So it's never boring with him! |
+
+## Relationships: How did you meet?
+
+`content/words/relationships.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Катя:** Как вы познакомились с мужем? | How did you meet your husband? |
+| 2 | **Анна:** В университете. Мы учились на одном факультете. | At university. We were in the same faculty. |
+| 3 | **Катя:** И сразу влюбились? | And did you fall in love straight away? |
+| 4 | **Анна:** Нет, сначала мы были просто друзьями. А через два года поженились. | No, at first we were just friends. And two years later we got married. |
+| 5 | **Катя:** Какая красивая история! | What a lovely story! |
+
+## Relationships: Making up
+
+`content/words/relationships.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты всё ещё обижаешься на меня? | Are you still upset with me? |
+| 2 | **Анна:** Немного. Ты обещал позвонить и не позвонил. | A little. You promised to call and you didn't. |
+| 3 | **Олег:** Прости, я был очень занят. Больше так не будет. | Sorry, I was very busy. It won’t happen again. |
+| 4 | **Анна:** Ладно. Я тебе верю. | All right. I believe you. |
+| 5 | **Олег:** Значит, мы помирились? | So we've made up? |
+| 6 | **Анна:** Помирились. | We've made up. |
+
+## Renting and housing: Looking for a flat
+
+`content/words/housing.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Здравствуйте, я по объявлению. Вы сдаёте квартиру? | Hello, I'm calling about the advert. Are you renting out a flat? |
+| 2 | **Хозяин:** Да. Две комнаты, в тихом районе. | Yes. Two rooms, in a quiet area. |
+| 3 | **Анна:** Сколько стоит аренда? | How much is the rent? |
+| 4 | **Хозяин:** Тридцать тысяч в месяц и залог за первый месяц. | Thirty thousand a month, and a deposit of one month's rent. |
+| 5 | **Анна:** А можно посмотреть квартиру сегодня? | Can I see the flat today? |
+| 6 | **Хозяин:** Конечно. Приходите в шесть. | Of course. Come at six. |
+
+## Renting and housing: Moving house
+
+`content/words/housing.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Мы переезжаем в субботу. Поможешь? | We're moving on Saturday. Will you help? |
+| 2 | **Дима:** Конечно. Много у вас мебели? | Of course. Do you have a lot of furniture? |
+| 3 | **Олег:** Немного: диван, шкаф и стол. В новой квартире всё уже есть. | Not much: a sofa, a wardrobe and a table. The new flat already has everything. |
+| 4 | **Дима:** А ремонт там нужен? | Does it need doing up? |
+| 5 | **Олег:** Нет, хозяин всё сделал. Очень уютно. | No, the landlord has done everything. It is very cosy. |
+
+## Jobs and careers: A job interview
+
+`content/words/career.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Директор:** Расскажите о своём опыте работы. | Tell me about your work experience. |
+| 2 | **Анна:** Я три года работала в отделе продаж в небольшой компании. | I worked in the sales department of a small company for three years. |
+| 3 | **Директор:** Почему вы решили уволиться? | Why did you decide to leave? |
+| 4 | **Анна:** Я хочу развиваться и заниматься более сложными проектами. | I want to develop and work on more complex projects. |
+| 5 | **Директор:** Хорошо. Мы сообщим вам о нашем решении на следующей неделе. | Good. We will let you know our decision next week. |
+
+## Jobs and careers: Too much work
+
+`content/words/career.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты опять поздно с работы? | Are you late home from work again? |
+| 2 | **Анна:** Да, у нас новый проект, и я ничего не успеваю. | Yes, we have a new project and I can't keep up with anything. |
+| 3 | **Олег:** Поговори с руководителем. | Talk to your manager. |
+| 4 | **Анна:** Я поговорила. Он обещал нанять ещё одного сотрудника. | I did. He promised to hire another employee. |
+| 5 | **Олег:** А отпуск когда? | And when is your holiday? |
+| 6 | **Анна:** Только в августе. | Not until August. |
+
+## Money and banks: At the bank
+
+`content/words/money.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Я хочу открыть счёт. | I would like to open an account. |
+| 2 | **Сотрудник:** Хорошо. Ваш паспорт, пожалуйста. Карту хотите сразу? | Fine. Your passport, please. Would you like a card straight away? |
+| 3 | **Анна:** Да. А можно снимать деньги в любом банкомате? | Yes. Can I take money out at any cash machine? |
+| 4 | **Сотрудник:** Можно, но в чужих банкоматах есть процент. | You can, but other banks' machines charge a fee. |
+| 5 | **Анна:** Понятно, спасибо. | I see, thank you. |
+
+## Money and banks: Saving up
+
+`content/words/money.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Я коплю на новую машину. | I'm saving up for a new car. |
+| 2 | **Дима:** А сколько тебе ещё нужно? | How much more do you need? |
+| 3 | **Олег:** Ещё года два. Я стараюсь меньше тратить. | About two more years. I'm trying to spend less. |
+| 4 | **Дима:** А кредит взять не хочешь? | Don't you want to take out a loan? |
+| 5 | **Олег:** Нет, не люблю быть в долгах. | No, I do not like being in debt. |
+
+## School and education: After school
+
+`content/words/education.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Что ты будешь делать после школы? | What will you do after school? |
+| 2 | **Маша:** Хочу учиться в университете на факультете журналистики. | I want to study journalism at university. |
+| 3 | **Олег:** А экзамены уже сдала? | Have you taken your exams yet? |
+| 4 | **Маша:** Ещё нет. Последний экзамен в июне. | Not yet. The last exam is in June. |
+| 5 | **Олег:** Удачи! Ты обязательно поступишь. | Good luck! You'll definitely get in. |
+
+## School and education: A hard lecture
+
+`content/words/education.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Ты была сегодня на лекции? | Were you at the lecture today? |
+| 2 | **Катя:** Была, но мало что поняла. Профессор говорил очень быстро. | I was, but I understood very little. The professor spoke very fast. |
+| 3 | **Дима:** Пойдём в библиотеку, возьмём учебник. | Let's go to the library and get the textbook. |
+| 4 | **Катя:** Хорошо. Мне нужна хорошая оценка, иначе не будет стипендии. | All right. I need a good mark, or I will lose my grant. |
+
+## News and media: Have you heard the news?
+
+`content/words/media.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты слышала новости? | Have you heard the news? |
+| 2 | **Анна:** Нет, я сегодня не смотрела телевизор. А что случилось? | No, I haven't watched TV today. What's happened? |
+| 3 | **Олег:** В нашем городе откроют новый музей. Об этом написали во всех газетах. | A new museum is opening in our town. It was in all the papers. |
+| 4 | **Анна:** Это правда или просто слухи? | Is that true or just rumours? |
+| 5 | **Олег:** Правда. Я читал интервью с директором. | True. I read an interview with the director. |
+
+## News and media: Too many adverts
+
+`content/words/media.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Какую передачу ты смотришь? | What programme are you watching? |
+| 2 | **Дима:** Фильм на втором канале. Но там всё время реклама! | A film on channel two. But there are adverts all the time! |
+| 3 | **Маша:** Поэтому я смотрю фильмы в интернете. | That's why I watch films online. |
+| 4 | **Дима:** Ты права. Давай выключим телевизор. | You're right. Let's turn the TV off. |
+
+## Arts and culture: At the theatre
+
+`content/words/arts.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Как тебе спектакль? | How did you like the play? |
+| 2 | **Олег:** Очень понравился. Актёры прекрасно играли. | I liked it a lot. The actors were wonderful. |
+| 3 | **Анна:** А сюжет? | And the plot? |
+| 4 | **Олег:** Сюжет простой, но режиссёр сделал его интересным. | The plot is simple, but the director made it interesting. |
+| 5 | **Анна:** Давай в следующий раз пойдём на балет. | Let's go to the ballet next time. |
+
+## Arts and culture: A favourite writer
+
+`content/words/arts.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Катя:** Кто твой любимый писатель? | Who is your favourite writer? |
+| 2 | **Дима:** Чехов. Я люблю его рассказы. | Chekhov. I love his stories. |
+| 3 | **Катя:** А романы ты читаешь? | And do you read novels? |
+| 4 | **Дима:** Читаю, но редко. Больше люблю стихи. | I do, but rarely. I prefer poetry. |
+| 5 | **Катя:** Значит, ты знаешь наизусть много стихов? | So you know a lot of poems by heart? |
+| 6 | **Дима:** Немного знаю. | I know a few. |
+
+## The environment: Sorting the rubbish
+
+`content/words/environment.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Не выбрасывай бутылку в этот пакет! | Don't throw the bottle in that bag! |
+| 2 | **Олег:** Почему? | Why? |
+| 3 | **Анна:** Мы теперь сортируем мусор. Стекло отдельно, бумага отдельно. | We sort our rubbish now. Glass separately, paper separately. |
+| 4 | **Олег:** А зачем? | But why? |
+| 5 | **Анна:** Потом это идёт на переработку. Так меньше отходов. | Then it goes for recycling. That way there's less waste. |
+| 6 | **Олег:** Понятно. Буду знать. | I see. I will remember that. |
+
+## The environment: Saving water
+
+`content/words/environment.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Почему ты закрываешь кран, когда чистишь зубы? | Why do you turn off the tap when you brush your teeth? |
+| 2 | **Анна:** Чтобы экономить воду. Её надо беречь. | To save water. We should look after it. |
+| 3 | **Олег:** Но у нас воды много. | But we have plenty of water. |
+| 4 | **Анна:** Сейчас много, но летом бывает засуха. | There's a lot now, but in summer there can be a drought. |
+| 5 | **Олег:** Ты права. Я тоже буду закрывать. | You're right. I'll turn it off too. |
+
+## Opinions and arguments: Is it worth it?
+
+`content/words/opinions.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Я считаю, что учить языки в интернете проще, чем на курсах. | I think learning languages online is easier than on a course. |
+| 2 | **Анна:** Я не согласна. На курсах есть преподаватель. | I disagree. On a course there's a teacher. |
+| 3 | **Олег:** Однако курсы дорогие, а в интернете много бесплатного. | However, courses are expensive, and there's a lot free online. |
+| 4 | **Анна:** Это правда. Но без преподавателя трудно говорить. | That's true. But without a teacher it's hard to speak. |
+| 5 | **Олег:** Хорошо, ты права. Наверное, нужно и то, и другое. | All right, you're right. We probably need both. |
+
+## Opinions and arguments: An argument
+
+`content/words/opinions.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Почему ты всегда со мной споришь? | Why do you always argue with me? |
+| 2 | **Катя:** Я не спорю, я просто привожу аргументы. | I'm not arguing, I'm just making my case. |
+| 3 | **Дима:** Во-первых, ты не слушаешь. Во-вторых, ты не веришь фактам. | Firstly, you don't listen. Secondly, you don't believe the facts. |
+| 4 | **Катя:** Я сомневаюсь, потому что ты не привёл ни одного примера. | I have my doubts because you haven't given a single example. |
+| 5 | **Дима:** Хорошо, вот пример. | Fine, here's an example. |
+
+## Society: Volunteering
+
+`content/words/society.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Чем ты занимаешься по выходным? | What do you do at weekends? |
+| 2 | **Олег:** Я волонтёр. Мы помогаем пожилым людям. | I volunteer. We help elderly people. |
+| 3 | **Анна:** Как интересно! А что вы делаете? | How interesting! What do you do? |
+| 4 | **Олег:** Покупаем продукты, разговариваем с ними. Многие живут одни. | We buy groceries and talk to them. Many live alone. |
+| 5 | **Анна:** Можно мне тоже участвовать? | Can I take part too? |
+
+## Society: Two generations
+
+`content/words/society.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Почему наши родители нас не понимают? | Why don't our parents understand us? |
+| 2 | **Катя:** Они из другого поколения. У них другие традиции и привычки. | They are from another generation. They have different traditions and habits. |
+| 3 | **Дима:** Но мы же их уважаем. | But we respect them. |
+| 4 | **Катя:** Конечно. Просто надо больше разговаривать. | Of course. We just need to talk more. |
+
+## Business and the economy: A new business
+
+`content/words/business.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Я хочу открыть своё кафе. | I want to open my own café. |
+| 2 | **Анна:** Это хорошая идея, но конкуренция большая. | That's a good idea, but there is a lot of competition. |
+| 3 | **Олег:** Знаю. Но в нашем районе нет ни одного кафе. | I know. But there isn't a single café in our area. |
+| 4 | **Анна:** А деньги у тебя есть? | And do you have the money? |
+| 5 | **Олег:** Мой друг готов вложить деньги. Будем партнёрами. | My friend is ready to invest. We will be partners. |
+
+## Business and the economy: Good results
+
+`content/words/business.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Директор:** Как идут продажи? | How are sales going? |
+| 2 | **Анна:** Хорошо. В этом году прибыль выросла на десять процентов. | Well. This year profit is up ten per cent. |
+| 3 | **Директор:** Отлично. А расходы? | Excellent. And costs? |
+| 4 | **Анна:** Расходы почти не изменились. | Costs have hardly changed. |
+| 5 | **Директор:** Значит, бюджет на следующий год можно увеличить. | So we can increase next year's budget. |
+
+## Law and justice: A stolen bike
+
+`content/words/law.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** У меня украли велосипед. | My bike has been stolen. |
+| 2 | **Анна:** Ты сообщил в полицию? | Did you report it to the police? |
+| 3 | **Олег:** Да. Они сказали, что кражи в нашем районе случаются часто. | Yes. They said thefts often happen in our area. |
+| 4 | **Анна:** А свидетели есть? | Are there any witnesses? |
+| 5 | **Олег:** Сосед видел, как вор уезжал, но лица не разглядел. | A neighbour saw the thief riding away, but didn't see his face. |
+
+## Law and justice: A fine
+
+`content/words/law.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Почему ты такой злой? | Why are you so angry? |
+| 2 | **Олег:** Мне выписали штраф за парковку. | I got a parking fine. |
+| 3 | **Анна:** Ты нарушил правила? | Did you break the rules? |
+| 4 | **Олег:** Нет! Там не было никакого знака. Я не виноват. | No! There wasn't any sign there. It's not my fault. |
+| 5 | **Анна:** Тогда иди в суд. Ты имеешь право. | Then go to court. You have the right. |
+
+## Medicine and treatment: Test results
+
+`content/words/medicine.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Врач:** Я посмотрел ваши анализы. | I've looked at your test results. |
+| 2 | **Олег:** И что? Это что-то серьёзное? | And? Is it something serious? |
+| 3 | **Врач:** Нет, это просто инфекция. Я выпишу вам рецепт. | No, it's just an infection. I'll write you a prescription. |
+| 4 | **Олег:** А операция не нужна? | I won't need an operation? |
+| 5 | **Врач:** Нет. Через неделю выздоровеете. | No. You'll be better in a week. |
+
+## Medicine and treatment: In hospital
+
+`content/words/medicine.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Как ты себя чувствуешь? | How are you feeling? |
+| 2 | **Олег:** Лучше. Медсестра говорит, что давление уже в норме. | Better. The nurse says my blood pressure is normal now. |
+| 3 | **Анна:** Когда тебя выпишут? | When will they let you go home? |
+| 4 | **Олег:** Хирург сказал, что в пятницу. | The surgeon said on Friday. |
+| 5 | **Анна:** Отлично! Я принесла тебе фрукты. | Great! I've brought you some fruit. |
+
+## Science and research: An experiment
+
+`content/words/science.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Чем вы занимаетесь в лаборатории? | What do you do in the lab? |
+| 2 | **Олег:** Мы проводим эксперименты, чтобы проверить новую теорию. | We do experiments to test a new theory. |
+| 3 | **Анна:** И какие результаты? | And what are the results? |
+| 4 | **Олег:** Пока рано делать выводы. Нужно больше данных. | It's too early to draw conclusions. We need more data. |
+| 5 | **Анна:** А когда вы опубликуете исследование? | And when will you publish the research? |
+| 6 | **Олег:** Надеюсь, в следующем году. | Next year, I hope. |
+
+## Science and research: Physics or chemistry?
+
+`content/words/science.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Какой предмет тебе больше нравится, физика или химия? | Which subject do you like more, physics or chemistry? |
+| 2 | **Дима:** Физика. Мне интересно, как устроен мир. | Physics. I'm interested in how the world works. |
+| 3 | **Маша:** А я люблю биологию. Хочу стать учёным. | And I love biology. I want to be a scientist. |
+| 4 | **Дима:** Тогда тебе нужна и химия, и математика. | Then you need both chemistry and maths. |
+
+## Mind and behaviour: Stress
+
+`content/words/mind.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Ты в последнее время очень нервный. | You've been very tense lately. |
+| 2 | **Олег:** Да, на работе стресс. Я плохо сплю. | Yes, there is stress at work. I'm sleeping badly. |
+| 3 | **Анна:** Тебе нужно отдохнуть и больше гулять. | You need to rest and go out for walks more. |
+| 4 | **Олег:** Знаю, но не могу сосредоточиться ни на чём, кроме работы. | I know, but I can't concentrate on anything except work. |
+| 5 | **Анна:** Попробуй хотя бы вечером не думать о ней. | Try at least not to think about it in the evening. |
+
+## Mind and behaviour: A good memory
+
+`content/words/mind.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Как ты запоминаешь столько слов? | How do you remember so many words? |
+| 2 | **Маша:** У меня есть привычка: каждый день я учу десять новых слов. | I have a habit: every day I learn ten new words. |
+| 3 | **Дима:** А я всё время забываю. | And I keep forgetting. |
+| 4 | **Маша:** Главное — мотивация. Представь, что ты уже свободно говоришь. | The main thing is motivation. Imagine you already speak fluently. |
+
+## Technology and innovation: Robots at work
+
+`content/words/innovation.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты думаешь, роботы заменят людей? | Do you think robots will replace people? |
+| 2 | **Анна:** Некоторые профессии — да. Автоматизация идёт очень быстро. | Some jobs, yes. Automation is moving very fast. |
+| 3 | **Олег:** А искусственный интеллект? | And artificial intelligence? |
+| 4 | **Анна:** Он помогает, но решения пока принимают люди. | It helps, but people still make the decisions. |
+
+## Technology and innovation: Keeping data safe
+
+`content/words/innovation.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Мою почту взломали! | My email has been hacked! |
+| 2 | **Катя:** Какой у тебя был пароль? | What was your password? |
+| 3 | **Дима:** Моё имя и год рождения. | My name and year of birth. |
+| 4 | **Катя:** Это очень просто. Нужно лучше защищать свои данные. | That's very simple. You need to protect your data better. |
+| 5 | **Дима:** Теперь буду умнее. | I'll be smarter from now on. |
+
+## Climate and energy: Is it getting warmer?
+
+`content/words/climate.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты заметила, что зимы стали теплее? | Have you noticed that the winters have got warmer? |
+| 2 | **Анна:** Да. Учёные говорят, что это глобальное потепление. | Yes. Scientists say it is global warming. |
+| 3 | **Олег:** И что можно сделать? | And what can be done? |
+| 4 | **Анна:** Сокращать выбросы и использовать солнечную энергию. | Cut emissions and use solar energy. |
+| 5 | **Олег:** А нефть и уголь? | And oil and coal? |
+| 6 | **Анна:** Их нужно использовать меньше. | We need to use less of them. |
+
+## Climate and energy: Saving energy
+
+`content/words/climate.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Зачем ты везде выключаешь свет? | Why are you turning off the lights everywhere? |
+| 2 | **Олег:** Чтобы меньше потреблять электричества. | To use less electricity. |
+| 3 | **Анна:** Это правда так важно? | Is that really so important? |
+| 4 | **Олег:** Ресурсы не бесконечны. И платить меньше! | Resources aren't endless. And we pay less! |
 

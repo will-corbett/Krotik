@@ -13,3 +13,20 @@ groups:
     words: [бизнес, "компания = company", фирма, "предприятие = business, enterprise", "директор = director, manager", "клиент = client, customer", партнёр, конкуренция]
   - title: Doing business
     words: ["прибыль = profit", "доход = income", "расход = expense, spending", убыток, "вкладывать = invest", "производить = produce, manufacture", "продажа = sale", "выгодный = profitable, worthwhile"]
+dialogues:
+  - title: "A new business"
+    reviewed: ""
+    lines:
+      - [Олег, "Я хочу открыть своё кафе.", "I want to open my own café."]
+      - [Анна, "Это хорошая идея, но конкуренция большая.", "That's a good idea, but there is a lot of competition."]
+      - [Олег, "Знаю. Но в нашем районе нет ни одного кафе.", "I know. But there isn't a single café in our area."]
+      - [Анна, "А деньги у тебя есть?", "And do you have the money?"]
+      - [Олег, "Мой друг готов вложить деньги. Будем партнёрами.", "My friend is ready to invest. We will be partners."]
+  - title: "Good results"
+    reviewed: ""
+    lines:
+      - [Директор, "Как идут продажи?", "How are sales going?"]
+      - [Анна, "Хорошо. В этом году прибыль выросла на десять процентов.", "Well. This year profit is up ten per cent."]
+      - [Директор, "Отлично. А расходы?", "Excellent. And costs?"]
+      - [Анна, "Расходы почти не изменились.", "Costs have hardly changed."]
+      - [Директор, "Значит, бюджет на следующий год можно увеличить.", "So we can increase next year's budget."]

@@ -10,3 +10,20 @@ groups:
     words: ["считать = think, consider", "утверждать = claim, maintain", "соглашаться = agree", "возражать = object, disagree", "сомневаться = doubt", "убедить = convince, persuade", "доказывать = prove, argue", "спорить = argue"]
   - title: Linking ideas
     words: ["однако = however", "поэтому = so, that is why", "следовательно = therefore", "во-первых = firstly", во-вторых, "наконец = finally; at last", например, "хотя = although (хотя бы: at least)"]
+dialogues:
+  - title: "Is it worth it?"
+    reviewed: ""
+    lines:
+      - [Олег, "Я считаю, что учить языки в интернете проще, чем на курсах.", "I think learning languages online is easier than on a course."]
+      - [Анна, "Я не согласна. На курсах есть преподаватель.", "I disagree. On a course there's a teacher."]
+      - [Олег, "Однако курсы дорогие, а в интернете много бесплатного.", "However, courses are expensive, and there's a lot free online."]
+      - [Анна, "Это правда. Но без преподавателя трудно говорить.", "That's true. But without a teacher it's hard to speak."]
+      - [Олег, "Хорошо, ты права. Наверное, нужно и то, и другое.", "All right, you're right. We probably need both."]
+  - title: "An argument"
+    reviewed: ""
+    lines:
+      - [Дима, "Почему ты всегда со мной споришь?", "Why do you always argue with me?"]
+      - [Катя, "Я не спорю, я просто привожу аргументы.", "I'm not arguing, I'm just making my case."]
+      - [Дима, "Во-первых, ты не слушаешь. Во-вторых, ты не веришь фактам.", "Firstly, you don't listen. Secondly, you don't believe the facts."]
+      - [Катя, "Я сомневаюсь, потому что ты не привёл ни одного примера.", "I have my doubts because you haven't given a single example."]
+      - [Дима, "Хорошо, вот пример.", "Fine, here's an example."]

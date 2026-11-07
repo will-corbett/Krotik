@@ -10,3 +10,20 @@ groups:
     words: ["банк = bank", "счёт = account; bill", "карта = card; map", "кредит = loan, credit", "долг = debt", "процент = per cent; interest", "банкомат = cash machine, ATM"]
   - title: Spending and saving
     words: ["зарабатывать = earn", "тратить = spend", "копить = save up", "экономить = save, economise", "одолжить = lend", "вернуть = give back, pay back", "богатый = rich", бедный]
+dialogues:
+  - title: "At the bank"
+    reviewed: ""
+    lines:
+      - [Анна, "Я хочу открыть счёт.", "I would like to open an account."]
+      - [Сотрудник, "Хорошо. Ваш паспорт, пожалуйста. Карту хотите сразу?", "Fine. Your passport, please. Would you like a card straight away?"]
+      - [Анна, "Да. А можно снимать деньги в любом банкомате?", "Yes. Can I take money out at any cash machine?"]
+      - [Сотрудник, "Можно, но в чужих банкоматах есть процент.", "You can, but other banks' machines charge a fee."]
+      - [Анна, "Понятно, спасибо.", "I see, thank you."]
+  - title: "Saving up"
+    reviewed: ""
+    lines:
+      - [Олег, "Я коплю на новую машину.", "I'm saving up for a new car."]
+      - [Дима, "А сколько тебе ещё нужно?", "How much more do you need?"]
+      - [Олег, "Ещё года два. Я стараюсь меньше тратить.", "About two more years. I'm trying to spend less."]
+      - [Дима, "А кредит взять не хочешь?", "Don't you want to take out a loan?"]
+      - [Олег, "Нет, не люблю быть в долгах.", "No, I do not like being in debt."]

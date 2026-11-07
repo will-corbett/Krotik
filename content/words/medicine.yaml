@@ -13,3 +13,20 @@ groups:
     words: [диагноз, "анализ = test (blood test)", симптом, "болезнь = illness, disease", "инфекция = infection", вирус, "давление = blood pressure; pressure", аллергия]
   - title: Treatment
     words: ["лечение = treatment", операция, "укол = injection", "прививка = vaccination", "рецепт = prescription", "выздороветь = recover, get better", "лечиться = be treated, have treatment", хронический]
+dialogues:
+  - title: "Test results"
+    reviewed: ""
+    lines:
+      - [Врач, "Я посмотрел ваши анализы.", "I've looked at your test results."]
+      - [Олег, "И что? Это что-то серьёзное?", "And? Is it something serious?"]
+      - [Врач, "Нет, это просто инфекция. Я выпишу вам рецепт.", "No, it's just an infection. I'll write you a prescription."]
+      - [Олег, "А операция не нужна?", "I won't need an operation?"]
+      - [Врач, "Нет. Через неделю выздоровеете.", "No. You'll be better in a week."]
+  - title: "In hospital"
+    reviewed: ""
+    lines:
+      - [Анна, "Как ты себя чувствуешь?", "How are you feeling?"]
+      - [Олег, "Лучше. Медсестра говорит, что давление уже в норме.", "Better. The nurse says my blood pressure is normal now."]
+      - [Анна, "Когда тебя выпишут?", "When will they let you go home?"]
+      - [Олег, "Хирург сказал, что в пятницу.", "The surgeon said on Friday."]
+      - [Анна, "Отлично! Я принесла тебе фрукты.", "Great! I've brought you some fruit."]

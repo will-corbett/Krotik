@@ -14,3 +14,19 @@ groups:
     words: ["ученик = pupil", студент, "учитель = teacher", "преподаватель = teacher, lecturer", профессор, "выпускник = graduate"]
   - title: Studying
     words: ["предмет = subject", "оценка = mark, grade", "экзамен = exam", "сдать = pass (an exam)", "окончить = finish, graduate from", "диплом = degree certificate, diploma", "стипендия = grant, scholarship", лекция]
+dialogues:
+  - title: "After school"
+    reviewed: ""
+    lines:
+      - [Олег, "Что ты будешь делать после школы?", "What will you do after school?"]
+      - [Маша, "Хочу учиться в университете на факультете журналистики.", "I want to study journalism at university."]
+      - [Олег, "А экзамены уже сдала?", "Have you taken your exams yet?"]
+      - [Маша, "Ещё нет. Последний экзамен в июне.", "Not yet. The last exam is in June."]
+      - [Олег, "Удачи! Ты обязательно поступишь.", "Good luck! You'll definitely get in."]
+  - title: "A hard lecture"
+    reviewed: ""
+    lines:
+      - [Дима, "Ты была сегодня на лекции?", "Were you at the lecture today?"]
+      - [Катя, "Была, но мало что поняла. Профессор говорил очень быстро.", "I was, but I understood very little. The professor spoke very fast."]
+      - [Дима, "Пойдём в библиотеку, возьмём учебник.", "Let's go to the library and get the textbook."]
+      - [Катя, "Хорошо. Мне нужна хорошая оценка, иначе не будет стипендии.", "All right. I need a good mark, or I will lose my grant."]

@@ -472,7 +472,7 @@ cafe: 0 dialogue(s) published, 2 waiting for review.
 
 home: 0 dialogue(s) published, 2 waiting for review.
 
-daily-routine: 0 dialogue(s) published, 0 waiting for review.
+daily-routine: 0 dialogue(s) published, 2 waiting for review.
 
 time: 0 dialogue(s) published, 2 waiting for review.
 
@@ -480,7 +480,7 @@ shopping: 0 dialogue(s) published, 2 waiting for review.
 
 clothes: 0 dialogue(s) published, 2 waiting for review.
 
-languages: 0 dialogue(s) published, 0 waiting for review.
+languages: 0 dialogue(s) published, 2 waiting for review.
 
 town: 0 dialogue(s) published, 2 waiting for review.
 
@@ -494,49 +494,49 @@ work: 0 dialogue(s) published, 2 waiting for review.
 
 free-time: 0 dialogue(s) published, 2 waiting for review.
 
-sport: 0 dialogue(s) published, 0 waiting for review.
+sport: 0 dialogue(s) published, 2 waiting for review.
 
-holidays: 0 dialogue(s) published, 0 waiting for review.
+holidays: 0 dialogue(s) published, 2 waiting for review.
 
-technology: 0 dialogue(s) published, 0 waiting for review.
+technology: 0 dialogue(s) published, 2 waiting for review.
 
 nature: 0 dialogue(s) published, 2 waiting for review.
 
 feelings: 0 dialogue(s) published, 2 waiting for review.
 
-relationships: 0 dialogue(s) published, 0 waiting for review.
+relationships: 0 dialogue(s) published, 2 waiting for review.
 
-housing: 0 dialogue(s) published, 0 waiting for review.
+housing: 0 dialogue(s) published, 2 waiting for review.
 
-career: 0 dialogue(s) published, 0 waiting for review.
+career: 0 dialogue(s) published, 2 waiting for review.
 
-money: 0 dialogue(s) published, 0 waiting for review.
+money: 0 dialogue(s) published, 2 waiting for review.
 
-education: 0 dialogue(s) published, 0 waiting for review.
+education: 0 dialogue(s) published, 2 waiting for review.
 
-media: 0 dialogue(s) published, 0 waiting for review.
+media: 0 dialogue(s) published, 2 waiting for review.
 
-arts: 0 dialogue(s) published, 0 waiting for review.
+arts: 0 dialogue(s) published, 2 waiting for review.
 
-environment: 0 dialogue(s) published, 0 waiting for review.
+environment: 0 dialogue(s) published, 2 waiting for review.
 
-opinions: 0 dialogue(s) published, 0 waiting for review.
+opinions: 0 dialogue(s) published, 2 waiting for review.
 
-society: 0 dialogue(s) published, 0 waiting for review.
+society: 0 dialogue(s) published, 2 waiting for review.
 
-business: 0 dialogue(s) published, 0 waiting for review.
+business: 0 dialogue(s) published, 2 waiting for review.
 
-law: 0 dialogue(s) published, 0 waiting for review.
+law: 0 dialogue(s) published, 2 waiting for review.
 
-medicine: 0 dialogue(s) published, 0 waiting for review.
+medicine: 0 dialogue(s) published, 2 waiting for review.
 
-science: 0 dialogue(s) published, 0 waiting for review.
+science: 0 dialogue(s) published, 2 waiting for review.
 
-mind: 0 dialogue(s) published, 0 waiting for review.
+mind: 0 dialogue(s) published, 2 waiting for review.
 
-innovation: 0 dialogue(s) published, 0 waiting for review.
+innovation: 0 dialogue(s) published, 2 waiting for review.
 
-climate: 0 dialogue(s) published, 0 waiting for review.
+climate: 0 dialogue(s) published, 2 waiting for review.
 
 ## Hand-made lists (curated/)
 

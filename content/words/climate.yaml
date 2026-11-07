@@ -17,3 +17,20 @@ groups:
     words: [энергия, "электричество = electricity", "нефть = oil", "газ = gas", "уголь = coal", топливо, "солнечный = solar; sunny"]
   - title: Resources
     words: ["ресурс = resource", "источник = source", "запас = reserve, supply", "потреблять = consume", "сокращать = cut, reduce", "устойчивый = sustainable; stable"]
+dialogues:
+  - title: "Is it getting warmer?"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты заметила, что зимы стали теплее?", "Have you noticed that the winters have got warmer?"]
+      - [Анна, "Да. Учёные говорят, что это глобальное потепление.", "Yes. Scientists say it is global warming."]
+      - [Олег, "И что можно сделать?", "And what can be done?"]
+      - [Анна, "Сокращать выбросы и использовать солнечную энергию.", "Cut emissions and use solar energy."]
+      - [Олег, "А нефть и уголь?", "And oil and coal?"]
+      - [Анна, "Их нужно использовать меньше.", "We need to use less of them."]
+  - title: "Saving energy"
+    reviewed: ""
+    lines:
+      - [Анна, "Зачем ты везде выключаешь свет?", "Why are you turning off the lights everywhere?"]
+      - [Олег, "Чтобы меньше потреблять электричества.", "To use less electricity."]
+      - [Анна, "Это правда так важно?", "Is that really so important?"]
+      - [Олег, "Ресурсы не бесконечны. И платить меньше!", "Resources aren't endless. And we pay less!"]

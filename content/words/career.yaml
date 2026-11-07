@@ -13,3 +13,21 @@ groups:
     words: ["сотрудник = employee, colleague", "руководитель = manager, head", "отдел = department", "проект = project", "совещание = meeting", "задача = task", "отпуск = holiday, leave", "зарплата = salary, pay"]
   - title: Doing it
     words: ["устроиться = get a job (устроиться на работу)", "уволиться = quit, leave a job", "нанять = hire", "уволить = fire, dismiss", "отвечать = be responsible (за); answer", "успевать = manage in time, keep up", "ответственный = responsible", "опытный = experienced"]
+dialogues:
+  - title: "A job interview"
+    reviewed: ""
+    lines:
+      - [Директор, "Расскажите о своём опыте работы.", "Tell me about your work experience."]
+      - [Анна, "Я три года работала в отделе продаж в небольшой компании.", "I worked in the sales department of a small company for three years."]
+      - [Директор, "Почему вы решили уволиться?", "Why did you decide to leave?"]
+      - [Анна, "Я хочу развиваться и заниматься более сложными проектами.", "I want to develop and work on more complex projects."]
+      - [Директор, "Хорошо. Мы сообщим вам о нашем решении на следующей неделе.", "Good. We will let you know our decision next week."]
+  - title: "Too much work"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты опять поздно с работы?", "Are you late home from work again?"]
+      - [Анна, "Да, у нас новый проект, и я ничего не успеваю.", "Yes, we have a new project and I can't keep up with anything."]
+      - [Олег, "Поговори с руководителем.", "Talk to your manager."]
+      - [Анна, "Я поговорила. Он обещал нанять ещё одного сотрудника.", "I did. He promised to hire another employee."]
+      - [Олег, "А отпуск когда?", "And when is your holiday?"]
+      - [Анна, "Только в августе.", "Not until August."]

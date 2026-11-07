@@ -13,3 +13,20 @@ groups:
     words: [физика, химия, биология, математика, медицина, астрономия]
   - title: Doing research
     words: ["изучать = study", "исследовать = research, investigate", "доказать = prove", измерить, "вывод = conclusion", "результат = result", "точный = precise, exact", научный]
+dialogues:
+  - title: "An experiment"
+    reviewed: ""
+    lines:
+      - [Анна, "Чем вы занимаетесь в лаборатории?", "What do you do in the lab?"]
+      - [Олег, "Мы проводим эксперименты, чтобы проверить новую теорию.", "We do experiments to test a new theory."]
+      - [Анна, "И какие результаты?", "And what are the results?"]
+      - [Олег, "Пока рано делать выводы. Нужно больше данных.", "It's too early to draw conclusions. We need more data."]
+      - [Анна, "А когда вы опубликуете исследование?", "And when will you publish the research?"]
+      - [Олег, "Надеюсь, в следующем году.", "Next year, I hope."]
+  - title: "Physics or chemistry?"
+    reviewed: ""
+    lines:
+      - [Маша, "Какой предмет тебе больше нравится, физика или химия?", "Which subject do you like more, physics or chemistry?"]
+      - [Дима, "Физика. Мне интересно, как устроен мир.", "Physics. I'm interested in how the world works."]
+      - [Маша, "А я люблю биологию. Хочу стать учёным.", "And I love biology. I want to be a scientist."]
+      - [Дима, "Тогда тебе нужна и химия, и математика.", "Then you need both chemistry and maths."]

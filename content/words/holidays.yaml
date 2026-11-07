@@ -2,7 +2,7 @@ title: Holidays and celebrations
 ru: Праздники
 level: A2
 blurb: "Birthdays, New Year, presents and good wishes."
-names: []
+names: [Олег]
 # Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
 use:
   день:n: 3813287
@@ -13,3 +13,21 @@ groups:
     words: ["подарок = present", "дарить = give (as a present)", "подарить = give (as a present)", поздравлять, поздравить, "желать = wish", "открытка = card, postcard", "цветок = flower"]
   - title: Celebrating
     words: [праздновать, "отмечать = celebrate; mark", "приглашать = invite", "пригласить = invite", танцевать, "петь = sing", "весело = fun, merrily", "счастье = happiness"]
+dialogues:
+  - title: "A birthday"
+    reviewed: ""
+    lines:
+      - [Анна, "Олег, с днём рождения! Это тебе подарок.", "Happy birthday, Oleg! This is a present for you."]
+      - [Олег, "Спасибо! Какая красивая книга!", "Thank you! What a beautiful book!"]
+      - [Анна, "Желаю тебе счастья и здоровья!", "I wish you happiness and good health!"]
+      - [Олег, "Спасибо. Проходи, гости уже за столом.", "Thank you. Come in, the guests are already at the table."]
+      - [Анна, "А торт будет?", "Will there be cake?"]
+      - [Олег, "Конечно! Мама испекла.", "Of course! Mum baked it."]
+  - title: "New Year"
+    reviewed: ""
+    lines:
+      - [Маша, "Где вы будете встречать Новый год?", "Where will you see in the New Year?"]
+      - [Дима, "Дома, с семьёй. Мы уже купили ёлку.", "At home, with the family. We've already bought a tree."]
+      - [Маша, "А подарки?", "And presents?"]
+      - [Дима, "Подарки тоже готовы. А ты?", "The presents are ready too. And you?"]
+      - [Маша, "Меня пригласили друзья. Будем петь и танцевать.", "Some friends have invited me. We will sing and dance."]

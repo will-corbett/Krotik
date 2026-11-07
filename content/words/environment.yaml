@@ -13,3 +13,21 @@ groups:
     words: ["загрязнение = pollution", "мусор = rubbish, litter", "отходы = waste", "пожар = fire", засуха, "наводнение = flood", "опасность = danger"]
   - title: Doing something
     words: ["защищать = protect", "беречь = look after, save", "сохранить = keep, preserve", "экономить = save, use less", "выбрасывать = throw away", "переработка = recycling, processing", "чистый = clean", "вредный = harmful"]
+dialogues:
+  - title: "Sorting the rubbish"
+    reviewed: ""
+    lines:
+      - [Анна, "Не выбрасывай бутылку в этот пакет!", "Don't throw the bottle in that bag!"]
+      - [Олег, "Почему?", "Why?"]
+      - [Анна, "Мы теперь сортируем мусор. Стекло отдельно, бумага отдельно.", "We sort our rubbish now. Glass separately, paper separately."]
+      - [Олег, "А зачем?", "But why?"]
+      - [Анна, "Потом это идёт на переработку. Так меньше отходов.", "Then it goes for recycling. That way there's less waste."]
+      - [Олег, "Понятно. Буду знать.", "I see. I will remember that."]
+  - title: "Saving water"
+    reviewed: ""
+    lines:
+      - [Олег, "Почему ты закрываешь кран, когда чистишь зубы?", "Why do you turn off the tap when you brush your teeth?"]
+      - [Анна, "Чтобы экономить воду. Её надо беречь.", "To save water. We should look after it."]
+      - [Олег, "Но у нас воды много.", "But we have plenty of water."]
+      - [Анна, "Сейчас много, но летом бывает засуха.", "There's a lot now, but in summer there can be a drought."]
+      - [Олег, "Ты права. Я тоже буду закрывать.", "You're right. I'll turn it off too."]

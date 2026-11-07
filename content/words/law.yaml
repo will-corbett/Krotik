@@ -10,3 +10,20 @@ groups:
     words: ["преступление = crime", "преступник = criminal", "кража = theft", "вор = thief", "убийство = murder", "свидетель = witness", "доказательство = evidence, proof"]
   - title: In court
     words: ["обвинять = accuse, blame", "нарушать = break (a law, a rule)", "наказать = punish", "наказание = punishment", "штраф = fine", виноватый, невиновный, "законный = legal, lawful"]
+dialogues:
+  - title: "A stolen bike"
+    reviewed: ""
+    lines:
+      - [Олег, "У меня украли велосипед.", "My bike has been stolen."]
+      - [Анна, "Ты сообщил в полицию?", "Did you report it to the police?"]
+      - [Олег, "Да. Они сказали, что кражи в нашем районе случаются часто.", "Yes. They said thefts often happen in our area."]
+      - [Анна, "А свидетели есть?", "Are there any witnesses?"]
+      - [Олег, "Сосед видел, как вор уезжал, но лица не разглядел.", "A neighbour saw the thief riding away, but didn't see his face."]
+  - title: "A fine"
+    reviewed: ""
+    lines:
+      - [Анна, "Почему ты такой злой?", "Why are you so angry?"]
+      - [Олег, "Мне выписали штраф за парковку.", "I got a parking fine."]
+      - [Анна, "Ты нарушил правила?", "Did you break the rules?"]
+      - [Олег, "Нет! Там не было никакого знака. Я не виноват.", "No! There wasn't any sign there. It's not my fault."]
+      - [Анна, "Тогда иди в суд. Ты имеешь право.", "Then go to court. You have the right."]

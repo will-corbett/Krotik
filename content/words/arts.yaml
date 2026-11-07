@@ -10,3 +10,21 @@ groups:
     words: ["писатель = writer", поэт, "художник = artist, painter", "артист = performer, actor", "актёр = actor", "режиссёр = director", композитор, "зритель = viewer; the audience"]
   - title: Works
     words: ["роман = novel", "стихи = poems, poetry", "картина = picture, painting", "спектакль = play, performance", песня, "сюжет = plot", "талантливый = talented", "знаменитый = famous"]
+dialogues:
+  - title: "At the theatre"
+    reviewed: ""
+    lines:
+      - [Анна, "Как тебе спектакль?", "How did you like the play?"]
+      - [Олег, "Очень понравился. Актёры прекрасно играли.", "I liked it a lot. The actors were wonderful."]
+      - [Анна, "А сюжет?", "And the plot?"]
+      - [Олег, "Сюжет простой, но режиссёр сделал его интересным.", "The plot is simple, but the director made it interesting."]
+      - [Анна, "Давай в следующий раз пойдём на балет.", "Let's go to the ballet next time."]
+  - title: "A favourite writer"
+    reviewed: ""
+    lines:
+      - [Катя, "Кто твой любимый писатель?", "Who is your favourite writer?"]
+      - [Дима, "Чехов. Я люблю его рассказы.", "Chekhov. I love his stories."]
+      - [Катя, "А романы ты читаешь?", "And do you read novels?"]
+      - [Дима, "Читаю, но редко. Больше люблю стихи.", "I do, but rarely. I prefer poetry."]
+      - [Катя, "Значит, ты знаешь наизусть много стихов?", "So you know a lot of poems by heart?"]
+      - [Дима, "Немного знаю.", "I know a few."]

@@ -14,3 +14,19 @@ groups:
     words: ["развитие = development", прогресс, "будущее = the future", автоматизация, "искусственный = artificial", "интеллект = intelligence (искусственный интеллект: AI)", современный]
   - title: Using it
     words: ["изобрести = invent", "разработать = develop, design", "внедрить = introduce, bring in", "заменить = replace", "хранить = store, keep", "защищать = protect", "взломать = hack; break into", "удобный = convenient"]
+dialogues:
+  - title: "Robots at work"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты думаешь, роботы заменят людей?", "Do you think robots will replace people?"]
+      - [Анна, "Некоторые профессии — да. Автоматизация идёт очень быстро.", "Some jobs, yes. Automation is moving very fast."]
+      - [Олег, "А искусственный интеллект?", "And artificial intelligence?"]
+      - [Анна, "Он помогает, но решения пока принимают люди.", "It helps, but people still make the decisions."]
+  - title: "Keeping data safe"
+    reviewed: ""
+    lines:
+      - [Дима, "Мою почту взломали!", "My email has been hacked!"]
+      - [Катя, "Какой у тебя был пароль?", "What was your password?"]
+      - [Дима, "Моё имя и год рождения.", "My name and year of birth."]
+      - [Катя, "Это очень просто. Нужно лучше защищать свои данные.", "That's very simple. You need to protect your data better."]
+      - [Дима, "Теперь буду умнее.", "I'll be smarter from now on."]

@@ -15,3 +15,21 @@ groups:
     words: ["познакомиться = meet, get to know", "встречаться = meet; go out (with)", влюбиться, "жениться = marry (of a man); get married", "выйти:v = go out (выйти замуж: marry, of a woman)", "расстаться = split up, part", "поссориться = quarrel, fall out", "помириться = make up"]
   - title: Getting on
     words: ["доверять = trust", "поддерживать = support", ревновать, "обижаться = take offence", "понимать = understand", "верный = faithful, loyal; correct", "близкий = close"]
+dialogues:
+  - title: "How did you meet?"
+    reviewed: ""
+    lines:
+      - [Катя, "Как вы познакомились с мужем?", "How did you meet your husband?"]
+      - [Анна, "В университете. Мы учились на одном факультете.", "At university. We were in the same faculty."]
+      - [Катя, "И сразу влюбились?", "And did you fall in love straight away?"]
+      - [Анна, "Нет, сначала мы были просто друзьями. А через два года поженились.", "No, at first we were just friends. And two years later we got married."]
+      - [Катя, "Какая красивая история!", "What a lovely story!"]
+  - title: "Making up"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты всё ещё обижаешься на меня?", "Are you still upset with me?"]
+      - [Анна, "Немного. Ты обещал позвонить и не позвонил.", "A little. You promised to call and you didn't."]
+      - [Олег, "Прости, я был очень занят. Больше так не будет.", "Sorry, I was very busy. It won’t happen again."]
+      - [Анна, "Ладно. Я тебе верю.", "All right. I believe you."]
+      - [Олег, "Значит, мы помирились?", "So we've made up?"]
+      - [Анна, "Помирились.", "We've made up."]
