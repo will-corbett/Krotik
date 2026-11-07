@@ -1,0 +1,53 @@
+# Public-domain literature for the "Read and fill in" drill. Each text is fetched from Russian Wikisource at the
+# revision given (so the build is reproducible and checkable), in modern spelling. Both authors died more than
+# 70 years ago (Tolstoy 1910, Chekhov 1904) and the works were published in their lifetimes, so the texts are in the
+# public domain everywhere; only the author's text is used (no editors' notes or commentary).
+#
+# Passages with a word that isn't in our data or Wiktionary, that Wiktionary marks only as archaic, obsolete or
+# dated, or with the old polite -с particle (слушаю-с) or Latin script, are left out and listed in the report.
+#
+#   id        file name and key
+#   author    as written in Russian; authorEn; died (year)
+#   title     the work; year first published
+#   page      Wikisource page title; revision = its oldid
+#   kind      stories (one story per section) | play (scenes of dialogue)
+#   level     [lowest, highest] CEFR-style level it suits
+works:
+  - id: tolstoy-reader-2
+    author: Лев Толстой
+    authorEn: Leo Tolstoy
+    died: 1910
+    title: Вторая русская книга для чтения
+    titleEn: "Second Russian reader: stories, fables and true tales for children"
+    year: 1875
+    page: Вторая русская книга для чтения (Толстой)
+    revision: 5753941
+    kind: stories
+    level: [A2, B1]
+  - id: chekhov-bear
+    author: Антон Чехов
+    authorEn: Anton Chekhov
+    died: 1904
+    title: Медведь
+    titleEn: "The Bear: a joke in one act"
+    year: 1888
+    page: Медведь (Чехов)
+    revision: 5718680
+    kind: play
+    level: [B2, C1]
+  - id: chekhov-proposal
+    author: Антон Чехов
+    authorEn: Anton Chekhov
+    died: 1904
+    title: Предложение
+    titleEn: "The Proposal: a joke in one act"
+    year: 1888
+    page: Предложение (пьеса, Чехов)
+    revision: 5642339
+    kind: play
+    level: [B2, C1]
+
+# Words Wiktionary tags as dated or archaic where the tag isn't about the word itself (checked by hand). Each needs a
+# reason; everything else Wiktionary marks old stays out.
+notOld:
+  иначе: Wiktionary's "dated" refers to the old stress и́наче; the word (ина́че) is everyday Russian.

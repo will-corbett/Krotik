@@ -21,6 +21,7 @@ import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
 import { buildSentences } from './lib/sentences.ts';
+import { buildReading, literatureWords } from './lib/literature.ts';
 import { buildCloze } from './lib/cloze.ts';
 import { buildCollocations } from './lib/collocations.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
@@ -92,6 +93,7 @@ const wk = await loadWiktionary(
     adverbs: adverbCandidates(adjectives),
     attest: new Set(learnWords),
     ipa: new Set(learnIpa),
+    check: literatureWords(),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
   console.log,
@@ -144,6 +146,18 @@ const participleLemmas = participleRows.map((r) => ({
 }));
 const { shards: sentences, corpus } = await buildSentences({ verbs, adjectives, nouns, participles: participleLemmas, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
 
+// ---- Read and fill in: public-domain literature, passages with any archaic or unknown word left out
+const adjRank = new Map(adjectives.map((a, i) => [a.id, i]));
+const byOwner = (owner: string) => {
+  const [type, idS] = owner.split(':');
+  const id = Number(idS);
+  const [list, rank] = type === 'verbs' ? [verbs, verbRank] : type === 'nouns' ? [nouns, nounRank] : type === 'adjectives' ? [adjectives, adjRank] : [null, null];
+  const l = list?.find((x) => x.id === id);
+  return l && rank ? { accented: l.accented, gloss: l.gloss, rank: rank.get(id)! } : undefined;
+};
+const reading = buildReading({ owners: corpus.owners, lemma: byOwner, modern: new Set(wk.checkedModern), old: new Set(wk.checkedOld), report });
+const readingBytes = writeJson('reading.json', reading);
+
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);
 const prefixedMotion = buildPrefixedMotion(verbs, report);
@@ -175,6 +189,7 @@ const manifest: Manifest = {
   collocations: 'collocations.json',
   levelTest: 'level-test.json',
   learn: 'learn.json',
+  reading: 'reading.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -207,6 +222,7 @@ for (const list of Object.values(sentences)) for (const s of list) sizes.push(`|
 sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.length, 0)} questions | ${(levelTestBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| learn.json | ${learnTatoeba.length} sentences, ${learnIpa.length} pronunciations | ${(learnBytes / 1024).toFixed(1)} KB |`);
+sizes.push(`| reading.json | ${reading.passages.length} passages, ${reading.passages.reduce((n, p) => n + p.gaps.length, 0)} gaps | ${(readingBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

@@ -74,6 +74,13 @@ export interface WkExtract {
   attested: string[];
   /** words from `wanted.ipa`: [headword with stress, IPA], from the first entry giving a standard pronunciation */
   ipa: Record<string, [string, string]>;
+  /**
+   * Words from `wanted.check` (lower case, ё written е): found in modern use (as a headword or a form whose
+   * entry and tags aren't all archaic, obsolete or dated) …
+   */
+  checkedModern: string[];
+  /** … or found only in archaic, obsolete or dated use. A word in neither list isn't in Wiktionary at all. */
+  checkedOld: string[];
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -94,8 +101,10 @@ interface RawEntry {
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 3;
+const EXTRACT_VERSION = 4;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
+/** Tags that mark a word or form as not modern Russian. */
+const OLD_TAGS = new Set(['archaic', 'obsolete', 'dated']);
 
 /**
  * The adjective an adverb comes from, by its etymology: "бы́стрый (býstryj) + -о" or "Adverbial form of ру́сский".
@@ -134,6 +143,8 @@ export interface Wanted {
   attest: Set<string>;
   /** words whose pronunciation (IPA) a Learn page shows */
   ipa: Set<string>;
+  /** words to check for modern or only old use (literature texts), lower case with ё written е */
+  check: Set<string>;
 }
 
 export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: string) => void): Promise<WkExtract> {
@@ -148,8 +159,10 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {} };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [] };
   const attested = new Set<string>();
+  const checkModern = new Set<string>();
+  const checkOld = new Set<string>();
   const push = <T>(m: Record<string, T[]>, k: string, v: T) => (m[k] ??= []).push(v);
   const rl = createInterface({ input: createReadStream(join(RAW_DIR, KAIKKI_FILE)).pipe(createGunzip()), crlfDelay: Infinity });
   let n = 0;
@@ -164,6 +177,19 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
       for (const f of e.forms ?? []) {
         const plain = f.form.normalize('NFC').replace(/[\u0301\u0300]/g, '');
         if (wanted.attest.has(plain)) attested.add(plain);
+      }
+    }
+    if (wanted.check.size) {
+      // An entry is old when every sense is archaic, obsolete or dated; a form is old when its entry is, or its tags say so.
+      const senses = e.senses ?? [];
+      const entryOld = senses.length > 0 && senses.every((x) => (x.tags ?? []).some((t) => OLD_TAGS.has(t)));
+      const fold = (w: string) => w.normalize('NFC').replace(/[\u0301\u0300]/g, '').toLowerCase().replace(/ё/g, 'е');
+      const hw = fold(word);
+      if (wanted.check.has(hw)) (entryOld ? checkOld : checkModern).add(hw);
+      for (const f of e.forms ?? []) {
+        if ((f.tags ?? []).some((t) => t === 'romanization' || t === 'table-tags' || t === 'inflection-template')) continue;
+        const ff = fold(f.form);
+        if (wanted.check.has(ff)) (entryOld || (f.tags ?? []).some((t) => OLD_TAGS.has(t)) ? checkOld : checkModern).add(ff);
       }
     }
     // The standard pronunciation is the IPA with no regional tag or note; the headword's first entry wins.
@@ -226,6 +252,8 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
   }
   log(`  ${n} lines read`);
   out.attested = [...attested].sort();
+  out.checkedModern = [...checkModern].sort();
+  out.checkedOld = [...checkOld].filter((w) => !checkModern.has(w)).sort();
   writeFileSync(EXTRACT, JSON.stringify(out));
   return out;
 }

@@ -1,4 +1,28 @@
+import { readFileSync } from 'node:fs';
+import { parse } from 'yaml';
+
 export const RAW_DIR = 'data-raw';
+
+/** Public-domain literature (curated/literature.yaml), each text at a fixed Wikisource revision. */
+export interface LiteratureWork {
+  id: string;
+  author: string;
+  authorEn: string;
+  died: number;
+  title: string;
+  titleEn: string;
+  year: number;
+  page: string;
+  revision: number;
+  kind: 'stories' | 'play';
+  level: [string, string];
+}
+const literatureYaml = parse(readFileSync('curated/literature.yaml', 'utf8')) as { works: LiteratureWork[]; notOld?: Record<string, string> };
+export const LITERATURE = literatureYaml.works;
+/** Words Wiktionary mis-tags as old, each with the reason (curated/literature.yaml). */
+export const LITERATURE_NOT_OLD = literatureYaml.notOld ?? {};
+export const literatureFile = (w: LiteratureWork) => `literature-${w.id}.wiki`;
+export const literatureUrl = (w: LiteratureWork) => `https://ru.wikisource.org/w/index.php?oldid=${w.revision}&action=raw`;
 
 const OR = 'https://raw.githubusercontent.com/Badestrand/russian-dictionary/master';
 const TATOEBA = 'https://downloads.tatoeba.org/exports/per_language';
@@ -21,4 +45,6 @@ export const SOURCES = [
     file: 'ru_50k.txt',
     url: 'https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/ru/ru_50k.txt',
   },
-] as const;
+  // Public-domain texts (Tolstoy, Chekhov) from Russian Wikisource, at the revisions in curated/literature.yaml.
+  ...LITERATURE.map((w) => ({ file: literatureFile(w), url: literatureUrl(w) })),
+];

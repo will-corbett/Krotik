@@ -42,6 +42,7 @@ export interface Manifest {
   /** level test question pool */
   levelTest: string;
   learn: string;
+  reading: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -135,4 +136,14 @@ export interface LearnExtras {
 /** public/data/level-test.json: candidates for each question type, by level (built by src/lib/levelTestPool.ts). */
 export interface LevelTestData {
   slots: { level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1'; w: 1 | 2 | 3; topic: string; ask: string; items: LevelTestCandidate[] }[];
+}
+
+/** A line of a "Read and fill in" passage: [speaker ('' for narration), text, 1 for a stage direction]. */
+export type ReadingLine = [string, string, 0 | 1];
+/** A gap: [line, start, end, v|n|a (verb, noun, adjective), hint (dictionary form, stress marked), English gloss]. */
+export type ReadingGap = [number, number, number, 'v' | 'n' | 'a', string, string];
+/** public/data/reading.json: public-domain passages (scripts/lib/literature.ts). */
+export interface ReadingData {
+  works: { id: string; author: string; authorEn: string; title: string; titleEn: string; year: number; kind: 'stories' | 'play'; level: [string, string]; source: string }[];
+  passages: { w: number; s: string; lines: ReadingLine[]; gaps: ReadingGap[] }[];
 }
