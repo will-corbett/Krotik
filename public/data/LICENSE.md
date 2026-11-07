@@ -8,6 +8,8 @@ Files in this folder are derived data.
 - `participles.*`, `diminutives.*`, `numerals.json`, and some comparatives, superlatives and noun genders in the files
   above: from Wiktionary (https://en.wiktionary.org) via kaikki.org's wiktextract extract. Wiktionary content is
   CC BY-SA 4.0 (and GFDL); these derived files are CC BY-SA 4.0.
+- `learn.json`: the sentences Learn pages quote (Tatoeba, CC BY 2.0 FR, keyed by Tatoeba id) and pronunciations (IPA)
+  from Wiktionary (CC BY-SA 4.0).
 - `sentences.*` and `cloze.*`: sentences and translations from Tatoeba (https://tatoeba.org), CC BY 2.0 FR
   (https://creativecommons.org/licenses/by/2.0/fr/). Each row starts with the Tatoeba sentence id.
 

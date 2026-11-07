@@ -10,6 +10,9 @@
  *   ::sentence participle читать читая   …or, for participles/verbal adverbs, the exact form
  *   ::drill nounCases {"cases":["acc"]} 5   a short on-page drill (mode, settings for that mode, count)
  *   ::examples chtoby past 3       the shortest real sentences of one sentence-drill kind, target highlighted
+ *   ::tatoeba 467752:книга 2171689  real Tatoeba sentences by id, with their English; ":word" highlights that word
+ *   ::ipa молоко хорошо            each word with its stress and its IPA from Wiktionary
+ * The data build fails if a ::tatoeba sentence isn't in the corpus or an ::ipa word has no IPA in Wiktionary.
  */
 const files = import.meta.glob('/content/learn/*.md', { query: '?raw', import: 'default' }) as Record<string, () => Promise<string>>;
 
@@ -36,7 +39,9 @@ export type Block =
   | { type: 'data'; kind: 'table'; what: TableKind; word: string }
   | { type: 'data'; kind: 'sentence'; what: SentenceKind; word: string; cell: string }
   | { type: 'data'; kind: 'drill'; mode: string; settings: Record<string, unknown>; count: number }
-  | { type: 'data'; kind: 'examples'; topic: string; item: string; count: number };
+  | { type: 'data'; kind: 'examples'; topic: string; item: string; count: number }
+  | { type: 'data'; kind: 'tatoeba'; items: { id: string; mark?: string }[] }
+  | { type: 'data'; kind: 'ipa'; words: string[] };
 
 /** **bold**, *italic*, `code` */
 export function parseInline(s: string): Inline[] {
@@ -78,6 +83,20 @@ function parseDirective(line: string): Block {
     const [topic, item, n] = rest.split(/\s+/);
     if (!topic || !item) throw new Error(`::examples needs a topic and a kind: ${line}`);
     return { type: 'data', kind: 'examples', topic, item, count: n ? Number(n) : 3 };
+  }
+  if (kind === 'tatoeba') {
+    const items = rest.split(/\s+/).filter(Boolean).map((x) => {
+      const [id, mark] = x.split(':');
+      if (!/^\d+$/.test(id!)) throw new Error(`::tatoeba: bad id ${x}`);
+      return mark ? { id: id!, mark } : { id: id! };
+    });
+    if (!items.length) throw new Error(`::tatoeba needs sentence ids: ${line}`);
+    return { type: 'data', kind: 'tatoeba', items };
+  }
+  if (kind === 'ipa') {
+    const words = rest.split(/\s+/).filter(Boolean);
+    if (!words.length) throw new Error(`::ipa needs words: ${line}`);
+    return { type: 'data', kind: 'ipa', words };
   }
   throw new Error(`Unknown data block ::${kind}`);
 }

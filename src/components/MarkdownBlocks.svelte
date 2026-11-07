@@ -7,6 +7,7 @@
   import LearnData from './LearnData.svelte';
   import MiniDrill from './MiniDrill.svelte';
   import LearnExamples from './LearnExamples.svelte';
+  import LearnQuotes from './LearnQuotes.svelte';
 
   let { blocks, settings = $bindable() }: { blocks: Block[]; settings: Settings } = $props();
 </script>
@@ -44,6 +45,10 @@
     <LearnData kind="table" what={b.what} word={b.word} stress={settings.stress} />
   {:else if b.type === 'data' && b.kind === 'examples'}
     <LearnExamples topic={b.topic} item={b.item} count={b.count} />
+  {:else if b.type === 'data' && b.kind === 'tatoeba'}
+    <LearnQuotes items={b.items} />
+  {:else if b.type === 'data' && b.kind === 'ipa'}
+    <LearnQuotes words={b.words} />
   {:else if b.type === 'data' && b.kind === 'sentence'}
     <LearnData kind="sentence" what={b.what} word={b.word} cell={b.cell} stress={settings.stress} />
   {/if}

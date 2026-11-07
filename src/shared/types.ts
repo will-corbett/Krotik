@@ -41,6 +41,7 @@ export interface Manifest {
   collocations: string;
   /** level test question pool */
   levelTest: string;
+  learn: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -122,6 +123,15 @@ export interface Collocations {
  * (-1 if none)]. Codes are explained in src/lib/levelTestPool.ts.
  */
 export type LevelTestCandidate = [string, string, string, number, number, string, string, string[], string, string, string, string[], number];
+/**
+ * public/data/learn.json: what Learn pages quote, by block. `sentences`: Tatoeba id → [Russian, English] for
+ * `::tatoeba`; `ipa`: word → [headword with stress, IPA from Wiktionary] for `::ipa`.
+ */
+export interface LearnExtras {
+  sentences: Record<string, [string, string]>;
+  ipa: Record<string, [string, string]>;
+}
+
 /** public/data/level-test.json: candidates for each question type, by level (built by src/lib/levelTestPool.ts). */
 export interface LevelTestData {
   slots: { level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1'; w: 1 | 2 | 3; topic: string; ask: string; items: LevelTestCandidate[] }[];

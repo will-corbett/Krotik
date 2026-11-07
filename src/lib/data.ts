@@ -2,7 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AdjRow, ClozeRow, LevelTestData, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
+import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 const BASE = `${import.meta.env?.BASE_URL ?? "/"}data/`;
@@ -67,6 +67,13 @@ export async function loadCloze(topic: string): Promise<ClozeRow[]> {
   return c ? getJson<ClozeRow[]>(c.file) : [];
 }
 /** The level test's ready-made question pool. */
+let learnExtras: Promise<LearnExtras> | null = null;
+/** Sentences and pronunciations quoted by Learn pages (one small file, fetched once). */
+export function loadLearnExtras(): Promise<LearnExtras> {
+  learnExtras ??= loadManifest().then((m) => getJson<LearnExtras>(m.learn));
+  learnExtras.catch(() => (learnExtras = null));
+  return learnExtras;
+}
 export async function loadLevelTest(): Promise<LevelTestData> {
   return getJson<LevelTestData>((await loadManifest()).levelTest);
 }

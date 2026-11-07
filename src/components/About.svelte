@@ -25,7 +25,7 @@
       them against Wiktionary.
     </li>
     <li>
-      Participles, verbal adverbs, numerals, diminutives, some comparatives and noun genders:
+      Participles, verbal adverbs, numerals, diminutives, some comparatives and noun genders, and the pronunciations (IPA) on the Learn pages:
       <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> contributors, via the machine-readable extract at
       <a href="https://kaikki.org" rel="noopener">kaikki.org</a> (Tatu Ylonen, wiktextract). Wiktionary text is licensed
       <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a> and GFDL.

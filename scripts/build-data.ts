@@ -4,9 +4,9 @@
  *
  *   npm run data:build
  */
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import type { AdjRow, Manifest, NounRow, VerbRow } from '../src/shared/types.ts';
+import type { AdjRow, LearnExtras, Manifest, NounRow, VerbRow } from '../src/shared/types.ts';
 import { readTsv } from './lib/csv.ts';
 import { parse as parseYaml } from 'yaml';
 import { cleanVerbs } from './lib/clean-verbs.ts';
@@ -69,6 +69,15 @@ const motion = buildMotion(verbs, report);
 
 // ---- Learn page vocabulary that isn't drill data: must be attested in Wiktionary (checked below)
 const learnWords = existsSync('content/learn/words.yaml') ? ((parseYaml(readFileSync('content/learn/words.yaml', 'utf8')) ?? []) as string[]) : [];
+// What Learn pages quote: `::tatoeba <id>…` (real sentences, by Tatoeba id) and `::ipa <word>…` (Wiktionary IPA).
+const learnBlocks = (kind: string) =>
+  readdirSync('content/learn')
+    .filter((f) => f.endsWith('.md'))
+    .flatMap((f) => readFileSync(join('content/learn', f), 'utf8').split('\n'))
+    .map((l) => new RegExp(`^::${kind}\\s+(.*)$`).exec(l.trim())?.[1])
+    .flatMap((rest) => (rest ? rest.split(/\s+/) : []));
+const learnIpa = [...new Set(learnBlocks('ipa'))].sort();
+const learnTatoeba = [...new Set(learnBlocks('tatoeba').map((x) => x.split(':')[0]!))].sort((a, b) => Number(a) - Number(b));
 
 // ---- Wiktionary (Phase B)
 const sourcesJson = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) as Record<string, { sha256: string }>;
@@ -82,6 +91,7 @@ const wk = await loadWiktionary(
     pronouns: new Set(['никто', 'ничто', 'я', 'кто', 'что', ...POSSESSIVES]),
     adverbs: adverbCandidates(adjectives),
     attest: new Set(learnWords),
+    ipa: new Set(learnIpa),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
   console.log,
@@ -89,6 +99,9 @@ const wk = await loadWiktionary(
 const unattested = learnWords.filter((w) => !wk.attested.includes(w));
 if (unattested.length) throw new Error(`content/learn/words.yaml: not found in Wiktionary: ${unattested.join(', ')}`);
 report.count('Learn pages', 'extra words in content/learn/words.yaml, all found in Wiktionary', learnWords.length);
+const noIpa = learnIpa.filter((w) => !wk.ipa[w]);
+if (noIpa.length) throw new Error(`content/learn: ::ipa words with no standard IPA in Wiktionary: ${noIpa.join(', ')}`);
+report.count('Learn pages', '::ipa words, each with its IPA from Wiktionary', learnIpa.length);
 fillNounGender(nouns, wk, report);
 fillDegrees(adjectives, wk, report);
 const participleRows = buildParticiples(verbs, wk, report);
@@ -161,12 +174,24 @@ const manifest: Manifest = {
   dates: 'dates.json',
   collocations: 'collocations.json',
   levelTest: 'level-test.json',
+  learn: 'learn.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
   sources: Object.fromEntries(Object.entries(sources).map(([k, s]) => [k, { url: s.url, sha256: s.sha256, fetched: s.fetched }])),
 };
 writeJson('manifest.json', manifest);
+
+// ---- what Learn pages quote: each sentence must be in the filtered corpus (with an English translation)
+const byId = new Map(corpus.pairs.map((p) => [p.rid, p]));
+const missingSentences = learnTatoeba.filter((id) => !byId.has(Number(id)));
+if (missingSentences.length) throw new Error(`content/learn: ::tatoeba ids not in the corpus (or denied): ${missingSentences.join(', ')}`);
+const learnExtras: LearnExtras = {
+  sentences: Object.fromEntries(learnTatoeba.map((id) => [id, [byId.get(Number(id))!.ru, byId.get(Number(id))!.en]])),
+  ipa: Object.fromEntries(learnIpa.map((w) => [w, wk.ipa[w]!])),
+};
+report.count('Learn pages', '::tatoeba sentences, each found in the corpus', learnTatoeba.length);
+const learnBytes = writeJson('learn.json', learnExtras);
 
 // The level test's questions, made here from the files just written so the browser needn't load the shards.
 const levelTest = buildLevelTestPool(<T>(file: string) => JSON.parse(readFileSync(join(OUT_DIR, file), 'utf8')) as T);
@@ -181,6 +206,7 @@ for (const list of Object.values(shards)) for (const s of list) sizes.push(`| ${
 for (const list of Object.values(sentences)) for (const s of list) sizes.push(`| ${s.file} | ${s.lemmas} lemmas, ${s.sentences} sentences | ${(s.bytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.length, 0)} questions | ${(levelTestBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| learn.json | ${learnTatoeba.length} sentences, ${learnIpa.length} pronunciations | ${(learnBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

@@ -8,9 +8,9 @@ import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { AdjRow, AdverbRow, ClozeRow, DatesData, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, SpecialCaseRow, VerbRow } from '../../src/shared/types.ts';
+import type { AdjRow, AdverbRow, ClozeRow, LearnExtras, DatesData, NounRow, NumeralRow, ParticipleRow, PronounData, SentenceRow, SpecialCaseRow, VerbRow } from '../../src/shared/types.ts';
 import { parseMarkdown } from '../../src/lib/learn.ts';
-import { ALL_TOPICS } from '../../src/lib/topics.ts';
+import { ALL_TOPICS, isDrill } from '../../src/lib/topics.ts';
 import { DEFAULTS } from '../../src/lib/settings.ts';
 import { resolveCell } from '../../src/lib/learnData.ts';
 import { chooseSentence, toAdjective, toNoun, toVerb } from '../../src/lib/data.ts';
@@ -21,6 +21,7 @@ const verbs = bands.flatMap((b) => json<VerbRow[]>(`verbs.b${b}.json`).map((r) =
 const nouns = bands.flatMap((b) => json<NounRow[]>(`nouns.b${b}.json`).map((r) => toNoun(r, b)));
 const adjs = bands.flatMap((b) => json<AdjRow[]>(`adjectives.b${b}.json`).map((r) => toAdjective(r, b)));
 const pron = json<PronounData>('pronouns.json');
+const extras = json<LearnExtras>('learn.json');
 const participles = [0, 1].flatMap((b) => json<ParticipleRow[]>(`participles.b${b}.json`).map((row) => ({ row, band: b })));
 
 const known = new Set<string>();
@@ -93,8 +94,20 @@ describe('Learn pages', () => {
           expect(rows.length, `::examples ${b.topic} ${b.item}`).toBeGreaterThanOrEqual(b.count);
           continue;
         }
+        if (b.kind === 'tatoeba') {
+          for (const { id, mark } of b.items) {
+            const s = extras.sentences[id];
+            expect(s, `::tatoeba ${id}`).toBeTruthy();
+            if (mark) expect([...s![0].matchAll(/[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g)].map((m) => normalise(m[0])), `::tatoeba ${id}:${mark}`).toContain(normalise(mark));
+          }
+          continue;
+        }
+        if (b.kind === 'ipa') {
+          for (const w of b.words) expect(extras.ipa[w], `::ipa ${w}`).toBeTruthy();
+          continue;
+        }
         if (b.kind === 'drill') {
-          expect(ALL_TOPICS.map((t) => t.id), `::drill ${b.mode}`).toContain(b.mode);
+          expect(ALL_TOPICS.filter(isDrill).map((t) => t.id), `::drill ${b.mode}`).toContain(b.mode);
           const key = b.mode === 'stress' ? 'stressDrill' : b.mode;
           const base = (DEFAULTS as unknown as Record<string, unknown>)[key];
           for (const k of Object.keys(b.settings)) expect(Object.keys(base as object), `::drill ${b.mode} setting ${k}`).toContain(k);

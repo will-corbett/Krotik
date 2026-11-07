@@ -72,6 +72,8 @@ export interface WkExtract {
   adverbs: Record<string, WkAdverb[]>;
   /** words from `wanted.attest` found in Wiktionary as a headword or as a form of one */
   attested: string[];
+  /** words from `wanted.ipa`: [headword with stress, IPA], from the first entry giving a standard pronunciation */
+  ipa: Record<string, [string, string]>;
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -88,10 +90,11 @@ interface RawEntry {
   senses?: { glosses?: string[]; form_of?: { word: string }[]; tags?: string[] }[];
   head_templates?: { expansion?: string }[];
   etymology_text?: string;
+  sounds?: { ipa?: string; tags?: string[]; note?: string }[];
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 2;
+const EXTRACT_VERSION = 3;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
 
 /**
@@ -129,6 +132,8 @@ export interface Wanted {
   adverbs: Set<string>;
   /** words that only need to be shown to exist (Learn page vocabulary) */
   attest: Set<string>;
+  /** words whose pronunciation (IPA) a Learn page shows */
+  ipa: Set<string>;
 }
 
 export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: string) => void): Promise<WkExtract> {
@@ -143,7 +148,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [] };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {} };
   const attested = new Set<string>();
   const push = <T>(m: Record<string, T[]>, k: string, v: T) => (m[k] ??= []).push(v);
   const rl = createInterface({ input: createReadStream(join(RAW_DIR, KAIKKI_FILE)).pipe(createGunzip()), crlfDelay: Infinity });
@@ -160,6 +165,11 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         const plain = f.form.normalize('NFC').replace(/[\u0301\u0300]/g, '');
         if (wanted.attest.has(plain)) attested.add(plain);
       }
+    }
+    // The standard pronunciation is the IPA with no regional tag or note; the headword's first entry wins.
+    if (wanted.ipa.has(word) && !out.ipa[word] && e.pos !== 'name') {
+      const ipa = (e.sounds ?? []).find((x) => x.ipa && !x.tags?.length && !x.note)?.ipa;
+      if (ipa) out.ipa[word] = [canonical(e), ipa];
     }
     if (e.pos === 'adv') {
       const src = adverbSource(e.etymology_text);

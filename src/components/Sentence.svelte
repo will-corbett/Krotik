@@ -5,7 +5,7 @@
 </script>
 
 <figure class="sentence">
-  <blockquote lang="ru">{ru.slice(0, start)}<mark>{ru.slice(start, end)}</mark>{ru.slice(end)}</blockquote>
+  <blockquote lang="ru">{#if end > start}{ru.slice(0, start)}<mark>{ru.slice(start, end)}</mark>{ru.slice(end)}{:else}{ru}{/if}</blockquote>
   <figcaption>
     {en}
     <a class="src" href="https://tatoeba.org/en/sentences/show/{id}" rel="noopener" target="_blank">Tatoeba #{id}</a>
