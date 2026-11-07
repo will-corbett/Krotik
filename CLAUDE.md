@@ -136,6 +136,12 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   Tatoeba English sentence, you type Russian, then compare with the Tatoeba Russian and mark yourself (`selfMark`;
   only an exact match is marked right automatically). The end screen breaks results down by question type (the first
   term of the task line) or, in mixed rounds, by topic (`src/lib/breakdown.ts`).
+- Culture: each resource type has a suggested activity (`TYPE_ACTIVITY` in `src/lib/culture.ts`), shown under its
+  heading; our own suggestions, in English.
+- Robustness (`tests/e2e/robust.spec.ts`): a failed data request shows a plain message (`getJson` in data.ts) and
+  isn't cached, so trying again works; Learn blocks say when their data didn't load; sentences are optional in drills.
+  Reloading mid-drill returns to that drill's settings (rounds aren't stored). Back/Forward to a Drill address always
+  shows that page (choose or settings), leaving any round in progress.
 - Every typed answer offers the on-screen Cyrillic keyboard (drills and Learn quick checks share `settings.keyboard`);
   the Culture search box is the only exception.
 - Drills whose verb can be in several tenses let you choose them (sentence drills carry the tense in the row kind

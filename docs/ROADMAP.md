@@ -142,7 +142,7 @@ Done in batches, each reviewed before the next.
    end-screen breakdown by question type; **opt-in, browser-only progress** (off by default, never sent anywhere) for
    weak topics and revision suggestions. The owner chose this; it changes the "never store progress" rule, so the
    rule and the About page must say exactly what is kept and how to clear it.
-4. **Culture and tests:** a suggested activity per resource type, more Kazakh and Central Asian links (checked by
+4. **Culture and tests (done):** a suggested activity per resource type, more Kazakh and Central Asian links (checked by
    hand); e2e for failed data requests, reload mid-drill and Back/Forward.
 - Not doing: paragraph/dialogue exercises and model-answer writing (Tatoeba has single sentences only); prerendering
   for search engines (later).

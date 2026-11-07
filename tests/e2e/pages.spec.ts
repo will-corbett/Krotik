@@ -216,6 +216,14 @@ test('Culture lists links that open in a new tab, filters them, and opens notes'
   await expect(page.locator('main table').first()).toContainText('Иванович');
 });
 
+test('the Culture page suggests an activity for each kind of resource', async ({ page }) => {
+  await page.goto('/#/culture');
+  const groups = page.locator('section.group');
+  const n = await groups.count();
+  expect(n).toBeGreaterThanOrEqual(6);
+  for (let i = 0; i < n; i++) await expect(groups.nth(i).locator('.activity')).toContainText('Try this:');
+});
+
 test('no embedded players or third-party requests on the Culture page', async ({ page }) => {
   const external: string[] = [];
   page.on('request', (r) => {
