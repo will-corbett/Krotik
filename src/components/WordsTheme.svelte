@@ -230,14 +230,15 @@
     width: 32px;
     height: 32px;
   }
+  /* Just the chevron: no box. The button keeps a 32px target for fingers. */
   .arrow {
     display: grid;
     place-items: center;
     padding: 0;
-    border: 1px solid var(--border);
+    border: 0;
     border-radius: 6px;
-    background: var(--surface);
-    color: var(--text);
+    background: none;
+    color: var(--muted);
     cursor: pointer;
   }
   .arrow svg {
@@ -248,7 +249,7 @@
   }
   .arrow:hover,
   .arrow[aria-expanded='true'] {
-    background: var(--mark);
+    color: var(--text);
   }
   @media (prefers-reduced-motion: no-preference) {
     .arrow svg {
