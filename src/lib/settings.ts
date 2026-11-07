@@ -27,8 +27,11 @@ export interface Settings {
   progress: boolean;
   mixed: MixedSettings;
   translate: TranslateSettings;
-  /** Reading: the language of the comprehension questions */
-  readingLang: 'en' | 'ru';
+  /**
+   * Reading: the language of the comprehension questions; Russian unless you choose English. (Stored under a new name:
+   * the old `readingLang` was saved as 'en' for everyone, before Russian became the default.)
+   */
+  questionLang: 'en' | 'ru';
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -98,7 +101,7 @@ export const DEFAULTS: Settings = {
   chtoby: { kinds: ['inf', 'past'] },
   mixed: { topics: ['verbs', 'nounCases', 'adjectives', 'pronouns', 'prepositions'] },
   translate: { lengths: ['short'] },
-  readingLang: 'en',
+  questionLang: 'ru',
 };
 
 const KEY = 'krotik.settings.v1';
@@ -110,6 +113,8 @@ export function loadSettings(): Settings {
     const raw = localStorage.getItem(KEY) ?? OLD_KEYS.map((k) => localStorage.getItem(k)).find((v) => v !== null) ?? null;
     if (!raw) return structuredClone(DEFAULTS);
     const saved = JSON.parse(raw) as Partial<Settings>;
+    // Retired settings, so they aren't carried along and saved again.
+    delete (saved as Record<string, unknown>).readingLang;
     return {
       ...structuredClone(DEFAULTS),
       ...saved,

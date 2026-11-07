@@ -150,7 +150,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   being run commercially. Check each link by hand before adding it and set `checked`. `npm run links:check` runs
   monthly (`.github/workflows/links.yml`); 401/403/429 from bot protection and repeated timeouts are reported, not
   failed. Each link has a type, level range, region (russia, kazakhstan, central-asia, ukraine, caucasus, baltics,
-  worldwide) and topic; the page filters on these plus free text. Check what a channel actually posts (recent videos),
+  worldwide) and topic; the page filters on these plus free text, and shows 20 links a page (type order; a filter starts again at page 1). Check what a channel actually posts (recent videos),
   not just its name: a channel called "Simple Russian" turned out to be political.
 - Review drills (group "Review", `learn: false` in topics.ts, no Learn page): **Mixed review** (`mixed`) interleaves
   questions from chosen topics, each with that topic's own settings; **Translate and compare** (`translate`) shows a
@@ -172,7 +172,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   `glosses` (marked "our explanation"). A text is published only with every word explained and questions in
   `content/reading/questions.yaml` (EN + RU, same options; the Russian is word-checked like Learn pages; our own words
   about the story, never about wording). Output: `reading.json` + `reading.<id>.json`; prerendered with full text.
-  Hover/tap/focus shows a word; arrow keys move between words (one Tab stop).
+  Hover/tap/focus shows a word; arrow keys move between words (one Tab stop). Questions are in Russian by default (`settings.questionLang`; English on request).
 - Russian beyond Russia: a hub note plus one note per country or region (`notes.yaml` entries with `parent`, listed on
   the hub, not the Culture page; `region` lists that region's Culture links). Each gives the status of Russian, census
   figures with year and a linked source, accent, and local words (sourced from Wiktionary or our data; new words go in

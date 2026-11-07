@@ -66,7 +66,7 @@ test('keyboard: one Tab stop for the text, arrow keys move from word to word and
   expect(await words.evaluateAll((bs) => bs.filter((b) => (b as HTMLElement).tabIndex === 0).length)).toBe(1);
 });
 
-test('questions: answer, check, see the right answers; switch to Russian; try again', async ({ page }) => {
+test('questions: in Russian by default; answer, check, see the right answers; switch to English; try again', async ({ page }) => {
   await openText(page, 'reading/akula/');
   const check = page.getByRole('button', { name: 'Check answers' });
   await expect(check).toBeDisabled();
@@ -76,13 +76,14 @@ test('questions: answer, check, see the right answers; switch to Russian; try ag
   await check.click();
   await expect(page.getByRole('status')).toContainText(`of ${n} right`);
   await expect(page.locator('.opt.right')).toHaveCount(n);
-  await page.getByRole('button', { name: 'Русский' }).click();
   await expect(groups.first().locator('legend')).toContainText('Где плавали мальчики');
+  await page.getByRole('button', { name: 'English' }).click();
+  await expect(groups.first().locator('legend')).toContainText('Where were the two boys swimming');
   await page.getByRole('button', { name: 'Try again' }).click();
   await expect(check).toBeDisabled();
   // The choice of language is remembered.
   await page.reload();
-  await expect(page.locator('.questions fieldset legend').first()).toContainText('Где плавали мальчики');
+  await expect(page.locator('.questions fieldset legend').first()).toContainText('Where were the two boys swimming');
 });
 
 test('each text page is prerendered with its full text for search engines', async ({ request }) => {

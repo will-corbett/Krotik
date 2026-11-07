@@ -97,7 +97,7 @@
   let answers = $state<(number | undefined)[]>([]);
   let checked = $state(false);
   const right = $derived(unit ? unit.questions.filter((q, i) => answers[i] === q.answer).length : 0);
-  const lang = $derived(settings.readingLang);
+  const lang = $derived(settings.questionLang);
 </script>
 
 <!-- A click or tap shows a word (it also counts as hover and focus, so it never toggles); anywhere else hides it. -->
@@ -171,8 +171,8 @@
         <div class="q-head">
           <h2 id="q-title">Did you follow it?</h2>
           <div class="lang" role="group" aria-label="Language of the questions">
-            <button type="button" class="btn small-btn" aria-pressed={lang === 'en'} onclick={() => (settings.readingLang = 'en')}>English</button>
-            <button type="button" class="btn small-btn" aria-pressed={lang === 'ru'} onclick={() => (settings.readingLang = 'ru')} lang="ru">Русский</button>
+            <button type="button" class="btn small-btn" aria-pressed={lang === 'en'} onclick={() => (settings.questionLang = 'en')}>English</button>
+            <button type="button" class="btn small-btn" aria-pressed={lang === 'ru'} onclick={() => (settings.questionLang = 'ru')} lang="ru">Русский</button>
           </div>
         </div>
         <form
