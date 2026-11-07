@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { filterLinks, hostOf, levelText, LEVELS, LINK_TYPES, LINKS, NOTES, REGION_LABEL, REGIONS, TOPIC_LABEL, TOPICS, TYPE_LABEL, type CultureFilter } from '../lib/culture.ts';
+  import { filterLinks, hostOf, levelText, LEVELS, LINK_TYPES, LINKS, NOTES, REGION_LABEL, REGIONS, TOPIC_LABEL, TOPICS, TYPE_ACTIVITY, TYPE_LABEL, type CultureFilter } from '../lib/culture.ts';
   import { href } from '../lib/router.ts';
 
   /** The filter is page state only (not saved): it describes what you're browsing, not your progress. */
@@ -81,6 +81,7 @@
   {#each groups as g (g.type)}
     <section class="group" aria-labelledby="t-{g.type}">
       <h3 id="t-{g.type}">{TYPE_LABEL[g.type].en} <span lang="ru" class="ru">{TYPE_LABEL[g.type].ru}</span></h3>
+      <p class="activity"><strong>Try this:</strong> {TYPE_ACTIVITY[g.type]}</p>
       <ul class="links">
         {#each g.links as l (l.url)}
           <li class="link">
@@ -221,6 +222,14 @@
   }
   .host {
     color: var(--muted);
+  }
+  .activity {
+    margin: 0 0 10px;
+    padding: 8px 12px;
+    border-left: 4px solid var(--primary-bg);
+    background: var(--surface);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
   }
   .about {
     line-height: 1.5;

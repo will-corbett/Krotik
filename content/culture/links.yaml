@@ -660,6 +660,17 @@
   note: Dramas with adult themes.
   checked: 2026-11-06
 
+- title: Qazaqfilm / Казахфильм
+  url: https://www.youtube.com/@kazakhfilmkz
+  type: films
+  kind: native
+  level: [B2, C2]
+  region: kazakhstan
+  topic: films
+  about: "The Kazakhfilm studio's own channel: classic Kazakh feature and documentary films, many of them in Russian, alongside new animation and trailers."
+  note: Newer videos are mostly in Kazakh; the older feature films (marked Х/ф) are where the Russian is.
+  checked: 2026-11-07
+
 # ---------------------------------------------------------------- podcasts
 - title: Comprehensible Russian Podcast (Russian With Max)
   url: https://www.russianwithmax.com
@@ -1053,6 +1064,37 @@
   topic: lifestyle
   about: "Practical articles on everyday life: cooking, health, money, gadgets. Good for modern vocabulary."
   checked: 2026-11-06
+
+- title: История Казахстана (e-history.kz)
+  url: https://e-history.kz/ru
+  type: reading
+  kind: native
+  level: [B2, C1]
+  region: kazakhstan
+  topic: history-culture
+  about: "Kazakhstan's history portal in Russian: short pieces under «История за 5 минут» on nomad life, the Kazakh khanate, archaeology and customs, plus longer studies."
+  note: Run by a state company; some pieces are revision for the school-leaving exam (ЕНТ).
+  checked: 2026-11-07
+
+- title: Давай Сходим! (Sxodim)
+  url: https://sxodim.com/almaty
+  type: reading
+  kind: native
+  level: [B1, C1]
+  region: kazakhstan
+  topic: lifestyle
+  about: "What's on in Almaty, Astana and other cities: event listings and a city magazine, full of everyday Russian (dates, prices, addresses, opening hours)."
+  checked: 2026-11-07
+
+- title: Uzbekistan Travel
+  url: https://uzbekistan.travel/ru/
+  type: reading
+  kind: native
+  level: [B1, B2]
+  region: central-asia
+  topic: travel
+  about: "Uzbekistan's official tourism site in Russian: Samarkand, Bukhara, Khiva and other cities, their sights, and practical advice for visitors."
+  checked: 2026-11-07
 
 # ---------------------------------------------------------------- tools and dictionaries
 - title: Wiktionary — Russian

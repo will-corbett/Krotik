@@ -53,6 +53,21 @@ export interface CultureNote {
 export const LINKS = linksData as CultureLink[];
 export const NOTES = notesData as CultureNote[];
 
+/** A way to use each kind of resource for learning, shown under its heading (our own suggestions). */
+export const TYPE_ACTIVITY: Record<LinkType, string> = {
+  video:
+    'Watch two or three minutes with Russian subtitles, then again without. Pause after a sentence you half-understood, say it aloud, and look up one new word.',
+  cartoons:
+    'Cartoons repeat simple phrases. Watch one episode twice, then retell what happened in five short sentences in the past tense.',
+  films:
+    'Choose one scene of two or three minutes. Watch it with Russian subtitles, write down two lines of dialogue and check their case endings and aspect, then watch it again without subtitles.',
+  podcast:
+    'Listen once for the gist, then again with the transcript if there is one. Shadow a few sentences: repeat each one straight after the speaker, copying the stress and intonation.',
+  reading:
+    'Read a short piece first without a dictionary, guessing from context. Then pick five verbs and say why each is perfective or imperfective.',
+  tool: 'Use these alongside your drills: look up a word you got wrong, check its stress and full forms, and say it in a sentence of your own.',
+};
+
 export const TYPE_LABEL: Record<LinkType, { en: string; ru: string }> = {
   video: { en: 'Videos', ru: 'видео' },
   cartoons: { en: 'Cartoons', ru: 'мультфильмы' },
