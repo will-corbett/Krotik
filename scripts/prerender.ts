@@ -106,8 +106,8 @@ const nav = `<nav aria-label="Main"><ul>${(
     [{ page: 'home' }, 'Dashboard'],
     [{ page: 'test' }, 'Grammar test'],
     [{ page: 'learn' }, 'Learn'],
-    [{ page: 'vocabulary' }, 'Vocabulary'],
     [{ page: 'drill' }, 'Drill'],
+    [{ page: 'vocabulary' }, 'Vocabulary'],
     [{ page: 'reading' }, 'Reading'],
     [{ page: 'culture' }, 'Culture'],
   ] as [Route, string][]

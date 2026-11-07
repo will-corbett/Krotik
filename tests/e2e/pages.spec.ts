@@ -79,7 +79,7 @@ test('wide screens show the main pages as a bar, with the current page marked', 
   await page.goto('./#/learn');
   await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Vocabulary', 'Drill', 'Reading', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await nav.getByRole('link', { name: 'Culture' }).click();
   await expect(page).toHaveURL(/\/Krotik\/culture\/(\?.*)?$/);
@@ -105,7 +105,7 @@ test('on a phone the main menu is a dropdown: opens, shows the current page, clo
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Vocabulary', 'Drill', 'Reading', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(nav.getByRole('link')).toHaveCount(0);

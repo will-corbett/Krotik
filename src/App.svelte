@@ -232,8 +232,8 @@
     { label: 'Dashboard', route: { page: 'home' } },
     { label: 'Grammar test', route: { page: 'test' } },
     { label: 'Learn', route: { page: 'learn' } },
-    { label: 'Vocabulary', route: { page: 'vocabulary' } },
     { label: 'Drill', route: { page: 'drill' } },
+    { label: 'Vocabulary', route: { page: 'vocabulary' } },
     { label: 'Reading', route: { page: 'reading' } },
     { label: 'Culture', route: { page: 'culture' } },
   ];
