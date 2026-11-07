@@ -15,7 +15,10 @@
   import { createRound, type Round } from './lib/queue.ts';
   import { clearProgress, loadProgress, recordRound, saveProgress, today } from './lib/progress.ts';
   import { mulberry32 } from './lib/rng.ts';
-  import { href, parseRoute, type Route } from './lib/router.ts';
+  import { href, navigate, parseHash, parsePath, type Route } from './lib/router.ts';
+  import { pageTitle } from './lib/pageMeta.ts';
+  import { NOTES } from './lib/culture.ts';
+  import { SITE_BASE } from './shared/site.ts';
   import { isDrill, topicById } from './lib/topics.ts';
   const isDrillId = (id: string) => {
     const t = topicById(id);
@@ -25,9 +28,11 @@
 
   type Screen = 'setup' | 'drill' | 'end';
 
-  const initialRoute = parseRoute(location.hash);
+  // Old hash addresses (#/learn/aspect, from links and bookmarks made before pages had real paths) move to the path.
+  if (location.hash.startsWith('#/')) history.replaceState(null, '', href(parseHash(location.hash)) + location.search);
+  const initialRoute = parsePath(location.pathname);
   const initialSettings = loadSettings();
-  // A deep link to a drill (#/drill/aspect) selects that drill on first load.
+  // A deep link to a drill (/drill/aspect/) selects that drill on first load.
   if (initialRoute.page === 'drill' && initialRoute.mode && isDrillId(initialRoute.mode)) initialSettings.mode = initialRoute.mode as Mode;
   let settings = $state<Settings>(initialSettings);
   let route = $state<Route>(initialRoute);
@@ -50,7 +55,7 @@
   let visited = 0;
   function goBack() {
     if (visited > 0) history.back();
-    else location.hash = href({ page: 'drill' });
+    else navigate(href({ page: 'drill' }));
   }
 
   function applyRoute(next: Route) {
@@ -60,13 +65,40 @@
     if (next.page === 'drill') screen = 'setup';
     if (next.page === 'drill' && next.mode && isDrillId(next.mode)) settings.mode = next.mode as Mode;
     route = next;
+    menuOpen = false;
     window.scrollTo({ top: 0 });
   }
   $effect(() => {
-    const onHash = () => applyRoute(parseRoute(location.hash));
+    const onPop = () => applyRoute(parsePath(location.pathname));
+    // An old-style #/ link followed on an open page: move to its real address.
+    const onHash = () => {
+      if (location.hash.startsWith('#/')) navigate(href(parseHash(location.hash)), true);
+    };
+    window.addEventListener('popstate', onPop);
     window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    return () => {
+      window.removeEventListener('popstate', onPop);
+      window.removeEventListener('hashchange', onHash);
+    };
   });
+  $effect(() => {
+    document.title = pageTitle(route, (id) => NOTES.find((n) => n.id === id)?.title);
+  });
+
+  /**
+   * Links inside the site change page without reloading (the prerendered HTML files are for first visits and
+   * search engines). New-tab clicks, other sites, downloads and in-page anchors (the skip link) are left alone.
+   */
+  function onLinkClick(e: MouseEvent) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = (e.target as Element | null)?.closest?.('a');
+    if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || !url.pathname.startsWith(SITE_BASE)) return;
+    if (url.pathname === location.pathname && url.hash) return;
+    e.preventDefault();
+    navigate(url.pathname + url.search);
+  }
 
   // Seed from a URL parameter (?seed=123) for reproducible rounds in tests; otherwise random.
   function seed(): number {
@@ -102,14 +134,14 @@
   function openSettings() {
     screen = 'setup';
     const target = href({ page: 'drill', mode: settings.mode });
-    if (location.hash !== target) location.hash = target;
+    if (location.pathname !== target) navigate(target);
   }
 
   /** Dashboard "Continue": go to the drill's page and start a round with the saved settings. */
   async function continueDrill() {
     if (route.page !== 'drill') {
       route = { page: 'drill', mode: settings.mode };
-      history.pushState(null, '', href(route));
+      history.pushState(null, '', href(route) + location.search);
     }
     screen = 'setup';
     await start();
@@ -129,7 +161,7 @@
   /** Start setting up a mixed review of these topics. */
   function review(topics: Mode[]) {
     settings.mixed.topics = topics;
-    location.hash = href({ page: 'drill', mode: 'mixed' });
+    navigate(href({ page: 'drill', mode: 'mixed' }));
   }
 
   // Main menu: a dropdown, so more pages can be added without crowding the header.
@@ -166,12 +198,13 @@
   ];
 </script>
 
-<svelte:window onkeydown={onWindowKey} onclick={onWindowClick} onhashchange={() => (menuOpen = false)} />
+<svelte:window onkeydown={onWindowKey} onclick={onWindowClick} />
+<svelte:document onclick={onLinkClick} />
 
 <div class="shell">
   <header class="top">
-    <a class="brand" href="#/" aria-label="Krotik, dashboard">
-      <img src="./brand/krotik-128.png" alt="" width="40" height="40" />
+    <a class="brand" href={href({ page: 'home' })} aria-label="Krotik, dashboard">
+      <img src="{import.meta.env.BASE_URL}brand/krotik-128.png" alt="" width="40" height="40" />
       <span>Krotik</span>
     </a>
     <nav aria-label="Main" class="menu" class:wide bind:this={menuEl}>
@@ -215,20 +248,20 @@
     {:else if route.page === 'culture'}
       <Culture />
     {:else if route.page === 'about'}
-      <About onback={() => (location.hash = '#/')} />
+      <About onback={() => navigate(href({ page: 'home' }))} />
     {:else if screen === 'drill' && round}
       <Drill {round} bind:settings notice={shortfall} more={generate} onfinish={finish} />
     {:else if screen === 'end' && round}
       <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0} onagain={start} onsettings={openSettings} />
     {:else if route.page === 'drill' && !route.mode}
-      <DrillChoose bind:settings onnext={(m) => (location.hash = href({ page: 'drill', mode: m }))} />
+      <DrillChoose bind:settings onnext={(m) => navigate(href({ page: 'drill', mode: m }))} />
     {:else}
       <Setup bind:settings {loading} {error} onstart={start} onback={goBack} />
     {/if}
   </main>
 
   <footer class="foot">
-    <a class="btn quiet" href="#/about">About &amp; sources</a>
+    <a class="btn quiet" href={href({ page: 'about' })}>About &amp; sources</a>
     <label class="theme">
       Theme
       <select bind:value={settings.theme}>

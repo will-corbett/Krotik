@@ -9,7 +9,7 @@ test('no raw stress apostrophes in the level test, culture notes or quick checks
     for (const m of txt.matchAll(/[^\s]*[а-яёА-ЯЁ]'[^\s]*/g)) hits.add(`${where}: ${m[0]}`);
   };
   for (const seed of [1, 2]) {
-    await page.goto(`/?seed=${seed}&t=${Date.now()}#/test`);
+    await page.goto(`./?seed=${seed}&t=${Date.now()}#/test`);
     await page.getByRole('button', { name: 'Start the test' }).click();
     await page.getByText('Question 1 of 60').waitFor({ timeout: 30000 });
     for (let i = 0; i < 60; i++) {
@@ -21,12 +21,12 @@ test('no raw stress apostrophes in the level test, culture notes or quick checks
     await scan('test results');
   }
   for (const n of ['names', 'ty-vy', 'holidays', 'russian-beyond-russia', 'food', 'visiting', 'superstitions', 'idioms', 'slang', 'cartoons-films']) {
-    await page.goto(`/#/culture/${n}`);
+    await page.goto(`./#/culture/${n}`);
     await page.waitForTimeout(400);
     await scan(`note ${n}`);
   }
   for (const t of ['nounCases', 'verbs', 'adjectives', 'pronouns', 'kotoryi', 'specialCases', 'ordinals']) {
-    await page.goto(`/#/learn/${t}`);
+    await page.goto(`./#/learn/${t}`);
     const check = page.getByRole('group', { name: 'Quick check' });
     await check.getByText(/Question 1 of/).waitFor();
     for (let i = 0; i < 6; i++) {

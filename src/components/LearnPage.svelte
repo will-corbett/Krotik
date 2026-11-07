@@ -25,7 +25,7 @@
 </script>
 
 <article class="learn fade-in" aria-labelledby="learn-h1">
-  <p class="crumbs"><a href="#/learn">Learn</a> ›</p>
+  <p class="crumbs"><a href={href({ page: 'learn' })}>Learn</a> ›</p>
   <h1 id="learn-h1">{t?.title.en ?? topic} {#if t}<span lang="ru" class="ru">{t.title.ru}</span>{/if}</h1>
   {#if t}
     <p class="level muted">

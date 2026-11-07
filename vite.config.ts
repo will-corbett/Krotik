@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { parse } from 'yaml';
+import { SITE_BASE } from './src/shared/site.ts';
 
 /** Import .yaml files as data, parsed at build time (content/culture/*.yaml). The `yaml` package is already a
  *  dev dependency of the data pipeline, so nothing ships to the browser but the parsed JSON. */
@@ -13,9 +14,9 @@ const yamlData = {
   },
 };
 
-// Relative base so the built site works from any static host or sub-path.
+// Pages have real addresses under SITE_BASE (prerendered by scripts/prerender.ts), so the base is absolute.
 export default defineConfig({
-  base: './',
+  base: SITE_BASE,
   plugins: [yamlData, svelte()],
   test: {
     include: ['tests/unit/**/*.test.ts'],

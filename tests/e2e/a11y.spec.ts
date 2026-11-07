@@ -50,7 +50,7 @@ for (const scheme of ['light', 'dark', 'krotik'] as const) {
     await page.getByRole('button', { name: 'End round' }).click();
     await expect(page.getByRole('heading', { name: /By (topic|question type)/ })).toBeVisible();
     await scan('mixed end, breakdown');
-    await page.goto('/#/');
+    await page.goto('./#/');
     await scan('progress offer');
     await page.getByRole('button', { name: 'Keep track in this browser' }).click();
     await scan('progress card');
@@ -58,14 +58,14 @@ for (const scheme of ['light', 'dark', 'krotik'] as const) {
 }
 
 test('keyboard only: choose a mode, start, answer, continue', async ({ page }) => {
-  await page.goto('/?seed=1#/drill');
+  await page.goto('./?seed=1#/drill');
   // Focus the mode radios and move to the next mode ("Aspect partners") with an arrow key.
   await page.getByRole('radio', { name: /Verb forms/ }).focus();
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('radio', { name: /Aspect partners/ })).toBeChecked();
   // Enter on the chosen drill goes to its settings page; Enter on Start begins the round.
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/#\/drill\/aspect$/);
+  await expect(page).toHaveURL(/\/Krotik\/drill\/aspect\/(\?.*)?$/);
   await expect(page.getByText(/You've chosen: Aspect partners/)).toBeVisible();
   await page.getByRole('button', { name: 'Start' }).focus();
   await page.keyboard.press('Enter');
@@ -115,15 +115,15 @@ test('no horizontal scroll', async ({ page }) => {
 });
 
 test('settings saved under the previous name carry over', async ({ page }) => {
-  await page.goto('/#/drill');
+  await page.goto('./#/drill');
   // A returning visitor: only the old key exists.
   await page.evaluate(() => {
     localStorage.clear();
     localStorage.setItem('rgd.settings.v1', JSON.stringify({ mode: 'motion', count: 40 }));
   });
-  await page.goto('/#/');
+  await page.goto('./#/');
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible(); // the Continue card
-  await page.goto('/#/drill/motion');
+  await page.goto('./#/drill/motion');
   await page.getByRole('radio', { name: '10', exact: true }).check();
   expect(await page.evaluate(() => Object.keys(localStorage))).toEqual(['krotik.settings.v1']);
 });

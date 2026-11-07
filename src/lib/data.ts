@@ -5,7 +5,8 @@ import type { SentenceType } from '../shared/types.ts';
 import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
-const BASE = `${import.meta.env?.BASE_URL ?? "/"}data/`;
+// (import.meta.env is Vite's; build scripts importing this file run without it)
+const BASE = `${(import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '/'}data/`;
 const cache = new Map<string, Promise<unknown>>();
 
 function getJson<T>(file: string): Promise<T> {

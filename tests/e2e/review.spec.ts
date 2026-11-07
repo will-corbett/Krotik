@@ -32,7 +32,7 @@ test('progress is off by default, kept only after you turn it on, and deleted wh
   await playRetryRound(page);
   expect(await stored()).toBeNull();
 
-  await page.goto('/#/');
+  await page.goto('./#/');
   await page.getByRole('button', { name: 'Keep track in this browser' }).click();
   await expect(page.getByRole('heading', { name: 'Your progress' })).toBeVisible();
   await expect(page.getByText('Finish a drill round')).toBeVisible();
@@ -44,7 +44,7 @@ test('progress is off by default, kept only after you turn it on, and deleted wh
   expect(p.topics.verbs).toMatchObject({ rounds: 1, attempted: 10, right: 0 });
 
   // Ten wrong first time: Verb forms is a weak topic, with Learn and Drill links.
-  await page.goto('/#/');
+  await page.goto('./#/');
   await expect(page.getByRole('heading', { name: 'Weak topics' })).toBeVisible();
   await expect(page.locator('.progress li').first()).toContainText('Verb forms');
   await page.getByText("Everything you've practised").click();

@@ -1,12 +1,15 @@
 /**
- * Hash routes, so every page works on any static host (GitHub Pages included):
- *   #/                 Dashboard
- *   #/test             Level test
- *   #/learn            Learn index        #/learn/<topic>   a Learn page
- *   #/drill            Drill setup        #/drill/<topic>   setup with that drill selected
- *   #/culture          Culture links      #/culture/<note>  a culture note
- *   #/about            About and sources
+ * Page addresses: real paths under SITE_BASE, so each page can be found and prerendered.
+ *   /                   Dashboard
+ *   /test/              Grammar test
+ *   /learn/             Learn index        /learn/<topic>/   a Learn page
+ *   /drill/             Choose a drill     /drill/<topic>/   that drill's settings
+ *   /culture/           Culture links      /culture/<note>/  a culture note
+ *   /about/             About and sources
+ * Old hash addresses (#/learn/aspect) are still understood (parseHash) and rewritten on load.
  */
+import { SITE_BASE } from '../shared/site.ts';
+
 export type Route =
   | { page: 'home' }
   | { page: 'test' }
@@ -15,8 +18,7 @@ export type Route =
   | { page: 'culture'; note?: string }
   | { page: 'about' };
 
-export function parseRoute(hash: string): Route {
-  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+function fromParts(parts: string[]): Route {
   switch (parts[0]) {
     case 'test':
       return { page: 'test' };
@@ -32,20 +34,44 @@ export function parseRoute(hash: string): Route {
       return { page: 'home' };
   }
 }
+const split = (s: string) => s.split('/').filter(Boolean).map(decodeURIComponent);
 
-export function href(route: Route): string {
+/** A page path ("/Krotik/learn/aspect/") as a route; anything outside the site is the Dashboard. */
+export function parsePath(pathname: string): Route {
+  return pathname.startsWith(SITE_BASE) ? fromParts(split(pathname.slice(SITE_BASE.length))) : { page: 'home' };
+}
+/** An old hash address ("#/learn/aspect"). */
+export function parseHash(hash: string): Route {
+  return fromParts(split(hash.replace(/^#\/?/, '')));
+}
+
+/** The path of a route below the site base: "", "learn/", "learn/aspect/". */
+export function pathOf(route: Route): string {
   switch (route.page) {
     case 'home':
-      return '#/';
+      return '';
     case 'test':
-      return '#/test';
+      return 'test/';
     case 'learn':
-      return route.topic ? `#/learn/${route.topic}` : '#/learn';
+      return route.topic ? `learn/${route.topic}/` : 'learn/';
     case 'drill':
-      return route.mode ? `#/drill/${route.mode}` : '#/drill';
+      return route.mode ? `drill/${route.mode}/` : 'drill/';
     case 'culture':
-      return route.note ? `#/culture/${route.note}` : '#/culture';
+      return route.note ? `culture/${route.note}/` : 'culture/';
     case 'about':
-      return '#/about';
+      return 'about/';
   }
+}
+export const href = (route: Route): string => SITE_BASE + pathOf(route);
+
+/**
+ * Go to a page inside the app without reloading. The query (e.g. ?seed=) is kept unless the target sets its own,
+ * as it was with hash links. App listens for popstate, which this fires too.
+ */
+export function navigate(target: string, replace = false): void {
+  const url = new URL(target, location.href);
+  const next = url.pathname + (url.search || location.search) + url.hash;
+  if (replace) history.replaceState(null, '', next);
+  else history.pushState(null, '', next);
+  dispatchEvent(new PopStateEvent('popstate'));
 }

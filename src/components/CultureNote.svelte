@@ -1,5 +1,6 @@
 <script lang="ts">
   import { loadNote, NOTES } from '../lib/culture.ts';
+  import { href } from '../lib/router.ts';
   import { parseMarkdown, type Block } from '../lib/learn.ts';
   import type { Settings } from '../lib/settings.ts';
   import MarkdownBlocks from './MarkdownBlocks.svelte';
@@ -22,7 +23,7 @@
 </script>
 
 <article class="note fade-in" aria-labelledby="note-h1">
-  <p class="crumbs"><a href="#/culture">Culture</a> ›</p>
+  <p class="crumbs"><a href={href({ page: 'culture' })}>Culture</a> ›</p>
   <h1 id="note-h1">{meta?.title ?? id} {#if meta}<span lang="ru" class="ru">{meta.ru}</span>{/if}</h1>
   {#if error}
     <p class="muted">{error}</p>

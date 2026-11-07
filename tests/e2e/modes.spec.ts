@@ -88,7 +88,7 @@ test('End round shows the score so far', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Round ended' })).toBeVisible();
   await expect(page.locator('.missed li')).toHaveCount(1);
   await page.getByRole('link', { name: 'Return to dashboard' }).click();
-  await expect(page).toHaveURL(/#\/$/);
+  await expect(page).toHaveURL(/\/Krotik\/(\?.*)?$/);
   await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
 });
 

@@ -38,7 +38,7 @@ test('the drill still works when example sentences fail to load', async ({ page 
 
 test('the Grammar test reports a failed load and can be started again', async ({ page }) => {
   await page.route('**/data/level-test.json', (r) => r.abort());
-  await page.goto('/?seed=1#/test');
+  await page.goto('./?seed=1#/test');
   await page.getByRole('button', { name: 'Start the test' }).click();
   await expect(page.getByText(/Couldn.t prepare the test: Couldn.t load the data \(level-test\.json\)/)).toBeVisible();
   await page.unroute('**/data/level-test.json');
@@ -48,7 +48,7 @@ test('the Grammar test reports a failed load and can be started again', async ({
 
 test('a Learn page whose data fails says so instead of leaving gaps', async ({ page }) => {
   await page.route('**/data/nouns.b*.json', (r) => r.abort());
-  await page.goto('/#/learn/nounCases');
+  await page.goto('./#/learn/nounCases');
   await expect(page.getByText(/Couldn.t load this table/).first()).toBeVisible();
   // The explanation itself still shows.
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Noun cases');
@@ -71,33 +71,33 @@ test('reloading mid-drill returns to that drill’s settings, ready to start aga
 });
 
 test('Back and Forward move between pages and Learn lessons', async ({ page }) => {
-  await page.goto('/#/');
+  await page.goto('./#/');
   await goTo(page, 'Learn');
-  await expect(page).toHaveURL(/#\/learn$/);
+  await expect(page).toHaveURL(/\/Krotik\/learn\/(\?.*)?$/);
   await page.getByRole('link', { name: 'Noun cases' }).first().click();
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Noun cases');
   await page.getByRole('link', { name: /Next →/ }).click();
-  await expect(page).toHaveURL(/#\/learn\/plurals$/);
+  await expect(page).toHaveURL(/\/Krotik\/learn\/plurals\/(\?.*)?$/);
   await page.goBack();
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Noun cases');
   await page.goBack();
-  await expect(page).toHaveURL(/#\/learn$/);
+  await expect(page).toHaveURL(/\/Krotik\/learn\/(\?.*)?$/);
   await expect(page.getByRole('heading', { name: /^Learn/, level: 1 })).toBeVisible();
   await page.goBack();
   await expect(page.getByRole('heading', { name: 'Krotik', level: 1 })).toBeVisible();
   await page.goForward();
-  await expect(page).toHaveURL(/#\/learn$/);
+  await expect(page).toHaveURL(/\/Krotik\/learn\/(\?.*)?$/);
 });
 
 test('Back from a round leaves it for the choose page; Forward opens the settings, not the old round', async ({ page }) => {
-  await page.goto('/?seed=2#/drill');
+  await page.goto('./?seed=2#/drill');
   await page.getByRole('radio', { name: /Verb forms/ }).click();
   await page.getByRole('link', { name: 'Set up your drill' }).click();
-  await expect(page).toHaveURL(/#\/drill\/verbs$/);
+  await expect(page).toHaveURL(/\/Krotik\/drill\/verbs\/(\?.*)?$/);
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText(/0 of \d+ cleared/)).toBeVisible();
   await page.goBack();
-  await expect(page).toHaveURL(/#\/drill$/);
+  await expect(page).toHaveURL(/\/Krotik\/drill\/(\?.*)?$/);
   await expect(page.getByText('Choose a drill')).toBeVisible();
   await page.goForward();
   await expect(page.getByRole('heading', { name: 'Set up your drill' })).toBeVisible();

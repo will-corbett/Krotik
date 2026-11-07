@@ -19,7 +19,7 @@
 
 <section class="dash fade-in" aria-labelledby="dash-title">
   <div class="hero">
-    <img src="./brand/krotik-192.png" alt="Krotik the mole, reading" width="96" height="96" />
+    <img src="{import.meta.env.BASE_URL}brand/krotik-192.png" alt="Krotik the mole, reading" width="96" height="96" />
     <div>
       <h1 id="dash-title">Krotik</h1>
       <p class="muted">Learn and drill Russian grammar. <span lang="ru">Учись и тренируйся.</span></p>
