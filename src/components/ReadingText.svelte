@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { tick } from 'svelte';
   import { loadReadingIndex, loadReadingUnit } from '../lib/data.ts';
   import { href } from '../lib/router.ts';
   import { pageTitle } from '../lib/pageMeta.ts';
   import type { Settings } from '../lib/settings.ts';
   import { renderForm } from '../shared/forms.ts';
-  import { normalise } from '../shared/normalise.ts';
-  import type { ReadingIndex, ReadingUnit, WordReading } from '../shared/types.ts';
+  import type { ReadingIndex, ReadingUnit } from '../shared/types.ts';
+  import ExplainedText from './ExplainedText.svelte';
   import { today } from '../lib/progress.ts';
   import { addWords, loadWords, saveWords } from '../lib/words.ts';
 
@@ -41,62 +40,6 @@
     return { prev: list[i - 1], next: list[i + 1] };
   });
 
-  // ---- words
-  type Piece = { text: string; word?: number };
-  const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
-  /** Each line as text pieces, words numbered in reading order. */
-  const lines = $derived.by(() => {
-    let n = 0;
-    return (unit?.lines ?? []).map(([speaker, text, stage]) => {
-      const pieces: Piece[] = [];
-      let last = 0;
-      for (const m of text.matchAll(TOKEN)) {
-        if (m.index! > last) pieces.push({ text: text.slice(last, m.index) });
-        pieces.push({ text: m[0], word: n++ });
-        last = m.index! + m[0].length;
-      }
-      if (last < text.length) pieces.push({ text: text.slice(last) });
-      return { speaker, stage, pieces };
-    });
-  });
-  const wordCount = $derived(lines.reduce((k, l) => k + l.pieces.filter((p) => p.word !== undefined).length, 0));
-  let active = $state(0);
-  let shown = $state<{ word: string; readings: WordReading[]; x: number; y: number; below: boolean } | null>(null);
-  let textEl = $state<HTMLElement>();
-  let buttons: HTMLButtonElement[] = [];
-
-  function show(e: Event, word: string, i: number, pin = true) {
-    pinned = pin;
-    active = i;
-    const readings = unit?.words[normalise(word)] ?? [];
-    const btn = e.currentTarget as HTMLElement;
-    const box = textEl!.getBoundingClientRect();
-    const r = btn.getBoundingClientRect();
-    // Above the word, or below it near the top of the screen; kept inside the text column (the box is at most
-    // 320px wide, and never wider than the column).
-    const below = r.top < 170;
-    const half = Math.min(160, box.width / 2);
-    shown = { word, readings, x: Math.min(Math.max(r.left + r.width / 2 - box.left, half), box.width - half), y: below ? r.bottom - box.top + 6 : r.top - box.top - 6, below };
-  }
-  function hide() {
-    shown = null;
-    pinned = false;
-  }
-  async function move(e: KeyboardEvent, i: number) {
-    const to = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? wordCount - 1 : null;
-    if (e.key === 'Escape') return hide();
-    if (to === null || to < 0 || to >= wordCount) return;
-    e.preventDefault();
-    active = to;
-    await tick();
-    buttons[to]?.focus();
-  }
-  const FLAG: Record<string, string> = {
-    o: 'Old-fashioned: Wiktionary has it only as archaic, obsolete or dated.',
-    s: 'With the old polite -с (short for сударь, "sir"), added to show respect.',
-    h: 'Our explanation: this word isn’t in our dictionaries.',
-  };
-
   // ---- your words (opt-in: only while progress is on)
   let mineKeys = $state(new Set(Object.keys(loadWords().words)));
   function add(items: [string, number][]) {
@@ -105,13 +48,7 @@
     saveWords(w);
     mineKeys = new Set(Object.keys(w.words));
   }
-  const keyed = (r: WordReading): r is [string, string, string, string, string, number] => r.length === 6;
   const allIn = $derived(!!unit && unit.keyWords.every(([k]) => mineKeys.has(k)));
-  /**
-   * A word clicked, tapped or focused is pinned: its box stays while the mouse moves (over other words too) and takes
-   * clicks, so Add can be pressed. Hovering only shows a box that ignores the mouse, so the words under it still work.
-   */
-  let pinned = $state(false);
 
   // ---- questions
   let answers = $state<(number | undefined)[]>([]);
@@ -119,12 +56,6 @@
   const right = $derived(unit ? unit.questions.filter((q, i) => answers[i] === q.answer).length : 0);
   const lang = $derived(settings.questionLang);
 </script>
-
-<!-- A click or tap shows a word (it also counts as hover and focus, so it never toggles); anywhere else hides it. -->
-<svelte:window
-  onkeydown={(e) => e.key === 'Escape' && hide()}
-  onclick={(e) => !(e.target as Element | null)?.closest?.('.w, .pop') && hide()}
-/>
 
 <article class="reading fade-in" aria-labelledby="text-title">
   <p class="crumbs"><a href={href({ page: 'reading' })}>Reading</a> ›</p>
@@ -156,63 +87,7 @@
       </details>
     {/if}
 
-    <!-- Hover is for a real mouse only: touch screens send imitation mouse events that differ between browsers. A tap,
-         a click or keyboard focus shows a word; it closes on Escape, a tap elsewhere, or focus leaving the text. -->
-    <div
-      class="text"
-      bind:this={textEl}
-      role="group"
-      aria-label="The text: each word shows its meaning"
-      lang="ru"
-      onfocusout={(e) => !textEl?.contains(e.relatedTarget as Node | null) && hide()}
-    >
-      {#each lines as l, li (li)}
-        <p class:stage={l.stage === 1}>
-          {#if l.speaker}<strong class="speaker">{l.speaker}.</strong>{' '}{/if}{#each l.pieces as p, pi (pi)}{#if p.word === undefined}{p.text}{:else}{@const wi = p.word}<button
-                type="button"
-                class="w"
-                class:on={shown && active === wi}
-                tabindex={active === wi ? 0 : -1}
-                bind:this={buttons[wi]}
-                onpointerenter={(e) => e.pointerType === 'mouse' && !pinned && show(e, p.text, wi, false)}
-                onpointerleave={(e) => e.pointerType === 'mouse' && !pinned && hide()}
-                onfocus={(e) => show(e, p.text, wi)}
-                onclick={(e) => show(e, p.text, wi)}
-                onkeydown={(e) => move(e, wi)}
-                aria-describedby={shown && active === wi ? 'word-info' : undefined}>{p.text}</button
-              >{/if}{/each}
-        </p>
-      {/each}
-
-      {#if shown}
-        {@const addable = settings.progress && pinned ? shown.readings.filter(keyed).filter((r) => !r[3].includes('n')) : []}
-        <div class="pop" class:below={shown.below} class:pinned style="left: {shown.x}px; top: {shown.y}px" lang="en">
-        <div id="word-info" role="tooltip">
-          {#if !shown.readings.length}
-            <p><strong lang="ru">{shown.word}</strong></p>
-          {/if}
-          {#each shown.readings as [dict, meaning, form, flags], ri (ri)}
-            <div class="reading-item">
-              {#if flags.includes('n')}
-                <p><strong lang="ru">{dict}</strong> <span class="muted">a name</span></p>
-              {:else}
-                <p><strong lang="ru">{renderForm(dict, true)}</strong>{#if meaning} <span>{meaning}</span>{/if}</p>
-                {#if form}<p class="form muted">{form}</p>{/if}
-                {#each [...flags].filter((f) => FLAG[f]) as f (f)}<p class="flag">{FLAG[f]}</p>{/each}
-              {/if}
-            </div>
-          {/each}
-        </div>
-        {#each addable as r (r[4])}
-          {#if mineKeys.has(r[4])}
-            <p class="added muted">In your words ✓</p>
-          {:else}
-            <button type="button" class="btn small-btn add" onclick={() => add([[r[4], r[5]]])}>Add {addable.length > 1 ? renderForm(r[0].split(',')[0]!, true) : ''} to my words</button>
-          {/if}
-        {/each}
-        </div>
-      {/if}
-    </div>
+    <ExplainedText lines={unit.lines} words={unit.words} label="The text: each word shows its meaning" uid="reading" progress={settings.progress} mine={mineKeys} onadd={add} />
 
     {#if unit.questions.length}
       <section class="questions" aria-labelledby="q-title">
@@ -312,13 +187,6 @@
     gap: 8px;
     margin: 8px 0 4px;
   }
-  .pop .add {
-    margin-top: 6px;
-  }
-  .pop .added {
-    margin: 6px 0 0;
-    font-size: 0.9rem;
-  }
   .crumbs {
     margin: 0;
     font-size: 0.9rem;
@@ -331,81 +199,6 @@
   .hint {
     margin: 0 0 6px;
     font-size: 0.92rem;
-  }
-  .text {
-    position: relative;
-    margin: 16px 0 8px;
-    font-family: var(--serif);
-    font-size: 1.2rem;
-    line-height: 1.75;
-  }
-  .text p {
-    margin: 0 0 10px;
-  }
-  .stage {
-    font-style: italic;
-    color: var(--muted);
-  }
-  .speaker {
-    font-family: var(--sans);
-    font-size: 0.95rem;
-  }
-  .w {
-    font: inherit;
-    color: inherit;
-    background: none;
-    border: 0;
-    padding: 0;
-    margin: 0;
-    cursor: help;
-    border-radius: 3px;
-  }
-  .w:hover,
-  .w.on {
-    background: var(--mark);
-  }
-  .pop {
-    position: absolute;
-    transform: translate(-50%, -100%);
-    width: max-content;
-    max-width: min(320px, 100%);
-    z-index: 20;
-    padding: 8px 12px;
-    background: var(--surface);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.18);
-    font-family: var(--sans);
-    font-size: 0.95rem;
-    line-height: 1.4;
-    pointer-events: none;
-  }
-  .pop.pinned {
-    pointer-events: auto;
-  }
-  .pop.below {
-    transform: translate(-50%, 0);
-  }
-  .pop p {
-    margin: 0;
-  }
-  .reading-item + .reading-item {
-    margin-top: 6px;
-    padding-top: 6px;
-    border-top: 1px solid var(--border);
-  }
-  .pop strong {
-    font-family: var(--serif);
-    font-size: 1.05rem;
-    margin-right: 4px;
-  }
-  .form {
-    font-size: 0.88rem;
-  }
-  .flag {
-    font-size: 0.85rem;
-    color: var(--accent);
   }
   .questions {
     margin-top: 26px;
