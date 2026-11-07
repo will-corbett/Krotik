@@ -19,6 +19,14 @@ Negative pronouns and adverbs (никто, ничто, никогда, нигд�
 
 ::examples negation ne-ni 2
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| У меня нет время. | У меня нет времени. | **Wrong.** нет takes the genitive. |
+| Я ничего вижу. | Я ничего не вижу. | **Wrong.** With никто, ничего or никогда, the verb still needs не: the double negative is required. |
+| Я не видел никто. | Я никого не видел. | **Wrong.** никто declines like кто: as the object it is никого. |
+
 ## Quick check
 
 ::drill negation {"kinds":["net","nipron","ne-ni"]} 6

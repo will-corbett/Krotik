@@ -45,6 +45,15 @@ The dative for the person something is given or said to:
 
 ::sentence noun друг sg_dat
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| Я вижу мой брат. | Я вижу моего брата. | **Wrong.** An animate masculine noun (and its adjective) uses the genitive form in the accusative. |
+| Я живу в город. | Я живу в городе. | **Wrong.** в for a place (где?) takes the prepositional; the accusative is for movement into it (куда?). |
+| Это книга мой друг. | Это книга моего друга. | **Wrong.** The owner goes in the genitive, after the thing owned. |
+| Я пишу ручка. | Я пишу ручкой. | **Wrong.** The tool you do something with is in the instrumental. |
+
 ## Quick check
 
 ::drill nounCases {"cases":["gen","dat","acc","inst","prep"],"number":"sg"} 5

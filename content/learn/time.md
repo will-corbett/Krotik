@@ -34,6 +34,14 @@ From now, and ago:
 
 > Days of the week and months are written with a small letter in Russian.
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| Я работаю в понедельник. *(meaning every Monday)* | Я работаю по понедельникам. | **Correct, but a different meaning.** в понедельник is one Monday; по понедельникам is every Monday. |
+| Я приду после недели. *(meaning in a week)* | Я приду через неделю. | **Wrong.** через is “in” a time from now; после is “after” an event (после урока). |
+| в прошлую неделю | на прошлой неделе | **Unnatural.** With неделя, use на + prepositional: на этой неделе, на прошлой неделе. |
+
 ## Quick check
 
 ::drill time 6

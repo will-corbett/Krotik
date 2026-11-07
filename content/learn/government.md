@@ -31,6 +31,15 @@ Every Russian verb "governs" a particular case (управление): the case 
 
 The easiest way to remember government is to learn each verb with its question word: помогать кому, бояться чего, заниматься чем, думать о чём.
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| Я интересуюсь русский язык. | Я интересуюсь русским языком. | **Wrong.** интересоваться takes the instrumental (чем?). |
+| Я помогаю его. | Я помогаю ему. | **Wrong.** помогать takes the dative (кому?), not the accusative as in English. |
+| Я скучаю за тобой. | Я скучаю по тебе. | **Regional.** Common in Ukraine and southern Russia, but standard Russian uses по + dative. |
+| Я жду автобус. | *(already correct)* | **Correct.** ждать takes the accusative for a particular person or thing (жду автобус, жду маму), and often the genitive for something less definite (жду ответа). |
+
 ## Quick check
 
 ::drill government {"types":["choice"]} 6

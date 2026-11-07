@@ -35,6 +35,14 @@ Some adjectives have a "soft" stem and endings in -ий, -яя, -ее, -ие:
 
 > The feminine instrumental also has an older ending in -ою. You'll meet it in poetry; the drills accept it but show -ой.
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| интересный книга | интересная книга | **Wrong.** The adjective takes the noun's gender: книга is feminine. |
+| в новый доме | в новом доме | **Wrong.** The adjective takes the noun's case too. |
+| Я вижу нового стол. | Я вижу новый стол. | **Wrong.** стол is inanimate, so its accusative is like the nominative. Only animate masculine nouns take the genitive form. |
+
 ## Quick check
 
 ::drill adjectives {"cases":["gen","dat","acc","inst","prep"],"number":"both"} 5

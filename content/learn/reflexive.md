@@ -28,6 +28,14 @@ Some verbs only exist with -ся and have no plain partner in everyday use: бо
 
 ::sentence verb учиться past_f
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| Урок начинает в девять. | Урок начинается в девять. | **Wrong.** начинать means to begin something; with no object, “begins” needs -ся. |
+| Я учусь русский язык. | Я учу русский язык. *or* Я изучаю русский язык. | **Wrong.** учиться doesn't take a direct object: учиться в школе, учиться русскому языку. |
+| Он моется руки. | Он моет руки. | **Wrong.** With an object (руки), the verb has no -ся. |
+
 ## Quick check
 
 ::drill reflexive {"groups":["presfut","past"]} 5

@@ -1,4 +1,10 @@
-Almost every Russian verb comes as a pair: an **imperfective** (несовершенный вид) and a **perfective** (совершенный вид). Both mean the same action; the aspect (вид) says how you look at it.
+Most Russian verbs come in pairs: an **imperfective** (несовершенный вид) and a **perfective** (совершенный вид). Both mean the same action; the aspect (вид) says how you look at it.
+
+Pairs are the usual case, not the only one:
+
+- **Several perfectives**: one imperfective can have more than one perfective, each adding a shade of meaning. читать → прочитать (read through), but also почитать (read for a while).
+- **Both aspects in one verb** (двувидовые глаголы): использовать, организовать, исследовать. The context shows which is meant: я использую can be "I use" or "I will use".
+- **No partner at all**: some verbs only exist in one aspect, such as находиться, зависеть, стоить (imperfective only) or очутиться (perfective only).
 
 ## What each aspect says
 
@@ -32,6 +38,15 @@ The perfective past for one finished action:
 Perfective "present" endings mean the future:
 
 ::table verb прочитать
+
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| Я буду прочитать книгу. | Я прочитаю книгу. *or* Я буду читать книгу. | **Wrong.** буду only goes with an imperfective infinitive. A perfective makes its future on its own. |
+| Каждый день я выпил кофе. | Каждый день я пил кофе. | **Wrong.** A repeated action takes the imperfective. |
+| Я начал прочитать книгу. | Я начал читать книгу. | **Wrong.** начать, кончить and продолжать are followed only by an imperfective. |
+| Я читал эту книгу. | Я прочитал эту книгу. | **Both correct, different meanings.** читал: "I have read it (at some point)"; прочитал: "I read it through, I finished it". |
 
 ## Quick check
 

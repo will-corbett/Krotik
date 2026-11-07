@@ -41,6 +41,14 @@ Movement towards: к + dative:
 
 > о becomes об before a vowel sound (об этом) and обо in a few fixed phrases (обо мне); в becomes во and с becomes со before some consonant clusters (во вторник, со мной).
 
+## Common mistakes
+
+| Not this | But this | Why |
+|---|---|---|
+| Я иду в работу. | Я иду на работу. | **Wrong.** работа takes на, not в: на работу, на работе. So do почта, концерт and урок. |
+| Я иду в школе. | Я иду в школу. | **Wrong.** With movement (куда?) в takes the accusative; the prepositional is for where something is (где?). |
+| Я приехал из работы. | Я приехал с работы. | **Wrong.** A noun that takes на takes с for “from”: на работу → с работы. |
+
 ## Quick check
 
 ::drill prepositions 6
