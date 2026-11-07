@@ -65,6 +65,13 @@
    */
   let open = $state(new Set<string>());
   let hover = $state<string | null>(null);
+  /** The hovered example floats above its row when there isn't room for it below (the row is low on the screen). */
+  let above = $state(false);
+  function hoverRow(e: PointerEvent, k: string) {
+    if (e.pointerType !== 'mouse') return;
+    above = (e.currentTarget as HTMLElement).getBoundingClientRect().bottom + 160 > innerHeight;
+    hover = k;
+  }
   function toggle(k: string) {
     const next = new Set(open);
     if (next.has(k)) next.delete(k);
@@ -100,7 +107,7 @@
             {@const isOpen = open.has(w[0])}
             <li
               class:open={isOpen}
-              onpointerenter={(e) => e.pointerType === 'mouse' && use && (hover = w[0])}
+              onpointerenter={(e) => use && hoverRow(e, w[0])}
               onpointerleave={(e) => e.pointerType === 'mouse' && hover === w[0] && (hover = null)}
             >
               <div class="row">
@@ -124,7 +131,7 @@
                 {/if}
               </div>
               {#if use && (isOpen || hover === w[0])}
-                <div id="ex-{w[0].replace(':', '-')}" class="example" class:float={!isOpen}>
+                <div id="ex-{w[0].replace(':', '-')}" class="example" class:float={!isOpen} class:above={!isOpen && above}>
                   <Sentence row={[use[0], use[1], use[2], 0, use[3], use[4]]} />
                 </div>
               {/if}
@@ -259,7 +266,10 @@
     border-left: 3px solid var(--primary-bg);
     margin: 0 0 8px 4px;
   }
-  /* Hovered (not opened): floats under the row, over the next ones, so nothing below moves. */
+  /*
+   * Hovered (not opened): floats under the row, over the next ones, so nothing below moves. It belongs to the row, so
+   * the mouse can move onto it (to read it or follow the Tatoeba link) without it closing.
+   */
   .example.float {
     position: absolute;
     left: 0;
@@ -272,7 +282,10 @@
     border-left: 3px solid var(--primary-bg);
     border-radius: var(--radius);
     box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
-    pointer-events: none;
+  }
+  .example.float.above {
+    top: auto;
+    bottom: 100%;
   }
   .hint {
     margin: 10px 0 0;

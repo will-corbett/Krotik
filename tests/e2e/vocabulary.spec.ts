@@ -48,10 +48,26 @@ test('a theme: its words with gender or aspect and meaning; each opens to a real
   // With a mouse, hovering shows it too, floating over the rows below (they don't move).
   if (test.info().project.name === 'desktop') {
     const next = page.getByRole('button', { name: /^сыр/ });
+    await row.evaluate((e) => e.scrollIntoView({ block: 'center' }));
     const before = (await next.boundingBox())!.y;
     await row.hover();
     await expect(page.locator('.example.float')).toContainText('Tatoeba #');
     expect((await next.boundingBox())!.y).toBe(before);
+    // The mouse can move from the row onto the example, and it stays.
+    const float = page.locator('.example.float');
+    const box = (await float.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 5 });
+    await expect(float).toBeVisible();
+    await expect(float.getByRole('link', { name: /Tatoeba #/ })).toBeVisible();
+    // Off it, it goes.
+    await page.mouse.move(box.x - 100, box.y + box.height / 2, { steps: 5 });
+    await expect(float).toHaveCount(0);
+    // A row low on the screen shows its example above it, where there's room.
+    await row.evaluate((e) => e.scrollIntoView({ block: 'end' }));
+    await page.mouse.move(0, 0);
+    await row.hover();
+    const low = (await float.boundingBox())!;
+    expect(low.y + low.height).toBeLessThanOrEqual((await row.boundingBox())!.y + 1);
   }
   await expect(page.getByText(/waiting for a native speaker's check/)).toBeVisible();
   // Nothing unreviewed is ever served.
