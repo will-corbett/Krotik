@@ -167,7 +167,7 @@
           </div>
           <p class="hint muted">
             Meanings are from the OpenRussian dictionary. In “English → Russian”, other words with the same meaning count as
-            right too, and you'll see which.{#if settings.progress} Every word you answer goes into your words.{/if}
+            right too, and you'll see which.{#if settings.progress}{' '}Every word you answer goes into your words.{/if}
           </p>
         </fieldset>
       {/if}

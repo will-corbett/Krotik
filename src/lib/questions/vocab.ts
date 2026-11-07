@@ -54,9 +54,12 @@ function base(w: Word, pool: VocabPool): Pick<Question, 'mode' | 'others' | 'lab
   const type = SENTENCE_TYPE[w.pos];
   const id = Number(w.key.slice(2));
   const p = pool.paradigm?.(w);
+  // Typing the other aspect is a near miss worth naming ("…, which is its perfective partner").
+  const partner = w.extra === 'impf' ? 'perfective partner' : w.extra === 'pf' ? 'imperfective partner' : 'aspect partner';
+  const others = p?.kind === 'verb' ? p.verb.partners.map((cell) => ({ label: partner, cell })) : [];
   return {
     mode: 'vocab',
-    others: [],
+    others,
     label: TERMS.vocab.en,
     speak: () => bare(w.accented.split(',')[0]!),
     word: { key: w.key, band: w.band },
@@ -100,7 +103,11 @@ export function alsoRight(w: Word, byItem: Map<string, Word[]>): Word[] {
   const head = headBare(w);
   const out = new Map<string, Word>();
   for (const item of meaningItems(w.gloss)) {
-    for (const o of byItem.get(`${w.pos}|${item}`) ?? []) if (o.key !== w.key && headBare(o) !== head) out.set(o.key, o);
+    for (const o of byItem.get(`${w.pos}|${item}`) ?? []) {
+      // A verb's aspect is part of the question, so only verbs of the same aspect count.
+      if (o.key === w.key || headBare(o) === head || (w.pos === 'v' && o.extra !== w.extra)) continue;
+      out.set(o.key, o);
+    }
   }
   return [...out.values()].slice(0, MAX_ALSO);
 }

@@ -50,13 +50,22 @@ describe('recognise (choose the meaning)', () => {
 });
 
 describe('recall (type the word)', () => {
-  it('accepts other words of the same type with the same meaning, and names them', () => {
+  it('accepts other words of the same type (and aspect) with the same meaning, and names them', () => {
+    const idx = indexByItem(all);
+    const w = all.find((x) => x.pos === 'v' && alsoRight(x, idx).length)!;
+    const also = alsoRight(w, idx);
+    const q = recallQuestion(w, { all }, idx);
+    expect(checkAnswer(q, w.accented.replace(/'/g, '')).correct).toBe(true);
+    expect(checkAnswer(q, also[0]!.accented.replace(/'/g, '').split(',')[0]!).correct).toBe(true);
+    expect(q.explain).toContain(also[0]!.accented.replace(/'/g, '').split(',')[0]!);
+    for (const o of also) expect(o.extra).toBe(w.extra);
+  });
+  it('names the aspect partner when you type it', () => {
     const vidit = find('видеть', 'v');
-    const q = recallQuestion(vidit, { all }, indexByItem(all));
+    const verb = { id: 1, accented: vidit.accented, gloss: vidit.gloss, aspect: 'impf' as const, partners: ["уви'деть"], cells: [], band: 0 };
+    const q = recallQuestion(vidit, { all, paradigm: () => ({ kind: 'verb', verb }) }, indexByItem(all));
     expect(checkAnswer(q, 'видеть').correct).toBe(true);
-    expect(checkAnswer(q, 'увидеть').correct).toBe(true);
-    expect(q.explain).toMatch(/увидеть/);
-    expect(checkAnswer(q, 'слышать').correct).toBe(false);
+    expect(checkAnswer(q, 'увидеть')).toEqual({ correct: false, otherForm: 'perfective partner' });
   });
   it('never offers the same word as an alternative', () => {
     const idx = indexByItem(all);
