@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadWordList, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -19,6 +19,10 @@ import { generateOrdinalQuestions } from './questions/ordinals.ts';
 import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
 import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
+import { generateVocabQuestions } from './questions/vocab.ts';
+import { dueKeys, loadWords } from './words.ts';
+import { today } from './progress.ts';
+import type { ParadigmRef, Word } from './types.ts';
 import { pick } from './rng.ts';
 import { topicById } from './topics.ts';
 import type { Question } from './types.ts';
@@ -57,8 +61,32 @@ async function partners(): Promise<PartnerPicker> {
 }
 
 /** Load the data for these settings once; the returned function generates any number of questions. */
-export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
+export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: string[] } = {}): Promise<Generate> {
   switch (s.mode) {
+    case 'vocab': {
+      // Words to ask: the given keys (Reading's key words), your due words, or the commonest up to the band.
+      const record = opts.keys || s.vocab.source !== 'mine' ? null : loadWords();
+      const due = record ? dueKeys(record, today()) : opts.keys;
+      const maxBand = due ? Math.max(0, ...due.map((k) => record?.words[k]?.b ?? 3)) : s.band;
+      const all = await loadWordList(maxBand);
+      const types = new Set(s.vocab.types);
+      const byKey = new Map(all.map((w) => [w.key, w]));
+      const targets = due ? due.map((k) => byKey.get(k)).filter((w): w is Word => !!w) : all.filter((w) => types.has(w.pos));
+      const need = new Set(targets.map((w) => w.pos));
+      const [verbs, nouns, adjs] = await Promise.all([
+        need.has('v') ? loadVerbs(maxBand) : [],
+        need.has('n') ? loadNouns(maxBand) : [],
+        need.has('a') ? loadAdjectives(maxBand) : [],
+      ]);
+      const lex = new Map<string, ParadigmRef>([
+        ...verbs.map((verb) => [`v:${verb.id}`, { kind: 'verb', verb }] as [string, ParadigmRef]),
+        ...nouns.map((noun) => [`n:${noun.id}`, { kind: 'noun', noun }] as [string, ParadigmRef]),
+        ...adjs.map((adjective) => [`a:${adjective.id}`, { kind: 'adjective', adjective }] as [string, ParadigmRef]),
+      ]);
+      const pool = { all, paradigm: (w: Word) => lex.get(w.key) };
+      // Your due words come in order, most overdue first; the commonest words at random.
+      return (n) => generateVocabQuestions(targets, pool, s.vocab, n, rng, !!due);
+    }
     case 'mixed': {
       // Each topic with its own saved settings; questions interleaved at random, each topic about equally often.
       const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate');
@@ -273,6 +301,15 @@ export function settingsValid(s: Settings): string | null {
       if (e) return `${e.replace(/\.$/, '')} (in the settings for ${topicById(t)?.title.en ?? t}).`;
     }
     return null;
+  }
+  if (s.mode === 'vocab') {
+    if (s.vocab.source === 'common' && !s.vocab.types.length) return 'Choose at least one kind of word.';
+    if (s.vocab.source === 'mine') {
+      if (!s.progress) return 'Your words are kept only when progress is on: turn it on on the Progress page.';
+      const w = loadWords();
+      if (!Object.keys(w.words).length) return 'Your word list is empty. Words you practise here, or add while reading, go into it.';
+      if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the commonest words instead, or come back tomorrow.';
+    }
   }
   if (s.mode === 'translate' && !s.translate.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'verbs' && !s.verbs.groups.length) return 'Choose at least one tense.';

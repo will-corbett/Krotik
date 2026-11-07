@@ -5,6 +5,7 @@
   import { loadProgress, summarise, today } from '../lib/progress.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
+  import type { WordPos } from '../shared/types.ts';
   import { settingsValid } from '../lib/start.ts';
   import type { CompareSettings, Mode, MotionSettings, TenseSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
@@ -12,6 +13,12 @@
 
   const topic = $derived(topicById(settings.mode));
   /** Topics a mixed review can include: every drill except the Review drills themselves. */
+  const VOCAB_TYPES: { id: WordPos; en: string; ru: string }[] = [
+    { id: 'n', en: 'Nouns', ru: 'существительные' },
+    { id: 'v', en: 'Verbs', ru: 'глаголы' },
+    { id: 'a', en: 'Adjectives', ru: 'прилагательные' },
+    { id: 'o', en: 'Other words (prepositions, adverbs, pronouns…)', ru: 'другие слова' },
+  ];
   const MIX_GROUPS = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill).filter((t) => t.id !== 'mixed' && t.id !== 'translate') })).filter((g) => g.modes.length);
   const weak = $derived(settings.progress && settings.mode === 'mixed' ? summarise(loadProgress(), today()).weak.map((w) => w.mode) : []);
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
@@ -124,6 +131,46 @@
           (<span lang="ru">совершенный вид</span>) verb's are future.
         </p>
       </fieldset>
+    {:else if settings.mode === 'vocab'}
+      <fieldset>
+        <legend>Which way round</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="vdir" value="recognise" bind:group={settings.vocab.direction} /> Russian → English (choose the meaning)</label>
+          <label class="chip"><input type="radio" name="vdir" value="recall" bind:group={settings.vocab.direction} /> English → Russian (type the word)</label>
+          <label class="chip"><input type="radio" name="vdir" value="both" bind:group={settings.vocab.direction} /> Both</label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Words</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="vsrc" value="common" bind:group={settings.vocab.source} /> The commonest words</label>
+          <label class="chip"><input type="radio" name="vsrc" value="mine" bind:group={settings.vocab.source} /> My words that are due</label>
+        </div>
+        {#if settings.vocab.source === 'mine'}
+          <p class="hint muted">
+            {#if settings.progress}
+              Your words come back on a schedule: right first time, and a word waits longer before it's asked again
+              (1, 3, 7, 14, 30, then 60 days); wrong, and it's back tomorrow. See them on the <a href={href({ page: 'progress' })}>Progress page</a>.
+            {:else}
+              Krotik keeps your own word list only when progress is on (in this browser only). Turn it on on the <a href={href({ page: 'progress' })}>Progress page</a>.
+            {/if}
+          </p>
+        {/if}
+      </fieldset>
+      {#if settings.vocab.source === 'common'}
+        <fieldset>
+          <legend>Kinds of word</legend>
+          <div class="chips">
+            {#each VOCAB_TYPES as t (t.id)}
+              <label class="chip"><input type="checkbox" checked={settings.vocab.types.includes(t.id)} onchange={() => (settings.vocab.types = toggle(settings.vocab.types, t.id))} /> {t.en} <span class="ru" lang="ru">{t.ru}</span></label>
+            {/each}
+          </div>
+          <p class="hint muted">
+            Meanings are from the OpenRussian dictionary. In “English → Russian”, other words with the same meaning count as
+            right too, and you'll see which.{#if settings.progress} Every word you answer goes into your words.{/if}
+          </p>
+        </fieldset>
+      {/if}
     {:else if settings.mode === 'aspect'}
       <fieldset>
         <legend>Direction</legend>
@@ -565,7 +612,7 @@
       </fieldset>
     {/if}
 
-    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

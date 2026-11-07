@@ -109,6 +109,10 @@ export const TOPIC_GROUPS: TopicGroup[] = [
     ],
   },
   {
+    title: TERMS.words,
+    modes: [{ id: 'vocab', title: TERMS.vocab, learn: false, blurb: 'The commonest words, both ways round', level: ['A1', 'C1'], related: [] }],
+  },
+  {
     title: TERMS.review,
     modes: [
       { id: 'mixed', title: TERMS.mixed, learn: false, blurb: 'Several topics in one round', level: ['A1', 'C1'], related: [] },

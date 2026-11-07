@@ -71,7 +71,7 @@
   const sentence = $derived.by(() => {
     const s = q?.sentence;
     if (!s) return undefined;
-    return chooseSentence(shards[`${s.type}:${s.band}`]?.[s.lemmaId], s.cell, q.answer);
+    return chooseSentence(shards[`${s.type}:${s.band}`]?.[s.lemmaId], s.cell, q.meaning ? q.headword : q.answer);
   });
 
   async function focusField() {
@@ -116,7 +116,8 @@
       focusField();
       return;
     }
-    result = checkAnswer(q, value);
+    // A meaning (English) is one of the options as given, so it's compared as it is.
+    result = q.meaning ? { correct: value === q.answer } : checkAnswer(q, value);
     phase = 'feedback';
     if (q.choices || q.stress) focusField();
   }
@@ -174,7 +175,7 @@
   }
 
   const frameParts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
-  const answers = $derived(q ? (q.selfMark ? [q.answer] : q.display ? displayForms(q.display) : displayForms(q.answer)) : []);
+  const answers = $derived(q ? (q.selfMark || q.meaning ? [q.answer] : q.display ? displayForms(q.display) : displayForms(q.answer)) : []);
 </script>
 
 <svelte:window onkeydown={onKey} />
@@ -242,6 +243,23 @@
               {:else}
                 <span class="cons">{ch}</span>
               {/if}
+            {/each}
+          </div>
+        {:else if q.choices && q.meaning}
+          <div class="choices meanings" role="group" aria-label="Choose the meaning">
+            {#each q.choices as c, i (c)}
+              <button
+                type="button"
+                class="btn choice"
+                class:picked={phase === 'feedback' && typed === c}
+                class:correct-choice={phase === 'feedback' && c === q.answer}
+                disabled={phase === 'feedback'}
+                lang="en"
+                onclick={() => grade(c)}
+                bind:this={choiceButtons[i]}
+              >
+                <span class="num" aria-hidden="true">{i + 1}</span> {c}
+              </button>
             {/each}
           </div>
         {:else if q.choices}
@@ -314,9 +332,13 @@
           <p class="verdict">
             {#if selfPending}A model translation{:else if result.correct}{q.selfMark && typed ? 'Right' : 'Correct'}{:else if typed}Not quite{:else}Answer{/if}
           </p>
-          <p class="solution" lang="ru">
-            {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{q.stress ? renderForm(a, true) : r(a)}</strong>{/each}
-          </p>
+          {#if q.meaning}
+            <p class="solution meaning-solution"><span lang="ru">{r(q.headword)}</span> <span class="muted" aria-hidden="true">=</span><span class="visually-hidden">means</span> <strong lang="en">{q.answer}</strong></p>
+          {:else}
+            <p class="solution" lang="ru">
+              {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{q.stress ? renderForm(a, true) : r(a)}</strong>{/each}
+            </p>
+          {/if}
           {#if q.selfMark && typed}
             <p class="typed">You wrote <span lang="ru">{typed}</span>{selfPending ? '' : '.'}</p>
             {#if selfPending}
@@ -328,7 +350,7 @@
             {/if}
           {:else if !result.correct && typed}
             <p class="typed">
-              You {q.choices || q.stress ? 'chose' : 'typed'} <span lang="ru">{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
+              You {q.choices || q.stress ? 'chose' : 'typed'} <span lang={q.meaning ? 'en' : 'ru'}>{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
               {#if !wasRetry}It comes back {round.queue.length > RETRY_GAP ? `in ${RETRY_GAP} cards` : 'at the end of the round'}.{/if}
             </p>
           {:else if !result.correct}
@@ -555,6 +577,21 @@
     font-size: 1.15rem;
     font-weight: 400;
     min-width: 88px;
+  }
+  /* Meanings are English and can be long: one per line, left-aligned. */
+  .meanings {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .meanings .choice {
+    font-family: var(--sans);
+    font-size: 1rem;
+    text-align: left;
+    justify-content: flex-start;
+  }
+  .meaning-solution strong {
+    font-family: var(--sans);
+    font-size: 1.1rem;
   }
   .choice .num {
     font-family: var(--sans);

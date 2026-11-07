@@ -2,8 +2,8 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
-import type { Adjective, Noun, Verb } from './types.ts';
+import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow, WordRow } from '../shared/types.ts';
+import type { Adjective, Noun, Verb, Word } from './types.ts';
 
 // (import.meta.env is Vite's; build scripts importing this file run without it)
 const BASE = `${(import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '/'}data/`;
@@ -51,6 +51,10 @@ export async function loadAdjectives(maxBand: number): Promise<Adjective[]> {
 }
 export async function loadNouns(maxBand: number): Promise<Noun[]> {
   return (await loadRows<NounRow>('nouns', maxBand)).map(({ row, band }) => toNoun(row, band));
+}
+/** The vocabulary lists (every word type) up to this band. */
+export async function loadWordList(maxBand: number): Promise<Word[]> {
+  return (await loadRows<WordRow>('words', maxBand)).map(({ row: [key, accented, gloss, pos, extra], band }) => ({ key, accented, gloss, pos, extra, band }));
 }
 export async function loadParticiples(maxBand: number): Promise<{ row: ParticipleRow; band: number }[]> {
   return loadRows<ParticipleRow>('participles', maxBand);

@@ -19,6 +19,7 @@
   import { createRound, type Round } from './lib/queue.ts';
   import { clearProgress, loadProgress, recordRound, saveProgress, today } from './lib/progress.ts';
   import { mulberry32 } from './lib/rng.ts';
+  import { clearWords, loadWords, review as reviewWords, saveWords } from './lib/words.ts';
   import { href, navigate, parseHash, parsePath, type Route } from './lib/router.ts';
   import { pageTitle } from './lib/pageMeta.ts';
   import { NOTES } from './lib/culture.ts';
@@ -160,12 +161,20 @@
     round = r;
     screen = 'end';
     // Opt-in only: kept in this browser, never sent anywhere (src/lib/progress.ts).
-    if (settings.progress) saveProgress(recordRound(loadProgress(), r, today()));
+    if (settings.progress) {
+      saveProgress(recordRound(loadProgress(), r, today()));
+      // Vocabulary: each word answered goes into your words, scheduled by whether it was right first time.
+      const words = r.entries.filter((e) => e.attempts > 0 && e.q.word).map((e) => ({ key: e.q.word!.key, band: e.q.word!.band, right: e.firstTryCorrect === true }));
+      if (words.length) saveWords(reviewWords(loadWords(), words, today()));
+    }
   }
 
   function setProgress(on: boolean) {
     settings.progress = on;
-    if (!on) clearProgress();
+    if (!on) {
+      clearProgress();
+      clearWords();
+    }
   }
   /** Start setting up a mixed review of these topics. */
   function review(topics: Mode[]) {

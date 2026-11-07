@@ -28,7 +28,7 @@ export type WordPos = 'n' | 'v' | 'a' | 'o';
 export type WordRow = [string, string, string, WordPos, string];
 
 export type LexType = 'verbs' | 'adjectives' | 'nouns';
-export type ShardType = LexType | 'participles' | 'diminutives';
+export type ShardType = LexType | 'participles' | 'diminutives' | 'words';
 /** Example-sentence shards: per word type, plus participle/verbal-adverb forms (keyed by verb id). */
 export type SentenceType = LexType | 'participles';
 

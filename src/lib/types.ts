@@ -1,5 +1,5 @@
 import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
-import type { ParticipleKind, ParticipleRow, SentenceType } from '../shared/types.ts';
+import type { ParticipleKind, ParticipleRow, SentenceType, WordPos } from '../shared/types.ts';
 import type { TaskPart } from './terms.ts';
 
 export type Mode =
@@ -40,7 +40,8 @@ export type Mode =
   | 'specialCases'
   | 'alphabet'
   | 'mixed'
-  | 'translate';
+  | 'translate'
+  | 'vocab';
 
 export interface Verb {
   id: number;
@@ -122,6 +123,10 @@ export interface Question {
    * whole) and mark it yourself; only an exact match is marked right automatically.
    */
   selfMark?: boolean;
+  /** Vocabulary "choose the meaning": the options and the answer are English meanings, compared exactly. */
+  meaning?: true;
+  /** Vocabulary: the word asked about (for the opt-in word record, src/lib/words.ts). */
+  word?: { key: string; band: number };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
 }
@@ -129,6 +134,23 @@ export interface Question {
 /** Mixed review: questions from several topics in one round, each with that topic's own settings. */
 export interface MixedSettings {
   topics: Mode[];
+}
+/** Vocabulary: which way round, which word types, and where the words come from. */
+export interface VocabSettings {
+  direction: 'recognise' | 'recall' | 'both';
+  types: WordPos[];
+  /** common = the commonest words up to the chosen band; mine = your words that are due (opt-in record) */
+  source: 'common' | 'mine';
+}
+/** A word in the vocabulary lists (public/data/words.b*.json). */
+export interface Word {
+  key: string;
+  accented: string;
+  gloss: string;
+  pos: WordPos;
+  /** aspect (verbs) or gender (nouns), "" otherwise */
+  extra: string;
+  band: number;
 }
 /** Translate and compare: short (up to 5 words) and/or longer (6–9 words) sentences. */
 export interface TranslateSettings {
