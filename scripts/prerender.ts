@@ -14,7 +14,7 @@ import { href, pathOf, type Route } from '../src/lib/router.ts';
 import { ALL_TOPICS, isDrill, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
 import { renderForm } from '../src/shared/forms.ts';
 import { SITE_URL } from '../src/shared/site.ts';
-import type { ClozeRow, LearnExtras, ReadingIndex, ReadingUnit } from '../src/shared/types.ts';
+import type { ClozeRow, LearnExtras, ReadingIndex, ReadingUnit, ThemeData, ThemeIndex } from '../src/shared/types.ts';
 
 const DIST = 'dist';
 const template = readFileSync(join(DIST, 'index.html'), 'utf8');
@@ -106,6 +106,7 @@ const nav = `<nav aria-label="Main"><ul>${(
     [{ page: 'home' }, 'Dashboard'],
     [{ page: 'test' }, 'Grammar test'],
     [{ page: 'learn' }, 'Learn'],
+    [{ page: 'words' }, 'Words'],
     [{ page: 'drill' }, 'Drill'],
     [{ page: 'reading' }, 'Reading'],
     [{ page: 'culture' }, 'Culture'],
@@ -124,7 +125,7 @@ pages.push({
   route: { page: 'home' },
   description: SITE_DESCRIPTION,
   index: true,
-  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p><ul><li>${a({ page: 'start' }, 'Start here')}: a short guide for new learners</li><li>${a({ page: 'learn' }, 'Learn & drill')}: every topic, from the alphabet to participles</li><li>${a({ page: 'test' }, 'Grammar test')}: 60 questions from A1 to C1</li><li>${a({ page: 'reading' }, 'Reading')}: Tolstoy and Chekhov, every word explained</li><li>${a({ page: 'culture' }, 'Culture')}: films, podcasts, books and notes</li></ul>`,
+  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p><ul><li>${a({ page: 'start' }, 'Start here')}: a short guide for new learners</li><li>${a({ page: 'learn' }, 'Learn & drill')}: every topic, from the alphabet to participles</li><li>${a({ page: 'words' }, 'Words')}: everyday vocabulary by theme</li><li>${a({ page: 'test' }, 'Grammar test')}: 60 questions from A1 to C1</li><li>${a({ page: 'reading' }, 'Reading')}: Tolstoy and Chekhov, every word explained</li><li>${a({ page: 'culture' }, 'Culture')}: films, podcasts, books and notes</li></ul>`,
 });
 pages.push({
   route: { page: 'test' },
@@ -208,6 +209,38 @@ for (const meta of readingIndex.units) {
   });
 }
 
+// ---- Words: themes with their words, real sentences and the reviewed dialogues
+const themeIndex = json<ThemeIndex>('themes.json');
+pages.push({
+  route: { page: 'words' },
+  description: 'Learn everyday Russian words by theme: food, family, home, travel, weather and more, with stress, meanings, real example sentences, dialogues and practice.',
+  index: true,
+  body: `<h1>Words <span lang="ru">слова</span></h1><p>Everyday Russian vocabulary, one theme at a time: words with stress and meaning, real example sentences, short dialogues and practice.</p>${[...new Set(themeIndex.themes.map((t) => t.level))]
+    .map((lvl) => `<h2>${lvl}</h2><ul>${themeIndex.themes.filter((t) => t.level === lvl).map((t) => `<li>${a({ page: 'words', theme: t.id }, t.title)} (<span lang="ru">${esc(t.ru)}</span>): ${esc(t.blurb)}</li>`).join('')}</ul>`)
+    .join('')}`,
+});
+const GENDER: Record<string, string> = { m: 'masculine', f: 'feminine', n: 'neuter', impf: 'imperfective', pf: 'perfective', pl: 'plural only' };
+for (const meta of themeIndex.themes) {
+  const t = json<ThemeData>(`theme.${meta.id}.json`);
+  const words = t.groups.flatMap((g) => g.words);
+  pages.push({
+    route: { page: 'words', theme: t.id },
+    description: `Russian words for ${t.title.toLowerCase()} (${t.ru}): ${words.slice(0, 6).map((w) => w[1].split(',')[0]!.replace(/'/g, '')).join(', ')} and more, with stress, meanings, real example sentences and practice.`,
+    index: true,
+    body: `<p>${a({ page: 'words' }, 'Words')} ›</p><h1>${esc(t.title)} <span lang="ru">${esc(t.ru)}</span></h1><p>${esc(t.level)}. ${esc(t.blurb)}</p>${t.groups
+      .map((g) => `<h2>${esc(g.title)}</h2><ul>${g.words.map((w) => `<li><span lang="ru">${esc(renderForm(w[1].split(',')[0]!, true))}</span>${GENDER[w[4]] && w[3] !== 'a' ? ` (${GENDER[w[4]]})` : ''}: ${esc(w[2])}</li>`).join('')}</ul>`)
+      .join('')}${t.dialogues
+      .map((d) => `<h2>${esc(d.title)}</h2>${d.lines.map((l, i) => `<p><strong lang="ru">${esc(l[0])}:</strong> <span lang="ru">${esc(l[1])}</span> <em>${esc(d.en[i] ?? '')}</em></p>`).join('')}`)
+      .join('')}<h2>In use</h2><ul>${words
+      .filter((w) => t.uses[w[0]])
+      .map((w) => {
+        const [id, ru, en, start, end] = t.uses[w[0]]!;
+        return `<li>${sentence(id, ru, en, start, end)}</li>`;
+      })
+      .join('')}</ul>`,
+  });
+}
+
 const TYPES: [string, string][] = [
   ['video', 'Videos'],
   ['cartoons', 'Cartoons'],
@@ -261,9 +294,10 @@ const textTitle = (id: string) => {
   const u = readingIndex.units.find((x) => x.id === id);
   return u ? unitTitle(u) : undefined;
 };
+const themeTitle = (id: string) => themeIndex.themes.find((t) => t.id === id)?.title;
 function html(p: Page, robots = p.index ? '' : 'noindex'): string {
   const url = SITE_URL + pathOf(p.route);
-  const title = pageTitle(p.route, noteTitle, textTitle);
+  const title = pageTitle(p.route, noteTitle, p.route.page === 'words' ? themeTitle : textTitle);
   const head = [
     `<title>${esc(title)}</title>`,
     `<link rel="canonical" href="${url}" />`,

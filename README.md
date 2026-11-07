@@ -13,6 +13,9 @@ and your words) is optional, off by default, and kept only in your browser.
 - **Drill**: the drills below, with retries, example sentences and audio, plus a mixed review of several topics and a
   translate-and-compare drill. A **Vocabulary** drill covers the commonest words both ways round; with progress on, the
   words you practise (or add while reading) come back for review on a spaced-repetition schedule. The end screen breaks results down by question type or topic.
+- **Words**: everyday vocabulary in 16 themes (food, family, home, travel, weather…): words with stress and meaning,
+  a real sentence for each, short dialogues where every word can be tapped (published once a native speaker has
+  checked them), and practice rounds (`content/words/*.yaml`).
 - **Reading**: short stories by Tolstoy and comedies by Chekhov (public domain), with every word explained on hover or
   tap and comprehension questions in English or Russian (`curated/literature.yaml`, `content/reading/questions.yaml`).
 - **Culture**: about 120 hand-picked links to videos, cartoons, films, podcasts, books and tools, each type with a suggested activity, filterable by level, topic and region (`content/culture/links.yaml`),
