@@ -28,10 +28,10 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | diminutives.b1.json | 269 | 17 KB |
 | diminutives.b2.json | 332 | 21 KB |
 | diminutives.b3.json | 656 | 40 KB |
-| words.b0.json | 971 | 55 KB |
-| words.b1.json | 2838 | 180 KB |
-| words.b2.json | 5015 | 327 KB |
-| words.b3.json | 33541 | 2115 KB |
+| words.b0.json | 986 | 56 KB |
+| words.b1.json | 2893 | 184 KB |
+| words.b2.json | 5174 | 336 KB |
+| words.b3.json | 36189 | 2281 KB |
 | sentences.verbs.b0.json | 247 lemmas, 2232 sentences | 182 KB |
 | sentences.verbs.b1.json | 736 lemmas, 5429 sentences | 511 KB |
 | sentences.verbs.b2.json | 1371 lemmas, 6741 sentences | 703 KB |
@@ -52,7 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 78 texts, 161 questions | 1383 KB |
-| themes.json, theme.*.json | 1 themes, 0 dialogues published | 5 KB |
+| themes.json, theme.*.json | 16 themes, 0 dialogues published | 59 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -243,26 +243,28 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| indeclinable nouns added (not in the drill data) | 240 |
-| kept: verbs | 12128 |
-| kept: adjectives | 8452 |
-| kept: nouns | 19714 |
+| kept: verbs | 12389 |
+| kept: adjectives | 9361 |
+| kept: nouns | 21421 |
+| of which not in the drill data (forms missing or unclear): nouns | 1885 |
+| of which not in the drill data (forms missing or unclear): verbs | 261 |
+| of which not in the drill data (forms missing or unclear): adjectives | 908 |
 | kept: other words | 2071 |
 | meaning given in overrides.yaml | 14 |
 
 ### Dropped
 
-- **no English meaning** (9984): попалить, задержаться, осведомиться, вмешаться, схватиться, удалиться, спохватиться, вытянуться, распахнуться, выпрямиться, разложить, оживиться, обнаружиться, удариться, проделать, вспомниться, подыматься, предполагаться, развалиться, отработать, завершиться, набить, насторожиться, вздумать, отделаться, …
+- **no English meaning** (9925): попалить, задержаться, осведомиться, вмешаться, схватиться, удалиться, спохватиться, вытянуться, распахнуться, выпрямиться, разложить, оживиться, обнаружиться, удариться, проделать, вспомниться, подыматься, предполагаться, развалиться, отработать, завершиться, набить, насторожиться, вздумать, отделаться, …
 - **name, abbreviation or phrase** (64): Кому, Вашингтон, Надя, Белоснежка, ВЧК, Кузбасс, Византия, Вильна, Египт, ЗеКа, ЗК, Израил, Исраэль, Комсомольск, Санкт-Петербург, Маньчжу, Маньчжоули, ПМЖ, Мещанинов, Мурман, ФИО, Бэйцзин, Джек-Потрошитель, РЛС, Рейнланд, …
 - **case form of a pronoun** (17): мне, меня, его, тебя, тебе, её, вас, нас, чём, вам, их, нам, ему, ей, чего, им, себе
 - **meaning is a grammar note** (12): наскучивать (to bore (+ dative of person bored)), весенний (Adjectival form of Spring the season), инструментальный (instrumental, tool-making, used for making tools), предложный (prepositional), именительный (Nominative), дательный (Dative), творительный (Instrumental), обращение (address, form of address, appeal, conversion), обо (about (used only with first person prepositional case pronoun)), здрасте (short form of здравствуйте), контрабандой (instrumental case singular of: контрабанда), черно (black (short form))
-- **meaning not in English** (7): новогодний (New Year’s), поступательный (progressivе, advancing), пенсионер (pensioner, متقاعد), переворот (coup, coup d'état), портьера (portière, door-curtain), кафе (café, coffee-house), инженер-строитель (inşaat mühəndisi)
+- **meaning not in English** (3): поступательный (progressivе, advancing), пенсионер (pensioner, متقاعد), инженер-строитель (inşaat mühəndisi)
 - **excluded by override** (3): ж (a clipped же, not a word to learn on its own), ко (a variant of к before some consonant clusters, taught with к), чтоб (a colloquial чтобы, taught with чтобы)
 - **repeated in the source** (2): все, бывший в употреблении
 
 ### Anomalies
 
-- **noun left out: spelt like a verb or other word** (12): стать (figure, character, type); тут (mulberry fruit); уж (grass snake); подать (tax, duty, assessment); чернеть (blacken, show black); каракуль (scrawl); помочь (help, assist, aid); полоть (weed); мочь (power, might); знать (nobility, noble people); выть (); насесть ()
+- **noun left out: spelt like a verb or other word** (15): стать (figure, character, type); тут (mulberry fruit); уж (grass snake); подать (tax, duty, assessment); чернеть (blacken, show black); каракуль (scrawl); помочь (help, assist, aid); полоть (weed); мочь (power, might); знать (nobility, noble people); выть (); насесть (); пропасть (precipice, abyss, chasm); печь (oven); перед (before)
 
 ## Sentences
 
@@ -383,10 +385,70 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 
 | count | n |
 |---|---:|
+| greetings: words | 19 |
+| greetings: words with a real sentence in use | 16 |
+| people: words | 27 |
+| people: words with a real sentence in use | 27 |
 | food: words | 36 |
 | food: words with a real sentence in use | 36 |
+| cafe: words | 27 |
+| cafe: words with a real sentence in use | 24 |
+| home: words | 26 |
+| home: words with a real sentence in use | 25 |
+| time: words | 34 |
+| time: words with a real sentence in use | 31 |
+| shopping: words | 22 |
+| shopping: words with a real sentence in use | 22 |
+| clothes: words | 28 |
+| clothes: words with a real sentence in use | 28 |
+| town: words | 30 |
+| town: words with a real sentence in use | 26 |
+| travel: words | 26 |
+| travel: words with a real sentence in use | 26 |
+| weather: words | 23 |
+| weather: words with a real sentence in use | 21 |
+| health: words | 28 |
+| health: words with a real sentence in use | 28 |
+| work: words | 23 |
+| work: words with a real sentence in use | 23 |
+| free-time: words | 25 |
+| free-time: words with a real sentence in use | 25 |
+| nature: words | 27 |
+| nature: words with a real sentence in use | 26 |
+| feelings: words | 25 |
+| feelings: words with a real sentence in use | 25 |
 
-food: 0 dialogue(s) published, 1 waiting for review.
+greetings: 0 dialogue(s) published, 0 waiting for review.
+
+people: 0 dialogue(s) published, 0 waiting for review.
+
+food: 0 dialogue(s) published, 0 waiting for review.
+
+cafe: 0 dialogue(s) published, 0 waiting for review.
+
+home: 0 dialogue(s) published, 0 waiting for review.
+
+time: 0 dialogue(s) published, 0 waiting for review.
+
+shopping: 0 dialogue(s) published, 0 waiting for review.
+
+clothes: 0 dialogue(s) published, 0 waiting for review.
+
+town: 0 dialogue(s) published, 0 waiting for review.
+
+travel: 0 dialogue(s) published, 0 waiting for review.
+
+weather: 0 dialogue(s) published, 0 waiting for review.
+
+health: 0 dialogue(s) published, 0 waiting for review.
+
+work: 0 dialogue(s) published, 0 waiting for review.
+
+free-time: 0 dialogue(s) published, 0 waiting for review.
+
+nature: 0 dialogue(s) published, 0 waiting for review.
+
+feelings: 0 dialogue(s) published, 0 waiting for review.
 
 ## Hand-made lists (curated/)
 

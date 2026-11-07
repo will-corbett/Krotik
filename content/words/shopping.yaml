@@ -1,0 +1,12 @@
+title: Shopping and money
+ru: Покупки и деньги
+level: A1
+blurb: Shops, prices, and buying what you need.
+names: []
+groups:
+  - title: Shops
+    words: ["магазин = shop", рынок, супермаркет, аптека, "касса = till, checkout", "продавец = shop assistant, seller", "покупка = purchase, shopping"]
+  - title: Money
+    words: ["деньги = money", "цена = price", "дорогой = expensive; dear", "дешёвый = cheap", "рубль = rouble", "копейка = kopek (1/100 rouble)", "сдача = change (money back)", "скидка = discount"]
+  - title: Buying
+    words: ["купить = buy", "покупать = buy", "продавать = sell", "стоить = cost", "выбрать = choose", "нужный = needed, necessary", "пакет = bag, packet"]

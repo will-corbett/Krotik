@@ -1,0 +1,12 @@
+title: Transport and travel
+ru: Транспорт и поездки
+level: A2
+blurb: Buses, trains and planes, tickets and trips.
+names: []
+groups:
+  - title: Transport
+    words: ["транспорт = transport", "автобус = bus", "трамвай = tram", метро, такси, поезд, "самолёт = plane", "машина = car", "остановка = stop (bus, tram)", "вокзал = railway station", аэропорт]
+  - title: Tickets
+    words: ["билет = ticket", "паспорт = passport", "багаж = luggage", чемодан, "место = place; seat", "рейс = flight (number), trip"]
+  - title: Going places
+    words: ["ехать = go (by transport)", "ездить = go, travel (by transport, often)", "лететь = fly", "приехать = arrive", "уехать = leave, go away", "опоздать = be late", "поездка = trip", "путешествие = journey, travels", "гостиница = hotel"]

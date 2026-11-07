@@ -1,0 +1,21 @@
+title: Food and drink
+ru: Еда и напитки
+level: A1
+blurb: Meals, what's on the table, and what to drink.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  рыба: 3005758
+  мясо: 3145389
+  каша: 10785438
+groups:
+  - title: Meals
+    words: [еда, "завтрак = breakfast", "обед = lunch", ужин, есть:v, пить, готовить]
+  - title: On the table
+    words: ["хлеб = bread", "масло = butter, oil", сыр, "мясо = meat", рыба, суп, "каша = porridge, kasha", "яйцо = egg", сахар, "соль = salt"]
+  - title: Fruit and vegetables
+    words: [яблоко, "картошка = potatoes", помидор, огурец, фрукт, овощ]
+  - title: Drinks
+    words: [вода, "чай = tea", кофе, молоко, "сок = juice", "вино = wine", пиво]
+  - title: Describing food
+    words: ["вкусный = tasty, delicious", "свежий = fresh", "горячий = hot", холодный, голодный, "сладкий = sweet"]

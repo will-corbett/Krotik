@@ -1,0 +1,17 @@
+title: Clothes
+ru: Одежда
+level: A1
+blurb: What you wear, colours and sizes.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  цвет: 2502740
+  красный:a: 11905715
+  белый:a: 9150806
+groups:
+  - title: Clothes
+    words: ["одежда = clothes", "рубашка = shirt", "футболка = T-shirt", "брюки = trousers", джинсы, "платье = dress", юбка, куртка, пальто, "шапка = hat, cap", "обувь = footwear, shoes", "ботинок = boot, shoe", носок]
+  - title: Colours
+    words: ["цвет = colour", белый:a, чёрный, красный:a, "синий = blue", зелёный:a, "жёлтый = yellow", "серый = grey"]
+  - title: Wearing and buying
+    words: ["носить = wear; carry", надеть, "снять = take off", "размер = size", "большой = big, large", "маленький = small, little", "новый = new"]

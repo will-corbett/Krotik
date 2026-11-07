@@ -1,0 +1,15 @@
+title: Work and study
+ru: Работа и учёба
+level: A2
+blurb: Jobs, the office, school and university.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  компания: 3862978
+groups:
+  - title: Work
+    words: ["работа = work, job", "работать = work", "профессия = profession, job", офис, "начальник = boss", коллега, "зарплата = salary, pay", компания]
+  - title: Jobs
+    words: ["учитель = teacher", "врач = doctor", инженер, программист, водитель, "продавец = shop assistant", "журналист = journalist"]
+  - title: Study
+    words: ["учиться = study, learn (at school, university)", "изучать = study (a subject)", университет, студент, "урок = lesson", "экзамен = exam", "задание = task, assignment", "учебник = textbook"]

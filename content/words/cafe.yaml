@@ -1,0 +1,18 @@
+title: At a café
+ru: В кафе
+level: A1
+blurb: Ordering, asking what there is, and paying the bill.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  кусок: 5176317
+  столик: 6640477
+groups:
+  - title: The place
+    words: ["кафе = café", ресторан, "столик = (small) table", "меню = menu", официант, "счёт = the bill"]
+  - title: Ordering
+    words: ["хотеть = want", "взять = take", "заказать = order", "принести = bring", "можно = may I, can I; it is possible", "ещё = more, another; still", "чашка = cup", стакан, "кусок = piece, slice"]
+  - title: On the menu
+    words: [пирог, "салат = salad", мороженое, торт, блин, "пицца = pizza"]
+  - title: Paying
+    words: [платить, сколько, "стоить = cost", "рубль = rouble", "карта = card; map", наличные]

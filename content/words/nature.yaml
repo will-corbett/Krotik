@@ -1,0 +1,16 @@
+title: Nature and animals
+ru: Природа и животные
+level: A2
+blurb: The countryside, plants, and animals wild and tame.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  поле: 11504645
+  рыба: 2816627
+groups:
+  - title: Nature
+    words: ["природа = nature", "лес = forest, woods", "поле = field", река, озеро, "море = sea", "гора = mountain", "дерево = tree", цветок, "трава = grass", "не'бо = sky"]
+  - title: Animals
+    words: ["животное = animal", собака, "кошка = cat", лошадь, корова, птица, рыба, медведь, волк, "лиса = fox"]
+  - title: In the country
+    words: ["деревня = village; the country", "дача = dacha, country cottage", сад, "огород = vegetable garden", "расти = grow", "собирать = gather, pick"]

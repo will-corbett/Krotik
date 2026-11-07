@@ -1,0 +1,16 @@
+title: Greetings and polite phrases
+ru: Приветствия и вежливые слова
+level: A1
+blurb: Hello and goodbye, please and thank you, and introducing yourself.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  пока:o: 3215349
+  простить: 2773531
+groups:
+  - title: Hello and goodbye
+    words: [здравствуйте, "привет = hi, hello (informal)", "пока:o = bye (informal); while", "утро = morning", "день:n = day", вечер, ночь]
+  - title: Being polite
+    words: [спасибо, пожалуйста, "извинить = excuse, forgive", "простить = forgive, excuse", да, нет]
+  - title: Meeting people
+    words: ["звать = call (меня зовут: my name is)", имя, "знакомиться = get to know, meet", "приятно = nice, pleasant", "очень = very, very much", "рад = glad"]

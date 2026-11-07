@@ -1,0 +1,12 @@
+title: Home
+ru: Дом
+level: A1
+blurb: Rooms, furniture and everyday life at home.
+names: []
+groups:
+  - title: Where you live
+    words: ["дом = house, home", "квартира = flat, apartment", этаж, комната, "кухня = kitchen", "спальня = bedroom", ванная, "туалет = toilet", балкон]
+  - title: Furniture and things
+    words: ["стол = table", стул, "кровать = bed", диван, "шкаф = cupboard, wardrobe", "окно = window", дверь, "лампа = lamp", "холодильник = fridge"]
+  - title: At home
+    words: [жить, спать, "убирать = tidy up, clear away", мыть, "открыть = open", "закрыть = close, shut", "удобный = comfortable, convenient", "чистый = clean"]

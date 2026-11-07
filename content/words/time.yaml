@@ -1,0 +1,14 @@
+title: Time, days and dates
+ru: Время и дни
+level: A1
+blurb: Telling the time, days of the week, months and plans.
+names: []
+groups:
+  - title: Time
+    words: ["время = time", "час = hour", "минута = minute", секунда, "рано = early", "поздно = late", "сейчас = now, right away", "скоро = soon"]
+  - title: Days and weeks
+    words: [понедельник, вторник, "среда = Wednesday", четверг, пятница, суббота, воскресенье, неделя, выходные]
+  - title: Months and years
+    words: ["месяц = month", год, январь, май, сентябрь, декабрь, "весна = spring", лето, осень, зима]
+  - title: Yesterday, today, tomorrow
+    words: [вчера, сегодня, завтра, всегда, "никогда = never", иногда, часто]

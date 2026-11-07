@@ -1,0 +1,15 @@
+title: Free time
+ru: Свободное время
+level: A2
+blurb: Hobbies, sport, films, books and going out.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  игра: 3235991
+groups:
+  - title: Hobbies
+    words: [хобби, спорт, футбол, музыка, книга, фильм, "кино = cinema, the movies", "игра = game; playing", "фотография = photograph; photography"]
+  - title: Doing things
+    words: [читать, смотреть, "слушать = listen (to)", "играть = play", "гулять = go for a walk", "плавать = swim", "бегать = run", танцевать, "отдыхать = rest, relax; be on holiday"]
+  - title: Going out
+    words: ["концерт = concert", "выставка = exhibition", вечеринка, друг, "встретиться = meet", "интересный = interesting", скучный]

@@ -1,0 +1,12 @@
+title: People and family
+ru: Люди и семья
+level: A1
+blurb: Your family, friends, and the people around you.
+names: []
+groups:
+  - title: Family
+    words: [семья, "мама = mum", "папа = dad", мать, отец, сын, дочь, брат, "сестра = sister", "бабушка = grandmother, granny", "дедушка = grandfather, grandpa", "муж = husband", "жена = wife", ребёнок]
+  - title: People
+    words: [человек, мужчина, "женщина = woman", "мальчик = boy", "девочка = girl", друг, подруга, сосед]
+  - title: Talking about people
+    words: ["молодой = young", "старый = old", жить, любить, возраст]

@@ -1,0 +1,17 @@
+title: Around town and directions
+ru: В городе
+level: A2
+blurb: Places in town, and asking and giving directions.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  мост: 5550116
+  пройти: 5885579
+  дорога: 721875
+groups:
+  - title: Places
+    words: ["город = town, city", улица, "площадь = square", "парк = park", музей, "театр = theatre", "банк = bank", "почта = post office; post", больница, "школа = school", церковь, "центр = centre"]
+  - title: Directions
+    words: [где, "куда = where (to)", "прямо = straight on", "налево = to the left", направо, "рядом = nearby, next to", "далеко = far", "близко = near, close", "напротив = opposite", "угол = corner"]
+  - title: Getting there
+    words: ["идти = go (on foot), walk", "пройти = get to, go past", "повернуть = turn", найти, искать, "карта = map", "дорога = road, way", мост]

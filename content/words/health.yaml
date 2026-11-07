@@ -1,0 +1,17 @@
+title: Body and health
+ru: Тело и здоровье
+level: A2
+blurb: Parts of the body, feeling ill, and seeing a doctor.
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
+use:
+  нос: 4674217
+  лицо: 2344772
+  ухо: 895393
+groups:
+  - title: The body
+    words: [тело, "голова = head", "лицо = face", глаз, ухо, "нос = nose", рот, зуб, рука, нога, спина, "живот = stomach, belly", сердце]
+  - title: Feeling ill
+    words: ["болеть = be ill; hurt", болезнь, "боль = pain", "температура = temperature", "простуда = a cold", кашель, "здоровый = healthy", "больной:a = ill, sick", "устать = get tired"]
+  - title: Getting better
+    words: ["врач = doctor", "лекарство = medicine", "таблетка = pill, tablet", "аптека = chemist, pharmacy", здоровье, "лечить = treat (an illness)"]
