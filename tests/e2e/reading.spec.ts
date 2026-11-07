@@ -2,6 +2,15 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { goTo } from './helpers.ts';
+import type { Page } from '@playwright/test';
+
+/** Open a text and wait until its words are laid out: web fonts load late on slow machines and reflow the text, so
+ * a tap measured before then can land between words. */
+async function openText(page: Page, path: string) {
+  await page.goto(path);
+  await expect(page.locator('.text button.w').first()).toBeVisible();
+  await page.evaluate(() => document.fonts.ready.then(() => undefined));
+}
 
 test('the Reading page lists Tolstoy stories and Chekhov scenes, from the menu', async ({ page }) => {
   await page.goto('./');
@@ -15,7 +24,7 @@ test('the Reading page lists Tolstoy stories and Chekhov scenes, from the menu',
 });
 
 test('hovering or tapping a word shows its dictionary form, meaning and form', async ({ page }) => {
-  await page.goto('reading/akula/');
+  await openText(page, 'reading/akula/');
   const word = page.locator('button.w', { hasText: /^корабль$/ }).first();
   if (test.info().project.name === 'mobile') await word.tap();
   else await word.hover();
@@ -24,7 +33,7 @@ test('hovering or tapping a word shows its dictionary form, meaning and form', a
   await expect(pop).toContainText('ship');
   await expect(pop).toContainText('nominative singular');
   // A word at the left edge of a phone screen keeps its box on screen.
-  await page.goto('reading/predlozhenie-6/');
+  await openText(page, 'reading/predlozhenie-6/');
   await page.locator('button.w', { hasText: /^подуздоват$/ }).first().click();
   const box = (await page.getByRole('tooltip').boundingBox())!;
   const width = page.viewportSize()!.width;
@@ -33,7 +42,7 @@ test('hovering or tapping a word shows its dictionary form, meaning and form', a
 });
 
 test('old-fashioned words, the polite -с and names are labelled', async ({ page }) => {
-  await page.goto('reading/medved-1/');
+  await openText(page, 'reading/medved-1/');
   await page.locator('button.w', { hasText: /^ежели$/ }).first().click();
   await expect(page.getByRole('tooltip')).toContainText('Old-fashioned');
   await page.locator('button.w', { hasText: /^Слушаю-с$/ }).first().click();
@@ -44,7 +53,7 @@ test('old-fashioned words, the polite -с and names are labelled', async ({ page
 });
 
 test('keyboard: one Tab stop for the text, arrow keys move from word to word and show each one', async ({ page }) => {
-  await page.goto('reading/akula/');
+  await openText(page, 'reading/akula/');
   const words = page.locator('.text button.w');
   await words.first().focus();
   await expect(page.getByRole('tooltip')).toContainText('наш');
@@ -58,7 +67,7 @@ test('keyboard: one Tab stop for the text, arrow keys move from word to word and
 });
 
 test('questions: answer, check, see the right answers; switch to Russian; try again', async ({ page }) => {
-  await page.goto('reading/akula/');
+  await openText(page, 'reading/akula/');
   const check = page.getByRole('button', { name: 'Check answers' });
   await expect(check).toBeDisabled();
   const groups = page.locator('.questions fieldset');
@@ -96,7 +105,7 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
     await page.goto('reading/');
     await expect(page.locator('main')).not.toContainText('Loading…');
     await scan('index');
-    await page.goto('reading/medved-1/');
+    await openText(page, 'reading/medved-1/');
     await page.locator('button.w', { hasText: /^ежели$/ }).first().click();
     await scan('text, word open');
     const groups = page.locator('.questions fieldset');
