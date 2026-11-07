@@ -180,8 +180,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   word groups, optional `use` (word → Tatoeba id, where the shortest sentence is an idiom or off-theme) and dialogues.
   Words are named by dictionary form (`есть:v` for a spelling that is several words, `не'бо` by stress, `"соль =
   salt"` for our own meaning); the build fails unless each is exactly one word in the lists. Each word gets the
-  shortest real Tatoeba sentence using it (never a crude or violent one), shown under its row: hovering (mouse) floats
-  it over the rows below; a click, tap or Enter opens it in place. Dialogues use the Reading machinery
+  shortest real Tatoeba sentence using it (never a crude or violent one), opened under its row by the arrow beside
+  the word. Dialogues use the Reading machinery
   (`ExplainedText.svelte`: every word tappable; English on request); names in them must be declared in `names`.
   Output: `themes.json` + `theme.<id>.json`, prerendered and in the sitemap. Theme pages practise their words both
   ways round (App's `practise(keys, direction)`) and add them to My words. The word lists also take every source noun,

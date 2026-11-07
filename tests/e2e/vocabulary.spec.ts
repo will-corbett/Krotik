@@ -28,47 +28,31 @@ test('Vocabulary is in the menu and on the home page (beside Grammar); themes ar
   await expect(page).toHaveTitle(/Food and drink/);
 });
 
-test('a theme: its words with gender or aspect and meaning; each opens to a real sentence; dialogues waiting for review', async ({ page }) => {
+test('a theme: its words with gender or aspect and meaning; an arrow opens a real sentence for each; dialogues waiting for review', async ({ page }) => {
   await page.goto('vocabulary/food/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Еда и напитки');
   const bread = page.locator('.words li', { hasText: 'хлеб' }).first();
   await expect(bread).toContainText('masculine');
   await expect(bread).toContainText('bread');
-  await expect(page.locator('.words li', { hasText: /^есть/ })).toContainText('imperfective');
-  // A row opens to its example (click or tap; Enter from the keyboard), and closes again.
-  const row = page.getByRole('button', { name: /^хлеб/ });
-  await expect(row).toHaveAttribute('aria-expanded', 'false');
-  await row.click();
-  await expect(row).toHaveAttribute('aria-expanded', 'true');
-  const example = page.locator(`#${await row.getAttribute('aria-controls')}`);
+  await expect(page.locator('.words .word', { hasText: /^есть/ })).toContainText('imperfective');
+  // The arrow beside a word opens its example underneath (click, tap or Enter), and closes it again.
+  const arrow = page.getByRole('button', { name: 'Example: хлеб' });
+  await expect(arrow).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.locator('.example')).toHaveCount(0);
+  await arrow.click();
+  await expect(arrow).toHaveAttribute('aria-expanded', 'true');
+  const example = page.locator(`#${await arrow.getAttribute('aria-controls')}`);
   await expect(example).toContainText('Tatoeba #');
   await expect(example.locator('mark')).toBeVisible();
-  await row.press('Enter');
-  await expect(row).toHaveAttribute('aria-expanded', 'false');
-  // With a mouse, hovering shows it too, floating over the rows below (they don't move).
-  if (test.info().project.name === 'desktop') {
-    const next = page.getByRole('button', { name: /^сыр/ });
-    await row.evaluate((e) => e.scrollIntoView({ block: 'center' }));
-    const before = (await next.boundingBox())!.y;
-    await row.hover();
-    await expect(page.locator('.example.float')).toContainText('Tatoeba #');
-    expect((await next.boundingBox())!.y).toBe(before);
-    // The mouse can move from the row onto the example, and it stays.
-    const float = page.locator('.example.float');
-    const box = (await float.boundingBox())!;
-    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 5 });
-    await expect(float).toBeVisible();
-    await expect(float.getByRole('link', { name: /Tatoeba #/ })).toBeVisible();
-    // Off it, it goes.
-    await page.mouse.move(box.x - 100, box.y + box.height / 2, { steps: 5 });
-    await expect(float).toHaveCount(0);
-    // A row low on the screen shows its example above it, where there's room.
-    await row.evaluate((e) => e.scrollIntoView({ block: 'end' }));
-    await page.mouse.move(0, 0);
-    await row.hover();
-    const low = (await float.boundingBox())!;
-    expect(low.y + low.height).toBeLessThanOrEqual((await row.boundingBox())!.y + 1);
-  }
+  // It sits under its own row, above the next word's.
+  const next = (await page.getByRole('button', { name: 'Example: сыр' }).boundingBox())!;
+  expect((await example.boundingBox())!.y).toBeLessThan(next.y);
+  await arrow.press('Enter');
+  await expect(arrow).toHaveAttribute('aria-expanded', 'false');
+  await expect(example).toHaveCount(0);
+  // Hovering a word shows nothing.
+  await page.locator('.words li', { hasText: 'хлеб' }).first().hover();
+  await expect(page.locator('.example')).toHaveCount(0);
   await expect(page.getByText(/waiting for a native speaker's check/)).toBeVisible();
   // Nothing unreviewed is ever served.
   const data = await page.evaluate(() => fetch(`${location.pathname.replace(/vocabulary\/food\/$/, '')}data/theme.food.json`).then((r) => r.json()));
@@ -137,7 +121,7 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
       await page.goto(url);
       await expect(page.locator('main')).not.toContainText('Loading…');
       if (url === 'vocabulary/food/') {
-        await page.getByRole('button', { name: /^хлеб/ }).click();
+        await page.getByRole('button', { name: 'Example: хлеб' }).click();
         await page.getByLabel('Show English').check();
         await page.getByRole('group', { name: /Dialogue/ }).locator('button.w').first().click();
       }

@@ -59,19 +59,8 @@
   const chip = (w: ThemeWord) => (w[3] === 'n' || w[3] === 'v' ? (CHIP[w[4]] ?? '') : '');
   const head = (w: ThemeWord) => renderForm(w[1].split(',')[0]!, settings.stress);
 
-  /**
-   * Each word's real sentence: hovering a row (mouse) floats it under the row, so the list doesn't move as you go down
-   * it; clicking, tapping or Enter opens it in the row and keeps it open (again to close).
-   */
+  /** Each word's real sentence opens under its row from the arrow beside the word (again to close). */
   let open = $state(new Set<string>());
-  let hover = $state<string | null>(null);
-  /** The hovered example floats above its row when there isn't room for it below (the row is low on the screen). */
-  let above = $state(false);
-  function hoverRow(e: PointerEvent, k: string) {
-    if (e.pointerType !== 'mouse') return;
-    above = (e.currentTarget as HTMLElement).getBoundingClientRect().bottom + 160 > innerHeight;
-    hover = k;
-  }
   function toggle(k: string) {
     const next = new Set(open);
     if (next.has(k)) next.delete(k);
@@ -96,7 +85,7 @@
       {/if}
     </div>
 
-    <p class="muted small hint">Hover over a word, or tap it, to see it in a real sentence.</p>
+    <p class="muted small hint">Press the arrow beside a word to see it in a real sentence.</p>
 
     {#each theme.groups as g, gi (gi)}
       <section class="group" aria-labelledby="g-{gi}">
@@ -105,33 +94,32 @@
           {#each g.words as w (w[0])}
             {@const use = theme.uses[w[0]]}
             {@const isOpen = open.has(w[0])}
-            <li
-              class:open={isOpen}
-              onpointerenter={(e) => use && hoverRow(e, w[0])}
-              onpointerleave={(e) => e.pointerType === 'mouse' && hover === w[0] && (hover = null)}
-            >
+            <li class:open={isOpen}>
               <div class="row">
                 {#if use}
-                  <button type="button" class="word" aria-expanded={isOpen} aria-controls="ex-{w[0].replace(':', '-')}" onclick={() => toggle(w[0])}>
-                    <span class="head" lang="ru">{head(w)}</span>
-                    {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
-                    <span class="meaning">{w[2]}</span>
-                    <span class="more" aria-hidden="true">{isOpen ? '▴' : '▾'}</span>
-                    <span class="visually-hidden">{isOpen ? 'Hide' : 'Show'} an example</span>
-                  </button>
+                  <button
+                    type="button"
+                    class="arrow"
+                    aria-expanded={isOpen}
+                    aria-controls="ex-{w[0].replace(':', '-')}"
+                    aria-label="Example: {bare(w[1].split(',')[0]!)}"
+                    onclick={() => toggle(w[0])}
+                    ><svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></button
+                  >
                 {:else}
-                  <span class="word plain">
-                    <span class="head" lang="ru">{head(w)}</span>
-                    {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
-                    <span class="meaning">{w[2]}</span>
-                  </span>
+                  <span class="arrow-space" aria-hidden="true"></span>
                 {/if}
+                <span class="word">
+                  <span class="head" lang="ru">{head(w)}</span>
+                  {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
+                  <span class="meaning">{w[2]}</span>
+                </span>
                 {#if canSpeak}
                   <button type="button" class="btn quiet hear" onclick={() => speak(bare(w[1].split(',')[0]!))} aria-label="Hear {bare(w[1].split(',')[0]!)}"><span aria-hidden="true">🔊</span></button>
                 {/if}
               </div>
-              {#if use && (isOpen || hover === w[0])}
-                <div id="ex-{w[0].replace(':', '-')}" class="example" class:float={!isOpen} class:above={!isOpen && above}>
+              {#if use && isOpen}
+                <div id="ex-{w[0].replace(':', '-')}" class="example">
                   <Sentence row={[use[0], use[1], use[2], 0, use[3], use[4]]} />
                 </div>
               {/if}
@@ -233,59 +221,44 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: 2px 10px;
-    padding: 6px 4px;
-    margin: 0;
-    font: inherit;
-    color: inherit;
-    text-align: left;
-    background: none;
-    border: 0;
-    border-radius: 4px;
+    padding: 6px 0;
   }
-  button.word {
+  /* The arrow beside the word: points right when closed, down when its example is open. */
+  .arrow,
+  .arrow-space {
+    flex: none;
+    width: 32px;
+    height: 32px;
+  }
+  .arrow {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
     cursor: pointer;
   }
-  button.word:hover,
-  li.open button.word {
+  .arrow svg {
+    transform: rotate(-90deg);
+  }
+  .arrow[aria-expanded='true'] svg {
+    transform: rotate(0deg);
+  }
+  .arrow:hover,
+  .arrow[aria-expanded='true'] {
     background: var(--mark);
   }
-  /* On the highlighted row, muted text would be too faint (dark theme): full colour. */
-  button.word:hover .chip,
-  li.open .chip,
-  button.word:hover .more,
-  li.open .more {
-    color: var(--text);
-  }
-  .more {
-    margin-left: auto;
-    color: var(--muted);
-    font-size: 0.8rem;
+  @media (prefers-reduced-motion: no-preference) {
+    .arrow svg {
+      transition: transform 150ms ease;
+    }
   }
   .example {
     padding: 6px 10px 10px;
     border-left: 3px solid var(--primary-bg);
-    margin: 0 0 8px 4px;
-  }
-  /*
-   * Hovered (not opened): floats under the row, over the next ones, so nothing below moves. It belongs to the row, so
-   * the mouse can move onto it (to read it or follow the Tatoeba link) without it closing.
-   */
-  .example.float {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 100%;
-    z-index: 5;
-    margin: 0;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--primary-bg);
-    border-radius: var(--radius);
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
-  }
-  .example.float.above {
-    top: auto;
-    bottom: 100%;
+    margin: 0 0 8px 38px;
   }
   .hint {
     margin: 10px 0 0;
