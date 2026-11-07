@@ -61,13 +61,14 @@ async function partners(): Promise<PartnerPicker> {
 }
 
 /** Load the data for these settings once; the returned function generates any number of questions. */
-export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: string[] } = {}): Promise<Generate> {
+export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string, number][] } = {}): Promise<Generate> {
   switch (s.mode) {
     case 'vocab': {
       // Words to ask: the given keys (Reading's key words), your due words, or the commonest up to the band.
       const record = opts.keys || s.vocab.source !== 'mine' ? null : loadWords();
-      const due = record ? dueKeys(record, today()) : opts.keys;
-      const maxBand = due ? Math.max(0, ...due.map((k) => record?.words[k]?.b ?? 3)) : s.band;
+      const due = record ? dueKeys(record, today()) : opts.keys?.map(([k]) => k);
+      const bandOf = (k: string) => record?.words[k]?.b ?? opts.keys?.find(([x]) => x === k)?.[1] ?? 3;
+      const maxBand = due ? Math.max(0, ...due.map(bandOf)) : s.band;
       const all = await loadWordList(maxBand);
       const types = new Set(s.vocab.types);
       const byKey = new Map(all.map((w) => [w.key, w]));
@@ -84,8 +85,8 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: string[
         ...adjs.map((adjective) => [`a:${adjective.id}`, { kind: 'adjective', adjective }] as [string, ParadigmRef]),
       ]);
       const pool = { all, paradigm: (w: Word) => lex.get(w.key) };
-      // Your due words come in order, most overdue first; the commonest words at random.
-      return (n) => generateVocabQuestions(targets, pool, s.vocab, n, rng, !!due);
+      // Your due words come in order, most overdue first; other words (the commonest, a text's key words) at random.
+      return (n) => generateVocabQuestions(targets, pool, s.vocab, n, rng, !!record);
     }
     case 'mixed': {
       // Each topic with its own saved settings; questions interleaved at random, each topic about equally often.

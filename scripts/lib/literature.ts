@@ -135,7 +135,16 @@ export interface Lexicon {
   wiktionary: Record<string, [string, string, string, 0 | 1]>;
   /** words Wiktionary has only as archaic, obsolete or dated */
   old: Set<string>;
+  /** vocabulary list key → its band, for words in the lists (scripts/lib/vocab.ts) */
+  wordBand: (key: string) => number | undefined;
+  /** among the commonest word forms in the independent frequency list (guards against the source's misplaced ranks) */
+  commonForm: (form: string) => boolean;
 }
+/** A reading with its vocabulary key and band, when the word is in the lists. */
+const withKey = (r: [string, string, string, string], key: string, lex: Lexicon): WordReading => {
+  const b = lex.wordBand(key);
+  return b === undefined ? r : [...r, key, b];
+};
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 const bits = (m: number) => [...Array(31).keys()].filter((i) => m & (1 << i));
@@ -184,15 +193,15 @@ export function explain(token: string, name: boolean, lex: Lexicon): WordReading
       const id = Number(idS);
       const l = type === 'verbs' ? lex.verb(id) : type === 'nouns' ? lex.noun(id) : lex.adjective(id);
       if (!l) continue;
-      out.push([l.accented, l.gloss, join3(formLabels(type, mask, (l as { aspect?: Aspect }).aspect)), flags]);
+      out.push(withKey([l.accented, l.gloss, join3(formLabels(type, mask, (l as { aspect?: Aspect }).aspect)), flags], `${type[0]}:${id}`, lex));
     } else if (type === 'other') {
       const o = lex.other(idS);
-      if (o) out.push([o[0], o[1], '', flags]);
+      if (o) out.push(withKey([o[0], o[1], '', flags], `o:${normalise(idS)}`, lex));
     }
   }
   for (const [dict, form] of lex.pronoun(f)) {
     const o = lex.other(normalise(dict));
-    out.push([dict, o?.[1] ?? '', form, flags]);
+    out.push(withKey([dict, o?.[1] ?? '', form, flags], `o:${normalise(dict)}`, lex));
   }
   if (!out.length && lex.wiktionary[f]) {
     const [dict, gloss, tags] = lex.wiktionary[f]!;
@@ -206,13 +215,17 @@ export function explain(token: string, name: boolean, lex: Lexicon): WordReading
     const k = `${r[0]}|${r[1]}`;
     const prev = seen.get(k);
     if (prev) prev[2] = join3([prev[2], r[2]]);
-    else seen.set(k, [...r]);
+    else seen.set(k, [...r] as WordReading);
   }
   return [...seen.values()].slice(0, 4);
 }
 
 const PARTICLES: Record<string, string> = { то: 'with the particle -то (emphasis)', ка: 'with the particle -ка (softens a request)', таки: 'with the particle -таки (after all)' };
-const note = (r: WordReading[], n: string): WordReading[] => r.map((x) => [x[0], x[1], x[2] ? `${x[2]}; ${n}` : n, x[3]]);
+const note = (r: WordReading[], n: string): WordReading[] => r.map((x) => {
+  const y = [...x] as WordReading;
+  y[2] = x[2] ? `${x[2]}; ${n}` : n;
+  return y;
+});
 
 /**
  * A word, including the hyphenated shapes of speech in the texts: a particle (красота-то), a word said twice
@@ -246,6 +259,30 @@ export function explainWord(token: string, name: boolean, lex: Lexicon): WordRea
   const hand = LITERATURE_GLOSSES[fold(token)];
   if (hand) return [[token.toLowerCase(), hand.replace(/^\(old\) /, ''), '', hand.startsWith('(old) ') ? 'ho' : 'h']];
   return direct;
+}
+
+export const KEY_WORDS_MAX = 15;
+/**
+ * The text's words worth learning before you read: in the vocabulary lists but outside the 1,000 commonest of their
+ * type (band 2 or 3) and not among the commonest forms in the frequency list, not names or old-fashioned words, with
+ * one clear reading, in order of first appearance.
+ */
+export function keyWords(lines: ReadingLine[], words: Record<string, WordReading[]>, commonForm: (form: string) => boolean = () => false): [string, number, string, string][] {
+  const out = new Map<string, [string, number, string, string]>();
+  for (const l of lines) {
+    if (l[2]) continue; // stage directions
+    for (const m of l[1].matchAll(TOKEN)) {
+      const rs = words[fold(m[0])] ?? [];
+      const keyed = rs.filter((r) => r.length === 6);
+      if (keyed.length !== 1 || rs.length !== 1) continue;
+      const [dict, meaning, , flags, key, band] = keyed[0] as [string, string, string, string, string, number];
+      // The source ranks a few common words as rare (стать, белый): the frequency list overrules it here.
+      if (band < 2 || /[onh]/.test(flags) || out.has(key) || commonForm(normalise(dict.split(',')[0]!.replace(/'/g, '')))) continue;
+      out.set(key, [key, band, dict, meaning]);
+      if (out.size >= KEY_WORDS_MAX) return [...out.values()];
+    }
+  }
+  return [...out.values()];
 }
 
 /** Each distinct word of a text with its readings, and the words that couldn't be explained. */
@@ -307,7 +344,7 @@ export function buildReading(lex: Lexicon, report: Report): { index: ReadingInde
     for (const x of q.questions) {
       if (x.en.options.length !== x.ru.options.length || x.answer < 0 || x.answer >= x.en.options.length) throw new Error(`content/reading/questions.yaml: ${q.id}: question options don't match`);
     }
-    units.push({ id: q.id, w: wi, title: q.title ?? s.title, genre: s.genre, lines: s.lines, words, questions: q.questions });
+    units.push({ id: q.id, w: wi, title: q.title ?? s.title, genre: s.genre, lines: s.lines, words, keyWords: keyWords(s.lines, words, lex.commonForm), questions: q.questions });
   }
   const index: ReadingIndex = {
     works: LITERATURE.map((w) => ({ id: w.id, author: w.author, authorEn: w.authorEn, title: w.title, titleEn: w.titleEn, year: w.year, kind: w.kind, level: w.level, source: `https://ru.wikisource.org/w/index.php?oldid=${w.revision}` })),

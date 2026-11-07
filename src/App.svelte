@@ -67,6 +67,7 @@
 
   function applyRoute(next: Route) {
     visited++;
+    practice = null;
     // Arriving at a Drill address (a link, Back or Forward) always shows that page, choose or settings: a round
     // in progress is left (starting a round never changes the address, so this can't end one by accident).
     if (next.page === 'drill') screen = 'setup';
@@ -114,20 +115,31 @@
     return p ? Number(p) : Math.floor(Math.random() * 2 ** 31);
   }
 
+  /** Reading's key words: a "choose the meaning" round on just these words (kept for "again" until you leave). */
+  let practice = $state<[string, number][] | null>(null);
+  function practise(keys: [string, number][]) {
+    navigate(href({ page: 'drill', mode: 'vocab' }));
+    practice = keys;
+    start();
+  }
+
   async function start() {
     loading = true;
     error = '';
     shortfall = '';
     try {
-      const gen = await prepareRound($state.snapshot(settings) as Settings, mulberry32(seed()));
-      const unlimited = settings.count === 0;
-      const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(settings.count);
+      const s = $state.snapshot(settings) as Settings;
+      const gen = practice
+        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: 'recognise' } }, mulberry32(seed()), { keys: practice })
+        : await prepareRound(s, mulberry32(seed()));
+      const unlimited = settings.count === 0 && !practice;
+      const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(practice ? practice.length : settings.count);
       generate = unlimited ? gen : null;
       if (!qs.length) {
         error = 'No questions match these settings. Try a larger vocabulary or more options.';
         return;
       }
-      if (!unlimited && qs.length < settings.count)
+      if (!unlimited && !practice && qs.length < settings.count)
         shortfall = settings.mode === 'vocab' && settings.vocab.source === 'mine' ? `${qs.length} of your words ${qs.length === 1 ? 'is' : 'are'} due.` : `Only ${qs.length} questions match these settings.`;
       round = createRound(qs);
       screen = 'drill';
@@ -144,6 +156,7 @@
   /** The settings page for the current drill (from the round's end screen). */
   function openSettings() {
     screen = 'setup';
+    practice = null;
     const target = href({ page: 'drill', mode: settings.mode });
     if (location.pathname !== target) navigate(target);
   }
@@ -273,7 +286,7 @@
     {:else if route.page === 'test'}
       <LevelTest {settings} />
     {:else if route.page === 'reading' && route.text}
-      <ReadingText id={route.text} bind:settings />
+      <ReadingText id={route.text} bind:settings onpractise={practise} />
     {:else if route.page === 'reading'}
       <ReadingIndex />
     {:else if route.page === 'culture' && route.note}
@@ -285,7 +298,7 @@
     {:else if screen === 'drill' && round}
       <Drill {round} bind:settings notice={shortfall} more={generate} onfinish={finish} />
     {:else if screen === 'end' && round}
-      <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0} onagain={start} onsettings={openSettings} />
+      <EndScreen {round} stress={settings.stress} unlimited={settings.count === 0 && !practice} onagain={start} onsettings={openSettings} />
     {:else if route.page === 'drill' && !route.mode}
       <DrillChoose bind:settings onnext={(m) => navigate(href({ page: 'drill', mode: m }))} />
     {:else}

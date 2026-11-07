@@ -141,6 +141,8 @@ const words = buildWords(
 );
 const wordShards = writeBandsByRank('words', words.rows, words.rank);
 const wordBand = new Map(words.rows.map((r) => [r[0], bandOf(words.rank(r))]));
+// The 3,000 commonest word forms in the independent frequency list (Reading's key words leave these out).
+const commonForms = new Set([...freq].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, 3000).map(([w]) => w));
 
 const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
 const adjectiveBares = new Set(adjectives.map((a) => a.bare));
@@ -190,6 +192,8 @@ const reading = buildReading(
     pronoun: (f) => pronounForms.get(f) ?? [],
     wiktionary: wk.checkedInfo,
     old: new Set(wk.checkedOld),
+    wordBand: (k) => wordBand.get(k),
+    commonForm: (f) => commonForms.has(f),
   },
   report,
 );

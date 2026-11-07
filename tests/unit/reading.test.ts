@@ -58,6 +58,8 @@ describe('explaining words', () => {
     pronoun: () => [],
     wiktionary: { ежели: ["е'жели", 'if', '', 1] },
     old: new Set(['ежели']),
+    wordBand: () => undefined,
+    commonForm: () => false,
   };
   it('a word from our data: dictionary form, meaning and which form it is', () => {
     expect(explainWord('слушаю', false, lex)).toEqual([["слу'шать", 'listen', 'present, я', '']]);
@@ -117,5 +119,30 @@ describe.skipIf(!built)('the published texts', () => {
     const all = new Set(units.flatMap((u) => Object.keys(u.words)));
     for (const k of Object.keys(cfg.glosses)) expect(used.has(k) || !all.has(k), `gloss ${k}`).toBe(true);
     expect(Object.keys(cfg.glosses).filter((k) => used.has(k)).length).toBeGreaterThan(30);
+  });
+});
+
+describe('vocabulary links', () => {
+  it('a reading carries its word key and band when the word is in the lists; key words are the rarer ones', async () => {
+    const { explain: ex, keyWords } = await import('../../scripts/lib/literature.ts');
+    const lex = {
+      owners: new Map([['красота', new Set(['nouns:2'])], ['слушаю', new Set(['verbs:1'])], ['ежели', new Set(['other:ежели'])]]),
+      masks: new Map([['красота|nouns:2', 1], ['слушаю|verbs:1', 1]]),
+      verb: () => ({ accented: "слу'шать", gloss: 'listen', aspect: 'impf' as const }),
+      noun: () => ({ accented: "красота'", gloss: 'beauty' }),
+      adjective: () => undefined,
+      other: (b: string) => (b === 'ежели' ? (["е'жели", 'if'] as [string, string]) : undefined),
+      pronoun: () => [],
+      wiktionary: {},
+      old: new Set<string>(),
+      wordBand: (k: string) => ({ 'n:2': 2, 'v:1': 3 })[k],
+      commonForm: (f: string) => f === 'слушать',
+    };
+    expect(ex('красота', false, lex)[0]).toEqual(["красота'", 'beauty', 'nominative singular', '', 'n:2', 2]);
+    expect(ex('ежели', false, lex)[0]).toHaveLength(4); // not in the word lists
+    const words = { красота: ex('красота', false, lex), слушаю: ex('слушаю', false, lex) };
+    // слушать is band 3 in the source but among the commonest forms in the frequency list: not a key word.
+    expect(keyWords([['', 'Слушаю: красота, красота!', 0]], words)).toHaveLength(2);
+    expect(keyWords([['', 'Слушаю: красота, красота!', 0]], words, lex.commonForm)).toEqual([['n:2', 2, "красота'", 'beauty']]);
   });
 });

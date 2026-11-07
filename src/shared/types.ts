@@ -150,9 +150,10 @@ export interface LevelTestData {
 export type ReadingLine = [string, string, 0 | 1];
 /**
  * What a word in a reading text can be: [dictionary form (stress marked), English meaning, which form ("" if none),
- * flags: o = old-fashioned (Wiktionary has it only as archaic, obsolete or dated), s = with the old polite -с, n = a name].
+ * flags: o = old-fashioned (Wiktionary has it only as archaic, obsolete or dated), s = with the old polite -с, n = a name,
+ * and, when the word is in the vocabulary lists, its key and band (so it can be added to your words)].
  */
-export type WordReading = [string, string, string, string];
+export type WordReading = [string, string, string, string] | [string, string, string, string, string, number];
 export interface ReadingQuestion {
   q: string;
   options: string[];
@@ -167,6 +168,11 @@ export interface ReadingUnit {
   lines: ReadingLine[];
   /** normalised word → its readings */
   words: Record<string, WordReading[]>;
+  /**
+   * Key words: words of the text outside the 1,000 commonest of their type, in order of first appearance (at most
+   * KEY_WORDS_MAX): [word key, band, dictionary form, meaning].
+   */
+  keyWords: [string, number, string, string][];
   /** options in the same order in both languages; `answer` is the right one's index */
   questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion }[];
 }

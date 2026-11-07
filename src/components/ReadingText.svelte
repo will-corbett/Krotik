@@ -7,12 +7,14 @@
   import { renderForm } from '../shared/forms.ts';
   import { normalise } from '../shared/normalise.ts';
   import type { ReadingIndex, ReadingUnit, WordReading } from '../shared/types.ts';
+  import { today } from '../lib/progress.ts';
+  import { addWords, loadWords, saveWords } from '../lib/words.ts';
 
   /**
    * One story or scene. Every word is a button: hovering, tapping or focusing it shows what it is (dictionary form,
    * meaning, which form). Arrow keys move between words, so the text is one Tab stop. Questions follow the text.
    */
-  let { id, settings = $bindable() }: { id: string; settings: Settings } = $props();
+  let { id, settings = $bindable(), onpractise }: { id: string; settings: Settings; onpractise: (keys: [string, number][]) => void } = $props();
   let unit = $state<ReadingUnit | null>(null);
   let index = $state<ReadingIndex | null>(null);
   let error = $state('');
@@ -64,6 +66,7 @@
   let buttons: HTMLButtonElement[] = [];
 
   function show(e: Event, word: string, i: number) {
+    clearTimeout(hideTimer);
     active = i;
     const readings = unit?.words[normalise(word)] ?? [];
     const btn = e.currentTarget as HTMLElement;
@@ -93,6 +96,23 @@
     h: 'Our explanation: this word isn’t in our dictionaries.',
   };
 
+  // ---- your words (opt-in: only while progress is on)
+  let mineKeys = $state(new Set(Object.keys(loadWords().words)));
+  function add(items: [string, number][]) {
+    if (!settings.progress) return;
+    const w = addWords(loadWords(), items, today());
+    saveWords(w);
+    mineKeys = new Set(Object.keys(w.words));
+  }
+  const keyed = (r: WordReading): r is [string, string, string, string, string, number] => r.length === 6;
+  const allIn = $derived(!!unit && unit.keyWords.every(([k]) => mineKeys.has(k)));
+  // A mouse moving from a word to its box (to press Add) mustn't close it on the way.
+  let hideTimer: ReturnType<typeof setTimeout> | undefined;
+  function hideSoon() {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(hide, 250);
+  }
+
   // ---- questions
   let answers = $state<(number | undefined)[]>([]);
   let checked = $state(false);
@@ -103,7 +123,7 @@
 <!-- A click or tap shows a word (it also counts as hover and focus, so it never toggles); anywhere else hides it. -->
 <svelte:window
   onkeydown={(e) => e.key === 'Escape' && hide()}
-  onclick={(e) => !(e.target as Element | null)?.closest?.('.w') && hide()}
+  onclick={(e) => !(e.target as Element | null)?.closest?.('.w, .pop') && hide()}
 />
 
 <article class="reading fade-in" aria-labelledby="text-title">
@@ -117,6 +137,24 @@
       ({work.year}). Public domain, from <a href={work.source} rel="noopener" target="_blank">Russian Wikisource</a>.
     </p>
     <p class="hint muted">Hover over or tap a word to see what it means. With a keyboard, Tab into the text and use the arrow keys.</p>
+
+    {#if unit.keyWords.length >= 3}
+      <details class="key-words">
+        <summary>Key words before you read <span class="muted">({unit.keyWords.length})</span></summary>
+        <p class="muted small">Words in this text that aren't among the 1,000 commonest.</p>
+        <ul>
+          {#each unit.keyWords as [key, , dict, meaning] (key)}
+            <li><strong lang="ru">{renderForm(dict.split(',')[0]!, true)}</strong> <span>{meaning}</span></li>
+          {/each}
+        </ul>
+        <div class="kw-actions">
+          <button type="button" class="btn" onclick={() => onpractise(unit!.keyWords.map(([k, b]) => [k, b]))}>Practise these</button>
+          {#if settings.progress}
+            <button type="button" class="btn quiet" disabled={allIn} onclick={() => add(unit!.keyWords.map(([k, b]) => [k, b]))}>{allIn ? 'All in your words ✓' : 'Add all to my words'}</button>
+          {/if}
+        </div>
+      </details>
+    {/if}
 
     <!-- Hover is for a real mouse only: touch screens send imitation mouse events that differ between browsers. A tap,
          a click or keyboard focus shows a word; it closes on Escape, a tap elsewhere, or focus leaving the text. -->
@@ -137,7 +175,7 @@
                 tabindex={active === wi ? 0 : -1}
                 bind:this={buttons[wi]}
                 onpointerenter={(e) => e.pointerType === 'mouse' && show(e, p.text, wi)}
-                onpointerleave={(e) => e.pointerType === 'mouse' && hide()}
+                onpointerleave={(e) => e.pointerType === 'mouse' && hideSoon()}
                 onfocus={(e) => show(e, p.text, wi)}
                 onclick={(e) => show(e, p.text, wi)}
                 onkeydown={(e) => move(e, wi)}
@@ -147,7 +185,17 @@
       {/each}
 
       {#if shown}
-        <div id="word-info" class="pop" class:below={shown.below} role="tooltip" style="left: {shown.x}px; top: {shown.y}px" lang="en">
+        {@const addable = settings.progress ? shown.readings.filter(keyed).filter((r) => !r[3].includes('n')) : []}
+        <div
+          class="pop"
+          class:below={shown.below}
+          style="left: {shown.x}px; top: {shown.y}px"
+          lang="en"
+          role="presentation"
+          onpointerenter={() => clearTimeout(hideTimer)}
+          onpointerleave={(e) => e.pointerType === 'mouse' && hideSoon()}
+        >
+        <div id="word-info" role="tooltip">
           {#if !shown.readings.length}
             <p><strong lang="ru">{shown.word}</strong></p>
           {/if}
@@ -162,6 +210,14 @@
               {/if}
             </div>
           {/each}
+        </div>
+        {#each addable as r (r[4])}
+          {#if mineKeys.has(r[4])}
+            <p class="added muted">In your words ✓</p>
+          {:else}
+            <button type="button" class="btn small-btn add" onclick={() => add([[r[4], r[5]]])}>Add {addable.length > 1 ? renderForm(r[0].split(',')[0]!, true) : ''} to my words</button>
+          {/if}
+        {/each}
         </div>
       {/if}
     </div>
@@ -227,6 +283,50 @@
 </article>
 
 <style>
+  .key-words {
+    margin: 10px 0 0;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .key-words summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .key-words ul {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0;
+    columns: 2 16rem;
+    column-gap: 24px;
+  }
+  .key-words li {
+    break-inside: avoid;
+    padding: 2px 0;
+    font-size: 0.95rem;
+  }
+  .key-words li strong {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+  }
+  .key-words .small {
+    margin: 4px 0;
+    font-size: 0.9rem;
+  }
+  .kw-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 4px;
+  }
+  .pop .add {
+    margin-top: 6px;
+  }
+  .pop .added {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+  }
   .crumbs {
     margin: 0;
     font-size: 0.9rem;
