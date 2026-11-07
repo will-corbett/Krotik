@@ -67,6 +67,12 @@
       <a class="btn primary" href={href({ page: 'learn' })}>See all topics</a>
     </article>
 
+    <article class="card tile" aria-labelledby="t-words">
+      <h2 id="t-words">Words <span lang="ru" class="ru">слова</span></h2>
+      <p class="muted small">Everyday vocabulary by theme (food, family, travel…): words, real sentences, dialogues and practice.</p>
+      <a class="btn" href={href({ page: 'words' })}>Learn words</a>
+    </article>
+
     <article class="card tile" aria-labelledby="t-test">
       <h2 id="t-test">Grammar test <span lang="ru" class="ru">тест</span></h2>
       <p class="muted small">60 questions from A1 to C1, about 20–25 minutes, every answer explained.</p>
@@ -165,6 +171,12 @@
   @media (min-width: 640px) {
     .cards {
       grid-template-columns: 1fr 1fr;
+    }
+  }
+  /* Five cards: the last one spans the row on wide screens. */
+  @media (min-width: 640px) {
+    .tile:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
     }
   }
   .tile {

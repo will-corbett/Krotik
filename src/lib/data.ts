@@ -2,7 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow, WordRow } from '../shared/types.ts';
+import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, ThemeData, ThemeIndex, VerbRow, WordRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb, Word } from './types.ts';
 
 // (import.meta.env is Vite's; build scripts importing this file run without it)
@@ -89,6 +89,11 @@ export async function loadReadingIndex(): Promise<ReadingIndex> {
   return getJson<ReadingIndex>((await loadManifest()).reading);
 }
 export const loadReadingUnit = (id: string) => getJson<ReadingUnit>(`reading.${id}.json`);
+/** The Words section: the list of themes, and one theme. */
+export async function loadThemeIndex(): Promise<ThemeIndex> {
+  return getJson<ThemeIndex>((await loadManifest()).themes);
+}
+export const loadTheme = (id: string) => getJson<ThemeData>(`theme.${id}.json`);
 export async function loadLevelTest(): Promise<LevelTestData> {
   return getJson<LevelTestData>((await loadManifest()).levelTest);
 }

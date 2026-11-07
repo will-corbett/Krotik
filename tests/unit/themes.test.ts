@@ -78,7 +78,7 @@ describe('themes', () => {
   });
   it('give each word a real sentence using it, and fail on a word that is not in the lists', () => {
     expect(build('').themes[0]!.uses['n:3']).toEqual([7, 'Чай и хлеб.', 'Tea and bread.', 6, 10]);
-    expect(findUses(new Set(['nouns:1']), corpus).get('nouns:1')).toEqual([7, 'Чай и хлеб.', 'Tea and bread.', 0, 3]);
+    expect(findUses(new Set(['nouns:1']), corpus).get('nouns:1')).toEqual([[7, 'Чай и хлеб.', 'Tea and bread.', 0, 3]]);
     const bad = { ...src(''), groups: [{ title: 'x', words: ['хлэб'] }] };
     expect(() => buildThemes([{ id: 'food', src: bad }], { words: rows, band: () => 0, corpus, lex }, new Report())).toThrow(/хлэб.*not in the word lists/);
   });

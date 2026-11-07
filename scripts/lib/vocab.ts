@@ -44,8 +44,11 @@ export function buildWords(
   input: {
     verbs: (Lemma & { aspect: string })[];
     nouns: (Lemma & { gender: string })[];
-    /** indeclinable nouns (кофе, метро), left out of the drill data but words to learn; rank = place among the nouns */
-    indeclinable?: (Lemma & { gender: string; rank: number })[];
+    /**
+     * Source words left out of the drill data because their forms are missing or unclear (ветер, деньги, кофе, свет):
+     * no forms to drill, but words to learn. `extra` is the aspect, gender or "pl" (plural only); rank = place in its list.
+     */
+    extras?: (Lemma & { pos: 'n' | 'v' | 'a'; extra: string; rank: number })[];
     adjectives: Lemma[];
     others: Record<string, string>[];
     /** personal pronouns: [nominative, cells by case] */
@@ -60,7 +63,7 @@ export function buildWords(
   },
   report: Report,
 ): { rows: WordRow[]; rank: (row: WordRow) => number } {
-  const { verbs, nouns, adjectives, indeclinable = [], others, pronouns, exclude, gloss: glossFix, keep: keepAnyway, freq } = input;
+  const { verbs, nouns, adjectives, extras = [], others, pronouns, exclude, gloss: glossFix, keep: keepAnyway, freq } = input;
   const rows: { row: WordRow; rank: number }[] = [];
   const drop = (reason: string, w: string) => report.drop(SECTION, reason, w);
   // A noun or adjective spelt like a verb or other word is left out unless overrides.yaml keeps it: the source's
@@ -79,7 +82,8 @@ export function buildWords(
     }
     if (!gloss) return drop('no English meaning', bare);
     if (GRAMMAR_NOTE.test(gloss)) return drop('meaning is a grammar note', `${bare} (${gloss})`);
-    if (suspiciousWords(gloss).some((w) => /[^\x00-\x7f]/.test(w))) return drop('meaning not in English', `${bare} (${gloss})`);
+    // Letters English borrows (café, naïve) and curly apostrophes are fine; others (inşaat, متقاعد, a Cyrillic е) aren't.
+    if (suspiciousWords(gloss).some((w) => /[^\x00-\x7fàâçéèêëîïôûùüœæ’]/.test(w))) return drop('meaning not in English', `${bare} (${gloss})`);
     rows.push({ row: [key, accented, gloss, pos, extra], rank });
     report.count(SECTION, `kept: ${POS_NAME[pos]}`);
   };
@@ -98,12 +102,13 @@ export function buildWords(
   // (тут and уж come last). Words the list doesn't have follow, in source order.
   const count = (o: Record<string, string>) => freq.get(normalise(o.bare!)) ?? 0;
   const ranked = others.map((o, i) => ({ o, i })).sort((x, y) => count(y.o) - count(x.o) || x.i - y.i);
-  for (const n of indeclinable) {
-    if (shadowed(n.bare)) {
-      report.anomaly(SECTION, 'noun left out: spelt like a verb or other word', `${n.bare} (${n.gloss})`);
+  for (const x of extras) {
+    if (x.pos !== 'v' && shadowed(x.bare)) {
+      report.anomaly(SECTION, `${x.pos === 'n' ? 'noun' : 'adjective'} left out: spelt like a verb or other word`, `${x.bare} (${x.gloss})`);
       continue;
     }
-    keep('n', `n:${n.id}`, n.bare, n.accented, n.gloss, n.gender, n.rank);
+    keep(x.pos, `${x.pos}:${x.id}`, x.bare, x.accented, x.gloss, x.extra, x.rank);
+    report.count(SECTION, `of which not in the drill data (forms missing or unclear): ${POS_NAME[x.pos]}`);
   }
   const seen = new Set<string>();
   ranked.forEach(({ o }, i) => {

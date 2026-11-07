@@ -136,17 +136,39 @@ const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
 // ---- Vocabulary drill: every word type, banded by rank in its own list (scripts/lib/vocab.ts)
-// Indeclinable nouns (кофе, метро, такси): no forms to drill, but words to learn. Abbreviations (no stress, as кгб) aren't.
-const keptNounIds = nouns.map((n) => n.id);
-const indeclinable = N.rows
-  .filter((r) => r.indeclinable === '1' && /^[а-яё]+$/.test(r.bare!) && (/['ё]/.test(r.accented!) || (r.accented!.match(/[аеиоуыэюя]/g) ?? []).length === 1))
-  .map((r) => {
-    const id = N.ids.get(r)!;
-    return { id, bare: r.bare!, accented: r.accented!, gloss: cleanGloss(r.translations_en ?? ''), gender: r.gender ?? '', rank: keptNounIds.filter((k) => k < id).length };
+// Words the drill data leaves out because their forms are missing or unclear (кофе, деньги, ветер, свет): no forms to
+// drill, but words to learn, by headword and meaning. Names and abbreviations (no stress mark: кгб) aren't; a later
+// row repeating a word is the duplicate the cleaning dropped.
+const extraWords = (rows: Record<string, string>[], ids: Map<Record<string, string>, number>, kept: { id: number; bare: string }[], pos: 'n' | 'v' | 'a', extra: (r: Record<string, string>) => string) => {
+  const keptIds = new Set(kept.map((k) => k.id));
+  const seen = new Set(kept.map((k) => k.bare));
+  const sorted = kept.map((k) => k.id).sort((x, y) => x - y);
+  const before = (id: number) => {
+    let lo = 0;
+    let hi = sorted.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (sorted[mid]! < id) lo = mid + 1;
+      else hi = mid;
+    }
+    return lo;
+  };
+  return rows.flatMap((r) => {
+    const id = ids.get(r)!;
+    const bare = r.bare!;
+    if (keptIds.has(id) || seen.has(bare) || !/^[а-яё]+(-[а-яё]+)*$/.test(bare) || !r.translations_en?.trim()) return [];
+    if (!/['ё]/.test(r.accented!) && (r.accented!.match(/[аеиоуыэюя]/g) ?? []).length !== 1) return [];
+    seen.add(bare);
+    return [{ pos, id, bare, accented: r.accented!, gloss: cleanGloss(r.translations_en), extra: extra(r), rank: before(id) }];
   });
-report.count('Words (vocabulary drill)', 'indeclinable nouns added (not in the drill data)', indeclinable.length);
+};
+const extras = [
+  ...extraWords(N.rows, N.ids, nouns, 'n', (r) => (r.pl_only === '1' ? 'pl' : (r.gender ?? ''))),
+  ...extraWords(V.rows, V.ids, verbs, 'v', (r) => r.aspect ?? ''),
+  ...extraWords(A.rows, A.ids, adjectives, 'a', () => ''),
+];
 const words = buildWords(
-  { verbs, nouns, adjectives, indeclinable, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
+  { verbs, nouns, adjectives, extras, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
   report,
 );
 const wordShards = writeBandsByRank('words', words.rows, words.rank);
@@ -209,14 +231,22 @@ let readingBytes = writeJson('reading.json', reading.index);
 for (const u of reading.units) readingBytes += writeJson(`reading.${u.id}.json`, u);
 
 // ---- Words section: themed lessons; dialogues published only once reviewed (scripts/lib/themes.ts)
-// Our own Russian may use indeclinable nouns (кафе, метро), which the sentence index doesn't have: a copy that does.
+// Our own Russian may use words the sentence index doesn't have (кафе, деньги; by their dictionary form only): a copy
+// that has them.
 const themeOwners = new Map([...corpus.owners].map(([k, v]) => [k, new Set(v)]));
-const indeclById = new Map(indeclinable.map((n) => [n.id, n]));
-for (const n of indeclinable) {
-  const k = normalise(n.bare);
-  themeOwners.set(k, new Set([...(themeOwners.get(k) ?? []), `nouns:${n.id}`]));
+const TYPE = { n: 'nouns', v: 'verbs', a: 'adjectives' } as const;
+const extraById = new Map(extras.map((x) => [`${TYPE[x.pos]}:${x.id}`, x]));
+for (const x of extras) {
+  const k = normalise(x.bare);
+  themeOwners.set(k, new Set([...(themeOwners.get(k) ?? []), `${TYPE[x.pos]}:${x.id}`]));
 }
-const themeLex: Lexicon = { ...lexicon, owners: themeOwners, noun: (id) => nounById.get(id) ?? indeclById.get(id) };
+const themeLex: Lexicon = {
+  ...lexicon,
+  owners: themeOwners,
+  noun: (id) => nounById.get(id) ?? extraById.get(`nouns:${id}`),
+  verb: (id) => verbById.get(id) ?? (extraById.has(`verbs:${id}`) ? { ...extraById.get(`verbs:${id}`)!, aspect: extraById.get(`verbs:${id}`)!.extra as 'impf' } : undefined),
+  adjective: (id) => adjById.get(id) ?? extraById.get(`adjectives:${id}`),
+};
 const themes = buildThemes(loadThemes(), { words: words.rows, band: (r) => bandOf(words.rank(r)), corpus: { pairs: corpus.pairs, owners: themeOwners }, lex: themeLex }, report);
 let themesBytes = writeJson('themes.json', themes.index);
 for (const t of themes.themes) themesBytes += writeJson(`theme.${t.id}.json`, t);

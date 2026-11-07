@@ -7,6 +7,8 @@
   import ProgressPage from './components/ProgressPage.svelte';
   import StartPage from './components/StartPage.svelte';
   import ReadingText from './components/ReadingText.svelte';
+  import WordsIndex from './components/WordsIndex.svelte';
+  import WordsTheme from './components/WordsTheme.svelte';
   import About from './components/About.svelte';
   import Dashboard from './components/Dashboard.svelte';
   import LearnIndex from './components/LearnIndex.svelte';
@@ -116,10 +118,10 @@
   }
 
   /** Reading's key words: a "choose the meaning" round on just these words (kept for "again" until you leave). */
-  let practice = $state<[string, number][] | null>(null);
-  function practise(keys: [string, number][]) {
+  let practice = $state<{ keys: [string, number][]; direction: 'recognise' | 'recall' } | null>(null);
+  function practise(keys: [string, number][], direction: 'recognise' | 'recall' = 'recognise') {
     navigate(href({ page: 'drill', mode: 'vocab' }));
-    practice = keys;
+    practice = { keys, direction };
     start();
   }
 
@@ -130,10 +132,10 @@
     try {
       const s = $state.snapshot(settings) as Settings;
       const gen = practice
-        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: 'recognise' } }, mulberry32(seed()), { keys: practice })
+        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: practice.direction } }, mulberry32(seed()), { keys: practice.keys })
         : await prepareRound(s, mulberry32(seed()));
       const unlimited = settings.count === 0 && !practice;
-      const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(practice ? practice.length : settings.count);
+      const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(practice ? practice.keys.length : settings.count);
       generate = unlimited ? gen : null;
       if (!qs.length) {
         error = 'No questions match these settings. Try a larger vocabulary or more options.';
@@ -230,6 +232,7 @@
     { label: 'Dashboard', route: { page: 'home' } },
     { label: 'Grammar test', route: { page: 'test' } },
     { label: 'Learn', route: { page: 'learn' } },
+    { label: 'Words', route: { page: 'words' } },
     { label: 'Drill', route: { page: 'drill' } },
     { label: 'Reading', route: { page: 'reading' } },
     { label: 'Culture', route: { page: 'culture' } },
@@ -287,6 +290,10 @@
       <LevelTest {settings} />
     {:else if route.page === 'reading' && route.text}
       <ReadingText id={route.text} bind:settings onpractise={practise} />
+    {:else if route.page === 'words' && route.theme}
+      <WordsTheme id={route.theme} bind:settings onpractise={practise} />
+    {:else if route.page === 'words'}
+      <WordsIndex />
     {:else if route.page === 'reading'}
       <ReadingIndex />
     {:else if route.page === 'culture' && route.note}

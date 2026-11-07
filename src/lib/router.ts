@@ -20,6 +20,7 @@ export type Route =
   | { page: 'learn'; topic?: string }
   | { page: 'drill'; mode?: string }
   | { page: 'reading'; text?: string }
+  | { page: 'words'; theme?: string }
   | { page: 'progress' }
   | { page: 'culture'; note?: string }
   | { page: 'about' };
@@ -36,6 +37,8 @@ function fromParts(parts: string[]): Route {
       return parts[1] ? { page: 'drill', mode: parts[1] } : { page: 'drill' };
     case 'reading':
       return parts[1] ? { page: 'reading', text: parts[1] } : { page: 'reading' };
+    case 'words':
+      return parts[1] ? { page: 'words', theme: parts[1] } : { page: 'words' };
     case 'progress':
       return { page: 'progress' };
     case 'culture':
@@ -72,6 +75,8 @@ export function pathOf(route: Route): string {
       return route.mode ? `drill/${route.mode}/` : 'drill/';
     case 'reading':
       return route.text ? `reading/${route.text}/` : 'reading/';
+    case 'words':
+      return route.theme ? `words/${route.theme}/` : 'words/';
     case 'progress':
       return 'progress/';
     case 'culture':
