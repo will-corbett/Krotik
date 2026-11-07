@@ -15,3 +15,22 @@ groups:
     words: [где, "куда = where (to)", "прямо = straight on", "налево = to the left", направо, "рядом = nearby, next to", "далеко = far", "близко = near, close", "напротив = opposite", "угол = corner"]
   - title: Getting there
     words: ["идти = go (on foot), walk", "пройти = get to, go past", "повернуть = turn", найти, искать, "карта = map", "дорога = road, way", мост]
+dialogues:
+  - title: "Asking the way"
+    reviewed: ""
+    lines:
+      - [Анна, "Извините, вы не знаете, где здесь музей?", "Excuse me, do you know where the museum is?"]
+      - [Олег, "Знаю. Идите прямо, потом направо.", "I do. Go straight on, then right."]
+      - [Анна, "Это далеко?", "Is it far?"]
+      - [Олег, "Нет, близко. Минут пять пешком.", "No, it is near. About five minutes' walk."]
+      - [Анна, "А банк рядом есть?", "And is there a bank nearby?"]
+      - [Олег, "Да, напротив музея, на углу.", "Yes, opposite the museum, on the corner."]
+      - [Анна, "Большое спасибо!", "Thank you very much!"]
+  - title: "Meeting in town"
+    reviewed: ""
+    lines:
+      - [Олег, "Где встретимся?", "Where shall we meet?"]
+      - [Анна, "На площади, около театра.", "On the square, by the theatre."]
+      - [Олег, "Я не знаю, где театр.", "I do not know where the theatre is."]
+      - [Анна, "Это в центре. Найдёшь на карте.", "It is in the centre. You will find it on the map."]
+      - [Олег, "Хорошо, найду.", "All right, I will find it."]

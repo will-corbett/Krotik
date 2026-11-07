@@ -2,7 +2,7 @@ title: Greetings and polite phrases
 ru: Приветствия и вежливые слова
 level: A1
 blurb: Hello and goodbye, please and thank you, and introducing yourself.
-names: []
+names: [Анна, Дима, Олег]
 # Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or didn't fit the theme.
 use:
   пока:o: 3215349
@@ -14,3 +14,23 @@ groups:
     words: [спасибо, пожалуйста, "извинить = excuse, forgive", "простить = forgive, excuse", да, нет]
   - title: Meeting people
     words: ["звать = call (меня зовут: my name is)", имя, "знакомиться = get to know, meet", "приятно = nice, pleasant", "очень = very, very much", "рад = glad"]
+dialogues:
+  - title: "Meeting someone new"
+    reviewed: ""
+    lines:
+      - [Анна, "Здравствуйте! Меня зовут Анна.", "Hello! My name is Anna."]
+      - [Олег, "Очень приятно, Анна. А я Олег.", "Very nice to meet you, Anna. And I am Oleg."]
+      - [Анна, "Вы тоже здесь работаете?", "Do you work here too?"]
+      - [Олег, "Да, я работаю здесь второй год.", "Yes, this is my second year working here."]
+      - [Анна, "А я только первый день.", "And this is only my first day."]
+      - [Олег, "Если что-нибудь нужно, спрашивайте.", "If you need anything, just ask."]
+      - [Анна, "Спасибо большое!", "Thank you very much!"]
+  - title: "Hi and bye"
+    reviewed: ""
+    lines:
+      - [Маша, "Привет, Дима! Как дела?", "Hi, Dima! How are you?"]
+      - [Дима, "Привет! Хорошо, спасибо. А у тебя?", "Hi! Fine, thanks. And you?"]
+      - [Маша, "Тоже хорошо. Извини, я очень спешу.", "Fine too. Sorry, I am in a real hurry."]
+      - [Дима, "Ничего. Увидимся завтра?", "That is all right. See you tomorrow?"]
+      - [Маша, "Да, до завтра! Пока!", "Yes, see you tomorrow! Bye!"]
+      - [Дима, "Пока!", "Bye!"]

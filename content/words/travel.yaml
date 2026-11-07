@@ -2,7 +2,7 @@ title: Transport and travel
 ru: Транспорт и поездки
 level: A2
 blurb: Buses, trains and planes, tickets and trips.
-names: []
+names: [Москвы]
 groups:
   - title: Transport
     words: ["транспорт = transport", "автобус = bus", "трамвай = tram", метро, такси, поезд, "самолёт = plane", "машина = car", "остановка = stop (bus, tram)", "вокзал = railway station", аэропорт]
@@ -10,3 +10,21 @@ groups:
     words: ["билет = ticket", "паспорт = passport", "багаж = luggage", чемодан, "место = place; seat", "рейс = flight (number), trip"]
   - title: Going places
     words: ["ехать = go (by transport)", "ездить = go, travel (by transport, often)", "лететь = fly", "приехать = arrive", "уехать = leave, go away", "опоздать = be late", "поездка = trip", "путешествие = journey, travels", "гостиница = hotel"]
+dialogues:
+  - title: "At the station"
+    reviewed: ""
+    lines:
+      - [Анна, "Один билет до Москвы, пожалуйста.", "One ticket to Moscow, please."]
+      - [Кассир, "На какое число?", "For what date?"]
+      - [Анна, "На завтра, на утро.", "For tomorrow morning."]
+      - [Кассир, "Есть поезд в девять часов. Ваш паспорт, пожалуйста.", "There is a train at nine o'clock. Your passport, please."]
+      - [Анна, "Вот, пожалуйста.", "Here you are."]
+      - [Кассир, "Ваше место двенадцатое. Счастливого пути!", "Your seat is number twelve. Have a good trip!"]
+  - title: "Late for the plane"
+    reviewed: ""
+    lines:
+      - [Олег, "Быстрее, мы опаздываем на самолёт!", "Hurry up, we are going to miss the plane!"]
+      - [Анна, "Не волнуйся. Сейчас возьмём такси.", "Do not worry. We will get a taxi now."]
+      - [Олег, "До аэропорта далеко, а на метро быстрее.", "The airport is a long way, and the metro is quicker."]
+      - [Анна, "Но у нас большой чемодан.", "But we have a big suitcase."]
+      - [Олег, "Ладно, едем на такси.", "All right, let's go by taxi."]

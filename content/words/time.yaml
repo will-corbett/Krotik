@@ -12,3 +12,21 @@ groups:
     words: ["месяц = month", год, январь, май, сентябрь, декабрь, "весна = spring", лето, осень, зима]
   - title: Yesterday, today, tomorrow
     words: [вчера, сегодня, завтра, всегда, "никогда = never", иногда, часто]
+dialogues:
+  - title: "What time is it?"
+    reviewed: ""
+    lines:
+      - [Анна, "Сколько сейчас времени?", "What time is it now?"]
+      - [Олег, "Без пяти восемь.", "Five to eight."]
+      - [Анна, "Уже? Я опаздываю!", "Already? I am late!"]
+      - [Олег, "Во сколько у тебя урок?", "What time is your lesson?"]
+      - [Анна, "В восемь. Ничего, скоро буду там.", "At eight. Never mind, I will be there soon."]
+  - title: "Making plans"
+    reviewed: ""
+    lines:
+      - [Олег, "Что ты делаешь в субботу?", "What are you doing on Saturday?"]
+      - [Анна, "В субботу я работаю. А в воскресенье свободна.", "I am working on Saturday. But I am free on Sunday."]
+      - [Олег, "Давай пойдём в кино в воскресенье вечером.", "Let's go to the cinema on Sunday evening."]
+      - [Анна, "Давай. Во сколько?", "All right. What time?"]
+      - [Олег, "В семь часов.", "At seven o'clock."]
+      - [Анна, "Хорошо, до воскресенья!", "Good, see you on Sunday!"]

@@ -10,3 +10,22 @@ groups:
     words: [человек, мужчина, "женщина = woman", "мальчик = boy", "девочка = girl", друг, подруга, сосед]
   - title: Talking about people
     words: ["молодой = young", "старый = old", жить, любить, возраст]
+dialogues:
+  - title: "A family photo"
+    reviewed: ""
+    lines:
+      - [Катя, "Это твоя семья?", "Is this your family?"]
+      - [Олег, "Да. Вот мама и папа, а это моя сестра.", "Yes. Here are my mum and dad, and this is my sister."]
+      - [Катя, "Она старше тебя?", "Is she older than you?"]
+      - [Олег, "Нет, младше. Ей двадцать лет.", "No, younger. She is twenty."]
+      - [Катя, "А кто этот мальчик?", "And who is this boy?"]
+      - [Олег, "Это её сын. Ему три года.", "That is her son. He is three."]
+      - [Катя, "Какая большая семья!", "What a big family!"]
+  - title: "Neighbours"
+    reviewed: ""
+    lines:
+      - [Анна, "Кто живёт в этой квартире?", "Who lives in this flat?"]
+      - [Олег, "Наш новый сосед. Он живёт с женой и дочерью.", "Our new neighbour. He lives with his wife and daughter."]
+      - [Анна, "Они молодые?", "Are they young?"]
+      - [Олег, "Да, молодые. Он врач, а она учитель.", "Yes, young. He is a doctor and she is a teacher."]
+      - [Анна, "Надо с ними познакомиться.", "We should get to know them."]

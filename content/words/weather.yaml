@@ -10,3 +10,19 @@ groups:
     words: ["тепло = warm (it is warm)", "холодно = cold (it is cold)", "жарко = hot (it is hot)", "тёплый = warm", "солнечный = sunny", "ясный = clear, bright", "сильный = strong; heavy (rain)"]
   - title: Talking about it
     words: ["идти = go; fall (rain, snow)", "светить = shine", "дуть = blow", "градус = degree", прогноз, "зонт = umbrella"]
+dialogues:
+  - title: "What is it like outside?"
+    reviewed: ""
+    lines:
+      - [Анна, "Какая сегодня погода?", "What's the weather like today?"]
+      - [Олег, "Холодно и идёт снег.", "It's cold and snowing."]
+      - [Анна, "А какая температура?", "And what is the temperature?"]
+      - [Олег, "Минус десять градусов. И сильный ветер.", "Minus ten degrees. And a strong wind."]
+      - [Анна, "Тогда я останусь дома.", "Then I will stay at home."]
+  - title: "Planning a walk"
+    reviewed: ""
+    lines:
+      - [Олег, "Давай погуляем в парке.", "Let's go for a walk in the park."]
+      - [Анна, "А какой прогноз на сегодня?", "And what's the forecast for today?"]
+      - [Олег, "Утром солнце, тепло, а вечером дождь.", "Sun and warm in the morning, and rain in the evening."]
+      - [Анна, "Тогда пойдём сейчас. И возьми зонт.", "Let's go now, then. And take an umbrella."]

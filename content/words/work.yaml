@@ -13,3 +13,21 @@ groups:
     words: ["учитель = teacher", "врач = doctor", инженер, программист, водитель, "продавец = shop assistant", "журналист = journalist"]
   - title: Study
     words: ["учиться = study, learn (at school, university)", "изучать = study (a subject)", университет, студент, "урок = lesson", "экзамен = exam", "задание = task, assignment", "учебник = textbook"]
+dialogues:
+  - title: "What do you do?"
+    reviewed: ""
+    lines:
+      - [Анна, "Кем ты работаешь?", "What do you do for a living?"]
+      - [Олег, "Я программист. Работаю в большой компании.", "I am a programmer. I work for a big company."]
+      - [Анна, "Тебе нравится твоя работа?", "Do you like your job?"]
+      - [Олег, "Да, очень. И коллеги хорошие.", "Yes, very much. And my colleagues are nice."]
+      - [Анна, "А начальник?", "And your boss?"]
+      - [Олег, "Начальник строгий, но справедливый.", "The boss is strict but fair."]
+  - title: "Before the exam"
+    reviewed: ""
+    lines:
+      - [Олег, "Когда у тебя экзамен?", "When is your exam?"]
+      - [Анна, "В пятницу. Я каждый день учусь.", "On Friday. I'm studying every day."]
+      - [Олег, "Какой предмет?", "Which subject?"]
+      - [Анна, "История. Учебник очень толстый!", "History. The textbook is very thick!"]
+      - [Олег, "Ты всё сдашь. Ты же умная.", "You'll pass. You're clever, after all."]

@@ -19,3 +19,24 @@ groups:
     words: [вода, "чай = tea", кофе, молоко, "сок = juice", "вино = wine", пиво]
   - title: Describing food
     words: ["вкусный = tasty, delicious", "свежий = fresh", "горячий = hot", холодный, голодный, "сладкий = sweet"]
+dialogues:
+  - title: "Breakfast"
+    reviewed: ""
+    lines:
+      - [Мама, "Доброе утро! Ты будешь завтракать?", "Good morning! Are you going to have breakfast?"]
+      - [Сын, "Да. А что у нас на завтрак?", "Yes. What's for breakfast?"]
+      - [Мама, "Каша, хлеб с маслом и сыр.", "Porridge, bread and butter, and cheese."]
+      - [Сын, "А яйца есть?", "Are there any eggs?"]
+      - [Мама, "Есть. Тебе одно или два?", "There are. One or two for you?"]
+      - [Сын, "Два, пожалуйста. И чай с молоком.", "Two, please. And tea with milk."]
+      - [Мама, "Сахар положить?", "Shall I put sugar in?"]
+      - [Сын, "Нет, спасибо. Я пью без сахара.", "No, thanks. I drink it without sugar."]
+  - title: "What shall we cook?"
+    reviewed: ""
+    lines:
+      - [Анна, "Что будем готовить на ужин?", "What shall we cook for dinner?"]
+      - [Олег, "Может быть, рыбу с картошкой?", "Maybe fish and potatoes?"]
+      - [Анна, "Рыбы нет. Есть мясо и овощи.", "There is no fish. There is meat and vegetables."]
+      - [Олег, "Хорошо, тогда мясо. И салат из помидоров и огурцов.", "All right, meat then. And a tomato and cucumber salad."]
+      - [Анна, "А что будем пить?", "And what shall we drink?"]
+      - [Олег, "Сок или вино. Я очень голодный!", "Juice or wine. I am really hungry!"]

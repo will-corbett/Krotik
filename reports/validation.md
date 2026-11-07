@@ -418,37 +418,37 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | feelings: words | 25 |
 | feelings: words with a real sentence in use | 25 |
 
-greetings: 0 dialogue(s) published, 0 waiting for review.
+greetings: 0 dialogue(s) published, 2 waiting for review.
 
-people: 0 dialogue(s) published, 0 waiting for review.
+people: 0 dialogue(s) published, 2 waiting for review.
 
-food: 0 dialogue(s) published, 0 waiting for review.
+food: 0 dialogue(s) published, 2 waiting for review.
 
-cafe: 0 dialogue(s) published, 0 waiting for review.
+cafe: 0 dialogue(s) published, 2 waiting for review.
 
-home: 0 dialogue(s) published, 0 waiting for review.
+home: 0 dialogue(s) published, 2 waiting for review.
 
-time: 0 dialogue(s) published, 0 waiting for review.
+time: 0 dialogue(s) published, 2 waiting for review.
 
-shopping: 0 dialogue(s) published, 0 waiting for review.
+shopping: 0 dialogue(s) published, 2 waiting for review.
 
-clothes: 0 dialogue(s) published, 0 waiting for review.
+clothes: 0 dialogue(s) published, 2 waiting for review.
 
-town: 0 dialogue(s) published, 0 waiting for review.
+town: 0 dialogue(s) published, 2 waiting for review.
 
-travel: 0 dialogue(s) published, 0 waiting for review.
+travel: 0 dialogue(s) published, 2 waiting for review.
 
-weather: 0 dialogue(s) published, 0 waiting for review.
+weather: 0 dialogue(s) published, 2 waiting for review.
 
-health: 0 dialogue(s) published, 0 waiting for review.
+health: 0 dialogue(s) published, 2 waiting for review.
 
-work: 0 dialogue(s) published, 0 waiting for review.
+work: 0 dialogue(s) published, 2 waiting for review.
 
-free-time: 0 dialogue(s) published, 0 waiting for review.
+free-time: 0 dialogue(s) published, 2 waiting for review.
 
-nature: 0 dialogue(s) published, 0 waiting for review.
+nature: 0 dialogue(s) published, 2 waiting for review.
 
-feelings: 0 dialogue(s) published, 0 waiting for review.
+feelings: 0 dialogue(s) published, 2 waiting for review.
 
 ## Hand-made lists (curated/)
 

@@ -16,3 +16,23 @@ groups:
     words: [пирог, "салат = salad", мороженое, торт, блин, "пицца = pizza"]
   - title: Paying
     words: [платить, сколько, "стоить = cost", "рубль = rouble", "карта = card; map", наличные]
+dialogues:
+  - title: "Ordering"
+    reviewed: ""
+    lines:
+      - [Официант, "Добрый день! Вот меню.", "Good afternoon! Here is the menu."]
+      - [Анна, "Спасибо. Можно чашку кофе и кусок торта?", "Thank you. Can I have a cup of coffee and a piece of cake?"]
+      - [Официант, "Конечно. А вам?", "Of course. And for you?"]
+      - [Олег, "Мне чай и блины, пожалуйста.", "Tea and pancakes for me, please."]
+      - [Официант, "С чем блины? Есть с мясом и с сыром.", "What kind of pancakes? There are ones with meat and ones with cheese."]
+      - [Олег, "С сыром.", "With cheese."]
+      - [Официант, "Хорошо. Сейчас принесу.", "All right. I will bring them right away."]
+  - title: "The bill"
+    reviewed: ""
+    lines:
+      - [Олег, "Принесите, пожалуйста, счёт.", "Could you bring the bill, please?"]
+      - [Официант, "Пожалуйста. Восемьсот рублей.", "Here you are. Eight hundred roubles."]
+      - [Олег, "Можно заплатить картой?", "Can I pay by card?"]
+      - [Официант, "Да, конечно.", "Yes, of course."]
+      - [Олег, "Спасибо. Всё было очень вкусно.", "Thank you. Everything was very tasty."]
+      - [Официант, "Приходите ещё!", "Come again!"]

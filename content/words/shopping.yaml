@@ -10,3 +10,22 @@ groups:
     words: ["деньги = money", "цена = price", "дорогой = expensive; dear", "дешёвый = cheap", "рубль = rouble", "копейка = kopek (1/100 rouble)", "сдача = change (money back)", "скидка = discount"]
   - title: Buying
     words: ["купить = buy", "покупать = buy", "продавать = sell", "стоить = cost", "выбрать = choose", "нужный = needed, necessary", "пакет = bag, packet"]
+dialogues:
+  - title: "At the market"
+    reviewed: ""
+    lines:
+      - [Анна, "Сколько стоят яблоки?", "How much are the apples?"]
+      - [Продавец, "Сто рублей килограмм.", "A hundred roubles a kilo."]
+      - [Анна, "Дайте, пожалуйста, два килограмма.", "Two kilos, please."]
+      - [Продавец, "Что-нибудь ещё?", "Anything else?"]
+      - [Анна, "Нет, спасибо. Вот деньги.", "No, thank you. Here's the money."]
+      - [Продавец, "Ваша сдача. Пакет нужен?", "Here's your change. Do you need a bag?"]
+      - [Анна, "Нет, у меня есть.", "No, I have one."]
+  - title: "Too expensive"
+    reviewed: ""
+    lines:
+      - [Анна, "Мне нравится эта сумка, но она очень дорогая.", "I like this bag, but it is very expensive."]
+      - [Олег, "Посмотри, вот похожая, и она дешевле.", "Look, here is a similar one, and it is cheaper."]
+      - [Анна, "Да, и на неё скидка!", "Yes, and it's on sale!"]
+      - [Олег, "Тогда покупай!", "Buy it, then!"]
+      - [Анна, "Пойдём на кассу.", "Let's go to the till."]

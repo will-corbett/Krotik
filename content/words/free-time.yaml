@@ -13,3 +13,19 @@ groups:
     words: [читать, смотреть, "слушать = listen (to)", "играть = play", "гулять = go for a walk", "плавать = swim", "бегать = run", танцевать, "отдыхать = rest, relax; be on holiday"]
   - title: Going out
     words: ["концерт = concert", "выставка = exhibition", вечеринка, друг, "встретиться = meet", "интересный = interesting", скучный]
+dialogues:
+  - title: "At the weekend"
+    reviewed: ""
+    lines:
+      - [Анна, "Что ты любишь делать в свободное время?", "What do you like doing in your free time?"]
+      - [Олег, "Я играю в футбол и слушаю музыку. А ты?", "I play football and listen to music. And you?"]
+      - [Анна, "Я люблю читать и плавать.", "I like reading and swimming."]
+      - [Олег, "А в кино ходишь?", "And do you go to the cinema?"]
+      - [Анна, "Редко. Я смотрю фильмы дома.", "Rarely. I watch films at home."]
+  - title: "An invitation"
+    reviewed: ""
+    lines:
+      - [Олег, "В субботу будет концерт. Пойдёшь со мной?", "There's a concert on Saturday. Will you come with me?"]
+      - [Анна, "С удовольствием! А где?", "I would love to! Where is it?"]
+      - [Олег, "В парке, в шесть часов.", "In the park, at six o'clock."]
+      - [Анна, "Отлично. Встретимся у входа.", "Great. Let's meet at the entrance."]

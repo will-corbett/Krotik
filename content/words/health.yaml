@@ -15,3 +15,21 @@ groups:
     words: ["болеть = be ill; hurt", болезнь, "боль = pain", "температура = temperature", "простуда = a cold", кашель, "здоровый = healthy", "больной:a = ill, sick", "устать = get tired"]
   - title: Getting better
     words: ["врач = doctor", "лекарство = medicine", "таблетка = pill, tablet", "аптека = chemist, pharmacy", здоровье, "лечить = treat (an illness)"]
+dialogues:
+  - title: "At the doctor"
+    reviewed: ""
+    lines:
+      - [Врач, "Что у вас болит?", "What is hurting?"]
+      - [Олег, "Голова и горло. И у меня температура.", "My head and my throat. And I have a temperature."]
+      - [Врач, "Какая температура?", "What is your temperature?"]
+      - [Олег, "Тридцать восемь.", "Thirty-eight."]
+      - [Врач, "Это простуда. Пейте много чая и лежите дома.", "It is a cold. Drink a lot of tea and stay in bed at home."]
+      - [Олег, "А лекарство нужно?", "Do I need any medicine?"]
+      - [Врач, "Вот рецепт. Таблетки купите в аптеке.", "Here is a prescription. Buy the tablets at the chemist."]
+  - title: "Feeling ill"
+    reviewed: ""
+    lines:
+      - [Анна, "Ты плохо выглядишь. Ты не болен?", "You don't look well. Are you ill?"]
+      - [Олег, "Немного. У меня болит живот.", "A little. I have a stomach ache."]
+      - [Анна, "Иди к врачу.", "Go to the doctor."]
+      - [Олег, "Нет, я просто устал. Посплю, и всё пройдёт.", "No, I'm just tired. I'll sleep, and it will pass."]

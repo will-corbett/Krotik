@@ -14,3 +14,19 @@ groups:
     words: ["животное = animal", собака, "кошка = cat", лошадь, корова, птица, рыба, медведь, волк, "лиса = fox"]
   - title: In the country
     words: ["деревня = village; the country", "дача = dacha, country cottage", сад, "огород = vegetable garden", "расти = grow", "собирать = gather, pick"]
+dialogues:
+  - title: "At the dacha"
+    reviewed: ""
+    lines:
+      - [Анна, "Летом мы живём на даче.", "In the summer we live at the dacha."]
+      - [Олег, "А что там есть?", "And what's there?"]
+      - [Анна, "Сад, огород и маленький лес. И речка рядом.", "A garden, a vegetable garden and a small wood. And a little river nearby."]
+      - [Олег, "Что вы выращиваете?", "What do you grow?"]
+      - [Анна, "Помидоры, огурцы, картошку. А в саду растут яблоки.", "Tomatoes, cucumbers and potatoes. And apples grow in the garden."]
+  - title: "In the forest"
+    reviewed: ""
+    lines:
+      - [Олег, "Смотри, там на дереве птица!", "Look, there's a bird in the tree!"]
+      - [Анна, "А в лесу есть медведи?", "Are there bears in the forest?"]
+      - [Олег, "Есть, но далеко. Здесь только лисы и зайцы.", "There are, but far away. Here there are only foxes and hares."]
+      - [Анна, "Хорошо. Я боюсь медведей.", "Good. I'm afraid of bears."]
