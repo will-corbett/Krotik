@@ -51,3 +51,55 @@ works:
 # reason; everything else Wiktionary marks old stays out.
 notOld:
   иначе: Wiktionary's "dated" refers to the old stress и́наче; the word (ина́че) is everyday Russian.
+
+# English meanings written by hand for words in the texts that neither our data nor Wiktionary explains (keys in lower
+# case, ё as е). These are our words about the author's words, checked against the context. "(old) " at the start
+# also labels the word old-fashioned. Hunting terms in Предложение get their general sense only.
+glosses:
+  взлезли: climbed up (colloquial for влезли)
+  смотренье: looking, viewing (here, seeing the animals)
+  съеденье: being eaten (на съеденье, to be eaten)
+  понатужься: strain a bit harder, push yourself
+  погоревал: grieved for a while (from погоревать)
+  погоревали: grieved for a while (from погоревать)
+  дадена: given (colloquial for дана)
+  осьмушку: an eighth (of a pound); here, an extra measure of oats
+  дозарезу: desperately, badly (needed)
+  брр: brr (a shudder of cold or anger)
+  фуй: ugh! (disgust)
+  поджилки: the backs of the knees; поджилки трясутся, his knees are shaking
+  холерина: (old) a mild stomach upset
+  ву: French vous; Smirnov mocks French politeness (же ву при…, je vous prie, "I beg you")
+  напужал: frightened (colloquial for напугал)
+  равноправность: (old) equality, equal rights (now равноправие)
+  сантиментальный: (old) sentimental (now spelt сентиментальный)
+  разлимонился: went all soft (a joking word)
+  рассиропился: turned to syrup, got soppy (a joking word)
+  втюрился: fell head over heels in love (slang)
+  капсюльные: percussion-cap (of old pistols)
+  экстрактором: with an extractor (the part of a revolver that throws out spent cartridges)
+  счастие: (old) happiness (now счастье)
+  дерг: jerk! (a sudden twitch, from дёргать)
+  тетушкина: the aunt's (from тётушка)
+  сжадничала: was greedy (from сжадничать)
+  милаша: darling, dear (colloquial)
+  сутяжный: fond of lawsuits, litigious
+  поскорей: sooner, quickly (colloquial for поскорее)
+  уродлив: ugly (short form of уродливый)
+  четвертная: a quarter; here, twenty-five roubles
+  доезжачий: the huntsman in charge of the hounds
+  чистопсовый: a purebred borzoi (hunting term)
+  крутобедрый: with strong, curved haunches (of a hunting dog)
+  муругопегого: brindled with white patches (a dog's colouring)
+  подуздоват: with the lower jaw shorter than the upper, a fault in a borzoi (Lomov explains it himself)
+  подуздоватая: with the lower jaw shorter than the upper, a fault in a borzoi (Lomov explains it himself)
+  непоимиста: bad at catching the quarry (of a hunting dog)
+  опсовел: hasn't grown into a mature borzoi yet (hunting term)
+  розвязи: a borzoi's build and proportions (hunting term)
+  угонки: the chase (hunting term)
+  на-завладай: for seizing the quarry at the end of the chase (hunting term)
+  медоточил: spoke honeyed words (from медоточить)
+  ненавистницы: women who hate (from ненавистница)
+  обыкновеннейший: the most ordinary (from обыкновенный)
+  полубогиня: a demigoddess
+  созданье: a creature (another form of создание)

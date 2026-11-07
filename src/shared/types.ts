@@ -138,12 +138,32 @@ export interface LevelTestData {
   slots: { level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1'; w: 1 | 2 | 3; topic: string; ask: string; items: LevelTestCandidate[] }[];
 }
 
-/** A line of a "Read and fill in" passage: [speaker ('' for narration), text, 1 for a stage direction]. */
+/** A line of a reading text: [speaker ('' for narration), text, 1 for a stage direction]. */
 export type ReadingLine = [string, string, 0 | 1];
-/** A gap: [line, start, end, v|n|a (verb, noun, adjective), hint (dictionary form, stress marked), English gloss]. */
-export type ReadingGap = [number, number, number, 'v' | 'n' | 'a', string, string];
-/** public/data/reading.json: public-domain passages (scripts/lib/literature.ts). */
-export interface ReadingData {
+/**
+ * What a word in a reading text can be: [dictionary form (stress marked), English meaning, which form ("" if none),
+ * flags: o = old-fashioned (Wiktionary has it only as archaic, obsolete or dated), s = with the old polite -с, n = a name].
+ */
+export type WordReading = [string, string, string, string];
+export interface ReadingQuestion {
+  q: string;
+  options: string[];
+}
+/** public/data/reading.<id>.json: one story or scene, every word explained, with its comprehension questions. */
+export interface ReadingUnit {
+  id: string;
+  /** index into ReadingIndex.works */
+  w: number;
+  title: string;
+  genre: string;
+  lines: ReadingLine[];
+  /** normalised word → its readings */
+  words: Record<string, WordReading[]>;
+  /** options in the same order in both languages; `answer` is the right one's index */
+  questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion }[];
+}
+/** public/data/reading.json: the works and the published texts. */
+export interface ReadingIndex {
   works: { id: string; author: string; authorEn: string; title: string; titleEn: string; year: number; kind: 'stories' | 'play'; level: [string, string]; source: string }[];
-  passages: { w: number; s: string; lines: ReadingLine[]; gaps: ReadingGap[] }[];
+  units: { id: string; w: number; title: string; genre: string; words: number; questions: number }[];
 }

@@ -21,7 +21,10 @@ import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
 import { buildSentences } from './lib/sentences.ts';
-import { buildReading, literatureWords } from './lib/literature.ts';
+import { adjFormLabel, buildReading, caseLabel, literatureWords } from './lib/literature.ts';
+import { CASES } from '../src/shared/cells.ts';
+import { cellForms } from '../src/shared/forms.ts';
+import { normalise } from '../src/shared/normalise.ts';
 import { buildCloze } from './lib/cloze.ts';
 import { buildCollocations } from './lib/collocations.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
@@ -146,17 +149,43 @@ const participleLemmas = participleRows.map((r) => ({
 }));
 const { shards: sentences, corpus } = await buildSentences({ verbs, adjectives, nouns, participles: participleLemmas, others, properNouns, deny: ov.sentences?.deny ?? {}, report });
 
-// ---- Read and fill in: public-domain literature, passages with any archaic or unknown word left out
-const adjRank = new Map(adjectives.map((a, i) => [a.id, i]));
-const byOwner = (owner: string) => {
-  const [type, idS] = owner.split(':');
-  const id = Number(idS);
-  const [list, rank] = type === 'verbs' ? [verbs, verbRank] : type === 'nouns' ? [nouns, nounRank] : type === 'adjectives' ? [adjectives, adjRank] : [null, null];
-  const l = list?.find((x) => x.id === id);
-  return l && rank ? { accented: l.accented, gloss: l.gloss, rank: rank.get(id)! } : undefined;
+// ---- Reading: public-domain literature with every word explained (scripts/lib/literature.ts)
+const verbById = new Map(verbs.map((v) => [v.id, v]));
+const nounById = new Map(nouns.map((n) => [n.id, n]));
+const adjById = new Map(adjectives.map((a) => [a.id, a]));
+const otherByBare = new Map(others.map((o) => [normalise(o.bare!), [o.accented || o.bare!, o.translations_en ?? ''] as [string, string]]));
+const pronounForms = new Map<string, [string, string][]>();
+const addPronoun = (cell: string, dict: string, label: string) => {
+  for (const f of cellForms(cell)) {
+    const k = normalise(f);
+    const list = pronounForms.get(k) ?? [];
+    if (!list.some(([d, l]) => d === dict && l === label)) list.push([dict, label]);
+    pronounForms.set(k, list);
+  }
 };
-const reading = buildReading({ owners: corpus.owners, lemma: byOwner, modern: new Set(wk.checkedModern), old: new Set(wk.checkedOld), report });
-const readingBytes = writeJson('reading.json', reading);
+for (const [w, plainCells, afterPrep] of pronouns.personal) {
+  CASES.forEach((c, i) => {
+    addPronoun(plainCells[i]!, w, caseLabel(c));
+    if (afterPrep[i] !== plainCells[i]) addPronoun(afterPrep[i]!, w, `${caseLabel(c)}, after a preposition`);
+  });
+}
+for (const [w, cells] of pronouns.possessive) cells.forEach((cell, i) => addPronoun(cell, w, adjFormLabel(i)));
+const reading = buildReading(
+  {
+    owners: corpus.owners,
+    masks: corpus.masks,
+    verb: (id) => verbById.get(id),
+    noun: (id) => nounById.get(id),
+    adjective: (id) => adjById.get(id),
+    other: (b) => otherByBare.get(b),
+    pronoun: (f) => pronounForms.get(f) ?? [],
+    wiktionary: wk.checkedInfo,
+    old: new Set(wk.checkedOld),
+  },
+  report,
+);
+let readingBytes = writeJson('reading.json', reading.index);
+for (const u of reading.units) readingBytes += writeJson(`reading.${u.id}.json`, u);
 
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);
@@ -222,7 +251,7 @@ for (const list of Object.values(sentences)) for (const s of list) sizes.push(`|
 sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.length, 0)} questions | ${(levelTestBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| learn.json | ${learnTatoeba.length} sentences, ${learnIpa.length} pronunciations | ${(learnBytes / 1024).toFixed(1)} KB |`);
-sizes.push(`| reading.json | ${reading.passages.length} passages, ${reading.passages.reduce((n, p) => n + p.gaps.length, 0)} gaps | ${(readingBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| reading.json, reading.*.json | ${reading.units.length} texts, ${reading.units.reduce((n, u) => n + u.questions.length, 0)} questions | ${(readingBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

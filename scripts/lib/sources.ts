@@ -17,7 +17,9 @@ export interface LiteratureWork {
   kind: 'stories' | 'play';
   level: [string, string];
 }
-const literatureYaml = parse(readFileSync('curated/literature.yaml', 'utf8')) as { works: LiteratureWork[]; notOld?: Record<string, string> };
+const literatureYaml = parse(readFileSync('curated/literature.yaml', 'utf8')) as { works: LiteratureWork[]; notOld?: Record<string, string>; glosses?: Record<string, string> };
+/** English meanings written by hand for words in the texts that neither our data nor Wiktionary has. */
+export const LITERATURE_GLOSSES = literatureYaml.glosses ?? {};
 export const LITERATURE = literatureYaml.works;
 /** Words Wiktionary mis-tags as old, each with the reason (curated/literature.yaml). */
 export const LITERATURE_NOT_OLD = literatureYaml.notOld ?? {};

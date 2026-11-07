@@ -1,0 +1,359 @@
+# Comprehension questions for the Reading section. A text is published only when it has questions here (and every
+# word in it can be explained). Each question has the same options, in the same order, in English and Russian;
+# `answer` is the index of the right one. Questions are about what happens and why, never about the wording.
+# The Russian is ours, so every word must be a real form in the data or a word of the text itself
+# (tests/unit/learn.test.ts checks this, as it does for Learn pages).
+#
+#   id       the address: /reading/<id>/
+#   work     an id from curated/literature.yaml; section = the story's title or "Явление N"
+
+# ---------------------------------------------------------------- Tolstoy: Вторая русская книга для чтения
+- id: kuritsa-i-lastochka
+  work: tolstoy-reader-2
+  section: Курица и ласточка
+  questions:
+    - answer: 0
+      en: { q: "What did the hen find?", options: ["Snake eggs", "A swallow's nest", "Some grain"] }
+      ru: { q: "Что нашла курица?", options: ["Змеиные яйца", "Гнездо ласточки", "Зерно"] }
+    - answer: 1
+      en: { q: "What does the swallow tell the hen?", options: ["The eggs will never hatch", "The snakes will grow up and hurt her first", "The farmer will take the eggs"] }
+      ru: { q: "Что говорит ласточка курице?", options: ["Из яиц никто не выйдет", "Змеи вырастут и первую обидят её", "Хозяин возьмёт яйца"] }
+
+- id: lisitsa-i-vinograd
+  work: tolstoy-reader-2
+  section: Лисица и виноград
+  questions:
+    - answer: 0
+      en: { q: "Why didn't the fox eat the grapes?", options: ["She couldn't reach them", "They were sour", "Someone chased her away"] }
+      ru: { q: "Почему лисица не съела виноград?", options: ["Она не могла его достать", "Виноград был кислый", "Её прогнали"] }
+    - answer: 2
+      en: { q: "Why does she say the grapes are still green?", options: ["To warn the other animals", "Because they really were unripe", "To hide her disappointment"] }
+      ru: { q: "Зачем лисица говорит «Зелены еще»?", options: ["Чтобы предупредить других зверей", "Потому что виноград правда зелёный", "Чтобы досаду заглушить"] }
+
+- id: rabotnitsy-i-petukh
+  work: tolstoy-reader-2
+  section: Работницы и петух
+  questions:
+    - answer: 1
+      en: { q: "Why did the women kill the rooster?", options: ["They were hungry", "So that he wouldn't wake their mistress", "He kept them awake in the day"] }
+      ru: { q: "Зачем работницы убили петуха?", options: ["Они хотели есть", "Чтобы он не будил хозяйку", "Он мешал им спать днём"] }
+    - answer: 0
+      en: { q: "What happened afterwards?", options: ["Their mistress woke them even earlier", "They could sleep longer", "Their mistress bought a new rooster"] }
+      ru: { q: "Что было потом?", options: ["Хозяйка стала будить их еще раньше", "Они стали спать дольше", "Хозяйка купила нового петуха"] }
+
+- id: rybak-i-rybka
+  work: tolstoy-reader-2
+  section: Рыбак и рыбка
+  questions:
+    - answer: 2
+      en: { q: "What does the little fish ask for?", options: ["To be cooked quickly", "To be taken home", "To be let go so that it can grow bigger"] }
+      ru: { q: "О чём просит рыбка?", options: ["Чтобы её быстро сварили", "Чтобы её взяли домой", "Чтобы её пустили в воду, пока она не вырастет"] }
+    - answer: 0
+      en: { q: "What does the fisherman answer?", options: ["Only a fool lets go of a small gain to wait for a big one", "He will catch it again next year", "He doesn't need fish at all"] }
+      ru: { q: "Что отвечает рыбак?", options: ["Только дурак упустит малую пользу и будет ждать большой", "Он поймает её опять через год", "Ему вообще не нужна рыба"] }
+
+- id: sobaka-i-ee-ten
+  work: tolstoy-reader-2
+  section: Собака и ее тень
+  questions:
+    - answer: 1
+      en: { q: "What did the dog really see in the water?", options: ["Another dog with meat", "Itself", "A fish"] }
+      ru: { q: "Что собака на самом деле увидела в воде?", options: ["Другую собаку с мясом", "Себя", "Рыбу"] }
+    - answer: 0
+      en: { q: "How does the story end?", options: ["The dog is left with nothing", "The dog gets both pieces of meat", "The dog falls into the river"] }
+      ru: { q: "Чем кончается рассказ?", options: ["Собака остаётся ни при чем", "Собака получает оба куска мяса", "Собака падает в речку"] }
+
+- id: zhuravl-i-aist
+  work: tolstoy-reader-2
+  section: Журавль и аист
+  questions:
+    - answer: 2
+      en: { q: "Why did the peasant put out nets?", options: ["To sell the birds", "To catch the stork", "The cranes were spoiling his crop"] }
+      ru: { q: "Зачем мужик расставил сети?", options: ["Чтобы продать птиц", "Чтобы поймать аиста", "Журавли сбивали у него посев"] }
+    - answer: 0
+      en: { q: "Why won't the peasant let the stork go?", options: ["It was caught with the cranes, so it shares their fate", "He doesn't believe it is a stork", "He wants its feathers"] }
+      ru: { q: "Почему мужик не отпускает аиста?", options: ["Аист попался вместе с журавлями", "Мужик не верит, что это аист", "Мужику нужны его перья"] }
+
+- id: sadovnik-i-synovya
+  work: tolstoy-reader-2
+  section: Садовник и сыновья
+  questions:
+    - answer: 1
+      en: { q: "What does the dying gardener tell his sons?", options: ["To sell the vineyard", "To look in the vineyard for what is hidden there", "To plant a new garden"] }
+      ru: { q: "Что говорит садовник сыновьям перед смертью?", options: ["Продать виноградник", "Искать в саду то, что там спрятано", "Посадить новый сад"] }
+    - answer: 2
+      en: { q: "What did the sons find?", options: ["A chest of gold", "Nothing at all, and they became poor", "No treasure, but the dug vineyard gave far more fruit"] }
+      ru: { q: "Что нашли сыновья?", options: ["Золото", "Ничего, и они стали бедными", "Клада не нашли, но сад стал давать гораздо больше плодов"] }
+
+- id: mysh-pod-ambarom
+  work: tolstoy-reader-2
+  section: Мышь под амбаром
+  questions:
+    - answer: 0
+      en: { q: "Why did the mouse invite the other mice?", options: ["To show off how well she lived", "Because she was lonely", "Because the grain was running out"] }
+      ru: { q: "Зачем мышь позвала других мышей?", options: ["Чтобы похвастаться своим житьем", "Ей было скучно одной", "Хлеба стало мало"] }
+    - answer: 1
+      en: { q: "What did they find when they came?", options: ["A cat was waiting for them", "The peasant had blocked up the hole", "The grain had all been eaten"] }
+      ru: { q: "Что они увидели, когда пришли?", options: ["Их ждала кошка", "Мужик заделал дыру", "Весь хлеб уже был съеден"] }
+
+- id: tri-kalacha-i-odna-baranka
+  work: tolstoy-reader-2
+  section: Три калача и одна баранка
+  questions:
+    - answer: 2
+      en: { q: "When did the peasant stop being hungry?", options: ["After the first калач", "After two баранки", "After three калачи and then one баранка"] }
+      ru: { q: "Когда мужик стал сыт?", options: ["После первого калача", "После двух баранок", "После трёх калачей и одной баранки"] }
+    - answer: 0
+      en: { q: "Why does he call himself a fool?", options: ["He thinks only the баранка filled him, so the калачи were wasted", "He spent all his money", "He ate too much and felt ill"] }
+      ru: { q: "Почему он называет себя дураком?", options: ["Он думает, что сыт от одной баранки, а калачи съел напрасно", "Он потратил все деньги", "Он съел слишком много"] }
+
+- id: dve-loshadi
+  work: tolstoy-reader-2
+  section: Две лошади
+  questions:
+    - answer: 1
+      en: { q: "Why did the back horse walk without a load?", options: ["It was ill", "Its load was moved onto the front horse", "It had nothing to carry from the start"] }
+      ru: { q: "Почему задняя лошадь пошла налегке?", options: ["Она была больна", "Её поклажу переложили на переднюю лошадь", "У неё с самого начала не было поклажи"] }
+    - answer: 0
+      en: { q: "What does the innkeeper decide?", options: ["To feed the working horse well and kill the other one", "To sell both horses", "To buy a third horse"] }
+      ru: { q: "Что решает хозяин?", options: ["Кормить одну лошадь, а другую зарезать", "Продать обеих лошадей", "Купить третью лошадь"] }
+
+- id: udacha
+  work: tolstoy-reader-2
+  section: Удача
+  questions:
+    - answer: 2
+      en: { q: "What did the others do on the island?", options: ["Slept and ate", "Built houses", "Worked hard looking for precious stones"] }
+      ru: { q: "Что делали люди на острове?", options: ["Спали и ели", "Строили дома", "Много работали и искали дорогие камни"] }
+    - answer: 1
+      en: { q: "What did the man who did nothing take home?", options: ["Nothing", "A handful of earth, which held the most precious stone of all", "A bag of ordinary stones"] }
+      ru: { q: "Что взял домой человек, который ничего не делал?", options: ["Ничего", "Горсть земли, а в ней был самый дорогой камень", "Сумку простых камней"] }
+
+- id: telenok-na-ldu
+  work: tolstoy-reader-2
+  section: Теленок на льду
+  questions:
+    - answer: 0
+      en: { q: "What did the calf do on the ice?", options: ["Ran out and spun round in circles", "Walked carefully to the trough", "Lay down to rest"] }
+      ru: { q: "Что делал теленок на льду?", options: ["Разбежался и стал кружиться", "Осторожно подошёл к корыту", "Лёг отдохнуть"] }
+    - answer: 1
+      en: { q: "What does the old cow tell him?", options: ["Calves should stay in the barn in winter", "Where it is easier to jump, it is harder to stay on your feet", "He should practise more"] }
+      ru: { q: "Что говорит ему старая корова?", options: ["Зимой телятам надо сидеть дома", "Где легче скакать, там труднее держаться", "Ему надо больше учиться"] }
+
+- id: devochka-i-griby
+  work: tolstoy-reader-2
+  section: Девочка и грибы
+  questions:
+    - answer: 1
+      en: { q: "Why did the younger girl run back across the rails?", options: ["She wanted to see the train", "She misheard what her sister shouted", "She had forgotten her mushrooms on the other side"] }
+      ru: { q: "Почему младшая девочка побежала назад через рельсы?", options: ["Она хотела посмотреть на поезд", "Она не расслышала, что кричала сестра", "Она забыла грибы на другой стороне"] }
+    - answer: 2
+      en: { q: "What happened when the train went over her?", options: ["She was badly hurt", "The driver stopped just in time", "She lay between the rails and was not hurt"] }
+      ru: { q: "Что случилось, когда поезд проехал над девочкой?", options: ["Она сильно ушиблась", "Машинист успел остановить машину", "Она лежала между рельсами и не пострадала"] }
+    - answer: 0
+      en: { q: "What did she do when she got up?", options: ["Picked up her mushrooms and ran to her sister", "Cried and ran home", "Went to thank the driver"] }
+      ru: { q: "Что она сделала, когда встала?", options: ["Собрала грибы и побежала к сестре", "Заплакала и побежала домой", "Пошла благодарить машиниста"] }
+
+- id: lev-i-sobachka
+  work: tolstoy-reader-2
+  section: Лев и собачка
+  questions:
+    - answer: 2
+      en: { q: "Why was the little dog thrown into the lion's cage?", options: ["As a present for the lion", "By mistake", "As food for the lion"] }
+      ru: { q: "Зачем собачку бросили в клетку ко льву?", options: ["В подарок льву", "По ошибке", "На съеденье льву"] }
+    - answer: 0
+      en: { q: "What did the lion do when the owner tried to take the dog back?", options: ["It bristled and growled", "It gave the dog back", "It was asleep"] }
+      ru: { q: "Что сделал лев, когда хотели взять собачку из клетки?", options: ["Ощетинился и зарычал", "Отдал собачку", "Он спал"] }
+    - answer: 1
+      en: { q: "What happened after the dog died?", options: ["The lion soon made friends with a new dog", "The lion would let no one near her, stopped eating and died on the sixth day", "The lion was let out of the cage"] }
+      ru: { q: "Что было после того, как собачка умерла?", options: ["Лев скоро подружился с новой собачкой", "Лев никого не подпускал к ней, не ел и на шестой день умер", "Льва выпустили из клетки"] }
+
+- id: akula
+  work: tolstoy-reader-2
+  section: Акула
+  questions:
+    - answer: 0
+      en: { q: "Where were the two boys swimming when the shark appeared?", options: ["In the open sea, racing each other", "In the sail the sailors had put in the water", "Next to the ship"] }
+      ru: { q: "Где плавали мальчики, когда появилась акула?", options: ["В открытом море, наперегонки", "В парусе у корабля", "Около корабля"] }
+    - answer: 2
+      en: { q: "Who killed the shark?", options: ["The sailors in the boat", "The captain", "The old artillery man, the father of one of the boys"] }
+      ru: { q: "Кто убил акулу?", options: ["Матросы в лодке", "Капитан", "Старый артиллерист, отец одного из мальчиков"] }
+    - answer: 1
+      en: { q: "What did everyone see on the water when the smoke cleared?", options: ["The boat turned over", "The dead shark's yellow belly", "The two boys waving"] }
+      ru: { q: "Что все увидели на воде, когда дым разошелся?", options: ["Перевёрнутую лодку", "Желтое брюхо мертвой акулы", "Двух мальчиков"] }
+
+# ---------------------------------------------------------------- Chekhov: Медведь (1888)
+- id: medved-1
+  work: chekhov-bear
+  section: Явление I
+  questions:
+    - answer: 1
+      en: { q: "Why has Popova not left the house for almost a year?", options: ["She is ill", "She is mourning her husband and has sworn to stay in mourning", "She has quarrelled with her neighbours"] }
+      ru: { q: "Почему Попова почти год не выходит из дому?", options: ["Она больна", "Она носит траур по мужу и дала себе клятву не снимать его", "Она поругалась с соседями"] }
+    - answer: 0
+      en: { q: "What does she ask Luka to give the horse Toby?", options: ["An extra measure of oats", "A new saddle", "A day's rest"] }
+      ru: { q: "Что она велит Луке дать Тоби?", options: ["Лишнюю осьмушку овса", "Новое седло", "Отдохнуть один день"] }
+
+- id: medved-2
+  work: chekhov-bear
+  section: Явление II
+  questions:
+    - answer: 2
+      en: { q: "What does Popova reproach her dead husband with?", options: ["Spending all her money on horses", "Never writing to her", "Being unfaithful and leaving her alone for weeks"] }
+      ru: { q: "В чём Попова упрекает покойного мужа?", options: ["Он тратил все её деньги на лошадей", "Он никогда ей не писал", "Он изменял ей и оставлял её одну по целым неделям"] }
+
+- id: medved-3
+  work: chekhov-bear
+  section: Явление III
+  questions:
+    - answer: 0
+      en: { q: "What does Luka say about the visitor?", options: ["He won't take no for an answer and is already in the dining room", "He has gone away", "He is waiting outside"] }
+      ru: { q: "Что Лука говорит о госте?", options: ["Он и слушать не хочет и уже стоит в столовой", "Он уехал", "Он ждёт во дворе"] }
+
+- id: medved-4
+  work: chekhov-bear
+  section: Явление IV
+  questions:
+    - answer: 1
+      en: { q: "Why has Smirnov come?", options: ["To buy oats", "Her late husband owed him 1,200 roubles", "To propose to her"] }
+      ru: { q: "Зачем приехал Смирнов?", options: ["Купить овса", "Её покойный муж остался ему должен тысячу двести рублей", "Сделать ей предложение"] }
+    - answer: 0
+      en: { q: "Why does he need the money today?", options: ["He has interest to pay to the bank tomorrow", "He is going abroad", "His horse is ill"] }
+      ru: { q: "Почему деньги нужны ему сегодня?", options: ["Завтра ему платить проценты в банк", "Он уезжает за границу", "Его лошадь больна"] }
+
+- id: medved-5
+  work: chekhov-bear
+  section: Явление V
+  questions:
+    - answer: 2
+      en: { q: "What does Smirnov decide at the end of his speech?", options: ["To leave and come back the day after tomorrow", "To go to court", "To stay until she pays"] }
+      ru: { q: "Что решает Смирнов в конце?", options: ["Уехать и вернуться послезавтра", "Подать в суд", "Остаться здесь, пока она не заплатит"] }
+
+- id: medved-6
+  work: chekhov-bear
+  section: Явление VI
+  questions:
+    - answer: 0
+      en: { q: "What does Smirnov ask Luka for?", options: ["Kvass or water", "Vodka", "His hat"] }
+      ru: { q: "Что Смирнов просит у Луки?", options: ["Квасу или воды", "Водки", "Свою шляпу"] }
+
+- id: medved-7
+  work: chekhov-bear
+  section: Явление VII
+  questions:
+    - answer: 1
+      en: { q: "What does Luka say about Smirnov behind his back?", options: ["That he is a fine gentleman", "That he is a pest (леший) who has latched on to them", "That he is an old friend of the master"] }
+      ru: { q: "Что Лука говорит о Смирнове в сторону?", options: ["Что он хороший барин", "Что он леший и навязался на их голову", "Что он старый друг барина"] }
+
+- id: medved-8
+  work: chekhov-bear
+  section: Явление VIII
+  questions:
+    - answer: 2
+      en: { q: "What does Popova say about her late husband?", options: ["He was the most faithful of men", "He left her a fortune", "He deceived her at every step, though she loved him"] }
+      ru: { q: "Что Попова рассказывает о покойном муже?", options: ["Он был самым верным из мужчин", "Он оставил ей большие деньги", "Он обманывал её на каждом шагу, хотя она его любила"] }
+    - answer: 0
+      en: { q: "What does Smirnov say about her mourning?", options: ["It's a pose, to look mysterious and poetic", "It's sincere", "It has gone on too long"] }
+      ru: { q: "Что Смирнов говорит о её трауре?", options: ["Это для того, чтобы казаться таинственной и поэтичной", "Это искренне", "Он слишком долгий"] }
+
+- id: medved-9
+  work: chekhov-bear
+  section: Явление IX
+  questions:
+    - answer: 1
+      en: { q: "What does Smirnov challenge Popova to?", options: ["A game of cards", "A duel with pistols", "A court case"] }
+      ru: { q: "К чему Смирнов вызывает Попову?", options: ["К игре в карты", "К дуэли на пистолетах", "К суду"] }
+    - answer: 0
+      en: { q: "How does Smirnov feel about her at the end of the scene?", options: ["He admires her and is ready to forgive the debt", "He wants to shoot her", "He wants to leave at once"] }
+      ru: { q: "Что чувствует Смирнов к ней в конце?", options: ["Она ему нравится, и он готов простить ей долг", "Он хочет её убить", "Он хочет сразу уехать"] }
+
+- id: medved-10
+  work: chekhov-bear
+  section: Явление X
+  questions:
+    - answer: 2
+      en: { q: "Why does Smirnov say he will shoot into the air?", options: ["He is a bad shot", "The pistols aren't loaded", "He likes her"] }
+      ru: { q: "Почему Смирнов хочет выстрелить в воздух?", options: ["Он плохо стреляет", "Пистолеты не заряжены", "Она ему нравится"] }
+    - answer: 0
+      en: { q: "How does the scene end?", options: ["With a long kiss", "With a shot", "With Smirnov leaving"] }
+      ru: { q: "Чем кончается явление?", options: ["Продолжительным поцелуем", "Выстрелом", "Смирнов уходит"] }
+
+- id: medved-11
+  work: chekhov-bear
+  section: Явление XI
+  questions:
+    - answer: 1
+      en: { q: "What does Popova tell Luka about Toby now?", options: ["To give him an extra measure of oats", "To give him no oats at all today", "To harness him for a drive"] }
+      ru: { q: "Что Попова теперь говорит Луке о Тоби?", options: ["Дать ему лишнюю осьмушку овса", "Сегодня вовсе не давать ему овса", "Запрячь его"] }
+
+# ---------------------------------------------------------------- Chekhov: Предложение (1888)
+- id: predlozhenie-1
+  work: chekhov-proposal
+  section: Явление I
+  questions:
+    - answer: 0
+      en: { q: "Why has Lomov come in a tailcoat and white gloves?", options: ["To ask for Natalya Stepanovna's hand", "To borrow money", "He is on his way to a ball"] }
+      ru: { q: "Зачем Ломов приехал во фраке и белых перчатках?", options: ["Просить руки Натальи Степановны", "Просить денег", "Он едет на бал"] }
+    - answer: 1
+      en: { q: "What does Chubukov think at first, aside?", options: ["That Lomov has come to propose", "That Lomov has come to ask for money", "That Lomov is ill"] }
+      ru: { q: "Что сначала думает Чубуков (в сторону)?", options: ["Что Ломов приехал сделать предложение", "Что Ломов приехал просить денег", "Что Ломов болен"] }
+
+- id: predlozhenie-2
+  work: chekhov-proposal
+  section: Явление II
+  questions:
+    - answer: 2
+      en: { q: "Why does Lomov feel he must marry?", options: ["He is deeply in love", "His aunt's will says so", "He is 35, needs a regular life and has a weak heart"] }
+      ru: { q: "Почему Ломову нужно жениться?", options: ["Он сильно влюблён", "Так велела тетушка", "Ему уже 35 лет, ему нужна правильная жизнь, у него порок сердца"] }
+
+- id: predlozhenie-3
+  work: chekhov-proposal
+  section: Явление III
+  questions:
+    - answer: 0
+      en: { q: "What do Lomov and Natalya Stepanovna argue about?", options: ["Who owns the meadow Воловьи Лужки", "Whose dog is better", "Who owes whom"] }
+      ru: { q: "О чём спорят Ломов и Наталья Степановна?", options: ["Чьи Воловьи Лужки", "Чья собака лучше", "Кто кому должен"] }
+    - answer: 1
+      en: { q: "What does Lomov offer, which makes her even angrier?", options: ["To sell her the meadow", "To give her the meadow as a present", "To go to court"] }
+      ru: { q: "Что предлагает Ломов, отчего она сердится ещё больше?", options: ["Продать ей Лужки", "Подарить ей Лужки", "Подать в суд"] }
+
+- id: predlozhenie-4
+  work: chekhov-proposal
+  section: Явление IV
+  questions:
+    - answer: 2
+      en: { q: "What does Lomov threaten to do?", options: ["Buy the meadow", "Leave the district", "Prove in court that the meadow is his"] }
+      ru: { q: "Чем грозит Ломов?", options: ["Купить Лужки", "Уехать из уезда", "Доказать судом, что Лужки его"] }
+    - answer: 0
+      en: { q: "What does Chubukov say about Lomov's family?", options: ["That they were all mad", "That they were all honest", "That they were very rich"] }
+      ru: { q: "Что Чубуков говорит о роде Ломовых?", options: ["Что все они были сумасшедшие", "Что все они были честные", "Что все они были богатые"] }
+
+- id: predlozhenie-5
+  work: chekhov-proposal
+  section: Явление V
+  questions:
+    - answer: 1
+      en: { q: "Why does Natalya Stepanovna suddenly want Lomov brought back?", options: ["To apologise for the quarrel", "She learns that he came to propose", "To give him the meadow"] }
+      ru: { q: "Почему Наталья Степановна вдруг хочет вернуть Ломова?", options: ["Чтобы извиниться за ссору", "Она узнаёт, что он приезжал сделать ей предложение", "Чтобы подарить ему Лужки"] }
+
+- id: predlozhenie-6
+  work: chekhov-proposal
+  section: Явление VI
+  questions:
+    - answer: 0
+      en: { q: "What do they argue about this time?", options: ["Whose dog is better, Угадай or Откатай", "The land again", "Money"] }
+      ru: { q: "О чём они спорят теперь?", options: ["Какая собака лучше, Угадай или Откатай", "Опять о земле", "О деньгах"] }
+    - answer: 2
+      en: { q: "What fault does Lomov find in Откатай?", options: ["He is too old", "He is lame", "His lower jaw is shorter than the upper"] }
+      ru: { q: "Какой недостаток Ломов находит у Откатая?", options: ["Он слишком стар", "Он хромает", "Нижняя челюсть короче верхней"] }
+
+- id: predlozhenie-7
+  work: chekhov-proposal
+  section: Явление VII
+  questions:
+    - answer: 1
+      en: { q: "What happens to Lomov in the middle of the quarrel?", options: ["He leaves the house", "He faints, and they think he has died", "He hits Chubukov"] }
+      ru: { q: "Что происходит с Ломовым посреди ссоры?", options: ["Он уходит из дома", "Он падает в обморок, и все думают, что он умер", "Он бьёт Чубукова"] }
+    - answer: 0
+      en: { q: "How does the play end?", options: ["They get engaged and start arguing about the dogs again", "Natalya Stepanovna refuses him", "Lomov goes home"] }
+      ru: { q: "Чем кончается пьеса?", options: ["Они обручаются и снова начинают спорить о собаках", "Наталья Степановна ему отказывает", "Ломов уезжает домой"] }

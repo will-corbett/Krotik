@@ -81,6 +81,11 @@ export interface WkExtract {
   checkedModern: string[];
   /** … or found only in archaic, obsolete or dated use. A word in neither list isn't in Wiktionary at all. */
   checkedOld: string[];
+  /**
+   * For each checked word found: [dictionary form (stress marked), first English gloss, the form's tags ("" for a
+   * headword), 1 if old]. A modern reading is kept in preference to an old one.
+   */
+  checkedInfo: Record<string, [string, string, string, 0 | 1]>;
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -101,7 +106,7 @@ interface RawEntry {
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 4;
+const EXTRACT_VERSION = 5;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
 /** Tags that mark a word or form as not modern Russian. */
 const OLD_TAGS = new Set(['archaic', 'obsolete', 'dated']);
@@ -159,7 +164,7 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [] };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {} };
   const attested = new Set<string>();
   const checkModern = new Set<string>();
   const checkOld = new Set<string>();
@@ -185,11 +190,23 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
       const entryOld = senses.length > 0 && senses.every((x) => (x.tags ?? []).some((t) => OLD_TAGS.has(t)));
       const fold = (w: string) => w.normalize('NFC').replace(/[\u0301\u0300]/g, '').toLowerCase().replace(/ё/g, 'е');
       const hw = fold(word);
-      if (wanted.check.has(hw)) (entryOld ? checkOld : checkModern).add(hw);
+      const gloss = senses.flatMap((x) => x.glosses ?? [])[0] ?? '';
+      const note = (w: string, old: boolean, tags: string) => {
+        const cur = out.checkedInfo[w];
+        if (!cur || (cur[3] && !old)) out.checkedInfo[w] = [canonical(e), gloss, tags, old ? 1 : 0];
+      };
+      if (wanted.check.has(hw)) {
+        (entryOld ? checkOld : checkModern).add(hw);
+        note(hw, entryOld, '');
+      }
       for (const f of e.forms ?? []) {
-        if ((f.tags ?? []).some((t) => t === 'romanization' || t === 'table-tags' || t === 'inflection-template')) continue;
+        const tags = f.tags ?? [];
+        if (tags.some((t) => t === 'romanization' || t === 'table-tags' || t === 'inflection-template' || t === 'canonical')) continue;
         const ff = fold(f.form);
-        if (wanted.check.has(ff)) (entryOld || (f.tags ?? []).some((t) => OLD_TAGS.has(t)) ? checkOld : checkModern).add(ff);
+        if (!wanted.check.has(ff)) continue;
+        const old = entryOld || tags.some((t) => OLD_TAGS.has(t));
+        (old ? checkOld : checkModern).add(ff);
+        note(ff, old, tags.filter((t) => !OLD_TAGS.has(t)).join(' '));
       }
     }
     // The standard pronunciation is the IPA with no regional tag or note; the headword's first entry wins.

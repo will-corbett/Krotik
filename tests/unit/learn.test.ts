@@ -75,6 +75,33 @@ describe('Culture notes', () => {
   }
 });
 
+describe('Reading questions', () => {
+  // Our Russian, like the Learn pages: each word a real form in the data, or a word of the text the question is about.
+  const qs = parse(readFileSync('content/reading/questions.yaml', 'utf8')) as { id: string; questions: { ru: { q: string; options: string[] } }[] }[];
+  // Words of the same work count (осьмушку is in another scene), and characters' names in any case (Ломову).
+  type Unit = { words: Record<string, [string, string, string, string][]> };
+  const byWork = new Map<string, { words: Set<string>; names: string[] }>();
+  for (const entry of qs as unknown as { id: string; work: string }[]) {
+    const file = `public/data/reading.${entry.id}.json`;
+    if (!existsSync(file)) continue;
+    const u = JSON.parse(readFileSync(file, 'utf8')) as Unit;
+    const w = byWork.get(entry.work) ?? { words: new Set<string>(), names: [] };
+    for (const [k, r] of Object.entries(u.words)) {
+      w.words.add(k);
+      if (r.some((x) => x[3] === 'n')) w.names.push(k);
+    }
+    byWork.set(entry.work, w);
+  }
+  for (const entry of qs as unknown as { id: string; work: string; questions: { ru: { q: string; options: string[] } }[] }[]) {
+    it(`${entry.id}: every Russian word in the questions is real`, () => {
+      const w = byWork.get(entry.work) ?? { words: new Set<string>(), names: [] };
+      const isName = (k: string) => w.names.some((n) => n.length >= 4 && k.startsWith(n.replace(/[ауоыяеи]$/, '')) && k.length - n.length <= 3);
+      const text = entry.questions.flatMap((q) => [q.ru.q, ...q.ru.options]).join('\n');
+      expect(unknownWords(text).filter((x) => !w.words.has(normalise(x)) && !isName(normalise(x)))).toEqual([]);
+    });
+  }
+});
+
 describe('Learn pages', () => {
   it('there are Learn pages, each for a real topic', () => {
     expect(pages.length).toBeGreaterThan(0);
