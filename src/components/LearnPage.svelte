@@ -2,7 +2,7 @@
   import { loadLearn, parseMarkdown, type Block } from '../lib/learn.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
-  import { neighbours, topicById } from '../lib/topics.ts';
+  import { isDrill, neighbours, topicById } from '../lib/topics.ts';
   import MarkdownBlocks from './MarkdownBlocks.svelte';
 
   let { topic, settings = $bindable() }: { topic: string; settings: Settings } = $props();
@@ -38,10 +38,12 @@
   {:else if blocks}
     <MarkdownBlocks {blocks} bind:settings />
     {#if t}
-      <div class="drill-cta">
-        <p>Ready to practise properly?</p>
-        <a class="btn primary" href={href({ page: 'drill', mode: t.id })}>Drill: {t.title.en}</a>
-      </div>
+      {#if isDrill(t)}
+        <div class="drill-cta">
+          <p>Ready to practise properly?</p>
+          <a class="btn primary" href={href({ page: 'drill', mode: t.id })}>Drill: {t.title.en}</a>
+        </div>
+      {/if}
       {#if related.length}
         <section class="related" aria-labelledby="related-h">
           <h2 id="related-h">Related topics</h2>

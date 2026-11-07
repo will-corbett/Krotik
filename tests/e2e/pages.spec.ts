@@ -123,12 +123,28 @@ test('every written Learn page loads without errors', async ({ page }) => {
   await page.goto('/#/learn');
   const links = await page.locator('main li a').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href')!));
   expect(links.length).toBeGreaterThanOrEqual(6);
+  const learnOnly = ['wordOrder', 'complexSentences', 'modals', 'reportedSpeech', 'sounds'];
   for (const l of links) {
     await page.goto('/' + l);
-    await expect(page.locator('.drill-cta')).toBeVisible();
-    await expect(page.getByText(/couldn't load|No example found/i)).toHaveCount(0);
+    await expect(page.locator('nav.pager')).toBeVisible();
+    await expect(page.locator('.drill-cta')).toHaveCount(learnOnly.some((t) => l.endsWith('/' + t)) ? 0 : 1);
+    await expect(page.getByText(/couldn.t load|No example found/i)).toHaveCount(0);
   }
   expect(errors).toEqual([]);
+});
+
+test('Learn-only topics: real sentences and IPA, a Learn link but no Drill link, and not on the Drill page', async ({ page }) => {
+  await page.goto('/#/learn/wordOrder');
+  await expect(page.locator('figure.sentence mark').first()).toHaveText('Книга');
+  await expect(page.getByRole('link', { name: /Tatoeba #2171689/ })).toBeVisible();
+  await page.goto('/#/learn/sounds');
+  await expect(page.getByRole('row', { name: /хлеб.*xlʲep/ })).toBeVisible();
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: 'Learn: Word order' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Drill: Word order' })).toHaveCount(0);
+  await page.goto('/#/drill');
+  await expect(page.getByRole('radio', { name: /Verb forms/ })).toBeVisible();
+  await expect(page.getByRole('radio', { name: /Word order/ })).toHaveCount(0);
 });
 
 test('the Krotik theme is the default, and the theme picker switches it', async ({ page }) => {
@@ -145,7 +161,7 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme === 'dark' ? 'dark' : 'light' });
     await page.goto('/');
     await page.getByLabel('Theme').selectOption(theme);
-    for (const url of ['/#/', '/#/learn', '/#/learn/pronouns', '/#/learn/alphabet', '/#/culture', '/#/culture/names', '/#/test']) {
+    for (const url of ['/#/', '/#/learn', '/#/learn/pronouns', '/#/learn/alphabet', '/#/learn/sounds', '/#/learn/wordOrder', '/#/culture', '/#/culture/names', '/#/test']) {
       await page.goto(url);
       await expect(page.locator('main')).not.toContainText('Loading…');
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();

@@ -46,6 +46,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
 | level-test.json | 2250 questions | 649 KB |
+| learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -179,7 +180,9 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 72 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 73 |
+| ::ipa words, each with its IPA from Wiktionary | 50 |
+| ::tatoeba sentences, each found in the corpus | 42 |
 
 ## Participles and verbal adverbs (Wiktionary)
 

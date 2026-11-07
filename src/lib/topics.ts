@@ -1,14 +1,17 @@
 /**
  * Every topic, in its group: the single list behind the Dashboard, the Learn index and the Drill setup.
  * Within each group, topics run from the most basic and most needed to the more advanced or less essential.
- * A topic's id is its drill mode; its Learn page (if written yet) is content/learn/<id>.md.
+ * A topic's id is its drill mode; its Learn page (if written yet) is content/learn/<id>.md. A few topics are Learn
+ * pages only (`drill: false`): there's no drill of their own, so the Drill page and Dashboard leave out the Drill link.
  */
 import { TERMS, type Term } from './terms.ts';
 import type { Mode } from './types.ts';
 
 export type Cefr = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
-export interface Topic {
-  id: Mode;
+/** Topics with a Learn page but no drill of their own. */
+export type LearnOnly = 'modals' | 'complexSentences' | 'reportedSpeech' | 'wordOrder' | 'sounds';
+export type TopicId = Mode | LearnOnly;
+interface TopicBase {
   title: Term;
   blurb: string;
   /**
@@ -17,8 +20,12 @@ export interface Topic {
    */
   level: [Cefr, Cefr];
   /** closely connected topics, shown at the end of the Learn page */
-  related: Mode[];
+  related: TopicId[];
 }
+export type Topic = (TopicBase & { id: Mode; drill?: true }) | (TopicBase & { id: LearnOnly; drill: false });
+/** A topic you can drill (the Drill page's list). */
+export type DrillTopic = Extract<Topic, { id: Mode }>;
+export const isDrill = (t: Topic): t is DrillTopic => t.drill !== false;
 export interface TopicGroup {
   title: Term;
   modes: Topic[];
@@ -27,7 +34,7 @@ export interface TopicGroup {
 export const TOPIC_GROUPS: TopicGroup[] = [
   {
     title: TERMS.gettingStarted,
-    modes: [{ id: 'alphabet', title: TERMS.alphabet, blurb: 'Letters and sounds; read and type Cyrillic', level: ['A1', 'A1'], related: ['stress'] }],
+    modes: [{ id: 'alphabet', title: TERMS.alphabet, blurb: 'Letters and sounds; read and type Cyrillic', level: ['A1', 'A1'], related: ['stress', 'sounds'] }],
   },
   {
     title: TERMS.verbs,
@@ -78,19 +85,26 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       { id: 'prepositions', title: TERMS.prepositionsMode, blurb: 'в школе, в школу, к другу, с другом', level: ['A1', 'A2'], related: ['nounCases', 'government', 'time'] },
       { id: 'time', title: TERMS.time, blurb: 'в пятницу, в январе, через неделю, час назад', level: ['A1', 'A2'], related: ['prepositions', 'ordinals'] },
       { id: 'negation', title: TERMS.negation, blurb: 'нет времени, никого не вижу, не / ни', level: ['A2', 'B1'], related: ['nounCases', 'indefinite'] },
-      { id: 'conjunctions', title: TERMS.conjunctions, blurb: 'что, чтобы, если, когда', level: ['A1', 'A2'], related: ['chtoby', 'kotoryi', 'conditional'] },
+      { id: 'conjunctions', title: TERMS.conjunctions, blurb: 'что, чтобы, если, когда', level: ['A1', 'A2'], related: ['complexSentences', 'chtoby', 'kotoryi'] },
       { id: 'comparison', title: TERMS.comparison, blurb: 'старше брата', level: ['A2', 'B1'], related: ['compare'] },
-      { id: 'impersonal', title: TERMS.impersonal, blurb: 'мне холодно, Тому надо идти', level: ['A1', 'A2'], related: ['pronouns', 'government'] },
+      { id: 'impersonal', title: TERMS.impersonal, blurb: 'мне холодно, Тому надо идти', level: ['A1', 'A2'], related: ['modals', 'pronouns', 'government'] },
+      { id: 'modals', title: TERMS.modals, drill: false, blurb: 'мочь / уметь, должен, нужен, нельзя', level: ['A1', 'B1'], related: ['impersonal', 'aspect'] },
       { id: 'chtoby', title: TERMS.chtoby, blurb: 'чтобы помочь / чтобы ты помог', level: ['A2', 'B1'], related: ['conjunctions', 'conditional'] },
       { id: 'kotoryi', title: TERMS.kotoryi, blurb: 'книга, которую я читаю', level: ['A2', 'B1'], related: ['conjunctions', 'participles'] },
       { id: 'conditional', title: TERMS.conditional, blurb: 'я бы пошёл', level: ['A2', 'B1'], related: ['chtoby', 'verbs'] },
+      { id: 'complexSentences', title: TERMS.complexSentences, drill: false, blurb: 'потому что, хотя, пока не, то, что', level: ['A2', 'B2'], related: ['conjunctions', 'kotoryi', 'chtoby', 'conditional'] },
+      { id: 'reportedSpeech', title: TERMS.reportedSpeech, drill: false, blurb: 'сказал, что…; спросил, знаю ли я', level: ['B1', 'B2'], related: ['conjunctions', 'chtoby', 'particles'] },
       { id: 'indefinite', title: TERMS.indefinite, blurb: 'кто-то, кто-нибудь, кое-кто', level: ['A2', 'B1'], related: ['negation', 'questionWords'] },
+      { id: 'wordOrder', title: TERMS.wordOrder, drill: false, blurb: 'Книга на столе / На столе книга', level: ['B1', 'C1'], related: ['nounCases', 'particles', 'complexSentences'] },
       { id: 'particles', title: TERMS.particlesTopic, blurb: 'ли, же, ведь, вот, ну, даже, только, -ка', level: ['B1', 'B2'], related: ['conjunctions'] },
     ],
   },
   {
     title: TERMS.pronunciation,
-    modes: [{ id: 'stress', title: TERMS.stress, blurb: 'Tap the stressed vowel', level: ['A1', 'B1'], related: ['alphabet'] }],
+    modes: [
+      { id: 'stress', title: TERMS.stress, blurb: 'Tap the stressed vowel', level: ['A1', 'B1'], related: ['alphabet', 'sounds'] },
+      { id: 'sounds', title: TERMS.sounds, drill: false, blurb: 'молоко, хлеб, что, солнце', level: ['A1', 'B1'], related: ['alphabet', 'stress'] },
+    ],
   },
 ];
 export const ALL_TOPICS: Topic[] = TOPIC_GROUPS.flatMap((g) => g.modes);

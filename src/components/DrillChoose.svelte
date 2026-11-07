@@ -1,7 +1,7 @@
 <script lang="ts">
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
-  import { TOPIC_GROUPS } from '../lib/topics.ts';
+  import { TOPIC_GROUPS, isDrill } from '../lib/topics.ts';
   import type { Mode } from '../lib/types.ts';
 
   /**
@@ -32,7 +32,7 @@
 <form class="choose fade-in" class:picked onsubmit={submit}>
   <fieldset class="modes">
     <legend>Choose a drill</legend>
-    {#each TOPIC_GROUPS as g (g.title.en)}
+    {#each TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill) })) as g (g.title.en)}
       <h2 class="group">{g.title.en} <span class="ru" lang="ru">{g.title.ru}</span></h2>
       <div class="mode-grid">
         {#each g.modes as m (m.id)}

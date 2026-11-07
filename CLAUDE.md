@@ -59,7 +59,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   sentence ties to one word. Each option carries a form code (`levelTestPool.ts`) so the results explain every wrong
   answer (`levelTestExplain.ts`); a spelling that is several forms is labelled as all of them. Next/Back/Submit; the
   test and its result are kept in memory (`session`) for the tab, never in storage.
-- `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it). Each
+- `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it). A few
+  topics are Learn pages only (`drill: false`: word order, complex sentences, modals, reported speech, sounds), left
+  out of the Drill page and with no Drill links; their quick checks use a related drill. Each
   topic has a `level` [first met, core by] (our CEFR-style judgement, a guide not a gate) and `related` topics; Learn
   pages show both, with previous/next links in this order.
 - The main menu is a bar at ≥720px and a Menu dropdown below that. The level test is called the **Grammar test**
@@ -67,7 +69,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
   `::sentence verb читать past_f` (or `::sentence participle читать читая`), `::drill nounCases {"cases":["acc"]} 5`,
-  `::examples chtoby past 3` (shortest real sentences of one sentence-drill kind).
+  `::examples chtoby past 3` (shortest real sentences of one sentence-drill kind), `::tatoeba 467752:книга 2171689` (real
+  Tatoeba sentences by id, ":word" highlights it), `::ipa молоко хлеб` (each word's IPA from Wiktionary). The data build
+  collects both into `public/data/learn.json` and fails if a sentence isn't in the corpus or a word has no standard IPA.
   Tables and sentences always come from the data. Major lessons end with **Common mistakes** (Not this | But
   this | Why, saying whether it is wrong, regional/unnatural, or correct with another meaning); a wrong example is
   always real forms used wrongly (wrong case, aspect, preposition), never a misspelt or invented form. `tests/unit/learn.test.ts` fails if any Russian word in the

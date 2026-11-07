@@ -2,7 +2,7 @@
   import { LEARN_TOPICS } from '../lib/learn.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
-  import { TOPIC_GROUPS, topicById } from '../lib/topics.ts';
+  import { TOPIC_GROUPS, isDrill, topicById } from '../lib/topics.ts';
 
   let { settings, loading, oncontinue, onhide }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void } = $props();
   const last = $derived(topicById(settings.mode));
@@ -57,7 +57,9 @@
               {#if LEARN_TOPICS.has(t.id)}
                 <a class="btn small-btn" href={href({ page: 'learn', topic: t.id })} aria-label="Learn: {t.title.en}">Learn</a>
               {/if}
-              <a class="btn small-btn" href={href({ page: 'drill', mode: t.id })} aria-label="Drill: {t.title.en}">Drill</a>
+              {#if isDrill(t)}
+                <a class="btn small-btn" href={href({ page: 'drill', mode: t.id })} aria-label="Drill: {t.title.en}">Drill</a>
+              {/if}
             </div>
           </li>
         {/each}

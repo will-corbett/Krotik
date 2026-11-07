@@ -135,8 +135,9 @@ Done in batches, each reviewed before the next.
    another round"; menu as a bar on desktop; Learn pages show a topic level, related topics and previous/next links;
    aspect (several perfectives, both-aspect and one-aspect verbs) and participle formation explained more fully;
    Common mistakes in ten lessons.
-2. **New Learn pages:** word order (тема и рема), complex sentences (an overview linking который/чтобы/conditionals/
-   conjunctions), modal constructions, reported speech, fuller pronunciation (IPA from Wiktionary).
+2. **New Learn pages (done):** word order (тема и рема), complex sentences (an overview linking который/чтобы/
+   conditionals/conjunctions), modal constructions, reported speech, sounds and spelling (IPA from Wiktionary). These
+   are Learn-only topics; their examples are real Tatoeba sentences quoted by id (`::tatoeba`).
 3. **Exercises:** mixed review drill; translate-and-compare drill (the Tatoeba sentence as the model, self-marked);
    end-screen breakdown by question type; **opt-in, browser-only progress** (off by default, never sent anywhere) for
    weak topics and revision suggestions. The owner chose this; it changes the "never store progress" rule, so the

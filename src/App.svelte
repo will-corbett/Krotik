@@ -15,7 +15,11 @@
   import { createRound, type Round } from './lib/queue.ts';
   import { mulberry32 } from './lib/rng.ts';
   import { href, parseRoute, type Route } from './lib/router.ts';
-  import { topicById } from './lib/topics.ts';
+  import { isDrill, topicById } from './lib/topics.ts';
+  const isDrillId = (id: string) => {
+    const t = topicById(id);
+    return !!t && isDrill(t);
+  };
   import type { Mode, Question } from './lib/types.ts';
 
   type Screen = 'setup' | 'drill' | 'end';
@@ -23,7 +27,7 @@
   const initialRoute = parseRoute(location.hash);
   const initialSettings = loadSettings();
   // A deep link to a drill (#/drill/aspect) selects that drill on first load.
-  if (initialRoute.page === 'drill' && initialRoute.mode && topicById(initialRoute.mode)) initialSettings.mode = initialRoute.mode as Mode;
+  if (initialRoute.page === 'drill' && initialRoute.mode && isDrillId(initialRoute.mode)) initialSettings.mode = initialRoute.mode as Mode;
   let settings = $state<Settings>(initialSettings);
   let route = $state<Route>(initialRoute);
   let screen = $state<Screen>('setup');
@@ -52,7 +56,7 @@
     visited++;
     if (next.page === 'drill' && route.page !== 'drill') screen = 'setup';
     if (next.page === 'drill' && next.mode) {
-      if (topicById(next.mode)) settings.mode = next.mode as Mode;
+      if (isDrillId(next.mode)) settings.mode = next.mode as Mode;
       screen = 'setup';
     }
     route = next;
