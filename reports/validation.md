@@ -181,7 +181,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 73 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 85 |
 | ::ipa words, each with its IPA from Wiktionary | 50 |
 | ::tatoeba sentences, each found in the corpus | 42 |
 

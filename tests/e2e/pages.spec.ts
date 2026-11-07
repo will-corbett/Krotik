@@ -354,3 +354,18 @@ test('first visit: the home page offers Start here; the guide lists a first path
   await page.getByRole('contentinfo').getByRole('link', { name: 'Start here' }).click();
   await expect(page).toHaveURL(/\/Krotik\/start\/(\?.*)?$/);
 });
+
+test('Russian beyond Russia: the hub lists every country note; a country note has sources and its region\'s links', async ({ page }) => {
+  await page.goto('culture/russian-beyond-russia/');
+  const countries = page.getByRole('region', { name: 'Country by country' }).getByRole('link');
+  await expect(countries).toHaveCount(10);
+  await countries.filter({ hasText: 'Kazakhstan' }).click();
+  await expect(page.getByRole('heading', { name: /Russian in Kazakhstan/, level: 1 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Sources' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Constitution of Kazakhstan/ })).toHaveAttribute('target', '_blank');
+  await expect(page.getByRole('region', { name: 'Watch, read and listen' }).getByRole('link').first()).toBeVisible();
+  await expect(page.locator('.crumbs')).toContainText('Russian beyond Russia');
+  // Country notes aren't listed separately on the Culture page.
+  await page.goto('culture/');
+  await expect(page.locator('.notes').getByRole('link', { name: /Russian in Kazakhstan/ })).toHaveCount(0);
+});

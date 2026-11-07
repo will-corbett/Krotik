@@ -15,7 +15,7 @@
 - id: russian-beyond-russia
   title: Russian beyond Russia
   ru: русский язык за пределами России
-  blurb: Russian in Kazakhstan and elsewhere, and the local words you'll hear.
+  blurb: Where Russian is spoken outside Russia, country by country, and the local words you'll hear.
 - id: food
   title: Food and the table
   ru: еда и застолье
@@ -40,3 +40,62 @@
   title: Cartoons and films everyone knows
   ru: мультфильмы и фильмы, которые знают все
   blurb: The Soviet classics people still quote, and where to watch them legally.
+# Country notes: listed on the Russian beyond Russia note (parent), not on the Culture page; `region` lists the
+# Culture links from that region at the end.
+- id: ru-kazakhstan
+  title: Russian in Kazakhstan
+  ru: русский язык в Казахстане
+  blurb: Equal in official use with Kazakh; spoken by most people.
+  parent: russian-beyond-russia
+  region: kazakhstan
+- id: ru-kyrgyzstan
+  title: Russian in Kyrgyzstan
+  ru: русский язык в Киргизии
+  blurb: An official language alongside Kyrgyz.
+  parent: russian-beyond-russia
+  region: central-asia
+- id: ru-uzbekistan
+  title: Russian in Uzbekistan
+  ru: русский язык в Узбекистане
+  blurb: No official status, but still the main second language.
+  parent: russian-beyond-russia
+  region: central-asia
+- id: ru-tajikistan-turkmenistan
+  title: Russian in Tajikistan and Turkmenistan
+  ru: русский язык в Таджикистане и Туркмении
+  blurb: A language between peoples in Tajikistan; less used in Turkmenistan.
+  parent: russian-beyond-russia
+  region: central-asia
+- id: ru-belarus
+  title: Russian in Belarus
+  ru: русский язык в Белоруссии
+  blurb: A state language alongside Belarusian, and the most used.
+  parent: russian-beyond-russia
+- id: ru-ukraine
+  title: Russian in Ukraine
+  ru: русский язык на Украине
+  blurb: Many native speakers; how it sounds, and суржик.
+  parent: russian-beyond-russia
+  region: ukraine
+- id: ru-moldova
+  title: Russian in Moldova
+  ru: русский язык в Молдавии
+  blurb: A common second language; official in Gagauzia.
+  parent: russian-beyond-russia
+- id: ru-caucasus
+  title: Russian in the Caucasus
+  ru: русский язык на Кавказе
+  blurb: Georgia, Armenia and Azerbaijan, and the forms of address you'll hear.
+  parent: russian-beyond-russia
+  region: caucasus
+- id: ru-baltic-states
+  title: Russian in the Baltic states
+  ru: русский язык в Прибалтике
+  blurb: Large communities in Latvia and Estonia, a smaller one in Lithuania.
+  parent: russian-beyond-russia
+  region: baltics
+- id: ru-israel-diaspora
+  title: Russian in Israel, Germany and beyond
+  ru: русский язык в Израиле и в мире
+  blurb: The big communities outside the former Soviet Union.
+  parent: russian-beyond-russia

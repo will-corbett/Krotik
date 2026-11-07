@@ -23,14 +23,24 @@ const json = <T>(f: string) => JSON.parse(readFileSync(join(DIST, 'data', f), 'u
 const extras = json<LearnExtras>('learn.json');
 
 const learnIds = new Set(readdirSync('content/learn').filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, '')));
-interface Note { id: string; title: string; ru: string; blurb: string }
+interface Note { id: string; title: string; ru: string; blurb: string; parent?: string }
 const notes = parse(readFileSync('content/culture/notes.yaml', 'utf8')) as Note[];
 interface Link { title: string; url: string; type: string; about: string; note?: string }
 const links = parse(readFileSync('content/culture/links.yaml', 'utf8')) as Link[];
 
 // ---- Markdown blocks as HTML
+const linkTarget = (h: string) => {
+  const [kind, id] = h.split(':') as [string, string];
+  return kind === 'note' ? href({ page: 'culture', note: id }) : kind === 'learn' ? href({ page: 'learn', topic: id }) : kind === 'reading' ? href({ page: 'reading', text: id }) : h;
+};
 const inline = (parts: Inline[]) =>
-  parts.map((p) => (p.bold ? `<strong>${esc(p.text)}</strong>` : p.italic ? `<em>${esc(p.text)}</em>` : p.code ? `<code>${esc(p.text)}</code>` : esc(p.text))).join('');
+  parts
+    .map((p) =>
+      p.href
+        ? `<a href="${esc(linkTarget(p.href))}"${/^https?:/.test(p.href) ? ' rel="noopener"' : ''}>${esc(p.text)}</a>`
+        : p.bold ? `<strong>${esc(p.text)}</strong>` : p.italic ? `<em>${esc(p.text)}</em>` : p.code ? `<code>${esc(p.text)}</code>` : esc(p.text),
+    )
+    .join('');
 const plain = (parts: Inline[]) => parts.map((p) => p.text).join('');
 
 function sentence(id: number, ru: string, en: string, start = 0, end = 0): string {
@@ -208,7 +218,7 @@ pages.push({
   route: { page: 'culture' },
   description: 'Hand-picked Russian videos, cartoons, films, podcasts, reading and tools for learners, from Russia, Kazakhstan, Central Asia and beyond, with notes on culture.',
   index: true,
-  body: `<h1>Culture <span lang="ru">культура</span></h1><h2>Notes</h2><ul>${notes.map((n) => `<li>${a({ page: 'culture', note: n.id }, n.title)}: ${esc(n.blurb)}</li>`).join('')}</ul>${TYPES.map(
+  body: `<h1>Culture <span lang="ru">культура</span></h1><h2>Notes</h2><ul>${notes.filter((n) => !n.parent).map((n) => `<li>${a({ page: 'culture', note: n.id }, n.title)}: ${esc(n.blurb)}</li>`).join('')}</ul>${TYPES.map(
     ([type, label]) =>
       `<h2>${label}</h2><ul>${links
         .filter((l) => l.type === type)
@@ -221,7 +231,9 @@ for (const n of notes) {
     route: { page: 'culture', note: n.id },
     description: n.blurb,
     index: true,
-    body: `<p>${a({ page: 'culture' }, 'Culture')} ›</p><h1>${esc(n.title)} <span lang="ru">${esc(n.ru)}</span></h1>${markdown(readFileSync(`content/culture/notes/${n.id}.md`, 'utf8'))}`,
+    body: `<p>${a({ page: 'culture' }, 'Culture')} ›${n.parent ? ` ${a({ page: 'culture', note: n.parent }, notes.find((x) => x.id === n.parent)?.title ?? '')} ›` : ''}</p><h1>${esc(n.title)} <span lang="ru">${esc(n.ru)}</span></h1>${markdown(readFileSync(`content/culture/notes/${n.id}.md`, 'utf8'))}${
+      notes.some((x) => x.parent === n.id) ? `<h2>Country by country</h2><ul>${notes.filter((x) => x.parent === n.id).map((x) => `<li>${a({ page: 'culture', note: x.id }, x.title)}: ${esc(x.blurb)}</li>`).join('')}</ul>` : ''
+    }`,
   });
 }
 pages.push({

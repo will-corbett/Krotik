@@ -18,7 +18,8 @@ export type TableKind = 'noun' | 'verb' | 'adjective' | 'pronouns' | 'participle
 export type SentenceKind = 'noun' | 'verb' | 'adjective' | 'participle';
 const TABLE_KINDS: TableKind[] = ['noun', 'verb', 'adjective', 'pronouns', 'participles', 'numeral', 'possessive'];
 
-export type Inline = { text: string; bold?: boolean; italic?: boolean; code?: boolean };
+/** A run of text; `href` makes it a link: https://…, or note:<id>, learn:<topic>, reading:<id> inside the site. */
+export type Inline = { text: string; bold?: boolean; italic?: boolean; code?: boolean; href?: string };
 export type Block =
   | { type: 'heading'; level: 2 | 3; text: Inline[] }
   | { type: 'para'; text: Inline[] }
@@ -32,16 +33,17 @@ export type Block =
   | { type: 'data'; kind: 'tatoeba'; items: { id: string; mark?: string }[] }
   | { type: 'data'; kind: 'ipa'; words: string[] };
 
-/** **bold**, *italic*, `code` */
+/** **bold**, *italic*, `code`, [link](target) */
 export function parseInline(s: string): Inline[] {
   const out: Inline[] = [];
-  const re = /\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`/g;
+  const re = /\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`|\[([^\]]+)\]\(((?:https?:\/\/|note:|learn:|reading:)[^)\s]+)\)/g;
   let last = 0;
   for (const m of s.matchAll(re)) {
     if (m.index! > last) out.push({ text: s.slice(last, m.index) });
     if (m[1] !== undefined) out.push({ text: m[1], bold: true });
     else if (m[2] !== undefined) out.push({ text: m[2], italic: true });
-    else out.push({ text: m[3]!, code: true });
+    else if (m[3] !== undefined) out.push({ text: m[3], code: true });
+    else out.push({ text: m[4]!, href: m[5]! });
     last = m.index! + m[0].length;
   }
   if (last < s.length) out.push({ text: s.slice(last) });

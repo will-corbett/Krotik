@@ -19,7 +19,7 @@
 
   <h2>Culture notes</h2>
   <ul class="notes">
-    {#each NOTES as n (n.id)}
+    {#each NOTES.filter((n) => !n.parent) as n (n.id)}
       <li>
         <a class="card note" href={href({ page: 'culture', note: n.id })}>
           <span class="n-title">{n.title}</span>

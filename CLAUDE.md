@@ -173,6 +173,13 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   `content/reading/questions.yaml` (EN + RU, same options; the Russian is word-checked like Learn pages; our own words
   about the story, never about wording). Output: `reading.json` + `reading.<id>.json`; prerendered with full text.
   Hover/tap/focus shows a word; arrow keys move between words (one Tab stop).
+- Russian beyond Russia: a hub note plus one note per country or region (`notes.yaml` entries with `parent`, listed on
+  the hub, not the Culture page; `region` lists that region's Culture links). Each gives the status of Russian, census
+  figures with year and a linked source, accent, and local words (sourced from Wiktionary or our data; new words go in
+  `content/learn/words.yaml`, so the build verifies them). Language only: no political commentary. Notes support links
+  `[text](https://…)` and `[text](note:id | learn:id | reading:id)`.
+- Drill task lines are chips (`TermText variant="chips"`): English and Russian term on one line; a pronoun already in
+  the frame isn't repeated.
 - Every typed answer offers the on-screen Cyrillic keyboard (drills and Learn quick checks share `settings.keyboard`);
   the Culture search box is the only exception.
 - Drills whose verb can be in several tenses let you choose them (sentence drills carry the tense in the row kind

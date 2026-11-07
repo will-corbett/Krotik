@@ -48,6 +48,10 @@ export interface CultureNote {
   title: string;
   ru: string;
   blurb: string;
+  /** a note listed under another note (a country under Russian beyond Russia) rather than on the Culture page */
+  parent?: string;
+  /** the Culture links of this region are listed at the end of the note */
+  region?: Region;
 }
 
 export const LINKS = linksData as CultureLink[];
