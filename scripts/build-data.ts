@@ -136,7 +136,7 @@ const motionBytes = writeJson('motion.json', motion);
 const others = readTsv(raw('others.csv'));
 // ---- Vocabulary drill: every word type, banded by rank in its own list (scripts/lib/vocab.ts)
 const words = buildWords(
-  { verbs, nouns, adjectives, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {} },
+  { verbs, nouns, adjectives, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
   report,
 );
 const wordShards = writeBandsByRank('words', words.rows, words.rank);

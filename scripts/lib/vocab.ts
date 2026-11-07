@@ -1,7 +1,8 @@
 /**
  * Word lists for the Vocabulary drill: every noun, verb and adjective in the drill data, plus the "other words"
  * (prepositions, adverbs, conjunctions, particles, pronouns…) from OpenRussian's others.csv, each with its English
- * meaning. Banded like the drill shards: by rank within its own list (1–250, 251–1000, 1001–2500, rest).
+ * meaning. Banded like the drill shards: by rank within its own list (1–250, 251–1000, 1001–2500, rest); other words
+ * are ranked by their count in an independent frequency list (FrequencyWords).
  *
  * Only words that make a fair card are kept: no names, no empty or non-English meanings, no meaning that is really a
  * grammar note ("dative of I"), no case form of a pronoun, and no noun or adjective that is spelt like a verb or other
@@ -28,7 +29,9 @@ interface Lemma {
 
 /** Clean an others.csv meaning: the usual cleaning, minus bracket-only items and "+case" notes. */
 export function cleanOtherGloss(raw: string): string {
-  const g = cleanGloss(raw.replace(/\s*\+\s*[a-z ]+(case)?\b/gi, ''));
+  // Bracket-only senses ("(possession)" for у) go first, so the real meanings behind them are kept.
+  const senses = raw.replace(/\s*\+\s*[a-z ]+(case)?\b/gi, '').split(';').filter((x) => !/^\s*\([^)]*\)\s*$/.test(x));
+  const g = cleanGloss(senses.join(';'));
   return g
     .split(',')
     .map((s) => s.trim())
@@ -48,21 +51,21 @@ export function buildWords(
     exclude: Record<string, string>;
     /** word → English meaning to use instead of the source's (others.csv meanings can be long-winded) */
     gloss: Record<string, string>;
-    /** nouns/adjectives kept although spelt like a commoner verb or other word (честь "honour", not честь "read") */
+    /** nouns/adjectives kept although spelt like a verb or other word (честь "honour", not честь "read") */
     keep: Record<string, string>;
+    /** word form → count in the independent frequency list (FrequencyWords, OpenSubtitles 2018) */
+    freq: Map<string, number>;
   },
   report: Report,
 ): { rows: WordRow[]; rank: (row: WordRow) => number } {
-  const { verbs, nouns, adjectives, others, pronouns, exclude, gloss: glossFix, keep: keepAnyway } = input;
+  const { verbs, nouns, adjectives, others, pronouns, exclude, gloss: glossFix, keep: keepAnyway, freq } = input;
   const rows: { row: WordRow; rank: number }[] = [];
   const drop = (reason: string, w: string) => report.drop(SECTION, reason, w);
-  // A noun or adjective spelt like a verb or other word in the same band or a commoner one is left out: its rank comes
-  // from the other word's frequency (тут "mulberry", мочь "power"). Rarer homographs don't matter (честь "honour").
-  const homograph = new Map<string, number>();
-  const note = (w: string, rank: number) => homograph.set(w, Math.min(homograph.get(w) ?? Infinity, bandOf(rank)));
-  verbs.forEach((v, i) => note(normalise(v.bare), i));
-  others.forEach((o, i) => o.translations_en?.trim() && note(normalise(o.bare!), i));
-  const shadowed = (bare: string, rank: number) => !(bare in keepAnyway) && (homograph.get(normalise(bare)) ?? Infinity) <= bandOf(rank);
+  // A noun or adjective spelt like a verb or other word is left out unless overrides.yaml keeps it: the source's
+  // order can't say which word the rank belongs to (тут "mulberry", уж "grass snake", мочь "power"), and its order is
+  // unreliable for some of them anyway (the verb стать is ranked near the end). Kept: честь "honour" and the like.
+  const homograph = new Set([...verbs.map((v) => normalise(v.bare)), ...others.filter((o) => o.translations_en?.trim()).map((o) => normalise(o.bare!))]);
+  const shadowed = (bare: string) => !(bare in keepAnyway) && homograph.has(normalise(bare));
   const nominatives = new Set(pronouns.map(([w]) => normalise(w)));
   const pronounForms = new Set(pronouns.flatMap(([, cells]) => cells.flatMap((c) => cellForms(c).map(normalise))).filter((f) => !nominatives.has(f)));
 
@@ -81,16 +84,20 @@ export function buildWords(
 
   verbs.forEach((v, i) => keep('v', `v:${v.id}`, v.bare, v.accented, v.gloss, v.aspect, i));
   adjectives.forEach((a, i) => {
-    if (shadowed(a.bare, i)) return report.anomaly(SECTION, 'adjective left out: spelt like a commoner verb or other word', `${a.bare} (${a.gloss})`);
+    if (shadowed(a.bare)) return report.anomaly(SECTION, 'adjective left out: spelt like a verb or other word', `${a.bare} (${a.gloss})`);
     keep('a', `a:${a.id}`, a.bare, a.accented, a.gloss, '', i);
   });
   nouns.forEach((n, i) => {
     if (/^[А-ЯЁ]/.test(n.bare)) return drop('name', n.bare);
-    if (shadowed(n.bare, i)) return report.anomaly(SECTION, 'noun left out: spelt like a commoner verb or other word', `${n.bare} (${n.gloss})`);
+    if (shadowed(n.bare)) return report.anomaly(SECTION, 'noun left out: spelt like a verb or other word', `${n.bare} (${n.gloss})`);
     keep('n', `n:${n.id}`, n.bare, n.accented, n.gloss, n.gender, i);
   });
+  // Other words barely inflect, so their own count in the frequency list ranks them well; the source's order doesn't
+  // (тут and уж come last). Words the list doesn't have follow, in source order.
+  const count = (o: Record<string, string>) => freq.get(normalise(o.bare!)) ?? 0;
+  const ranked = others.map((o, i) => ({ o, i })).sort((x, y) => count(y.o) - count(x.o) || x.i - y.i);
   const seen = new Set<string>();
-  others.forEach((o, i) => {
+  ranked.forEach(({ o }, i) => {
     const bare = o.bare!;
     const k = normalise(bare);
     if (seen.has(k)) return drop('repeated in the source', bare);

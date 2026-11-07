@@ -98,8 +98,10 @@ vocab:
     ж: "a clipped же, not a word to learn on its own"
     ко: "a variant of к before some consonant clusters, taught with к"
     чтоб: "a colloquial чтобы, taught with чтобы"
-  # Nouns spelt like a commoner verb are left out unless listed here (word → why the noun is worth learning).
+  # Nouns and adjectives spelt like a verb or other word are left out unless listed here (word → why it's worth
+  # learning; checked by hand).
   keep:
+    сволочь: "scum (rude); a common noun"
     честь: "honour; an everyday noun (the verb честь is archaic)"
     течь: "a leak; common noun"
     пасть: "jaws, mouth (of an animal)"
@@ -107,6 +109,7 @@ vocab:
     почесть: "honour, tribute"
   # word → English meaning, where the source's is misleading or too long for a card
   gloss:
+    у: "by, at; (у меня) I have"
     она: "she, it"
     оно: "it"
     пока: "while; for now; bye"
