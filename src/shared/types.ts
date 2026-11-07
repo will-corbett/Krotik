@@ -19,6 +19,14 @@ export type SentenceRow = [number, string, string, number, number, number];
 /** lemma id → sentences */
 export type SentenceShard = Record<string, SentenceRow[]>;
 
+/** Vocabulary: n = noun, v = verb, a = adjective, o = other word (preposition, adverb, conjunction, pronoun…). */
+export type WordPos = 'n' | 'v' | 'a' | 'o';
+/**
+ * words.b{0..3}.json: [key ("n:<id>", "v:<id>", "a:<id>", "o:<word>"), accented headword, English meaning, word type,
+ * aspect (verbs) or gender (nouns), "" otherwise]
+ */
+export type WordRow = [string, string, string, WordPos, string];
+
 export type LexType = 'verbs' | 'adjectives' | 'nouns';
 export type ShardType = LexType | 'participles' | 'diminutives';
 /** Example-sentence shards: per word type, plus participle/verbal-adverb forms (keyed by verb id). */

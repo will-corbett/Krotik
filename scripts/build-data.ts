@@ -16,7 +16,7 @@ import { applyOverrides, loadOverrides } from './lib/overrides.ts';
 import { Report } from './lib/report.ts';
 import { checkOrder, loadFreq } from './lib/frequency.ts';
 import { buildMotion } from './lib/motion.ts';
-import { BANDS, OUT_DIR, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
+import { BANDS, OUT_DIR, bandOf, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
 import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
@@ -26,6 +26,7 @@ import { CASES } from '../src/shared/cells.ts';
 import { cellForms } from '../src/shared/forms.ts';
 import { normalise } from '../src/shared/normalise.ts';
 import { buildCloze } from './lib/cloze.ts';
+import { buildWords } from './lib/vocab.ts';
 import { buildCollocations } from './lib/collocations.ts';
 import { KAIKKI_FILE, loadWiktionary } from './lib/wiktionary.ts';
 import { POSSESSIVES, buildPronouns } from './lib/phase-d.ts';
@@ -133,6 +134,14 @@ writeJson('pronouns.json', pronouns);
 const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
+// ---- Vocabulary drill: every word type, banded by rank in its own list (scripts/lib/vocab.ts)
+const words = buildWords(
+  { verbs, nouns, adjectives, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {} },
+  report,
+);
+const wordShards = writeBandsByRank('words', words.rows, words.rank);
+const wordBand = new Map(words.rows.map((r) => [r[0], bandOf(words.rank(r))]));
+
 const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
 const adjectiveBares = new Set(adjectives.map((a) => a.bare));
 // Participle and verbal-adverb forms, per verb, for example sentences (order fixed: adverbs, then each participle).
@@ -205,7 +214,7 @@ const sources = JSON.parse(readFileSync(join(RAW_DIR, 'sources.json'), 'utf8')) 
 const manifest: Manifest = {
   built: Object.values(sources).map((s) => s.fetched).sort().at(-1) ?? '',
   bands: BANDS.map((b) => (Number.isFinite(b) ? b : 0)),
-  shards: Object.fromEntries(Object.entries(shards).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
+  shards: Object.fromEntries(Object.entries({ ...shards, words: wordShards }).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   numerals: 'numerals.json',
   pronouns: 'pronouns.json',
   government: 'government.json',
@@ -246,7 +255,7 @@ for (const s of levelTest.slots) {
 }
 const levelTestBytes = writeJson('level-test.json', levelTest);
 
-for (const list of Object.values(shards)) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);
+for (const list of [...Object.values(shards), wordShards]) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);
 for (const list of Object.values(sentences)) for (const s of list) sizes.push(`| ${s.file} | ${s.lemmas} lemmas, ${s.sentences} sentences | ${(s.bytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.length, 0)} questions | ${(levelTestBytes / 1024).toFixed(0)} KB |`);

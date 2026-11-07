@@ -90,3 +90,33 @@ adverbs:
   exclude:
     должный: "должно' is a predicative (должно быть), not the adverb of должный"
     добрый: "добро' as an adverb is dated; the everyday word is the noun добро'"
+
+vocab:
+  # word (bare, as in the source) → reason. Left out of the Vocabulary drill's word lists (the word stays in the
+  # grammar drills). Nouns and adjectives spelt like a verb or other word are left out automatically.
+  exclude:
+    ж: "a clipped же, not a word to learn on its own"
+    ко: "a variant of к before some consonant clusters, taught with к"
+    чтоб: "a colloquial чтобы, taught with чтобы"
+  # Nouns spelt like a commoner verb are left out unless listed here (word → why the noun is worth learning).
+  keep:
+    честь: "honour; an everyday noun (the verb честь is archaic)"
+    течь: "a leak; common noun"
+    пасть: "jaws, mouth (of an animal)"
+    напасть: "misfortune"
+    почесть: "honour, tribute"
+  # word → English meaning, where the source's is misleading or too long for a card
+  gloss:
+    она: "she, it"
+    оно: "it"
+    пока: "while; for now; bye"
+    куда: "where (to)"
+    к: "to, towards"
+    за: "behind; for"
+    по: "along; on, about; by"
+    до: "to, as far as; until; before"
+    таки: "after all, still"
+    равно: "equally"
+    тяжело: "heavily; it is hard"
+    трое: "three (people)"
+    двое: "two (people)"

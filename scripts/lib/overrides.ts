@@ -21,6 +21,8 @@ export interface Overrides {
   sentences?: { deny?: Record<string, string> };
   /** adverbs.exclude: adjective bare → reason; that adjective gets no adverb question (the pairing is wrong or misleading) */
   adverbs?: { exclude?: Record<string, string> };
+  /** vocab.exclude: word (bare, as in the source) → reason; left out of the Vocabulary drill's word lists */
+  vocab?: { exclude?: Record<string, string>; gloss?: Record<string, string>; keep?: Record<string, string> };
 }
 
 export function loadOverrides(path = 'overrides/overrides.yaml'): Overrides {
