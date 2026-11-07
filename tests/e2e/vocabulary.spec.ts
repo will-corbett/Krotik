@@ -21,8 +21,17 @@ test('Vocabulary is in the menu and on the home page (beside Grammar); themes ar
   await goTo(page, 'Vocabulary');
   await expect(page).toHaveURL(/\/Krotik\/vocabulary\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Vocabulary');
-  for (const lvl of ['A1', 'A2', 'B1']) await expect(page.getByRole('heading', { name: lvl, exact: true })).toBeVisible();
-  await expect(page.locator('a.theme')).toHaveCount(16);
+  for (const lvl of ['A1', 'A2', 'B1', 'B2']) await expect(page.getByRole('heading', { name: lvl, exact: true })).toBeVisible();
+  await expect(page.locator('a.theme')).toHaveCount(38);
+  // Each level has about the same number of themes.
+  for (const lvl of ['A1', 'A2', 'B1', 'B2']) expect(await page.locator('section.level', { has: page.getByRole('heading', { name: lvl, exact: true }) }).locator('a.theme').count()).toBeGreaterThanOrEqual(9);
+  // The buttons at the top go straight to a level.
+  const levels = page.getByRole('navigation', { name: 'Go to a level' });
+  await expect(levels.getByRole('link')).toHaveText(['A1', 'A2', 'B1', 'B2']);
+  await levels.getByRole('link', { name: 'B2' }).click();
+  await expect(page).toHaveURL(/#lvl-B2$/);
+  await expect(page.getByRole('heading', { name: 'B2', exact: true })).toBeInViewport();
+  await page.goto('vocabulary/');
   await page.getByRole('link', { name: /Food and drink/ }).click();
   await expect(page).toHaveURL(/\/vocabulary\/food\/$/);
   await expect(page).toHaveTitle(/Food and drink/);

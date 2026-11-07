@@ -156,6 +156,8 @@ Done in batches, each reviewed before the next.
 - Vocabulary section (2026-11-08; first called Words, owner's choices: our own dialogues, reviewed by a native speaker; the full set of
   themes; its own menu item and home card): 16 themes, 436 words, a real sentence for each, 32 dialogues written and
   waiting for review (`reports/dialogues-for-review.md`); they appear on the site only once marked reviewed.
+- Vocabulary section, expanded (2026-11-08): 38 themes from A1 to B2 (B1 grown to nine, B2 new with nine), about 900
+  words, 76 dialogues waiting for review; buttons at the top jump to a level.
 - Next for vocabulary: curated English meanings for the top 2,500 (the source's are sometimes long-winded); audio from
   Wikimedia Commons for the top 1,000 (self-hosted, credited), for devices without a Russian voice; themed sets from
   Wiktionary categories; word families.

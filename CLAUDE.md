@@ -176,7 +176,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   misplaced source ranks), with Practise these and Add all; a clicked/tapped/focused word's box is pinned and offers
   Add to my words.
 - Vocabulary section (`/vocabulary/`, `/vocabulary/<theme>/`; content in `content/words/`; `WordsIndex.svelte`, `WordsTheme.svelte`; `scripts/lib/themes.ts`):
-  16 themes listed in `content/words/themes.yaml`, each `content/words/<id>.yaml` with title (en/ru), level, blurb,
+  38 themes (9–10 at each of A1, A2, B1, B2; buttons at the top of the index jump to a level) listed in
+  `content/words/themes.yaml`, each `content/words/<id>.yaml` with title (en/ru), level, blurb,
   word groups, optional `use` (word → Tatoeba id, where the shortest sentence is an idiom or off-theme) and dialogues.
   Words are named by dictionary form (`есть:v` for a spelling that is several words, `не'бо` by stress, `"соль =
   salt"` for our own meaning); the build fails unless each is exactly one word in the lists. Each word gets the
