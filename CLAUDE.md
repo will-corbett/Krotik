@@ -1,7 +1,10 @@
 # Krotik — Russian grammar instant-drill site
 
 Static, no-login drill app (Svelte 5 + Vite + TypeScript strict). No backend, no analytics.
-Only UI settings go in localStorage (`krotik.settings.v1`); never store performance/progress.
+UI settings go in localStorage (`krotik.settings.v1`). Progress is **opt-in only** (`settings.progress`, off by default):
+then `src/lib/progress.ts` keeps per-topic round counts, first-attempt results, the last five rounds and the date last
+practised under `krotik.progress.v1`, in this browser only, never sent anywhere; turning it off deletes it. Never store
+words, answers or anything else, and keep the About page's description of what is kept exact.
 
 ## Commands (Node ≥ 22.12; `.nvmrc` = 22)
 On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PATH` first.
@@ -128,6 +131,11 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   failed. Each link has a type, level range, region (russia, kazakhstan, central-asia, ukraine, caucasus, baltics,
   worldwide) and topic; the page filters on these plus free text. Check what a channel actually posts (recent videos),
   not just its name: a channel called "Simple Russian" turned out to be political.
+- Review drills (group "Review", `learn: false` in topics.ts, no Learn page): **Mixed review** (`mixed`) interleaves
+  questions from chosen topics, each with that topic's own settings; **Translate and compare** (`translate`) shows a
+  Tatoeba English sentence, you type Russian, then compare with the Tatoeba Russian and mark yourself (`selfMark`;
+  only an exact match is marked right automatically). The end screen breaks results down by question type (the first
+  term of the task line) or, in mixed rounds, by topic (`src/lib/breakdown.ts`).
 - Every typed answer offers the on-screen Cyrillic keyboard (drills and Learn quick checks share `settings.keyboard`);
   the Culture search box is the only exception.
 - Drills whose verb can be in several tenses let you choose them (sentence drills carry the tense in the row kind

@@ -7,8 +7,17 @@
   <p>
     Krotik is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
     adjectives, plurals, numbers, diminutives, and sentence drills (который, чтобы, conditional, negation,
-    indefinite pronouns, particles). Nothing
-    about your answers is stored; only display settings are remembered in this browser.
+    indefinite pronouns, particles). There are no accounts, no analytics and no cookies. Your drill settings are
+    remembered in this browser.
+  </p>
+  <h2>Your progress</h2>
+  <p>
+    Progress tracking is <strong>off</strong> unless you turn it on (on the Dashboard). When it's on, this browser keeps,
+    for each topic you drill: how many rounds you've done, how many questions you got right first time, the results of
+    your last five rounds, and the date you last practised. That's all: no words, answers or times are kept, and
+    Learn-page checks and the Grammar test aren't recorded. It's stored in this browser's local storage
+    (<code>krotik.progress.v1</code>), is never sent anywhere, and isn't shared between your devices. To delete it,
+    choose <em>Turn off…</em> on the Dashboard, or clear this site's data in your browser.
   </p>
   <p>
     A wrong answer comes back about ten cards later (or at the end, if fewer are left, so it also works in unlimited rounds), and a round finishes only when every question has been answered
