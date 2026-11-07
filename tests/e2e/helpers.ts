@@ -38,8 +38,7 @@ export type ModeName =
   | 'Special case forms'
   | 'The alphabet'
   | 'Mixed review'
-  | 'Translate and compare'
-  | 'Read and fill in';
+  | 'Translate and compare';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   // A fresh page load each time (the unique query forces it): choose the drill, then go to its settings page.
@@ -53,7 +52,7 @@ export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10
 async function questionId(page: Page): Promise<string> {
   const task = await page.locator('.task').innerText();
   const word = await page.locator('#prompt-word').innerText();
-  const frame = (await page.locator('.frame, .stress-word, .passage').first().innerText()).replace(/\s+/g, '');
+  const frame = (await page.locator('.frame, .stress-word').first().innerText()).replace(/\s+/g, '');
   return `${task}|${word}|${frame}`;
 }
 
@@ -104,7 +103,7 @@ export async function playRetryRound(page: Page): Promise<number> {
 }
 
 /** Open the main menu and follow one of its links. */
-export async function goTo(page: Page, label: 'Dashboard' | 'Grammar test' | 'Learn' | 'Drill' | 'Culture') {
+export async function goTo(page: Page, label: 'Dashboard' | 'Grammar test' | 'Learn' | 'Drill' | 'Reading' | 'Culture') {
   // Phones have a Menu dropdown; wide screens show the links as a bar.
   const menu = page.getByRole('button', { name: 'Menu' });
   if (await menu.isVisible()) await menu.click();

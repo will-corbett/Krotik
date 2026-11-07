@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadReading, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -19,7 +19,6 @@ import { generateOrdinalQuestions } from './questions/ordinals.ts';
 import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
 import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
-import { generateReadingQuestions } from './questions/reading.ts';
 import { pick } from './rng.ts';
 import { topicById } from './topics.ts';
 import type { Question } from './types.ts';
@@ -62,7 +61,7 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
   switch (s.mode) {
     case 'mixed': {
       // Each topic with its own saved settings; questions interleaved at random, each topic about equally often.
-      const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate' && t !== 'reading');
+      const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate');
       const gens = await Promise.all(topics.map((t) => prepareRound({ ...s, mode: t }, rng)));
       return (n) => {
         const each = Math.ceil(n / Math.max(1, gens.length)) + 2;
@@ -71,10 +70,6 @@ export async function prepareRound(s: Settings, rng: Rng): Promise<Generate> {
           .filter((q) => !seen.has(q.key) && seen.add(q.key))
           .slice(0, n);
       };
-    }
-    case 'reading': {
-      const data = await loadReading();
-      return (n) => generateReadingQuestions(data, s.reading, n, rng);
     }
     case 'translate': {
       // Sentences that come with the commonest verbs (up to the chosen band, at most the 2,500 commonest).
@@ -271,7 +266,7 @@ export function nextBatch(generate: Generate, pending: Set<string>, recent: stri
 /** Does the mode have at least one option selected? */
 export function settingsValid(s: Settings): string | null {
   if (s.mode === 'mixed') {
-    const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate' && t !== 'reading');
+    const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate');
     if (topics.length < 2) return 'Choose at least two topics.';
     for (const t of topics) {
       const e = settingsValid({ ...s, mode: t });
@@ -280,7 +275,6 @@ export function settingsValid(s: Settings): string | null {
     return null;
   }
   if (s.mode === 'translate' && !s.translate.lengths.length) return 'Choose at least one sentence length.';
-  if (s.mode === 'reading' && (!s.reading.works.length || !s.reading.kinds.length)) return 'Choose at least one kind of text and one kind of word.';
   if (s.mode === 'verbs' && !s.verbs.groups.length) return 'Choose at least one tense.';
   if (s.mode === 'reflexive' && !s.reflexive.groups.length) return 'Choose at least one tense.';
   if (s.mode === 'compare' && !s.compare.types.length) return 'Choose at least one question type.';

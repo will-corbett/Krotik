@@ -1,5 +1,5 @@
 import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
-import type { ParticipleKind, ParticipleRow, ReadingLine, SentenceType } from '../shared/types.ts';
+import type { ParticipleKind, ParticipleRow, SentenceType } from '../shared/types.ts';
 import type { TaskPart } from './terms.ts';
 
 export type Mode =
@@ -40,8 +40,7 @@ export type Mode =
   | 'specialCases'
   | 'alphabet'
   | 'mixed'
-  | 'translate'
-  | 'reading';
+  | 'translate';
 
 export interface Verb {
   id: number;
@@ -123,8 +122,6 @@ export interface Question {
    * whole) and mark it yourself; only an exact match is marked right automatically.
    */
   selfMark?: boolean;
-  /** Read and fill in: the passage, which word is the gap, and where the text comes from. */
-  passage?: { lines: ReadingLine[]; line: number; start: number; end: number; credit: string; source: string };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
 }
@@ -132,11 +129,6 @@ export interface Question {
 /** Mixed review: questions from several topics in one round, each with that topic's own settings. */
 export interface MixedSettings {
   topics: Mode[];
-}
-/** Read and fill in: which texts (Tolstoy's stories, Chekhov's plays) and which kinds of word are gaps. */
-export interface ReadingSettings {
-  works: ('stories' | 'play')[];
-  kinds: ('v' | 'n' | 'a')[];
 }
 /** Translate and compare: short (up to 5 words) and/or longer (6–9 words) sentences. */
 export interface TranslateSettings {

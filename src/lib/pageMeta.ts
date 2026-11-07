@@ -2,7 +2,7 @@
 import type { Route } from './router.ts';
 import { topicById } from './topics.ts';
 
-export function pageTitle(route: Route, noteTitle: (id: string) => string | undefined = () => undefined): string {
+export function pageTitle(route: Route, noteTitle: (id: string) => string | undefined = () => undefined, textTitle: (id: string) => string | undefined = () => undefined): string {
   const t = (id?: string) => (id ? topicById(id) : undefined);
   switch (route.page) {
     case 'home':
@@ -16,6 +16,10 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
     case 'drill': {
       const topic = t(route.mode);
       return topic ? `Drill: ${topic.title.en} | Krotik` : 'Drill Russian grammar | Krotik';
+    }
+    case 'reading': {
+      const text = route.text ? textTitle(route.text) : undefined;
+      return text ? `${text}: read with every word explained | Krotik` : 'Read Russian literature, every word explained | Krotik';
     }
     case 'culture': {
       const note = route.note ? noteTitle(route.note) : undefined;

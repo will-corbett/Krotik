@@ -3,6 +3,8 @@
   import DrillChoose from './components/DrillChoose.svelte';
   import Drill from './components/Drill.svelte';
   import EndScreen from './components/EndScreen.svelte';
+  import ReadingIndex from './components/ReadingIndex.svelte';
+  import ReadingText from './components/ReadingText.svelte';
   import About from './components/About.svelte';
   import Dashboard from './components/Dashboard.svelte';
   import LearnIndex from './components/LearnIndex.svelte';
@@ -194,6 +196,7 @@
     { label: 'Grammar test', route: { page: 'test' } },
     { label: 'Learn', route: { page: 'learn' } },
     { label: 'Drill', route: { page: 'drill' } },
+    { label: 'Reading', route: { page: 'reading' } },
     { label: 'Culture', route: { page: 'culture' } },
   ];
 </script>
@@ -243,6 +246,10 @@
       <LearnIndex />
     {:else if route.page === 'test'}
       <LevelTest {settings} />
+    {:else if route.page === 'reading' && route.text}
+      <ReadingText id={route.text} bind:settings />
+    {:else if route.page === 'reading'}
+      <ReadingIndex />
     {:else if route.page === 'culture' && route.note}
       <CultureNote id={route.note} bind:settings />
     {:else if route.page === 'culture'}

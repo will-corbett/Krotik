@@ -51,6 +51,15 @@
     <a class="btn" href={href({ page: 'test' })}>Take the test</a>
   </div>
 
+  <div class="card continue">
+    <div class="c-text">
+      <p class="label muted">Reading</p>
+      <p class="what"><strong>Read real Russian stories</strong> <span lang="ru" class="ru">чтение</span></p>
+      <p class="muted small">Tolstoy’s stories for children and Chekhov’s comedies, with every word explained and questions after each text.</p>
+    </div>
+    <a class="btn" href={href({ page: 'reading' })}>Start reading</a>
+  </div>
+
   <ProgressCard on={settings.progress} {onprogress} {onreview} />
 
   <h2 class="map-title">All topics</h2>

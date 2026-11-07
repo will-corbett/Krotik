@@ -14,7 +14,7 @@ import { href, pathOf, type Route } from '../src/lib/router.ts';
 import { ALL_TOPICS, isDrill, LEARN_GROUPS, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
 import { renderForm } from '../src/shared/forms.ts';
 import { SITE_URL } from '../src/shared/site.ts';
-import type { ClozeRow, LearnExtras } from '../src/shared/types.ts';
+import type { ClozeRow, LearnExtras, ReadingIndex, ReadingUnit } from '../src/shared/types.ts';
 
 const DIST = 'dist';
 const template = readFileSync(join(DIST, 'index.html'), 'utf8');
@@ -97,6 +97,7 @@ const nav = `<nav aria-label="Main"><ul>${(
     [{ page: 'test' }, 'Grammar test'],
     [{ page: 'learn' }, 'Learn'],
     [{ page: 'drill' }, 'Drill'],
+    [{ page: 'reading' }, 'Reading'],
     [{ page: 'culture' }, 'Culture'],
   ] as [Route, string][]
 )
@@ -164,6 +165,37 @@ for (const t of ALL_TOPICS.filter(isDrill)) {
     body: `<h1>Drill: ${esc(t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></h1><p>${esc(t.blurb)}.</p>${learnIds.has(t.id) ? `<p>${a({ page: 'learn', topic: t.id }, `Learn: ${t.title.en}`)}</p>` : ''}`,
   });
 }
+// ---- Reading: the full text (public domain) and the questions in English
+const readingIndex = json<ReadingIndex>('reading.json');
+const unitTitle = (u: { w: number; title: string }) => {
+  const w = readingIndex.works[u.w]!;
+  return w.kind === 'play' ? `${w.title}: ${u.title.replace(/^Явление/, 'явление')}` : u.title;
+};
+pages.push({
+  route: { page: 'reading' },
+  description: 'Read real Russian literature with every word explained: short stories by Leo Tolstoy and comedies by Anton Chekhov, with comprehension questions.',
+  index: true,
+  body: `<h1>Reading <span lang="ru">чтение</span></h1><p>Real Russian literature in modern spelling, public domain: tap or hover any word to see what it means, then answer a few questions.</p>${readingIndex.works
+    .map((w, wi) => {
+      const units = readingIndex.units.filter((u) => u.w === wi);
+      return units.length ? `<h2 lang="ru">${esc(w.author)}, «${esc(w.title)}» (${w.year})</h2><ul>${units.map((u) => `<li>${a({ page: 'reading', text: u.id }, u.title)}: ${u.words} words</li>`).join('')}</ul>` : '';
+    })
+    .join('')}`,
+});
+for (const meta of readingIndex.units) {
+  const u = json<ReadingUnit>(`reading.${meta.id}.json`);
+  const w = readingIndex.works[u.w]!;
+  const first = u.lines.find((l) => !l[2])?.[1] ?? '';
+  pages.push({
+    route: { page: 'reading', text: u.id },
+    description: `${unitTitle(u)} by ${w.authorEn} (${w.year}), in Russian with every word explained and comprehension questions. ${first.slice(0, 80)}${first.length > 80 ? '…' : ''}`,
+    index: true,
+    body: `<p>${a({ page: 'reading' }, 'Reading')} ›</p><h1 lang="ru">${esc(unitTitle(u))}</h1><p><span lang="ru">${esc(w.author)}, «${esc(w.title)}»</span> (${w.year}). Public domain, from <a href="${esc(w.source)}" rel="noopener">Russian Wikisource</a>.</p><div lang="ru">${u.lines
+      .map(([speaker, text, stage]) => (stage ? `<p><em>${esc(text)}</em></p>` : `<p>${speaker ? `<strong>${esc(speaker)}.</strong> ` : ''}${esc(text)}</p>`))
+      .join('')}</div><h2>Questions</h2><ol>${u.questions.map((q) => `<li>${esc(q.en.q)}<ul>${q.en.options.map((o) => `<li>${esc(o)}</li>`).join('')}</ul></li>`).join('')}</ol>`,
+  });
+}
+
 const TYPES: [string, string][] = [
   ['video', 'Videos'],
   ['cartoons', 'Cartoons'],
@@ -196,14 +228,18 @@ pages.push({
   route: { page: 'about' },
   description: 'About Krotik: where the Russian forms and sentences come from (OpenRussian, Wiktionary, Tatoeba), their licences, and what is kept in your browser.',
   index: true,
-  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and drilling Russian grammar. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR); the reading passages are public-domain texts by Tolstoy and Chekhov from Russian Wikisource. There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
+  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and drilling Russian grammar. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR); the reading texts are public-domain stories and plays by Tolstoy and Chekhov from Russian Wikisource. There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
 });
 
 // ---- write
 const noteTitle = (id: string) => notes.find((n) => n.id === id)?.title;
+const textTitle = (id: string) => {
+  const u = readingIndex.units.find((x) => x.id === id);
+  return u ? unitTitle(u) : undefined;
+};
 function html(p: Page, robots = p.index ? '' : 'noindex'): string {
   const url = SITE_URL + pathOf(p.route);
-  const title = pageTitle(p.route, noteTitle);
+  const title = pageTitle(p.route, noteTitle, textTitle);
   const head = [
     `<title>${esc(title)}</title>`,
     `<link rel="canonical" href="${url}" />`,

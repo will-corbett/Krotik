@@ -45,11 +45,12 @@
       Tatoeba page.
     </li>
     <li>
-      Read and fill in: stories for children by Leo Tolstoy (from his <span lang="ru">Вторая русская книга для чтения</span>,
-      1875) and Anton Chekhov's one-act comedies <span lang="ru">Медведь</span> and <span lang="ru">Предложение</span>
-      (1888), in modern spelling, from <a href="https://ru.wikisource.org" rel="noopener">Russian Wikisource</a>. Both
-      authors died over a century ago, so these texts are in the public domain. Passages with old-fashioned words are left
-      out rather than changed.
+      Reading: stories for children by Leo Tolstoy (from his <span lang="ru">Вторая русская книга для чтения</span>, 1875)
+      and Anton Chekhov's one-act comedies <span lang="ru">Медведь</span> and <span lang="ru">Предложение</span> (1888), in
+      modern spelling, from <a href="https://ru.wikisource.org" rel="noopener">Russian Wikisource</a>, unchanged. Both
+      authors died over a century ago, so the texts are in the public domain. Word meanings come from the sources above
+      (OpenRussian, Wiktionary); where neither has a word, the meaning is ours and is marked as such. The comprehension
+      questions are ours.
     </li>
     <li>
       A few small grammar lists were written by hand for this site (which case a verb takes, what a motion prefix

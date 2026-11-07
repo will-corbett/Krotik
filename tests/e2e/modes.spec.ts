@@ -39,7 +39,6 @@ const modes: ModeName[] = [
   'Special case forms',
   'The alphabet',
   'Mixed review',
-  'Read and fill in',
 ];
 
 for (const mode of modes) {

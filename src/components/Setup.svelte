@@ -12,7 +12,7 @@
 
   const topic = $derived(topicById(settings.mode));
   /** Topics a mixed review can include: every drill except the Review drills themselves. */
-  const MIX_GROUPS = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill).filter((t) => t.id !== 'mixed' && t.id !== 'translate' && t.id !== 'reading') })).filter((g) => g.modes.length);
+  const MIX_GROUPS = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill).filter((t) => t.id !== 'mixed' && t.id !== 'translate') })).filter((g) => g.modes.length);
   const weak = $derived(settings.progress && settings.mode === 'mixed' ? summarise(loadProgress(), today()).weak.map((w) => w.mode) : []);
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
@@ -509,26 +509,6 @@
           </div>
         {/each}
       </fieldset>
-    {:else if settings.mode === 'reading'}
-      <fieldset>
-        <legend>Texts</legend>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" checked={settings.reading.works.includes('stories')} onchange={() => (settings.reading.works = toggle(settings.reading.works, 'stories'))} /> Tolstoy’s stories for children (A2–B1)</label>
-          <label class="chip"><input type="checkbox" checked={settings.reading.works.includes('play')} onchange={() => (settings.reading.works = toggle(settings.reading.works, 'play'))} /> Chekhov’s one-act comedies (B2–C1)</label>
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Gaps</legend>
-        <div class="chips">
-          <label class="chip"><input type="checkbox" checked={settings.reading.kinds.includes('v')} onchange={() => (settings.reading.kinds = toggle(settings.reading.kinds, 'v'))} /> Verbs <span class="ru" lang="ru">глаголы</span></label>
-          <label class="chip"><input type="checkbox" checked={settings.reading.kinds.includes('n')} onchange={() => (settings.reading.kinds = toggle(settings.reading.kinds, 'n'))} /> Nouns <span class="ru" lang="ru">существительные</span></label>
-          <label class="chip"><input type="checkbox" checked={settings.reading.kinds.includes('a')} onchange={() => (settings.reading.kinds = toggle(settings.reading.kinds, 'a'))} /> Adjectives <span class="ru" lang="ru">прилагательные</span></label>
-        </div>
-        <p class="hint muted">
-          Read a passage and type the missing word in the form the author used; you're given its dictionary form. The
-          texts are in the public domain, in modern spelling; passages with old-fashioned words are left out.
-        </p>
-      </fieldset>
     {:else if settings.mode === 'translate'}
       <fieldset>
         <legend>Sentence length</legend>
@@ -585,7 +565,7 @@
       </fieldset>
     {/if}
 
-    {#if !['reading', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

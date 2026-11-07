@@ -75,11 +75,22 @@ test('wide screens show the main pages as a bar, with the current page marked', 
   await page.goto('./#/learn');
   await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Reading', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await nav.getByRole('link', { name: 'Culture' }).click();
   await expect(page).toHaveURL(/\/Krotik\/culture\/(\?.*)?$/);
   await expect(nav.getByRole('link', { name: 'Culture' })).toHaveAttribute('aria-current', 'page');
+});
+
+test('at the narrowest width with a bar (720px), the six links fit without scrolling sideways', async ({ page }) => {
+  await page.setViewportSize({ width: 720, height: 800 });
+  await page.goto('./reading/');
+  await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
+  const fits = await page.evaluate(() => {
+    const ul = document.querySelector('nav[aria-label="Main"] ul') as HTMLElement;
+    return ul.scrollWidth <= ul.clientWidth + 1 && document.documentElement.scrollWidth <= innerWidth;
+  });
+  expect(fits).toBe(true);
 });
 
 test('on a phone the main menu is a dropdown: opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
@@ -90,7 +101,7 @@ test('on a phone the main menu is a dropdown: opens, shows the current page, clo
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Reading', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(nav.getByRole('link')).toHaveCount(0);
