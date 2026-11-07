@@ -200,7 +200,9 @@ for (const meta of readingIndex.units) {
     route: { page: 'reading', text: u.id },
     description: `${unitTitle(u)} by ${w.authorEn} (${w.year}), in Russian with every word explained and comprehension questions. ${first.slice(0, 80)}${first.length > 80 ? '…' : ''}`,
     index: true,
-    body: `<p>${a({ page: 'reading' }, 'Reading')} ›</p><h1 lang="ru">${esc(unitTitle(u))}</h1><p><span lang="ru">${esc(w.author)}, «${esc(w.title)}»</span> (${w.year}). Public domain, from <a href="${esc(w.source)}" rel="noopener">Russian Wikisource</a>.</p><div lang="ru">${u.lines
+    body: `<p>${a({ page: 'reading' }, 'Reading')} ›</p><h1 lang="ru">${esc(unitTitle(u))}</h1><p><span lang="ru">${esc(w.author)}, «${esc(w.title)}»</span> (${w.year}). Public domain, from <a href="${esc(w.source)}" rel="noopener">Russian Wikisource</a>.</p>${
+      u.keyWords.length >= 3 ? `<h2>Key words</h2><ul>${u.keyWords.map(([, , dict, meaning]) => `<li><span lang="ru">${esc(renderForm(dict.split(',')[0]!, true))}</span>: ${esc(meaning)}</li>`).join('')}</ul>` : ''
+    }<div lang="ru">${u.lines
       .map(([speaker, text, stage]) => (stage ? `<p><em>${esc(text)}</em></p>` : `<p>${speaker ? `<strong>${esc(speaker)}.</strong> ` : ''}${esc(text)}</p>`))
       .join('')}</div><h2>Questions</h2><ol>${u.questions.map((q) => `<li>${esc(q.en.q)}<ul>${q.en.options.map((o) => `<li>${esc(o)}</li>`).join('')}</ul></li>`).join('')}</ol>`,
   });

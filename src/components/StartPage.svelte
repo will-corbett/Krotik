@@ -19,6 +19,7 @@
     <h2 id="parts">What's here</h2>
     <dl class="parts">
       <div><dt><a href={href({ page: 'learn' })}>Learn &amp; drill</a></dt><dd>Every grammar topic, easiest first. <strong>Learn</strong> is a short explanation with real examples; <strong>Drill</strong> is practice with instant feedback.</dd></div>
+      <div><dt><a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary</a></dt><dd>The commonest words, both ways round: choose the meaning, or type the Russian word.</dd></div>
       <div><dt><a href={href({ page: 'test' })}>Grammar test</a></dt><dd>Sixty questions from A1 to C1 that estimate your grammar level and point you to what to review.</dd></div>
       <div><dt><a href={href({ page: 'reading' })}>Reading</a></dt><dd>Short stories by Tolstoy and comedies by Chekhov. Tap any word to see what it means.</dd></div>
       <div><dt><a href={href({ page: 'culture' })}>Culture</a></dt><dd>Hand-picked films, cartoons, podcasts and books, and short notes on names, holidays and more.</dd></div>
@@ -49,7 +50,7 @@
     <ul>
       <li>Take the <a href={href({ page: 'test' })}>Grammar test</a> (20–25 minutes). The results explain every wrong answer and list the Learn pages worth reading.</li>
       <li>Pick topics from <a href={href({ page: 'learn' })}>Learn &amp; drill</a>: each shows the level at which learners usually meet it.</li>
-      <li>Turn on <a href={href({ page: 'progress' })}>progress</a> (kept in this browser only) to see your weak topics, then review them together in a <a href={href({ page: 'drill', mode: 'mixed' })}>mixed review</a>.</li>
+      <li>Turn on <a href={href({ page: 'progress' })}>progress</a> (kept in this browser only) to see your weak topics, then review them together in a <a href={href({ page: 'drill', mode: 'mixed' })}>mixed review</a>. It also keeps a list of the words you practise, and brings each back for review when it's due.</li>
     </ul>
   </section>
 

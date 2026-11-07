@@ -5,7 +5,7 @@ import { checkAnswer } from '../../src/lib/check.ts';
 import { alsoRight, generateVocabQuestions, indexByItem, meaningWords, recallQuestion, recogniseQuestion } from '../../src/lib/questions/vocab.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
 import type { Word } from '../../src/lib/types.ts';
-import { addDays, addWords, dueKeys, emptyWords, INTERVALS, mergeWords, parseWords, removeWord, review } from '../../src/lib/words.ts';
+import { type MyWords, addDays, addWords, dueKeys, emptyWords, INTERVALS, mergeWords, parseWords, removeWord, review } from '../../src/lib/words.ts';
 import type { WordRow } from '../../src/shared/types.ts';
 
 const rows = (b: number) => JSON.parse(readFileSync(`public/data/words.b${b}.json`, 'utf8')) as WordRow[];
@@ -95,10 +95,17 @@ describe('my words (spaced repetition)', () => {
     let w = addWords(emptyWords(), [['v:1', 0]], day);
     expect(w.words['v:1']).toEqual({ b: 0, box: 0, due: day, added: day });
     w = review(w, [{ key: 'v:1', band: 0, right: true }], day);
-    expect(w.words['v:1']).toMatchObject({ box: 1, due: addDays(day, INTERVALS[1]!) });
+    expect(w.words['v:1']).toMatchObject({ box: 1, due: '2026-11-08' });
+    expect(INTERVALS[0]).toBe(1);
     // Practised again before it's due: right answers don't skip ahead.
     w = review(w, [{ key: 'v:1', band: 0, right: true }], day);
     expect(w.words['v:1']!.box).toBe(1);
+    // Up to the top box, 60 days apart, and no further.
+    let top: MyWords = { v: 1, words: { 'v:1': { b: 0, box: 5, due: day, added: day } } };
+    top = review(top, [{ key: 'v:1', band: 0, right: true }], day);
+    expect(top.words['v:1']).toMatchObject({ box: 6, due: addDays(day, 60) });
+    top = review(top, [{ key: 'v:1', band: 0, right: true }], addDays(day, 60));
+    expect(top.words['v:1']).toMatchObject({ box: 6, due: addDays(day, 120) });
     // A miss: back to box 0, due tomorrow.
     w = review(w, [{ key: 'v:1', band: 0, right: false }], day);
     expect(w.words['v:1']).toMatchObject({ box: 0, due: '2026-11-08' });
@@ -115,7 +122,7 @@ describe('my words (spaced repetition)', () => {
   it('reads only well-formed records (stored or imported), dropping anything else', () => {
     expect(parseWords('not json')).toBeNull();
     expect(parseWords('{"v":2,"words":{}}')).toBeNull();
-    const p = parseWords(JSON.stringify({ v: 1, words: { 'v:1': { b: 0, box: 1, due: day, added: day, extra: 'x' }, 'bad key': { b: 0, box: 0, due: day, added: day }, 'n:2': { b: 9, box: 0, due: day, added: day }, 'o:тут': { b: 0, box: 7, due: day, added: day } } }));
+    const p = parseWords(JSON.stringify({ v: 1, words: { 'v:1': { b: 0, box: 1, due: day, added: day, extra: 'x' }, 'bad key': { b: 0, box: 0, due: day, added: day }, 'n:2': { b: 9, box: 0, due: day, added: day }, 'o:тут': { b: 0, box: 8, due: day, added: day } } }));
     expect(p).toEqual({ v: 1, words: { 'v:1': { b: 0, box: 1, due: day, added: day } } });
   });
   it('merges an import, keeping the later due date for words in both', () => {

@@ -3,8 +3,11 @@
 Static, no-login drill app (Svelte 5 + Vite + TypeScript strict). No backend, no analytics.
 UI settings go in localStorage (`krotik.settings.v1`). Progress is **opt-in only** (`settings.progress`, off by default):
 then `src/lib/progress.ts` keeps per-topic round counts, first-attempt results, the last five rounds and the date last
-practised under `krotik.progress.v1`, in this browser only, never sent anywhere; turning it off deletes it. Never store
-words, answers or anything else, and keep the About page's description of what is kept exact.
+practised under `krotik.progress.v1`, and `src/lib/words.ts` keeps "My words" under `krotik.words.v1`: per word only its
+key (`n:<id>`, `v:<id>`, `a:<id>`, `o:<word>`), band, Leitner box and the dates added and next due. Both stay in this
+browser, are never sent anywhere, and are deleted when progress is turned off. Export/import is a file on the user's own
+device only. Never store answers, typed text, times or anything else, and keep the About page's description of what is
+kept exact.
 
 ## Commands (Node ≥ 22.12; `.nvmrc` = 22)
 On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PATH` first.
@@ -153,6 +156,20 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   failed. Each link has a type, level range, region (russia, kazakhstan, central-asia, ukraine, caucasus, baltics,
   worldwide) and topic; the page filters on these plus free text, and shows 20 links a page (type order; a filter starts again at page 1). Check what a channel actually posts (recent videos),
   not just its name: a channel called "Simple Russian" turned out to be political.
+- Vocabulary (`vocab`, group "Words", `learn: false`): `scripts/lib/vocab.ts` builds `words.b{0..3}.json`
+  (`[key, accented, meaning, type, aspect|gender]`) from every noun, verb and adjective plus OpenRussian's others.csv,
+  banded per type like the drill shards; other words are ranked by their FrequencyWords count (credited on the About
+  page), since the source's order puts some (тут, уж) last. Left out: names, empty/grammar-note/non-English meanings,
+  pronoun case forms, and nouns/adjectives spelt like a verb or other word (тут "mulberry") unless `overrides.yaml`
+  `vocab.keep` lists them; `vocab.gloss` gives a clearer meaning, `vocab.exclude` drops a word. Recognise = choose the
+  English meaning of four (wrong ones of the same type, sharing no English word with the right one; `Question.meaning`);
+  Recall = type the word, where same-type (and same-aspect) words sharing a meaning item are accepted and named, and the
+  aspect partner is named as a near miss. With progress on, every word answered is scheduled (right first time → next box,
+  1/3/7/14/30/60 days; wrong → box 0, due tomorrow); "My words that are due" reviews them, most overdue first. The
+  Progress page lists them (Remove, Export, Import, Delete). Reading: every explained word carries its key and band;
+  each text lists up to 15 key words (band 2+, not among FrequencyWords' 3,000 commonest forms, which overrules a few
+  misplaced source ranks), with Practise these and Add all; a clicked/tapped/focused word's box is pinned and offers
+  Add to my words.
 - Review drills (group "Review", `learn: false` in topics.ts, no Learn page): **Mixed review** (`mixed`) interleaves
   questions from chosen topics, each with that topic's own settings; **Translate and compare** (`translate`) shows a
   Tatoeba English sentence, you type Russian, then compare with the Tatoeba Russian and mark yourself (`selfMark`;

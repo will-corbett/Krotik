@@ -5,9 +5,10 @@
  * needs), its Leitner box and the dates it was added and is next due. Nothing else: no answers, no typed text, no times.
  */
 export const WORDS_KEY = 'krotik.words.v1';
-/** Days until the next review after a right first answer, by the box the word moves up to. */
+/** Days until the next review after a right first answer: moving up to box n waits INTERVALS[n - 1] days. */
 export const INTERVALS = [1, 3, 7, 14, 30, 60];
-export const MAX_BOX = INTERVALS.length - 1;
+/** Boxes run from 0 (new, or just missed) to MAX_BOX (60 days between reviews). */
+export const MAX_BOX = INTERVALS.length;
 
 export interface WordRecord {
   /** frequency band (0–3) */
@@ -108,7 +109,7 @@ export function review(w: MyWords, results: { key: string; band: number; right: 
     if (!right) words[key] = { ...r, box: 0, due: addDays(date, 1) };
     else if (r.due <= date) {
       const box = Math.min(r.box + 1, MAX_BOX);
-      words[key] = { ...r, box, due: addDays(date, INTERVALS[box]!) };
+      words[key] = { ...r, box, due: addDays(date, INTERVALS[box - 1]!) };
     }
   }
   out = { v: 1, words };

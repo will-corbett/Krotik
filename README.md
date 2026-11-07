@@ -1,7 +1,7 @@
 # Krotik
 
-Learn and drill Russian grammar. There are no accounts and no analytics; progress tracking is optional, off by
-default, and kept only in your browser.
+Learn and drill Russian grammar and vocabulary. There are no accounts and no analytics; progress tracking (topic results
+and your words) is optional, off by default, and kept only in your browser.
 
 - **Home**: your last drill, and cards for Learn & drill, the Grammar test, Reading and (if you turn it on) your progress,
   whose details (weak topics, topics due for revision, a mixed review of them) are on their own page.
@@ -11,7 +11,8 @@ default, and kept only in your browser.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
   (`content/learn/*.md`).
 - **Drill**: the drills below, with retries, example sentences and audio, plus a mixed review of several topics and a
-  translate-and-compare drill. The end screen breaks results down by question type or topic.
+  translate-and-compare drill. A **Vocabulary** drill covers the commonest words both ways round; with progress on, the
+  words you practise (or add while reading) come back for review on a spaced-repetition schedule. The end screen breaks results down by question type or topic.
 - **Reading**: short stories by Tolstoy and comedies by Chekhov (public domain), with every word explained on hover or
   tap and comprehension questions in English or Russian (`curated/literature.yaml`, `content/reading/questions.yaml`).
 - **Culture**: about 120 hand-picked links to videos, cartoons, films, podcasts, books and tools, each type with a suggested activity, filterable by level, topic and region (`content/culture/links.yaml`),
@@ -25,6 +26,7 @@ Modes are grouped as follows:
 - **Nouns & numbers:** cases, plurals, numbers, ordinals and dates, special case forms, diminutives.
 - **Sentences:** который, чтобы, conditional, negation, indefinite pronouns, particles, prepositions, impersonal constructions, comparisons, conjunctions, time.
 - **Pronunciation:** stress.
+- **Words:** vocabulary (nouns, verbs, adjectives and other words, by frequency; or your words that are due).
 
 ## Run locally
 

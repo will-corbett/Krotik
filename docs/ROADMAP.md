@@ -149,4 +149,14 @@ Done in batches, each reviewed before the next.
   the author's choice, e.g. tense, over what's grammatical). Replaced by a Reading section: 15 Tolstoy stories and both
   Chekhov comedies scene by scene, every word explained on hover/tap, 2–3 comprehension questions per text in English
   or Russian. Then (2026-11-07) the rest of Tolstoy's book: 60 stories in all; four stay out (Уж, Лозина and Ермак have too many dialect words to gloss reliably; Воробей и ласточки has a transcription error, всб for всё, and the text is never edited).
+- Vocabulary (2026-11-08): the owner agreed to relax "never store words", opt-in only. A Vocabulary drill of the
+  commonest words (choose the meaning / type the word); "My words", a per-word spaced-repetition record (word key,
+  band, box, dates; off by default, browser only, export/import as a file, deleted with progress); Reading's key words
+  (practise them, add them) and Add to my words from any explained word.
+- Next for vocabulary: curated English meanings for the top 2,500 (the source's are sometimes long-winded); audio from
+  Wikimedia Commons for the top 1,000 (self-hosted, credited), for devices without a Russian voice; themed sets from
+  Wiktionary categories; word families.
+- Known source problem: OpenRussian's lists put some common words near the end (the verb стать, белый, правило, весь,
+  лёгкий), so they land in the "Everything" band in every drill, not just Vocabulary. Re-ranking those from the
+  frequency list would change every drill's "Top N"; not done yet.
 - Not doing: model-answer writing.

@@ -13,6 +13,9 @@ Files in this folder are derived data.
 - `reading.json` and `reading.*.json`: texts by Leo Tolstoy (1828–1910) and Anton Chekhov (1860–1904), public domain,
   from Russian Wikisource at the revisions linked in the file (`works[].source`). The word meanings in them come from
   the OpenRussian and Wiktionary data above (CC BY-SA 4.0); meanings marked as ours and the questions are ours.
+- `words.*`: words and meanings from the OpenRussian data above (CC BY-SA 4.0); the "other words" are ordered by their
+  counts in FrequencyWords (https://github.com/hermitdave/FrequencyWords, OpenSubtitles 2018, CC BY-SA 4.0). These
+  derived files are CC BY-SA 4.0.
 - `sentences.*` and `cloze.*`: sentences and translations from Tatoeba (https://tatoeba.org), CC BY 2.0 FR
   (https://creativecommons.org/licenses/by/2.0/fr/). Each row starts with the Tatoeba sentence id.
 
