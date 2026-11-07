@@ -40,6 +40,14 @@ for (const scheme of ['light', 'dark', 'krotik'] as const) {
     await page.getByRole('button', { name: 'I got it right' }).click();
     await page.getByRole('button', { name: 'End round' }).click();
     await scan('translate, end');
+    await setup(page, 'Read and fill in');
+    await page.getByRole('button', { name: 'Start' }).click();
+    await expect(page.locator('.passage')).toBeVisible();
+    await scan('reading passage');
+    await page.getByRole('textbox', { name: 'Your answer' }).fill('ъъъ');
+    await page.getByRole('textbox', { name: 'Your answer' }).press('Enter');
+    await scan('reading feedback');
+    await page.getByRole('button', { name: 'End round' }).click();
     await setup(page, 'Mixed review');
     await scan('mixed setup');
     await page.getByRole('button', { name: 'Start' }).click();

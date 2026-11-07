@@ -156,6 +156,13 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   isn't cached, so trying again works; Learn blocks say when their data didn't load; sentences are optional in drills.
   Reloading mid-drill returns to that drill's settings (rounds aren't stored). Back/Forward to a Drill address always
   shows that page (choose or settings), leaving any round in progress.
+- Read and fill in (`reading`, Review group): passages of public-domain literature listed in
+  `curated/literature.yaml` (Tolstoy's Second Russian reader, Chekhov's Медведь and Предложение), fetched from Russian
+  Wikisource at pinned revisions; `scripts/lib/literature.ts` → `public/data/reading.json`. Only modern-spelling texts by
+  authors dead 70+ years. A passage is left out (never edited) if a word isn't in our data or Wiktionary, Wiktionary has
+  it only as archaic/obsolete/dated, it uses the -с particle, or it has Latin; all listed in the report. Wiktionary
+  mis-tags go in `notOld` with a reason. Gaps: a form of exactly one top-2,500 verb/noun/adjective, not equal to the
+  hint, never a name; the answer is the author's word. Homographs can slip through the check (коли = if / колоть).
 - Every typed answer offers the on-screen Cyrillic keyboard (drills and Learn quick checks share `settings.keyboard`);
   the Culture search box is the only exception.
 - Drills whose verb can be in several tenses let you choose them (sentence drills carry the tense in the row kind

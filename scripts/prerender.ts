@@ -196,7 +196,7 @@ pages.push({
   route: { page: 'about' },
   description: 'About Krotik: where the Russian forms and sentences come from (OpenRussian, Wiktionary, Tatoeba), their licences, and what is kept in your browser.',
   index: true,
-  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and drilling Russian grammar. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR). There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
+  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and drilling Russian grammar. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR); the reading passages are public-domain texts by Tolstoy and Chekhov from Russian Wikisource. There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
 });
 
 // ---- write

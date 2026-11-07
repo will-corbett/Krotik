@@ -2,7 +2,7 @@
 import type { Case, VerbGroup } from '../shared/cells.ts';
 import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
-import type { MixedSettings, TranslateSettings } from './types.ts';
+import type { MixedSettings, ReadingSettings, TranslateSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
@@ -25,6 +25,7 @@ export interface Settings {
   progress: boolean;
   mixed: MixedSettings;
   translate: TranslateSettings;
+  reading: ReadingSettings;
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -93,6 +94,7 @@ export const DEFAULTS: Settings = {
   chtoby: { kinds: ['inf', 'past'] },
   mixed: { topics: ['verbs', 'nounCases', 'adjectives', 'pronouns', 'prepositions'] },
   translate: { lengths: ['short'] },
+  reading: { works: ['stories'], kinds: ['v', 'n', 'a'] },
 };
 
 const KEY = 'krotik.settings.v1';
@@ -136,6 +138,7 @@ export function loadSettings(): Settings {
       chtoby: { ...DEFAULTS.chtoby, ...saved.chtoby },
       mixed: { ...DEFAULTS.mixed, ...saved.mixed },
       translate: { ...DEFAULTS.translate, ...saved.translate },
+      reading: { ...DEFAULTS.reading, ...saved.reading },
     };
   } catch {
     return structuredClone(DEFAULTS);

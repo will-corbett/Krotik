@@ -145,7 +145,7 @@ Done in batches, each reviewed before the next.
 4. **Culture and tests (done):** a suggested activity per resource type, more Kazakh and Central Asian links (checked by
    hand); e2e for failed data requests, reload mid-drill and Back/Forward.
 - Prerendering for search engines (done, 2026-11-07): real page addresses, an HTML file per page, sitemap.
-- Next (owner's choice, 2026-11-07): a "Read and fill in" pilot with connected text from public-domain literature:
+- Built (pilot, 2026-11-07): a "Read and fill in" pilot with connected text from public-domain literature:
   Tolstoy's children's stories (paragraphs, A2–B1) and Chekhov's one-act comedies (dialogues, B2–C1), modern-spelling
   texts, every work and translation confirmed public domain, archaic forms flagged in the report and left out.
 - Not doing: model-answer writing.

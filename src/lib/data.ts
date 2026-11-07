@@ -2,7 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
+import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingData, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, VerbRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb } from './types.ts';
 
 // (import.meta.env is Vite's; build scripts importing this file run without it)
@@ -79,6 +79,9 @@ export function loadLearnExtras(): Promise<LearnExtras> {
   learnExtras ??= loadManifest().then((m) => getJson<LearnExtras>(m.learn));
   learnExtras.catch(() => (learnExtras = null));
   return learnExtras;
+}
+export async function loadReading(): Promise<ReadingData> {
+  return getJson<ReadingData>((await loadManifest()).reading);
 }
 export async function loadLevelTest(): Promise<LevelTestData> {
   return getJson<LevelTestData>((await loadManifest()).levelTest);

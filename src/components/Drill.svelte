@@ -180,6 +180,25 @@
 <svelte:window onkeydown={onKey} />
 
 {#if q && entry}
+  {#snippet answerInput()}
+    <input
+      bind:this={field}
+      bind:value={input}
+      oninput={() => {
+        if (settings.translit) input = toCyrillic(input);
+      }}
+      class:right={phase === 'feedback' && !selfPending && result?.correct}
+      class:wrong={phase === 'feedback' && !selfPending && !result?.correct}
+      readonly={phase === 'feedback'}
+      inputmode={settings.keyboard ? 'none' : 'text'}
+      lang="ru"
+      autocapitalize="off"
+      autocorrect="off"
+      spellcheck="false"
+      enterkeyhint={phase === 'feedback' ? 'next' : 'done'}
+      aria-describedby="feedback"
+      />
+  {/snippet}
   <section class="drill" aria-labelledby="prompt-word">
     <div class="bar">
       <p class="count">
@@ -250,28 +269,23 @@
             {/each}
           </div>
         {:else}
-        <label class="frame" class:sentence-answer={q.selfMark} lang="ru">
+{#if q.passage}
+          {@const pg = q.passage}
+          <div class="passage" lang="ru">
+            {#each pg.lines as l, li (li)}
+              <p class:stage={l[2] === 1}>
+                {#if l[0]}<strong class="speaker">{l[0]}.</strong>{' '}{/if}{#if li === pg.line}{l[1].slice(0, pg.start)}<label class="gap"><span class="visually-hidden" lang="en">Your answer</span>{@render answerInput()}</label>{l[1].slice(pg.end)}{:else}{l[1]}{/if}
+              </p>
+            {/each}
+          </div>
+        {:else}
+                <label class="frame" class:sentence-answer={q.selfMark} lang="ru">
           <span class="visually-hidden" lang="en">Your answer</span>
           {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
-          <input
-            bind:this={field}
-            bind:value={input}
-            oninput={() => {
-              if (settings.translit) input = toCyrillic(input);
-            }}
-            class:right={phase === 'feedback' && !selfPending && result?.correct}
-            class:wrong={phase === 'feedback' && !selfPending && !result?.correct}
-            readonly={phase === 'feedback'}
-            inputmode={settings.keyboard ? 'none' : 'text'}
-            lang="ru"
-            autocapitalize="off"
-            autocorrect="off"
-            spellcheck="false"
-            enterkeyhint={phase === 'feedback' ? 'next' : 'done'}
-            aria-describedby="feedback"
-          />
+          {@render answerInput()}
           {#if frameParts[1]}<span class="frame-text">{frameParts[1]}</span>{/if}
         </label>
+        {/if}
         {/if}
         <div class="actions">
           {#if phase === 'answering'}
@@ -344,6 +358,11 @@
             <div class="example"><Sentence row={sentence} /></div>
           {/if}
 
+          {#if q.passage}
+            <p class="src muted">
+              From {q.passage.credit}. Public domain, via <a href={q.passage.source} rel="noopener" target="_blank">Wikisource</a>.
+            </p>
+          {/if}
           {#if q.source}
             <p class="src muted">
               Sentence: <a href="https://tatoeba.org/en/sentences/show/{q.source}" rel="noopener" target="_blank">Tatoeba #{q.source}</a>
@@ -445,6 +464,33 @@
     align-items: baseline;
     gap: 8px;
     font-size: 1.5rem;
+  }
+  .passage {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-height: 22rem;
+    overflow-y: auto;
+    margin: 8px 0 4px;
+    padding: 4px 2px;
+  }
+  .passage p {
+    margin: 0 0 8px;
+  }
+  .passage .stage {
+    font-style: italic;
+    color: var(--muted);
+  }
+  .passage .speaker {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+  }
+  .gap input {
+    display: inline-block;
+    width: 11ch;
+    font-size: 1.1rem;
+    padding: 2px 6px;
+    vertical-align: baseline;
   }
   .sentence-answer input {
     flex-basis: 100%;

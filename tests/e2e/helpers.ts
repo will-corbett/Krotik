@@ -38,7 +38,8 @@ export type ModeName =
   | 'Special case forms'
   | 'The alphabet'
   | 'Mixed review'
-  | 'Translate and compare';
+  | 'Translate and compare'
+  | 'Read and fill in';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   // A fresh page load each time (the unique query forces it): choose the drill, then go to its settings page.
@@ -52,7 +53,7 @@ export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10
 async function questionId(page: Page): Promise<string> {
   const task = await page.locator('.task').innerText();
   const word = await page.locator('#prompt-word').innerText();
-  const frame = (await page.locator('.frame, .stress-word').first().innerText()).replace(/\s+/g, '');
+  const frame = (await page.locator('.frame, .stress-word, .passage').first().innerText()).replace(/\s+/g, '');
   return `${task}|${word}|${frame}`;
 }
 

@@ -45,6 +45,13 @@
       Tatoeba page.
     </li>
     <li>
+      Read and fill in: stories for children by Leo Tolstoy (from his <span lang="ru">Вторая русская книга для чтения</span>,
+      1875) and Anton Chekhov's one-act comedies <span lang="ru">Медведь</span> and <span lang="ru">Предложение</span>
+      (1888), in modern spelling, from <a href="https://ru.wikisource.org" rel="noopener">Russian Wikisource</a>. Both
+      authors died over a century ago, so these texts are in the public domain. Passages with old-fashioned words are left
+      out rather than changed.
+    </li>
+    <li>
       A few small grammar lists were written by hand for this site (which case a verb takes, what a motion prefix
       means, verbs of position, time words). They contain grammar facts only; every word form still comes from the
       sources above.

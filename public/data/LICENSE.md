@@ -10,6 +10,8 @@ Files in this folder are derived data.
   CC BY-SA 4.0 (and GFDL); these derived files are CC BY-SA 4.0.
 - `learn.json`: the sentences Learn pages quote (Tatoeba, CC BY 2.0 FR, keyed by Tatoeba id) and pronunciations (IPA)
   from Wiktionary (CC BY-SA 4.0).
+- `reading.json`: passages by Leo Tolstoy (1828–1910) and Anton Chekhov (1860–1904), public domain, taken from
+  Russian Wikisource at the revisions linked in the file (`works[].source`); the gaps and hints are ours.
 - `sentences.*` and `cloze.*`: sentences and translations from Tatoeba (https://tatoeba.org), CC BY 2.0 FR
   (https://creativecommons.org/licenses/by/2.0/fr/). Each row starts with the Tatoeba sentence id.
 
