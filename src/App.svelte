@@ -19,7 +19,7 @@
   import { createRound, type Round } from './lib/queue.ts';
   import { clearProgress, loadProgress, recordRound, saveProgress, today } from './lib/progress.ts';
   import { mulberry32 } from './lib/rng.ts';
-  import { clearWords, loadWords, review as reviewWords, saveWords } from './lib/words.ts';
+  import { clearWords, loadWords, review as scheduleWords, saveWords } from './lib/words.ts';
   import { href, navigate, parseHash, parsePath, type Route } from './lib/router.ts';
   import { pageTitle } from './lib/pageMeta.ts';
   import { NOTES } from './lib/culture.ts';
@@ -127,7 +127,8 @@
         error = 'No questions match these settings. Try a larger vocabulary or more options.';
         return;
       }
-      if (!unlimited && qs.length < settings.count) shortfall = `Only ${qs.length} questions match these settings.`;
+      if (!unlimited && qs.length < settings.count)
+        shortfall = settings.mode === 'vocab' && settings.vocab.source === 'mine' ? `${qs.length} of your words ${qs.length === 1 ? 'is' : 'are'} due.` : `Only ${qs.length} questions match these settings.`;
       round = createRound(qs);
       screen = 'drill';
       settings.hideContinue = false;
@@ -165,7 +166,7 @@
       saveProgress(recordRound(loadProgress(), r, today()));
       // Vocabulary: each word answered goes into your words, scheduled by whether it was right first time.
       const words = r.entries.filter((e) => e.attempts > 0 && e.q.word).map((e) => ({ key: e.q.word!.key, band: e.q.word!.band, right: e.firstTryCorrect === true }));
-      if (words.length) saveWords(reviewWords(loadWords(), words, today()));
+      if (words.length) saveWords(scheduleWords(loadWords(), words, today()));
     }
   }
 
@@ -175,6 +176,11 @@
       clearProgress();
       clearWords();
     }
+  }
+  /** Your due words: the Vocabulary drill's settings, set to "My words that are due". */
+  function reviewWords() {
+    settings.vocab.source = 'mine';
+    navigate(href({ page: 'drill', mode: 'vocab' }));
   }
   /** Start setting up a mixed review of these topics. */
   function review(topics: Mode[]) {
@@ -259,7 +265,7 @@
     {:else if route.page === 'start'}
       <StartPage />
     {:else if route.page === 'progress'}
-      <ProgressPage on={settings.progress} onprogress={setProgress} onreview={review} />
+      <ProgressPage on={settings.progress} onprogress={setProgress} onreview={review} onreviewwords={reviewWords} />
     {:else if route.page === 'learn' && route.topic}
       <LearnPage topic={route.topic} bind:settings />
     {:else if route.page === 'learn'}

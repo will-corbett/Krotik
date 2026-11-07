@@ -3,10 +3,11 @@
   import { DUE_DAYS, WEAK_MIN, loadProgress, summarise, today } from '../lib/progress.ts';
   import { href } from '../lib/router.ts';
   import { topicById } from '../lib/topics.ts';
+  import MyWords from './MyWords.svelte';
   import type { Mode } from '../lib/types.ts';
 
   /** The Progress page (/progress/): an offer to turn it on, or (when on) weak topics, revision and history. */
-  let { on, onprogress, onreview }: { on: boolean; onprogress: (on: boolean) => void; onreview: (topics: Mode[]) => void } = $props();
+  let { on, onprogress, onreview, onreviewwords }: { on: boolean; onprogress: (on: boolean) => void; onreview: (topics: Mode[]) => void; onreviewwords: () => void } = $props();
   const s = $derived(on ? summarise(loadProgress(), today()) : null);
   const name = (m: Mode) => topicById(m)?.title.en ?? m;
   let confirmOff = $state(false);
@@ -17,7 +18,8 @@
   <div class="card offer">
     <p class="small">
       Krotik can keep a record of your drill results <strong>in this browser only</strong>, to show your weak topics and
-      what's due for revision. It's never sent anywhere, and turning it off deletes it.
+      what's due for revision, and a list of the words you practise, so they come back for review when they're due. It's
+      never sent anywhere, and turning it off deletes it.
     </p>
     <button class="btn" onclick={() => onprogress(true)}>Keep track in this browser</button>
   </div>
@@ -73,7 +75,7 @@
     <p class="muted small foot">
       Kept in this browser only.
       {#if confirmOff}
-        Delete your progress and stop keeping track?
+        Delete your progress and your words, and stop keeping track?
         <button class="btn small-btn" onclick={() => onprogress(false)}>Turn off and delete</button>
         <button class="btn quiet small-btn" onclick={() => (confirmOff = false)}>Cancel</button>
       {:else}
@@ -81,6 +83,7 @@
       {/if}
     </p>
   </section>
+  <MyWords onreview={onreviewwords} />
 {/if}
 
 <style>

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { DUE_DAYS, loadProgress, summarise, today } from '../lib/progress.ts';
+  import { dueKeys, loadWords } from '../lib/words.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { ALL_TOPICS, isDrill, topicById } from '../lib/topics.ts';
@@ -20,6 +21,7 @@
   const topics = ALL_TOPICS.filter((t) => t.learn !== false).length;
   const drills = ALL_TOPICS.filter(isDrill).length;
   const progress = $derived(settings.progress ? summarise(loadProgress(), today()) : null);
+  const wordsDue = $derived(settings.progress ? dueKeys(loadWords(), today()).length : 0);
 </script>
 
 <section class="dash fade-in" aria-labelledby="dash-title">
@@ -61,7 +63,7 @@
   <div class="cards">
     <article class="card tile" aria-labelledby="t-learn">
       <h2 id="t-learn">Learn &amp; drill <span lang="ru" class="ru">грамматика</span></h2>
-      <p class="muted small">{topics} topics, from the alphabet to participles: short explanations, then {drills} drills with instant feedback.</p>
+      <p class="muted small">{topics} topics, from the alphabet to participles: short explanations, then {drills} drills with instant feedback, including the commonest words.</p>
       <a class="btn primary" href={href({ page: 'learn' })}>See all topics</a>
     </article>
 
@@ -80,7 +82,7 @@
     <article class="card tile" aria-labelledby="t-progress">
       <h2 id="t-progress">Your progress</h2>
       {#if !progress}
-        <p class="muted small">Off. Turn it on to see weak topics and what’s due for revision; it’s kept in this browser only.</p>
+        <p class="muted small">Off. Turn it on to see weak topics, what’s due for revision and your words; it’s kept in this browser only.</p>
         <button class="btn" onclick={() => onprogress(true)}>Keep track in this browser</button>
       {:else}
         <p class="muted small">
@@ -90,6 +92,7 @@
             {progress.weak.length}
             {progress.weak.length === 1 ? 'weak topic' : 'weak topics'} · {progress.due.length} due for revision ({DUE_DAYS}+ days)
           {/if}
+          {#if wordsDue}<br />{wordsDue} {wordsDue === 1 ? 'word' : 'words'} due for review{/if}
         </p>
         <a class="btn" href={href({ page: 'progress' })}>See your progress</a>
       {/if}
