@@ -38,7 +38,9 @@ export type Mode =
   | 'questionWords'
   | 'ordinals'
   | 'specialCases'
-  | 'alphabet';
+  | 'alphabet'
+  | 'mixed'
+  | 'translate';
 
 export interface Verb {
   id: number;
@@ -115,8 +117,22 @@ export interface Question {
   display?: string;
   /** Where to look for an example sentence; only one containing the exact answer form is shown. */
   sentence?: { type: SentenceType; lemmaId: number; cell: number; band: number };
+  /**
+   * Translate drill: there's no single right answer, so you compare yours with the Tatoeba sentence (`answer`, shown
+   * whole) and mark it yourself; only an exact match is marked right automatically.
+   */
+  selfMark?: boolean;
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
+}
+
+/** Mixed review: questions from several topics in one round, each with that topic's own settings. */
+export interface MixedSettings {
+  topics: Mode[];
+}
+/** Translate and compare: short (up to 5 words) and/or longer (6–9 words) sentences. */
+export interface TranslateSettings {
+  lengths: ('short' | 'long')[];
 }
 
 export interface VerbSettings {

@@ -1,7 +1,8 @@
-/** UI settings only (never progress), remembered in localStorage when available. */
+/** UI settings, remembered in localStorage when available. The opt-in progress record is separate (progress.ts). */
 import type { Case, VerbGroup } from '../shared/cells.ts';
 import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
+import type { MixedSettings, TranslateSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
@@ -17,6 +18,13 @@ export interface Settings {
   theme: 'krotik' | 'system' | 'light' | 'dark';
   /** The Dashboard's "Continue drilling" card was dismissed; it comes back when the next round starts. */
   hideContinue: boolean;
+  /**
+   * Keep a record of your rounds in this browser (src/lib/progress.ts). Off by default; turning it off deletes the record.
+   * The setting itself is a UI setting; the record is stored under its own key and never leaves the browser.
+   */
+  progress: boolean;
+  mixed: MixedSettings;
+  translate: TranslateSettings;
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -55,6 +63,7 @@ export const DEFAULTS: Settings = {
   translit: false,
   theme: 'krotik',
   hideContinue: false,
+  progress: false,
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
   compare: { types: ['comparative', 'superlative', 'samyi'] },
@@ -82,6 +91,8 @@ export const DEFAULTS: Settings = {
   aspectContext: { tenses: ['presfut', 'past', 'imperative', 'inf'] },
   position: { tenses: ['presfut', 'past', 'imperative', 'inf'] },
   chtoby: { kinds: ['inf', 'past'] },
+  mixed: { topics: ['verbs', 'nounCases', 'adjectives', 'pronouns', 'prepositions'] },
+  translate: { lengths: ['short'] },
 };
 
 const KEY = 'krotik.settings.v1';
@@ -123,6 +134,8 @@ export function loadSettings(): Settings {
       aspectContext: { ...DEFAULTS.aspectContext, ...saved.aspectContext },
       position: { ...DEFAULTS.position, ...saved.position },
       chtoby: { ...DEFAULTS.chtoby, ...saved.chtoby },
+      mixed: { ...DEFAULTS.mixed, ...saved.mixed },
+      translate: { ...DEFAULTS.translate, ...saved.translate },
     };
   } catch {
     return structuredClone(DEFAULTS);

@@ -1,13 +1,13 @@
 <script lang="ts">
   import { LEARN_TOPICS } from '../lib/learn.ts';
   import { href } from '../lib/router.ts';
-  import { TOPIC_GROUPS } from '../lib/topics.ts';
+  import { LEARN_GROUPS } from '../lib/topics.ts';
 </script>
 
 <section class="fade-in" aria-labelledby="learn-title">
   <h1 id="learn-title">Learn <span lang="ru" class="ru">учить</span></h1>
   <p class="muted">Short explanations with real examples, each ending with a quick check. Then drill the topic as much as you like.</p>
-  {#each TOPIC_GROUPS as g (g.title.en)}
+  {#each LEARN_GROUPS as g (g.title.en)}
     <h2>{g.title.en} <span lang="ru" class="ru">{g.title.ru}</span></h2>
     <ul>
       {#each g.modes as t (t.id)}

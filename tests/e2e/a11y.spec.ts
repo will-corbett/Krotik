@@ -24,6 +24,39 @@ for (const scheme of ['light', 'dark', 'krotik'] as const) {
   });
 }
 
+for (const scheme of ['light', 'dark', 'krotik'] as const) {
+  test(`no axe violations in the Review drills and progress card (${scheme})`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: scheme === 'dark' ? 'dark' : 'light', reducedMotion: 'reduce' });
+    const scan = async (where: string) => {
+      const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(r.violations.map((v) => `${where} ${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
+    };
+    await setup(page, 'Translate and compare');
+    await page.getByLabel('Theme').selectOption(scheme === 'krotik' ? 'krotik' : 'system');
+    await page.getByRole('button', { name: 'Start' }).click();
+    await page.getByRole('textbox', { name: 'Your answer' }).fill('ъъъ');
+    await page.getByRole('textbox', { name: 'Your answer' }).press('Enter');
+    await scan('translate, marking');
+    await page.getByRole('button', { name: 'I got it right' }).click();
+    await page.getByRole('button', { name: 'End round' }).click();
+    await scan('translate, end');
+    await setup(page, 'Mixed review');
+    await scan('mixed setup');
+    await page.getByRole('button', { name: 'Start' }).click();
+    for (let i = 0; i < 3; i++) {
+      await page.getByRole('button', { name: "I don't know" }).click();
+      await page.keyboard.press('Enter');
+    }
+    await page.getByRole('button', { name: 'End round' }).click();
+    await expect(page.getByRole('heading', { name: /By (topic|question type)/ })).toBeVisible();
+    await scan('mixed end, breakdown');
+    await page.goto('/#/');
+    await scan('progress offer');
+    await page.getByRole('button', { name: 'Keep track in this browser' }).click();
+    await scan('progress card');
+  });
+}
+
 test('keyboard only: choose a mode, start, answer, continue', async ({ page }) => {
   await page.goto('/?seed=1#/drill');
   // Focus the mode radios and move to the next mode ("Aspect partners") with an arrow key.

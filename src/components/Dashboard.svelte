@@ -3,8 +3,17 @@
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { TOPIC_GROUPS, isDrill, topicById } from '../lib/topics.ts';
+  import type { Mode } from '../lib/types.ts';
+  import ProgressCard from './ProgressCard.svelte';
 
-  let { settings, loading, oncontinue, onhide }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void } = $props();
+  let {
+    settings,
+    loading,
+    oncontinue,
+    onhide,
+    onprogress,
+    onreview,
+  }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void; onprogress: (on: boolean) => void; onreview: (topics: Mode[]) => void } = $props();
   const last = $derived(topicById(settings.mode));
 </script>
 
@@ -41,6 +50,8 @@
     </div>
     <a class="btn" href={href({ page: 'test' })}>Take the test</a>
   </div>
+
+  <ProgressCard on={settings.progress} {onprogress} {onreview} />
 
   <h2 class="map-title">All topics</h2>
   {#each TOPIC_GROUPS as g (g.title.en)}

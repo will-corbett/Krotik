@@ -3,6 +3,8 @@
   import { displayForms, renderForm } from '../shared/forms.ts';
   import type { SentenceShard, SentenceType } from '../shared/types.ts';
   import { checkAnswer, type CheckResult } from '../lib/check.ts';
+  import { sameSentence } from '../lib/questions/translate.ts';
+  import { normalise } from '../shared/normalise.ts';
   import { toCyrillic } from '../lib/translit.ts';
   import { chooseSentence, loadSentences } from '../lib/data.ts';
   import { answer, clearedCount, current, endRound, extendRound, isFinished, RETRY_GAP, type Round } from '../lib/queue.ts';
@@ -35,6 +37,9 @@
   let result = $state<CheckResult | null>(null);
   let typed = $state('');
   let wasRetry = $state(false);
+  /** Translate drill: the model is shown and we're waiting for you to mark your answer. */
+  let selfPending = $state(false);
+  let markButton = $state<HTMLButtonElement>();
   let field = $state<HTMLInputElement>();
   let canSpeak = $state(false);
   let shards = $state<Record<string, SentenceShard>>({});
@@ -71,7 +76,8 @@
 
   async function focusField() {
     await tick();
-    if (q?.choices || q?.stress) (phase === 'feedback' ? nextButton : choiceButtons.find(Boolean))?.focus();
+    if (selfPending) markButton?.focus();
+    else if (q?.choices || q?.stress) (phase === 'feedback' ? nextButton : choiceButtons.find(Boolean))?.focus();
     else field?.focus();
   }
 
@@ -92,7 +98,7 @@
   function submit(e?: SubmitEvent) {
     e?.preventDefault();
     if (!q) return;
-    if (phase === 'feedback') return next();
+    if (phase === 'feedback') return selfPending ? undefined : next();
     if (!input.trim()) return;
     grade(input);
   }
@@ -100,8 +106,17 @@
   function grade(value: string) {
     if (!q) return;
     typed = value.trim();
-    result = checkAnswer(q, value);
     wasRetry = (entry?.attempts ?? 0) > 0;
+    if (q.selfMark) {
+      // Only an exact match is marked right automatically; otherwise you compare and decide.
+      const exact = sameSentence(value, q.answer, normalise);
+      result = { correct: exact };
+      selfPending = !exact;
+      phase = 'feedback';
+      focusField();
+      return;
+    }
+    result = checkAnswer(q, value);
     phase = 'feedback';
     if (q.choices || q.stress) focusField();
   }
@@ -114,6 +129,14 @@
     wasRetry = (entry?.attempts ?? 0) > 0;
     phase = 'feedback';
     focusField();
+  }
+
+  /** Translate drill: your own verdict after comparing with the model. */
+  function mark(correct: boolean) {
+    if (!result) return;
+    result = { correct };
+    selfPending = false;
+    next();
   }
 
   function next() {
@@ -151,7 +174,7 @@
   }
 
   const frameParts = $derived((q?.frame ?? '___').split('___').map((p) => p.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))));
-  const answers = $derived(q ? (q.display ? displayForms(q.display) : displayForms(q.answer)) : []);
+  const answers = $derived(q ? (q.selfMark ? [q.answer] : q.display ? displayForms(q.display) : displayForms(q.answer)) : []);
 </script>
 
 <svelte:window onkeydown={onKey} />
@@ -176,7 +199,7 @@
 
     <div class="card prompt">
       <p class="task"><TermText parts={q.task} /></p>
-      <h1 id="prompt-word" class="word" class:translation={!!q.source} lang={q.headwordIsEnglish ? 'en' : 'ru'}>
+      <h1 id="prompt-word" class="word" class:translation={!!q.source && !q.selfMark} class:to-translate={q.selfMark} lang={q.headwordIsEnglish ? 'en' : 'ru'}>
         {q.headwordIsEnglish ? q.headword : r(q.headword)}
       </h1>
       {#if q.gloss}<p class="gloss" lang="en">{q.gloss}</p>{/if}
@@ -227,7 +250,7 @@
             {/each}
           </div>
         {:else}
-        <label class="frame" lang="ru">
+        <label class="frame" class:sentence-answer={q.selfMark} lang="ru">
           <span class="visually-hidden" lang="en">Your answer</span>
           {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
           <input
@@ -236,8 +259,8 @@
             oninput={() => {
               if (settings.translit) input = toCyrillic(input);
             }}
-            class:right={phase === 'feedback' && result?.correct}
-            class:wrong={phase === 'feedback' && !result?.correct}
+            class:right={phase === 'feedback' && !selfPending && result?.correct}
+            class:wrong={phase === 'feedback' && !selfPending && !result?.correct}
             readonly={phase === 'feedback'}
             inputmode={settings.keyboard ? 'none' : 'text'}
             lang="ru"
@@ -268,6 +291,8 @@
                 <span aria-hidden="true">⌨</span> {settings.keyboard ? 'Hide keyboard' : 'Cyrillic keyboard'}
               </button>
             {/if}
+          {:else if selfPending}
+            <span class="muted kbd-hint">Compare your sentence with the model below, then mark it.</span>
           {:else}
             <button class="btn primary" type="submit" bind:this={nextButton}>{!unlimited && isFinished(answer(round, !!result?.correct, typed)) ? 'See results' : 'Next'}</button>
             <span class="muted kbd-hint">or press Enter</span>
@@ -282,14 +307,23 @@
 
     <div id="feedback" class="feedback-region" role="status" aria-live="polite">
       {#if phase === 'feedback' && result}
-        <div class="card feedback fade-in" class:ok={result.correct} class:bad={!result.correct}>
+        <div class="card feedback fade-in" class:ok={!selfPending && result.correct} class:bad={!selfPending && !result.correct}>
           <p class="verdict">
-            {#if result.correct}Correct{:else if typed}Not quite{:else}Answer{/if}
+            {#if selfPending}A model translation{:else if result.correct}{q.selfMark && typed ? 'Right' : 'Correct'}{:else if typed}Not quite{:else}Answer{/if}
           </p>
           <p class="solution" lang="ru">
             {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{q.stress ? renderForm(a, true) : r(a)}</strong>{/each}
           </p>
-          {#if !result.correct && typed}
+          {#if q.selfMark && typed}
+            <p class="typed">You wrote <span lang="ru">{typed}</span>{selfPending ? '' : '.'}</p>
+            {#if selfPending}
+              <p class="hint muted">Other word orders and words can be just as right. Count it as right if it says the same thing with correct grammar.</p>
+              <div class="mark">
+                <button class="btn primary" type="button" bind:this={markButton} onclick={() => mark(true)}>I got it right</button>
+                <button class="btn" type="button" onclick={() => mark(false)}>Not quite: ask again later</button>
+              </div>
+            {/if}
+          {:else if !result.correct && typed}
             <p class="typed">
               You {q.choices || q.stress ? 'chose' : 'typed'} <span lang="ru">{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
               {#if !wasRetry}It comes back {round.queue.length > RETRY_GAP ? `in ${RETRY_GAP} cards` : 'at the end of the round'}.{/if}
@@ -412,6 +446,16 @@
     gap: 8px;
     font-size: 1.5rem;
   }
+  .sentence-answer input {
+    flex-basis: 100%;
+    font-size: 1.25rem;
+  }
+  .mark {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 4px;
+  }
   .frame-text {
     font-family: var(--serif);
   }
@@ -438,6 +482,10 @@
   input.wrong {
     border-color: var(--wrong);
     background: var(--wrong-soft);
+  }
+  .word.to-translate {
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
+    font-weight: 600;
   }
   .word.translation {
     font-family: var(--sans);

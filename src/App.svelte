@@ -13,6 +13,7 @@
   import { loadSettings, saveSettings, type Settings } from './lib/settings.ts';
   import { nextBatch, prepareRound, UNLIMITED_BATCH, type Generate } from './lib/start.ts';
   import { createRound, type Round } from './lib/queue.ts';
+  import { clearProgress, loadProgress, recordRound, saveProgress, today } from './lib/progress.ts';
   import { mulberry32 } from './lib/rng.ts';
   import { href, parseRoute, type Route } from './lib/router.ts';
   import { isDrill, topicById } from './lib/topics.ts';
@@ -118,6 +119,18 @@
   function finish(r: Round<Question>) {
     round = r;
     screen = 'end';
+    // Opt-in only: kept in this browser, never sent anywhere (src/lib/progress.ts).
+    if (settings.progress) saveProgress(recordRound(loadProgress(), r, today()));
+  }
+
+  function setProgress(on: boolean) {
+    settings.progress = on;
+    if (!on) clearProgress();
+  }
+  /** Start setting up a mixed review of these topics. */
+  function review(topics: Mode[]) {
+    settings.mixed.topics = topics;
+    location.hash = href({ page: 'drill', mode: 'mixed' });
   }
 
   // Main menu: a dropdown, so more pages can be added without crowding the header.
@@ -191,7 +204,7 @@
 
   <main id="main">
     {#if route.page === 'home'}
-      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} />
+      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} onprogress={setProgress} onreview={review} />
     {:else if route.page === 'learn' && route.topic}
       <LearnPage topic={route.topic} bind:settings />
     {:else if route.page === 'learn'}

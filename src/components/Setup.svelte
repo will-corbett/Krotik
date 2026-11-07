@@ -1,7 +1,8 @@
 <script lang="ts">
   import { CASES, type Case, type VerbGroup } from '../shared/cells.ts';
   import { CASE_TERM, TERMS, type Term } from '../lib/terms.ts';
-  import { topicById } from '../lib/topics.ts';
+  import { TOPIC_GROUPS, isDrill, topicById } from '../lib/topics.ts';
+  import { loadProgress, summarise, today } from '../lib/progress.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { settingsValid } from '../lib/start.ts';
@@ -10,6 +11,9 @@
   let { settings = $bindable(), loading, error, onstart, onback }: { settings: Settings; loading: boolean; error: string; onstart: () => void; onback: () => void } = $props();
 
   const topic = $derived(topicById(settings.mode));
+  /** Topics a mixed review can include: every drill except the Review drills themselves. */
+  const MIX_GROUPS = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill).filter((t) => t.id !== 'mixed' && t.id !== 'translate') })).filter((g) => g.modes.length);
+  const weak = $derived(settings.progress && settings.mode === 'mixed' ? summarise(loadProgress(), today()).weak.map((w) => w.mode) : []);
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
     { id: 'superlative', label: { en: 'Superlative (-ейший)', ru: TERMS.superlative.ru } },
@@ -486,6 +490,37 @@
           </div>
         </fieldset>
       {/if}
+    {:else if settings.mode === 'mixed'}
+      <fieldset>
+        <legend>Topics <span class="ru" lang="ru">темы</span></legend>
+        <p class="hint muted">Choose two or more. Each topic uses the settings you last chose for it on its own drill page.</p>
+        {#if weak.length >= 2}
+          <p><button type="button" class="btn small-btn" onclick={() => (settings.mixed.topics = weak.slice(0, 6))}>Use my weak topics ({weak.length})</button></p>
+        {/if}
+        {#each MIX_GROUPS as g (g.title.en)}
+          <p class="mix-group">{g.title.en}</p>
+          <div class="chips">
+            {#each g.modes as t (t.id)}
+              <label class="chip">
+                <input type="checkbox" checked={settings.mixed.topics.includes(t.id)} onchange={() => (settings.mixed.topics = toggle<Mode>(settings.mixed.topics, t.id))} />
+                {t.title.en}
+              </label>
+            {/each}
+          </div>
+        {/each}
+      </fieldset>
+    {:else if settings.mode === 'translate'}
+      <fieldset>
+        <legend>Sentence length</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.translate.lengths.includes('short')} onchange={() => (settings.translate.lengths = toggle(settings.translate.lengths, 'short'))} /> Short (up to 5 words)</label>
+          <label class="chip"><input type="checkbox" checked={settings.translate.lengths.includes('long')} onchange={() => (settings.translate.lengths = toggle(settings.translate.lengths, 'long'))} /> Longer (6–9 words)</label>
+        </div>
+        <p class="hint muted">
+          You'll see an English sentence; type it in Russian. Then compare yours with the Russian sentence it was translated
+          from (from Tatoeba) and mark it yourself: other words and word orders can be just as right.
+        </p>
+      </fieldset>
     {:else}
       <fieldset>
         <legend>Question types</legend>
@@ -637,6 +672,11 @@
   .hint {
     margin: 8px 0 0;
     font-size: 0.9rem;
+  }
+  .mix-group {
+    margin: 12px 0 6px;
+    font-size: 0.9rem;
+    font-weight: 700;
   }
   .go {
     display: flex;

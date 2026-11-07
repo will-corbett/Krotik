@@ -36,7 +36,9 @@ export type ModeName =
   | 'Question words'
   | 'Ordinals and dates'
   | 'Special case forms'
-  | 'The alphabet';
+  | 'The alphabet'
+  | 'Mixed review'
+  | 'Translate and compare';
 
 export async function setup(page: Page, mode: ModeName, count: 10 | 20 | 40 = 10) {
   // A fresh page load each time (the unique query forces it): choose the drill, then go to its settings page.

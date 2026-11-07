@@ -38,6 +38,7 @@ const modes: ModeName[] = [
   'Ordinals and dates',
   'Special case forms',
   'The alphabet',
+  'Mixed review',
 ];
 
 for (const mode of modes) {
@@ -51,6 +52,11 @@ for (const mode of modes) {
     await expect(page.locator('.big')).toHaveText('0%');
     await expect(page.locator('.missed li')).toHaveCount(10);
     await expect(page.locator('.missed li').first()).toContainText(/You typed: (ъъъ|—)/);
+    // Mixed review: the breakdown is by topic, with links to each topic.
+    if (mode === 'Mixed review') {
+      await expect(page.getByRole('heading', { name: 'By topic' })).toBeVisible();
+      await expect(page.locator('.breakdown tbody tr').first()).toContainText('0 of');
+    }
   });
 }
 

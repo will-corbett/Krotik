@@ -21,6 +21,8 @@ interface TopicBase {
   level: [Cefr, Cefr];
   /** closely connected topics, shown at the end of the Learn page */
   related: TopicId[];
+  /** false for drills with no Learn page of their own (the Review drills): left out of the Learn index and order */
+  learn?: false;
 }
 export type Topic = (TopicBase & { id: Mode; drill?: true }) | (TopicBase & { id: LearnOnly; drill: false });
 /** A topic you can drill (the Drill page's list). */
@@ -106,11 +108,21 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       { id: 'sounds', title: TERMS.sounds, drill: false, blurb: 'молоко, хлеб, что, солнце', level: ['A1', 'B1'], related: ['alphabet', 'stress'] },
     ],
   },
+  {
+    title: TERMS.review,
+    modes: [
+      { id: 'mixed', title: TERMS.mixed, learn: false, blurb: 'Several topics in one round', level: ['A1', 'C1'], related: [] },
+      { id: 'translate', title: TERMS.translate, learn: false, blurb: 'Translate a sentence, then compare', level: ['A2', 'C1'], related: [] },
+    ],
+  },
 ];
 export const ALL_TOPICS: Topic[] = TOPIC_GROUPS.flatMap((g) => g.modes);
 export const topicById = (id: string): Topic | undefined => ALL_TOPICS.find((t) => t.id === id);
 /** The topics before and after this one in the Learn order (the order of this list). */
 export function neighbours(id: string): { prev?: Topic; next?: Topic } {
-  const i = ALL_TOPICS.findIndex((t) => t.id === id);
-  return i < 0 ? {} : { prev: ALL_TOPICS[i - 1], next: ALL_TOPICS[i + 1] };
+  const order = ALL_TOPICS.filter((t) => t.learn !== false);
+  const i = order.findIndex((t) => t.id === id);
+  return i < 0 ? {} : { prev: order[i - 1], next: order[i + 1] };
 }
+/** Groups and topics that have (or will have) a Learn page: the Learn index. */
+export const LEARN_GROUPS: TopicGroup[] = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter((t) => t.learn !== false) })).filter((g) => g.modes.length);
