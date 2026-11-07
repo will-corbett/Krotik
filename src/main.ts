@@ -6,4 +6,8 @@ import '@fontsource/pt-sans/700.css';
 import './styles/app.css';
 import App from './App.svelte';
 
-mount(App, { target: document.getElementById('app')! });
+// Each page's HTML file carries a plain copy of its content (scripts/prerender.ts) for search engines and for
+// anyone without JavaScript; the app replaces it.
+const target = document.getElementById('app')!;
+target.replaceChildren();
+mount(App, { target });

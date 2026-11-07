@@ -1,0 +1,234 @@
+/**
+ * After `vite build`: write a real HTML file for every page (dist/learn/aspect/index.html …), each with its own title,
+ * description and canonical address, and the page's text in plain HTML, so search engines (and anyone without
+ * JavaScript) can read it. The app replaces this content when it starts. Also writes sitemap.xml and 404.html.
+ * Interactive pages (drills) get a short description and `noindex`. Deterministic: same input, same files.
+ */
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { parse } from 'yaml';
+import { parseMarkdown, type Block, type Inline } from '../src/lib/markdown.ts';
+import { pickExamples } from '../src/lib/learnData.ts';
+import { pageTitle } from '../src/lib/pageMeta.ts';
+import { href, pathOf, type Route } from '../src/lib/router.ts';
+import { ALL_TOPICS, isDrill, LEARN_GROUPS, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
+import { renderForm } from '../src/shared/forms.ts';
+import { SITE_URL } from '../src/shared/site.ts';
+import type { ClozeRow, LearnExtras } from '../src/shared/types.ts';
+
+const DIST = 'dist';
+const template = readFileSync(join(DIST, 'index.html'), 'utf8');
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const json = <T>(f: string) => JSON.parse(readFileSync(join(DIST, 'data', f), 'utf8')) as T;
+const extras = json<LearnExtras>('learn.json');
+
+const learnIds = new Set(readdirSync('content/learn').filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, '')));
+interface Note { id: string; title: string; ru: string; blurb: string }
+const notes = parse(readFileSync('content/culture/notes.yaml', 'utf8')) as Note[];
+interface Link { title: string; url: string; type: string; about: string; note?: string }
+const links = parse(readFileSync('content/culture/links.yaml', 'utf8')) as Link[];
+
+// ---- Markdown blocks as HTML
+const inline = (parts: Inline[]) =>
+  parts.map((p) => (p.bold ? `<strong>${esc(p.text)}</strong>` : p.italic ? `<em>${esc(p.text)}</em>` : p.code ? `<code>${esc(p.text)}</code>` : esc(p.text))).join('');
+const plain = (parts: Inline[]) => parts.map((p) => p.text).join('');
+
+function sentence(id: number, ru: string, en: string, start = 0, end = 0): string {
+  const text = end > start ? `${esc(ru.slice(0, start))}<mark>${esc(ru.slice(start, end))}</mark>${esc(ru.slice(end))}` : esc(ru);
+  return `<figure><blockquote lang="ru">${text}</blockquote><figcaption>${esc(en)} <a href="https://tatoeba.org/en/sentences/show/${id}" rel="noopener">Tatoeba #${id}</a></figcaption></figure>`;
+}
+
+function block(b: Block): string {
+  switch (b.type) {
+    case 'heading':
+      return `<h${b.level}>${inline(b.text)}</h${b.level}>`;
+    case 'para':
+      return `<p>${inline(b.text)}</p>`;
+    case 'tip':
+      return `<aside><p>${inline(b.text)}</p></aside>`;
+    case 'list': {
+      const tag = b.ordered ? 'ol' : 'ul';
+      return `<${tag}>${b.items.map((i) => `<li>${inline(i)}</li>`).join('')}</${tag}>`;
+    }
+    case 'table':
+      return `<table><thead><tr>${b.head.map((h) => `<th>${inline(h)}</th>`).join('')}</tr></thead><tbody>${b.rows
+        .map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join('')}</tr>`)
+        .join('')}</tbody></table>`;
+    case 'data':
+      if (b.kind === 'tatoeba') {
+        return b.items
+          .map(({ id, mark }) => {
+            const s = extras.sentences[id];
+            if (!s) return '';
+            const m = mark ? [...s[0].matchAll(/[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g)].find((x) => x[0].toLowerCase() === mark.toLowerCase()) : undefined;
+            return sentence(Number(id), s[0], s[1], m?.index ?? 0, m ? m.index! + m[0].length : 0);
+          })
+          .join('');
+      }
+      if (b.kind === 'ipa') {
+        return `<table><thead><tr><th>Word</th><th>Pronunciation (IPA)</th></tr></thead><tbody>${b.words
+          .map((w) => extras.ipa[w])
+          .filter((p): p is [string, string] => !!p)
+          .map(([word, ipa]) => `<tr><td lang="ru">${esc(renderForm(word, true))}</td><td>${esc(ipa)}</td></tr>`)
+          .join('')}</tbody></table>`;
+      }
+      if (b.kind === 'examples') {
+        const rows = json<ClozeRow[]>(`cloze.${b.topic}.json`).filter((r) => r[7] === b.item);
+        return pickExamples(rows, b.count).map(([id, ru, en, , s, e]) => sentence(id, ru, en, s, e)).join('');
+      }
+      // Tables of forms, single sentences and quick checks are drawn by the app from the data.
+      return '';
+  }
+}
+const markdown = (src: string) => parseMarkdown(src).map(block).join('\n');
+/** The first paragraph as a search description (about 155 characters, cut at a word). */
+function summary(src: string): string {
+  const first = parseMarkdown(src).find((b): b is Extract<Block, { type: 'para' }> => b.type === 'para');
+  const text = first ? plain(first.text).replace(/\s+/g, ' ').trim() : '';
+  return text.length <= 158 ? text : `${text.slice(0, 155).replace(/\s+\S*$/, '')}…`;
+}
+
+// ---- pages
+interface Page { route: Route; description: string; body: string; index: boolean }
+const a = (route: Route, text: string) => `<a href="${href(route)}">${esc(text)}</a>`;
+const nav = `<nav aria-label="Main"><ul>${(
+  [
+    [{ page: 'home' }, 'Dashboard'],
+    [{ page: 'test' }, 'Grammar test'],
+    [{ page: 'learn' }, 'Learn'],
+    [{ page: 'drill' }, 'Drill'],
+    [{ page: 'culture' }, 'Culture'],
+  ] as [Route, string][]
+)
+  .map(([r, t]) => `<li>${a(r, t)}</li>`)
+  .join('')}</ul></nav>`;
+const SITE_DESCRIPTION = 'Learn and drill Russian grammar: short explanations with real examples, instant drills, a grammar test and hand-picked culture links. Free, no login.';
+
+const pages: Page[] = [];
+pages.push({
+  route: { page: 'home' },
+  description: SITE_DESCRIPTION,
+  index: true,
+  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p>${TOPIC_GROUPS.map(
+    (g) =>
+      `<h2>${esc(g.title.en)} <span lang="ru">${esc(g.title.ru)}</span></h2><ul>${g.modes
+        .map((t) => `<li>${esc(t.title.en)} <span lang="ru">${esc(t.title.ru)}</span>${learnIds.has(t.id) ? ` · ${a({ page: 'learn', topic: t.id }, 'Learn')}` : ''}${isDrill(t) ? ` · ${a({ page: 'drill', mode: t.id }, 'Drill')}` : ''}</li>`)
+        .join('')}</ul>`,
+  ).join('')}`,
+});
+pages.push({
+  route: { page: 'test' },
+  description: 'A free 60-question Russian grammar test from A1 to C1, easiest first, with every answer explained and the Learn pages to review.',
+  index: true,
+  body: '<h1>Grammar test <span lang="ru">тест по грамматике</span></h1><p>Sixty multiple-choice questions on Russian grammar, twelve at each level from A1 to C1, easiest first. Every question is a real sentence with one gap. At the end you get an estimate of your grammar level, every wrong answer explained, and the Learn pages worth reviewing. It measures grammar only, not a full CEFR level.</p>',
+});
+pages.push({
+  route: { page: 'learn' },
+  description: 'Short explanations of Russian grammar with real example sentences and tables of forms: cases, aspect, verbs of motion, participles, word order and more.',
+  index: true,
+  body: `<h1>Learn <span lang="ru">учить</span></h1><p>Short explanations with real examples, each ending with a quick check.</p>${LEARN_GROUPS.map(
+    (g) => `<h2>${esc(g.title.en)}</h2><ul>${g.modes.filter((t) => learnIds.has(t.id)).map((t) => `<li>${a({ page: 'learn', topic: t.id }, t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></li>`).join('')}</ul>`,
+  ).join('')}`,
+});
+for (const id of [...learnIds].sort()) {
+  const t = topicById(id);
+  if (!t) continue;
+  const src = readFileSync(`content/learn/${id}.md`, 'utf8');
+  const near = neighbours(id);
+  const related = t.related.map((r) => topicById(r)).filter((r) => !!r && learnIds.has(r.id));
+  pages.push({
+    route: { page: 'learn', topic: id },
+    description: summary(src),
+    index: true,
+    body: `<p>${a({ page: 'learn' }, 'Learn')} ›</p><h1>${esc(t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></h1><p>${t.level[0] === t.level[1] ? `Level ${t.level[0]}` : `First met at ${t.level[0]} · core by ${t.level[1]}`}</p>
+${markdown(src)}
+${isDrill(t) ? `<p>${a({ page: 'drill', mode: t.id }, `Drill: ${t.title.en}`)}</p>` : ''}${related.length ? `<h2>Related topics</h2><ul>${related.map((r) => `<li>${a({ page: 'learn', topic: r!.id }, r!.title.en)}</li>`).join('')}</ul>` : ''}<nav aria-label="Lessons">${near.prev ? `<p>Previous: ${a({ page: 'learn', topic: near.prev.id }, near.prev.title.en)}</p>` : ''}${near.next ? `<p>Next: ${a({ page: 'learn', topic: near.next.id }, near.next.title.en)}</p>` : ''}</nav>`,
+  });
+}
+pages.push({
+  route: { page: 'drill' },
+  description: 'Instant drills for Russian grammar: verb forms, aspect, motion verbs, cases, adjectives, numbers and sentence drills, with retries and real examples.',
+  index: true,
+  body: `<h1>Choose a drill</h1>${TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill) }))
+    .filter((g) => g.modes.length)
+    .map((g) => `<h2>${esc(g.title.en)}</h2><ul>${g.modes.map((t) => `<li>${a({ page: 'drill', mode: t.id }, t.title.en)}: ${esc(t.blurb)}</li>`).join('')}</ul>`)
+    .join('')}`,
+});
+for (const t of ALL_TOPICS.filter(isDrill)) {
+  pages.push({
+    route: { page: 'drill', mode: t.id },
+    description: `Practise ${t.title.en} (${t.title.ru}): ${t.blurb}. Instant feedback, retries and real example sentences.`,
+    index: false,
+    body: `<h1>Drill: ${esc(t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></h1><p>${esc(t.blurb)}.</p>${learnIds.has(t.id) ? `<p>${a({ page: 'learn', topic: t.id }, `Learn: ${t.title.en}`)}</p>` : ''}`,
+  });
+}
+const TYPES: [string, string][] = [
+  ['video', 'Videos'],
+  ['cartoons', 'Cartoons'],
+  ['films', 'Films and series'],
+  ['podcast', 'Podcasts'],
+  ['reading', 'Reading and audiobooks'],
+  ['tool', 'Tools and dictionaries'],
+];
+pages.push({
+  route: { page: 'culture' },
+  description: 'Hand-picked Russian videos, cartoons, films, podcasts, reading and tools for learners, from Russia, Kazakhstan, Central Asia and beyond, with notes on culture.',
+  index: true,
+  body: `<h1>Culture <span lang="ru">культура</span></h1><h2>Notes</h2><ul>${notes.map((n) => `<li>${a({ page: 'culture', note: n.id }, n.title)}: ${esc(n.blurb)}</li>`).join('')}</ul>${TYPES.map(
+    ([type, label]) =>
+      `<h2>${label}</h2><ul>${links
+        .filter((l) => l.type === type)
+        .map((l) => `<li><a href="${esc(l.url)}" rel="noopener noreferrer external">${esc(l.title)}</a>: ${esc(l.about)}</li>`)
+        .join('')}</ul>`,
+  ).join('')}`,
+});
+for (const n of notes) {
+  pages.push({
+    route: { page: 'culture', note: n.id },
+    description: n.blurb,
+    index: true,
+    body: `<p>${a({ page: 'culture' }, 'Culture')} ›</p><h1>${esc(n.title)} <span lang="ru">${esc(n.ru)}</span></h1>${markdown(readFileSync(`content/culture/notes/${n.id}.md`, 'utf8'))}`,
+  });
+}
+pages.push({
+  route: { page: 'about' },
+  description: 'About Krotik: where the Russian forms and sentences come from (OpenRussian, Wiktionary, Tatoeba), their licences, and what is kept in your browser.',
+  index: true,
+  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and drilling Russian grammar. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR). There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
+});
+
+// ---- write
+const noteTitle = (id: string) => notes.find((n) => n.id === id)?.title;
+function html(p: Page, robots = p.index ? '' : 'noindex'): string {
+  const url = SITE_URL + pathOf(p.route);
+  const title = pageTitle(p.route, noteTitle);
+  const head = [
+    `<title>${esc(title)}</title>`,
+    `<link rel="canonical" href="${url}" />`,
+    `<meta property="og:title" content="${esc(title)}" />`,
+    `<meta property="og:description" content="${esc(p.description)}" />`,
+    `<meta property="og:url" content="${url}" />`,
+    `<meta property="og:type" content="website" />`,
+    ...(robots ? [`<meta name="robots" content="${robots}" />`] : []),
+  ].join('\n    ');
+  const out = template
+    .replace(/<title>[^<]*<\/title>/, head)
+    .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(p.description)}" />`)
+    .replace('<div id="app"></div>', `<div id="app"><div class="prerendered">${nav}<main id="main">${p.body}</main></div></div>`);
+  if (out === template) throw new Error('prerender: the template has changed; update scripts/prerender.ts');
+  return out;
+}
+
+for (const p of pages) {
+  const file = join(DIST, pathOf(p.route), 'index.html');
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, html(p));
+}
+// GitHub Pages serves 404.html for any other address; the app starts there and shows the Dashboard.
+writeFileSync(join(DIST, '404.html'), html({ route: { page: 'home' }, description: SITE_DESCRIPTION, index: false, body: '<h1>Page not found</h1><p>Krotik will open the Dashboard.</p>' }));
+const indexed = pages.filter((p) => p.index);
+writeFileSync(
+  join(DIST, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexed.map((p) => `  <url><loc>${SITE_URL}${pathOf(p.route)}</loc></url>`).join('\n')}\n</urlset>\n`,
+);
+console.log(`prerendered ${pages.length} pages (${indexed.length} in sitemap.xml), and 404.html`);

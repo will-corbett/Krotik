@@ -39,13 +39,22 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (cell syntax, stress rendering), `cells.ts` (fixed cell layouts), `types.ts` (shard row formats).
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
-- `src/components/` — Svelte UI. Five pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Grammar test (`#/test`), Learn
-  (`#/learn`, `#/learn/<topic>`), Drill (`#/drill` to choose, `#/drill/<topic>` for that drill's settings), Culture
-  (`#/culture`), plus `#/about`. Every Drill link elsewhere goes straight to `#/drill/<topic>`.
-- Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
+- `src/components/` — Svelte UI. Five pages with real addresses under `SITE_BASE` (`src/shared/site.ts`, `/Krotik/`;
+  `src/lib/router.ts`): Dashboard (`/`), Grammar test (`/test/`), Learn (`/learn/`, `/learn/<topic>/`), Drill (`/drill/`
+  to choose, `/drill/<topic>/` for that drill's settings), Culture (`/culture/`), plus `/about/`. Every Drill link
+  elsewhere goes straight to `/drill/<topic>/`. Links inside the site change page without reloading (App's
+  `onLinkClick` + `navigate()`, keeping `?seed`); old `#/…` addresses are rewritten to the path. Dev server:
+  http://localhost:5173/Krotik/.
+- Prerendering (`scripts/prerender.ts`, run by `npm run build` after `vite build`): every page gets its own
+  `index.html` with its title (`src/lib/pageMeta.ts`, also used for `document.title`), description, canonical address
+  and its text as plain HTML (Learn pages with their quoted sentences and IPA; form tables and quick checks are drawn by
+  the app), plus `sitemap.xml` and `404.html`. Drill pages are `noindex`. The app replaces the prerendered copy when it
+  starts. A project site can't have its own robots.txt (it lives at the domain root), so submit the sitemap in Google
+  Search Console. Changing host or domain = changing `src/shared/site.ts`.
+- Culture page (`/culture/`, `/culture/<note>/`): links in `content/culture/links.yaml`, notes in
   `content/culture/notes/<id>.md` listed in `content/culture/notes.yaml`. YAML is imported at build time by a small
   plugin in `vite.config.ts` (no runtime dependency). Note text is word-checked like Learn pages.
-- Level test (`#/test`): 60 multiple-choice questions, 12 per level A1–C1, easiest first. The data build makes the
+- Level test (`/test/`): 60 multiple-choice questions, 12 per level A1–C1, easiest first. The data build makes the
   questions (`src/lib/levelTestPool.ts` → `public/data/level-test.json`, ~30 checked candidates per question type, listed
   in the report); the app (`src/lib/levelTest.ts`) only loads that one file and draws from it, so the test starts at once.
   Every question is a real Tatoeba sentence with one gap, a plain instruction (`ASK`, no grammar terms) and the English
