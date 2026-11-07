@@ -44,6 +44,8 @@ export function buildWords(
   input: {
     verbs: (Lemma & { aspect: string })[];
     nouns: (Lemma & { gender: string })[];
+    /** indeclinable nouns (кофе, метро), left out of the drill data but words to learn; rank = place among the nouns */
+    indeclinable?: (Lemma & { gender: string; rank: number })[];
     adjectives: Lemma[];
     others: Record<string, string>[];
     /** personal pronouns: [nominative, cells by case] */
@@ -58,7 +60,7 @@ export function buildWords(
   },
   report: Report,
 ): { rows: WordRow[]; rank: (row: WordRow) => number } {
-  const { verbs, nouns, adjectives, others, pronouns, exclude, gloss: glossFix, keep: keepAnyway, freq } = input;
+  const { verbs, nouns, adjectives, indeclinable = [], others, pronouns, exclude, gloss: glossFix, keep: keepAnyway, freq } = input;
   const rows: { row: WordRow; rank: number }[] = [];
   const drop = (reason: string, w: string) => report.drop(SECTION, reason, w);
   // A noun or adjective spelt like a verb or other word is left out unless overrides.yaml keeps it: the source's
@@ -96,6 +98,13 @@ export function buildWords(
   // (тут and уж come last). Words the list doesn't have follow, in source order.
   const count = (o: Record<string, string>) => freq.get(normalise(o.bare!)) ?? 0;
   const ranked = others.map((o, i) => ({ o, i })).sort((x, y) => count(y.o) - count(x.o) || x.i - y.i);
+  for (const n of indeclinable) {
+    if (shadowed(n.bare)) {
+      report.anomaly(SECTION, 'noun left out: spelt like a verb or other word', `${n.bare} (${n.gloss})`);
+      continue;
+    }
+    keep('n', `n:${n.id}`, n.bare, n.accented, n.gloss, n.gender, n.rank);
+  }
   const seen = new Set<string>();
   ranked.forEach(({ o }, i) => {
     const bare = o.bare!;

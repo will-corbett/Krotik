@@ -17,11 +17,12 @@ import { Report } from './lib/report.ts';
 import { checkOrder, loadFreq } from './lib/frequency.ts';
 import { buildMotion } from './lib/motion.ts';
 import { BANDS, OUT_DIR, bandOf, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
-import { hasWordList, primeGlossCorpus } from './lib/glosses.ts';
+import { cleanGloss, hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
 import { buildSentences } from './lib/sentences.ts';
-import { adjFormLabel, buildReading, caseLabel, literatureWords } from './lib/literature.ts';
+import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } from './lib/literature.ts';
+import { buildThemes, loadThemes } from './lib/themes.ts';
 import { CASES } from '../src/shared/cells.ts';
 import { cellForms } from '../src/shared/forms.ts';
 import { normalise } from '../src/shared/normalise.ts';
@@ -135,8 +136,17 @@ const motionBytes = writeJson('motion.json', motion);
 
 const others = readTsv(raw('others.csv'));
 // ---- Vocabulary drill: every word type, banded by rank in its own list (scripts/lib/vocab.ts)
+// Indeclinable nouns (кофе, метро, такси): no forms to drill, but words to learn. Abbreviations (no stress, as кгб) aren't.
+const keptNounIds = nouns.map((n) => n.id);
+const indeclinable = N.rows
+  .filter((r) => r.indeclinable === '1' && /^[а-яё]+$/.test(r.bare!) && (/['ё]/.test(r.accented!) || (r.accented!.match(/[аеиоуыэюя]/g) ?? []).length === 1))
+  .map((r) => {
+    const id = N.ids.get(r)!;
+    return { id, bare: r.bare!, accented: r.accented!, gloss: cleanGloss(r.translations_en ?? ''), gender: r.gender ?? '', rank: keptNounIds.filter((k) => k < id).length };
+  });
+report.count('Words (vocabulary drill)', 'indeclinable nouns added (not in the drill data)', indeclinable.length);
 const words = buildWords(
-  { verbs, nouns, adjectives, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
+  { verbs, nouns, adjectives, indeclinable, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
   report,
 );
 const wordShards = writeBandsByRank('words', words.rows, words.rank);
@@ -181,8 +191,7 @@ for (const [w, plainCells, afterPrep] of pronouns.personal) {
   });
 }
 for (const [w, cells] of pronouns.possessive) cells.forEach((cell, i) => addPronoun(cell, w, adjFormLabel(i)));
-const reading = buildReading(
-  {
+const lexicon: Lexicon = {
     owners: corpus.owners,
     masks: corpus.masks,
     verb: (id) => verbById.get(id),
@@ -194,11 +203,24 @@ const reading = buildReading(
     old: new Set(wk.checkedOld),
     wordBand: (k) => wordBand.get(k),
     commonForm: (f) => commonForms.has(f),
-  },
-  report,
-);
+};
+const reading = buildReading(lexicon, report);
 let readingBytes = writeJson('reading.json', reading.index);
 for (const u of reading.units) readingBytes += writeJson(`reading.${u.id}.json`, u);
+
+// ---- Words section: themed lessons; dialogues published only once reviewed (scripts/lib/themes.ts)
+// Our own Russian may use indeclinable nouns (кафе, метро), which the sentence index doesn't have: a copy that does.
+const themeOwners = new Map([...corpus.owners].map(([k, v]) => [k, new Set(v)]));
+const indeclById = new Map(indeclinable.map((n) => [n.id, n]));
+for (const n of indeclinable) {
+  const k = normalise(n.bare);
+  themeOwners.set(k, new Set([...(themeOwners.get(k) ?? []), `nouns:${n.id}`]));
+}
+const themeLex: Lexicon = { ...lexicon, owners: themeOwners, noun: (id) => nounById.get(id) ?? indeclById.get(id) };
+const themes = buildThemes(loadThemes(), { words: words.rows, band: (r) => bandOf(words.rank(r)), corpus: { pairs: corpus.pairs, owners: themeOwners }, lex: themeLex }, report);
+let themesBytes = writeJson('themes.json', themes.index);
+for (const t of themes.themes) themesBytes += writeJson(`theme.${t.id}.json`, t);
+writeFileSync('reports/dialogues-for-review.md', themes.review);
 
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);
@@ -232,6 +254,7 @@ const manifest: Manifest = {
   levelTest: 'level-test.json',
   learn: 'learn.json',
   reading: 'reading.json',
+  themes: 'themes.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -265,6 +288,7 @@ sizes.push(`| numerals.json | ${numeralRows.length} | ${(numeralBytes / 1024).to
 sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.length, 0)} questions | ${(levelTestBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| learn.json | ${learnTatoeba.length} sentences, ${learnIpa.length} pronunciations | ${(learnBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| reading.json, reading.*.json | ${reading.units.length} texts, ${reading.units.reduce((n, u) => n + u.questions.length, 0)} questions | ${(readingBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| themes.json, theme.*.json | ${themes.themes.length} themes, ${themes.themes.reduce((n, t) => n + t.dialogues.length, 0)} dialogues published | ${(themesBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

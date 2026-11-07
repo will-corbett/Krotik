@@ -51,6 +51,8 @@ export interface Manifest {
   levelTest: string;
   learn: string;
   reading: string;
+  /** the Words section's index (theme.<id>.json per theme) */
+  themes: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -180,4 +182,28 @@ export interface ReadingUnit {
 export interface ReadingIndex {
   works: { id: string; author: string; authorEn: string; title: string; titleEn: string; year: number; kind: 'stories' | 'play'; level: [string, string]; source: string }[];
   units: { id: string; w: number; title: string; genre: string; words: number; questions: number }[];
+}
+
+/** A word in a Words-section theme: [word-list key, accented, meaning, word type, aspect or gender, band]. */
+export type ThemeWord = [string, string, string, WordPos, string, number];
+/** public/data/theme.<id>.json: one theme of the Words section. */
+export interface ThemeData {
+  id: string;
+  title: string;
+  ru: string;
+  level: string;
+  blurb: string;
+  groups: { title: string; words: ThemeWord[] }[];
+  /** word key → a real Tatoeba sentence using it: [Tatoeba id, Russian, English, word start, word end] */
+  uses: Record<string, [number, string, string, number, number]>;
+  /** our own dialogues, published only once a native speaker has reviewed them ("<who>, YYYY-MM-DD") */
+  dialogues: { title: string; reviewed: string; lines: ReadingLine[]; en: string[] }[];
+  /** the dialogues' words, explained as in Reading */
+  words: Record<string, WordReading[]>;
+  /** dialogues written but not yet reviewed (not published) */
+  drafts: number;
+}
+/** public/data/themes.json: the Words section's themes, in order. */
+export interface ThemeIndex {
+  themes: { id: string; title: string; ru: string; level: string; blurb: string; words: number; dialogues: number }[];
 }

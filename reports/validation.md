@@ -29,9 +29,9 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | diminutives.b2.json | 332 | 21 KB |
 | diminutives.b3.json | 656 | 40 KB |
 | words.b0.json | 971 | 55 KB |
-| words.b1.json | 2833 | 180 KB |
-| words.b2.json | 5005 | 326 KB |
-| words.b3.json | 33376 | 2107 KB |
+| words.b1.json | 2838 | 180 KB |
+| words.b2.json | 5015 | 327 KB |
+| words.b3.json | 33541 | 2115 KB |
 | sentences.verbs.b0.json | 247 lemmas, 2232 sentences | 182 KB |
 | sentences.verbs.b1.json | 736 lemmas, 5429 sentences | 511 KB |
 | sentences.verbs.b2.json | 1371 lemmas, 6741 sentences | 703 KB |
@@ -52,6 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 78 texts, 161 questions | 1383 KB |
+| themes.json, theme.*.json | 1 themes, 0 dialogues published | 5 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -242,19 +243,20 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
+| indeclinable nouns added (not in the drill data) | 240 |
 | kept: verbs | 12128 |
 | kept: adjectives | 8452 |
-| kept: nouns | 19534 |
+| kept: nouns | 19714 |
 | kept: other words | 2071 |
 | meaning given in overrides.yaml | 14 |
 
 ### Dropped
 
-- **no English meaning** (9925): попалить, задержаться, осведомиться, вмешаться, схватиться, удалиться, спохватиться, вытянуться, распахнуться, выпрямиться, разложить, оживиться, обнаружиться, удариться, проделать, вспомниться, подыматься, предполагаться, развалиться, отработать, завершиться, набить, насторожиться, вздумать, отделаться, …
+- **no English meaning** (9984): попалить, задержаться, осведомиться, вмешаться, схватиться, удалиться, спохватиться, вытянуться, распахнуться, выпрямиться, разложить, оживиться, обнаружиться, удариться, проделать, вспомниться, подыматься, предполагаться, развалиться, отработать, завершиться, набить, насторожиться, вздумать, отделаться, …
 - **name, abbreviation or phrase** (64): Кому, Вашингтон, Надя, Белоснежка, ВЧК, Кузбасс, Византия, Вильна, Египт, ЗеКа, ЗК, Израил, Исраэль, Комсомольск, Санкт-Петербург, Маньчжу, Маньчжоули, ПМЖ, Мещанинов, Мурман, ФИО, Бэйцзин, Джек-Потрошитель, РЛС, Рейнланд, …
 - **case form of a pronoun** (17): мне, меня, его, тебя, тебе, её, вас, нас, чём, вам, их, нам, ему, ей, чего, им, себе
 - **meaning is a grammar note** (12): наскучивать (to bore (+ dative of person bored)), весенний (Adjectival form of Spring the season), инструментальный (instrumental, tool-making, used for making tools), предложный (prepositional), именительный (Nominative), дательный (Dative), творительный (Instrumental), обращение (address, form of address, appeal, conversion), обо (about (used only with first person prepositional case pronoun)), здрасте (short form of здравствуйте), контрабандой (instrumental case singular of: контрабанда), черно (black (short form))
-- **meaning not in English** (6): новогодний (New Year’s), поступательный (progressivе, advancing), пенсионер (pensioner, متقاعد), переворот (coup, coup d'état), портьера (portière, door-curtain), инженер-строитель (inşaat mühəndisi)
+- **meaning not in English** (7): новогодний (New Year’s), поступательный (progressivе, advancing), пенсионер (pensioner, متقاعد), переворот (coup, coup d'état), портьера (portière, door-curtain), кафе (café, coffee-house), инженер-строитель (inşaat mühəndisi)
 - **excluded by override** (3): ж (a clipped же, not a word to learn on its own), ко (a variant of к before some consonant clusters, taught with к), чтоб (a colloquial чтобы, taught with чтобы)
 - **repeated in the source** (2): все, бывший в употреблении
 
@@ -376,6 +378,15 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 ### Anomalies
 
 - **words not explained (their text stays unpublished)** (47): Лозина (tolstoy-reader-2 «Лозина»); Склали (tolstoy-reader-2 «Лозина»); взлез (tolstoy-reader-2 «Лозина»); гудьмя (tolstoy-reader-2 «Лозина»); лозина (tolstoy-reader-2 «Лозина»); лозине (tolstoy-reader-2 «Лозина»); лозинки (tolstoy-reader-2 «Лозина»); лозиннику (tolstoy-reader-2 «Лозина»); лозиной (tolstoy-reader-2 «Лозина»); лозину (tolstoy-reader-2 «Лозина»); лозины (tolstoy-reader-2 «Лозина»); окореняться (tolstoy-reader-2 «Лозина»); сажались (tolstoy-reader-2 «Лозина»); сселили (tolstoy-reader-2 «Лозина»); засипел (tolstoy-reader-2 «Уж»); кукушечкой (tolstoy-reader-2 «Уж»); оиа (tolstoy-reader-2 «Уж»); покличу (tolstoy-reader-2 «Уж»); соловейчиком (tolstoy-reader-2 «Уж»); ужак (tolstoy-reader-2 «Уж»); ужовая (tolstoy-reader-2 «Уж»); всб (tolstoy-reader-2 «Воробей и ласточки»); зачирикал (tolstoy-reader-2 «Воробей и ласточки»); клювике (tolstoy-reader-2 «Воробей и ласточки»); табунок (tolstoy-reader-2 «Воробей и ласточки»); …
+
+## Words section (themes)
+
+| count | n |
+|---|---:|
+| food: words | 36 |
+| food: words with a real sentence in use | 36 |
+
+food: 0 dialogue(s) published, 1 waiting for review.
 
 ## Hand-made lists (curated/)
 
