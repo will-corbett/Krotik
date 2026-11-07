@@ -17,8 +17,13 @@ import { bare } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { ReadingLine, ThemeData, ThemeIndex, ThemeWord, WordPos, WordReading, WordRow } from '../../src/shared/types.ts';
 import { explainText, type Lexicon } from './literature.ts';
-import type { Corpus } from './sentences.ts';
 import type { Report } from './report.ts';
+
+/** What's needed of the sentence corpus (scripts/lib/sentences.ts). */
+interface Corpus {
+  pairs: { rid: number; ru: string; en: string }[];
+  owners: Map<string, Set<string>>;
+}
 
 const S = 'Words section (themes)';
 export const THEMES_DIR = 'content/words';
