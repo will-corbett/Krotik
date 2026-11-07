@@ -13,9 +13,9 @@
     loading,
     oncontinue,
     onhide,
-    onhidestart,
+    ongotit,
     onprogress,
-  }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void; onhidestart: () => void; onprogress: (on: boolean) => void } = $props();
+  }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void; ongotit: () => void; onprogress: (on: boolean) => void } = $props();
   const last = $derived(topicById(settings.mode));
   const topics = ALL_TOPICS.filter((t) => t.learn !== false).length;
   const drills = ALL_TOPICS.filter(isDrill).length;
@@ -28,10 +28,11 @@
     <div>
       <h1 id="dash-title">Krotik</h1>
       <p class="muted">Learn and drill Russian grammar. <span lang="ru">Учись и тренируйся.</span></p>
+      {#if settings.guideSeen}<p class="guide-link small"><a href={href({ page: 'start' })}>New here? Read the short guide →</a></p>{/if}
     </div>
   </div>
 
-  {#if !settings.hideStart}
+  {#if !settings.guideSeen}
     <div class="card welcome">
       <div>
         <h2>New to Krotik?</h2>
@@ -39,7 +40,7 @@
       </div>
       <div class="strip-actions">
         <a class="btn primary" href={href({ page: 'start' })}>Start here</a>
-        <button class="btn quiet small-btn" onclick={onhidestart} aria-label="Hide the guide card (it stays in the footer)">Hide</button>
+        <button class="btn quiet small-btn" onclick={ongotit} aria-label="Got it: make this smaller (the guide stays as a link under the title)">Got it</button>
       </div>
     </div>
   {/if}
@@ -129,6 +130,9 @@
   }
   .welcome p {
     margin: 2px 0 0;
+  }
+  .hero .guide-link {
+    margin: 4px 0 0;
   }
   .strip {
     display: flex;

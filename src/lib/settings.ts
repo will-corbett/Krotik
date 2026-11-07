@@ -18,8 +18,12 @@ export interface Settings {
   theme: 'krotik' | 'system' | 'light' | 'dark';
   /** The Dashboard's "Continue drilling" card was dismissed; it comes back when the next round starts. */
   hideContinue: boolean;
-  /** The home page's "New here? Start here" card was dismissed. */
-  hideStart: boolean;
+  /**
+   * The beginner's guide is shown big ("New to Krotik?" card) until you've found your way: opened the guide, started a
+   * drill round, or pressed "Got it". After that it's a small link under the title (and always in the footer); it never
+   * disappears, so a misclick can't lose it.
+   */
+  guideSeen: boolean;
   /**
    * Keep a record of your rounds in this browser (src/lib/progress.ts). Off by default; turning it off deletes the record.
    * The setting itself is a UI setting; the record is stored under its own key and never leaves the browser.
@@ -70,7 +74,7 @@ export const DEFAULTS: Settings = {
   translit: false,
   theme: 'krotik',
   hideContinue: false,
-  hideStart: false,
+  guideSeen: false,
   progress: false,
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
@@ -113,8 +117,12 @@ export function loadSettings(): Settings {
     const raw = localStorage.getItem(KEY) ?? OLD_KEYS.map((k) => localStorage.getItem(k)).find((v) => v !== null) ?? null;
     if (!raw) return structuredClone(DEFAULTS);
     const saved = JSON.parse(raw) as Partial<Settings>;
-    // Retired settings, so they aren't carried along and saved again.
-    delete (saved as Record<string, unknown>).readingLang;
+    // Retired settings, so they aren't carried along and saved again. Hiding the guide card (hideStart) now means
+    // the small link instead.
+    const old = saved as Record<string, unknown>;
+    if (old.hideStart === true) saved.guideSeen = true;
+    delete old.hideStart;
+    delete old.readingLang;
     return {
       ...structuredClone(DEFAULTS),
       ...saved,

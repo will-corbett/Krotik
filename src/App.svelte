@@ -38,6 +38,8 @@
   const initialSettings = loadSettings();
   // A deep link to a drill (/drill/aspect/) selects that drill on first load.
   if (initialRoute.page === 'drill' && initialRoute.mode && isDrillId(initialRoute.mode)) initialSettings.mode = initialRoute.mode as Mode;
+  // Arriving straight on the guide (a link, a search result) counts as having seen it.
+  if (initialRoute.page === 'start') initialSettings.guideSeen = true;
   let settings = $state<Settings>(initialSettings);
   let route = $state<Route>(initialRoute);
   let screen = $state<Screen>('setup');
@@ -70,6 +72,7 @@
     if (next.page === 'drill' && next.mode && isDrillId(next.mode)) settings.mode = next.mode as Mode;
     route = next;
     menuOpen = false;
+    if (next.page === 'start') settings.guideSeen = true;
     window.scrollTo({ top: 0 });
   }
   $effect(() => {
@@ -127,6 +130,8 @@
       round = createRound(qs);
       screen = 'drill';
       settings.hideContinue = false;
+      // Someone who has started a drill has found their way: the guide becomes a small link on the home page.
+      settings.guideSeen = true;
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);
     } finally {
@@ -241,7 +246,7 @@
 
   <main id="main">
     {#if route.page === 'home'}
-      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} onhidestart={() => (settings.hideStart = true)} onprogress={setProgress} />
+      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} ongotit={() => (settings.guideSeen = true)} onprogress={setProgress} />
     {:else if route.page === 'start'}
       <StartPage />
     {:else if route.page === 'progress'}

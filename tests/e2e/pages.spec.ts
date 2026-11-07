@@ -339,21 +339,46 @@ test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, exp
   await expect(page.getByText(/You chose|right, 0 wrong/).first()).toBeVisible();
 });
 
-test('first visit: the home page offers Start here; the guide lists a first path; Hide keeps it in the footer', async ({ page }) => {
+test('the guide is big for first-timers, then a small link that never disappears', async ({ page }) => {
   await page.goto('./');
-  await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toBeVisible();
-  await page.getByRole('main').getByRole('link', { name: 'Start here' }).click();
+  const card = page.getByRole('heading', { name: 'New to Krotik?' });
+  const small = page.getByRole('link', { name: /New here\? Read the short guide/ });
+  await expect(card).toBeVisible();
+  await expect(small).toHaveCount(0);
+  // Browsing elsewhere doesn't count: the card is still there when you come back.
+  await page.goto('./learn/');
+  await page.goto('./');
+  await expect(card).toBeVisible();
+  // "Got it" only makes it smaller; the guide stays one click away, after a reload too.
+  await page.getByRole('button', { name: /Got it/ }).click();
+  await expect(card).toHaveCount(0);
+  await page.reload();
+  await expect(small).toBeVisible();
+  await small.click();
   await expect(page).toHaveURL(/\/Krotik\/start\/(\?.*)?$/);
-  await expect(page.getByRole('heading', { name: /Start here/, level: 1 })).toBeVisible();
   await expect(page.locator('.path li')).toHaveCount(11);
-  await expect(page.locator('.path li').first()).toContainText('The alphabet');
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Start here' })).toBeVisible();
+});
+
+test('opening the guide, or starting a first drill round, makes the card small too', async ({ page }) => {
+  await page.goto('./start/');
   await page.goto('./');
-  await page.getByRole('button', { name: /Hide the guide card/ }).click();
   await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: /New here\? Read the short guide/ })).toBeVisible();
+  await page.evaluate(() => localStorage.clear());
+  await page.goto('./?seed=1#/drill/verbs');
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
+  await page.goto('./');
+  await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toHaveCount(0);
+});
+
+test('someone who hid the old guide card gets the small link, not nothing', async ({ page }) => {
+  await page.goto('./');
+  await page.evaluate(() => localStorage.setItem('krotik.settings.v1', JSON.stringify({ hideStart: true })));
   await page.reload();
   await expect(page.getByRole('heading', { name: 'New to Krotik?' })).toHaveCount(0);
-  await page.getByRole('contentinfo').getByRole('link', { name: 'Start here' }).click();
-  await expect(page).toHaveURL(/\/Krotik\/start\/(\?.*)?$/);
+  await expect(page.getByRole('link', { name: /New here\? Read the short guide/ })).toBeVisible();
 });
 
 test('Russian beyond Russia: the hub lists every country note; a country note has sources and its region\'s links', async ({ page }) => {
