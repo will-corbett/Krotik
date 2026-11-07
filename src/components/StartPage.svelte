@@ -19,7 +19,7 @@
     <h2 id="parts">What's here</h2>
     <dl class="parts">
       <div><dt><a href={href({ page: 'learn' })}>Learn &amp; drill</a></dt><dd>Every grammar topic, easiest first. <strong>Learn</strong> is a short explanation with real examples; <strong>Drill</strong> is practice with instant feedback.</dd></div>
-      <div><dt><a href={href({ page: 'words' })}>Words</a></dt><dd>Everyday vocabulary by theme (food, family, travel…), with real sentences, dialogues and practice. The <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a> covers the commonest words.</dd></div>
+      <div><dt><a href={href({ page: 'vocabulary' })}>Vocabulary</a></dt><dd>Everyday words by theme (food, family, travel…), with real sentences, dialogues and practice. The <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a> covers the commonest words.</dd></div>
       <div><dt><a href={href({ page: 'test' })}>Grammar test</a></dt><dd>Sixty questions from A1 to C1 that estimate your grammar level and point you to what to review.</dd></div>
       <div><dt><a href={href({ page: 'reading' })}>Reading</a></dt><dd>Short stories by Tolstoy and comedies by Chekhov. Tap any word to see what it means.</dd></div>
       <div><dt><a href={href({ page: 'culture' })}>Culture</a></dt><dd>Hand-picked films, cartoons, podcasts and books, and short notes on names, holidays and more.</dd></div>

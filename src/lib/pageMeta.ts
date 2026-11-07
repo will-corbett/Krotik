@@ -23,9 +23,9 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
       const text = route.text ? textTitle(route.text) : undefined;
       return text ? `${text}: read with every word explained | Krotik` : 'Read Russian literature, every word explained | Krotik';
     }
-    case 'words': {
+    case 'vocabulary': {
       const theme = route.theme ? textTitle(route.theme) : undefined;
-      return theme ? `${theme}: Russian words, dialogues and practice | Krotik` : 'Learn Russian words by theme | Krotik';
+      return theme ? `${theme}: Russian vocabulary, dialogues and practice | Krotik` : 'Learn Russian vocabulary by theme | Krotik';
     }
     case 'culture': {
       const note = route.note ? noteTitle(route.note) : undefined;

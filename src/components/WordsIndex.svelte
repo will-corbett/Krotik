@@ -3,7 +3,7 @@
   import { href } from '../lib/router.ts';
   import type { ThemeIndex } from '../shared/types.ts';
 
-  /** The Words section: everyday vocabulary by theme, grouped by level. */
+  /** The Vocabulary section: everyday vocabulary by theme, grouped by level. */
   let index = $state<ThemeIndex | null>(null);
   let error = $state('');
   $effect(() => {
@@ -15,7 +15,7 @@
 </script>
 
 <section class="fade-in" aria-labelledby="words-title">
-  <h1 id="words-title">Words <span lang="ru" class="ru">слова</span></h1>
+  <h1 id="words-title">Vocabulary <span lang="ru" class="ru">лексика</span></h1>
   <p>
     Everyday Russian vocabulary, one theme at a time. Each theme has its words with stress and meaning, real example
     sentences, short dialogues where you can tap any word, and practice rounds.
@@ -33,7 +33,7 @@
         <ul class="themes">
           {#each index.themes.filter((t) => t.level === level) as t (t.id)}
             <li>
-              <a class="card theme" href={href({ page: 'words', theme: t.id })}>
+              <a class="card theme" href={href({ page: 'vocabulary', theme: t.id })}>
                 <span class="t-title">{t.title}</span>
                 <span class="t-ru" lang="ru">{t.ru}</span>
                 <span class="muted small">{t.blurb}</span>

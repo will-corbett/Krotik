@@ -89,7 +89,7 @@ export async function loadReadingIndex(): Promise<ReadingIndex> {
   return getJson<ReadingIndex>((await loadManifest()).reading);
 }
 export const loadReadingUnit = (id: string) => getJson<ReadingUnit>(`reading.${id}.json`);
-/** The Words section: the list of themes, and one theme. */
+/** The Vocabulary section: the list of themes, and one theme. */
 export async function loadThemeIndex(): Promise<ThemeIndex> {
   return getJson<ThemeIndex>((await loadManifest()).themes);
 }

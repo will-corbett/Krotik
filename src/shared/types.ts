@@ -51,7 +51,7 @@ export interface Manifest {
   levelTest: string;
   learn: string;
   reading: string;
-  /** the Words section's index (theme.<id>.json per theme) */
+  /** the Vocabulary section's index (theme.<id>.json per theme) */
   themes: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
@@ -186,7 +186,7 @@ export interface ReadingIndex {
 
 /** A word in a Words-section theme: [word-list key, accented, meaning, word type, aspect or gender, band]. */
 export type ThemeWord = [string, string, string, WordPos, string, number];
-/** public/data/theme.<id>.json: one theme of the Words section. */
+/** public/data/theme.<id>.json: one theme of the Vocabulary section. */
 export interface ThemeData {
   id: string;
   title: string;
@@ -203,7 +203,7 @@ export interface ThemeData {
   /** dialogues written but not yet reviewed (not published) */
   drafts: number;
 }
-/** public/data/themes.json: the Words section's themes, in order. */
+/** public/data/themes.json: the Vocabulary section's themes, in order. */
 export interface ThemeIndex {
   themes: { id: string; title: string; ru: string; level: string; blurb: string; words: number; dialogues: number }[];
 }

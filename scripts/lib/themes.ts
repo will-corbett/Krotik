@@ -1,5 +1,5 @@
 /**
- * The Words section: themed vocabulary lessons (content/words/<id>.yaml, listed in content/words/themes.yaml).
+ * The Vocabulary section: themed lessons (content/words/<id>.yaml, listed in content/words/themes.yaml).
  *
  * - Words are named by dictionary form ("чай", or "есть:v" where a spelling is several words, "не'бо" with the stress
  *   where that tells them apart; "рука = hand, arm" gives our own English meaning). Each must be exactly one word in the vocabulary lists, or the build fails.
@@ -164,7 +164,7 @@ export function buildThemes(
     writeFileSync(process.env.THEMES_DEBUG, lines.join('\n') + '\n');
   }
 
-  const review: string[] = ['# Dialogues for review', '', 'Written for Krotik\'s Words section. Each needs a native speaker\'s check before it is published: is it natural, everyday Russian? Please mark changes by line number. When a dialogue is approved, its `reviewed` field in `content/words/<theme>.yaml` gets the reviewer\'s name and the date.', ''];
+  const review: string[] = ['# Dialogues for review', '', 'Written for Krotik\'s Vocabulary section. Each needs a native speaker\'s check before it is published: is it natural, everyday Russian? Please mark changes by line number. When a dialogue is approved, its `reviewed` field in `content/words/<theme>.yaml` gets the reviewer\'s name and the date.', ''];
   let drafts = 0;
   const out: ThemeData[] = [];
   for (const t of resolved) {

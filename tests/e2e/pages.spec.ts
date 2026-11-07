@@ -2,10 +2,10 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { goTo, setup } from './helpers.ts';
 
-test('the landing page has four cards; the Learn page lists every topic with its level, Learn and Drill links', async ({ page }) => {
+test('the landing page has five cards; the Learn page lists every topic with its level, Learn and Drill links', async ({ page }) => {
   await page.goto('./');
   await expect(page.getByRole('heading', { name: 'Krotik', level: 1 })).toBeVisible();
-  for (const name of [/Learn & drill/, /Grammar test/, /Reading/, 'Your progress']) await expect(page.getByRole('heading', { name, level: 2 })).toBeVisible();
+  for (const name of [/^Grammar грамматика/, /^Vocabulary/, /Grammar test тест по грамматике/, /Reading/, 'Your progress']) await expect(page.getByRole('heading', { name, level: 2 })).toBeVisible();
   await page.getByRole('link', { name: 'See all topics' }).click();
   await expect(page).toHaveURL(/\/Krotik\/learn\/(\?.*)?$/);
   await expect(page.getByRole('link', { name: 'Drill: Verb forms' })).toBeVisible();
@@ -58,7 +58,7 @@ test('the Continue card can be hidden, and comes back after the next drill', asy
   await expect(page.getByText('Your last drill')).toHaveCount(0);
   await page.reload();
   await expect(page.getByText('Your last drill')).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: /Learn & drill/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Grammar грамматика/ })).toBeVisible();
   await page.goto('./?seed=4#/drill/verbs');
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
@@ -79,7 +79,7 @@ test('wide screens show the main pages as a bar, with the current page marked', 
   await page.goto('./#/learn');
   await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Words', 'Drill', 'Reading', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Vocabulary', 'Drill', 'Reading', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await nav.getByRole('link', { name: 'Culture' }).click();
   await expect(page).toHaveURL(/\/Krotik\/culture\/(\?.*)?$/);
@@ -105,7 +105,7 @@ test('on a phone the main menu is a dropdown: opens, shows the current page, clo
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Words', 'Drill', 'Reading', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Vocabulary', 'Drill', 'Reading', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(nav.getByRole('link')).toHaveCount(0);

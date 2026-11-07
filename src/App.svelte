@@ -232,7 +232,7 @@
     { label: 'Dashboard', route: { page: 'home' } },
     { label: 'Grammar test', route: { page: 'test' } },
     { label: 'Learn', route: { page: 'learn' } },
-    { label: 'Words', route: { page: 'words' } },
+    { label: 'Vocabulary', route: { page: 'vocabulary' } },
     { label: 'Drill', route: { page: 'drill' } },
     { label: 'Reading', route: { page: 'reading' } },
     { label: 'Culture', route: { page: 'culture' } },
@@ -290,9 +290,9 @@
       <LevelTest {settings} />
     {:else if route.page === 'reading' && route.text}
       <ReadingText id={route.text} bind:settings onpractise={practise} />
-    {:else if route.page === 'words' && route.theme}
+    {:else if route.page === 'vocabulary' && route.theme}
       <WordsTheme id={route.theme} bind:settings onpractise={practise} />
-    {:else if route.page === 'words'}
+    {:else if route.page === 'vocabulary'}
       <WordsIndex />
     {:else if route.page === 'reading'}
       <ReadingIndex />

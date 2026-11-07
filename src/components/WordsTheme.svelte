@@ -12,7 +12,7 @@
   import Sentence from './Sentence.svelte';
 
   /**
-   * One theme of the Words section: its words (stress, gender or aspect, meaning, Hear it), our dialogues (published
+   * One theme of the Vocabulary section: its words (stress, gender or aspect, meaning, Hear it), our dialogues (published
    * once a native speaker has checked them; every word tappable, English on request), a real sentence for each word,
    * and practice rounds on just these words.
    */
@@ -35,7 +35,7 @@
       .catch(() => (error = 'Couldn’t load this theme. Check your connection and reload the page.'));
   });
   $effect(() => {
-    if (theme) document.title = pageTitle({ page: 'words', theme: theme.id }, undefined, () => theme!.title);
+    if (theme) document.title = pageTitle({ page: 'vocabulary', theme: theme.id }, undefined, () => theme!.title);
   });
   const near = $derived.by(() => {
     if (!theme || !index) return {};
@@ -58,10 +58,23 @@
   const CHIP: Record<string, string> = { m: 'masculine', f: 'feminine', n: 'neuter', impf: 'imperfective', pf: 'perfective', both: 'both aspects' };
   const chip = (w: ThemeWord) => (w[3] === 'n' || w[3] === 'v' ? (CHIP[w[4]] ?? '') : '');
   const head = (w: ThemeWord) => renderForm(w[1].split(',')[0]!, settings.stress);
+
+  /**
+   * Each word's real sentence: hovering a row (mouse) floats it under the row, so the list doesn't move as you go down
+   * it; clicking, tapping or Enter opens it in the row and keeps it open (again to close).
+   */
+  let open = $state(new Set<string>());
+  let hover = $state<string | null>(null);
+  function toggle(k: string) {
+    const next = new Set(open);
+    if (next.has(k)) next.delete(k);
+    else next.add(k);
+    open = next;
+  }
 </script>
 
 <article class="theme fade-in" aria-labelledby="theme-title">
-  <p class="crumbs"><a href={href({ page: 'words' })}>Words</a> ›</p>
+  <p class="crumbs"><a href={href({ page: 'vocabulary' })}>Vocabulary</a> ›</p>
   {#if error}
     <p class="muted">{error}</p>
   {:else if theme}
@@ -76,17 +89,44 @@
       {/if}
     </div>
 
+    <p class="muted small hint">Hover over a word, or tap it, to see it in a real sentence.</p>
+
     {#each theme.groups as g, gi (gi)}
       <section class="group" aria-labelledby="g-{gi}">
         <h2 id="g-{gi}">{g.title}</h2>
         <ul class="words">
           {#each g.words as w (w[0])}
-            <li>
-              <span class="head" lang="ru">{head(w)}</span>
-              {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
-              <span class="meaning">{w[2]}</span>
-              {#if canSpeak}
-                <button type="button" class="btn quiet hear" onclick={() => speak(bare(w[1].split(',')[0]!))} aria-label="Hear {bare(w[1].split(',')[0]!)}"><span aria-hidden="true">🔊</span></button>
+            {@const use = theme.uses[w[0]]}
+            {@const isOpen = open.has(w[0])}
+            <li
+              class:open={isOpen}
+              onpointerenter={(e) => e.pointerType === 'mouse' && use && (hover = w[0])}
+              onpointerleave={(e) => e.pointerType === 'mouse' && hover === w[0] && (hover = null)}
+            >
+              <div class="row">
+                {#if use}
+                  <button type="button" class="word" aria-expanded={isOpen} aria-controls="ex-{w[0].replace(':', '-')}" onclick={() => toggle(w[0])}>
+                    <span class="head" lang="ru">{head(w)}</span>
+                    {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
+                    <span class="meaning">{w[2]}</span>
+                    <span class="more" aria-hidden="true">{isOpen ? '▴' : '▾'}</span>
+                    <span class="visually-hidden">{isOpen ? 'Hide' : 'Show'} an example</span>
+                  </button>
+                {:else}
+                  <span class="word plain">
+                    <span class="head" lang="ru">{head(w)}</span>
+                    {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
+                    <span class="meaning">{w[2]}</span>
+                  </span>
+                {/if}
+                {#if canSpeak}
+                  <button type="button" class="btn quiet hear" onclick={() => speak(bare(w[1].split(',')[0]!))} aria-label="Hear {bare(w[1].split(',')[0]!)}"><span aria-hidden="true">🔊</span></button>
+                {/if}
+              </div>
+              {#if use && (isOpen || hover === w[0])}
+                <div id="ex-{w[0].replace(':', '-')}" class="example" class:float={!isOpen}>
+                  <Sentence row={[use[0], use[1], use[2], 0, use[3], use[4]]} />
+                </div>
               {/if}
             </li>
           {/each}
@@ -116,22 +156,9 @@
       </section>
     {/if}
 
-    {#if Object.keys(theme.uses).length}
-      <section class="uses" aria-labelledby="uses-h">
-        <h2 id="uses-h">In use</h2>
-        <p class="muted small">Real sentences from Tatoeba, one for each word.</p>
-        <ul>
-          {#each all.filter(([k]) => theme!.uses[k]) as w (w[0])}
-            {@const [rid, ru, en, start, end] = theme.uses[w[0]]!}
-            <li><Sentence row={[rid, ru, en, 0, start, end]} /></li>
-          {/each}
-        </ul>
-      </section>
-    {/if}
-
     <nav class="pager" aria-label="Themes">
-      {#if near.prev}<a href={href({ page: 'words', theme: near.prev.id })}><span class="muted small">← Previous</span> {near.prev.title}</a>{:else}<span></span>{/if}
-      {#if near.next}<a class="next" href={href({ page: 'words', theme: near.next.id })}><span class="muted small">Next →</span> {near.next.title}</a>{/if}
+      {#if near.prev}<a href={href({ page: 'vocabulary', theme: near.prev.id })}><span class="muted small">← Previous</span> {near.prev.title}</a>{:else}<span></span>{/if}
+      {#if near.next}<a class="next" href={href({ page: 'vocabulary', theme: near.next.id })}><span class="muted small">Next →</span> {near.next.title}</a>{/if}
     </nav>
   {:else}
     <p class="muted">Loading…</p>
@@ -185,12 +212,70 @@
     margin: 0;
   }
   .words li {
+    position: relative;
+    border-top: 1px solid var(--border);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .word {
+    flex: 1;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 2px 10px;
-    padding: 6px 0;
-    border-top: 1px solid var(--border);
+    padding: 6px 4px;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+    border-radius: 4px;
+  }
+  button.word {
+    cursor: pointer;
+  }
+  button.word:hover,
+  li.open button.word {
+    background: var(--mark);
+  }
+  /* On the highlighted row, muted text would be too faint (dark theme): full colour. */
+  button.word:hover .chip,
+  li.open .chip,
+  button.word:hover .more,
+  li.open .more {
+    color: var(--text);
+  }
+  .more {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  .example {
+    padding: 6px 10px 10px;
+    border-left: 3px solid var(--primary-bg);
+    margin: 0 0 8px 4px;
+  }
+  /* Hovered (not opened): floats under the row, over the next ones, so nothing below moves. */
+  .example.float {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 5;
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--primary-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+    pointer-events: none;
+  }
+  .hint {
+    margin: 10px 0 0;
   }
   .head {
     font-family: var(--serif);
@@ -224,15 +309,6 @@
   .reviewed {
     font-size: 0.8rem;
     margin: -4px 0 0;
-  }
-  .uses ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .uses li {
-    padding: 8px 0;
-    border-top: 1px solid var(--border);
   }
   .small {
     font-size: 0.88rem;

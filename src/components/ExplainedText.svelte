@@ -7,7 +7,7 @@
   /**
    * Russian text where every word is a button: hovering (mouse), tapping, clicking or focusing it shows what it is
    * (dictionary form, meaning, which form). Arrow keys move between words, so the text is one Tab stop. Used by Reading
-   * and by the Words section's dialogues. `translations`, when given and `showTranslation` is on, puts each line's
+   * and by the Vocabulary section's dialogues. `translations`, when given and `showTranslation` is on, puts each line's
    * English under it.
    */
   let {

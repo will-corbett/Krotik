@@ -153,7 +153,7 @@ Done in batches, each reviewed before the next.
   commonest words (choose the meaning / type the word); "My words", a per-word spaced-repetition record (word key,
   band, box, dates; off by default, browser only, export/import as a file, deleted with progress); Reading's key words
   (practise them, add them) and Add to my words from any explained word.
-- Words section (2026-11-08, owner's choices: our own dialogues, reviewed by a native speaker; the full set of
+- Vocabulary section (2026-11-08; first called Words, owner's choices: our own dialogues, reviewed by a native speaker; the full set of
   themes; its own menu item and home card): 16 themes, 436 words, a real sentence for each, 32 dialogues written and
   waiting for review (`reports/dialogues-for-review.md`); they appear on the site only once marked reviewed.
 - Next for vocabulary: curated English meanings for the top 2,500 (the source's are sometimes long-winded); audio from

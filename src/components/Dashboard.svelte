@@ -62,19 +62,19 @@
 
   <div class="cards">
     <article class="card tile" aria-labelledby="t-learn">
-      <h2 id="t-learn">Learn &amp; drill <span lang="ru" class="ru">грамматика</span></h2>
-      <p class="muted small">{topics} topics, from the alphabet to participles: short explanations, then {drills} drills with instant feedback, including the commonest words.</p>
+      <h2 id="t-learn">Grammar <span lang="ru" class="ru">грамматика</span></h2>
+      <p class="muted small">{topics} topics, from the alphabet to participles: short explanations, then {drills} drills with instant feedback.</p>
       <a class="btn primary" href={href({ page: 'learn' })}>See all topics</a>
     </article>
 
     <article class="card tile" aria-labelledby="t-words">
-      <h2 id="t-words">Words <span lang="ru" class="ru">слова</span></h2>
-      <p class="muted small">Everyday vocabulary by theme (food, family, travel…): words, real sentences, dialogues and practice.</p>
-      <a class="btn" href={href({ page: 'words' })}>Learn words</a>
+      <h2 id="t-words">Vocabulary <span lang="ru" class="ru">лексика</span></h2>
+      <p class="muted small">Everyday words by theme (food, family, travel…), with examples, dialogues and practice, and a drill of the commonest words.</p>
+      <a class="btn" href={href({ page: 'vocabulary' })}>Learn words</a>
     </article>
 
     <article class="card tile" aria-labelledby="t-test">
-      <h2 id="t-test">Grammar test <span lang="ru" class="ru">тест</span></h2>
+      <h2 id="t-test">Grammar test <span lang="ru" class="ru">тест по грамматике</span></h2>
       <p class="muted small">60 questions from A1 to C1, about 20–25 minutes, every answer explained.</p>
       <a class="btn" href={href({ page: 'test' })}>Take the test</a>
     </article>

@@ -1,4 +1,4 @@
-/** The Words section: themes by level, a theme's words, sentences, dialogues (once reviewed) and practice. */
+/** The Vocabulary section: themes by level, a theme's words, sentences, dialogues (once reviewed) and practice. */
 import AxeBuilder from '@axe-core/playwright';
 import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
@@ -14,30 +14,48 @@ async function withDialogue(page: Page) {
   await page.route('**/data/theme.food.json', (route) => route.fulfill({ json: t }));
 }
 
-test('Words is in the menu and on the home page; themes are grouped by level', async ({ page }) => {
+test('Vocabulary is in the menu and on the home page (beside Grammar); themes are grouped by level', async ({ page }) => {
   await page.goto('./');
-  await expect(page.getByRole('heading', { name: /^Words/ })).toBeVisible();
-  await goTo(page, 'Words');
-  await expect(page).toHaveURL(/\/Krotik\/words\/$/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Words');
+  await expect(page.getByRole('heading', { name: /^Vocabulary/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /^Grammar грамматика/ })).toBeVisible();
+  await goTo(page, 'Vocabulary');
+  await expect(page).toHaveURL(/\/Krotik\/vocabulary\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Vocabulary');
   for (const lvl of ['A1', 'A2', 'B1']) await expect(page.getByRole('heading', { name: lvl, exact: true })).toBeVisible();
   await expect(page.locator('a.theme')).toHaveCount(16);
   await page.getByRole('link', { name: /Food and drink/ }).click();
-  await expect(page).toHaveURL(/\/words\/food\/$/);
+  await expect(page).toHaveURL(/\/vocabulary\/food\/$/);
   await expect(page).toHaveTitle(/Food and drink/);
 });
 
-test('a theme: its words with gender or aspect and meaning, a real sentence for each, dialogues waiting for review', async ({ page }) => {
-  await page.goto('words/food/');
+test('a theme: its words with gender or aspect and meaning; each opens to a real sentence; dialogues waiting for review', async ({ page }) => {
+  await page.goto('vocabulary/food/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Еда и напитки');
   const bread = page.locator('.words li', { hasText: 'хлеб' }).first();
   await expect(bread).toContainText('masculine');
   await expect(bread).toContainText('bread');
   await expect(page.locator('.words li', { hasText: /^есть/ })).toContainText('imperfective');
-  await expect(page.locator('.uses li').first()).toContainText('Tatoeba #');
+  // A row opens to its example (click or tap; Enter from the keyboard), and closes again.
+  const row = page.getByRole('button', { name: /^хлеб/ });
+  await expect(row).toHaveAttribute('aria-expanded', 'false');
+  await row.click();
+  await expect(row).toHaveAttribute('aria-expanded', 'true');
+  const example = page.locator(`#${await row.getAttribute('aria-controls')}`);
+  await expect(example).toContainText('Tatoeba #');
+  await expect(example.locator('mark')).toBeVisible();
+  await row.press('Enter');
+  await expect(row).toHaveAttribute('aria-expanded', 'false');
+  // With a mouse, hovering shows it too, floating over the rows below (they don't move).
+  if (test.info().project.name === 'desktop') {
+    const next = page.getByRole('button', { name: /^сыр/ });
+    const before = (await next.boundingBox())!.y;
+    await row.hover();
+    await expect(page.locator('.example.float')).toContainText('Tatoeba #');
+    expect((await next.boundingBox())!.y).toBe(before);
+  }
   await expect(page.getByText(/waiting for a native speaker's check/)).toBeVisible();
   // Nothing unreviewed is ever served.
-  const data = await page.evaluate(() => fetch(`${location.pathname.replace(/words\/food\/$/, '')}data/theme.food.json`).then((r) => r.json()));
+  const data = await page.evaluate(() => fetch(`${location.pathname.replace(/vocabulary\/food\/$/, '')}data/theme.food.json`).then((r) => r.json()));
   expect(data.dialogues).toEqual([]);
   // No sideways scrolling on a phone.
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
@@ -50,7 +68,7 @@ test('a reviewed dialogue: tap a word for its meaning, show the English, add a w
     const s = JSON.parse(localStorage.getItem('krotik.settings.v1') ?? '{}');
     localStorage.setItem('krotik.settings.v1', JSON.stringify({ ...s, progress: true }));
   });
-  await page.goto('words/food/');
+  await page.goto('vocabulary/food/');
   const d = page.getByRole('group', { name: /Dialogue: Breakfast/ });
   await expect(d).toContainText('Хлеб с маслом.');
   await expect(page.getByText('Bread and butter.')).toHaveCount(0);
@@ -70,7 +88,7 @@ test('practise a theme both ways round, and add all its words', async ({ page })
     const s = JSON.parse(localStorage.getItem('krotik.settings.v1') ?? '{}');
     localStorage.setItem('krotik.settings.v1', JSON.stringify({ ...s, progress: true }));
   });
-  await page.goto('words/greetings/');
+  await page.goto('vocabulary/greetings/');
   await page.getByRole('button', { name: 'Add all to my words' }).click();
   await expect(page.getByRole('button', { name: 'All in your words ✓' })).toBeDisabled();
   expect(Object.keys(JSON.parse((await page.evaluate(() => localStorage.getItem('krotik.words.v1')))!).words)).toHaveLength(19);
@@ -83,26 +101,27 @@ test('practise a theme both ways round, and add all its words', async ({ page })
   await expect(page.getByRole('group', { name: 'Choose the meaning' })).toBeVisible();
 });
 
-test('the Words pages are prerendered and in the sitemap', async ({ request }) => {
-  const html = await (await request.get('words/food/')).text();
-  expect(html).toContain('<title>Food and drink: Russian words, dialogues and practice | Krotik</title>');
+test('the Vocabulary pages are prerendered and in the sitemap', async ({ request }) => {
+  const html = await (await request.get('vocabulary/food/')).text();
+  expect(html).toContain('<title>Food and drink: Russian vocabulary, dialogues and practice | Krotik</title>');
   expect(html).toContain('хлеб');
   expect(html).not.toContain('noindex');
   const sitemap = await (await request.get('sitemap.xml')).text();
-  expect(sitemap).toContain('/words/food/</loc>');
-  expect(sitemap).toContain('/words/</loc>');
+  expect(sitemap).toContain('/vocabulary/food/</loc>');
+  expect(sitemap).toContain('/vocabulary/</loc>');
 });
 
 for (const theme of ['krotik', 'light', 'dark'] as const) {
-  test(`no axe violations on the Words pages (${theme})`, async ({ page }) => {
+  test(`no axe violations on the Vocabulary pages (${theme})`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce', colorScheme: theme === 'dark' ? 'dark' : 'light' });
     await withDialogue(page);
     await page.goto('./');
     await page.getByLabel('Theme').selectOption(theme);
-    for (const url of ['words/', 'words/food/']) {
+    for (const url of ['vocabulary/', 'vocabulary/food/']) {
       await page.goto(url);
       await expect(page.locator('main')).not.toContainText('Loading…');
-      if (url === 'words/food/') {
+      if (url === 'vocabulary/food/') {
+        await page.getByRole('button', { name: /^хлеб/ }).click();
         await page.getByLabel('Show English').check();
         await page.getByRole('group', { name: /Dialogue/ }).locator('button.w').first().click();
       }

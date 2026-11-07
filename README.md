@@ -3,7 +3,7 @@
 Learn and drill Russian grammar and vocabulary. There are no accounts and no analytics; progress tracking (topic results
 and your words) is optional, off by default, and kept only in your browser.
 
-- **Home**: your last drill, and cards for Learn & drill, the Grammar test, Reading and (if you turn it on) your progress,
+- **Home**: your last drill, and cards for Grammar (Learn & drill), Vocabulary, the Grammar test, Reading and (if you turn it on) your progress,
   whose details (weak topics, topics due for revision, a mixed review of them) are on their own page.
 - **Learn & drill**: every topic, easiest first in each group, with its level, Learn page and drill.
 - **Grammar test**: 60 multiple-choice questions from A1 to C1, an approximate grammar level with what it means, every
@@ -13,7 +13,7 @@ and your words) is optional, off by default, and kept only in your browser.
 - **Drill**: the drills below, with retries, example sentences and audio, plus a mixed review of several topics and a
   translate-and-compare drill. A **Vocabulary** drill covers the commonest words both ways round; with progress on, the
   words you practise (or add while reading) come back for review on a spaced-repetition schedule. The end screen breaks results down by question type or topic.
-- **Words**: everyday vocabulary in 16 themes (food, family, home, travel, weather…): words with stress and meaning,
+- **Vocabulary**: everyday words in 16 themes (food, family, home, travel, weather…): words with stress and meaning,
   a real sentence for each, short dialogues where every word can be tapped (published once a native speaker has
   checked them), and practice rounds (`content/words/*.yaml`).
 - **Reading**: short stories by Tolstoy and comedies by Chekhov (public domain), with every word explained on hover or

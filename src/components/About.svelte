@@ -79,7 +79,7 @@
       (OpenSubtitles 2018), licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.
     </li>
     <li>
-      Words section: the words and meanings come from OpenRussian (above), with some meanings shortened by us; each
+      Vocabulary section: the words and meanings come from OpenRussian (above), with some meanings shortened by us; each
       example sentence is from Tatoeba (above). The themes, the choice of words and the dialogues are ours. The
       dialogues are written for Krotik and each one is checked by a native speaker before it's published.
     </li>
