@@ -43,40 +43,54 @@ test('Continue starts a round with the saved settings', async ({ page }) => {
   await setup(page, 'Motion verbs');
   await goTo(page, 'Dashboard');
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page.getByRole('button', { name: 'Start another round', exact: true }).click();
   await expect(page.getByText('0 of 10 cleared')).toBeVisible();
 });
 
 test('the Continue card can be hidden, and comes back after the next drill', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('Continue drilling')).toBeVisible();
-  await page.getByRole('button', { name: /Hide Continue drilling/ }).click();
-  await expect(page.getByText('Continue drilling')).toHaveCount(0);
+  await expect(page.getByText('Your last drill')).toBeVisible();
+  await page.getByRole('button', { name: /Hide your last drill/ }).click();
+  await expect(page.getByText('Your last drill')).toHaveCount(0);
   await page.reload();
-  await expect(page.getByText('Continue drilling')).toHaveCount(0);
+  await expect(page.getByText('Your last drill')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
   await page.goto('/?seed=4#/drill/verbs');
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
   await goTo(page, 'Dashboard');
-  await expect(page.getByText('Continue drilling')).toBeVisible();
+  await expect(page.getByText('Your last drill')).toBeVisible();
 });
 
 test('the Dashboard has no Culture card; Culture is in the main menu', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('main').getByRole('link', { name: /Culture/ })).toHaveCount(0);
-  await page.getByRole('button', { name: 'Menu' }).click();
+  const menu = page.getByRole('button', { name: 'Menu' });
+  if (await menu.isVisible()) await menu.click();
   await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
 });
 
-test('the main menu is a dropdown: opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
+test('wide screens show the main pages as a bar, with the current page marked', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 800 });
+  await page.goto('/#/learn');
+  await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
+  const nav = page.getByRole('navigation', { name: 'Main' });
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Culture']);
+  await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
+  await nav.getByRole('link', { name: 'Culture' }).click();
+  await expect(page).toHaveURL(/#\/culture$/);
+  await expect(nav.getByRole('link', { name: 'Culture' })).toHaveAttribute('aria-current', 'page');
+});
+
+test('on a phone the main menu is a dropdown: opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 800 });
   await page.goto('/#/learn');
   const menu = page.getByRole('button', { name: 'Menu' });
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Level test', 'Learn', 'Drill', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(nav.getByRole('link')).toHaveCount(0);
@@ -265,7 +279,7 @@ test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, exp
   await expect(page.getByText('Question 60 of 60')).toBeVisible();
   await dunno.click();
   await page.getByRole('button', { name: 'Submit' }).click();
-  await expect(page.getByRole('heading', { name: 'Your result' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Your grammar level' })).toBeVisible();
   await expect(page.getByText('Starting out')).toBeVisible();
   await expect(page.getByText('0 right, 60 wrong or “I don\'t know”.')).toBeVisible();
   await expect(page.getByText('The answer is').first()).toBeVisible();
@@ -273,7 +287,7 @@ test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, exp
   await page.getByRole('link', { name: /^Learn: / }).first().click();
   await expect(page).toHaveURL(/#\/learn\//);
   await page.goBack();
-  await expect(page.getByRole('heading', { name: 'Your result' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Your grammar level' })).toBeVisible();
   await page.getByRole('button', { name: 'Take the test again' }).click();
   await page.getByRole('button', { name: 'Start the test' }).click();
   await expect(page.getByText('Question 1 of 60')).toBeVisible({ timeout: 30_000 });

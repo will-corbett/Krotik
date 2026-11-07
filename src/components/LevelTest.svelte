@@ -195,20 +195,23 @@
 
 <section class="test fade-in" aria-labelledby="test-h1">
   {#if phase === 'intro' || phase === 'loading'}
-    <h1 id="test-h1">Level test <span lang="ru" class="ru">тест на уровень</span></h1>
+    <h1 id="test-h1">Grammar test <span lang="ru" class="ru">тест по грамматике</span></h1>
     <p>
-      Sixty multiple-choice questions on grammar and reading, starting easy and getting harder: twelve each at A1, A2,
+      Sixty multiple-choice questions on Russian grammar, starting easy and getting harder: twelve each at A1, A2,
       B1, B2 and C1. Every question is a gap in a real sentence, with the English meaning as a clue: you work out which
       form fits from the sentence itself. The questions are different every time. It takes about 20–25 minutes; at the
-      end you get an approximate level, every answer explained, and a list of Learn pages worth reviewing.
+      end you get an approximate grammar level, every answer explained, and a list of Learn pages worth reviewing.
+    </p>
+    <p>
+      It measures grammar only. A full CEFR level also covers listening, reading, speaking and writing, which a
+      multiple-choice test can't measure, so your overall level may be higher or lower than your grammar level.
     </p>
     <ul class="muted">
       <li>If you don't know, choose <strong>I don't know</strong> rather than guessing: guesses make the result less useful.</li>
       <li>You can go back and change an answer before you submit.</li>
       <li>Keys: 1–5 choose an option, 0 means "I don't know", Enter goes to the next question.</li>
       <li>
-        It measures grammar and word forms only, not listening, speaking or writing. Nothing is saved: your result
-        stays here until you close or reload the tab.
+        Nothing is saved: your result stays here until you close or reload the tab.
       </li>
     </ul>
     {#if error}<p class="err">Couldn't prepare the test: {error}</p>{/if}
@@ -247,12 +250,15 @@
       {#if answers[i] === undefined}<p class="muted small hint">Choose an answer, or “I don't know”, to go on.</p>{/if}
     </div>
   {:else if result}
-    <h1 id="test-h1" bind:this={heading} tabindex="-1">Your result</h1>
+    <h1 id="test-h1" bind:this={heading} tabindex="-1">Your grammar level</h1>
     <div class="card verdict">
       {#if result.level}
         <p class="big">{result.level === 'C1' ? 'C1 or above' : result.level}</p>
         <p><strong>{LEVEL_NAME[result.level]}</strong>, approximately: your grammar and word forms are secure up to this level.</p>
-        <p>At {result.level} you can usually:</p>
+        <p>
+          This is your grammar, not a full CEFR level. Learners who are {result.level} overall can usually do the things
+          below; your listening, speaking and writing may be ahead of your grammar or behind it.
+        </p>
         <ul class="can">
           {#each LEVEL_CAN[result.level] as line (line)}<li>{line}</li>{/each}
         </ul>
@@ -274,8 +280,8 @@
       <p class="muted small">
         You reach a level when you get at least {PASS} of its {PER_LEVEL} questions right, at least {PASS} in {PER_LEVEL}
         right across it and all the levels below, and no level below it under {FLOOR} of {PER_LEVEL}. So a slip at an
-        easier level is made up for by strong results above it, but a real gap isn't. This is a rough guide to grammar
-        and reading, not an official CEFR result; the descriptions are our summary of the Council of Europe's CEFR
+        easier level is made up for by strong results above it, but a real gap isn't. This is a rough guide to grammar,
+        not an official CEFR result; the descriptions are our summary of the Council of Europe's CEFR
         levels.
       </p>
     </div>

@@ -128,3 +128,20 @@ Learn-only pages (marked as such on the Dashboard). Words first, then sentences,
 - The alphabet: first Learn page and first topic, with its own drill (letters, reading, writing).
 - Topics ordered easiest first within each group; on-screen keyboard in Learn quick checks.
 - Next from the syllabus review: batch 5 (sentence-level, Learn-only where needed) and batch 6.
+
+## External audit (2026-11-07): plan agreed with the owner
+Done in batches, each reviewed before the next.
+1. **Quick fixes (done):** "Grammar test" naming and wording (grammar, not a full CEFR level); Dashboard "Start
+   another round"; menu as a bar on desktop; Learn pages show a topic level, related topics and previous/next links;
+   aspect (several perfectives, both-aspect and one-aspect verbs) and participle formation explained more fully;
+   Common mistakes in ten lessons.
+2. **New Learn pages:** word order (тема и рема), complex sentences (an overview linking который/чтобы/conditionals/
+   conjunctions), modal constructions, reported speech, fuller pronunciation (IPA from Wiktionary).
+3. **Exercises:** mixed review drill; translate-and-compare drill (the Tatoeba sentence as the model, self-marked);
+   end-screen breakdown by question type; **opt-in, browser-only progress** (off by default, never sent anywhere) for
+   weak topics and revision suggestions. The owner chose this; it changes the "never store progress" rule, so the
+   rule and the About page must say exactly what is kept and how to clear it.
+4. **Culture and tests:** a suggested activity per resource type, more Kazakh and Central Asian links (checked by
+   hand); e2e for failed data requests, reload mid-drill and Back/Forward.
+- Not doing: paragraph/dialogue exercises and model-answer writing (Tatoeba has single sentences only); prerendering
+  for search engines (later).

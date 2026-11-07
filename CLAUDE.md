@@ -36,7 +36,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (cell syntax, stress rendering), `cells.ts` (fixed cell layouts), `types.ts` (shard row formats).
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
-- `src/components/` — Svelte UI. Five pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Level test (`#/test`), Learn
+- `src/components/` — Svelte UI. Five pages via hash routes (`src/lib/router.ts`): Dashboard (`#/`), Grammar test (`#/test`), Learn
   (`#/learn`, `#/learn/<topic>`), Drill (`#/drill` to choose, `#/drill/<topic>` for that drill's settings), Culture
   (`#/culture`), plus `#/about`. Every Drill link elsewhere goes straight to `#/drill/<topic>`.
 - Culture page (`#/culture`, `#/culture/<note>`): links in `content/culture/links.yaml`, notes in
@@ -59,12 +59,18 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   sentence ties to one word. Each option carries a form code (`levelTestPool.ts`) so the results explain every wrong
   answer (`levelTestExplain.ts`); a spelling that is several forms is labelled as all of them. Next/Back/Submit; the
   test and its result are kept in memory (`session`) for the tab, never in storage.
-- `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it).
+- `src/lib/topics.ts` — the one list of topics and groups (Dashboard, Learn index and Drill setup all use it). Each
+  topic has a `level` [first met, core by] (our CEFR-style judgement, a guide not a gate) and `related` topics; Learn
+  pages show both, with previous/next links in this order.
+- The main menu is a bar at ≥720px and a Menu dropdown below that. The level test is called the **Grammar test**
+  everywhere: it measures grammar, not a full CEFR level, and says so.
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
   `::sentence verb читать past_f` (or `::sentence participle читать читая`), `::drill nounCases {"cases":["acc"]} 5`,
   `::examples chtoby past 3` (shortest real sentences of one sentence-drill kind).
-  Tables and sentences always come from the data. `tests/unit/learn.test.ts` fails if any Russian word in the
+  Tables and sentences always come from the data. Major lessons end with **Common mistakes** (Not this | But
+  this | Why, saying whether it is wrong, regional/unnatural, or correct with another meaning); a wrong example is
+  always real forms used wrongly (wrong case, aspect, preposition), never a misspelt or invented form. `tests/unit/learn.test.ts` fails if any Russian word in the
   text isn't a real form in the data, or a block doesn't resolve (word in the top 1,000; sentence exists).
   Words not in the drill data go in `content/learn/words.yaml`; the data build checks them against Wiktionary.
 

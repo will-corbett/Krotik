@@ -20,24 +20,24 @@
   {#if !settings.hideContinue}
   <div class="card continue">
     <div class="c-text">
-      <p class="label muted">Continue drilling</p>
+      <p class="label muted">Your last drill</p>
       {#if last}
         <p class="what"><strong>{last.title.en}</strong> <span lang="ru" class="ru">{last.title.ru}</span></p>
         <p class="muted small">{settings.count === 0 ? 'Unlimited' : `${settings.count} questions`}, with your last settings.</p>
       {/if}
     </div>
     <div class="c-actions">
-      <button class="btn primary" onclick={oncontinue} disabled={loading}>{loading ? 'Loading…' : 'Continue'}</button>
-      <button class="btn quiet" onclick={onhide} aria-label="Hide Continue drilling until your next drill">Hide</button>
+      <button class="btn primary" onclick={oncontinue} disabled={loading}>{loading ? 'Loading…' : 'Start another round'}</button>
+      <button class="btn quiet" onclick={onhide} aria-label="Hide your last drill until your next drill">Hide</button>
     </div>
   </div>
   {/if}
 
   <div class="card continue test-card">
     <div class="c-text">
-      <p class="label muted">Level test</p>
-      <p class="what"><strong>Find your level</strong> <span lang="ru" class="ru">тест на уровень</span></p>
-      <p class="muted small">60 multiple-choice questions from A1 to C1, about 15–20 minutes, with Learn pages to review at the end.</p>
+      <p class="label muted">Grammar test</p>
+      <p class="what"><strong>Find your grammar level</strong> <span lang="ru" class="ru">тест по грамматике</span></p>
+      <p class="muted small">60 multiple-choice grammar questions from A1 to C1, about 20–25 minutes, with every answer explained and Learn pages to review.</p>
     </div>
     <a class="btn" href={href({ page: 'test' })}>Take the test</a>
   </div>

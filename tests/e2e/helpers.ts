@@ -101,7 +101,9 @@ export async function playRetryRound(page: Page): Promise<number> {
 }
 
 /** Open the main menu and follow one of its links. */
-export async function goTo(page: Page, label: 'Dashboard' | 'Level test' | 'Learn' | 'Drill' | 'Culture') {
-  await page.getByRole('button', { name: 'Menu' }).click();
+export async function goTo(page: Page, label: 'Dashboard' | 'Grammar test' | 'Learn' | 'Drill' | 'Culture') {
+  // Phones have a Menu dropdown; wide screens show the links as a bar.
+  const menu = page.getByRole('button', { name: 'Menu' });
+  if (await menu.isVisible()) await menu.click();
   await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: label, exact: true }).click();
 }

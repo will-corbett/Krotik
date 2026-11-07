@@ -129,9 +129,21 @@
     if (menuOpen && menuEl && !menuEl.contains(e.target as Node)) menuOpen = false;
   }
 
+  // Wide screens show the pages as a bar; phones get the Menu dropdown (five tabs don't fit at phone width).
+  const wideQuery = typeof matchMedia === 'function' ? matchMedia('(min-width: 720px)') : null;
+  let wide = $state(wideQuery?.matches ?? false);
+  $effect(() => {
+    const on = () => {
+      wide = wideQuery?.matches ?? false;
+      if (wide) menuOpen = false;
+    };
+    wideQuery?.addEventListener('change', on);
+    return () => wideQuery?.removeEventListener('change', on);
+  });
+
   const NAV: { label: string; route: Route }[] = [
     { label: 'Dashboard', route: { page: 'home' } },
-    { label: 'Level test', route: { page: 'test' } },
+    { label: 'Grammar test', route: { page: 'test' } },
     { label: 'Learn', route: { page: 'learn' } },
     { label: 'Drill', route: { page: 'drill' } },
     { label: 'Culture', route: { page: 'culture' } },
@@ -146,12 +158,14 @@
       <img src="./brand/krotik-128.png" alt="" width="40" height="40" />
       <span>Krotik</span>
     </a>
-    <nav aria-label="Main" class="menu" bind:this={menuEl}>
-      <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
-        <span aria-hidden="true">☰</span> Menu
-      </button>
-      {#if menuOpen}
-        <ul id="main-menu" class="menu-list">
+    <nav aria-label="Main" class="menu" class:wide bind:this={menuEl}>
+      {#if !wide}
+        <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
+          <span aria-hidden="true">☰</span> Menu
+        </button>
+      {/if}
+      {#if wide || menuOpen}
+        <ul id="main-menu" class={wide ? 'bar' : 'menu-list'}>
           {#each NAV as n (n.label)}
             <li>
               <a
@@ -267,6 +281,16 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+  }
+  .bar {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2px;
+  }
+  .bar .nav-link {
+    padding: 8px 12px;
   }
   .nav-link {
     display: block;
