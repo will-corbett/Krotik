@@ -25,6 +25,8 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
       const note = route.note ? noteTitle(route.note) : undefined;
       return note ? `${note} | Krotik` : 'Russian culture links for learners | Krotik';
     }
+    case 'progress':
+      return 'Your progress | Krotik';
     case 'about':
       return 'About Krotik: sources and licences';
   }

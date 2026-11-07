@@ -44,6 +44,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (cell syntax, stress rendering), `cells.ts` (fixed cell layouts), `types.ts` (shard row formats).
 - `src/lib/` — app logic, framework-free and unit-tested: `check.ts`, `queue.ts` (retry rule),
   `questions/*.ts` (one generator per mode, seeded RNG), `data.ts` (shard loading), `settings.ts`.
+- Home (`Dashboard.svelte`): the Krotik header, a slim "Your last drill" strip, and four cards (Learn & drill, Grammar
+  test, Reading, Your progress) — no topic list. The full topic map is the Learn page (`LearnIndex.svelte`: every topic
+  with its level and Learn/Drill links, Review drills included); progress details are `/progress/`
+  (`ProgressPage.svelte`, not in the menu, noindex).
 - `src/components/` — Svelte UI. Five pages with real addresses under `SITE_BASE` (`src/shared/site.ts`, `/Krotik/`;
   `src/lib/router.ts`): Dashboard (`/`), Grammar test (`/test/`), Learn (`/learn/`, `/learn/<topic>/`), Drill (`/drill/`
   to choose, `/drill/<topic>/` for that drill's settings), Culture (`/culture/`), plus `/about/`. Every Drill link

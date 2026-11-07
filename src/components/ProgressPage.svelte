@@ -5,16 +5,16 @@
   import { topicById } from '../lib/topics.ts';
   import type { Mode } from '../lib/types.ts';
 
-  /** The Dashboard's progress card: an offer to turn it on, or (when on) weak topics, revision and history. */
+  /** The Progress page (/progress/): an offer to turn it on, or (when on) weak topics, revision and history. */
   let { on, onprogress, onreview }: { on: boolean; onprogress: (on: boolean) => void; onreview: (topics: Mode[]) => void } = $props();
   const s = $derived(on ? summarise(loadProgress(), today()) : null);
   const name = (m: Mode) => topicById(m)?.title.en ?? m;
   let confirmOff = $state(false);
 </script>
 
+<h1 class="page-title">Your progress</h1>
 {#if !on}
   <div class="card offer">
-    <p class="label muted">Your progress</p>
     <p class="small">
       Krotik can keep a record of your drill results <strong>in this browser only</strong>, to show your weak topics and
       what's due for revision. It's never sent anywhere, and turning it off deletes it.
@@ -22,13 +22,12 @@
     <button class="btn" onclick={() => onprogress(true)}>Keep track in this browser</button>
   </div>
 {:else if s}
-  <section class="card progress" aria-labelledby="progress-h">
-    <h2 id="progress-h">Your progress</h2>
+  <section class="card progress" aria-label="Your results">
     {#if !s.all.length}
       <p class="muted small">Finish a drill round and your results will appear here. (Learn-page checks and the Grammar test aren't recorded.)</p>
     {:else}
       {#if s.weak.length}
-        <h3>Weak topics</h3>
+        <h2>Weak topics</h2>
         <p class="muted small">Under 80% right first time over your recent rounds.</p>
         <ul>
           {#each s.weak as w (w.mode)}
@@ -48,7 +47,7 @@
         <p class="small">No weak topics. A topic shows here once you've answered at least {WEAK_MIN} of its questions in recent rounds and got under 80% right first time.</p>
       {/if}
       {#if s.due.length}
-        <h3>Due for revision</h3>
+        <h2>Due for revision</h2>
         <p class="muted small">Not practised for {DUE_DAYS} days or more.</p>
         <ul>
           {#each s.due.slice(0, 5) as d (d.mode)}
@@ -59,7 +58,7 @@
           {/each}
         </ul>
       {/if}
-      <details>
+      <details open>
         <summary>Everything you've practised</summary>
         <table>
           <thead><tr><th scope="col">Topic</th><th scope="col" class="num">Rounds</th><th scope="col" class="num">Right first time</th><th scope="col" class="num">Last</th></tr></thead>
@@ -85,20 +84,15 @@
 {/if}
 
 <style>
-  .label {
-    margin: 0;
-    font-size: 0.9rem;
+  .page-title {
+    font-family: var(--serif);
+    margin: 0 0 12px;
   }
   .small {
     margin: 4px 0 10px;
     font-size: 0.95rem;
   }
   h2 {
-    margin: 0 0 6px;
-    font-size: 1.2rem;
-    font-family: var(--serif);
-  }
-  h3 {
     margin: 12px 0 0;
     font-size: 1rem;
   }

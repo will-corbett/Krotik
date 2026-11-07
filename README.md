@@ -3,8 +3,9 @@
 Learn and drill Russian grammar. There are no accounts and no analytics; progress tracking is optional, off by
 default, and kept only in your browser.
 
-- **Dashboard**: every topic (easiest first in each group), with Learn and Drill links, your last drill, the Grammar
-  test, and (if you turn it on) your progress: weak topics, topics due for revision, and a mixed review of them.
+- **Home**: your last drill, and cards for Learn & drill, the Grammar test, Reading and (if you turn it on) your progress,
+  whose details (weak topics, topics due for revision, a mixed review of them) are on their own page.
+- **Learn & drill**: every topic, easiest first in each group, with its level, Learn page and drill.
 - **Grammar test**: 60 multiple-choice questions from A1 to C1, an approximate grammar level with what it means, every
   wrong answer explained, and the Learn pages worth reviewing.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page

@@ -34,7 +34,6 @@ test('progress is off by default, kept only after you turn it on, and deleted wh
 
   await page.goto('./#/');
   await page.getByRole('button', { name: 'Keep track in this browser' }).click();
-  await expect(page.getByRole('heading', { name: 'Your progress' })).toBeVisible();
   await expect(page.getByText('Finish a drill round')).toBeVisible();
 
   await setup(page, 'Verb forms');
@@ -43,11 +42,13 @@ test('progress is off by default, kept only after you turn it on, and deleted wh
   const p = JSON.parse((await stored())!);
   expect(p.topics.verbs).toMatchObject({ rounds: 1, attempted: 10, right: 0 });
 
-  // Ten wrong first time: Verb forms is a weak topic, with Learn and Drill links.
+  // Ten wrong first time: the landing card counts one weak topic; the Progress page lists it, with links.
   await page.goto('./#/');
+  await expect(page.locator('article', { hasText: 'Your progress' })).toContainText('1 weak topic');
+  await page.getByRole('link', { name: 'See your progress' }).click();
+  await expect(page).toHaveURL(/\/Krotik\/progress\/(\?.*)?$/);
   await expect(page.getByRole('heading', { name: 'Weak topics' })).toBeVisible();
   await expect(page.locator('.progress li').first()).toContainText('Verb forms');
-  await page.getByText("Everything you've practised").click();
   await expect(page.locator('.progress table')).toContainText('Verb forms');
 
   await page.getByRole('button', { name: 'Turn off…' }).click();

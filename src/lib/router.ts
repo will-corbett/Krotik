@@ -5,6 +5,7 @@
  *   /learn/             Learn index        /learn/<topic>/   a Learn page
  *   /drill/             Choose a drill     /drill/<topic>/   that drill's settings
  *   /reading/           Reading index      /reading/<text>/  one story or scene
+ *   /progress/          Your progress (opt-in, this browser only)
  *   /culture/           Culture links      /culture/<note>/  a culture note
  *   /about/             About and sources
  * Old hash addresses (#/learn/aspect) are still understood (parseHash) and rewritten on load.
@@ -17,6 +18,7 @@ export type Route =
   | { page: 'learn'; topic?: string }
   | { page: 'drill'; mode?: string }
   | { page: 'reading'; text?: string }
+  | { page: 'progress' }
   | { page: 'culture'; note?: string }
   | { page: 'about' };
 
@@ -30,6 +32,8 @@ function fromParts(parts: string[]): Route {
       return parts[1] ? { page: 'drill', mode: parts[1] } : { page: 'drill' };
     case 'reading':
       return parts[1] ? { page: 'reading', text: parts[1] } : { page: 'reading' };
+    case 'progress':
+      return { page: 'progress' };
     case 'culture':
       return parts[1] ? { page: 'culture', note: parts[1] } : { page: 'culture' };
     case 'about':
@@ -62,6 +66,8 @@ export function pathOf(route: Route): string {
       return route.mode ? `drill/${route.mode}/` : 'drill/';
     case 'reading':
       return route.text ? `reading/${route.text}/` : 'reading/';
+    case 'progress':
+      return 'progress/';
     case 'culture':
       return route.note ? `culture/${route.note}/` : 'culture/';
     case 'about':

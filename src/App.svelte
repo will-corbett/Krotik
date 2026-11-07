@@ -4,6 +4,7 @@
   import Drill from './components/Drill.svelte';
   import EndScreen from './components/EndScreen.svelte';
   import ReadingIndex from './components/ReadingIndex.svelte';
+  import ProgressPage from './components/ProgressPage.svelte';
   import ReadingText from './components/ReadingText.svelte';
   import About from './components/About.svelte';
   import Dashboard from './components/Dashboard.svelte';
@@ -239,7 +240,9 @@
 
   <main id="main">
     {#if route.page === 'home'}
-      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} onprogress={setProgress} onreview={review} />
+      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} onprogress={setProgress} />
+    {:else if route.page === 'progress'}
+      <ProgressPage on={settings.progress} onprogress={setProgress} onreview={review} />
     {:else if route.page === 'learn' && route.topic}
       <LearnPage topic={route.topic} bind:settings />
     {:else if route.page === 'learn'}

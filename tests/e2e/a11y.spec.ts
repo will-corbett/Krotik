@@ -54,6 +54,9 @@ for (const scheme of ['light', 'dark', 'krotik'] as const) {
     await scan('progress offer');
     await page.getByRole('button', { name: 'Keep track in this browser' }).click();
     await scan('progress card');
+    await page.goto('./progress/');
+    await expect(page.getByRole('heading', { name: 'Your progress', level: 1 })).toBeVisible();
+    await scan('progress page');
   });
 }
 

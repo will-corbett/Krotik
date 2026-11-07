@@ -2,10 +2,14 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { goTo, setup } from './helpers.ts';
 
-test('dashboard lists every topic with Drill links, and Learn links where written', async ({ page }) => {
+test('the landing page has four cards; the Learn page lists every topic with its level, Learn and Drill links', async ({ page }) => {
   await page.goto('./');
   await expect(page.getByRole('heading', { name: 'Krotik', level: 1 })).toBeVisible();
+  for (const name of [/Learn & drill/, /Grammar test/, /Reading/, 'Your progress']) await expect(page.getByRole('heading', { name, level: 2 })).toBeVisible();
+  await page.getByRole('link', { name: 'See all topics' }).click();
+  await expect(page).toHaveURL(/\/Krotik\/learn\/(\?.*)?$/);
   await expect(page.getByRole('link', { name: 'Drill: Verb forms' })).toBeVisible();
+  await expect(page.locator('.topic', { hasText: 'Aspect partners' })).toContainText('A2–B1');
   await expect(page.getByRole('link', { name: 'Learn: Noun cases' })).toBeVisible();
   await page.getByRole('link', { name: 'Drill: Aspect partners' }).click();
   await expect(page).toHaveURL(/\/Krotik\/drill\/aspect\/(\?.*)?$/);
@@ -54,7 +58,7 @@ test('the Continue card can be hidden, and comes back after the next drill', asy
   await expect(page.getByText('Your last drill')).toHaveCount(0);
   await page.reload();
   await expect(page.getByText('Your last drill')).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Learn & drill/ })).toBeVisible();
   await page.goto('./?seed=4#/drill/verbs');
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
@@ -132,7 +136,7 @@ test('every written Learn page loads without errors', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('./#/learn');
-  const links = await page.locator('main li a').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href')!));
+  const links = await page.locator('main li a[href*="/learn/"]').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href')!));
   expect(links.length).toBeGreaterThanOrEqual(6);
   const learnOnly = ['wordOrder', 'complexSentences', 'modals', 'reportedSpeech', 'sounds'];
   for (const l of links) {
@@ -150,7 +154,7 @@ test('Learn-only topics: real sentences and IPA, a Learn link but no Drill link,
   await expect(page.getByRole('link', { name: /Tatoeba #2171689/ })).toBeVisible();
   await page.goto('./#/learn/sounds');
   await expect(page.getByRole('row', { name: /хлеб.*xlʲep/ })).toBeVisible();
-  await page.goto('./');
+  await page.goto('./#/learn');
   await expect(page.getByRole('link', { name: 'Learn: Word order' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Drill: Word order' })).toHaveCount(0);
   await page.goto('./#/drill');
@@ -280,8 +284,8 @@ test('the alphabet is the first Learn page and the first topic', async ({ page }
   await page.locator('main li a').first().click();
   await expect(page.getByRole('heading', { name: /The alphabet/, level: 1 })).toBeVisible();
   await expect(page.getByRole('group', { name: 'Quick check' }).getByText('Question 1 of 6')).toBeVisible();
-  await page.goto('./');
-  await expect(page.getByRole('link', { name: 'Learn: The alphabet' })).toBeVisible();
+  await page.goto('./#/learn');
+  await expect(page.locator('.topic').first()).toContainText('The alphabet');
 });
 
 test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, explained result kept in memory', async ({ page }) => {

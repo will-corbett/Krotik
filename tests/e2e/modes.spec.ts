@@ -89,7 +89,7 @@ test('End round shows the score so far', async ({ page }) => {
   await expect(page.locator('.missed li')).toHaveCount(1);
   await page.getByRole('link', { name: 'Return to dashboard' }).click();
   await expect(page).toHaveURL(/\/Krotik\/(\?.*)?$/);
-  await expect(page.getByRole('heading', { name: 'All topics' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Learn & drill/ })).toBeVisible();
 });
 
 test('unlimited round keeps going until End round', async ({ page }) => {

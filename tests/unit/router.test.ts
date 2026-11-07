@@ -12,6 +12,7 @@ const routes: Route[] = [
   { page: 'culture' },
   { page: 'reading' },
   { page: 'reading', text: 'akula' },
+  { page: 'progress' },
   { page: 'culture', note: 'names' },
   { page: 'about' },
 ];

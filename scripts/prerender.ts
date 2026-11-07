@@ -11,7 +11,7 @@ import { parseMarkdown, type Block, type Inline } from '../src/lib/markdown.ts';
 import { pickExamples } from '../src/lib/learnData.ts';
 import { pageTitle } from '../src/lib/pageMeta.ts';
 import { href, pathOf, type Route } from '../src/lib/router.ts';
-import { ALL_TOPICS, isDrill, LEARN_GROUPS, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
+import { ALL_TOPICS, isDrill, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
 import { renderForm } from '../src/shared/forms.ts';
 import { SITE_URL } from '../src/shared/site.ts';
 import type { ClozeRow, LearnExtras, ReadingIndex, ReadingUnit } from '../src/shared/types.ts';
@@ -105,6 +105,8 @@ const nav = `<nav aria-label="Main"><ul>${(
   .join('')}</ul></nav>`;
 // The same credits as the app's footer: the pages quote CC BY-SA and CC BY material, so they carry the attribution.
 const footer = `<footer><p>${a({ page: 'about' }, 'About & sources')} · Data: <a href="https://en.openrussian.org" rel="noopener">OpenRussian.org</a> (CC BY-SA 4.0) · <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> via kaikki.org (CC BY-SA 4.0) · <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> (CC BY 2.0 FR)</p></footer>`;
+// The progress page shows what's kept in this browser: a page, but nothing to index.
+const PROGRESS_PAGE = { route: { page: 'progress' } as Route, description: 'Your Krotik progress, kept only in this browser.', index: false, body: '<h1>Your progress</h1><p>Progress is kept only in your browser, and only if you turn it on.</p>' };
 const SITE_DESCRIPTION = 'Learn and drill Russian grammar: short explanations with real examples, instant drills, a grammar test and hand-picked culture links. Free, no login.';
 
 const pages: Page[] = [];
@@ -112,12 +114,7 @@ pages.push({
   route: { page: 'home' },
   description: SITE_DESCRIPTION,
   index: true,
-  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p>${TOPIC_GROUPS.map(
-    (g) =>
-      `<h2>${esc(g.title.en)} <span lang="ru">${esc(g.title.ru)}</span></h2><ul>${g.modes
-        .map((t) => `<li>${esc(t.title.en)} <span lang="ru">${esc(t.title.ru)}</span>${learnIds.has(t.id) ? ` · ${a({ page: 'learn', topic: t.id }, 'Learn')}` : ''}${isDrill(t) ? ` · ${a({ page: 'drill', mode: t.id }, 'Drill')}` : ''}</li>`)
-        .join('')}</ul>`,
-  ).join('')}`,
+  body: `<h1>Krotik</h1><p>${esc(SITE_DESCRIPTION)}</p><ul><li>${a({ page: 'learn' }, 'Learn & drill')}: every topic, from the alphabet to participles</li><li>${a({ page: 'test' }, 'Grammar test')}: 60 questions from A1 to C1</li><li>${a({ page: 'reading' }, 'Reading')}: Tolstoy and Chekhov, every word explained</li><li>${a({ page: 'culture' }, 'Culture')}: films, podcasts, books and notes</li></ul>`,
 });
 pages.push({
   route: { page: 'test' },
@@ -129,8 +126,11 @@ pages.push({
   route: { page: 'learn' },
   description: 'Short explanations of Russian grammar with real example sentences and tables of forms: cases, aspect, verbs of motion, participles, word order and more.',
   index: true,
-  body: `<h1>Learn <span lang="ru">учить</span></h1><p>Short explanations with real examples, each ending with a quick check.</p>${LEARN_GROUPS.map(
-    (g) => `<h2>${esc(g.title.en)}</h2><ul>${g.modes.filter((t) => learnIds.has(t.id)).map((t) => `<li>${a({ page: 'learn', topic: t.id }, t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></li>`).join('')}</ul>`,
+  body: `<h1>Learn &amp; drill <span lang="ru">учить</span></h1><p>Every topic, easiest first in each group, with a short explanation and a drill.</p>${TOPIC_GROUPS.map(
+    (g) =>
+      `<h2>${esc(g.title.en)} <span lang="ru">${esc(g.title.ru)}</span></h2><ul>${g.modes
+        .map((t) => `<li>${learnIds.has(t.id) ? a({ page: 'learn', topic: t.id }, t.title.en) : esc(t.title.en)} <span lang="ru">${esc(t.title.ru)}</span>${isDrill(t) ? ` · ${a({ page: 'drill', mode: t.id }, 'Drill')}` : ''}</li>`)
+        .join('')}</ul>`,
   ).join('')}`,
 });
 for (const id of [...learnIds].sort()) {
@@ -224,6 +224,7 @@ for (const n of notes) {
     body: `<p>${a({ page: 'culture' }, 'Culture')} ›</p><h1>${esc(n.title)} <span lang="ru">${esc(n.ru)}</span></h1>${markdown(readFileSync(`content/culture/notes/${n.id}.md`, 'utf8'))}`,
   });
 }
+pages.push(PROGRESS_PAGE);
 pages.push({
   route: { page: 'about' },
   description: 'About Krotik: where the Russian forms and sentences come from (OpenRussian, Wiktionary, Tatoeba), their licences, and what is kept in your browser.',
@@ -263,7 +264,7 @@ for (const p of pages) {
   writeFileSync(file, html(p));
 }
 // GitHub Pages serves 404.html for any other address; the app starts there and shows the Dashboard.
-writeFileSync(join(DIST, '404.html'), html({ route: { page: 'home' }, description: SITE_DESCRIPTION, index: false, body: '<h1>Page not found</h1><p>Krotik will open the Dashboard.</p>' }));
+writeFileSync(join(DIST, '404.html'), html({ route: { page: 'home' }, description: SITE_DESCRIPTION, index: false, body: '<h1>Page not found</h1><p>Krotik will open the home page.</p>' }));
 const indexed = pages.filter((p) => p.index);
 writeFileSync(
   join(DIST, 'sitemap.xml'),
