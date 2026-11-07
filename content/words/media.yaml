@@ -1,0 +1,17 @@
+title: News and media
+ru: Новости и СМИ
+level: B1
+blurb: "Newspapers, TV, the internet and how news is told."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  передача: 10852185
+  слух: 3649823
+  событие: 2061216
+groups:
+  - title: The media
+    words: ["новость = news, piece of news", "газета = newspaper", "журнал = magazine", "телевидение = television", "радио = radio", "передача = programme, broadcast", "канал = channel", "реклама = advertising, advert"]
+  - title: Making news
+    words: ["статья = article", "журналист = journalist", заголовок, "событие = event", "сообщать = report, inform", интервью, "репортаж = report (on TV, radio)"]
+  - title: Taking it in
+    words: [читать, "смотреть = watch", "узнать = find out, learn", "верить = believe", правда, "слух = rumour", мнение, "известный = well-known"]

@@ -1,0 +1,17 @@
+title: Sport and fitness
+ru: Спорт
+level: A2
+blurb: "Playing, training, winning and losing."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  бег: 858874
+  плавание: 2920048
+  счёт: 5539925
+groups:
+  - title: Sports
+    words: [спорт, футбол, хоккей, теннис, "бег = running", "плавание = swimming", "лыжи = skis; skiing", "велосипед = bicycle"]
+  - title: Playing
+    words: ["игра = game", матч, "команда = team", "игрок = player", "тренер = coach", мяч, стадион, "счёт = score"]
+  - title: Doing sport
+    words: ["заниматься = do (sport), go in for", "тренироваться = train", "играть = play", "выиграть = win", "проиграть = lose", "победа = win, victory", "сильный = strong", "быстрый = fast"]

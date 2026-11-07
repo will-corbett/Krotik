@@ -1,0 +1,15 @@
+title: Jobs and careers
+ru: Работа и карьера
+level: B1
+blurb: "Looking for work, interviews, and getting on at work."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  отдел: 8889071
+groups:
+  - title: Finding a job
+    words: [вакансия, "резюме = CV, résumé", "собеседование = interview", "опыт = experience", образование, "должность = post, position", карьера]
+  - title: At work
+    words: ["сотрудник = employee, colleague", "руководитель = manager, head", "отдел = department", "проект = project", "совещание = meeting", "задача = task", "отпуск = holiday, leave", "зарплата = salary, pay"]
+  - title: Doing it
+    words: ["устроиться = get a job (устроиться на работу)", "уволиться = quit, leave a job", "нанять = hire", "уволить = fire, dismiss", "отвечать = be responsible (за); answer", "успевать = manage in time, keep up", "ответственный = responsible", "опытный = experienced"]

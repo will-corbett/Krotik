@@ -1,0 +1,18 @@
+title: Renting and housing
+ru: Жильё
+level: B1
+blurb: "Looking for a flat, renting, moving and neighbours."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  снимать: 5292417
+  снять: 2463644
+  сдавать: 2759471
+  квартира: 4978671
+groups:
+  - title: Where you live
+    words: ["жильё = housing, somewhere to live", "квартира = flat", "район = district, area", "дом = house; block of flats", "общежитие = hostel, hall of residence", "хозяин = landlord; owner", сосед]
+  - title: Renting
+    words: ["снимать = rent (a flat)", "снять = rent (a flat)", "сдавать = rent out, let", "аренда = rent, renting", "договор = contract, agreement", "плата = payment, rent", "залог = deposit", "объявление = advert, notice"]
+  - title: Moving and fixing
+    words: ["переезжать = move (house)", "переехать = move (house)", "ремонт = repairs, redecoration", "чинить = repair, fix", "сломаться = break (down)", мебель, "уютный = cosy", "шумный = noisy"]

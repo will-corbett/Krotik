@@ -1,0 +1,18 @@
+title: Languages and nationalities
+ru: Языки и национальности
+level: A1
+blurb: "Which languages you speak, and where people are from."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  русский:a: 10960833
+  английский:a: 1505608
+  родина: 7489447
+  родной: 584882
+groups:
+  - title: Languages
+    words: ["язык = language; tongue", "слово = word", русский:a, "английский:a = English", французский:a, немецкий:a, испанский, китайский:a]
+  - title: Speaking
+    words: ["говорить = speak, talk", "понимать = understand", "понять = understand", "знать = know", "учить = learn; teach", "переводить = translate", "повторить = repeat", медленно, "громко = loudly"]
+  - title: Where from
+    words: ["страна = country", "родина = homeland", иностранец, иностранный, "родной = native (language); dear", "откуда = where from"]

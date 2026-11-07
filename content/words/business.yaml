@@ -1,0 +1,15 @@
+title: Business and the economy
+ru: Бизнес и экономика
+level: B2
+blurb: "Companies, markets, profit and competition."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  компания: 3862978
+groups:
+  - title: The economy
+    words: ["экономика = economy; economics", рынок, цена, "спрос = demand", кризис, налог, бюджет]
+  - title: Business
+    words: [бизнес, "компания = company", фирма, "предприятие = business, enterprise", "директор = director, manager", "клиент = client, customer", партнёр, конкуренция]
+  - title: Doing business
+    words: ["прибыль = profit", "доход = income", "расход = expense, spending", убыток, "вкладывать = invest", "производить = produce, manufacture", "продажа = sale", "выгодный = profitable, worthwhile"]

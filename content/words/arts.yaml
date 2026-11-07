@@ -1,0 +1,12 @@
+title: Arts and culture
+ru: Искусство и культура
+level: B1
+blurb: "Books, films, music, painting and the theatre."
+names: []
+groups:
+  - title: The arts
+    words: ["искусство = art", культура, литература, "живопись = painting", музыка, "театр = theatre", "кино = cinema", балет]
+  - title: People
+    words: ["писатель = writer", поэт, "художник = artist, painter", "артист = performer, actor", "актёр = actor", "режиссёр = director", композитор, "зритель = viewer; the audience"]
+  - title: Works
+    words: ["роман = novel", "стихи = poems, poetry", "картина = picture, painting", "спектакль = play, performance", песня, "сюжет = plot", "талантливый = talented", "знаменитый = famous"]

@@ -27,8 +27,13 @@
   {#if error}
     <p class="muted">{error}</p>
   {:else if index}
+    <nav class="levels" aria-label="Go to a level">
+      {#each levels as level (level)}
+        <a class="btn level-btn" href="#lvl-{level}">{level}</a>
+      {/each}
+    </nav>
     {#each levels as level (level)}
-      <section aria-labelledby="lvl-{level}">
+      <section class="level" aria-labelledby="lvl-{level}">
         <h2 id="lvl-{level}">{level}</h2>
         <ul class="themes">
           {#each index.themes.filter((t) => t.level === level) as t (t.id)}
@@ -63,6 +68,20 @@
   h2 {
     font-size: 1.2rem;
     margin: 22px 0 8px;
+  }
+  .levels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 0;
+  }
+  .level-btn {
+    min-width: 3.5rem;
+    font-weight: 700;
+  }
+  /* A little room above a level's heading when a button jumps to it. */
+  .level h2 {
+    scroll-margin-top: 16px;
   }
   .themes {
     list-style: none;

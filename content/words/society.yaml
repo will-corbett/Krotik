@@ -1,0 +1,15 @@
+title: Society
+ru: Общество
+level: B2
+blurb: "Generations, communities, and how people live together."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  равенство: 4003072
+groups:
+  - title: Society
+    words: ["общество = society", "население = population", поколение, "гражданин = citizen", традиция, "обычай = custom", "община = community"]
+  - title: Issues
+    words: ["бедность = poverty", безработица, равенство, "свобода = freedom", "безопасность = safety, security", "возможность = opportunity, possibility"]
+  - title: Taking part
+    words: ["участвовать = take part", "помогать = help", волонтёр, "благотворительность = charity", "уважать = respect", "общественный = public, social", социальный]

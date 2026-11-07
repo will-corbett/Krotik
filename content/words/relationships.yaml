@@ -1,0 +1,17 @@
+title: Relationships
+ru: Отношения
+level: B1
+blurb: "Friendship, love, marriage and getting on with people."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  брак: 3346126
+  выйти:v: 2362785
+  близкий: 3497810
+groups:
+  - title: Relationships
+    words: ["отношение = relationship; attitude", "дружба = friendship", любовь, "пара = couple", "брак = marriage", "развод = divorce", "знакомый = acquaintance; familiar", "парень = boyfriend; guy", "девушка = girlfriend; girl"]
+  - title: Getting together
+    words: ["познакомиться = meet, get to know", "встречаться = meet; go out (with)", влюбиться, "жениться = marry (of a man); get married", "выйти:v = go out (выйти замуж: marry, of a woman)", "расстаться = split up, part", "поссориться = quarrel, fall out", "помириться = make up"]
+  - title: Getting on
+    words: ["доверять = trust", "поддерживать = support", ревновать, "обижаться = take offence", "понимать = understand", "верный = faithful, loyal; correct", "близкий = close"]

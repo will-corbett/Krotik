@@ -1,0 +1,17 @@
+title: Mind and behaviour
+ru: Психология
+level: B2
+blurb: "Memory, habits, stress and how we think."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  представить: 12832197
+  рациональный: 12069843
+  тревога: 1239570
+groups:
+  - title: The mind
+    words: [психология, "сознание = consciousness, mind", "память = memory", "мысль = thought", воображение, "внимание = attention", "настроение = mood"]
+  - title: Behaviour
+    words: [привычка, "поведение = behaviour", стресс, "тревога = anxiety", мотивация, "уверенность = confidence", "характер = character"]
+  - title: Thinking
+    words: ["запомнить = remember, memorise", забыть, "сосредоточиться = concentrate", "представить = imagine", "решить = decide; solve", "осознать = realise", рациональный]

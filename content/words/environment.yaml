@@ -1,0 +1,15 @@
+title: The environment
+ru: Окружающая среда
+level: B1
+blurb: "Pollution, recycling and looking after the planet."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  вредный: 5185053
+groups:
+  - title: The planet
+    words: ["природа = nature", планета, "земля = earth, land; the Earth", "воздух = air", вода, климат, "лес = forest", "животное = animal"]
+  - title: Problems
+    words: ["загрязнение = pollution", "мусор = rubbish, litter", "отходы = waste", "пожар = fire", засуха, "наводнение = flood", "опасность = danger"]
+  - title: Doing something
+    words: ["защищать = protect", "беречь = look after, save", "сохранить = keep, preserve", "экономить = save, use less", "выбрасывать = throw away", "переработка = recycling, processing", "чистый = clean", "вредный = harmful"]

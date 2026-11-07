@@ -1,0 +1,12 @@
+title: Law and justice
+ru: Закон и право
+level: B2
+blurb: "Laws, courts, crime and rights."
+names: []
+groups:
+  - title: The law
+    words: ["закон = law", "право = right; law", "правило = rule", "суд = court; trial", "судья = judge", "адвокат = lawyer", полиция, "тюрьма = prison"]
+  - title: Crime
+    words: ["преступление = crime", "преступник = criminal", "кража = theft", "вор = thief", "убийство = murder", "свидетель = witness", "доказательство = evidence, proof"]
+  - title: In court
+    words: ["обвинять = accuse, blame", "нарушать = break (a law, a rule)", "наказать = punish", "наказание = punishment", "штраф = fine", виноватый, невиновный, "законный = legal, lawful"]

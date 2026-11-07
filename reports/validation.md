@@ -52,7 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 78 texts, 161 questions | 1383 KB |
-| themes.json, theme.*.json | 16 themes, 0 dialogues published | 59 KB |
+| themes.json, theme.*.json | 38 themes, 0 dialogues published | 136 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -395,12 +395,16 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | cafe: words with a real sentence in use | 24 |
 | home: words | 26 |
 | home: words with a real sentence in use | 25 |
+| daily-routine: words | 29 |
+| daily-routine: words with a real sentence in use | 22 |
 | time: words | 34 |
 | time: words with a real sentence in use | 31 |
 | shopping: words | 22 |
 | shopping: words with a real sentence in use | 22 |
 | clothes: words | 28 |
 | clothes: words with a real sentence in use | 28 |
+| languages: words | 23 |
+| languages: words with a real sentence in use | 21 |
 | town: words | 30 |
 | town: words with a real sentence in use | 26 |
 | travel: words | 26 |
@@ -413,10 +417,50 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | work: words with a real sentence in use | 23 |
 | free-time: words | 25 |
 | free-time: words with a real sentence in use | 25 |
+| sport: words | 24 |
+| sport: words with a real sentence in use | 23 |
+| holidays: words | 24 |
+| holidays: words with a real sentence in use | 23 |
+| technology: words | 23 |
+| technology: words with a real sentence in use | 23 |
 | nature: words | 27 |
 | nature: words with a real sentence in use | 26 |
 | feelings: words | 25 |
 | feelings: words with a real sentence in use | 25 |
+| relationships: words | 24 |
+| relationships: words with a real sentence in use | 24 |
+| housing: words | 23 |
+| housing: words with a real sentence in use | 22 |
+| career: words | 23 |
+| career: words with a real sentence in use | 23 |
+| money: words | 23 |
+| money: words with a real sentence in use | 22 |
+| education: words | 22 |
+| education: words with a real sentence in use | 22 |
+| media: words | 23 |
+| media: words with a real sentence in use | 23 |
+| arts: words | 24 |
+| arts: words with a real sentence in use | 23 |
+| environment: words | 23 |
+| environment: words with a real sentence in use | 21 |
+| opinions: words | 23 |
+| opinions: words with a real sentence in use | 23 |
+| society: words | 20 |
+| society: words with a real sentence in use | 20 |
+| business: words | 23 |
+| business: words with a real sentence in use | 23 |
+| law: words | 23 |
+| law: words with a real sentence in use | 23 |
+| medicine: words | 23 |
+| medicine: words with a real sentence in use | 22 |
+| science: words | 22 |
+| science: words with a real sentence in use | 22 |
+| mind: words | 21 |
+| mind: words with a real sentence in use | 21 |
+| innovation: words | 23 |
+| innovation: words with a real sentence in use | 19 |
+| climate: words | 20 |
+| climate: words with a real sentence in use | 20 |
 
 greetings: 0 dialogue(s) published, 2 waiting for review.
 
@@ -428,11 +472,15 @@ cafe: 0 dialogue(s) published, 2 waiting for review.
 
 home: 0 dialogue(s) published, 2 waiting for review.
 
+daily-routine: 0 dialogue(s) published, 0 waiting for review.
+
 time: 0 dialogue(s) published, 2 waiting for review.
 
 shopping: 0 dialogue(s) published, 2 waiting for review.
 
 clothes: 0 dialogue(s) published, 2 waiting for review.
+
+languages: 0 dialogue(s) published, 0 waiting for review.
 
 town: 0 dialogue(s) published, 2 waiting for review.
 
@@ -446,9 +494,49 @@ work: 0 dialogue(s) published, 2 waiting for review.
 
 free-time: 0 dialogue(s) published, 2 waiting for review.
 
+sport: 0 dialogue(s) published, 0 waiting for review.
+
+holidays: 0 dialogue(s) published, 0 waiting for review.
+
+technology: 0 dialogue(s) published, 0 waiting for review.
+
 nature: 0 dialogue(s) published, 2 waiting for review.
 
 feelings: 0 dialogue(s) published, 2 waiting for review.
+
+relationships: 0 dialogue(s) published, 0 waiting for review.
+
+housing: 0 dialogue(s) published, 0 waiting for review.
+
+career: 0 dialogue(s) published, 0 waiting for review.
+
+money: 0 dialogue(s) published, 0 waiting for review.
+
+education: 0 dialogue(s) published, 0 waiting for review.
+
+media: 0 dialogue(s) published, 0 waiting for review.
+
+arts: 0 dialogue(s) published, 0 waiting for review.
+
+environment: 0 dialogue(s) published, 0 waiting for review.
+
+opinions: 0 dialogue(s) published, 0 waiting for review.
+
+society: 0 dialogue(s) published, 0 waiting for review.
+
+business: 0 dialogue(s) published, 0 waiting for review.
+
+law: 0 dialogue(s) published, 0 waiting for review.
+
+medicine: 0 dialogue(s) published, 0 waiting for review.
+
+science: 0 dialogue(s) published, 0 waiting for review.
+
+mind: 0 dialogue(s) published, 0 waiting for review.
+
+innovation: 0 dialogue(s) published, 0 waiting for review.
+
+climate: 0 dialogue(s) published, 0 waiting for review.
 
 ## Hand-made lists (curated/)
 

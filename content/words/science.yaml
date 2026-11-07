@@ -1,0 +1,15 @@
+title: Science and research
+ru: Наука
+level: B2
+blurb: "Experiments, discoveries and how science works."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  вывод: 2488853
+groups:
+  - title: Science
+    words: ["наука = science", "учёный = scientist", "исследование = research, study", эксперимент, "опыт = experiment; experience", теория, гипотеза, "открытие = discovery"]
+  - title: Fields
+    words: [физика, химия, биология, математика, медицина, астрономия]
+  - title: Doing research
+    words: ["изучать = study", "исследовать = research, investigate", "доказать = prove", измерить, "вывод = conclusion", "результат = result", "точный = precise, exact", научный]

@@ -1,0 +1,18 @@
+title: Daily routine
+ru: Распорядок дня
+level: A1
+blurb: "Getting up, the working day, and going to bed."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  проснуться: 2590250
+  всегда: 1496125
+groups:
+  - title: Morning
+    words: ["вставать = get up", "встать = get up; stand up", "просыпа'ться = wake up", "проснуться = wake up", умываться, "одеваться = get dressed", "завтракать = have breakfast", будильник]
+  - title: The day
+    words: [работать, "учиться = study", "обедать = have lunch", "отдыхать = rest, relax", "гулять = go for a walk", "домой = (to) home", дома]
+  - title: Evening
+    words: [вечером, "ложиться = lie down; go to bed", "лечь = lie down; go to bed", спать, "душ = shower", зуб, "устать = get tired"]
+  - title: How often
+    words: ["каждый = every, each", "обычно = usually", всегда, иногда, редко, утром, "днём = in the daytime, in the afternoon"]

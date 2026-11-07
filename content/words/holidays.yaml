@@ -1,0 +1,15 @@
+title: Holidays and celebrations
+ru: Праздники
+level: A2
+blurb: "Birthdays, New Year, presents and good wishes."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  день:n: 3813287
+groups:
+  - title: Celebrations
+    words: ["праздник = holiday, celebration", "день:n = day (день рождения: birthday)", "рождение = birth", свадьба, "гость = guest", вечеринка, торт, "ёлка = New Year tree, fir tree"]
+  - title: Presents and wishes
+    words: ["подарок = present", "дарить = give (as a present)", "подарить = give (as a present)", поздравлять, поздравить, "желать = wish", "открытка = card, postcard", "цветок = flower"]
+  - title: Celebrating
+    words: [праздновать, "отмечать = celebrate; mark", "приглашать = invite", "пригласить = invite", танцевать, "петь = sing", "весело = fun, merrily", "счастье = happiness"]

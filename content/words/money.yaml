@@ -1,0 +1,12 @@
+title: Money and banks
+ru: Деньги и банк
+level: B1
+blurb: "Earning, saving, spending and banking."
+names: []
+groups:
+  - title: Money
+    words: ["деньги = money", наличные, "монета = coin", "купюра = banknote", валюта, доллар, евро, "рубль = rouble"]
+  - title: Banking
+    words: ["банк = bank", "счёт = account; bill", "карта = card; map", "кредит = loan, credit", "долг = debt", "процент = per cent; interest", "банкомат = cash machine, ATM"]
+  - title: Spending and saving
+    words: ["зарабатывать = earn", "тратить = spend", "копить = save up", "экономить = save, economise", "одолжить = lend", "вернуть = give back, pay back", "богатый = rich", бедный]

@@ -1,0 +1,15 @@
+title: Medicine and treatment
+ru: Медицина
+level: B2
+blurb: "Diagnosis, treatment, hospitals and recovery."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  палата: 3922540
+groups:
+  - title: In hospital
+    words: [больница, "поликлиника = health centre, clinic", "врач = doctor", медсестра, хирург, пациент, "палата = ward"]
+  - title: Diagnosis
+    words: [диагноз, "анализ = test (blood test)", симптом, "болезнь = illness, disease", "инфекция = infection", вирус, "давление = blood pressure; pressure", аллергия]
+  - title: Treatment
+    words: ["лечение = treatment", операция, "укол = injection", "прививка = vaccination", "рецепт = prescription", "выздороветь = recover, get better", "лечиться = be treated, have treatment", хронический]

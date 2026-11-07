@@ -1,0 +1,16 @@
+title: Technology and innovation
+ru: Технологии
+level: B2
+blurb: "Inventions, artificial intelligence and the digital world."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  развитие: 8427277
+  программа: 12838414
+groups:
+  - title: Technology
+    words: [технология, "изобретение = invention", "устройство = device", "программа = program; programme", робот, "данные = data", "сеть = network", цифровой]
+  - title: Change
+    words: ["развитие = development", прогресс, "будущее = the future", автоматизация, "искусственный = artificial", "интеллект = intelligence (искусственный интеллект: AI)", современный]
+  - title: Using it
+    words: ["изобрести = invent", "разработать = develop, design", "внедрить = introduce, bring in", "заменить = replace", "хранить = store, keep", "защищать = protect", "взломать = hack; break into", "удобный = convenient"]

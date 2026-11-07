@@ -1,0 +1,12 @@
+title: Phones and computers
+ru: Телефон и компьютер
+level: A2
+blurb: "Calling, messaging, and getting online."
+names: []
+groups:
+  - title: Devices
+    words: ["телефон = phone", компьютер, ноутбук, "экран = screen", клавиатура, "зарядка = charger; charging", "батарея = battery"]
+  - title: Online
+    words: ["интернет = the internet", сайт, "сеть = network; social network", "пароль = password", сообщение, "письмо = letter; email", файл, фото]
+  - title: Doing it
+    words: ["звонить = call, ring", "позвонить = call, ring", "писа'ть = write", "отправить = send", "получить = get, receive", "скачать = download", включить, "выключить = turn off"]

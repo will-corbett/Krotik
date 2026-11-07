@@ -1,0 +1,19 @@
+title: Climate and energy
+ru: Климат и энергия
+level: B2
+blurb: "Climate change, energy and resources."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  выброс: 3673679
+  топливо: 7919770
+  устойчивый: 12027609
+  атмосфера: 1835914
+  сокращать: 573655
+groups:
+  - title: Climate
+    words: [климат, "потепление = warming", "температура = temperature", атмосфера, "выброс = emission", углерод, "ледник = glacier"]
+  - title: Energy
+    words: [энергия, "электричество = electricity", "нефть = oil", "газ = gas", "уголь = coal", топливо, "солнечный = solar; sunny"]
+  - title: Resources
+    words: ["ресурс = resource", "источник = source", "запас = reserve, supply", "потреблять = consume", "сокращать = cut, reduce", "устойчивый = sustainable; stable"]

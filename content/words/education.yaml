@@ -1,0 +1,16 @@
+title: School and education
+ru: Образование
+level: B1
+blurb: "School, university, studying and exams."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  окончить: 13260697
+  предмет: 2631435
+groups:
+  - title: Places
+    words: ["школа = school", университет, "институт = institute, college", колледж, "факультет = faculty", "класс = class, year; classroom", "аудитория = lecture room", "библиотека = library"]
+  - title: People
+    words: ["ученик = pupil", студент, "учитель = teacher", "преподаватель = teacher, lecturer", профессор, "выпускник = graduate"]
+  - title: Studying
+    words: ["предмет = subject", "оценка = mark, grade", "экзамен = exam", "сдать = pass (an exam)", "окончить = finish, graduate from", "диплом = degree certificate, diploma", "стипендия = grant, scholarship", лекция]
