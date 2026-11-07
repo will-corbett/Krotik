@@ -10,8 +10,7 @@
         "5173",
         "--strictPort"
       ],
-      "port": 5173,
-      "url": "http://localhost:5173/Krotik/"
+      "port": 5173
     }
   ]
 }

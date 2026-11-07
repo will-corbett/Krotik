@@ -145,7 +145,8 @@ Done in batches, each reviewed before the next.
 4. **Culture and tests (done):** a suggested activity per resource type, more Kazakh and Central Asian links (checked by
    hand); e2e for failed data requests, reload mid-drill and Back/Forward.
 - Prerendering for search engines (done, 2026-11-07): real page addresses, an HTML file per page, sitemap.
-- Built (pilot, 2026-11-07): a "Read and fill in" pilot with connected text from public-domain literature:
-  Tolstoy's children's stories (paragraphs, A2–B1) and Chekhov's one-act comedies (dialogues, B2–C1), modern-spelling
-  texts, every work and translation confirmed public domain, archaic forms flagged in the report and left out.
+- Reading (pilot, 2026-11-07): the owner tried a gap-fill drill on literature and rejected it (it rewards memorising
+  the author's choice, e.g. tense, over what's grammatical). Replaced by a Reading section: 15 Tolstoy stories and both
+  Chekhov comedies scene by scene, every word explained on hover/tap, 2–3 comprehension questions per text in English
+  or Russian. Next: the rest of Tolstoy's book once the pilot is reviewed.
 - Not doing: model-answer writing.

@@ -11,6 +11,8 @@ default, and kept only in your browser.
   (`content/learn/*.md`).
 - **Drill**: the drills below, with retries, example sentences and audio, plus a mixed review of several topics and a
   translate-and-compare drill. The end screen breaks results down by question type or topic.
+- **Reading**: short stories by Tolstoy and comedies by Chekhov (public domain), with every word explained on hover or
+  tap and comprehension questions in English or Russian (`curated/literature.yaml`, `content/reading/questions.yaml`).
 - **Culture**: about 120 hand-picked links to videos, cartoons, films, podcasts, books and tools, each type with a suggested activity, filterable by level, topic and region (`content/culture/links.yaml`),
   and short culture notes (`content/culture/notes/*.md`). `npm run links:check` checks the links (monthly in CI).
 
