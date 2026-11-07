@@ -30,32 +30,36 @@
     B2: 'Upper intermediate',
     C1: 'Advanced',
   };
-  /** What someone at each level can usually do: our summary of the CEFR descriptions. */
+  /**
+   * The grammar learners can usually handle at each level: our own description, based on where Krotik's topics sit
+   * (topics.ts levels). Not the Council of Europe's CEFR descriptors, which are their copyright; only the level names
+   * are shared.
+   */
   const LEVEL_CAN: Record<TestLevel, string[]> = {
     A1: [
-      'Understand and use everyday phrases and very simple sentences for concrete needs.',
-      'Introduce yourself and ask and answer simple questions about where you live, people you know and things you have.',
-      'Get by in a conversation if the other person speaks slowly and clearly and is ready to help.',
+      'Present and past tense verbs, and the infinitive after хочу, могу and люблю.',
+      'Nouns in the nominative, accusative and prepositional (я читаю книгу, в школе), and the personal pronouns.',
+      'Adjectives that agree with their noun, and simple questions with кто, что, где and когда.',
     ],
     A2: [
-      'Understand sentences and common expressions about familiar things: family, shopping, work, the local area.',
-      'Handle simple, routine exchanges of information on familiar topics.',
-      'Describe your background, your surroundings and what you need in simple terms.',
+      'All six cases in the singular, the common plurals, and nouns after numbers (два стола, пять столов).',
+      'Everyday aspect pairs (делать / сделать), the future and the imperative.',
+      'Verbs of motion such as идти / ходить, time expressions, and impersonal phrases like мне надо and мне холодно.',
     ],
     B1: [
-      'Understand the main points of clear, standard Russian on familiar matters at work, school or in free time.',
-      'Deal with most situations likely to come up while travelling where Russian is spoken.',
-      'Write simple connected text on familiar topics, and describe experiences, events, hopes and plans with brief reasons.',
+      'Choosing the aspect from the context, prefixed verbs of motion (прийти, уйти), and verbs that take a particular case.',
+      'Clauses with который, чтобы and если, and the conditional with бы.',
+      'Comparatives, short adjectives, and negation with нет and the ни- words.',
     ],
     B2: [
-      'Understand the main ideas of complex text on concrete and abstract topics, including discussion in your own field.',
-      'Talk with native speakers with a degree of fluency and spontaneity that is comfortable for both sides.',
-      'Write clear, detailed text on a wide range of subjects and explain a point of view, with the pros and cons.',
+      'Participles and verbal adverbs (читающий, прочитанный, прочитав) when you read, and the commoner ones when you write.',
+      'Aspect in the harder cases: imperatives, negation, and single against repeated actions.',
+      'Numbers in every case, word order for emphasis, and reported speech.',
     ],
     C1: [
-      'Understand a wide range of demanding, longer texts and pick up meaning that is only implied.',
-      'Express yourself fluently and spontaneously without much obvious searching for words.',
-      'Use Russian flexibly for social, academic and work purposes, and write well-structured, detailed text on complex subjects.',
+      'Almost all grammar used accurately, including participles and verbal adverbs in your own writing.',
+      'Fine distinctions of aspect, case and word order that change the emphasis or the tone.',
+      'Less common and irregular forms, and the grammar of formal and literary Russian.',
     ],
   };
 
@@ -256,8 +260,8 @@
         <p class="big">{result.level === 'C1' ? 'C1 or above' : result.level}</p>
         <p><strong>{LEVEL_NAME[result.level]}</strong>, approximately: your grammar and word forms are secure up to this level.</p>
         <p>
-          This is your grammar, not a full CEFR level. Learners who are {result.level} overall can usually do the things
-          below; your listening, speaking and writing may be ahead of your grammar or behind it.
+          This is your grammar, not a full CEFR level. At {result.level}, learners can usually handle the grammar below;
+          your listening, speaking and writing may be ahead of your grammar or behind it.
         </p>
         <ul class="can">
           {#each LEVEL_CAN[result.level] as line (line)}<li>{line}</li>{/each}
@@ -281,8 +285,8 @@
         You reach a level when you get at least {PASS} of its {PER_LEVEL} questions right, at least {PASS} in {PER_LEVEL}
         right across it and all the levels below, and no level below it under {FLOOR} of {PER_LEVEL}. So a slip at an
         easier level is made up for by strong results above it, but a real gap isn't. This is a rough guide to grammar,
-        not an official CEFR result; the descriptions are our summary of the Council of Europe's CEFR
-        levels.
+        not an official CEFR result. The level names follow the Council of Europe's CEFR; the descriptions of the grammar
+        at each level are our own.
       </p>
     </div>
 

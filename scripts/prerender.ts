@@ -102,6 +102,8 @@ const nav = `<nav aria-label="Main"><ul>${(
 )
   .map(([r, t]) => `<li>${a(r, t)}</li>`)
   .join('')}</ul></nav>`;
+// The same credits as the app's footer: the pages quote CC BY-SA and CC BY material, so they carry the attribution.
+const footer = `<footer><p>${a({ page: 'about' }, 'About & sources')} · Data: <a href="https://en.openrussian.org" rel="noopener">OpenRussian.org</a> (CC BY-SA 4.0) · <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> via kaikki.org (CC BY-SA 4.0) · <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> (CC BY 2.0 FR)</p></footer>`;
 const SITE_DESCRIPTION = 'Learn and drill Russian grammar: short explanations with real examples, instant drills, a grammar test and hand-picked culture links. Free, no login.';
 
 const pages: Page[] = [];
@@ -214,7 +216,7 @@ function html(p: Page, robots = p.index ? '' : 'noindex'): string {
   const out = template
     .replace(/<title>[^<]*<\/title>/, head)
     .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(p.description)}" />`)
-    .replace('<div id="app"></div>', `<div id="app"><div class="prerendered">${nav}<main id="main">${p.body}</main></div></div>`);
+    .replace('<div id="app"></div>', `<div id="app"><div class="prerendered">${nav}<main id="main">${p.body}</main>${footer}</div></div>`);
   if (out === template) throw new Error('prerender: the template has changed; update scripts/prerender.ts');
   return out;
 }

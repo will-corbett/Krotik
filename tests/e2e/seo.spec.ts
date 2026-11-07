@@ -13,6 +13,8 @@ test('each page is its own HTML file with title, description, canonical address 
   // Real example sentences are in the page itself, with their Tatoeba links.
   const ro = await (await request.get('learn/reportedSpeech/')).text();
   expect(ro).toContain('Tatoeba #3769451');
+  // …and the pages carry the data credits, as the app's footer does.
+  expect(ro).toMatch(/Wiktionary<\/a> via kaikki\.org \(CC BY-SA 4\.0\).*Tatoeba<\/a> \(CC BY 2\.0 FR\)/);
 });
 
 test('drill pages exist but are kept out of search results; the sitemap lists the pages worth finding', async ({ request }) => {

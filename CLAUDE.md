@@ -31,6 +31,11 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   regressions honestly.
 - Licences: OpenRussian/Wiktionary-derived data is CC BY-SA 4.0 (share-alike applies to our shards);
   Tatoeba sentences are CC BY 2.0 FR. Keep the About page and public/data/LICENSE.md accurate.
+- Keep the site commercially usable: only sources whose licence allows commercial use (CC BY / CC BY-SA, public
+  domain, MIT/OFL code and fonts); never copy third-party prose (e.g. the CEFR descriptors are Council of Europe
+  copyright: we use the level names only, with our own descriptions); every page credits the data (the app's footer
+  and the prerendered pages' footer). GitHub Pages' terms don't allow a site run mainly for commercial transactions,
+  so a paid version would move host (change `src/shared/site.ts`).
 
 ## Layout
 - `scripts/` — pipeline (TypeScript, run with tsx). `build-data.ts` orchestrates; `lib/clean-*.ts`
