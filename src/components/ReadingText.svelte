@@ -118,7 +118,16 @@
     </p>
     <p class="hint muted">Hover over or tap a word to see what it means. With a keyboard, Tab into the text and use the arrow keys.</p>
 
-    <div class="text" bind:this={textEl} role="group" aria-label="The text: each word shows its meaning" lang="ru">
+    <!-- Hover is for a real mouse only: touch screens send imitation mouse events that differ between browsers. A tap,
+         a click or keyboard focus shows a word; it closes on Escape, a tap elsewhere, or focus leaving the text. -->
+    <div
+      class="text"
+      bind:this={textEl}
+      role="group"
+      aria-label="The text: each word shows its meaning"
+      lang="ru"
+      onfocusout={(e) => !textEl?.contains(e.relatedTarget as Node | null) && hide()}
+    >
       {#each lines as l, li (li)}
         <p class:stage={l.stage === 1}>
           {#if l.speaker}<strong class="speaker">{l.speaker}.</strong>{' '}{/if}{#each l.pieces as p, pi (pi)}{#if p.word === undefined}{p.text}{:else}{@const wi = p.word}<button
@@ -127,10 +136,9 @@
                 class:on={shown && active === wi}
                 tabindex={active === wi ? 0 : -1}
                 bind:this={buttons[wi]}
-                onmouseenter={(e) => show(e, p.text, wi)}
-                onmouseleave={hide}
+                onpointerenter={(e) => e.pointerType === 'mouse' && show(e, p.text, wi)}
+                onpointerleave={(e) => e.pointerType === 'mouse' && hide()}
                 onfocus={(e) => show(e, p.text, wi)}
-                onblur={hide}
                 onclick={(e) => show(e, p.text, wi)}
                 onkeydown={(e) => move(e, wi)}
                 aria-describedby={shown && active === wi ? 'word-info' : undefined}>{p.text}</button
