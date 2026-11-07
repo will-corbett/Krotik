@@ -233,10 +233,11 @@ test('Culture lists links that open in a new tab, filters them, and opens notes'
 
 test('the Culture page suggests an activity for each kind of resource', async ({ page }) => {
   await page.goto('./#/culture');
-  const groups = page.locator('section.group');
-  const n = await groups.count();
-  expect(n).toBeGreaterThanOrEqual(6);
-  for (let i = 0; i < n; i++) await expect(groups.nth(i).locator('.activity')).toContainText('Try this:');
+  // Links come 20 to a page, so pick each type in turn.
+  for (const type of ['Videos', 'Cartoons', 'Films and series', 'Podcasts', 'Reading and audiobooks', 'Tools and dictionaries']) {
+    await page.getByLabel('Media').selectOption({ label: type });
+    await expect(page.locator('section.group').first().locator('.activity')).toContainText('Try this:');
+  }
 });
 
 test('no embedded players or third-party requests on the Culture page', async ({ page }) => {
@@ -368,4 +369,20 @@ test('Russian beyond Russia: the hub lists every country note; a country note ha
   // Country notes aren't listed separately on the Culture page.
   await page.goto('culture/');
   await expect(page.locator('.notes').getByRole('link', { name: /Russian in Kazakhstan/ })).toHaveCount(0);
+});
+
+test('Culture links come 20 to a page, with Previous/Next and page numbers; a filter starts again at page 1', async ({ page }) => {
+  await page.goto('culture/');
+  await expect(page.locator('li.link')).toHaveCount(20);
+  await expect(page.getByText(/^1–20 of \d+ links/)).toBeVisible();
+  const pager = page.getByRole('navigation', { name: 'Pages of links' });
+  await expect(pager.getByRole('button', { name: '← Previous' })).toBeDisabled();
+  await pager.getByRole('button', { name: 'Next →' }).click();
+  await expect(page.getByText(/^21–40 of \d+ links/)).toBeVisible();
+  await expect(pager.getByRole('button', { name: 'Page 2' })).toHaveAttribute('aria-current', 'page');
+  await pager.getByRole('button', { name: /Page \d+/ }).last().click();
+  await expect(pager.getByRole('button', { name: 'Next →' })).toBeDisabled();
+  await page.getByLabel('From').selectOption('kazakhstan');
+  await expect(page.getByRole('navigation', { name: 'Pages of links' })).toHaveCount(0);
+  await expect(page.locator('li.link').first()).toBeVisible();
 });

@@ -6,8 +6,23 @@
   let filter = $state<CultureFilter>({ level: 'any', kind: 'any', region: 'any', topic: 'any', type: 'any', text: '' });
   const reset = () => (filter = { level: 'any', kind: 'any', region: 'any', topic: 'any', type: 'any', text: '' });
   const filtered = $derived(filter.level !== 'any' || filter.kind !== 'any' || filter.region !== 'any' || filter.topic !== 'any' || filter.type !== 'any' || filter.text.trim() !== '');
-  const shown = $derived(filterLinks(LINKS, filter));
-  const groups = $derived(LINK_TYPES.map((t) => ({ type: t, links: shown.filter((l) => l.type === t) })).filter((g) => g.links.length));
+  // In type order (videos, cartoons, films …), PER_PAGE at a time; a page's links are grouped under their type.
+  const PER_PAGE = 20;
+  const shown = $derived(filterLinks(LINKS, filter).sort((a, b) => LINK_TYPES.indexOf(a.type) - LINK_TYPES.indexOf(b.type)));
+  let pageNo = $state(1);
+  const pages = $derived(Math.max(1, Math.ceil(shown.length / PER_PAGE)));
+  const slice = $derived(shown.slice((pageNo - 1) * PER_PAGE, pageNo * PER_PAGE));
+  const groups = $derived(LINK_TYPES.map((t) => ({ type: t, links: slice.filter((l) => l.type === t) })).filter((g) => g.links.length));
+  // A new filter starts again at page 1.
+  $effect(() => {
+    void JSON.stringify(filter);
+    pageNo = 1;
+  });
+  let countEl = $state<HTMLElement>();
+  function goto(n: number) {
+    pageNo = Math.min(Math.max(1, n), pages);
+    countEl?.scrollIntoView({ block: 'start' });
+  }
 </script>
 
 <section class="culture fade-in" aria-labelledby="culture-h1">
@@ -73,8 +88,8 @@
       </select>
     </label>
   </form>
-  <p class="muted small count" aria-live="polite">
-    {shown.length} of {LINKS.length} links
+  <p class="muted small count" aria-live="polite" bind:this={countEl}>
+    {#if shown.length > PER_PAGE}{(pageNo - 1) * PER_PAGE + 1}–{Math.min(pageNo * PER_PAGE, shown.length)} of {shown.length} links{#if filtered} ({LINKS.length} in all){/if}{:else}{shown.length} of {LINKS.length} links{/if}
     {#if filtered}<button type="button" class="btn quiet small-btn" onclick={reset}>Clear filters</button>{/if}
   </p>
 
@@ -105,6 +120,18 @@
     <p class="muted">No links match. Descriptions are in English, so try an English word (Almaty, chess, cooking) or fewer filters.</p>
   {/each}
 
+  {#if pages > 1}
+    <nav class="pager" aria-label="Pages of links">
+      <button type="button" class="btn small-btn" disabled={pageNo === 1} onclick={() => goto(pageNo - 1)}>← Previous</button>
+      <span class="nums">
+        {#each Array.from({ length: pages }, (_, i) => i + 1) as n (n)}
+          <button type="button" class="btn small-btn num" class:current={n === pageNo} aria-current={n === pageNo ? 'page' : undefined} aria-label="Page {n}" onclick={() => goto(n)}>{n}</button>
+        {/each}
+      </span>
+      <button type="button" class="btn small-btn" disabled={pageNo === pages} onclick={() => goto(pageNo + 1)}>Next →</button>
+    </nav>
+  {/if}
+
   <p class="muted small fine">
     Krotik links to these sites; it doesn't host or embed their content, and isn't connected with them. Links are checked
     monthly. Music is left out on purpose.
@@ -112,6 +139,30 @@
 </section>
 
 <style>
+  .pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0 6px;
+  }
+  .nums {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .num {
+    min-width: 40px;
+  }
+  .num.current {
+    background: var(--primary-bg);
+    color: var(--primary-text);
+    border-color: var(--primary-bg);
+  }
+  .count {
+    scroll-margin-top: 80px;
+  }
   h1 {
     font-family: var(--serif);
     margin: 4px 0 8px;
