@@ -291,7 +291,7 @@
     {:else if route.page === 'learn' && route.topic}
       <LearnPage topic={route.topic} bind:settings />
     {:else if route.page === 'learn'}
-      <LearnIndex />
+      <LearnIndex progressOn={settings.progress} />
     {:else if route.page === 'test'}
       <LevelTest {settings} />
     {:else if route.page === 'reading' && route.text}

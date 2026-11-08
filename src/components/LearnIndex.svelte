@@ -1,10 +1,35 @@
 <script lang="ts">
   import { LEARN_TOPICS } from '../lib/learn.ts';
   import { href } from '../lib/router.ts';
-  import { TOPIC_GROUPS, isDrill } from '../lib/topics.ts';
+  import { TOPIC_GROUPS, isDrill, type Topic } from '../lib/topics.ts';
+  import { loadProgress, summarise, today } from '../lib/progress.ts';
 
-  /** Every topic, by group, easiest first: its level, its Learn page and its drill. The site's topic map. */
+  /**
+   * Every topic, by group, easiest first: its level, its Learn page and its drill. The site's topic map, with filters
+   * (level, group, and with progress on: not practised, practised, needs revision). Filters are page state only.
+   */
+  let { progressOn = false }: { progressOn?: boolean } = $props();
   const level = (l: [string, string]) => (l[0] === l[1] ? l[0] : `${l[0]}–${l[1]}`);
+  const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
+  let lvl = $state('any');
+  let group = $state('any');
+  let status = $state<'any' | 'new' | 'done' | 'revise'>('any');
+  const summary = $derived(progressOn ? summarise(loadProgress(), today()) : null);
+  const practised = $derived(new Set<string>(summary?.all.map((a) => a.mode) ?? []));
+  const revise = $derived(new Set<string>([...(summary?.weak.map((w) => w.mode) ?? []), ...(summary?.due.map((d) => d.mode) ?? [])]));
+  // A topic is "for" a level when that level falls between when it's first met and when it's core.
+  const atLevel = (t: Topic, l: string) => LEVELS.indexOf(t.level[0]) <= LEVELS.indexOf(l) && LEVELS.indexOf(l) <= LEVELS.indexOf(t.level[1]);
+  const keep = (t: Topic) =>
+    (lvl === 'any' || atLevel(t, lvl)) &&
+    (status === 'any' ||
+      (status === 'new' && isDrill(t) && !practised.has(t.id)) ||
+      (status === 'done' && practised.has(t.id)) ||
+      (status === 'revise' && revise.has(t.id)));
+  const groups = $derived(TOPIC_GROUPS.filter((g) => group === 'any' || g.title.en === group).map((g) => ({ ...g, modes: g.modes.filter(keep) })).filter((g) => g.modes.length));
+  const total = TOPIC_GROUPS.reduce((n, g) => n + g.modes.length, 0);
+  const shown = $derived(groups.reduce((n, g) => n + g.modes.length, 0));
+  const filtered = $derived(lvl !== 'any' || group !== 'any' || status !== 'any');
+  const reset = () => ((lvl = 'any'), (group = 'any'), (status = 'any'));
 </script>
 
 <section class="fade-in" aria-labelledby="learn-title">
@@ -14,7 +39,40 @@
     quick check; <strong>Drill</strong> practises it as much as you like. The level is when learners usually meet the
     topic and when it's core.
   </p>
-  {#each TOPIC_GROUPS as g (g.title.en)}
+  <p class="muted small">Not sure where to start? Follow a <a href={href({ page: 'paths' })}>learning path</a> for your level.</p>
+
+  <form class="filters" aria-label="Filter topics" onsubmit={(e) => e.preventDefault()}>
+    <label>
+      Level
+      <select bind:value={lvl}>
+        <option value="any">Any level</option>
+        {#each LEVELS as l (l)}<option value={l}>{l}</option>{/each}
+      </select>
+    </label>
+    <label>
+      Group
+      <select bind:value={group}>
+        <option value="any">All groups</option>
+        {#each TOPIC_GROUPS as g (g.title.en)}<option value={g.title.en}>{g.title.en}</option>{/each}
+      </select>
+    </label>
+    {#if progressOn}
+      <label>
+        Your progress
+        <select bind:value={status}>
+          <option value="any">Any</option>
+          <option value="new">Not practised yet</option>
+          <option value="done">Practised</option>
+          <option value="revise">Needs revision</option>
+        </select>
+      </label>
+    {/if}
+  </form>
+  <p class="muted small count" aria-live="polite">
+    {#if filtered}{shown} of {total} topics <button type="button" class="btn quiet small-btn" onclick={reset}>Clear filters</button>{/if}
+  </p>
+  {#if !groups.length}<p class="muted">No topics match. Try another level or fewer filters.</p>{/if}
+  {#each groups as g (g.title.en)}
     <section class="group" aria-labelledby="g-{g.title.en}">
       <h2 id="g-{g.title.en}">{g.title.en} <span lang="ru" class="ru">{g.title.ru}</span></h2>
       <ul>
@@ -41,6 +99,31 @@
 </section>
 
 <style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 10px 0 0;
+  }
+  .filters label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.9rem;
+  }
+  .filters select {
+    min-width: 9rem;
+  }
+  .count {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 1.5em;
+    margin: 6px 0 0;
+  }
+  .small {
+    font-size: 0.9rem;
+  }
   h1 {
     font-family: var(--serif);
     margin: 0 0 6px;
