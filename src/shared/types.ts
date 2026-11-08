@@ -178,12 +178,22 @@ export interface ReadingUnit {
    */
   keyWords: [string, number, string, string][];
   /** options in the same order in both languages; `answer` is the right one's index */
-  questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion }[];
+  questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion; kind?: ReadingQuestionKind }[];
+  /** a collection's page: the exact revision used, the article's date, the story's own level and year */
+  source?: string;
+  date?: string;
+  level?: [string, string];
+  year?: number;
 }
+/**
+ * What a question asks: what happens (the default), what you can infer that the text doesn't say (`inference`), or
+ * the writer's or a character's attitude and tone (`tone`). B2 and C1 texts have both of the last two.
+ */
+export type ReadingQuestionKind = 'inference' | 'tone';
 /** public/data/reading.json: the works and the published texts. */
 export interface ReadingIndex {
-  works: { id: string; author: string; authorEn: string; title: string; titleEn: string; year: number; kind: 'stories' | 'play'; level: [string, string]; source: string }[];
-  units: { id: string; w: number; title: string; genre: string; words: number; questions: number }[];
+  works: { id: string; author: string; authorEn: string; title: string; titleEn: string; year: number; kind: 'stories' | 'play' | 'pages'; level: [string, string]; site: 'wikisource' | 'wikinews'; source: string }[];
+  units: { id: string; w: number; title: string; genre: string; words: number; questions: number; date?: string; level?: [string, string] }[];
 }
 
 /** A word in a Words-section theme: [word-list key, accented, meaning, word type, aspect or gender, band]. */

@@ -2,7 +2,9 @@
  * Reading: whole stories and scenes of public-domain literature (curated/literature.yaml), with every word explained.
  *
  * - Texts come from Wikisource wikitext at fixed revisions; only the author's text is kept (no notes, no headers).
- *   Stories are split by section (<h2>), plays by scene (=== I ===). The text is never changed.
+ *   Stories are split by section (<h2>), plays by scene (=== I ===); a collection (`pages`) has one text per page
+ *   (a single story, or a Russian Wikinews article without its sources, pictures and categories). The text is never
+ *   changed.
  * - Each word gets its readings: from our data (dictionary form, English meaning, which form it is), else from
  *   Wiktionary (dictionary form and meaning). Words Wiktionary has only as archaic, obsolete or dated are labelled
  *   old-fashioned; the old polite -с (слушаю-с) is explained; names inside a sentence are marked as names.
@@ -14,11 +16,11 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 import { ADJ_CELLS, NOUN_CELLS, VERB_CELLS, type Aspect, type Case } from '../../src/shared/cells.ts';
 import { normalise } from '../../src/shared/normalise.ts';
-import type { ReadingIndex, ReadingLine, ReadingQuestion, ReadingUnit, WordReading } from '../../src/shared/types.ts';
+import type { ReadingIndex, ReadingLine, ReadingQuestion, ReadingQuestionKind, ReadingUnit, WordReading } from '../../src/shared/types.ts';
 import { CASE_TERM, groupTerm, numberGenderTerm } from '../../src/lib/terms.ts';
 import { parseAdjKey } from '../../src/lib/labels.ts';
 import type { Report } from './report.ts';
-import { LITERATURE, LITERATURE_GLOSSES, LITERATURE_NOT_OLD, RAW_DIR, literatureFile, type LiteratureWork } from './sources.ts';
+import { LITERATURE, LITERATURE_GLOSSES, LITERATURE_NOT_OLD, RAW_DIR, literatureFile, literatureSource, type LiteratureWork } from './sources.ts';
 
 const S = 'Reading';
 export const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
@@ -48,6 +50,8 @@ export function plain(s: string): string {
     .replace(/<ref[^>]*\/>/g, '')
     .replace(/<ref[\s\S]*?<\/ref>/g, '')
     .replace(/\[\[(?:[^\]|]*\|)?([^\]]*)\]\]/g, '$1')
+    .replace(/\[https?:\/\/\S+\s+([^\]]*)\]/g, '$1')
+    .replace(/\[https?:\/\/\S+\]/g, '')
     .replace(/'''?/g, '')
     .replace(/<[^>]+>/g, '')
     .replace(/&nbsp;/g, ' ')
@@ -64,14 +68,73 @@ export interface Section {
   /** the story's genre as the book gives it (Быль, Басня …), stories only */
   genre: string;
   lines: ReadingLine[];
+  /** a collection's page: which one (its source, date and level) */
+  page?: number;
+}
+
+/** Remove whole [[Файл:…]] links (their captions can hold links of their own). */
+function stripFiles(s: string): string {
+  let out = s;
+  for (;;) {
+    const i = out.search(/\[\[(?:Файл|File|Изображение|Image):/i);
+    if (i < 0) return out;
+    let depth = 0;
+    let j = i;
+    for (; j < out.length - 1; j++) {
+      if (out[j] === '[' && out[j + 1] === '[') (depth++, j++);
+      else if (out[j] === ']' && out[j + 1] === ']') {
+        depth--;
+        j++;
+        if (depth === 0) break;
+      }
+    }
+    out = out.slice(0, i) + out.slice(j + 1);
+  }
+}
+/** Remove every {{template}}, nested ones included. */
+function stripTemplates(s: string): string {
+  let out = s;
+  for (let i = out.indexOf('{{'); i >= 0; i = out.indexOf('{{')) out = out.slice(0, i) + out.slice(skipTemplate(out, i));
+  return out;
+}
+
+/**
+ * One page's text as paragraphs: a Wikisource story (the text inside its <div>, without notes) or a Wikinews article
+ * (without its date and topic templates, pictures, quote tables, sources and categories).
+ */
+export function parsePage(src: string, site: 'wikisource' | 'wikinews'): ReadingLine[] {
+  let body = stripHeader(src).replace(/\[\[Категория:[^\]]*\]\]/g, '').replace(/__[A-Z]+__/g, '');
+  body = body.split(/^==\s*(?:Примечания|Источники|Ссылки|См\. также)\s*==/m)[0]!;
+  body = stripFiles(body)
+    .replace(/\{\|[\s\S]*?\|\}/g, '')
+    .replace(/^=+[^=\n]*=+\s*$/gm, '')
+    .replace(/<\/?(?:div|center|p)[^>]*>/g, '\n\n');
+  if (site === 'wikinews') {
+    // Templates that hold the article's own words keep them: a quotation as its own paragraph; a foreign name, a
+    // number kept on one line, a Wikipedia link as plain text. Everything else (date, topics, notices) goes.
+    body = body.replace(/\{\{цитата\|([^{}]*)\}\}/gi, '\n\n«$1»\n\n');
+    body = body.replace(/\{\{(?:lang-[a-z]+|nobr)\|([^{}]*)\}\}/gi, '$1').replace(/\{\{w\|(?:[^{}|]*\|)?([^{}|]*)\}\}/gi, '$1');
+    body = stripTemplates(body);
+  }
+  return body
+    .split(/\n\s*\n/)
+    .map(plain)
+    .filter((l) => /[А-ЯЁа-яё]/.test(l) && !/^\*\s*\*\s*\*$/.test(l))
+    .map((text): ReadingLine => ['', text, 0]);
 }
 
 /** The stories or scenes of a work, as plain lines. */
-export function parseWork(w: LiteratureWork, src = readFileSync(join(RAW_DIR, literatureFile(w)), 'utf8')): Section[] {
+export function parseWork(w: LiteratureWork, given?: string): Section[] {
   const work = LITERATURE.indexOf(w);
+  const src = given ?? (w.kind === 'pages' ? '' : readFileSync(join(RAW_DIR, literatureFile(w)), 'utf8'));
   const body = stripHeader(src).replace(/\[\[Категория:[^\]]*\]\]/g, '').replace(/__[A-Z]+__/g, '');
   const out: Section[] = [];
-  if (w.kind === 'stories') {
+  if (w.kind === 'pages') {
+    w.pages!.forEach((pg, i) => {
+      const lines = parsePage(readFileSync(join(RAW_DIR, literatureFile(w, i)), 'utf8'), w.site ?? 'wikisource');
+      if (lines.length) out.push({ work, title: pg.title, genre: '', lines, page: i });
+    });
+  } else if (w.kind === 'stories') {
     for (const part of body.split(/<h2>/).slice(1)) {
       const [head = '', ...rest] = part.split('</h2>');
       const h = plain(head);
@@ -257,6 +320,8 @@ export function explainWord(token: string, name: boolean, lex: Lexicon): WordRea
     if (each.every((r) => r.length && r[0]![3] !== 'n')) return each.map((r) => r[0]!).slice(0, 4);
   }
   const hand = LITERATURE_GLOSSES[fold(token)];
+  // "(name) …": a name (the made-up horse surnames in Лошадиная фамилия), with a note on what it is.
+  if (hand?.startsWith('(name) ')) return [[token, hand.slice(7), '', 'nh']];
   if (hand) return [[token.toLowerCase(), hand.replace(/^\(old\) /, ''), '', hand.startsWith('(old) ') ? 'ho' : 'h']];
   return direct;
 }
@@ -316,7 +381,7 @@ interface QuestionEntry {
   part?: number;
   /** the title shown, where the book's own would be ambiguous */
   title?: string;
-  questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion }[];
+  questions: { answer: number; en: ReadingQuestion; ru: ReadingQuestion; kind?: ReadingQuestionKind }[];
 }
 export const loadQuestions = (): QuestionEntry[] => (parse(readFileSync('content/reading/questions.yaml', 'utf8')) as QuestionEntry[] | null) ?? [];
 const wordCount = (lines: ReadingLine[]) => lines.reduce((k, l) => k + (l[1].match(TOKEN) ?? []).length, 0);
@@ -344,11 +409,14 @@ export function buildReading(lex: Lexicon, report: Report): { index: ReadingInde
     for (const x of q.questions) {
       if (x.en.options.length !== x.ru.options.length || x.answer < 0 || x.answer >= x.en.options.length) throw new Error(`content/reading/questions.yaml: ${q.id}: question options don't match`);
     }
-    units.push({ id: q.id, w: wi, title: q.title ?? s.title, genre: s.genre, lines: s.lines, words, keyWords: keyWords(s.lines, words, lex.commonForm), questions: q.questions });
+    const w = LITERATURE[wi]!;
+    const pg = s.page !== undefined ? w.pages![s.page] : undefined;
+    const extra = pg ? { source: literatureSource(w, s.page), ...(pg.date ? { date: pg.date } : {}), ...(pg.level ? { level: pg.level } : {}), ...(pg.year ? { year: pg.year } : {}) } : {};
+    units.push({ id: q.id, w: wi, title: q.title ?? s.title, genre: s.genre, lines: s.lines, words, keyWords: keyWords(s.lines, words, lex.commonForm), questions: q.questions, ...extra });
   }
   const index: ReadingIndex = {
-    works: LITERATURE.map((w) => ({ id: w.id, author: w.author, authorEn: w.authorEn, title: w.title, titleEn: w.titleEn, year: w.year, kind: w.kind, level: w.level, source: `https://ru.wikisource.org/w/index.php?oldid=${w.revision}` })),
-    units: units.map((u) => ({ id: u.id, w: u.w, title: u.title, genre: u.genre, words: wordCount(u.lines), questions: u.questions.length })),
+    works: LITERATURE.map((w) => ({ id: w.id, author: w.author, authorEn: w.authorEn, title: w.title, titleEn: w.titleEn, year: w.year, kind: w.kind, level: w.level, site: w.site ?? 'wikisource', source: w.pages ? '' : literatureSource(w) })),
+    units: units.map((u) => ({ id: u.id, w: u.w, title: u.title, genre: u.genre, words: wordCount(u.lines), questions: u.questions.length, ...(u.date ? { date: u.date } : {}), ...(u.level ? { level: u.level } : {}) })),
   };
   report.count(S, 'texts published (with questions, every word explained)', units.length);
   report.count(S, 'comprehension questions', units.reduce((n, u) => n + u.questions.length, 0));
