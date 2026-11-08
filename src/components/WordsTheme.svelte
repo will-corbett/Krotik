@@ -4,7 +4,8 @@
   import { today } from '../lib/progress.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
-  import { hasRussianVoice, speak } from '../lib/speech.ts';
+  import { audioIndex, wordRecordingFrom, type Credit } from '../lib/recordings.ts';
+  import Hear from './Hear.svelte';
   import { addWords, loadWords, saveWords } from '../lib/words.ts';
   import { bare, renderForm } from '../shared/forms.ts';
   import type { ThemeData, ThemeIndex, ThemeWord } from '../shared/types.ts';
@@ -26,9 +27,20 @@
   let theme = $state<ThemeData | null>(null);
   let index = $state<ThemeIndex | null>(null);
   let error = $state('');
-  let canSpeak = $state(false);
   let english = $state(false);
-  hasRussianVoice().then((ok) => (canSpeak = ok));
+  /** Who recorded this theme's words (each credited, as their licences ask). */
+  let credits = $state<Credit[]>([]);
+  $effect(() => {
+    const ks = all.map(([k]) => k);
+    audioIndex().then((i) => {
+      const seen = new Map<string, Credit>();
+      for (const k of ks) {
+        const c = wordRecordingFrom(i, k)?.credit;
+        if (c) seen.set(c.name + c.licence, c);
+      }
+      credits = [...seen.values()].sort((a, b) => a.name.localeCompare(b.name));
+    });
+  });
   $effect(() => {
     theme = null;
     error = '';
@@ -119,13 +131,12 @@
                   {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
                   <span class="meaning">{w[2]}</span>
                 </span>
-                {#if canSpeak}
-                  <button type="button" class="btn quiet hear" onclick={() => speak(bare(w[1].split(',')[0]!))} aria-label="Hear {bare(w[1].split(',')[0]!)}"><span aria-hidden="true">🔊</span></button>
-                {/if}
+                <Hear compact text={bare(w[1].split(',')[0]!)} wordKey={w[0]} />
               </div>
               {#if use && isOpen}
                 <div id="ex-{w[0].replace(':', '-')}" class="example">
                   <Sentence row={[use[0], use[1], use[2], 0, use[3], use[4]]} />
+                  <Hear text={use[1]} rid={use[0]} label="Hear the sentence" />
                 </div>
               {/if}
             </li>
@@ -133,6 +144,13 @@
         </ul>
       </section>
     {/each}
+
+    {#if credits.length}
+      <p class="muted small credits">
+        Word recordings: {#each credits as c, i (c.name + c.licence)}{i ? ', ' : ''}<a href={c.url} target="_blank" rel="noopener">{c.name}</a> (<a href={c.licenceUrl} target="_blank" rel="noopener">{c.licence}</a>){/each},
+        from Wikimedia Commons. Other words are read by your device's voice.
+      </p>
+    {/if}
 
     {#if theme.dialogues.length}
       <section class="dialogues" aria-labelledby="dialogues-h">
@@ -285,10 +303,6 @@
   }
   .meaning {
     flex: 1 1 12rem;
-  }
-  .hear {
-    min-height: 32px;
-    padding: 0 8px;
   }
   .d-head {
     display: flex;

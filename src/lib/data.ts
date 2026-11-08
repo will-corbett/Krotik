@@ -2,6 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
+import type { AudioIndex, ListeningData } from '../shared/types.ts';
 import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, ThemeData, ThemeIndex, VerbRow, WordRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb, Word } from './types.ts';
 
@@ -28,6 +29,10 @@ function getJson<T>(file: string): Promise<T> {
 }
 
 export const loadManifest = () => getJson<Manifest>('manifest.json');
+/** The recordings the site hosts (empty lists until the first recordings are fetched). */
+export const loadAudioIndex = () => getJson<AudioIndex>('audio.json');
+/** Listening drills: recorded sentences, "which ending" items, minimal pairs. */
+export const loadListening = () => getJson<ListeningData>('listening.json');
 
 /** Rows of a shard type: every band up to `maxBand`, or exactly the bands listed. */
 async function loadRows<R>(type: ShardType, bands: number | number[]): Promise<{ row: R; band: number }[]> {

@@ -1,5 +1,24 @@
 <script lang="ts">
+  import { audioIndex } from '../lib/recordings.ts';
+
   let { onback }: { onback: () => void } = $props();
+
+  /** Everyone whose recordings the site uses, with how many and under what licence (from audio.json). */
+  let people = $state<{ name: string; licence: string; licenceUrl: string; url: string; source: string; n: number }[]>([]);
+  audioIndex().then((i) => {
+    if (!i) return;
+    const count = new Map<number, number>();
+    for (const [, c] of Object.values(i.words)) count.set(c, (count.get(c) ?? 0) + 1);
+    for (const c of Object.values(i.sentences)) count.set(c, (count.get(c) ?? 0) + 1);
+    const byPerson = new Map<string, { name: string; licence: string; licenceUrl: string; url: string; source: string; n: number }>();
+    i.credits.forEach(([name, licence, url, source, licenceUrl], k) => {
+      const id = `${name}|${licence}|${source}`;
+      const p = byPerson.get(id) ?? { name, licence, licenceUrl, url, source: source === 'tatoeba' ? 'Tatoeba' : 'Wikimedia Commons', n: 0 };
+      p.n += count.get(k) ?? 0;
+      byPerson.set(id, p);
+    });
+    people = [...byPerson.values()].sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+  });
 </script>
 
 <article class="card about fade-in">
@@ -84,6 +103,13 @@
       example sentence is from Tatoeba (above). The themes, the choice of words and the dialogues are ours. The
       dialogues are written for Krotik and each one is checked by a native speaker before it's published.
     </li>
+    <li>
+      Recordings: native speakers' recordings of words from
+      <a href="https://commons.wikimedia.org" rel="noopener">Wikimedia Commons</a> (found through Wiktionary) and of
+      sentences from <a href="https://tatoeba.org" rel="noopener">Tatoeba</a>. Each recording has its own licence; we use
+      only those under CC0, CC BY or CC BY-SA (never ones that forbid commercial use or changes), and credit each person
+      (below, and beside a recording when it plays). The files are served from this site, unchanged except converted to MP3.
+    </li>
     <li>Fonts: PT Serif and PT Sans by ParaType, SIL Open Font License 1.1.</li>
   </ul>
   <p>
@@ -94,9 +120,19 @@
     The Culture page links to other people's channels and sites. Krotik doesn't host, copy or embed their content, isn't
     connected with them, and loads nothing from them until you follow a link.
   </p>
+  {#if people.length}
+    <h2>Who recorded the words and sentences</h2>
+    <ul class="people">
+      {#each people as p (p.name + p.licence + p.source)}
+        <li><a href={p.url} rel="noopener">{p.name}</a>: {p.n} recording{p.n === 1 ? '' : 's'} ({#if p.licenceUrl}<a href={p.licenceUrl} rel="noopener">{p.licence}</a>{:else}{p.licence}{/if}, {p.source})</li>
+      {/each}
+    </ul>
+  {/if}
   <p class="muted">
-    Example sentences are matched to words automatically and conservatively; a mismatch is possible. Speech uses your
-    device's own Russian voice, if it has one.
+    Example sentences are matched to words automatically and conservatively; a mismatch is possible. Where there's no
+    native recording, "Hear it" uses your device's own Russian voice, if it has one. Recording yourself (in the
+    listening drills) uses your microphone only while you record; what you record stays in the page and is never
+    saved or sent.
   </p>
   <button class="btn" onclick={onback}>Back</button>
 </article>
