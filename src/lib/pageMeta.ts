@@ -25,7 +25,7 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
     }
     case 'vocabulary': {
       const theme = route.theme ? textTitle(route.theme) : undefined;
-      return theme ? `${theme}: Russian vocabulary, dialogues and practice | Krotik` : 'Learn Russian vocabulary by theme | Krotik';
+      return theme ? `${theme}: Russian vocabulary with examples and practice | Krotik` : 'Learn Russian vocabulary by theme | Krotik';
     }
     case 'culture': {
       const note = route.note ? noteTitle(route.note) : undefined;

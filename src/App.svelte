@@ -216,6 +216,9 @@
     if (menuOpen && menuEl && !menuEl.contains(e.target as Node)) menuOpen = false;
   }
 
+  const narrow = $derived(
+    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
+  );
   // The main menu is a Menu dropdown at every width: seven pages as a bar wrapped below the logo on narrower screens.
 
   const NAV: { label: string; route: Route }[] = [
@@ -263,7 +266,7 @@
     </nav>
   </header>
 
-  <main id="main">
+  <main id="main" class:narrow>
     {#if route.page === 'home'}
       <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} ongotit={() => (settings.guideSeen = true)} onprogress={setProgress} />
     {:else if route.page === 'start'}
@@ -323,7 +326,7 @@
 
 <style>
   .shell {
-    max-width: 760px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 12px 16px 32px;
     min-height: 100dvh;
@@ -391,6 +394,12 @@
   }
   main {
     flex: 1;
+  }
+  /* Drills, the test, progress and pages of running text keep a compact width; lists and tables use the full frame. */
+  main.narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
   }
   .foot {
     margin-top: 32px;

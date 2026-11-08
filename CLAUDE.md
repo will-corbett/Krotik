@@ -200,6 +200,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   isn't cached, so trying again works; Learn blocks say when their data didn't load; sentences are optional in drills.
   Reloading mid-drill returns to that drill's settings (rounds aren't stored). Back/Forward to a Drill address always
   shows that page (choose or settings), leaving any round in progress.
+- Politics in reading texts (owner's decision, 2026-11-08): historical political material about events before 2014
+  may be included (it needn't be); nothing about politics since then, nothing about the war, and no sanctioned outlets
+  or people. Culture links keep their stricter rule (nothing whose main theme is politics or the war).
 - Reading (`/reading/`, `/reading/<id>/`; `ReadingIndex.svelte`, `ReadingText.svelte`): whole stories and scenes of
   public-domain literature listed in `curated/literature.yaml` (Tolstoy's Second Russian reader; Chekhov's Медведь and
   Предложение), fetched from Russian Wikisource at pinned revisions and never changed. `scripts/lib/literature.ts`

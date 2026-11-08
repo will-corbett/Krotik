@@ -213,9 +213,9 @@ for (const meta of readingIndex.units) {
 const themeIndex = json<ThemeIndex>('themes.json');
 pages.push({
   route: { page: 'vocabulary' },
-  description: 'Learn everyday Russian words by theme: food, family, home, travel, weather and more, with stress, meanings, real example sentences, dialogues and practice.',
+  description: 'Learn Russian vocabulary by theme from A1 to C1: food, family, travel, work, the law, science and more, with stress, meanings, real example sentences and practice.',
   index: true,
-  body: `<h1>Vocabulary <span lang="ru">лексика</span></h1><p>Everyday Russian vocabulary, one theme at a time: words with stress and meaning, real example sentences, short dialogues and practice.</p>${[...new Set(themeIndex.themes.map((t) => t.level))]
+  body: `<h1>Vocabulary <span lang="ru">лексика</span></h1><p>Russian vocabulary, one theme at a time: words with stress and meaning, a real example sentence for each${themeIndex.themes.some((t) => t.dialogues > 0) ? ', short dialogues' : ''} and practice.</p>${[...new Set(themeIndex.themes.map((t) => t.level))]
     .map((lvl) => `<h2>${lvl}</h2><ul>${themeIndex.themes.filter((t) => t.level === lvl).map((t) => `<li>${a({ page: 'vocabulary', theme: t.id }, t.title)} (<span lang="ru">${esc(t.ru)}</span>): ${esc(t.blurb)}</li>`).join('')}</ul>`)
     .join('')}`,
 });

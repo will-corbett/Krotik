@@ -256,13 +256,18 @@
   {:else if result}
     <h1 id="test-h1" bind:this={heading} tabindex="-1">Your grammar level</h1>
     <div class="card verdict">
+      <div class="scope" role="note" aria-label="What this result measures">
+        <p><strong>Grammar only: this is not your overall Russian level.</strong></p>
+        <p>
+          The test checks whether you recognise the right grammatical form among several. Producing forms yourself,
+          reading, listening, speaking, writing and conversation are separate skills, and yours may be well ahead of this
+          result or behind it. A grammar result of {result.level ?? 'A1'} doesn't mean {result.level ?? 'A1'} Russian overall.
+        </p>
+      </div>
       {#if result.level}
         <p class="big">{result.level === 'C1' ? 'C1 or above' : result.level}</p>
         <p><strong>{LEVEL_NAME[result.level]}</strong>, approximately: your grammar and word forms are secure up to this level.</p>
-        <p>
-          This is your grammar, not a full CEFR level. At {result.level}, learners can usually handle the grammar below;
-          your listening, speaking and writing may be ahead of your grammar or behind it.
-        </p>
+        <p>At {result.level}, learners can usually handle the grammar below.</p>
         <ul class="can">
           {#each LEVEL_CAN[result.level] as line (line)}<li>{line}</li>{/each}
         </ul>
@@ -374,6 +379,19 @@
 </section>
 
 <style>
+  .scope {
+    margin: 0 0 14px;
+    padding: 10px 14px;
+    border-left: 4px solid var(--primary-bg);
+    background: var(--surface-2);
+    border-radius: var(--radius);
+  }
+  .scope p {
+    margin: 0 0 4px;
+  }
+  .scope p:last-child {
+    margin: 0;
+  }
   h1 {
     font-family: var(--serif);
     margin: 4px 0 12px;

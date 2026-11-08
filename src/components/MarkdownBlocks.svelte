@@ -67,6 +67,15 @@
   li {
     line-height: 1.6;
   }
+  /* Running text keeps a readable line length on a wide page; tables can use the full width. */
+  p,
+  ul,
+  ol,
+  h2,
+  h3,
+  .tip {
+    max-width: 46rem;
+  }
   .tip {
     margin: 12px 0;
     padding: 10px 14px;

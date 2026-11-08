@@ -174,7 +174,7 @@ Verdict 8/10: strong grammar and engineering; the main gap is coherence (a curri
 listening, production and reading breadth. Owner's decisions: desktop nav = a bar on wide screens only (about
 1000px and up, on the logo's line), dropdown below; host native audio from Mozilla Common Voice (CC0) and Wikimedia
 Commons (CC BY-SA, credited; only files whose licence allows commercial use); reading = more public-domain literature
-and Ru Wikinews (CC BY; no politics or war); no own graded texts for now. Batches, in order:
+and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war); no own graded texts for now. Batches, in order:
 1. Quick fixes and coherence: Vocabulary wording only promises published dialogues; prominent "grammar only, not a
    full CEFR level" note on the test results; wider layout (about 960px; reading stays narrow); export/import of all
    progress; a Report a problem link (GitHub issue or email, prefilled, nothing sent automatically); desktop nav bar on

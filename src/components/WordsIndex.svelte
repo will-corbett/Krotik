@@ -11,14 +11,16 @@
       .then((d) => (index = d))
       .catch(() => (error = 'Couldn’t load the themes. Check your connection and reload the page.'));
   });
+  // Dialogues are published only once a native speaker has checked them: don't promise them before then.
+  const hasDialogues = $derived(!!index?.themes.some((t) => t.dialogues > 0));
   const levels = $derived(index ? [...new Set(index.themes.map((t) => t.level))] : []);
 </script>
 
 <section class="fade-in" aria-labelledby="words-title">
   <h1 id="words-title">Vocabulary <span lang="ru" class="ru">лексика</span></h1>
   <p>
-    Everyday Russian vocabulary, one theme at a time. Each theme has its words with stress and meaning, real example
-    sentences, short dialogues where you can tap any word, and practice rounds.
+    Russian vocabulary, one theme at a time. Each theme has its words with stress and meaning, a real example sentence
+    for each{#if hasDialogues}, short dialogues where you can tap any word{/if} and practice rounds.
   </p>
   <p class="muted small">
     Want the commonest words, whatever the theme? Try the <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a>.

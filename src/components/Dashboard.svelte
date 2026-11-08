@@ -69,7 +69,7 @@
 
     <article class="card tile" aria-labelledby="t-words">
       <h2 id="t-words">Vocabulary <span lang="ru" class="ru">лексика</span></h2>
-      <p class="muted small">Everyday words by theme (food, family, travel…), with examples, dialogues and practice, and a drill of the commonest words.</p>
+      <p class="muted small">Words by theme from A1 to C1 (food, family, travel, work…), with real examples and practice, and a drill of the commonest words.</p>
       <a class="btn" href={href({ page: 'vocabulary' })}>Learn words</a>
     </article>
 

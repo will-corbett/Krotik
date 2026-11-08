@@ -112,7 +112,7 @@ test('practise a theme both ways round, and add all its words', async ({ page })
 
 test('the Vocabulary pages are prerendered and in the sitemap', async ({ request }) => {
   const html = await (await request.get('vocabulary/food/')).text();
-  expect(html).toContain('<title>Food and drink: Russian vocabulary, dialogues and practice | Krotik</title>');
+  expect(html).toContain('<title>Food and drink: Russian vocabulary with examples and practice | Krotik</title>');
   expect(html).toContain('хлеб');
   expect(html).not.toContain('noindex');
   const sitemap = await (await request.get('sitemap.xml')).text();
