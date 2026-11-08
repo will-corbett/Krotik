@@ -32,6 +32,8 @@ Modes are grouped as follows:
 - **Nouns & numbers:** cases, plurals, numbers, ordinals and dates, special case forms, diminutives.
 - **Sentences:** который, чтобы, conditional, negation, indefinite pronouns, particles, prepositions, impersonal constructions, comparisons, conjunctions, time.
 - **Pronunciation:** stress.
+- **Listening:** listen and choose, dictation, hear the ending, minimal pairs (native recordings; record yourself and
+  compare, kept on your device).
 - **Words:** vocabulary (nouns, verbs, adjectives and other words, by frequency; or your words that are due).
 
 ## Run locally
@@ -45,6 +47,11 @@ npm run dev        # http://localhost:5173
 ```
 
 The generated data isn't committed. `npm run data` rebuilds it from the sources, and so does CI.
+
+Native recordings (Wikimedia Commons words, Tatoeba sentences; CC0 / CC BY / CC BY-SA only, credited) are fetched one
+by one into `audio-raw/` by `npm run audio:fetch -- --minutes N`, after a data build; the next `npm run data:build`
+publishes what's cached. Without them, "Hear it" uses the device's voice and the listening drills say the recordings
+are still being collected. In CI, `.github/workflows/audio.yml` fills the cache every six hours and redeploys.
 
 ## Tests
 

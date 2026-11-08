@@ -183,9 +183,12 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
 2. Production (done 2026-11-08; guided writing without model answers until native review): vocabulary gap-fill per theme; build the sentence (self-marked, Russian order is free); translate
    Russian to English; error correction (a real form swapped for another real form of the same word); a typed stage
    of the grammar test (receptive vs productive results); guided writing with a checklist and model answer.
-3. Listening: Common Voice sentences (listen and choose, dictation, endings), Commons word audio (instead of the
-   device voice where available, minimal pairs), record-and-compare kept on the device (no speech recognition: it
-   sends audio to third parties).
+3. Listening (done 2026-11-08; owner's decision: Tatoeba sentence recordings instead of Common Voice, whose download
+   now needs an account and has no translations; Common Voice may come later for advanced no-translation listening):
+   Tatoeba sentence recordings (listen and choose, dictation, hear the ending), Commons word recordings (instead of the
+   device voice where available, minimal pairs), about 4,000 words and 5,700 sentences, fetched gradually by a
+   scheduled workflow; record-and-compare kept on the device (no speech recognition: it sends audio to third
+   parties). Possible later: more word recordings (all 7,700 available), Common Voice.
 4. Reading: more public-domain literature, then Wikinews; inference and tone questions at B2 and C1.
 5. Depth: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
    register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
