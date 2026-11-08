@@ -83,7 +83,7 @@ for (const width of [1280, 1000, 720, 390]) {
     const centre = (b: { y: number; height: number }) => b.y + b.height / 2;
     if (width >= 1000) {
       await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
-      await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Culture']);
+      await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Writing', 'Culture']);
       await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
       // One line, on the logo's line.
       const tops = await nav.getByRole('link').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
@@ -107,7 +107,7 @@ test('the main menu dropdown opens, shows the current page, closes on Escape and
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Writing', 'Culture']);
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(nav.getByRole('link')).toHaveCount(0);

@@ -243,6 +243,7 @@
     { label: 'Drill', route: { page: 'drill' } },
     { label: 'Vocabulary', route: { page: 'vocabulary' } },
     { label: 'Reading', route: { page: 'reading' } },
+    { label: 'Writing', route: { page: 'writing' } },
     { label: 'Culture', route: { page: 'culture' } },
   ];
 </script>

@@ -110,6 +110,7 @@ const nav = `<nav aria-label="Main"><ul>${(
     [{ page: 'drill' }, 'Drill'],
     [{ page: 'vocabulary' }, 'Vocabulary'],
     [{ page: 'reading' }, 'Reading'],
+    [{ page: 'writing' }, 'Writing'],
     [{ page: 'culture' }, 'Culture'],
   ] as [Route, string][]
 )
