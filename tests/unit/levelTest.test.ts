@@ -255,3 +255,13 @@ describe('stage 2: typed answers', async () => {
     expect(scoreTest(items, items.map(() => ({ correct: true, skipped: false }))).level).toBe('C1');
   });
 });
+
+describe('a result below A1', () => {
+  it('has no slips (no level was reached, so none was made up for)', async () => {
+    const { scoreTest } = await import('../../src/lib/levelTest.ts');
+    const items = (['A1', 'A2', 'B1', 'B2', 'C1'] as const).flatMap((level) => Array.from({ length: 12 }, () => ({ level, topic: 'verbs' as const }))) as never;
+    expect(scoreTest(items, [])).toMatchObject({ level: null, slips: [], answered: 0 });
+    const wrong = Array.from({ length: 60 }, () => ({ correct: false, skipped: false }));
+    expect(scoreTest(items, wrong)).toMatchObject({ level: null, slips: [] });
+  });
+});

@@ -264,7 +264,7 @@
         <p>
           The test checks whether you recognise the right grammatical form among several. Producing forms yourself,
           reading, listening, speaking, writing and conversation are separate skills, and yours may be well ahead of this
-          result or behind it. A grammar result of {result.level ?? 'A1'} doesn't mean {result.level ?? 'A1'} Russian overall.
+          result or behind it.{#if result.level}{' '}A grammar result of {result.level} doesn't mean {result.level} Russian overall.{/if}
         </p>
       </div>
       {#if result.level}

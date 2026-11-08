@@ -127,7 +127,8 @@ export function scoreTest(items: TestItem[], responses: Response[]): TestResult 
   let reached = -1;
   for (let at = 0; at < TEST_LEVELS.length; at++) if (reaches(at)) reached = at;
   const level = reached < 0 ? null : TEST_LEVELS[reached]!;
-  const slips = TEST_LEVELS.slice(0, reached).filter((l) => scaled(l) < PASS);
+  // Slips are levels below the one reached; with none reached there are none (slice(0, -1) would be all but C1).
+  const slips = reached < 0 ? [] : TEST_LEVELS.slice(0, reached).filter((l) => scaled(l) < PASS);
   return { byLevel, level, slips, review: [...review.values()], answered };
 }
 

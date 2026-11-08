@@ -323,6 +323,9 @@ test('level test: 60 questions, Next/Back/Submit, I don’t know, early end, exp
   await page.getByRole('button', { name: 'Submit' }).click();
   await expect(page.getByRole('heading', { name: 'Your grammar level' })).toBeVisible();
   await expect(page.getByText('Starting out')).toBeVisible();
+  // Below A1, no level was reached, so nothing was "made up for", and the note doesn't name a level.
+  await expect(page.getByText(/You missed \d+ of the \d+ questions at/)).toHaveCount(0);
+  await expect(page.getByText(/A grammar result of/)).toHaveCount(0);
   await expect(page.getByText('0 right, 60 wrong or “I don\'t know”.')).toBeVisible();
   await expect(page.getByText('The answer is').first()).toBeVisible();
   // The result is still there after visiting a Learn page.
