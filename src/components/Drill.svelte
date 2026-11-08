@@ -16,6 +16,8 @@
   import Paradigm from './Paradigm.svelte';
   import Sentence from './Sentence.svelte';
   import TermText from './TermText.svelte';
+  import ReportLink from './ReportLink.svelte';
+  import { taskText } from '../lib/terms.ts';
 
   let {
     round: initial,
@@ -374,6 +376,7 @@
               Sentence: <a href="https://tatoeba.org/en/sentences/show/{q.source}" rel="noopener" target="_blank">Tatoeba #{q.source}</a>
             </p>
           {/if}
+          <p class="report-line"><ReportLink what="Drill question ({q.label})" details={[`Question: ${taskText(q.task)}: ${q.headword}${q.frame ? ` (${q.frame})` : ''}`, `Answer given as right: ${q.answer}`, ...(q.source ? [`Tatoeba #${q.source}`] : [])]} /></p>
 
           {#if q.paradigm}
             <details class="forms">
@@ -608,6 +611,9 @@
   .choice.correct-choice {
     border-color: var(--correct);
     background: var(--correct-soft);
+  }
+  .report-line {
+    margin: 8px 0 0;
   }
   .src {
     font-size: 0.85rem;

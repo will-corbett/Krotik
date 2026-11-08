@@ -402,3 +402,21 @@ test('Culture links come 20 to a page, with Previous/Next and page numbers; a fi
   await expect(page.getByRole('navigation', { name: 'Pages of links' })).toHaveCount(0);
   await expect(page.locator('li.link').first()).toBeVisible();
 });
+
+test('Report a problem opens a prefilled GitHub issue for the page or item, and sends nothing itself', async ({ page }) => {
+  await page.goto('./learn/nounCases/');
+  const footer = page.getByRole('link', { name: /^Report a problem/ }).last();
+  const url = new URL((await footer.getAttribute('href'))!);
+  expect(url.origin + url.pathname).toBe('https://github.com/will-corbett/Krotik/issues/new');
+  expect(url.searchParams.get('body')).toContain('/Krotik/learn/nounCases/');
+  await expect(footer).toHaveAttribute('target', '_blank');
+  // The footer follows you to other pages.
+  await page.getByRole('link', { name: /Next →/ }).click();
+  expect(new URL((await page.getByRole('link', { name: /^Report a problem/ }).last().getAttribute('href'))!).searchParams.get('body')).not.toContain('nounCases');
+  // A drill answer: the question and the expected answer go in the report.
+  await page.goto('./drill/verbs/?seed=3');
+  await page.getByRole('button', { name: 'Start' }).click();
+  await page.getByRole('button', { name: "I don't know" }).click();
+  const q = new URL((await page.locator('.feedback').getByRole('link', { name: /^Report a problem/ }).getAttribute('href'))!);
+  expect(q.searchParams.get('body')).toMatch(/Question: .*\nAnswer given as right: /);
+});

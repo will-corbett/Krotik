@@ -10,6 +10,7 @@
   import type { ThemeData, ThemeIndex, ThemeWord } from '../shared/types.ts';
   import ExplainedText from './ExplainedText.svelte';
   import Sentence from './Sentence.svelte';
+  import ReportLink from './ReportLink.svelte';
 
   /**
    * One theme of the Vocabulary section: its words (stress, gender or aspect, meaning, Hear it), our dialogues (published
@@ -150,6 +151,8 @@
         <p class="muted small">Dialogues for this theme are written and waiting for a native speaker's check. They'll appear here once checked.</p>
       </section>
     {/if}
+
+    <p class="report-line"><ReportLink what="Vocabulary: {theme.title}" details={['(a word, a meaning, a sentence, a dialogue…)']} /></p>
 
     <nav class="pager" aria-label="Themes">
       {#if near.prev}<a href={href({ page: 'vocabulary', theme: near.prev.id })}><span class="muted small">← Previous</span> {near.prev.title}</a>{:else}<span></span>{/if}
@@ -299,6 +302,9 @@
   }
   .small {
     font-size: 0.88rem;
+  }
+  .report-line {
+    margin: 20px 0 0;
   }
   .pager {
     display: flex;

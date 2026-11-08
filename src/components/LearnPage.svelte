@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ReportLink from './ReportLink.svelte';
   import { loadLearn, parseMarkdown, type Block } from '../lib/learn.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
@@ -54,6 +55,7 @@
           </ul>
         </section>
       {/if}
+      <p class="report-line"><ReportLink what="Learn: {t.title.en}" details={['(an explanation, an example, a table, the quick check…)']} /></p>
       <nav class="pager" aria-label="Lessons">
         {#if near.prev}<a class="prev" href={href({ page: 'learn', topic: near.prev.id })}><span class="muted small">← Previous</span> {near.prev.title.en}</a>{:else}<span></span>{/if}
         {#if near.next}<a class="next" href={href({ page: 'learn', topic: near.next.id })}><span class="muted small">Next →</span> {near.next.title.en}</a>{/if}
@@ -65,6 +67,9 @@
 </article>
 
 <style>
+  .report-line {
+    margin: 20px 0 0;
+  }
   .crumbs {
     margin: 0;
     font-size: 0.9rem;

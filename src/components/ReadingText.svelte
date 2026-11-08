@@ -6,6 +6,7 @@
   import { renderForm } from '../shared/forms.ts';
   import type { ReadingIndex, ReadingUnit } from '../shared/types.ts';
   import ExplainedText from './ExplainedText.svelte';
+  import ReportLink from './ReportLink.svelte';
   import { today } from '../lib/progress.ts';
   import { addWords, loadWords, saveWords } from '../lib/words.ts';
 
@@ -140,6 +141,8 @@
       </section>
     {/if}
 
+    <p class="report-line"><ReportLink what="Reading: {heading}" details={['(a word explained wrongly, a question, the text…)']} /></p>
+
     <nav class="pager" aria-label="Texts">
       {#if near.prev}<a href={href({ page: 'reading', text: near.prev.id })}><span class="muted small">← Previous</span> <span lang="ru">{near.prev.title}</span></a>{:else}<span></span>{/if}
       {#if near.next}<a class="next" href={href({ page: 'reading', text: near.next.id })}><span class="muted small">Next →</span> <span lang="ru">{near.next.title}</span></a>{/if}
@@ -260,6 +263,9 @@
   }
   .score {
     margin: 0;
+  }
+  .report-line {
+    margin: 20px 0 0;
   }
   .pager {
     display: flex;

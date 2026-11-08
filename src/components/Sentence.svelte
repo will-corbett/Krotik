@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { SentenceRow } from '../shared/types.ts';
+  import ReportLink from './ReportLink.svelte';
   let { row }: { row: SentenceRow } = $props();
   const [id, ru, en, , start, end] = $derived(row);
 </script>
@@ -9,6 +10,7 @@
   <figcaption>
     {en}
     <a class="src" href="https://tatoeba.org/en/sentences/show/{id}" rel="noopener" target="_blank">Tatoeba #{id}</a>
+    <span class="rep"><ReportLink what="Example sentence (Tatoeba #{id})" details={[ru, en]} label="Report" /></span>
   </figcaption>
 </figure>
 
@@ -29,6 +31,9 @@
   figcaption {
     color: var(--muted);
     margin-top: 2px;
+  }
+  .rep {
+    margin-left: 6px;
   }
   .src {
     font-size: 0.8rem;

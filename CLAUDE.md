@@ -111,6 +111,11 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   text isn't a real form in the data, or a block doesn't resolve (word in the top 1,000; sentence exists).
   Words not in the drill data go in `content/learn/words.yaml`; the data build checks them against Wiktionary.
 
+- Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
+  GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
+  text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent
+  unless the reader submits it, and nothing about the reader (settings, progress, answers) goes in.
+
 ## Conventions
 - Cell string syntax: variants separated by `,`; `(x)` = optional/archaic variant (accepted, not shown);
   stress = apostrophe after the vowel (`сказа'л`); ё is implicitly stressed.

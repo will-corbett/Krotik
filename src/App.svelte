@@ -26,6 +26,7 @@
   import { pageTitle } from './lib/pageMeta.ts';
   import { NOTES } from './lib/culture.ts';
   import { SITE_BASE } from './shared/site.ts';
+  import { reportUrl } from './lib/report.ts';
   import { isDrill, topicById } from './lib/topics.ts';
   const isDrillId = (id: string) => {
     const t = topicById(id);
@@ -307,6 +308,7 @@
   <footer class="foot">
     <a class="btn quiet" href={href({ page: 'start' })}>Start here</a>
     <a class="btn quiet" href={href({ page: 'about' })}>About &amp; sources</a>
+    <a class="btn quiet" href={reportUrl('this page', [], href(route))} target="_blank" rel="noopener noreferrer external">Report a problem<span class="visually-hidden"> (opens GitHub in a new tab)</span></a>
     <label class="theme">
       Theme
       <select bind:value={settings.theme}>

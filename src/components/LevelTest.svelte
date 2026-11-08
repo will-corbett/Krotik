@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ReportLink from './ReportLink.svelte';
   import { tick } from 'svelte';
   import { renderForm } from '../shared/forms.ts';
   import { loadLevelTest } from '../lib/data.ts';
@@ -359,7 +360,7 @@
               The answer is <strong lang="ru">{r(rightF)}</strong>{#if formOf(it, rightF)}: {formOf(it, rightF)}{/if}.
             </p>
             {#if rule}<p class="rule">{rule}</p>{/if}
-            <p class="small"><a href={href({ page: 'learn', topic: it.topic })}>Learn: {t?.title.en ?? it.topic}</a></p>
+            <p class="small"><a href={href({ page: 'learn', topic: it.topic })}>Learn: {t?.title.en ?? it.topic}</a> · <ReportLink what="Grammar test question ({it.level}, {t?.title.en ?? it.topic})" details={[`Sentence: ${it.c[1]}`, `English: ${it.q.headword}`, `Answer given as right: ${rightF}`, `Options: ${it.q.choices?.join(', ') ?? ''}`]} label="Report this question" /></p>
           </li>
         {/each}
       </ol>
