@@ -112,6 +112,18 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   text isn't a real form in the data, or a block doesn't resolve (word in the top 1,000; sentence exists).
   Words not in the drill data go in `content/learn/words.yaml`; the data build checks them against Wiktionary.
 
+- Learning paths (`/paths/`, `PathsPage.svelte`, `src/lib/paths.ts` logic, `src/lib/pathsData.ts` data,
+  `content/paths.yaml`): for each level A1 to C1, a recommended order of steps (learn a topic, a vocabulary theme, a
+  reading text, a review drill, the test), most with a line on why. A guide, not a gate. You can follow one
+  (`settings.pathLevel`); with progress on, steps are ticked when the topic was drilled or half the theme's words are in
+  your words (reading isn't recorded, so never ticked). `tests/unit/paths.test.ts` checks every step exists, isn't from
+  a later level, and that every Vocabulary theme is on its level's path. Linked from Start here and the Learn page.
+- Home page with progress on: a "Your next steps" card (weak topics, or topics due; words due; the next step on your
+  path, or an invitation to choose one). With progress off it isn't shown.
+- Learn page filters (level, group, and with progress on: not practised, practised, needs revision); page state only.
+- Layout: the frame is 1000px wide (lists, tables, Vocabulary, Culture, Paths); drills, the test, progress and pages of
+  running text (Reading texts, Start here, About, culture notes) keep 760px (`main.narrow` in App), and Learn paragraphs
+  46rem.
 - Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
   GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
   text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent

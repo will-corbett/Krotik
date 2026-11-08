@@ -5,6 +5,8 @@ and your words) is optional, off by default, and kept only in your browser.
 
 - **Home**: your last drill, and cards for Grammar (Learn & drill), Vocabulary, the Grammar test, Reading and (if you turn it on) your progress,
   whose details (weak topics, topics due for revision, a mixed review of them) are on their own page.
+- **Learning paths**: a recommended route for each level from A1 to C1 through grammar, vocabulary, reading and
+  review (`content/paths.yaml`); with progress on, the home page suggests your next step.
 - **Learn & drill**: every topic, easiest first in each group, with its level, Learn page and drill.
 - **Grammar test**: 60 multiple-choice questions from A1 to C1, an approximate grammar level with what it means, every
   wrong answer explained, and the Learn pages worth reviewing.
