@@ -265,7 +265,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   year), fetched from Russian Wikisource at pinned revisions and never changed. Science news from Russian Wikinews
   (CC BY 4.0, `site: wikinews`, credited to Wikinews contributors with a link to the revision; `readingCredit.ts`): only
   articles written by Wikinews contributors (never the bot copies of other outlets, "Загружено ботом"), none copying an
-  outlet word for word, none citing a sanctioned outlet (VGTRK/Vesti, TASS, RIA…), nothing on politics or war. Wikinews
+  outlet word for word, none citing a sanctioned outlet (VGTRK/Vesti, TASS, RIA…), nothing on the war; politics only as history, events
+  before 2014 (the owner's rule above: allowed, not required; the first set happens to be science). Wikinews
   templates holding the article's words (цитата, lang-xx, nobr, w) keep their text; files, tables, sources and
   categories go. Raw files are named by revision. Questions may have `kind: inference` (reading between the lines) or
   `kind: tone` (attitude, irony), labelled in the page; texts aimed at B2+ (lowest level B2 or C1) of 150+ words must

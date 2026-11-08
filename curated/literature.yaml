@@ -6,7 +6,7 @@
 # News: articles from Russian Wikinews (CC BY), at fixed revisions, credited to Wikinews contributors with a link to
 # the revision. Only articles written by Wikinews contributors themselves (never the bot copies of other outlets'
 # articles marked "Загружено ботом"), none copying another outlet's text word for word, none citing a sanctioned outlet,
-# and nothing about politics or war: science, space and nature.
+# nothing on the war, and politics only as history (events before 2014). The first set is science, space and nature.
 #
 # Passages with a word that isn't in our data or Wiktionary, that Wiktionary marks only as archaic, obsolete or
 # dated, or with the old polite -с particle (слушаю-с) or Latin script, are left out and listed in the report.

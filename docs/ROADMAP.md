@@ -190,7 +190,8 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    scheduled workflow; record-and-compare kept on the device (no speech recognition: it sends audio to third
    parties). Possible later: more word recordings (all 7,700 available), Common Voice.
 4. Reading (done 2026-11-08): 8 Chekhov short stories (B1–B2) and 7 Russian Wikinews science articles (CC BY 4.0;
-   contributor-written only, no bot copies of outlets, no sanctioned sources, no politics); inference and tone
+   contributor-written only, no bot copies of outlets, no sanctioned sources; politics only as pre-2014 history, none
+   chosen this time); inference and tone
    questions on every text aimed at B2+ (Chekhov stories, the plays' longer scenes, B2–C1 articles).
 5. Depth: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
    register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
