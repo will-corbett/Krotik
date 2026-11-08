@@ -1,5 +1,5 @@
 import type { Aspect, Case, Gender, VerbGroup } from '../shared/cells.ts';
-import type { ParticipleKind, ParticipleRow, SentenceType, WordPos } from '../shared/types.ts';
+import type { PairType, ParticipleKind, ParticipleRow, SentenceType, WordPos } from '../shared/types.ts';
 import type { TaskPart } from './terms.ts';
 
 export type Mode =
@@ -43,7 +43,11 @@ export type Mode =
   | 'translate'
   | 'vocab'
   | 'build'
-  | 'fix';
+  | 'fix'
+  | 'listen'
+  | 'dictation'
+  | 'endings'
+  | 'pairs';
 
 export interface Verb {
   id: number;
@@ -136,12 +140,33 @@ export interface Question {
   answerLang?: 'en';
   /** Vocabulary "choose the meaning": the options and the answer are English meanings, compared exactly. */
   meaning?: true;
+  /**
+   * Listening: the prompt is a recording, not text: a Tatoeba sentence (`rid`) or a word (`key`). After answering,
+   * the sentence's Russian and English (`text`, `en`) are shown.
+   */
+  listen?: { rid?: number; key?: string; text: string; en?: string };
+  /** Dictation: the answer is a whole sentence, compared ignoring case, stress, ё, spacing and punctuation. */
+  dictation?: true;
+  /** Multiple-choice options in Russian, shown as a list like meanings (listen and choose, minimal pairs). */
+  optionsLang?: 'ru';
   /** Vocabulary: the word asked about (for the opt-in word record, src/lib/words.ts). */
   word?: { key: string; band: number };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
 }
 
+/** Listen and choose: what you heard (the Russian) and/or what it means (the English). */
+export interface ListenSettings {
+  tasks: ('meaning' | 'text')[];
+}
+/** Dictation: short (1–5 words) and/or longer (6–10) recorded sentences. */
+export interface DictationSettings {
+  lengths: ('short' | 'long')[];
+}
+/** Minimal pairs: which contrasts. */
+export interface PairSettings {
+  types: PairType[];
+}
 /** Mixed review: questions from several topics in one round, each with that topic's own settings. */
 export interface MixedSettings {
   topics: Mode[];

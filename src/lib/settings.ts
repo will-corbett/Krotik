@@ -2,6 +2,7 @@
 import type { Case, VerbGroup } from '../shared/cells.ts';
 import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
+import type { DictationSettings, ListenSettings, PairSettings } from './types.ts';
 import type { BuildSettings, FixSettings, MixedSettings, TranslateSettings, VocabSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
@@ -34,6 +35,9 @@ export interface Settings {
   build: BuildSettings;
   fix: FixSettings;
   vocab: VocabSettings;
+  listen: ListenSettings;
+  dictation: DictationSettings;
+  pairs: PairSettings;
   /**
    * Reading: the language of the comprehension questions; Russian unless you choose English. (Stored under a new name:
    * the old `readingLang` was saved as 'en' for everyone, before Russian became the default.)
@@ -115,6 +119,9 @@ export const DEFAULTS: Settings = {
   translate: { lengths: ['short'], direction: 'en-ru' },
   build: { lengths: ['short'] },
   fix: { levels: ['A1', 'A2'] },
+  listen: { tasks: ['meaning', 'text'] },
+  dictation: { lengths: ['short'] },
+  pairs: { types: ['soft', 'yi', 'shsch'] },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
   questionLang: 'ru',
   pathLevel: 'A1',
@@ -172,6 +179,9 @@ export function loadSettings(): Settings {
       build: { ...DEFAULTS.build, ...saved.build },
       fix: { ...DEFAULTS.fix, ...saved.fix },
       vocab: { ...DEFAULTS.vocab, ...saved.vocab },
+      listen: { ...DEFAULTS.listen, ...saved.listen },
+      dictation: { ...DEFAULTS.dictation, ...saved.dictation },
+      pairs: { ...DEFAULTS.pairs, ...saved.pairs },
     };
   } catch {
     return structuredClone(DEFAULTS);

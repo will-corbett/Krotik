@@ -109,6 +109,15 @@ export const TOPIC_GROUPS: TopicGroup[] = [
     ],
   },
   {
+    title: TERMS.listening,
+    modes: [
+      { id: 'listen', title: TERMS.listen, learn: false, blurb: 'Hear a sentence, choose what it was or what it means', level: ['A1', 'B2'], related: [] },
+      { id: 'dictation', title: TERMS.dictation, learn: false, blurb: 'Hear a sentence, write it down', level: ['A1', 'B2'], related: [] },
+      { id: 'endings', title: TERMS.endings, learn: false, blurb: 'книгу or книге? Hear which form it was', level: ['A2', 'B1'], related: [] },
+      { id: 'pairs', title: TERMS.pairs, learn: false, blurb: 'брат / брать, был / бил', level: ['A1', 'A2'], related: [] },
+    ],
+  },
+  {
     title: TERMS.words,
     modes: [{ id: 'vocab', title: TERMS.vocab, learn: false, blurb: 'The commonest words, both ways round', level: ['A1', 'C1'], related: [] }],
   },

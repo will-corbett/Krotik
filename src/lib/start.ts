@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadListening, loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -21,6 +21,7 @@ import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
 import { generateBuildQuestions } from './questions/build.ts';
 import { generateFixQuestions } from './questions/fix.ts';
+import { generateDictationQuestions, generateEndingQuestions, generateListenQuestions, generatePairQuestions } from './questions/listening.ts';
 import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
 import { today } from './progress.ts';
@@ -114,6 +115,19 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
           .filter((q) => !seen.has(q.key) && seen.add(q.key))
           .slice(0, n);
       };
+    }
+    case 'listen':
+    case 'dictation':
+    case 'endings':
+    case 'pairs': {
+      const data = await loadListening();
+      const have = s.mode === 'endings' ? data.endings.length : s.mode === 'pairs' ? data.pairs.length : data.sentences.length;
+      // The recordings are collected a little at a time (scripts/fetch-audio.ts): say so rather than "no questions".
+      if (have < 4) throw new Error('The recordings for this drill are still being collected. Please try again in a few days.');
+      if (s.mode === 'listen') return (n) => generateListenQuestions(data, s.listen, n, rng);
+      if (s.mode === 'dictation') return (n) => generateDictationQuestions(data, s.dictation, n, rng);
+      if (s.mode === 'endings') return (n) => generateEndingQuestions(data, n, rng);
+      return (n) => generatePairQuestions(data, s.pairs, n, rng);
     }
     case 'fix': {
       const data = await loadLevelTest();
@@ -338,6 +352,9 @@ export function settingsValid(s: Settings): string | null {
       if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the commonest words instead, or come back tomorrow.';
     }
   }
+  if (s.mode === 'listen' && !s.listen.tasks.length) return 'Choose at least one question type.';
+  if (s.mode === 'dictation' && !s.dictation.lengths.length) return 'Choose at least one sentence length.';
+  if (s.mode === 'pairs' && !s.pairs.types.length) return 'Choose at least one kind of pair.';
   if (s.mode === 'fix' && !s.fix.levels.length) return 'Choose at least one level.';
   if (s.mode === 'build' && !s.build.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'translate' && !s.translate.lengths.length) return 'Choose at least one sentence length.';

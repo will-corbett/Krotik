@@ -5,13 +5,15 @@
   import { loadProgress, summarise, today } from '../lib/progress.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
-  import type { WordPos } from '../shared/types.ts';
+  import type { PairType, WordPos } from '../shared/types.ts';
+  import { PAIR_LABELS } from '../lib/questions/listening.ts';
   import { settingsValid } from '../lib/start.ts';
   import type { CompareSettings, Mode, MotionSettings, TenseSettings, NegationSettings, ParticleTopicSettings, NumberSettings, ParticipleSettings, PluralSettings } from '../lib/types.ts';
 
   let { settings = $bindable(), loading, error, onstart, onback }: { settings: Settings; loading: boolean; error: string; onstart: () => void; onback: () => void } = $props();
 
   const topic = $derived(topicById(settings.mode));
+  const LISTEN_HINT = 'Native speakers recorded every sentence and word (Tatoeba and Wikimedia Commons); you can play each as often as you like, or slower.';
   /** Topics a mixed review can include: every drill except the Review drills themselves. */
   const VOCAB_TYPES: { id: WordPos; en: string; ru: string }[] = [
     { id: 'n', en: 'Nouns', ru: 'существительные' },
@@ -570,6 +572,48 @@
           can't fit.
         </p>
       </fieldset>
+    {:else if settings.mode === 'listen'}
+      <fieldset>
+        <legend>Question type</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.listen.tasks.includes('text')} onchange={() => (settings.listen.tasks = toggle(settings.listen.tasks, 'text'))} /> What did you hear? (choose the Russian)</label>
+          <label class="chip"><input type="checkbox" checked={settings.listen.tasks.includes('meaning')} onchange={() => (settings.listen.tasks = toggle(settings.listen.tasks, 'meaning'))} /> What does it mean? (choose the English)</label>
+        </div>
+        <p class="hint muted">{LISTEN_HINT}</p>
+      </fieldset>
+    {:else if settings.mode === 'dictation'}
+      <fieldset>
+        <legend>Sentence length</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.dictation.lengths.includes('short')} onchange={() => (settings.dictation.lengths = toggle(settings.dictation.lengths, 'short'))} /> Short (up to 5 words)</label>
+          <label class="chip"><input type="checkbox" checked={settings.dictation.lengths.includes('long')} onchange={() => (settings.dictation.lengths = toggle(settings.dictation.lengths, 'long'))} /> Longer (6–10 words)</label>
+        </div>
+        <p class="hint muted">
+          Write down what you hear. Punctuation, capitals, stress marks and ё don't count. {LISTEN_HINT}
+        </p>
+      </fieldset>
+    {:else if settings.mode === 'endings'}
+      <fieldset>
+        <legend>How it works</legend>
+        <p class="hint muted">
+          You'll hear a sentence and see it with one word missing. Choose the form you heard: only forms that sound
+          different are offered (unstressed <span lang="ru">книге</span> and <span lang="ru">книги</span> sound alike,
+          so they never appear together). {LISTEN_HINT}
+        </p>
+      </fieldset>
+    {:else if settings.mode === 'pairs'}
+      <fieldset>
+        <legend>Which sounds</legend>
+        <div class="chips">
+          {#each Object.entries(PAIR_LABELS) as [t, label] (t)}
+            <label class="chip" lang="en"><input type="checkbox" checked={settings.pairs.types.includes(t as PairType)} onchange={() => (settings.pairs.types = toggle(settings.pairs.types, t as PairType))} /> {label}</label>
+          {/each}
+        </div>
+        <p class="hint muted">
+          You'll hear one word of a pair that differs in a single sound, and choose which it was. Only real words, each
+          recorded by a native speaker. {LISTEN_HINT}
+        </p>
+      </fieldset>
     {:else if settings.mode === 'build'}
       <fieldset>
         <legend>Sentence length</legend>
@@ -647,7 +691,7 @@
       </fieldset>
     {/if}
 
-    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

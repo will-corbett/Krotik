@@ -10,7 +10,10 @@
   import { answer, clearedCount, current, endRound, extendRound, isFinished, RETRY_GAP, type Round } from '../lib/queue.ts';
   import { nextBatch, type Generate } from '../lib/start.ts';
   import type { Settings } from '../lib/settings.ts';
-  import { hasRussianVoice, speak } from '../lib/speech.ts';
+  import { wordDiff } from '../lib/questions/listening.ts';
+  import Hear from './Hear.svelte';
+  import ListenPlayer from './ListenPlayer.svelte';
+  import RecordCompare from './RecordCompare.svelte';
   import type { Question } from '../lib/types.ts';
   import Keyboard from './Keyboard.svelte';
   import Paradigm from './Paradigm.svelte';
@@ -43,7 +46,6 @@
   let selfPending = $state(false);
   let markButton = $state<HTMLButtonElement>();
   let field = $state<HTMLInputElement>();
-  let canSpeak = $state(false);
   let shards = $state<Record<string, SentenceShard>>({});
   let choiceButtons = $state<HTMLButtonElement[]>([]);
   let nextButton = $state<HTMLButtonElement>();
@@ -55,7 +57,6 @@
   const stress = $derived(settings.stress);
   const r = (f: string) => renderForm(f, stress);
 
-  hasRussianVoice().then((ok) => (canSpeak = ok));
 
   // Lazy-load sentence shards after the first question is on screen.
   $effect(() => {
@@ -139,6 +140,13 @@
     if (!q) return;
     typed = value.trim();
     wasRetry = (entry?.attempts ?? 0) > 0;
+    if (q.dictation) {
+      // Dictation: the sentence as recorded, ignoring case, stress marks, ё, spacing and punctuation.
+      result = { correct: sameSentence(value, q.answer, normalise) };
+      phase = 'feedback';
+      focusField();
+      return;
+    }
     if (q.selfMark) {
       // Only an exact match is marked right automatically; otherwise you compare and decide.
       const exact = sameSentence(value, q.answer, normalise);
@@ -252,9 +260,14 @@
 
     <div class="card prompt">
       <p class="task"><TermText parts={q.task} variant="chips" shown={q.frame ?? ''} /></p>
-      <h1 id="prompt-word" class="word" class:translation={!!q.source && !q.selfMark} class:to-translate={q.selfMark} lang={q.headwordIsEnglish ? 'en' : 'ru'}>
-        {q.headwordIsEnglish ? q.headword : r(q.headword)}
-      </h1>
+      {#if q.listen}
+        <h1 id="prompt-word" class="visually-hidden">Listen</h1>
+        {#key q.key}<ListenPlayer where={{ rid: q.listen.rid, key: q.listen.key }} text={q.listen.text} reveal={phase === 'feedback'} />{/key}
+      {:else}
+        <h1 id="prompt-word" class="word" class:translation={!!q.source && !q.selfMark} class:to-translate={q.selfMark} lang={q.headwordIsEnglish ? 'en' : 'ru'}>
+          {q.headwordIsEnglish ? q.headword : r(q.headword)}
+        </h1>
+      {/if}
       {#if q.gloss}<p class="gloss" lang="en">{q.gloss}</p>{/if}
       {#if q.note}<p class="note" lang="ru">{q.note.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))}</p>{/if}
 
@@ -312,7 +325,7 @@
             {#if built.length && phase === 'answering'}<button type="button" class="btn quiet small-btn" onclick={() => (built = [])}>Start again</button>{/if}
           </div>
         {:else if q.choices && q.meaning}
-          <div class="choices meanings" role="group" aria-label="Choose the meaning">
+          <div class="choices meanings" class:ru-options={q.optionsLang === 'ru'} role="group" aria-label={q.optionsLang === 'ru' ? 'Choose what you heard' : 'Choose the meaning'}>
             {#each q.choices as c, i (c)}
               <button
                 type="button"
@@ -320,11 +333,11 @@
                 class:picked={phase === 'feedback' && typed === c}
                 class:correct-choice={phase === 'feedback' && c === q.answer}
                 disabled={phase === 'feedback'}
-                lang="en"
+                lang={q.optionsLang ?? 'en'}
                 onclick={() => grade(c)}
                 bind:this={choiceButtons[i]}
               >
-                <span class="num" aria-hidden="true">{i + 1}</span> {c}
+                <span class="num" aria-hidden="true">{i + 1}</span> {q.optionsLang === 'ru' ? r(c) : c}
               </button>
             {/each}
           </div>
@@ -353,7 +366,7 @@
             {/each}
           </div>
         {:else}
-        <label class="frame" class:sentence-answer={q.selfMark} lang={q.answerLang ?? 'ru'}>
+        <label class="frame" class:sentence-answer={q.selfMark || q.dictation} lang={q.answerLang ?? 'ru'}>
           <span class="visually-hidden" lang="en">Your answer</span>
           {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
           {@render answerInput()}
@@ -400,7 +413,15 @@
           <p class="verdict">
             {#if selfPending}A model translation{:else if result.correct}{q.selfMark && typed ? 'Right' : 'Correct'}{:else if typed}Not quite{:else}Answer{/if}
           </p>
-          {#if q.meaning}
+          {#if q.listen}
+            {#if q.dictation && typed && !result.correct}
+              <p class="solution diff" lang="ru">{#each wordDiff(typed, q.answer, normalise) as w, i (i)}{i ? ' ' : ''}<span class:missed={!w.ok}>{w.word}</span>{/each}</p>
+              <p class="hint muted">Underlined: words you missed or spelt differently.</p>
+            {:else}
+              <p class="solution" lang="ru"><strong>{q.listen.key ? r(q.answer) : q.listen.text}</strong></p>
+            {/if}
+            {#if q.listen.en}<p class="listen-en" lang="en">{q.listen.en}</p>{/if}
+          {:else if q.meaning}
             <p class="solution meaning-solution"><span lang="ru">{r(q.headword)}</span> <span class="muted" aria-hidden="true">=</span><span class="visually-hidden">means</span> <strong lang="en">{q.answer}</strong></p>
           {:else}
             <p class="solution" lang={q.answerLang ?? 'ru'}>
@@ -418,7 +439,7 @@
             {/if}
           {:else if !result.correct && typed}
             <p class="typed">
-              You {q.choices || q.stress ? 'chose' : 'typed'} <span lang={q.meaning ? 'en' : 'ru'}>{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
+              You {q.choices || q.stress ? 'chose' : 'typed'} <span lang={q.optionsLang ?? (q.meaning ? 'en' : 'ru')}>{q.stress ? `the ${ordinal(Number(typed) + 1)} letter` : q.optionsLang === 'ru' ? r(typed) : typed}</span>{#if result.otherForm}, which is the <strong>{result.otherForm}</strong>{/if}.
               {#if !wasRetry}It comes back {round.queue.length > RETRY_GAP ? `in ${RETRY_GAP} cards` : 'at the end of the round'}.{/if}
             </p>
           {:else if !result.correct}
@@ -432,10 +453,10 @@
           {/if}
           {#if q.explain}<p class="explain">{q.explain}</p>{/if}
 
-          {#if canSpeak}
-            <button class="btn" type="button" onclick={() => speak(q.speak(answers[0] ?? ''))}>
-              <span aria-hidden="true">🔊</span> Hear it
-            </button>
+          {#if q.listen}
+            <RecordCompare onplayoriginal={() => document.querySelector<HTMLButtonElement>('.player .play')?.click()} />
+          {:else}
+            <Hear text={q.speak(answers[0] ?? '')} wordKey={q.word?.key} rid={q.mode === 'translate' || q.mode === 'build' ? q.source : undefined} />
           {/if}
 
           {#if sentence}
@@ -749,6 +770,17 @@
     font-size: 1rem;
     text-align: left;
     justify-content: flex-start;
+  }
+  .ru-options .choice {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+  }
+  .diff .missed {
+    text-decoration: underline wavy var(--wrong);
+    text-underline-offset: 4px;
+  }
+  .listen-en {
+    margin: 2px 0 8px;
   }
   .meaning-solution strong {
     font-family: var(--sans);
