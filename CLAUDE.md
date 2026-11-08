@@ -44,7 +44,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   NC/ND/GFDL-only); every recording is credited (author or speaker, else the project Commons credits, with licence
   link) beside it when it plays, on theme pages and on the About page. Files are hosted with the site
   (`public/audio/`, gitignored): no third-party requests. Neither site has a bulk download, so `audio.yml` fetches
-  for 45 minutes every six hours into an Actions cache (`audio-<run>`, older ones deleted) and redeploys when anything
+  for 45 minutes a run, back to back while recordings remain (then daily), into an Actions cache (`audio-<run>`, older ones deleted) and redeploys when anything
   new arrived; `deploy.yml` restores the newest cache. Wanted: every Vocabulary theme word, the commonest 1,000 words
   of each type, minimal-pair words, and every CC BY/CC0 recorded corpus sentence of up to 10 words, most useful first.
 - Licences: OpenRussian/Wiktionary-derived data is CC BY-SA 4.0 (share-alike applies to our shards);

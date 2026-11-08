@@ -126,5 +126,10 @@ const have = (xs: string[]) => xs.filter(existsSync).length;
 const wordsHave = have(wanted.words.map((w) => rawWordPath(w.file)));
 const sentencesHave = have(wanted.sentences.map((s) => rawSentencePath(s.audio)));
 console.log(`fetched ${words} word and ${sentences} sentence recordings; cached ${wordsHave}/${wanted.words.length} words, ${sentencesHave}/${wanted.sentences.length} sentences`);
-// For CI: whether anything new arrived (the audio workflow then saves the cache and redeploys).
-if (process.env.GITHUB_OUTPUT) writeFileSync(process.env.GITHUB_OUTPUT, `fetched=${words + sentences}\n`, { flag: 'a' });
+// Still to fetch: words whose licence isn't known yet or is usable but not cached, and sentences not cached.
+const remaining =
+  wanted.words.filter((w) => commons[w.file] === undefined || (commonsLicenceOk(commons[w.file]?.licence ?? '') && !existsSync(rawWordPath(w.file)))).length +
+  (wanted.sentences.length - sentencesHave);
+console.log(`still to fetch: ${remaining}`);
+// For CI: whether anything new arrived (the workflow then saves the cache and redeploys) and whether to go on.
+if (process.env.GITHUB_OUTPUT) writeFileSync(process.env.GITHUB_OUTPUT, `fetched=${words + sentences}\nremaining=${remaining}\n`, { flag: 'a' });

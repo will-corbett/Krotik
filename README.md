@@ -51,7 +51,7 @@ The generated data isn't committed. `npm run data` rebuilds it from the sources,
 Native recordings (Wikimedia Commons words, Tatoeba sentences; CC0 / CC BY / CC BY-SA only, credited) are fetched one
 by one into `audio-raw/` by `npm run audio:fetch -- --minutes N`, after a data build; the next `npm run data:build`
 publishes what's cached. Without them, "Hear it" uses the device's voice and the listening drills say the recordings
-are still being collected. In CI, `.github/workflows/audio.yml` fills the cache every six hours and redeploys.
+are still being collected. In CI, `.github/workflows/audio.yml` fills the cache in back-to-back runs (then daily) and redeploys after each.
 
 ## Tests
 
