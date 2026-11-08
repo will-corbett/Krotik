@@ -23,6 +23,7 @@ export type Route =
   | { page: 'vocabulary'; theme?: string }
   | { page: 'progress' }
   | { page: 'paths' }
+  | { page: 'settings' }
   | { page: 'culture'; note?: string }
   | { page: 'about' };
 
@@ -44,6 +45,8 @@ function fromParts(parts: string[]): Route {
       return { page: 'progress' };
     case 'paths':
       return { page: 'paths' };
+    case 'settings':
+      return { page: 'settings' };
     case 'culture':
       return parts[1] ? { page: 'culture', note: parts[1] } : { page: 'culture' };
     case 'about':
@@ -84,6 +87,8 @@ export function pathOf(route: Route): string {
       return 'progress/';
     case 'paths':
       return 'paths/';
+    case 'settings':
+      return 'settings/';
     case 'culture':
       return route.note ? `culture/${route.note}/` : 'culture/';
     case 'about':

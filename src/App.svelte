@@ -10,6 +10,7 @@
   import WordsIndex from './components/WordsIndex.svelte';
   import WordsTheme from './components/WordsTheme.svelte';
   import PathsPage from './components/PathsPage.svelte';
+  import SettingsPage from './components/SettingsPage.svelte';
   import About from './components/About.svelte';
   import Dashboard from './components/Dashboard.svelte';
   import LearnIndex from './components/LearnIndex.svelte';
@@ -219,7 +220,7 @@
   }
 
   const narrow = $derived(
-    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
+    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'settings' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
   );
   // Wide screens (1000px and up) show the seven pages as a bar on the logo's line; narrower ones get the Menu dropdown
   // (a bar there would wrap below the logo, out of line with it).
@@ -293,7 +294,7 @@
     {:else if route.page === 'learn'}
       <LearnIndex progressOn={settings.progress} />
     {:else if route.page === 'test'}
-      <LevelTest {settings} />
+      <LevelTest bind:settings />
     {:else if route.page === 'reading' && route.text}
       <ReadingText id={route.text} bind:settings onpractise={practise} />
     {:else if route.page === 'vocabulary' && route.theme}
@@ -302,6 +303,8 @@
       <WordsIndex />
     {:else if route.page === 'paths'}
       <PathsPage bind:settings />
+    {:else if route.page === 'settings'}
+      <SettingsPage bind:settings onprogress={setProgress} />
     {:else if route.page === 'reading'}
       <ReadingIndex />
     {:else if route.page === 'culture' && route.note}
@@ -323,6 +326,7 @@
 
   <footer class="foot">
     <a class="btn quiet" href={href({ page: 'start' })}>Start here</a>
+    <a class="btn quiet" href={href({ page: 'settings' })}>Settings</a>
     <a class="btn quiet" href={href({ page: 'about' })}>About &amp; sources</a>
     <a class="btn quiet" href={reportUrl('this page', [], href(route))} target="_blank" rel="noopener noreferrer external">Report a problem<span class="visually-hidden"> (opens GitHub in a new tab)</span></a>
     <label class="theme">

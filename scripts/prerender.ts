@@ -279,6 +279,7 @@ pages.push({
     .join('')}</ol><h2>Already know some Russian?</h2><p>Take the ${a({ page: 'test' }, 'Grammar test')}, then review the Learn pages it suggests.</p><h2>How drills work</h2><p>Type the answer and press Enter. A wrong answer comes back about ten cards later; the round ends when everything is right. Use the on-screen keyboard or phonetic typing (zh → ж, ch → ч, sh → ш) if you have no Russian keyboard.</p>`,
 });
 pages.push(PROGRESS_PAGE);
+pages.push({ route: { page: 'settings' }, description: 'Krotik settings: your level, display, reading and progress, kept in this browser only.', index: false, body: '<h1>Settings</h1><p>Your level, display and reading settings, and whether Krotik keeps track of your progress. Kept in this browser only.</p>' });
 // ---- Learning paths: each level's route, with every step linked
 const paths = parse(readFileSync('content/paths.yaml', 'utf8')) as Path[];
 const KIND_NAME = { learn: 'Grammar', vocab: 'Vocabulary', read: 'Reading', drill: 'Review', test: 'Test' } as const;

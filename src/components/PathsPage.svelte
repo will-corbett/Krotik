@@ -11,7 +11,7 @@
 
   /**
    * Learning paths: for each level, a recommended order through grammar, vocabulary, reading and review, with why.
-   * You can follow one (the home page then suggests your next step). With progress on, steps Krotik can track are
+   * Your level (A1 unless you choose a higher one, here or in Settings) is the path the home page follows. With progress on, steps Krotik can track are
    * ticked. A guide, not a gate: everything stays open.
    */
   let { settings = $bindable() }: { settings: Settings } = $props();
@@ -51,7 +51,7 @@
     }
     return { title: 'Grammar test', ru: 'тест по грамматике', links: [{ label: 'Take it', href: href({ page: 'test' }) }] };
   }
-  const follow = (l: PathLevel) => (settings.pathLevel = settings.pathLevel === l ? '' : l);
+  const choose = (l: PathLevel) => (settings.pathLevel = l);
 </script>
 
 <section class="fade-in" aria-labelledby="paths-title">
@@ -60,6 +60,11 @@
     Not sure what to study next? Each path is a route through Krotik for one level: grammar topics, vocabulary themes,
     reading and review, in an order that builds up. It's a guide, not a gate: everything stays open, and you can skip
     what you know.
+  </p>
+  <p class="you">
+    Your level is <strong>{settings.pathLevel}</strong>{settings.pathLevel === 'A1' ? ' (where everyone starts)' : ''}: the home page
+    suggests your next step on that path. Already further on? Choose your level below or in
+    <a href={href({ page: 'settings' })}>Settings</a>.
   </p>
   <p class="muted small">
     Not sure of your level? The <a href={href({ page: 'test' })}>Grammar test</a> gives a rough guide.
@@ -75,9 +80,11 @@
     <section class="path" aria-labelledby="path-{p.level}">
       <div class="p-head">
         <h2 id="path-{p.level}">{p.level} <span class="p-title">{p.title}</span></h2>
-        <button class="btn small-btn" class:primary={settings.pathLevel !== p.level} aria-pressed={settings.pathLevel === p.level} onclick={() => follow(p.level)}>
-          {settings.pathLevel === p.level ? 'Following ✓' : 'Follow this path'}
-        </button>
+        {#if settings.pathLevel === p.level}
+          <span class="yours">Your level ✓</span>
+        {:else}
+          <button class="btn small-btn" onclick={() => choose(p.level)}>This is my level</button>
+        {/if}
       </div>
       <p class="intro">{p.intro}</p>
       {#if settings.progress}<p class="muted small">{count} of {p.steps.length} steps done.</p>{/if}
@@ -131,6 +138,13 @@
   .level-btn.following {
     border-color: var(--primary-bg);
     box-shadow: inset 0 0 0 2px var(--primary-bg);
+  }
+  .you {
+    margin: 10px 0 4px;
+  }
+  .yours {
+    font-weight: 700;
+    color: var(--accent);
   }
   .path {
     margin-top: 26px;

@@ -114,12 +114,15 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 
 - Learning paths (`/paths/`, `PathsPage.svelte`, `src/lib/paths.ts` logic, `src/lib/pathsData.ts` data,
   `content/paths.yaml`): for each level A1 to C1, a recommended order of steps (learn a topic, a vocabulary theme, a
-  reading text, a review drill, the test), most with a line on why. A guide, not a gate. You can follow one
-  (`settings.pathLevel`); with progress on, steps are ticked when the topic was drilled or half the theme's words are in
+  reading text, a review drill, the test), most with a line on why. A guide, not a gate. Your level
+  (`settings.pathLevel`) is A1 by default; a learner further on chooses theirs on the Paths page, in Settings, or with
+  "Set my level to …" on a Grammar test result. With progress on, steps are ticked when the topic was drilled or half the theme's words are in
   your words (reading isn't recorded, so never ticked). `tests/unit/paths.test.ts` checks every step exists, isn't from
   a later level, and that every Vocabulary theme is on its level's path. Linked from Start here and the Learn page.
-- Home page with progress on: a "Your next steps" card (weak topics, or topics due; words due; the next step on your
-  path, or an invitation to choose one). With progress off it isn't shown.
+- Settings (`/settings/`, `SettingsPage.svelte`, footer link, noindex): your level, display (stress marks, keyboard,
+  phonetic typing, theme), reading question language, and turning progress on or off. All UI settings in this browser.
+- Home page with progress on: a "Your next steps" card (weak topics, or topics due; words due; the next step on the
+  path for your level). With progress off it isn't shown.
 - Learn page filters (level, group, and with progress on: not practised, practised, needs revision); page state only.
 - Layout: the frame is 1000px wide (lists, tables, Vocabulary, Culture, Paths); drills, the test, progress and pages of
   running text (Reading texts, Start here, About, culture notes) keep 760px (`main.narrow` in App), and Learn paragraphs

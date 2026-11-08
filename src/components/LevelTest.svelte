@@ -14,7 +14,7 @@
    * Nothing here is stored: the test and its result are kept in memory (`session`) so you can visit Learn pages and
    * come back to them, until the tab is closed or reloaded.
    */
-  let { settings }: { settings: Settings } = $props();
+  let { settings = $bindable() }: { settings: Settings } = $props();
 
   type Phase = 'intro' | 'loading' | 'question' | 'results';
   let phase = $state<Phase>(session.finished ? 'results' : session.items.length ? 'question' : 'intro');
@@ -287,6 +287,17 @@
         </p>
       {/each}
       {#if result.answered < items.length}<p class="muted small">Based on the {result.answered} questions you answered.</p>{/if}
+      {#if result.level}
+        {@const lvl = result.level}
+        <div class="set-level" role="status" aria-live="polite">
+          {#if settings.pathLevel === lvl}
+            <p class="small">Your level is set to <strong>{lvl}</strong>: the home page suggests steps from the <a href={href({ page: 'paths' })}>{lvl} learning path</a>. You can change it in <a href={href({ page: 'settings' })}>Settings</a>.</p>
+          {:else}
+            <p class="small">Your level is set to {settings.pathLevel}. Start from the {lvl} learning path instead?</p>
+            <button class="btn" onclick={() => (settings.pathLevel = lvl)}>Set my level to {lvl}</button>
+          {/if}
+        </div>
+      {/if}
       <p class="muted small">
         You reach a level when you get at least {PASS} of its {PER_LEVEL} questions right, at least {PASS} in {PER_LEVEL}
         right across it and all the levels below, and no level below it under {FLOOR} of {PER_LEVEL}. So a slip at an
@@ -380,6 +391,14 @@
 </section>
 
 <style>
+  .set-level {
+    margin: 10px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .set-level p {
+    margin: 0 0 6px;
+  }
   .scope {
     margin: 0 0 14px;
     padding: 10px 14px;

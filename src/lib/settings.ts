@@ -37,8 +37,11 @@ export interface Settings {
    * the old `readingLang` was saved as 'en' for everyone, before Russian became the default.)
    */
   questionLang: 'en' | 'ru';
-  /** The learning path you follow (Paths page), so the home page can suggest your next step; '' = none chosen. */
-  pathLevel: '' | 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
+  /**
+   * Your level: the learning path you follow (A1 unless you say you're further on, in Settings or on the Paths page),
+   * so the home page can suggest your next step.
+   */
+  pathLevel: 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -110,7 +113,7 @@ export const DEFAULTS: Settings = {
   translate: { lengths: ['short'] },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
   questionLang: 'ru',
-  pathLevel: '',
+  pathLevel: 'A1',
 };
 
 const KEY = 'krotik.settings.v1';
@@ -128,6 +131,8 @@ export function loadSettings(): Settings {
     if (old.hideStart === true) saved.guideSeen = true;
     delete old.hideStart;
     delete old.readingLang;
+    // "No path chosen" is gone: everyone starts on A1.
+    if (!['A1', 'A2', 'B1', 'B2', 'C1'].includes(old.pathLevel as string)) delete old.pathLevel;
     return {
       ...structuredClone(DEFAULTS),
       ...saved,

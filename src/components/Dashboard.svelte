@@ -41,9 +41,9 @@
   // With progress on, "Your next steps": weak or due topics, words due, and the next step on the path you follow.
   let themes = $state<ThemeIndex | null>(null);
   $effect(() => {
-    if (settings.progress && settings.pathLevel) loadThemeIndex().then((t) => (themes = t)).catch(() => {});
+    if (settings.progress) loadThemeIndex().then((t) => (themes = t)).catch(() => {});
   });
-  const path = $derived(settings.pathLevel ? pathFor(settings.pathLevel) : undefined);
+  const path = $derived(pathFor(settings.pathLevel));
   const next = $derived.by((): PathStep | undefined => {
     if (!settings.progress || !path || !themes) return undefined;
     const rec = loadProgress();
@@ -127,9 +127,7 @@
             <a class="btn small-btn" href={l.href}>Go</a>
           </li>
         {:else if path && themes}
-          <li><span>You've done every step Krotik can track on the {path.level} path. Ready for the next level?</span><a class="btn small-btn" href={href({ page: 'paths' })}>Paths</a></li>
-        {:else if !path}
-          <li><span>Not sure what to study next? Follow a learning path for your level.</span><a class="btn small-btn" href={href({ page: 'paths' })}>Choose a path</a></li>
+          <li><span>You've done every step Krotik can track on the {path.level} path. Ready for the next level?</span><a class="btn small-btn" href={href({ page: 'settings' })}>Change your level</a></li>
         {/if}
       </ul>
     </section>
