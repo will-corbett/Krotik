@@ -39,6 +39,9 @@ export const SOURCES = [
   { file: 'rus_sentences.tsv.bz2', url: `${TATOEBA}/rus/rus_sentences.tsv.bz2` },
   { file: 'eng_sentences.tsv.bz2', url: `${TATOEBA}/eng/eng_sentences.tsv.bz2` },
   { file: 'rus-eng_links.tsv.bz2', url: `${TATOEBA}/rus/rus-eng_links.tsv.bz2` },
+  // Which Tatoeba sentences have a recording, by whom and under what licence (each recording has its own; we use
+  // only CC BY and CC0 ones). The recordings themselves are fetched by `npm run audio:fetch`.
+  { file: 'sentences_with_audio.tar.bz2', url: 'https://downloads.tatoeba.org/exports/sentences_with_audio.tar.bz2' },
   // Wiktionary via kaikki.org (CC BY-SA 4.0 / GFDL, as Wiktionary): participles, verbal adverbs,
   // numerals, diminutives, noun gender. 91 MB gzipped (~950 MB uncompressed), streamed.
   { file: 'kaikki-russian.jsonl.gz', url: 'https://kaikki.org/dictionary/Russian/kaikki.org-dictionary-Russian.jsonl.gz' },

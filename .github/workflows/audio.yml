@@ -1,0 +1,81 @@
+# Collect native recordings (Wikimedia Commons words, Tatoeba sentences) into a cache, a little at a time.
+# Neither site has a bulk download and both ask for one request at a time, so all of them take hours to fetch: each
+# run fetches for up to 45 minutes, saves the cache, and redeploys the site if anything new arrived (deploy.yml
+# restores the newest cache). Once everything is cached, a run fetches nothing and stops there.
+name: Collect recordings
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      minutes:
+        description: 'Minutes to spend fetching'
+        default: '45'
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: audio
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Month for the source cache
+        id: month
+        run: echo "month=$(date -u +%Y-%m)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v6
+        with:
+          path: data-raw
+          key: data-raw-${{ steps.month.outputs.month }}-${{ hashFiles('scripts/lib/sources.ts') }}
+
+      - uses: actions/cache/restore@v6
+        with:
+          path: audio-raw
+          key: audio-latest
+          restore-keys: audio-
+
+      # The data build lists the recordings we'd like (audio-raw/wanted.json), most useful first.
+      - name: Build data
+        run: npm run data
+
+      - name: Fetch recordings
+        id: fetch
+        run: npm run audio:fetch -- --minutes ${{ inputs.minutes || '45' }}
+
+      - name: Save the cache
+        if: steps.fetch.outputs.fetched != '0'
+        uses: actions/cache/save@v6
+        with:
+          path: audio-raw
+          key: audio-${{ github.run_id }}
+
+      # Keep only the newest recordings cache (each is the whole set), so old ones don't fill the 10 GB allowance.
+      - name: Delete older recording caches
+        if: steps.fetch.outputs.fetched != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh cache list --repo "$GITHUB_REPOSITORY" --key audio- --limit 100 --json id,key \
+            | jq -r '.[] | select(.key != "audio-${{ github.run_id }}") | .id' \
+            | xargs -r -n1 gh cache delete --repo "$GITHUB_REPOSITORY"
+
+      - name: Redeploy with the new recordings
+        if: steps.fetch.outputs.fetched != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref main

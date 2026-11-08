@@ -86,6 +86,11 @@ export interface WkExtract {
    * headword), 1 if old]. A modern reading is kept in preference to an old one.
    */
   checkedInfo: Record<string, [string, string, string, 0 | 1]>;
+  /**
+   * Recordings on Wikimedia Commons, by headword: [dictionary form (stress marked), file name, MP3 address]. A file
+   * that Wiktionary gives for words with different stress or spelling (за'мок / замо'к, the letter names) is left out.
+   */
+  audio: Record<string, [string, string, string][]>;
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -102,11 +107,11 @@ interface RawEntry {
   senses?: { glosses?: string[]; form_of?: { word: string }[]; tags?: string[] }[];
   head_templates?: { expansion?: string }[];
   etymology_text?: string;
-  sounds?: { ipa?: string; tags?: string[]; note?: string }[];
+  sounds?: { ipa?: string; tags?: string[]; note?: string; audio?: string; mp3_url?: string }[];
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 5;
+const EXTRACT_VERSION = 6;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
 /** Tags that mark a word or form as not modern Russian. */
 const OLD_TAGS = new Set(['archaic', 'obsolete', 'dated']);
@@ -164,7 +169,9 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {} };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {} };
+  // Commons file → the words (dictionary form) Wiktionary gives it for, and its MP3 address.
+  const audioWords = new Map<string, { words: Set<string>; heads: Set<string>; mp3: string }>();
   const attested = new Set<string>();
   const checkModern = new Set<string>();
   const checkOld = new Set<string>();
@@ -207,6 +214,15 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         const old = entryOld || tags.some((t) => OLD_TAGS.has(t));
         (old ? checkOld : checkModern).add(ff);
         note(ff, old, tags.filter((t) => !OLD_TAGS.has(t)).join(' '));
+      }
+    }
+    if (e.pos !== 'name' && /^[а-яё-]+$/.test(word)) {
+      for (const x of e.sounds ?? []) {
+        if (!x.audio || !x.mp3_url) continue;
+        const a = audioWords.get(x.audio) ?? { words: new Set<string>(), heads: new Set<string>(), mp3: x.mp3_url };
+        a.words.add(canonical(e));
+        a.heads.add(word);
+        audioWords.set(x.audio, a);
       }
     }
     // The standard pronunciation is the IPA with no regional tag or note; the headword's first entry wins.
@@ -271,6 +287,10 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
   out.attested = [...attested].sort();
   out.checkedModern = [...checkModern].sort();
   out.checkedOld = [...checkOld].filter((w) => !checkModern.has(w)).sort();
+  for (const [file, a] of [...audioWords].sort(([x], [y]) => (x < y ? -1 : x > y ? 1 : 0))) {
+    if (a.words.size !== 1 || a.heads.size !== 1) continue;
+    (out.audio[[...a.heads][0]!] ??= []).push([[...a.words][0]!, file, a.mp3]);
+  }
   writeFileSync(EXTRACT, JSON.stringify(out));
   return out;
 }

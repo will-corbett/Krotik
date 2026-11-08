@@ -45,6 +45,14 @@ jobs:
           path: data-raw
           key: data-raw-${{ steps.month.outputs.month }}-${{ hashFiles('scripts/lib/sources.ts') }}
 
+      # Native recordings (scripts/lib/audio.ts), collected a little at a time by the audio workflow (audio.yml):
+      # restore its newest cache, so the build publishes every recording fetched so far. Never saved from here.
+      - uses: actions/cache/restore@v6
+        with:
+          path: audio-raw
+          key: audio-latest
+          restore-keys: audio-
+
       - name: Build data (fetch sources, clean, validate, shard)
         run: npm run data
 

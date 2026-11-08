@@ -7,3 +7,7 @@ playwright-report/
 *.log
 # Generated data: built by `npm run data` (locally) and by CI before tests and deploy.
 public/data/*.json
+
+# Native recordings: fetched a little at a time by `npm run audio:fetch` (cache), copied into public/audio by the data build.
+audio-raw/
+public/audio/
