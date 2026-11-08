@@ -168,3 +168,26 @@ Done in batches, each reviewed before the next.
   лёгкий), so they land in the "Everything" band in every drill, not just Vocabulary. Re-ranking those from the
   frequency list would change every drill's "Top N"; not done yet.
 - Not doing: model-answer writing.
+
+## External critique (2026-11-08): plan agreed with the owner
+Verdict 8/10: strong grammar and engineering; the main gap is coherence (a curriculum, not just a topic map), then
+listening, production and reading breadth. Owner's decisions: desktop nav = a bar on wide screens only (about
+1000px and up, on the logo's line), dropdown below; host native audio from Mozilla Common Voice (CC0) and Wikimedia
+Commons (CC BY-SA, credited; only files whose licence allows commercial use); reading = more public-domain literature
+and Ru Wikinews (CC BY; no politics or war); no own graded texts for now. Batches, in order:
+1. Quick fixes and coherence: Vocabulary wording only promises published dialogues; prominent "grammar only, not a
+   full CEFR level" note on the test results; wider layout (about 960px; reading stays narrow); export/import of all
+   progress; a Report a problem link (GitHub issue or email, prefilled, nothing sent automatically); desktop nav bar on
+   wide screens; learning paths A1 to C1 (Learn topics, Vocabulary themes and Reading in a recommended order); a
+   personalised home page when progress is on; Learn index filters (level, group, studied, needs revision).
+2. Production: vocabulary gap-fill per theme; build the sentence (self-marked, Russian order is free); translate
+   Russian to English; error correction (a real form swapped for another real form of the same word); a typed stage
+   of the grammar test (receptive vs productive results); guided writing with a checklist and model answer.
+3. Listening: Common Voice sentences (listen and choose, dictation, endings), Commons word audio (instead of the
+   device voice where available, minimal pairs), record-and-compare kept on the device (no speech recognition: it
+   sends audio to third parties).
+4. Reading: more public-domain literature, then Wikinews; inference and tone questions at B2 and C1.
+5. Depth: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
+   register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
+Not doing: accounts or sync, social features, leaderboards, gamification, animations, a chatbot, speech recognition.
+
