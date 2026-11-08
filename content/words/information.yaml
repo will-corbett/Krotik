@@ -14,3 +14,18 @@ groups:
     words: ["достоверный = reliable, authentic", "надёжный = reliable, trustworthy", "сомнительный = doubtful, dubious", "объективный = objective", "предвзятый = biased", "точный = accurate", "ложный = false"]
   - title: "What people do with it"
     words: ["проверять = check, verify", "искажать = distort", "скрывать = hide, conceal", "распространять = spread", "опровергнуть = refute, deny", "подтвердить = confirm", "утверждать = claim"]
+dialogues:
+  - title: "Is it true?"
+    reviewed: ""
+    lines:
+      - [Олег, "Ты видела эту новость? Говорят, завтра закроют все магазины.", "Have you seen this news? They say all the shops will close tomorrow."]
+      - [Анна, "А какой источник?", "And what's the source?"]
+      - [Олег, "Кто-то написал в интернете.", "Someone wrote it online."]
+      - [Анна, "Это слухи. Пока информацию не подтвердили, не стоит её распространять.", "That's rumours. Until the information is confirmed, it's not worth spreading it."]
+  - title: "Checking the facts"
+    reviewed: ""
+    lines:
+      - [Маша, "Как понять, что статья достоверная?", "How can you tell that an article is reliable?"]
+      - [Дима, "Проверь, кто автор и откуда он берёт данные.", "Check who the author is and where they get their data."]
+      - [Маша, "А если факты верные, но автор предвзятый?", "And if the facts are right but the author is biased?"]
+      - [Дима, "Тогда он может их искажать. Сравни несколько источников.", "Then they may distort them. Compare several sources."]

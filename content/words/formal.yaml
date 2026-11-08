@@ -16,3 +16,19 @@ groups:
     words: ["вследствие = as a result of", "ввиду = in view of", "согласно = according to", "относительно = concerning, regarding", "посредством = by means of", "кроме = apart from, besides", "вопреки = despite, contrary to", "ибо = for, because (bookish)"]
   - title: "Official nouns"
     words: ["заявление = application; statement", "документ = document", "решение = decision", "мероприятие = event, measure", "учреждение = institution, office", "лицо = face; person (in official use)", "срок = deadline, period"]
+dialogues:
+  - title: "At the office"
+    reviewed: ""
+    lines:
+      - [Сотрудник, "Добрый день. Чем могу помочь?", "Good afternoon. How can I help?"]
+      - [Анна, "Я хотела бы подать заявление на получение разрешения.", "I would like to submit an application for a permit."]
+      - [Сотрудник, "Согласно правилам, необходимо предоставить паспорт и два документа.", "Under the rules, you need to provide your passport and two documents."]
+      - [Анна, "А в какой срок рассматривают заявление?", "And how long does it take to consider an application?"]
+      - [Сотрудник, "Как правило, в течение месяца. Решение мы сообщим по почте.", "As a rule, within a month. We will send you the decision by post."]
+  - title: "Everyday or official?"
+    reviewed: ""
+    lines:
+      - [Маша, "Почему в письме написано «является», а не просто «это»?", "Why does the letter say «является» rather than just «это»?"]
+      - [Олег, "Это официальный стиль. В документах так принято.", "That's official style. It's the custom in documents."]
+      - [Маша, "А «вследствие» значит то же, что «из-за»?", "And does «вследствие» mean the same as «из-за»?"]
+      - [Олег, "Почти. Но в разговоре так никто не говорит.", "Almost. But nobody says it in conversation."]

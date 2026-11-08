@@ -556,23 +556,23 @@ innovation: 0 dialogue(s) published, 2 waiting for review.
 
 climate: 0 dialogue(s) published, 2 waiting for review.
 
-formal: 0 dialogue(s) published, 0 waiting for review.
+formal: 0 dialogue(s) published, 2 waiting for review.
 
-argument: 0 dialogue(s) published, 0 waiting for review.
+argument: 0 dialogue(s) published, 2 waiting for review.
 
-shades: 0 dialogue(s) published, 0 waiting for review.
+shades: 0 dialogue(s) published, 2 waiting for review.
 
-word-families: 0 dialogue(s) published, 0 waiting for review.
+word-families: 0 dialogue(s) published, 2 waiting for review.
 
-character: 0 dialogue(s) published, 0 waiting for review.
+character: 0 dialogue(s) published, 2 waiting for review.
 
-ethics: 0 dialogue(s) published, 0 waiting for review.
+ethics: 0 dialogue(s) published, 2 waiting for review.
 
-information: 0 dialogue(s) published, 0 waiting for review.
+information: 0 dialogue(s) published, 2 waiting for review.
 
-negotiation: 0 dialogue(s) published, 0 waiting for review.
+negotiation: 0 dialogue(s) published, 2 waiting for review.
 
-history: 0 dialogue(s) published, 0 waiting for review.
+history: 0 dialogue(s) published, 2 waiting for review.
 
 ## Hand-made lists (curated/)
 

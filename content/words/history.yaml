@@ -2,7 +2,7 @@ title: History and heritage
 ru: История и наследие
 level: C1
 blurb: "Eras, sources and heritage: how the past is studied and remembered."
-names: []
+names: [Новгородом]
 groups:
   - title: "The past"
     words: ["эпоха = era, epoch", "век = century; age", "столетие = century", "поколение = generation", "прошлое = the past", "предок = ancestor", "потомок = descendant", "наследие = heritage, legacy"]
@@ -10,3 +10,18 @@ groups:
     words: ["источник = source", "летопись = chronicle", "рукопись = manuscript", "археология = archaeology", "раскопки = excavation, dig", "находка = find, discovery", "свидетельство = evidence, testimony", "историк = historian"]
   - title: "Remembering"
     words: ["памятник = monument", "память = memory", "традиция = tradition", "возрождение = revival, renaissance", "древний = ancient", "старинный = old, antique", "сохранить = preserve"]
+dialogues:
+  - title: "A discovery"
+    reviewed: ""
+    lines:
+      - [Анна, "Ты слышал о новых раскопках под Новгородом?", "Have you heard about the new excavations near Novgorod?"]
+      - [Олег, "Да. Там нашли древние берестяные грамоты.", "Yes. They found ancient birch-bark letters."]
+      - [Анна, "Это важная находка?", "Is it an important find?"]
+      - [Олег, "Очень. Это свидетельство того, как жили наши предки.", "Very. It's evidence of how our ancestors lived."]
+  - title: "Heritage"
+    reviewed: ""
+    lines:
+      - [Маша, "Почему так важно сохранять старинные здания?", "Why is it so important to preserve old buildings?"]
+      - [Дима, "Это наше наследие. Без памяти о прошлом трудно понять настоящее.", "It's our heritage. Without memory of the past, it's hard to understand the present."]
+      - [Маша, "Но некоторые памятники стоят очень дорого.", "But some monuments cost a lot."]
+      - [Дима, "Да, но потомки нам за это скажут спасибо.", "Yes, but our descendants will thank us for it."]

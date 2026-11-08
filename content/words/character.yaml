@@ -10,3 +10,19 @@ groups:
     words: ["высокомерный = arrogant", "равнодушный = indifferent", "завистливый = envious", "легкомысленный = frivolous, careless", "мелочный = petty", "бестактный = tactless", "капризный = capricious, fussy", "лицемерный = hypocritical"]
   - title: "Behaviour"
     words: ["пренебрегать = neglect, disregard", "злоупотреблять = abuse, overuse", "проявлять = show, display", "притворяться = pretend", "сдерживаться = hold back, restrain oneself", "уступать = give way, give in", "настаивать = insist"]
+dialogues:
+  - title: "A new colleague"
+    reviewed: ""
+    lines:
+      - [Анна, "Как тебе новый коллега?", "What do you think of the new colleague?"]
+      - [Олег, "Сначала он показался мне высокомерным, но я ошибся.", "At first he seemed arrogant to me, but I was wrong."]
+      - [Анна, "Он просто сдержанный.", "He's just reserved."]
+      - [Олег, "Да. И очень добросовестный: всё делает вовремя.", "Yes. And very conscientious: he does everything on time."]
+      - [Анна, "А ещё остроумный, когда познакомишься поближе.", "And witty, too, once you get to know him."]
+  - title: "Tactless"
+    reviewed: ""
+    lines:
+      - [Катя, "Зачем ты сказал ей, что платье некрасивое?", "Why did you tell her the dress was ugly?"]
+      - [Дима, "Я просто был искренним.", "I was just being honest."]
+      - [Катя, "Это не искренность, это бестактность.", "That's not honesty, it's tactlessness."]
+      - [Дима, "Ну, может быть. Надо было сдержаться.", "Well, maybe. I should have held back."]

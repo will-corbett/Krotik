@@ -18,3 +18,18 @@ groups:
     words: ["записать = write down, record", "описа'ть = describe", "подписать = sign", "переписать = rewrite; copy out", "расписание = timetable", "подпись = signature", "описание = description"]
   - title: "-нос- (carry)"
     words: ["приносить = bring", "относиться = relate to; treat", "сносить = demolish; put up with", "выноси'ть = carry out; bear, stand", "переносить = postpone; carry over; bear, stand", "отношение = attitude; relationship"]
+dialogues:
+  - title: "One root"
+    reviewed: ""
+    lines:
+      - [Маша, "Я заметила, что «вывод», «перевод» и «руководить» похожи.", "I noticed that «вывод», «перевод» and «руководить» look alike."]
+      - [Олег, "У них один корень. Приставка меняет значение.", "They have the same root. The prefix changes the meaning."]
+      - [Маша, "А «выход», «доход» и «подход» — от слова «ходить»?", "And «выход», «доход» and «подход» come from «ходить»?"]
+      - [Олег, "Да. Если знаешь корень, легче догадаться о значении.", "Yes. If you know the root, it's easier to guess the meaning."]
+  - title: "A busy week"
+    reviewed: ""
+    lines:
+      - [Анна, "Мы перенесли совещание на четверг.", "We've moved the meeting to Thursday."]
+      - [Олег, "Хорошо. Я как раз переписываю отчёт.", "Good. I'm just rewriting the report."]
+      - [Анна, "Не забудь подписать договор и записать дату.", "Do not forget to sign the contract and write down the date."]
+      - [Олег, "Конечно. И проверю расписание на следующую неделю.", "Of course. And I'll check next week's timetable."]

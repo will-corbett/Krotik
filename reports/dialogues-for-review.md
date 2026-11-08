@@ -936,3 +936,206 @@ Written for Krotik's Vocabulary section. Each needs a native speaker's check bef
 | 3 | **Анна:** Это правда так важно? | Is that really so important? |
 | 4 | **Олег:** Ресурсы не бесконечны. И платить меньше! | Resources aren't endless. And we pay less! |
 
+## Formal and written Russian: At the office
+
+`content/words/formal.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Сотрудник:** Добрый день. Чем могу помочь? | Good afternoon. How can I help? |
+| 2 | **Анна:** Я хотела бы подать заявление на получение разрешения. | I would like to submit an application for a permit. |
+| 3 | **Сотрудник:** Согласно правилам, необходимо предоставить паспорт и два документа. | Under the rules, you need to provide your passport and two documents. |
+| 4 | **Анна:** А в какой срок рассматривают заявление? | And how long does it take to consider an application? |
+| 5 | **Сотрудник:** Как правило, в течение месяца. Решение мы сообщим по почте. | As a rule, within a month. We will send you the decision by post. |
+
+## Formal and written Russian: Everyday or official?
+
+`content/words/formal.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Почему в письме написано «является», а не просто «это»? | Why does the letter say «является» rather than just «это»? |
+| 2 | **Олег:** Это официальный стиль. В документах так принято. | That's official style. It's the custom in documents. |
+| 3 | **Маша:** А «вследствие» значит то же, что «из-за»? | And does «вследствие» mean the same as «из-за»? |
+| 4 | **Олег:** Почти. Но в разговоре так никто не говорит. | Almost. But nobody says it in conversation. |
+
+## Abstract ideas and argument: A seminar
+
+`content/words/argument.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Преподаватель:** Какие последствия может иметь эта тенденция? | What consequences could this trend have? |
+| 2 | **Анна:** На мой взгляд, они неизбежны, хотя их часто недооценивают. | In my view they are inevitable, although people often underestimate them. |
+| 3 | **Преподаватель:** Вы можете обосновать свою точку зрения? | Can you justify your point of view? |
+| 4 | **Анна:** Да. Из этих данных вытекает, что проблема существенная. | Yes. It follows from these data that the problem is significant. |
+| 5 | **Преподаватель:** Хорошо. Но учитывайте и другие причины. | Good. But take other causes into account too. |
+
+## Abstract ideas and argument: Is that obvious?
+
+`content/words/argument.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** По-моему, ответ очевиден. | I think the answer is obvious. |
+| 2 | **Катя:** Не уверена. В твоём рассуждении есть противоречие. | I'm not sure. There is a contradiction in your reasoning. |
+| 3 | **Дима:** Какое? | What is it? |
+| 4 | **Катя:** Ты предполагаешь, что все думают одинаково. Это сомнительно. | You assume everyone thinks the same way. That's doubtful. |
+| 5 | **Дима:** Ты права, я, кажется, преувеличил. | You're right, I think I exaggerated. |
+
+## Shades of meaning: Which word?
+
+`content/words/shades.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Какая разница между «смотреть» и «глядеть»? | What is the difference between «смотреть» and «глядеть»? |
+| 2 | **Олег:** «Смотреть» — обычное слово. «Глядеть» чаще встречается в разговоре и в литературе. | «Смотреть» is the ordinary word. «Глядеть» is more common in conversation and in literature. |
+| 3 | **Маша:** А «наблюдать»? | And «наблюдать»? |
+| 4 | **Олег:** Это смотреть внимательно и долго. Учёные наблюдают, а не просто смотрят. | That means watching carefully for a long time. Scientists observe, they do not just look. |
+
+## Shades of meaning: Clever or wise?
+
+`content/words/shades.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Катя:** Твой дедушка очень умный человек. | Your grandfather is a very clever man. |
+| 2 | **Дима:** Скорее мудрый. Он не учился в университете, но много понимает. | Wise, more like. He didn't go to university, but he understands a lot. |
+| 3 | **Катя:** Значит, умный — это про знания, а мудрый — про опыт? | So clever is about knowledge, and wise is about experience? |
+| 4 | **Дима:** Примерно так. И он очень проницательный: сразу видит, что ты чувствуешь. | Roughly. And he's very perceptive: he sees straight away what you feel. |
+
+## Word families: One root
+
+`content/words/word-families.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Я заметила, что «вывод», «перевод» и «руководить» похожи. | I noticed that «вывод», «перевод» and «руководить» look alike. |
+| 2 | **Олег:** У них один корень. Приставка меняет значение. | They have the same root. The prefix changes the meaning. |
+| 3 | **Маша:** А «выход», «доход» и «подход» — от слова «ходить»? | And «выход», «доход» and «подход» come from «ходить»? |
+| 4 | **Олег:** Да. Если знаешь корень, легче догадаться о значении. | Yes. If you know the root, it's easier to guess the meaning. |
+
+## Word families: A busy week
+
+`content/words/word-families.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Мы перенесли совещание на четверг. | We've moved the meeting to Thursday. |
+| 2 | **Олег:** Хорошо. Я как раз переписываю отчёт. | Good. I'm just rewriting the report. |
+| 3 | **Анна:** Не забудь подписать договор и записать дату. | Do not forget to sign the contract and write down the date. |
+| 4 | **Олег:** Конечно. И проверю расписание на следующую неделю. | Of course. And I'll check next week's timetable. |
+
+## Describing people precisely: A new colleague
+
+`content/words/character.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Как тебе новый коллега? | What do you think of the new colleague? |
+| 2 | **Олег:** Сначала он показался мне высокомерным, но я ошибся. | At first he seemed arrogant to me, but I was wrong. |
+| 3 | **Анна:** Он просто сдержанный. | He's just reserved. |
+| 4 | **Олег:** Да. И очень добросовестный: всё делает вовремя. | Yes. And very conscientious: he does everything on time. |
+| 5 | **Анна:** А ещё остроумный, когда познакомишься поближе. | And witty, too, once you get to know him. |
+
+## Describing people precisely: Tactless
+
+`content/words/character.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Катя:** Зачем ты сказал ей, что платье некрасивое? | Why did you tell her the dress was ugly? |
+| 2 | **Дима:** Я просто был искренним. | I was just being honest. |
+| 3 | **Катя:** Это не искренность, это бестактность. | That's not honesty, it's tactlessness. |
+| 4 | **Дима:** Ну, может быть. Надо было сдержаться. | Well, maybe. I should have held back. |
+
+## Ethics and values: A difficult choice
+
+`content/words/ethics.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Ты бы рассказал правду, даже если это кому-то повредит? | Would you tell the truth even if it hurt someone? |
+| 2 | **Олег:** Сложный вопрос. Для меня честность — главная ценность. | That's a hard question. For me honesty is the most important value. |
+| 3 | **Анна:** А если промолчать — это тоже ложь? | And if you say nothing, is that a lie too? |
+| 4 | **Олег:** Иногда да. Тогда совесть не даёт покоя. | Sometimes, yes. Then your conscience gives you no peace. |
+
+## Ethics and values: An apology
+
+`content/words/ethics.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Я сожалею о своём поступке. Это была ошибка. | I regret what I did. It was a mistake. |
+| 2 | **Катя:** Я ценю, что ты это признал. | I appreciate that you admitted it. |
+| 3 | **Дима:** Ты можешь меня простить? | Can you forgive me? |
+| 4 | **Катя:** Могу. Главное — чтобы это больше не повторилось. | I can. The main thing is that it doesn't happen again. |
+
+## Information and its sources: Is it true?
+
+`content/words/information.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Олег:** Ты видела эту новость? Говорят, завтра закроют все магазины. | Have you seen this news? They say all the shops will close tomorrow. |
+| 2 | **Анна:** А какой источник? | And what's the source? |
+| 3 | **Олег:** Кто-то написал в интернете. | Someone wrote it online. |
+| 4 | **Анна:** Это слухи. Пока информацию не подтвердили, не стоит её распространять. | That's rumours. Until the information is confirmed, it's not worth spreading it. |
+
+## Information and its sources: Checking the facts
+
+`content/words/information.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Как понять, что статья достоверная? | How can you tell that an article is reliable? |
+| 2 | **Дима:** Проверь, кто автор и откуда он берёт данные. | Check who the author is and where they get their data. |
+| 3 | **Маша:** А если факты верные, но автор предвзятый? | And if the facts are right but the author is biased? |
+| 4 | **Дима:** Тогда он может их искажать. Сравни несколько источников. | Then they may distort them. Compare several sources. |
+
+## Negotiation and agreement: The terms
+
+`content/words/negotiation.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Мы рассмотрели ваше предложение. Условия нас в целом устраивают. | We've considered your proposal. On the whole the terms suit us. |
+| 2 | **Олег:** Рад это слышать. Какие у вас требования? | I'm glad to hear it. What are your requirements? |
+| 3 | **Анна:** Мы настаиваем на более коротком сроке поставки. | We insist on a shorter delivery time. |
+| 4 | **Олег:** Это сложно, но мы готовы пойти на уступку, если вы увеличите заказ. | That's difficult, but we're ready to make a concession if you increase the order. |
+| 5 | **Анна:** Думаю, мы сможем договориться. | I think we can reach an agreement. |
+
+## Negotiation and agreement: A compromise
+
+`content/words/negotiation.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Дима:** Ты хочешь в горы, а я на море. Что будем делать? | You want to go to the mountains and I want the sea. What shall we do? |
+| 2 | **Катя:** Давай найдём компромисс: неделю в горах, неделю на море. | Let's find a compromise: a week in the mountains and a week at the sea. |
+| 3 | **Дима:** Согласен. Это взаимная уступка. | Agreed. It's a concession on both sides. |
+| 4 | **Катя:** Значит, договорились! | So it's a deal! |
+
+## History and heritage: A discovery
+
+`content/words/history.yaml`, dialogue 1
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Анна:** Ты слышал о новых раскопках под Новгородом? | Have you heard about the new excavations near Novgorod? |
+| 2 | **Олег:** Да. Там нашли древние берестяные грамоты. | Yes. They found ancient birch-bark letters. |
+| 3 | **Анна:** Это важная находка? | Is it an important find? |
+| 4 | **Олег:** Очень. Это свидетельство того, как жили наши предки. | Very. It's evidence of how our ancestors lived. |
+
+## History and heritage: Heritage
+
+`content/words/history.yaml`, dialogue 2
+
+| # | Russian | English |
+|---:|---|---|
+| 1 | **Маша:** Почему так важно сохранять старинные здания? | Why is it so important to preserve old buildings? |
+| 2 | **Дима:** Это наше наследие. Без памяти о прошлом трудно понять настоящее. | It's our heritage. Without memory of the past, it's hard to understand the present. |
+| 3 | **Маша:** Но некоторые памятники стоят очень дорого. | But some monuments cost a lot. |
+| 4 | **Дима:** Да, но потомки нам за это скажут спасибо. | Yes, but our descendants will thank us for it. |
+

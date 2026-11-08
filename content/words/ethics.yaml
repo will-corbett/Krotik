@@ -10,3 +10,18 @@ groups:
     words: ["поступок = act, deed", "выбор = choice", "ошибка = mistake", "раскаяние = remorse, repentance", "прощение = forgiveness", "соблазн = temptation", "принцип = principle"]
   - title: "Judging"
     words: ["оправдать = justify; acquit", "осуждать = condemn, disapprove of", "сожалеть = regret", "простить = forgive", "порядочный = decent, honest", "бескорыстный = unselfish", "предвзятый = biased"]
+dialogues:
+  - title: "A difficult choice"
+    reviewed: ""
+    lines:
+      - [Анна, "Ты бы рассказал правду, даже если это кому-то повредит?", "Would you tell the truth even if it hurt someone?"]
+      - [Олег, "Сложный вопрос. Для меня честность — главная ценность.", "That's a hard question. For me honesty is the most important value."]
+      - [Анна, "А если промолчать — это тоже ложь?", "And if you say nothing, is that a lie too?"]
+      - [Олег, "Иногда да. Тогда совесть не даёт покоя.", "Sometimes, yes. Then your conscience gives you no peace."]
+  - title: "An apology"
+    reviewed: ""
+    lines:
+      - [Дима, "Я сожалею о своём поступке. Это была ошибка.", "I regret what I did. It was a mistake."]
+      - [Катя, "Я ценю, что ты это признал.", "I appreciate that you admitted it."]
+      - [Дима, "Ты можешь меня простить?", "Can you forgive me?"]
+      - [Катя, "Могу. Главное — чтобы это больше не повторилось.", "I can. The main thing is that it doesn't happen again."]
