@@ -1,7 +1,12 @@
-# Public-domain literature for the "Read and fill in" drill. Each text is fetched from Russian Wikisource at the
-# revision given (so the build is reproducible and checkable), in modern spelling. Both authors died more than
-# 70 years ago (Tolstoy 1910, Chekhov 1904) and the works were published in their lifetimes, so the texts are in the
-# public domain everywhere; only the author's text is used (no editors' notes or commentary).
+# Texts for the Reading section. Literature is fetched from Russian Wikisource at the revision given (so the build is
+# reproducible and checkable), in modern spelling. Both authors died more than 70 years ago (Tolstoy 1910, Chekhov
+# 1904) and the works were published in their lifetimes, so the texts are in the public domain everywhere; only the
+# author's text is used (no editors' notes or commentary).
+#
+# News: articles from Russian Wikinews (CC BY), at fixed revisions, credited to Wikinews contributors with a link to
+# the revision. Only articles written by Wikinews contributors themselves (never the bot copies of other outlets'
+# articles marked "Загружено ботом"), none copying another outlet's text word for word, none citing a sanctioned outlet,
+# and nothing about politics or war: science, space and nature.
 #
 # Passages with a word that isn't in our data or Wiktionary, that Wiktionary marks only as archaic, obsolete or
 # dated, or with the old polite -с particle (слушаю-с) or Latin script, are left out and listed in the report.
@@ -46,6 +51,41 @@ works:
     revision: 5642339
     kind: play
     level: [B2, C1]
+  - id: chekhov-stories
+    author: Антон Чехов
+    authorEn: Anton Chekhov
+    died: 1904
+    title: Рассказы
+    titleEn: "Short stories: comic sketches from the 1880s"
+    year: 1883
+    kind: pages
+    level: [B1, B2]
+    pages:
+      - { title: Толстый и тонкий, page: "Толстый и тонкий (Чехов)/ПСС 1975 (ВТ, с ударениями)", revision: 5635463, level: [B1, B2], year: 1883 }
+      - { title: Смерть чиновника, page: Смерть чиновника (Чехов), revision: 5617610, level: [B1, B2], year: 1883 }
+      - { title: Хамелеон, page: "Хамелеон (Чехов)/Вариант ПСС Чехова 1974—1982", revision: 5321508, level: [B1, B2], year: 1884 }
+      - { title: Лошадиная фамилия, page: Лошадиная фамилия (Чехов), revision: 5644354, level: [B1, B2], year: 1885 }
+      - { title: Пересолил, page: Пересолил (Чехов), revision: 5635182, level: [B1, B2], year: 1885 }
+      - { title: Радость, page: Радость (Чехов), revision: 5620300, level: [B1, B2], year: 1883 }
+      - { title: Устрицы, page: Устрицы (Чехов), revision: 5619203, level: [B2, C1], year: 1884 }
+      - { title: Беззащитное существо, page: Беззащитное существо (Чехов), revision: 5320978, level: [B1, B2], year: 1887 }
+  - id: wikinews
+    author: Викиновости
+    authorEn: Wikinews contributors
+    title: Новости науки
+    titleEn: "Science news from Russian Wikinews"
+    year: 2011
+    kind: pages
+    site: wikinews
+    level: [B1, C1]
+    pages:
+      - { title: Муравьи и температура, page: "Американские биологи показали, что муравьи чувствительны к росту минимальных температур воздуха", revision: 230500, date: 23 марта 2013, level: [B2, C1] }
+      - { title: "Миллиарды планет, подобных Земле", page: "Учёные: в нашей Галактике миллиарды планет, подобных Земле", revision: 1094042, date: 5 ноября 2013 }
+      - { title: Три потенциально обитаемые планеты, page: "НАСА: астрономы открыли три потенциально обитаемых планеты", revision: 17900974, date: 20 апреля 2013, level: [B2, C1] }
+      - { title: Глубины Вселенной, page: НАСА получила изображение глубин Вселенной, revision: 1094035, date: 27 сентября 2012, level: [B1, B2] }
+      - { title: Первые снимки с орбиты Меркурия, page: "С аппарата, находящегося на орбите вокруг Меркурия, получены первые снимки", revision: 15074736, date: 30 марта 2011, level: [B1, B2] }
+      - { title: Нобелевская премия за теорию контрактов, page: Нобелевская премия по экономике-2016 присуждена за теорию контрактов, revision: 17908479, date: 10 октября 2016, level: [B2, C1] }
+      - { title: Сорок дней в пещере, page: Во Франции начался эксперимент по оценке реакций людей в условиях изоляции, revision: 10004232, date: 18 марта 2021, level: [B1, B2] }
 
 # Words Wiktionary tags as dated or archaic where the tag isn't about the word itself (checked by hand). Each needs a
 # reason; everything else Wiktionary marks old stays out.
@@ -157,3 +197,103 @@ glosses:
   снутри: (old) from inside (now изнутри)
   похолодней: a bit colder (= похолоднее)
   отклепаться: (old) clear yourself of (a charge)
+  # Chekhov, short stories
+  хи-хи-с: hee-hee, sir (a giggle, with the old polite -с)
+  хи-хи-хи: hee-hee-hee (a giggle)
+  лобызания: (old) kissing and hugging (from лобызание)
+  флер-д: orange blossom (флёр-д’оранж, from French fleur d’oranger), a scent
+  оранжем: orange blossom (флёр-д’оранж, from French fleur d’oranger), a scent
+  фрунт: (old) a soldier's front rank; вытянуться во фрунт, to stand to attention
+  изв: "Excu… (извините, broken off)"
+  ство: "-ency (the end of превосходительство, Your Excellency, mumbled)"
+  корневильские: (name) Корневильские колокола, The Bells of Corneville, a popular operetta of the day
+  милостисдарь: (old) my dear sir (милостивый государь, run together)
+  помучивать: to torment a little, now and then (from мучить)
+  чиханьем: sneezing (from чиханье)
+  елдырин: (name) Yeldyrin, the constable
+  пущай: let (colloquial for пускай, пусть); не пущай её, don't let her get away
+  ррр: grrr (growling back at the dog)
+  велено: it's ordered (from велеть); не велено, it isn't allowed
+  вышеписанный: (old) the above-mentioned (an official's phrase, used jokingly)
+  генералова: the general's (colloquial, from генерал)
+  запахиваясь: wrapping his coat round himself (from запахиваться)
+  намеднись: the other day (colloquial)
+  пошевельну: I'll move (from пошевельнуть)
+  цуцык: puppy, little dog (dialect)
+  цыгаркой: with a hand-rolled cigarette (from цыгарка)
+  взбудоражилась: was thrown into a fuss (from взбудоражиться)
+  на-кося: here you are! (colloquial, said mockingly)
+  выпользовать: (old) to cure (dialect)
+  полечиться: to have some treatment (from полечиться)
+  увольнили: dismissed (colloquial for уволили)
+  буланов: (name) a surname (from буланый, dun, a horse's colour)
+  гнедов: (name) a surname (from гнедой, bay, a horse's colour)
+  жеребеев: (name) a made-up surname (from жеребец, stallion)
+  жеребенко: (name) a made-up surname (from жеребёнок, foal)
+  жеребкин: (name) a made-up surname (from жеребёнок, foal)
+  жеребкович: (name) a made-up surname (from жеребёнок, foal)
+  жеребковский: (name) a made-up surname (from жеребёнок, foal)
+  жеребовский: (name) a made-up surname (from жеребец, stallion)
+  жеребятников: (name) a made-up surname (from жеребята, foals)
+  засупонин: (name) a made-up surname (from супонь, a strap of a horse's harness)
+  кобелев: (name) a made-up surname (from кобель, a male dog)
+  кобылеев: (name) a made-up surname (from кобыла, mare)
+  кобылин: (name) a made-up surname (from кобыла, mare)
+  кобылицын: (name) a made-up surname (from кобылица, mare)
+  кобылкин: (name) a made-up surname (from кобылка, little mare)
+  кобылятников: (name) a made-up surname (from кобыла, mare)
+  коненко: (name) a made-up surname (from конь, horse)
+  конченко: (name) a made-up surname (like Коненко)
+  копытин: (name) a made-up surname (from копыто, hoof)
+  лошадевич: (name) a made-up surname (from лошадь, horse)
+  лошадинин: (name) a made-up surname (from лошадь, horse)
+  лошадинский: (name) a made-up surname (from лошадь, horse)
+  лошадицкий: (name) a made-up surname (from лошадь, horse)
+  лошадкин: (name) a made-up surname (from лошадка, little horse)
+  лошадский: (name) a made-up surname (from лошадь, horse)
+  пристяжкин: (name) a made-up surname (from пристяжная, a side horse in a team)
+  рысистый: (name) a made-up surname (рысистый, a good trotter)
+  тройкин: (name) a made-up surname (from тройка, a team of three horses)
+  уздечкин: (name) a made-up surname (from уздечка, bridle)
+  климушка: (name) Klimushka, a fond form of the name Klim
+  попридержи: hold back a little (from попридержать)
+  попридержи-ка: hold back a little, will you (from попридержать, with -ка)
+  выбранился: swore (from выбраниться)
+  здоровеннейшего: the hugest, burliest (from здоровенный)
+  наморены: worn out (of horses)
+  понатыканы: stuck about everywhere (colloquial)
+  поудобней: more comfortably (colloquial for поудобнее)
+  прокля: "damn… (проклятая, broken off)"
+  реприманда: (old) an unpleasant surprise, a turn of events (from French réprimande)
+  спинища: a huge back (from спина)
+  средствием: (old) means, way (colloquial for средством)
+  стоги: haystacks (from стог)
+  терпугом: with a rasp, a coarse file (from терпуг)
+  тово: er… (colloquial for того, a filler word)
+  дурыкиной: (name) Durykina, a village
+  освидетельствован: examined (by a doctor; from освидетельствовать)
+  портерной: a beer house (from портерная)
+  оборваннее: more ragged (from оборванный)
+  олеографии: oleographs, cheap colour prints
+  оркестриона: an orchestrion, a big mechanical music box (from оркестрион)
+  скоромные: allowed only outside a fast, like meat and milk (of food; from скоромный)
+  триковой: of tricot, knitted cloth (from триковый)
+  франтоватое: dandyish (from франтоватый)
+  хрустенье: crunching (from хрустенье)
+  гуденье: droning (from гуденье)
+  жилочки: a little vein or sinew (from жилочка); ни одной жилочки здоровой, not one healthy bit of me
+  зарябило: began to swim (у него зарябило в глазах, his eyes swam)
+  лавровишневыми: cherry-laurel (лавровишнёвые капли, a calming medicine)
+  майорская: a major's (майорская дочь, a major's daughter)
+  наваляешься: you'll grovel (в ногах наваляешься, you'll be at my feet begging)
+  пробирную: assay (пробирная палатка, the assay office, where gold is tested)
+  флюсом: with a gumboil, a swollen cheek (from флюс)
+  четвертной: a twenty-five-rouble note (четвертной билет)
+  # Wikinews
+  уоррен: (name) Warren, the scientist
+  выпрямительный: righting (выпрямительный рефлекс, the righting reflex, getting back on its feet)
+  кеплер: (name) Kepler, NASA's space telescope
+  томаса: (name) Thomas (Томас Барклай, Thomas Barclay)
+  обитаемость: habitability (from обитаемый)
+  супер-венера: a super-Venus (like Venus, but bigger)
+  супер-земля: a super-Earth (like the Earth, but bigger)

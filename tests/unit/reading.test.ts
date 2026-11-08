@@ -84,14 +84,36 @@ const built = existsSync('public/data/reading.json');
 describe.skipIf(!built)('the published texts', () => {
   const index = JSON.parse(readFileSync('public/data/reading.json', 'utf8')) as ReadingIndex;
   const units = index.units.map((u) => JSON.parse(readFileSync(`public/data/reading.${u.id}.json`, 'utf8')) as ReadingUnit);
-  const cfg = parse(readFileSync('curated/literature.yaml', 'utf8')) as { works: { died: number; year: number; revision: number }[]; glosses: Record<string, string>; notOld: Record<string, string> };
+  const cfg = parse(readFileSync('curated/literature.yaml', 'utf8')) as {
+    works: { died?: number; year: number; revision?: number; site?: string; pages?: { revision: number; date?: string }[] }[];
+    glosses: Record<string, string>;
+    notOld: Record<string, string>;
+  };
 
-  it('every work is in the public domain (author died 70+ years ago, published in their lifetime) at a pinned revision', () => {
+  it('every work is in the public domain (author died 70+ years ago, published in their lifetime) or from Wikinews (CC BY), at pinned revisions', () => {
     for (const w of cfg.works) {
-      expect(w.died + 70).toBeLessThan(new Date().getFullYear());
-      expect(w.year).toBeLessThanOrEqual(w.died);
-      expect(Number.isInteger(w.revision)).toBe(true);
+      const revisions = w.pages ? w.pages.map((p) => p.revision) : [w.revision];
+      for (const r of revisions) expect(Number.isInteger(r)).toBe(true);
+      if (w.site === 'wikinews') {
+        for (const p of w.pages!) expect(p.date, 'each article has its date').toMatch(/\d{4}$/);
+        continue;
+      }
+      expect(w.died! + 70).toBeLessThan(new Date().getFullYear());
+      expect(w.year).toBeLessThanOrEqual(w.died!);
     }
+  });
+  it('texts for B2 and C1 (of 150 words or more) ask what you can infer and about tone, not only what happens', () => {
+    for (const u of units) {
+      const level = u.level ?? index.works[u.w]!.level;
+      if (level[0] !== 'B2' && level[0] !== 'C1') continue;
+      // A scene of a line or two ("Дай мне квасу или воды!") has nothing to infer.
+      if (index.units.find((x) => x.id === u.id)!.words < 150) continue;
+      const kinds = new Set(u.questions.map((q) => q.kind));
+      expect(kinds.has('inference') && kinds.has('tone'), u.id).toBe(true);
+    }
+  });
+  it('each collection page links to the exact revision it comes from', () => {
+    for (const u of units.filter((x) => index.works[x.w]!.kind === 'pages')) expect(u.source, u.id).toMatch(/^https:\/\/ru\.(wikisource|wikinews)\.org\/w\/index\.php\?oldid=\d+$/);
   });
   it('there are Tolstoy stories and Chekhov scenes, in modern spelling', () => {
     expect(units.filter((u) => index.works[u.w]!.kind === 'stories').length).toBeGreaterThanOrEqual(15);

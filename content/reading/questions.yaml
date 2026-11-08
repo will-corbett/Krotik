@@ -193,6 +193,14 @@
     - answer: 0
       en: { q: "What does she ask Luka to give the horse Toby?", options: ["An extra measure of oats", "A new saddle", "A day's rest"] }
       ru: { q: "Что она велит Луке дать Тоби?", options: ["Лишнюю осьмушку овса", "Новое седло", "Отдохнуть один день"] }
+    - kind: inference
+      answer: 0
+      en: { q: "What does Popova let slip about her husband, even as she vows to mourn him for ever?", options: ["He was often unfair and cruel to her", "He was very rich", "He never rode Toby"] }
+      ru: { q: "Что Попова говорит о муже, хотя клянется не снимать траура до могилы?", options: ["Он часто бывал несправедлив и жесток к ней", "Он был очень богат", "Он никогда не ездил на Тоби"] }
+    - kind: tone
+      answer: 0
+      en: { q: "How does Luka feel about her mourning?", options: ["It has gone on long enough: she should start living again", "He admires it", "He doesn't care"] }
+      ru: { q: "Как Лука относится к её трауру?", options: ["Погоревали, и будет: надо жить", "Он им восхищается", "Ему всё равно"] }
 
 - id: medved-2
   work: chekhov-bear
@@ -220,6 +228,14 @@
     - answer: 0
       en: { q: "Why does he need the money today?", options: ["He has interest to pay to the bank tomorrow", "He is going abroad", "His horse is ill"] }
       ru: { q: "Почему деньги нужны ему сегодня?", options: ["Завтра ему платить проценты в банк", "Он уезжает за границу", "Его лошадь больна"] }
+    - kind: inference
+      answer: 2
+      en: { q: "Why does Popova talk about Toby's oats just after Smirnov mentions the debt?", options: ["She wants to pay him in oats", "She is laughing at him", "Everything turns her thoughts to her husband; Smirnov's problem doesn't touch her"] }
+      ru: { q: "Почему Попова вдруг говорит об овсе для Тоби?", options: ["Хочет заплатить ему овсом", "Смеется над ним", "Всё напоминает ей о муже, а дела Смирнова её не трогают"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does Smirnov's manner change in this scene?", options: ["From rude to polite", "From formal politeness to open anger", "It doesn't change"] }
+      ru: { q: "Как меняется тон Смирнова?", options: ["От грубого к вежливому", "От вежливого к сердитому", "Никак не меняется"] }
 
 - id: medved-5
   work: chekhov-bear
@@ -228,6 +244,14 @@
     - answer: 2
       en: { q: "What does Smirnov decide at the end of his speech?", options: ["To leave and come back the day after tomorrow", "To go to court", "To stay until she pays"] }
       ru: { q: "Что решает Смирнов в конце?", options: ["Уехать и вернуться послезавтра", "Подать в суд", "Остаться здесь, пока она не заплатит"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Why does Smirnov call himself a soft rag (тряпка)?", options: ["He thinks he has been too gentle with the people who owe him money", "He is about to cry", "Popova called him that"] }
+      ru: { q: "Почему Смирнов называет себя тряпкой?", options: ["Думает, что был слишком деликатен с теми, кто ему должен", "Он сейчас заплачет", "Так его назвала Попова"] }
+    - kind: tone
+      answer: 2
+      en: { q: "How are we meant to take his anger here?", options: ["As a real danger to Popova", "As grief", "As comic: he is furious with everyone and works himself up"] }
+      ru: { q: "Как понимать его злость?", options: ["Как опасность для Поповой", "Как горе", "Смешно: он зол на всех и сам себя распаляет"] }
 
 - id: medved-6
   work: chekhov-bear
@@ -255,6 +279,14 @@
     - answer: 0
       en: { q: "What does Smirnov say about her mourning?", options: ["It's a pose, to look mysterious and poetic", "It's sincere", "It has gone on too long"] }
       ru: { q: "Что Смирнов говорит о её трауре?", options: ["Это для того, чтобы казаться таинственной и поэтичной", "Это искренне", "Он слишком долгий"] }
+    - kind: inference
+      answer: 1
+      en: { q: "What is Smirnov suggesting when he says she didn't forget to powder her face?", options: ["That she looks ill", "That her mourning is partly for show", "That she is expecting guests"] }
+      ru: { q: "Что хочет сказать Смирнов словами «не позабыли напудриться»?", options: ["Что она выглядит больной", "Что её траур отчасти для вида", "Что она ждет гостей"] }
+    - kind: tone
+      answer: 0
+      en: { q: "Why does Smirnov put on French phrases (же ву при…)?", options: ["To mock polite drawing-room talk", "To show how educated he is", "To be polite"] }
+      ru: { q: "Зачем Смирнов говорит по-французски?", options: ["Чтобы посмеяться над вежливыми разговорами", "Чтобы показать, что он образован", "Из вежливости"] }
 
 - id: medved-9
   work: chekhov-bear
@@ -266,6 +298,14 @@
     - answer: 0
       en: { q: "How does Smirnov feel about her at the end of the scene?", options: ["He admires her and is ready to forgive the debt", "He wants to shoot her", "He wants to leave at once"] }
       ru: { q: "Что чувствует Смирнов к ней в конце?", options: ["Она ему нравится, и он готов простить ей долг", "Он хочет её убить", "Он хочет сразу уехать"] }
+    - kind: inference
+      answer: 0
+      en: { q: "What do Smirnov's words «Равноправность так равноправность» show about his duel?", options: ["He uses the idea of equal rights as an excuse to fight her", "He really fights for women's rights", "He wants to marry her"] }
+      ru: { q: "Что значат слова Смирнова «Равноправность так равноправность»?", options: ["Он берет идею равноправия как повод драться с ней", "Он правда за права женщин", "Он хочет на ней жениться"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does Chekhov show the quarrel?", options: ["As a serious fight about honour", "As a farce: insults, a challenge to a duel, and a servant who nearly faints", "As a sad scene"] }
+      ru: { q: "Как Чехов показывает эту ссору?", options: ["Как серьезный спор о чести", "Смешно: брань, вызов на дуэль и старик слуга, которому дурно", "Как грустную сцену"] }
 
 - id: medved-10
   work: chekhov-bear
@@ -277,6 +317,14 @@
     - answer: 0
       en: { q: "How does the scene end?", options: ["With a long kiss", "With a shot", "With Smirnov leaving"] }
       ru: { q: "Чем кончается явление?", options: ["Продолжительным поцелуем", "Выстрелом", "Смирнов уходит"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Why does Popova keep telling him to go and then to stay?", options: ["She is falling for him but won't admit it", "She wants the money", "She is afraid of the pistols"] }
+      ru: { q: "Почему Попова то гонит его, то просит остаться?", options: ["Он ей нравится, но она не хочет в этом признаться", "Ей нужны деньги", "Она боится пистолетов"] }
+    - kind: tone
+      answer: 2
+      en: { q: "How does Smirnov speak of his love?", options: ["Calmly and tenderly", "Sadly", "Angrily and comically, cursing himself for falling in love"] }
+      ru: { q: "Как Смирнов говорит о своей любви?", options: ["Спокойно и нежно", "Грустно", "Сердито и смешно: ругает себя за то, что влюбился"] }
 
 - id: medved-11
   work: chekhov-bear
@@ -297,6 +345,14 @@
     - answer: 1
       en: { q: "What does Chubukov think at first, aside?", options: ["That Lomov has come to propose", "That Lomov has come to ask for money", "That Lomov is ill"] }
       ru: { q: "Что сначала думает Чубуков (в сторону)?", options: ["Что Ломов приехал сделать предложение", "Что Ломов приехал просить денег", "Что Ломов болен"] }
+    - kind: inference
+      answer: 1
+      en: { q: "Why does Lomov keep tripping over his words (Уважай Степаныч…)?", options: ["He is drunk", "He is terribly nervous about proposing", "He doesn't know Chubukov's name"] }
+      ru: { q: "Почему Ломов путается в словах?", options: ["Он пьян", "Он ужасно волнуется перед предложением", "Он не знает имени Чубукова"] }
+    - kind: tone
+      answer: 0
+      en: { q: "How does Chubukov talk to Lomov?", options: ["With a stream of fond names (голубушка, мамочка, ангел мой)", "Coldly", "Rudely"] }
+      ru: { q: "Как Чубуков говорит с Ломовым?", options: ["Ласково, с множеством ласковых слов", "Холодно", "Грубо"] }
 
 - id: predlozhenie-2
   work: chekhov-proposal
@@ -305,6 +361,14 @@
     - answer: 2
       en: { q: "Why does Lomov feel he must marry?", options: ["He is deeply in love", "His aunt's will says so", "He is 35, needs a regular life and has a weak heart"] }
       ru: { q: "Почему Ломову нужно жениться?", options: ["Он сильно влюблён", "Так велела тетушка", "Ему уже 35 лет, ему нужна правильная жизнь, у него порок сердца"] }
+    - kind: inference
+      answer: 2
+      en: { q: "What do Lomov's reasons for marrying suggest about his feelings for Natalya?", options: ["He loves her passionately", "He has never met her", "He wants an orderly life more than he loves her"] }
+      ru: { q: "Что видно из того, почему Ломов хочет жениться?", options: ["Он её страстно любит", "Он её не знает", "Регулярная жизнь ему нужна больше, чем любовь"] }
+    - kind: tone
+      answer: 1
+      en: { q: "What makes Lomov comic here?", options: ["He sings", "He fusses about his health: palpitations, twitches, sleepless nights", "He falls over"] }
+      ru: { q: "Чем Ломов смешон в этой сцене?", options: ["Он поет", "Он всё время говорит о своем здоровье", "Он падает"] }
 
 - id: predlozhenie-3
   work: chekhov-proposal
@@ -316,6 +380,14 @@
     - answer: 1
       en: { q: "What does Lomov offer, which makes her even angrier?", options: ["To sell her the meadow", "To give her the meadow as a present", "To go to court"] }
       ru: { q: "Что предлагает Ломов, отчего она сердится ещё больше?", options: ["Продать ей Лужки", "Подарить ей Лужки", "Подать в суд"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Why does Lomov never get as far as proposing?", options: ["He starts a long way off, and a remark about a small meadow sets off a quarrel", "Natalya refuses him at once", "Chubukov interrupts"] }
+      ru: { q: "Почему Ломов так и не сделал предложения?", options: ["Он начал издалека, и спор о земле всё испортил", "Наталья Степановна сразу отказала", "Им помешал Чубуков"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How do they speak to each other as the quarrel grows?", options: ["Politely to the end", "They shout, and all the politeness falls away", "In whispers"] }
+      ru: { q: "Как они говорят друг с другом, когда спорят?", options: ["Вежливо до конца", "Кричат, и вся вежливость пропадает", "Шепотом"] }
 
 - id: predlozhenie-4
   work: chekhov-proposal
@@ -327,6 +399,14 @@
     - answer: 0
       en: { q: "What does Chubukov say about Lomov's family?", options: ["That they were all mad", "That they were all honest", "That they were very rich"] }
       ru: { q: "Что Чубуков говорит о роде Ломовых?", options: ["Что все они были сумасшедшие", "Что все они были честные", "Что все они были богатые"] }
+    - kind: inference
+      answer: 1
+      en: { q: "Why do Chubukov and Lomov start insulting each other's families?", options: ["They have always hated each other", "The argument over land has become a matter of pride", "Natalya asks them to"] }
+      ru: { q: "Почему Чубуков и Ломов начали ругать родню друг друга?", options: ["Они давно ненавидят друг друга", "Спор о земле стал делом гордости", "Их попросила Наталья Степановна"] }
+    - kind: tone
+      answer: 0
+      en: { q: "How seriously should we take the threats of going to court?", options: ["Not very: they're said in a temper, over a few acres", "Very seriously", "Lomov is a lawyer"] }
+      ru: { q: "Насколько серьезно они грозят судом?", options: ["Не очень: это сказано сгоряча, из-за маленькой земли", "Очень серьезно", "Ломов сам адвокат"] }
 
 - id: predlozhenie-5
   work: chekhov-proposal
@@ -335,6 +415,14 @@
     - answer: 1
       en: { q: "Why does Natalya Stepanovna suddenly want Lomov brought back?", options: ["To apologise for the quarrel", "She learns that he came to propose", "To give him the meadow"] }
       ru: { q: "Почему Наталья Степановна вдруг хочет вернуть Ломова?", options: ["Чтобы извиниться за ссору", "Она узнаёт, что он приезжал сделать ей предложение", "Чтобы подарить ему Лужки"] }
+    - kind: inference
+      answer: 2
+      en: { q: "What do we learn about Natalya when she cries «Вернуть!»?", options: ["She wants to go on quarrelling", "She is ill", "A proposal matters more to her than the meadow"] }
+      ru: { q: "Что мы узнаём о Наталье Степановне, когда она кричит «Вернуть!»?", options: ["Ей хочется продолжить спор", "Она больна", "Предложение ей важнее земли"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does Chubukov behave?", options: ["Calmly", "He swings between insults and despair, comically", "He laughs"] }
+      ru: { q: "Как ведет себя Чубуков?", options: ["Спокойно", "То ругается, то в отчаянии, и это смешно", "Смеется"] }
 
 - id: predlozhenie-6
   work: chekhov-proposal
@@ -346,6 +434,14 @@
     - answer: 2
       en: { q: "What fault does Lomov find in Откатай?", options: ["He is too old", "He is lame", "His lower jaw is shorter than the upper"] }
       ru: { q: "Какой недостаток Ломов находит у Откатая?", options: ["Он слишком стар", "Он хромает", "Нижняя челюсть короче верхней"] }
+    - kind: inference
+      answer: 0
+      en: { q: "What does this second quarrel show about Lomov and Natalya?", options: ["They will argue about anything, even dogs", "They agree about dogs", "They don't like hunting"] }
+      ru: { q: "Что показывает этот спор?", options: ["Они готовы спорить обо всём, даже о собаках", "Они согласны о собаках", "Они не любят охоту"] }
+    - kind: tone
+      answer: 2
+      en: { q: "How does the scene come across?", options: ["Romantic", "Sad", "Absurd: two people about to be engaged quarrel over dogs"] }
+      ru: { q: "Какой получается эта сцена?", options: ["Романтической", "Грустной", "Нелепой: жених и невеста спорят о собаках"] }
 
 - id: predlozhenie-7
   work: chekhov-proposal
@@ -357,6 +453,14 @@
     - answer: 0
       en: { q: "How does the play end?", options: ["They get engaged and start arguing about the dogs again", "Natalya Stepanovna refuses him", "Lomov goes home"] }
       ru: { q: "Чем кончается пьеса?", options: ["Они обручаются и снова начинают спорить о собаках", "Наталья Степановна ему отказывает", "Ломов уезжает домой"] }
+    - kind: inference
+      answer: 1
+      en: { q: "What will their marriage probably be like?", options: ["Quiet and peaceful", "Full of quarrels, like their engagement", "Short"] }
+      ru: { q: "Каким, наверное, будет их брак?", options: ["Тихим и мирным", "Полным ссор, как и помолвка", "Коротким"] }
+    - kind: tone
+      answer: 0
+      en: { q: "How does Chubukov's «Ну, начинается семейное счастье! Шампанского!» sound?", options: ["Ironic: the celebration starts while they are still quarrelling", "Sincere: everyone is happy", "Sad"] }
+      ru: { q: "Как понимать слова Чубукова «Ну, начинается семейное счастье!»?", options: ["С иронией: праздник начинается, а они всё спорят", "Искренне: все счастливы", "Грустно"] }
 
 # ---------------------------------------------------------------- Tolstoy: the rest of the book
 - id: osyol-v-lvinoy-shkure
@@ -894,3 +998,266 @@
     - answer: 1
       en: { q: "How did the robber respond?", options: ["He ran away", "He wept, confessed and asked the bishop to pray for him", "He laughed"] }
       ru: { q: "Что сделал разбойник?", options: ["Убежал", "Заплакал, признался и попросил помолиться за него", "Засмеялся"] }
+
+# ---------------------------------------------------------------- Chekhov: short stories (B1–B2)
+# B2 and C1 texts also ask what you can work out that the text doesn't say (kind: inference) and about the attitude
+# or tone (kind: tone).
+- id: tolstyy-i-tonkiy
+  work: chekhov-stories
+  section: Толстый и тонкий
+  questions:
+    - answer: 1
+      en: { q: "Where do the two old friends meet?", options: ["At school", "At a railway station", "At the theatre"] }
+      ru: { q: "Где встретились два приятеля?", options: ["В гимназии", "На вокзале", "В театре"] }
+    - answer: 0
+      en: { q: "What makes the thin man change his manner?", options: ["He learns that his friend now has a very high rank", "His wife tells him to", "The fat man insults him"] }
+      ru: { q: "Почему тонкий вдруг заговорил по-другому?", options: ["Он узнал, что друг дослужился до тайного советника", "Ему так велела жена", "Толстый его обидел"] }
+    - kind: inference
+      answer: 2
+      en: { q: "Why does the fat man turn away at the end?", options: ["He is in a hurry for his train", "He doesn't recognise his friend any more", "The thin man's fawning disgusts him"] }
+      ru: { q: "Почему толстый в конце отвернулся?", options: ["Он торопился на поезд", "Он больше не узнал друга", "Ему противно чинопочитание тонкого"] }
+    - kind: tone
+      answer: 0
+      en: { q: "How does Chekhov present the thin man and his family?", options: ["With mocking humour: they shrink before rank", "With admiration for their good manners", "With fear"] }
+      ru: { q: "Как Чехов показывает тонкого и его семью?", options: ["С насмешкой: перед чином они съёживаются", "С восхищением их вежливостью", "Со страхом"] }
+
+- id: smert-chinovnika
+  work: chekhov-stories
+  section: Смерть чиновника
+  questions:
+    - answer: 1
+      en: { q: "What happened at the theatre?", options: ["Chervyakov fell asleep", "Chervyakov sneezed on a general's head", "The general sneezed on Chervyakov"] }
+      ru: { q: "Что случилось в театре?", options: ["Червяков заснул", "Червяков чихнул на лысину генерала", "Генерал чихнул на Червякова"] }
+    - answer: 2
+      en: { q: "What does the general say the first times Chervyakov apologises?", options: ["That he will report him", "That he must pay for it", "That it's nothing and he has forgotten it"] }
+      ru: { q: "Что говорит генерал, когда Червяков извиняется в первый раз?", options: ["Что он пожалуется на него", "Что он должен заплатить", "Что это пустяки и он уже забыл"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Why does the general finally shout at him?", options: ["Chervyakov's endless apologies drive him out of patience", "He was angry about the sneeze all along", "Chervyakov laughs at him"] }
+      ru: { q: "Почему генерал в конце закричал?", options: ["Червяков всё извинялся, и генерал потерял терпение", "Он всё время сердился за то, что на него чихнули", "Червяков над ним смеялся"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does the narrator treat Chervyakov's death?", options: ["As a real tragedy, with great pity", "With irony: a man dies of fear of rank, over a sneeze", "As a warning against going to the theatre"] }
+      ru: { q: "Как автор говорит о смерти Червякова?", options: ["Как о настоящей трагедии, с большой жалостью", "С иронией: человек умер от страха перед чином из-за чиха", "Как о предупреждении не ходить в театр"] }
+
+- id: khameleon
+  work: chekhov-stories
+  section: Хамелеон
+  questions:
+    - answer: 2
+      en: { q: "What happened to Khryukin?", options: ["A horse kicked him", "Someone stole his money", "A dog bit his finger"] }
+      ru: { q: "Что случилось с Хрюкиным?", options: ["Его ударила лошадь", "У него украли деньги", "Собака укусила его за палец"] }
+    - answer: 0
+      en: { q: "What decides Ochumelov's opinion each time?", options: ["Whether the dog belongs to the general's family", "What the law says", "What Khryukin says"] }
+      ru: { q: "От чего каждый раз зависит мнение Очумелова?", options: ["От того, чья собака: генерала или нет", "От того, что сказано в законе", "От того, что говорит Хрюкин"] }
+    - kind: inference
+      answer: 1
+      en: { q: "Why does Ochumelov keep asking for his coat to be taken off and put on again?", options: ["The weather keeps changing", "He's nervous: he feels hot and cold as the dog's owner changes", "He wants to look important"] }
+      ru: { q: "Почему Очумелов то снимает, то надевает пальто?", options: ["Погода всё время меняется", "Он волнуется, и ему то жарко, то холодно, когда меняется хозяин собаки", "Он хочет казаться важным"] }
+    - kind: tone
+      answer: 2
+      en: { q: "What does the title say about Ochumelov?", options: ["That he is clever and careful", "That he likes animals", "That he changes his colour, like a chameleon, to suit those in power"] }
+      ru: { q: "Что говорит о надзирателе название рассказа?", options: ["Что он умный и осторожный", "Что он любит животных", "Что он, как хамелеон, меняет цвет, когда речь идёт о начальстве"] }
+
+- id: loshadinaya-familiya
+  work: chekhov-stories
+  section: Лошадиная фамилия
+  questions:
+    - answer: 0
+      en: { q: "What does the steward suggest for the general's toothache?", options: ["Sending a telegram to a man who charms toothache away", "Going to a dentist in Saratov", "Rinsing his mouth with vodka"] }
+      ru: { q: "Что советует приказчик генералу, у которого болят зубы?", options: ["Послать телеграмму человеку, который заговаривает зубы", "Поехать к доктору в Саратов", "Полоскать рот водкой"] }
+    - answer: 1
+      en: { q: "Why can't they send the telegram?", options: ["The post office is closed", "Nobody can remember the man's surname", "The general refuses"] }
+      ru: { q: "Почему не послали телеграмму?", options: ["Почта была закрыта", "Никто не мог вспомнить фамилию", "Генерал не захотел"] }
+    - answer: 2
+      en: { q: "What helps the steward remember the name in the end?", options: ["The general's wife", "A horse in the field", "The doctor asking to buy oats"] }
+      ru: { q: "Что помогло приказчику вспомнить фамилию?", options: ["Генеральша", "Лошадь в поле", "Доктор, который хотел купить овса"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Why is the general scornful when the steward finally remembers?", options: ["The doctor has already pulled the tooth, so the name is no use now", "He doesn't believe the name is right", "He wanted a horse, not a name"] }
+      ru: { q: "Почему генерал так ответил, когда приказчик вспомнил фамилию?", options: ["Доктор уже вырвал зуб, и фамилия ему не нужна", "Он не верит, что это правильная фамилия", "Ему нужна была лошадь, а не фамилия"] }
+    - kind: tone
+      answer: 0
+      en: { q: "What makes the search for the name funny?", options: ["The whole estate, children and servants too, spends a day and a night inventing horsey surnames", "Nothing: it's a sad story", "Only the doctor is funny"] }
+      ru: { q: "Что смешного в том, как ищут фамилию?", options: ["Вся усадьба, даже дети, целый день придумывает лошадиные фамилии", "Ничего, это грустный рассказ", "Смешон только доктор"] }
+
+- id: peresolil
+  work: chekhov-stories
+  section: Пересолил
+  questions:
+    - answer: 1
+      en: { q: "Why does the surveyor say he has three revolvers?", options: ["He really has them", "He's afraid the driver will rob him", "He wants to sell them"] }
+      ru: { q: "Зачем землемер говорит, что у него три револьвера?", options: ["Они у него правда есть", "Он боится, что возница его ограбит", "Он хочет их продать"] }
+    - answer: 2
+      en: { q: "What does Klim do when the surveyor reaches into his pockets?", options: ["He drives faster", "He attacks the surveyor", "He jumps out and runs into the forest"] }
+      ru: { q: "Что сделал Клим, когда землемер полез в карманы?", options: ["Поехал быстрее", "Напал на землемера", "Вывалился из телеги и убежал в лес"] }
+    - kind: inference
+      answer: 0
+      en: { q: "What does the title, «Пересолил» (he overdid it), refer to?", options: ["The surveyor frightened the driver so much that he was left alone in the forest", "Klim put too much salt in the food", "The surveyor paid too much"] }
+      ru: { q: "Что значит название рассказа?", options: ["Землемер так напугал возницу, что сам остался один в лесу", "Клим положил в еду слишком много соли", "Землемер заплатил слишком много"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does the story present the two men's fear?", options: ["As a real danger in the forest", "Comically: each is afraid of the other, and neither had a reason to be", "As the driver's fault"] }
+      ru: { q: "Как в рассказе показан страх двух людей?", options: ["Как настоящая опасность в лесу", "Смешно: каждый боится другого, и бояться было нечего", "Как вина возницы"] }
+
+- id: radost
+  work: chekhov-stories
+  section: Радость
+  questions:
+    - answer: 0
+      en: { q: "Why is Mitya so happy?", options: ["He is in the newspaper", "He has a new job", "He has won money"] }
+      ru: { q: "Почему Митя так рад?", options: ["Про него напечатали в газете", "Он получил новое место", "Он выиграл деньги"] }
+    - answer: 2
+      en: { q: "What does the newspaper actually report?", options: ["That he did a brave deed", "That he got married", "That he fell drunk under a horse"] }
+      ru: { q: "О чём на самом деле написано в газете?", options: ["Что он спас человека", "Что он женился", "Что он в нетрезвом состоянии упал под лошадь"] }
+    - kind: inference
+      answer: 1
+      en: { q: "Why do his parents turn pale and cross themselves?", options: ["They're glad for him", "They're afraid something bad has happened", "They're cold"] }
+      ru: { q: "Почему папаша побледнел, а мамаша перекрестилась?", options: ["Они рады за сына", "Они боятся, что случилось что-то плохое", "Им холодно"] }
+    - kind: tone
+      answer: 0
+      en: { q: "What is Chekhov laughing at?", options: ["The wish to be famous, whatever for", "Newspapers that print mistakes", "The police"] }
+      ru: { q: "Над чем смеётся Чехов?", options: ["Над желанием быть знаменитым всё равно за что", "Над газетами, в которых ошибки", "Над полицией"] }
+
+- id: ustritsy
+  work: chekhov-stories
+  section: Устрицы
+  questions:
+    - answer: 1
+      en: { q: "Why are the boy and his father standing in the street?", options: ["They're waiting for a friend", "The father has found no work and has come out to beg", "They're looking at the shops"] }
+      ru: { q: "Почему мальчик с отцом стоят на улице?", options: ["Ждут знакомого", "Отец не нашёл места и вышел просить милостыню", "Смотрят на лавки"] }
+    - answer: 0
+      en: { q: "What does the boy imagine oysters to be?", options: ["Something like a frog in a shell, with claws", "Like bread", "A fish soup"] }
+      ru: { q: "Какими мальчик представляет себе устриц?", options: ["Похожими на лягушку в раковине, с клешнями", "Похожими на хлеб", "Рыбной ухой"] }
+    - kind: inference
+      answer: 2
+      en: { q: "What is the boy's \"strange illness\", which isn't in the medical books?", options: ["A cold", "Fear of the crowd", "Hunger"] }
+      ru: { q: "Что это за «странная болезнь», которой нет в учебниках?", options: ["Простуда", "Страх перед толпой", "Голод"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How do the gentlemen who feed the boy behave?", options: ["Kindly and seriously", "As if he were a show put on for their amusement", "Angrily"] }
+      ru: { q: "Как ведут себя господа, которые кормят мальчика?", options: ["Добро и серьёзно", "Смотрят на него как на смешное зрелище", "Сердито"] }
+
+- id: bezzashchitnoe-sushchestvo
+  work: chekhov-stories
+  section: Беззащитное существо
+  questions:
+    - answer: 2
+      en: { q: "What does Shchukina want from Kistunov?", options: ["A loan", "A job for herself", "The money that was kept back from her husband's pay"] }
+      ru: { q: "Чего хочет Щукина от Кистунова?", options: ["Взять деньги в долг", "Получить место", "Деньги, которые вычли из жалованья мужа"] }
+    - answer: 0
+      en: { q: "Why can't the bank help her?", options: ["Her husband never worked for it: it is a private bank", "She has no papers", "The bank has run out of money"] }
+      ru: { q: "Почему банк не может ей помочь?", options: ["Её муж там никогда не служил: это частный банк", "У неё нет бумаг", "В банке кончились деньги"] }
+    - answer: 1
+      en: { q: "How does it end?", options: ["She is thrown out", "Kistunov pays her from his own pocket, and she comes back the next day", "She goes to a lawyer"] }
+      ru: { q: "Чем всё кончилось?", options: ["Её выгнали", "Кистунов дал ей свои деньги, а на другой день она опять пришла", "Она пошла к адвокату"] }
+    - kind: tone
+      answer: 2
+      en: { q: "Who turns out to be the \"defenceless creature\" of the title?", options: ["Shchukina, as she says", "Her husband", "Kistunov, the bank manager: she wears him down"] }
+      ru: { q: "Кого в рассказе на самом деле нужно защищать?", options: ["Щукина, как она сама говорит", "Её муж", "Кистунов: она его совсем замучила"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Why doesn't Kistunov have her taken out by the porter?", options: ["He's afraid she'll scream and people will think badly of the bank", "He feels sorry for her", "The porter is away"] }
+      ru: { q: "Почему Кистунов не велит швейцару её вывести?", options: ["Боится, что она поднимет визг и про банк подумают плохое", "Ему её жаль", "Швейцара нет"] }
+
+# ---------------------------------------------------------------- Russian Wikinews: science (CC BY)
+- id: muravi-i-temperatura
+  work: wikinews
+  section: Муравьи и температура
+  questions:
+    - answer: 1
+      en: { q: "What did the biologists find?", options: ["Ants like heat more than cold", "Ants are sensitive to a rise in the lowest temperatures", "Ants don't notice temperature"] }
+      ru: { q: "Что показали биологи?", options: ["Муравьи любят жару больше холода", "Муравьи чувствительны к росту минимальных температур", "Муравьи не замечают температуры"] }
+    - answer: 0
+      en: { q: "What happened to the more heat-loving species?", options: ["It moved higher up and pushed the other species out in part", "It died out", "It moved down the mountains"] }
+      ru: { q: "Что случилось с более теплолюбивым видом?", options: ["Он мигрировал вверх и частично вытеснил другой вид", "Он исчез", "Он ушёл вниз с гор"] }
+    - kind: inference
+      answer: 2
+      en: { q: "Why could the change matter beyond the ants themselves?", options: ["Ants damage houses", "Ants are food for people", "Ants carry seeds, so local plants could change too"] }
+      ru: { q: "Почему это может быть важно не только для муравьёв?", options: ["Муравьи портят дома", "Муравьёв едят люди", "Муравьи переносят семена, и местная флора тоже может измениться"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does the article report the findings?", options: ["As a joke", "Plainly and factually, quoting a scientist", "With alarm, as a disaster"] }
+      ru: { q: "Как в статье рассказано о результатах?", options: ["Как о шутке", "Спокойно, по фактам, со словами учёного", "С тревогой, как о катастрофе"] }
+
+- id: milliardy-planet
+  work: wikinews
+  section: Миллиарды планет, подобных Земле
+  questions:
+    - answer: 0
+      en: { q: "What did the astronomers work out?", options: ["One in five sun-like stars has an Earth-sized planet where life is possible", "There is life on another planet", "There are no planets like the Earth"] }
+      ru: { q: "Что могут определить астрономы?", options: ["У каждой пятой звезды, похожей на Солнце, есть планеты размером почти с Землю", "На другой планете есть жизнь", "Планет, похожих на Землю, нет"] }
+    - answer: 2
+      en: { q: "What will the next step be?", options: ["Sending people to these planets", "Closing the Kepler mission", "Studying the planets' atmospheres with powerful new telescopes"] }
+      ru: { q: "Что будет следующим шагом?", options: ["Послать людей на эти планеты", "Закрыть миссию Kepler", "Изучать атмосферы планет при помощи мощных телескопов"] }
+
+- id: tri-obitaemye-planety
+  work: wikinews
+  section: Три потенциально обитаемые планеты
+  questions:
+    - answer: 1
+      en: { q: "What is the \"habitable zone\"?", options: ["Where people already live", "The distances from a star where a planet is neither too hot nor too cold for liquid water", "The middle of a galaxy"] }
+      ru: { q: "Что такое обитаемая зона?", options: ["Место, где уже живут люди", "Расстояние от звезды, на котором планета не слишком горячая и не слишком холодная для жидкой воды", "Середина галактики"] }
+    - answer: 0
+      en: { q: "How does the Kepler telescope find planets?", options: ["By the slight dimming of a star when a planet passes in front of it", "By photographing them directly", "By listening for signals from the planets"] }
+      ru: { q: "Как телескоп «Кеплер» находит планеты?", options: ["По едва заметным снижениям яркости звезды, когда планета проходит перед ней", "Фотографирует их", "Слушает сигналы с планет"] }
+    - kind: tone
+      answer: 2
+      en: { q: "How sure are the scientists that 62e is a water world?", options: ["Completely sure", "They think it's impossible", "Not sure: they know only its radius, so they're excited but cautious"] }
+      ru: { q: "Насколько учёные уверены, что 62е водный мир?", options: ["Совсем уверены", "Думают, что это невозможно", "Не вполне: знают только радиус, поэтому осторожны"] }
+    - kind: inference
+      answer: 1
+      en: { q: "Why does Barclay call Kepler-69c more of a super-Venus than a super-Earth?", options: ["It is the same size as the Earth", "It lies at the hot edge of the habitable zone, closer to fire than ice", "It has no water"] }
+      ru: { q: "Почему, по словам Барклая, Кеплер-69с скорее похожа на горячую планету?", options: ["Она такого же размера, как Земля", "Она на горячей границе обитаемой зоны, ближе к пламени, чем ко льду", "На ней нет воды"] }
+
+- id: glubiny-vselennoy
+  work: wikinews
+  section: Глубины Вселенной
+  questions:
+    - answer: 2
+      en: { q: "What does the XDF image show?", options: ["The Moon", "The surface of Mars", "About 5,500 galaxies, some very old"] }
+      ru: { q: "Что показывает изображение XDF?", options: ["Луну", "Поверхность Марса", "Около 5 500 галактик, и среди них очень старые"] }
+    - answer: 0
+      en: { q: "Why does NASA call it a tunnel into the past?", options: ["The light from distant galaxies is only now reaching the Earth", "It was made long ago", "It shows old telescopes"] }
+      ru: { q: "Почему НАСА называет фотографию туннелем в прошлое?", options: ["Свет от отдалённых галактик только сейчас начинает достигать Земли", "Её сделали давно", "На ней старые телескопы"] }
+
+- id: snimki-merkuriya
+  work: wikinews
+  section: Первые снимки с орбиты Меркурия
+  questions:
+    - answer: 1
+      en: { q: "What is special about MESSENGER?", options: ["It landed on Mercury", "It is the first artificial satellite of Mercury", "It was the first craft to fly past Mercury"] }
+      ru: { q: "Чем особенный MESSENGER?", options: ["Он сел на Меркурий", "Это первый искусственный спутник Меркурия", "Это первый аппарат, пролетевший мимо Меркурия"] }
+    - answer: 0
+      en: { q: "Why did it take so many manoeuvres to reach orbit?", options: ["The Sun's gravity, so close to Mercury, affected its approach", "It ran out of fuel", "Mercury moves very slowly"] }
+      ru: { q: "Почему понадобился ряд манёвров, чтобы выйти на орбиту?", options: ["Гравитация Солнца, близкого к Меркурию, внесла изменения", "Кончилось топливо", "Меркурий движется очень медленно"] }
+
+- id: nobel-teoriya-kontraktov
+  work: wikinews
+  section: Нобелевская премия за теорию контрактов
+  questions:
+    - answer: 2
+      en: { q: "What was the prize given for?", options: ["Work on medicine", "Work on banking law", "The theory of contracts"] }
+      ru: { q: "За что дали премию?", options: ["За работу по медицине", "За законодательство о банкротстве", "За теорию контрактов"] }
+    - kind: inference
+      answer: 0
+      en: { q: "Judging by the committee's examples, where is contract theory useful?", options: ["In pay, insurance, and the state handing work to private firms", "Only in sport", "Only in physics"] }
+      ru: { q: "Где, судя по словам комитета, полезна теория контрактов?", options: ["В заработной плате, страховании и государственном секторе", "Только в спорте", "Только в физике"] }
+    - kind: tone
+      answer: 1
+      en: { q: "How does the article sound?", options: ["Critical of the winners", "Neutral and official, quoting the Academy and the committee", "Personal and emotional"] }
+      ru: { q: "Каким тоном написана статья?", options: ["Критическим", "Спокойным, официальным, со словами академии и комитета", "Личным, эмоциональным"] }
+
+- id: sorok-dney-v-peshchere
+  work: wikinews
+  section: Сорок дней в пещере
+  questions:
+    - answer: 0
+      en: { q: "What will the fifteen people do?", options: ["Spend forty days in a cave, cut off from the outside world", "Explore caves all over France", "Look for treasure"] }
+      ru: { q: "Что будут делать пятнадцать человек?", options: ["Сорок дней жить в пещере без связи с внешним миром", "Изучать пещеры по всей Франции", "Искать клад"] }
+    - answer: 2
+      en: { q: "What gave Christian Clot the idea?", options: ["A book", "A film", "The pandemic and the forced isolation it brought"] }
+      ru: { q: "Что подало Клоту идею?", options: ["Книга", "Фильм", "Пандемия и вынужденная изоляция людей"] }
+    - answer: 1
+      en: { q: "What may the participants not take?", options: ["Food", "Clocks, phones or anything that tells the time", "Warm clothes"] }
+      ru: { q: "Чего не будет у участников?", options: ["Продуктов", "Часов, телефонов и всего, что помогает знать время", "Тёплой одежды"] }
