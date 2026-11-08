@@ -132,4 +132,58 @@ export function scoreTest(items: TestItem[], responses: Response[]): TestResult 
 }
 
 /** The test in progress or finished, kept in memory only (never in storage) until the tab is closed or reloaded. */
-export const session: { items: TestItem[]; answers: Answer[]; at: number; finished: boolean } = { items: [], answers: [], at: 0, finished: false };
+export const session: {
+  items: TestItem[];
+  answers: Answer[];
+  at: number;
+  finished: boolean;
+  /** stage 2, typed (see buildTypedTest) */
+  typed: { items: TestItem[]; answers: Answer[]; at: number; finished: boolean };
+} = { items: [], answers: [], at: 0, finished: false, typed: { items: [], answers: [], at: 0, finished: false } };
+
+// ---- Stage 2: typed answers (productive grammar)
+/** Typed questions per level in stage 2. */
+export const TYPED_PER_LEVEL = 6;
+
+/** A pool question as a typed one: the sentence with a gap and the word in brackets; type the form. */
+export function typedQuestion(c: LevelTestCandidate, topic: Mode, level: TestLevel): Question {
+  const [key, ru, en, start, end, hint, right] = c;
+  const before = ru.slice(0, start);
+  const after = ru.slice(end);
+  return {
+    key: `ty:${key}`,
+    mode: topic,
+    headword: en,
+    headwordIsEnglish: true,
+    gloss: '',
+    task: [],
+    frame: `${before}___ (${hint})${after}`,
+    answer: right,
+    others: [],
+    label: `${level} ${topic}`,
+    speak: (f) => `${before}${f.replace(/'/g, '')}${after}`,
+  };
+}
+
+/**
+ * Stage 2: TYPED_PER_LEVEL questions per level where the word is given in brackets (so one form is right), not used in
+ * stage 1 (`exclude`), easiest level first. Typing the form shows whether you can produce it, not just recognise it.
+ */
+export function buildTypedTest(rng: Rng, data: LevelTestData, exclude: Set<string>): TestItem[] {
+  const items: TestItem[] = [];
+  for (const level of TEST_LEVELS) {
+    let n = 0;
+    for (const slot of chooseSlots<PoolSlot>(data.slots.filter((s) => s.level === level), rng)) {
+      if (n >= TYPED_PER_LEVEL) break;
+      const fresh = slot.items.filter((c) => c[5] && !exclude.has(c[0]));
+      if (!fresh.length) continue;
+      const c = pick(rng, fresh);
+      exclude.add(c[0]);
+      const topic = slot.topic as Mode;
+      items.push({ level, topic, instruction: 'Type the right form of the word in brackets.', q: typedQuestion(c, topic, level), c });
+      n++;
+    }
+  }
+  return items;
+}
+

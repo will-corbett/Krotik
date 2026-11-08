@@ -1,5 +1,6 @@
 <script lang="ts">
   import ReportLink from './ReportLink.svelte';
+  import LevelTestTyped from './LevelTestTyped.svelte';
   import { tick } from 'svelte';
   import { renderForm } from '../shared/forms.ts';
   import { loadLevelTest } from '../lib/data.ts';
@@ -134,6 +135,7 @@
   }
 
   function again() {
+    session.typed = { items: [], answers: [], at: 0, finished: false };
     items = [];
     answers = [];
     i = 0;
@@ -320,6 +322,8 @@
         {/each}
       </tbody>
     </table>
+
+    <LevelTestTyped bind:settings receptive={result.level} exclude={items.map((x) => x.c[0])} />
 
     {#snippet reviewList(list: typeof now)}
       <ul class="review">

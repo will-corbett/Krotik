@@ -232,3 +232,26 @@ describe('every Grammar test answer is the word in its sentence', () => {
     expect(bad.map((c) => `${c[0]}: ${c[1].slice(c[3], c[4])} vs ${c[6]}`)).toEqual([]);
   });
 });
+
+describe('stage 2: typed answers', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { buildTypedTest, TYPED_PER_LEVEL, scoreTest } = await import('../../src/lib/levelTest.ts');
+  const { checkAnswer } = await import('../../src/lib/check.ts');
+  const { mulberry32 } = await import('../../src/lib/rng.ts');
+  const data = JSON.parse(readFileSync('public/data/level-test.json', 'utf8')) as import('../../src/shared/types.ts').LevelTestData;
+  it(`asks ${TYPED_PER_LEVEL} per level, word in brackets, none from stage 1, the sentence's own word as the answer`, () => {
+    const exclude = new Set(data.slots.flatMap((s) => s.items.slice(0, 3).map((c) => c[0])));
+    const before = new Set(exclude);
+    const items = buildTypedTest(mulberry32(7), data, exclude);
+    expect(items.length).toBe(TYPED_PER_LEVEL * 5);
+    for (const it of items) {
+      expect(before.has(it.c[0])).toBe(false);
+      expect(it.c[5]).not.toBe('');
+      expect(it.q.choices).toBeUndefined();
+      expect(it.q.frame).toContain(`___ (${it.c[5]})`);
+      expect(checkAnswer(it.q, it.c[1].slice(it.c[3], it.c[4])).correct, it.c[0]).toBe(true);
+    }
+    // All right: C1.
+    expect(scoreTest(items, items.map(() => ({ correct: true, skipped: false }))).level).toBe('C1');
+  });
+});
