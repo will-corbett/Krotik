@@ -279,6 +279,15 @@ pages.push({
     .join('')}</ol><h2>Already know some Russian?</h2><p>Take the ${a({ page: 'test' }, 'Grammar test')}, then review the Learn pages it suggests.</p><h2>How drills work</h2><p>Type the answer and press Enter. A wrong answer comes back about ten cards later; the round ends when everything is right. Use the on-screen keyboard or phonetic typing (zh → ж, ch → ч, sh → ш) if you have no Russian keyboard.</p>`,
 });
 pages.push(PROGRESS_PAGE);
+const writing = parse(readFileSync('content/writing.yaml', 'utf8')) as { level: string; prompts: { title: string; task: string; words: string; checklist: string[] }[] }[];
+pages.push({
+  route: { page: 'writing' },
+  description: 'Guided Russian writing tasks for each level from A1 to C1, with a checklist to check your own text and links to the grammar and vocabulary they use.',
+  index: true,
+  body: `<h1>Writing</h1><p>Short writing tasks for each level, with a checklist to check your own text.</p>${writing
+    .map((l) => `<h2>${l.level}</h2>${l.prompts.map((p) => `<h3>${esc(p.title)} (${esc(p.words)} words)</h3><p>${esc(p.task)}</p><ul>${p.checklist.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>`).join('')}`)
+    .join('')}`,
+});
 pages.push({ route: { page: 'settings' }, description: 'Krotik settings: your level, display, reading and progress, kept in this browser only.', index: false, body: '<h1>Settings</h1><p>Your level, display and reading settings, and whether Krotik keeps track of your progress. Kept in this browser only.</p>' });
 // ---- Learning paths: each level's route, with every step linked
 const paths = parse(readFileSync('content/paths.yaml', 'utf8')) as Path[];

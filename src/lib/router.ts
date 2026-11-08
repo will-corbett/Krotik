@@ -24,6 +24,7 @@ export type Route =
   | { page: 'progress' }
   | { page: 'paths' }
   | { page: 'settings' }
+  | { page: 'writing' }
   | { page: 'culture'; note?: string }
   | { page: 'about' };
 
@@ -47,6 +48,8 @@ function fromParts(parts: string[]): Route {
       return { page: 'paths' };
     case 'settings':
       return { page: 'settings' };
+    case 'writing':
+      return { page: 'writing' };
     case 'culture':
       return parts[1] ? { page: 'culture', note: parts[1] } : { page: 'culture' };
     case 'about':
@@ -89,6 +92,8 @@ export function pathOf(route: Route): string {
       return 'paths/';
     case 'settings':
       return 'settings/';
+    case 'writing':
+      return 'writing/';
     case 'culture':
       return route.note ? `culture/${route.note}/` : 'culture/';
     case 'about':

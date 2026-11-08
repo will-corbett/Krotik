@@ -11,6 +11,7 @@
   import WordsTheme from './components/WordsTheme.svelte';
   import PathsPage from './components/PathsPage.svelte';
   import SettingsPage from './components/SettingsPage.svelte';
+  import WritingPage from './components/WritingPage.svelte';
   import About from './components/About.svelte';
   import Dashboard from './components/Dashboard.svelte';
   import LearnIndex from './components/LearnIndex.svelte';
@@ -220,7 +221,7 @@
   }
 
   const narrow = $derived(
-    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'settings' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
+    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'settings' || route.page === 'writing' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
   );
   // Wide screens (1000px and up) show the seven pages as a bar on the logo's line; narrower ones get the Menu dropdown
   // (a bar there would wrap below the logo, out of line with it).
@@ -303,6 +304,8 @@
       <WordsIndex />
     {:else if route.page === 'paths'}
       <PathsPage bind:settings />
+    {:else if route.page === 'writing'}
+      <WritingPage />
     {:else if route.page === 'settings'}
       <SettingsPage bind:settings onprogress={setProgress} />
     {:else if route.page === 'reading'}

@@ -184,3 +184,19 @@ describe('Markdown reader', () => {
     expect((b[1] as { ordered?: boolean }).ordered).toBeUndefined();
   });
 });
+
+describe('Writing prompts', () => {
+  const levels = parse(readFileSync('content/writing.yaml', 'utf8')) as { level: string; prompts: { id: string; title: string; task: string; checklist: string[]; learn: string[]; vocab: string[] }[] }[];
+  const themes = (JSON.parse(readFileSync('public/data/themes.json', 'utf8')) as { themes: { id: string }[] }).themes.map((t) => t.id);
+  it('cover A1 to C1, each prompt linking real topics and themes', () => {
+    expect(levels.map((l) => l.level)).toEqual(['A1', 'A2', 'B1', 'B2', 'C1']);
+    for (const p of levels.flatMap((l) => l.prompts)) {
+      for (const id of p.learn) expect(ALL_TOPICS.some((t) => t.id === id && t.learn !== false), `${p.id}: ${id}`).toBe(true);
+      for (const id of p.vocab) expect(themes, `${p.id}: ${id}`).toContain(id);
+    }
+  });
+  it('every Russian word in them is a real form in the data', () => {
+    const text = levels.flatMap((l) => l.prompts.flatMap((p) => [p.title, p.task, ...p.checklist])).join('\n');
+    expect(unknownWords(text), 'words not found in the data').toEqual([]);
+  });
+});

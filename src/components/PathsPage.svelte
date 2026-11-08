@@ -67,7 +67,8 @@
     <a href={href({ page: 'settings' })}>Settings</a>.
   </p>
   <p class="muted small">
-    Not sure of your level? The <a href={href({ page: 'test' })}>Grammar test</a> gives a rough guide.
+    Not sure of your level? The <a href={href({ page: 'test' })}>Grammar test</a> gives a rough guide. For writing
+    practice at each level, see <a href={href({ page: 'writing' })}>Writing</a>.
     {#if settings.progress}Steps you've done are ticked (grammar you've drilled, themes mostly in your words; reading isn't recorded).{:else}Turn on <a href={href({ page: 'progress' })}>progress</a> to see the steps you've done ticked off.{/if}
   </p>
 

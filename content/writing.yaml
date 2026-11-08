@@ -1,0 +1,179 @@
+# Guided writing prompts, by level. Our own English, with a few Russian phrases (word-checked by
+# tests/unit/learn.test.ts like Learn pages). Each prompt: a task, a checklist to check your own text against, and
+# the grammar topics and vocabulary themes it uses (ids from topics.ts and content/words/themes.yaml).
+# What learners write is never stored (site rule): the page says so.
+
+- level: A1
+  prompts:
+    - id: about-me
+      title: About me
+      task: "Write five or six sentences introducing yourself to a new Russian-speaking friend."
+      words: 30-50
+      checklist:
+        - "Say your name (меня зовут …)."
+        - "Say where you live, with в and the prepositional case."
+        - "Name two people in your family."
+        - "Say one thing you like (я люблю … or мне нравится …)."
+        - "Ask your friend one question."
+      learn: [pronouns, prepositions, impersonal]
+      vocab: [greetings, people]
+    - id: my-day
+      title: My day
+      task: "Describe an ordinary day, from getting up to going to bed."
+      words: 40-60
+      checklist:
+        - "Use at least five different verbs in the present tense."
+        - "Say at what time you do two things."
+        - "Use утром, днём or вечером."
+        - "Join two sentences with и, а or но."
+      learn: [verbs, time, conjunctions]
+      vocab: [daily-routine, time]
+    - id: shopping-list
+      title: A shopping list and a note
+      task: "Write a note to a flatmate asking them to buy six things for dinner, and say why."
+      words: 30-50
+      checklist:
+        - "Use the accusative after купи (купи хлеб, купи воду)."
+        - "Use a number with a noun at least once."
+        - "Say please and thank you."
+      learn: [nounCases, numbers]
+      vocab: [food, shopping]
+
+- level: A2
+  prompts:
+    - id: last-weekend
+      title: Last weekend
+      task: "Tell a friend what you did last weekend, and how it went."
+      words: 60-80
+      checklist:
+        - "Use the past tense, with the right ending for who did it."
+        - "Use at least two perfective verbs for things you finished."
+        - "Say where you went, with идти or ехать in the past."
+        - "Say what the weather was like."
+      learn: [verbs, aspect, motion]
+      vocab: [free-time, weather]
+    - id: directions
+      title: How to get to my home
+      task: "Write directions from the nearest station to your home for a visitor."
+      words: 50-80
+      checklist:
+        - "Use imperatives (иди, поверни, садись)."
+        - "Use прямо, налево, направо."
+        - "Name two places on the way, with prepositions."
+        - "Say how long it takes."
+      learn: [motion, prepositions, verbs]
+      vocab: [town, travel]
+    - id: at-the-doctor
+      title: A message to a doctor
+      task: "Write to a doctor's surgery to describe how you feel and ask for an appointment."
+      words: 50-80
+      checklist:
+        - "Say what hurts (у меня болит …)."
+        - "Say how long you have felt ill."
+        - "Ask politely for an appointment."
+        - "Use the formal you."
+      learn: [impersonal, pronouns]
+      vocab: [health]
+
+- level: B1
+  prompts:
+    - id: a-flat
+      title: Renting a flat
+      task: "Reply to an advert for a flat. Say who you are, what you need, and ask three questions."
+      words: 100-150
+      checklist:
+        - "Use который at least once."
+        - "Ask a question with ли."
+        - "Use the conditional to say what would suit you."
+        - "Close the letter politely."
+      learn: [kotoryi, particles, conditional]
+      vocab: [housing]
+    - id: a-story
+      title: A story
+      task: "Retell a story you know (a fairy tale, a film, or one of the Reading texts) in your own words."
+      words: 120-180
+      checklist:
+        - "Keep to the past tense, choosing the aspect for each verb."
+        - "Use at least two verbal adverbs (читая, прочитав)."
+        - "Use time words to order events (сначала, потом, наконец)."
+        - "Report what one character said."
+      learn: [aspectContext, adverbs, reportedSpeech]
+      vocab: [feelings]
+    - id: work-email
+      title: A work email
+      task: "Write to a colleague to move a meeting, explain why, and suggest two new times."
+      words: 80-120
+      checklist:
+        - "Use чтобы for a purpose."
+        - "Use dates and times correctly."
+        - "Use the formal you."
+      learn: [chtoby, ordinals, time]
+      vocab: [career]
+
+- level: B2
+  prompts:
+    - id: for-and-against
+      title: For and against
+      task: "Should cities ban cars from the centre? Give arguments on both sides, then your own view."
+      words: 180-250
+      checklist:
+        - "Structure it with во-первых, во-вторых, однако, поэтому."
+        - "Use at least two participles."
+        - "Compare two things (больше, чем; лучше)."
+        - "Finish with a clear conclusion."
+      learn: [participles, comparison, complexSentences]
+      vocab: [opinions, climate]
+    - id: a-complaint
+      title: A complaint
+      task: "Write a formal complaint about a service that went wrong, and say what you expect."
+      words: 150-220
+      checklist:
+        - "Keep a formal register throughout."
+        - "Describe what happened in order, with the right aspect."
+        - "Say what you expect, with чтобы and the past tense."
+      learn: [aspectContext, chtoby, government]
+      vocab: [money, law]
+    - id: a-review
+      title: A review
+      task: "Review a book, film or exhibition for a magazine."
+      words: 180-250
+      checklist:
+        - "Say what it is about without retelling every detail."
+        - "Use at least three adjectives that judge, not describe."
+        - "Recommend it or not, and to whom."
+      learn: [adjectives, participles, wordOrder]
+      vocab: [arts, media]
+
+- level: C1
+  prompts:
+    - id: essay
+      title: An essay
+      task: "Does technology make people more or less free? Write a short essay."
+      words: 250-350
+      checklist:
+        - "State your position at the start and the end."
+        - "Use formal linking words (вследствие, согласно, тем не менее)."
+        - "Answer one argument against your view."
+        - "Vary your word order for emphasis."
+      learn: [wordOrder, complexSentences, participles]
+      vocab: [argument, innovation, formal]
+    - id: official-letter
+      title: An official letter
+      task: "Write to an institution to request information or a document, in a fully formal style."
+      words: 150-220
+      checklist:
+        - "Use bookish verbs (являться, осуществлять, предоставлять)."
+        - "Keep a polite, impersonal tone."
+        - "Give a clear request and a deadline."
+      learn: [participles, government]
+      vocab: [formal, negotiation]
+    - id: a-portrait
+      title: A portrait
+      task: "Describe someone you admire: their character, what they did, and why it matters to you."
+      words: 200-300
+      checklist:
+        - "Use precise character words, not just good and bad."
+        - "Use near-synonyms correctly (умный, мудрый, проницательный)."
+        - "Use at least two verbal adverbs."
+      learn: [adverbs, adjectives]
+      vocab: [character, shades]
