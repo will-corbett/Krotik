@@ -283,7 +283,7 @@
 
   <main id="main" class:narrow>
     {#if route.page === 'home'}
-      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} ongotit={() => (settings.guideSeen = true)} onprogress={setProgress} />
+      <Dashboard {settings} {loading} oncontinue={continueDrill} onhide={() => (settings.hideContinue = true)} ongotit={() => (settings.guideSeen = true)} onprogress={setProgress} onreviewwords={reviewWords} onreview={review} />
     {:else if route.page === 'start'}
       <StartPage />
     {:else if route.page === 'progress'}

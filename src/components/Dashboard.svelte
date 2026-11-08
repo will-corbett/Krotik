@@ -4,6 +4,10 @@
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { ALL_TOPICS, isDrill, topicById } from '../lib/topics.ts';
+  import { loadThemeIndex } from '../lib/data.ts';
+  import { nextStep, stepDone, stepKind, type PathStep } from '../lib/paths.ts';
+  import { pathFor } from '../lib/pathsData.ts';
+  import type { ThemeIndex } from '../shared/types.ts';
 
   /**
    * The landing page: the last drill (a slim strip), then four cards: Grammar test, Learn & drill, Reading, Progress.
@@ -16,12 +20,43 @@
     onhide,
     ongotit,
     onprogress,
-  }: { settings: Settings; loading: boolean; oncontinue: () => void; onhide: () => void; ongotit: () => void; onprogress: (on: boolean) => void } = $props();
+    onreviewwords,
+    onreview,
+  }: {
+    settings: Settings;
+    loading: boolean;
+    oncontinue: () => void;
+    onhide: () => void;
+    ongotit: () => void;
+    onprogress: (on: boolean) => void;
+    onreviewwords: () => void;
+    onreview: (topics: import('../lib/types.ts').Mode[]) => void;
+  } = $props();
   const last = $derived(topicById(settings.mode));
   const topics = ALL_TOPICS.filter((t) => t.learn !== false).length;
   const drills = ALL_TOPICS.filter(isDrill).length;
   const progress = $derived(settings.progress ? summarise(loadProgress(), today()) : null);
   const wordsDue = $derived(settings.progress ? dueKeys(loadWords(), today()).length : 0);
+
+  // With progress on, "Your next steps": weak or due topics, words due, and the next step on the path you follow.
+  let themes = $state<ThemeIndex | null>(null);
+  $effect(() => {
+    if (settings.progress && settings.pathLevel) loadThemeIndex().then((t) => (themes = t)).catch(() => {});
+  });
+  const path = $derived(settings.pathLevel ? pathFor(settings.pathLevel) : undefined);
+  const next = $derived.by((): PathStep | undefined => {
+    if (!settings.progress || !path || !themes) return undefined;
+    const rec = loadProgress();
+    const words = loadWords();
+    return nextStep(path, (s) => stepDone(s, rec, words, (id) => themes!.themes.find((t) => t.id === id)?.keys));
+  });
+  function stepLink(s: PathStep): { label: string; href: string } {
+    const { kind, id } = stepKind(s);
+    if (kind === 'learn') return { label: `Learn: ${topicById(id)?.title.en ?? id}`, href: href({ page: 'learn', topic: id }) };
+    if (kind === 'vocab') return { label: `Vocabulary: ${themes?.themes.find((t) => t.id === id)?.title ?? id}`, href: href({ page: 'vocabulary', theme: id }) };
+    return { label: topicById(id)?.title.en ?? id, href: href({ page: 'drill', mode: id }) };
+  }
+  const name = (m: string) => topicById(m)?.title.en ?? m;
 </script>
 
 <section class="dash fade-in" aria-labelledby="dash-title">
@@ -58,6 +93,46 @@
         <button class="btn quiet small-btn" onclick={onhide} aria-label="Hide your last drill until your next drill">Hide</button>
       </div>
     </div>
+  {/if}
+
+  {#if progress}
+    <section class="card next" aria-labelledby="next-h">
+      <h2 id="next-h">Your next steps</h2>
+      <ul>
+        {#if progress.weak.length}
+          <li>
+            <span><strong>Needs attention:</strong> {progress.weak.slice(0, 3).map((w) => name(w.mode)).join(', ')}</span>
+            {#if progress.weak.length >= 2}
+              <button class="btn small-btn" onclick={() => onreview(progress!.weak.slice(0, 6).map((w) => w.mode))}>Review together</button>
+            {:else}
+              <a class="btn small-btn" href={href({ page: 'drill', mode: progress.weak[0]!.mode })}>Drill it</a>
+            {/if}
+          </li>
+        {:else if progress.due.length}
+          <li>
+            <span><strong>Due for revision:</strong> {progress.due.slice(0, 3).map((d) => name(d.mode)).join(', ')}</span>
+            <a class="btn small-btn" href={href({ page: 'drill', mode: progress.due[0]!.mode })}>Drill {name(progress.due[0]!.mode)}</a>
+          </li>
+        {/if}
+        {#if wordsDue}
+          <li>
+            <span><strong>{wordsDue} {wordsDue === 1 ? 'word' : 'words'}</strong> due for review</span>
+            <button class="btn small-btn" onclick={onreviewwords}>Review words</button>
+          </li>
+        {/if}
+        {#if path && next}
+          {@const l = stepLink(next)}
+          <li>
+            <span><strong>Next on your {path.level} path:</strong> {l.label}</span>
+            <a class="btn small-btn" href={l.href}>Go</a>
+          </li>
+        {:else if path && themes}
+          <li><span>You've done every step Krotik can track on the {path.level} path. Ready for the next level?</span><a class="btn small-btn" href={href({ page: 'paths' })}>Paths</a></li>
+        {:else if !path}
+          <li><span>Not sure what to study next? Follow a learning path for your level.</span><a class="btn small-btn" href={href({ page: 'paths' })}>Choose a path</a></li>
+        {/if}
+      </ul>
+    </section>
   {/if}
 
   <div class="cards">
@@ -162,6 +237,27 @@
   .strip-actions {
     display: flex;
     gap: 6px;
+  }
+  .next {
+    margin: 0 0 14px;
+  }
+  .next h2 {
+    margin: 0 0 6px;
+    font-size: 1.15rem;
+  }
+  .next ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .next li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding: 7px 0;
+    border-top: 1px solid var(--border);
   }
   .cards {
     display: grid;
