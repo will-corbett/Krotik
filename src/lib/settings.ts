@@ -37,6 +37,8 @@ export interface Settings {
    * the old `readingLang` was saved as 'en' for everyone, before Russian became the default.)
    */
   questionLang: 'en' | 'ru';
+  /** The learning path you follow (Paths page), so the home page can suggest your next step; '' = none chosen. */
+  pathLevel: '' | 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
   verbs: VerbSettings;
   reflexive: VerbSettings;
   compare: CompareSettings;
@@ -108,6 +110,7 @@ export const DEFAULTS: Settings = {
   translate: { lengths: ['short'] },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
   questionLang: 'ru',
+  pathLevel: '',
 };
 
 const KEY = 'krotik.settings.v1';

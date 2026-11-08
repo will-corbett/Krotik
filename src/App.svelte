@@ -9,6 +9,7 @@
   import ReadingText from './components/ReadingText.svelte';
   import WordsIndex from './components/WordsIndex.svelte';
   import WordsTheme from './components/WordsTheme.svelte';
+  import PathsPage from './components/PathsPage.svelte';
   import About from './components/About.svelte';
   import Dashboard from './components/Dashboard.svelte';
   import LearnIndex from './components/LearnIndex.svelte';
@@ -299,6 +300,8 @@
       <WordsTheme id={route.theme} bind:settings onpractise={practise} />
     {:else if route.page === 'vocabulary'}
       <WordsIndex />
+    {:else if route.page === 'paths'}
+      <PathsPage bind:settings />
     {:else if route.page === 'reading'}
       <ReadingIndex />
     {:else if route.page === 'culture' && route.note}

@@ -205,5 +205,6 @@ export interface ThemeData {
 }
 /** public/data/themes.json: the Vocabulary section's themes, in order. */
 export interface ThemeIndex {
-  themes: { id: string; title: string; ru: string; level: string; blurb: string; words: number; dialogues: number }[];
+  /** keys: the theme's word keys (for learning paths: is the theme in your words?) */
+  themes: { id: string; title: string; ru: string; level: string; blurb: string; words: number; dialogues: number; keys: string[] }[];
 }

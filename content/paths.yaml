@@ -1,0 +1,167 @@
+# Learning paths: a recommended route through Krotik for each level, mixing grammar (Learn + Drill), vocabulary
+# themes, reading and review. A guide, not a gate: everything stays open. Steps refer to existing ids
+# (topics.ts, content/words/themes.yaml, reading units); tests/unit/paths.test.ts checks every one.
+# Step kinds: learn (a topic), vocab (a theme), read (a text), drill (a review drill: mixed, translate, vocab), test.
+
+- level: A1
+  title: Complete beginner
+  intro: >-
+    Start with the letters and sounds, then the words and grammar you need to say who you are, what you want and
+    where things are. By the end you can read a short story with help.
+  steps:
+    - { learn: alphabet, why: "Everything else starts here. Learn to read and type Cyrillic." }
+    - { learn: sounds, why: "How Russian is really pronounced, so words sound right in your head." }
+    - { learn: stress, why: "Stress changes how a word sounds; the marks in Krotik show where it falls." }
+    - { vocab: greetings, why: "Your first words: hello, please, thank you, and your name." }
+    - { learn: pronouns, why: "я, ты, он, она: you need them in nearly every sentence." }
+    - { vocab: people }
+    - { learn: verbs, why: "Present-tense endings let you say what people do." }
+    - { vocab: food }
+    - { learn: nounCases, why: "Cases are the heart of Russian grammar: start with what each one does." }
+    - { learn: prepositions, why: "в, на, с, к: the commonest words, and each comes with a case." }
+    - { vocab: home }
+    - { learn: adjectives, why: "Adjectives agree with their noun; the endings follow a pattern." }
+    - { learn: plurals }
+    - { vocab: cafe }
+    - { learn: questionWords, why: "кто, что, где, когда: ask questions and understand them." }
+    - { read: kuritsa-i-lastochka, why: "Your first real story: 24 words, every one explained." }
+    - { learn: numbers }
+    - { learn: time }
+    - { vocab: time }
+    - { vocab: daily-routine }
+    - { learn: possessives }
+    - { learn: reflexive }
+    - { vocab: shopping }
+    - { learn: narechiya }
+    - { learn: impersonal, why: "мне холодно, мне нравится: Russian says many everyday things this way." }
+    - { learn: modals }
+    - { learn: conjunctions }
+    - { vocab: clothes }
+    - { vocab: languages }
+    - { read: osyol-v-lvinoy-shkure }
+    - { read: lisitsa-i-vinograd }
+    - { drill: mixed, why: "Mix the topics you've done in one round to check they've stuck." }
+    - { test: true, why: "When the A1 topics feel easy, see where your grammar stands." }
+
+- level: A2
+  title: Elementary
+  intro: >-
+    Talk about the past and the future, move around town, and say what you have to and want to do. A2 is where aspect
+    and verbs of motion come in: the two big differences from English.
+  steps:
+    - { learn: aspect, why: "Every verb comes in two aspects (делать / сделать). This is the most important A2 topic." }
+    - { learn: aspectContext, why: "Choosing the aspect in real sentences, not just knowing the pairs." }
+    - { vocab: town }
+    - { learn: motion, why: "идти or ходить? The pairs of motion verbs, one direction or many." }
+    - { vocab: travel }
+    - { learn: position }
+    - { learn: government, why: "Which case a verb takes (помогать кому, бояться чего)." }
+    - { vocab: weather }
+    - { learn: negation }
+    - { learn: compare }
+    - { learn: comparison }
+    - { learn: short }
+    - { vocab: health }
+    - { read: rybak-i-rybka }
+    - { learn: ordinals }
+    - { learn: specialCases }
+    - { vocab: work }
+    - { learn: indefinite }
+    - { learn: chtoby }
+    - { learn: kotoryi }
+    - { learn: conditional }
+    - { vocab: free-time }
+    - { vocab: sport }
+    - { read: volk-i-zhuravl }
+    - { read: sobaka-i-ee-ten }
+    - { learn: complexSentences, why: "Joining clauses with потому что, хотя, пока and more." }
+    - { vocab: holidays }
+    - { vocab: technology }
+    - { vocab: nature }
+    - { read: dve-loshadi }
+    - { drill: translate, why: "Put whole sentences into Russian and compare with a native version." }
+    - { drill: mixed }
+    - { test: true }
+
+- level: B1
+  title: Intermediate
+  intro: >-
+    Read and understand longer texts, and recognise the forms of written Russian: participles, verbal adverbs and
+    prefixed motion verbs. Vocabulary moves from everyday life to work, money, media and society.
+  steps:
+    - { learn: prefixedMotion, why: "прийти, выйти, перейти: prefixes give motion verbs their direction." }
+    - { vocab: feelings }
+    - { vocab: relationships }
+    - { learn: adverbs, why: "читая, прочитав: common in stories, and easy to recognise once you know them." }
+    - { read: kak-muzhik-ubral-kamen }
+    - { vocab: housing }
+    - { learn: participles, why: "Participles are everywhere in written Russian: learn to recognise them first." }
+    - { vocab: career }
+    - { learn: diminutives }
+    - { vocab: money }
+    - { read: devochka-i-griby }
+    - { learn: particles, why: "же, ведь, ли: small words that change the tone of a sentence." }
+    - { vocab: education }
+    - { learn: reportedSpeech }
+    - { vocab: media }
+    - { learn: wordOrder, why: "How Russian orders words to put the news at the end." }
+    - { vocab: arts }
+    - { read: lev-i-sobachka }
+    - { vocab: environment }
+    - { read: akula }
+    - { drill: translate }
+    - { drill: mixed }
+    - { test: true }
+
+- level: B2
+  title: Upper intermediate
+  intro: >-
+    Make the B1 grammar automatic, and handle numbers, aspect and complex sentences without thinking. Read longer
+    texts and a play, and build the vocabulary of discussion, business, law and science.
+  steps:
+    - { vocab: opinions, why: "Say what you think and why: однако, следовательно, во-первых." }
+    - { learn: aspectContext, why: "Aspect in context again, now in the past, the future and the imperative." }
+    - { vocab: society }
+    - { learn: numbers, why: "Numbers in every case (с тремя друзьями) are among the last things to become secure." }
+    - { vocab: business }
+    - { read: predlozhenie-1, why: "Chekhov's comedy «Предложение», scene by scene." }
+    - { learn: complexSentences }
+    - { vocab: law }
+    - { learn: participles, why: "Back to participles, now to use them as well as recognise them." }
+    - { vocab: medicine }
+    - { read: predlozhenie-2 }
+    - { vocab: science }
+    - { learn: prefixedMotion }
+    - { vocab: mind }
+    - { read: predlozhenie-3 }
+    - { learn: reportedSpeech }
+    - { vocab: innovation }
+    - { vocab: climate }
+    - { read: zhivchik }
+    - { drill: translate, why: "Longer sentences now." }
+    - { drill: mixed }
+    - { test: true }
+
+- level: C1
+  title: Advanced
+  intro: >-
+    At C1, vocabulary is about precision and register: formal Russian, near-synonyms, word families and the language of
+    argument. Read whole plays and longer stories, and keep the grammar sharp with mixed review.
+  steps:
+    - { vocab: formal, why: "The bookish Russian of reports and official letters, and its everyday equivalents." }
+    - { vocab: argument }
+    - { learn: wordOrder, why: "Word order carries emphasis and tone; at C1 you choose it on purpose." }
+    - { vocab: shades, why: "Which word, when: смотреть, глядеть, наблюдать." }
+    - { read: medved-1, why: "Chekhov's «Медведь»: fast, colloquial and funny." }
+    - { vocab: word-families, why: "Know a root and you can guess dozens of words: -вод-, -ход-, -пис-, -нос-." }
+    - { vocab: character }
+    - { read: medved-4 }
+    - { vocab: ethics }
+    - { vocab: information }
+    - { read: medved-8 }
+    - { vocab: negotiation }
+    - { vocab: history }
+    - { read: dlya-chego-veter }
+    - { drill: translate }
+    - { drill: mixed, why: "Keep every topic sharp." }
+    - { test: true }

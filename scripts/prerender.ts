@@ -13,6 +13,7 @@ import { pageTitle } from '../src/lib/pageMeta.ts';
 import { href, pathOf, type Route } from '../src/lib/router.ts';
 import { ALL_TOPICS, isDrill, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
 import { renderForm } from '../src/shared/forms.ts';
+import { stepKind, type Path, type PathStep } from '../src/lib/paths.ts';
 import { SITE_URL } from '../src/shared/site.ts';
 import type { ClozeRow, LearnExtras, ReadingIndex, ReadingUnit, ThemeData, ThemeIndex } from '../src/shared/types.ts';
 
@@ -278,6 +279,25 @@ pages.push({
     .join('')}</ol><h2>Already know some Russian?</h2><p>Take the ${a({ page: 'test' }, 'Grammar test')}, then review the Learn pages it suggests.</p><h2>How drills work</h2><p>Type the answer and press Enter. A wrong answer comes back about ten cards later; the round ends when everything is right. Use the on-screen keyboard or phonetic typing (zh → ж, ch → ч, sh → ш) if you have no Russian keyboard.</p>`,
 });
 pages.push(PROGRESS_PAGE);
+// ---- Learning paths: each level's route, with every step linked
+const paths = parse(readFileSync('content/paths.yaml', 'utf8')) as Path[];
+const KIND_NAME = { learn: 'Grammar', vocab: 'Vocabulary', read: 'Reading', drill: 'Review', test: 'Test' } as const;
+const stepLink = (s: PathStep): string => {
+  const { kind, id } = stepKind(s);
+  if (kind === 'learn') return a({ page: 'learn', topic: id }, topicById(id)!.title.en);
+  if (kind === 'vocab') return a({ page: 'vocabulary', theme: id }, themeIndex.themes.find((t) => t.id === id)?.title ?? id);
+  if (kind === 'read') return `<span lang="ru">${a({ page: 'reading', text: id }, readingIndex.units.find((u) => u.id === id)?.title ?? id)}</span>`;
+  if (kind === 'drill') return a({ page: 'drill', mode: id }, topicById(id)!.title.en);
+  return a({ page: 'test' }, 'Grammar test');
+};
+pages.push({
+  route: { page: 'paths' },
+  description: 'What to study in Russian, level by level: recommended routes from A1 to C1 through grammar, vocabulary, reading and review.',
+  index: true,
+  body: `<h1>Learning paths</h1><p>A route through Krotik for each level: grammar topics, vocabulary themes, reading and review, in an order that builds up. A guide, not a gate.</p>${paths
+    .map((p) => `<h2>${p.level}: ${esc(p.title)}</h2><p>${esc(p.intro)}</p><ol>${p.steps.map((s) => `<li>${KIND_NAME[stepKind(s).kind]}: ${stepLink(s)}${s.why ? `. ${esc(s.why)}` : ''}</li>`).join('')}</ol>`)
+    .join('')}`,
+});
 pages.push({
   route: { page: 'about' },
   description: 'About Krotik: where the Russian forms and sentences come from (OpenRussian, Wiktionary, Tatoeba), their licences, and what is kept in your browser.',

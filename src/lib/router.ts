@@ -22,6 +22,7 @@ export type Route =
   | { page: 'reading'; text?: string }
   | { page: 'vocabulary'; theme?: string }
   | { page: 'progress' }
+  | { page: 'paths' }
   | { page: 'culture'; note?: string }
   | { page: 'about' };
 
@@ -41,6 +42,8 @@ function fromParts(parts: string[]): Route {
       return parts[1] ? { page: 'vocabulary', theme: parts[1] } : { page: 'vocabulary' };
     case 'progress':
       return { page: 'progress' };
+    case 'paths':
+      return { page: 'paths' };
     case 'culture':
       return parts[1] ? { page: 'culture', note: parts[1] } : { page: 'culture' };
     case 'about':
@@ -79,6 +82,8 @@ export function pathOf(route: Route): string {
       return route.theme ? `vocabulary/${route.theme}/` : 'vocabulary/';
     case 'progress':
       return 'progress/';
+    case 'paths':
+      return 'paths/';
     case 'culture':
       return route.note ? `culture/${route.note}/` : 'culture/';
     case 'about':

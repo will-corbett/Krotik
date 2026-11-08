@@ -231,7 +231,7 @@ export function buildThemes(
   if (errors.length) throw new Error(`content/words:\n  ${errors.join('\n  ')}`);
   if (!drafts) review.push('Nothing waiting: every dialogue has been reviewed.');
   return {
-    index: { themes: out.map((t) => ({ id: t.id, title: t.title, ru: t.ru, level: t.level, blurb: t.blurb, words: t.groups.reduce((n, g) => n + g.words.length, 0), dialogues: t.dialogues.length })) },
+    index: { themes: out.map((t) => ({ id: t.id, title: t.title, ru: t.ru, level: t.level, blurb: t.blurb, words: t.groups.reduce((n, g) => n + g.words.length, 0), dialogues: t.dialogues.length, keys: t.groups.flatMap((g) => g.words.map((w) => w[0])) })) },
     themes: out,
     review: review.join('\n') + '\n',
   };

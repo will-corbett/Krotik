@@ -50,6 +50,7 @@
     <h2 id="back">Already know some Russian?</h2>
     <ul>
       <li>Take the <a href={href({ page: 'test' })}>Grammar test</a> (20–25 minutes). The results explain every wrong answer and list the Learn pages worth reading.</li>
+      <li>Follow a <a href={href({ page: 'paths' })}>learning path</a> for your level: grammar, vocabulary and reading in a recommended order.</li>
       <li>Pick topics from <a href={href({ page: 'learn' })}>Learn &amp; drill</a>: each shows the level at which learners usually meet it.</li>
       <li>Turn on <a href={href({ page: 'progress' })}>progress</a> (kept in this browser only) to see your weak topics, then review them together in a <a href={href({ page: 'drill', mode: 'mixed' })}>mixed review</a>. It also keeps a list of the words you practise, and brings each back for review when it's due.</li>
     </ul>
