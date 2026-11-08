@@ -74,16 +74,27 @@ test('the Dashboard has no Culture card; Culture is in the main menu', async ({ 
   await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
 });
 
-for (const width of [1280, 720, 390]) {
-  test(`at ${width}px the main menu is a dropdown, level with the logo`, async ({ page }) => {
+for (const width of [1280, 1000, 720, 390]) {
+  test(`at ${width}px the main menu sits level with the logo: a bar on wide screens, a dropdown below 1000px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('./learn/');
-    const menu = page.getByRole('button', { name: 'Menu' });
-    await expect(menu).toBeVisible();
-    await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link')).toHaveCount(0);
+    const nav = page.getByRole('navigation', { name: 'Main' });
     const logo = (await page.getByRole('link', { name: 'Krotik, dashboard' }).boundingBox())!;
-    const btn = (await menu.boundingBox())!;
-    expect(Math.abs(logo.y + logo.height / 2 - (btn.y + btn.height / 2))).toBeLessThanOrEqual(2);
+    const centre = (b: { y: number; height: number }) => b.y + b.height / 2;
+    if (width >= 1000) {
+      await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
+      await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Culture']);
+      await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
+      // One line, on the logo's line.
+      const tops = await nav.getByRole('link').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
+      expect(new Set(tops).size).toBe(1);
+      expect(Math.abs(centre(logo) - centre((await nav.getByRole('link').first().boundingBox())!))).toBeLessThanOrEqual(3);
+    } else {
+      const menu = page.getByRole('button', { name: 'Menu' });
+      await expect(menu).toBeVisible();
+      await expect(nav.getByRole('link')).toHaveCount(0);
+      expect(Math.abs(centre(logo) - centre((await menu.boundingBox())!))).toBeLessThanOrEqual(2);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }

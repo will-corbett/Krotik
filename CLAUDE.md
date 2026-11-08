@@ -97,7 +97,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   out of the Drill page and with no Drill links; their quick checks use a related drill. Each
   topic has a `level` [first met, core by] (our CEFR-style judgement, a guide not a gate) and `related` topics; Learn
   pages show both, with previous/next links in this order.
-- The main menu is a Menu dropdown at every width (the desktop bar of seven pages wrapped below the logo, out of line with it, so it was dropped). The level test is called the **Grammar test**
+- The main menu is a bar on the logo's line at 1000px and wider, and a Menu dropdown below that (a bar there wraps
+  below the logo, out of line with it). The level test is called the **Grammar test**
   everywhere: it measures grammar, not a full CEFR level, and says so.
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),

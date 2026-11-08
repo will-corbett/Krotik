@@ -220,7 +220,18 @@
   const narrow = $derived(
     route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
   );
-  // The main menu is a Menu dropdown at every width: seven pages as a bar wrapped below the logo on narrower screens.
+  // Wide screens (1000px and up) show the seven pages as a bar on the logo's line; narrower ones get the Menu dropdown
+  // (a bar there would wrap below the logo, out of line with it).
+  const wideQuery = typeof matchMedia === 'function' ? matchMedia('(min-width: 1000px)') : null;
+  let wide = $state(wideQuery?.matches ?? false);
+  $effect(() => {
+    const on = () => {
+      wide = wideQuery?.matches ?? false;
+      if (wide) menuOpen = false;
+    };
+    wideQuery?.addEventListener('change', on);
+    return () => wideQuery?.removeEventListener('change', on);
+  });
 
   const NAV: { label: string; route: Route }[] = [
     { label: 'Dashboard', route: { page: 'home' } },
@@ -243,11 +254,13 @@
       <span>Krotik</span>
     </a>
     <nav aria-label="Main" class="menu" bind:this={menuEl}>
-      <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
-        <span aria-hidden="true">☰</span> Menu
-      </button>
-      {#if menuOpen}
-        <ul id="main-menu" class="menu-list">
+      {#if !wide}
+        <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
+          <span aria-hidden="true">☰</span> Menu
+        </button>
+      {/if}
+      {#if wide || menuOpen}
+        <ul id="main-menu" class={wide ? 'bar' : 'menu-list'}>
           {#each NAV as n (n.label)}
             <li>
               <a
@@ -377,6 +390,17 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+  }
+  .bar {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2px;
+  }
+  .bar .nav-link {
+    padding: 8px 11px;
   }
   .nav-link {
     display: block;
