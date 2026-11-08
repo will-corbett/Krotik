@@ -8,6 +8,7 @@
   import { addWords, loadWords, saveWords } from '../lib/words.ts';
   import { bare, renderForm } from '../shared/forms.ts';
   import type { ThemeData, ThemeIndex, ThemeWord } from '../shared/types.ts';
+  import type { Word } from '../lib/types.ts';
   import ExplainedText from './ExplainedText.svelte';
   import Sentence from './Sentence.svelte';
   import ReportLink from './ReportLink.svelte';
@@ -21,7 +22,7 @@
     id,
     settings = $bindable(),
     onpractise,
-  }: { id: string; settings: Settings; onpractise: (keys: [string, number][], direction: 'recognise' | 'recall' | 'gap', theme?: string) => void } = $props();
+  }: { id: string; settings: Settings; onpractise: (keys: [string, number][], direction: 'recognise' | 'recall' | 'gap', theme?: string, words?: Word[]) => void } = $props();
   let theme = $state<ThemeData | null>(null);
   let index = $state<ThemeIndex | null>(null);
   let error = $state('');
@@ -45,6 +46,8 @@
   });
   const all = $derived(theme ? theme.groups.flatMap((g) => g.words) : []);
   const keys = $derived(all.map(([k, , , , , b]) => [k, b] as [string, number]));
+  // The theme's words whole (with our meanings), so a practice round needn't load the word lists they're in.
+  const words = $derived(all.map(([key, accented, gloss, pos, extra, band]): Word => ({ key, accented, gloss, pos, extra, band })));
 
   // Your words (opt-in: only while progress is on).
   let mine = $state(new Set(Object.keys(loadWords().words)));
@@ -79,9 +82,9 @@
     <p class="intro"><span class="level">{theme.level}</span> {theme.blurb}</p>
 
     <div class="practise" role="group" aria-label="Practise these words">
-      <button type="button" class="btn primary" onclick={() => onpractise(keys, 'recognise')}>Practise: choose the meaning</button>
-      <button type="button" class="btn" onclick={() => onpractise(keys, 'recall')}>Practise: type the word</button>
-      {#if Object.keys(theme.gaps).length}<button type="button" class="btn" onclick={() => onpractise(keys, 'gap', theme!.id)}>Practise: fill the gap</button>{/if}
+      <button type="button" class="btn primary" onclick={() => onpractise(keys, 'recognise', theme!.id, words)}>Practise: choose the meaning</button>
+      <button type="button" class="btn" onclick={() => onpractise(keys, 'recall', theme!.id, words)}>Practise: type the word</button>
+      {#if Object.keys(theme.gaps).length}<button type="button" class="btn" onclick={() => onpractise(keys, 'gap', theme!.id, words)}>Practise: fill the gap</button>{/if}
       {#if settings.progress}
         <button type="button" class="btn quiet" disabled={allIn} onclick={() => add(keys)}>{allIn ? 'All in your words ✓' : 'Add all to my words'}</button>
       {/if}

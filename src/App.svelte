@@ -35,7 +35,7 @@
     const t = topicById(id);
     return !!t && isDrill(t);
   };
-  import type { Mode, Question } from './lib/types.ts';
+  import type { Mode, Question, Word } from './lib/types.ts';
 
   type Screen = 'setup' | 'drill' | 'end';
 
@@ -122,10 +122,10 @@
   }
 
   /** Reading's key words: a "choose the meaning" round on just these words (kept for "again" until you leave). */
-  let practice = $state<{ keys: [string, number][]; direction: 'recognise' | 'recall' | 'gap'; theme?: string } | null>(null);
-  function practise(keys: [string, number][], direction: 'recognise' | 'recall' | 'gap' = 'recognise', theme?: string) {
+  let practice = $state<{ keys: [string, number][]; direction: 'recognise' | 'recall' | 'gap'; theme?: string; words?: Word[] } | null>(null);
+  function practise(keys: [string, number][], direction: 'recognise' | 'recall' | 'gap' = 'recognise', theme?: string, words?: Word[]) {
     navigate(href({ page: 'drill', mode: 'vocab' }));
-    practice = { keys, direction, theme };
+    practice = { keys, direction, theme, words };
     start();
   }
 
@@ -136,7 +136,7 @@
     try {
       const s = $state.snapshot(settings) as Settings;
       const gen = practice
-        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: practice.direction === 'gap' ? 'recognise' : practice.direction } }, mulberry32(seed()), { keys: practice.keys, gapTheme: practice.direction === 'gap' ? practice.theme : undefined })
+        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: practice.direction === 'gap' ? 'recognise' : practice.direction } }, mulberry32(seed()), { keys: practice.words ? undefined : practice.keys, words: practice.words, gapTheme: practice.direction === 'gap' ? practice.theme : undefined })
         : await prepareRound(s, mulberry32(seed()));
       const unlimited = settings.count === 0 && !practice;
       const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(practice ? practice.keys.length : settings.count);

@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadLevelTest, loadTheme, loadWordList, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -63,23 +63,31 @@ async function partners(): Promise<PartnerPicker> {
 }
 
 /** Load the data for these settings once; the returned function generates any number of questions. */
-export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string, number][]; gapTheme?: string } = {}): Promise<Generate> {
+export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string, number][]; words?: Word[]; gapTheme?: string } = {}): Promise<Generate> {
   switch (s.mode) {
     case 'vocab': {
       // Words to ask: the given keys (Reading's key words), your due words, or the commonest up to the band.
       const record = opts.keys || s.vocab.source !== 'mine' ? null : loadWords();
       const due = record ? dueKeys(record, today()) : opts.keys?.map(([k]) => k);
       const bandOf = (k: string) => record?.words[k]?.b ?? opts.keys?.find(([x]) => x === k)?.[1] ?? 3;
-      const maxBand = due ? Math.max(0, ...due.map(bandOf)) : s.band;
-      const all = await loadWordList(maxBand);
+      // Rounds on given words load only what they need: the two commonest bands (for wrong options and other right
+      // answers) plus the bands the words are in, and grammar tables (Full forms) only for words up to the 2,500
+      // commonest. A theme passes its words whole, so its rare words don't need a word list at all. Otherwise (the
+      // commonest words) every band up to the chosen one.
+      const given = opts.words;
+      const targetBands = due ? [...new Set(due.map(bandOf))] : given ? [...new Set(given.map((w) => w.band))] : null;
+      const wordBands = given ? [0, 1] : targetBands ? [...new Set([0, 1, ...targetBands])].sort() : null;
+      const loaded = await loadWordList(wordBands ?? s.band);
+      const all = given ? [...loaded, ...given.filter((w) => !loaded.some((x) => x.key === w.key))] : loaded;
       const types = new Set(s.vocab.types);
       const byKey = new Map(all.map((w) => [w.key, w]));
-      const targets = due ? due.map((k) => byKey.get(k)).filter((w): w is Word => !!w) : all.filter((w) => types.has(w.pos));
+      const targets = given ?? (due ? due.map((k) => byKey.get(k)).filter((w): w is Word => !!w) : all.filter((w) => types.has(w.pos)));
       const need = new Set(targets.map((w) => w.pos));
+      const lexBands = targetBands ? targetBands.filter((b) => b <= 2) : [0, 1, 2, 3].filter((b) => b <= s.band);
       const [verbs, nouns, adjs] = await Promise.all([
-        need.has('v') ? loadVerbs(maxBand) : [],
-        need.has('n') ? loadNouns(maxBand) : [],
-        need.has('a') ? loadAdjectives(maxBand) : [],
+        need.has('v') && lexBands.length ? loadVerbsIn(lexBands) : [],
+        need.has('n') && lexBands.length ? loadNounsIn(lexBands) : [],
+        need.has('a') && lexBands.length ? loadAdjectivesIn(lexBands) : [],
       ]);
       const lex = new Map<string, ParadigmRef>([
         ...verbs.map((verb) => [`v:${verb.id}`, { kind: 'verb', verb }] as [string, ParadigmRef]),

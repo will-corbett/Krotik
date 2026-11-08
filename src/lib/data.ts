@@ -29,9 +29,11 @@ function getJson<T>(file: string): Promise<T> {
 
 export const loadManifest = () => getJson<Manifest>('manifest.json');
 
-async function loadRows<R>(type: ShardType, maxBand: number): Promise<{ row: R; band: number }[]> {
+/** Rows of a shard type: every band up to `maxBand`, or exactly the bands listed. */
+async function loadRows<R>(type: ShardType, bands: number | number[]): Promise<{ row: R; band: number }[]> {
   const m = await loadManifest();
-  const shards = (m.shards[type] ?? []).filter((s) => s.band <= maxBand);
+  const want = (b: number) => (typeof bands === 'number' ? b <= bands : bands.includes(b));
+  const shards = (m.shards[type] ?? []).filter((s) => want(s.band));
   const parts = await Promise.all(shards.map((s) => getJson<R[]>(s.file).then((rows) => rows.map((row) => ({ row, band: s.band })))));
   return parts.flat();
 }
@@ -43,6 +45,16 @@ export const toNoun = ([id, accented, gloss, gender, animate, sgOnly, cells, cou
   id, accented, gloss, gender, animate: animate === 1, sgOnly: sgOnly === 1, cells, band, ...(counting ? { counting } : {}),
 });
 
+/** Exactly these bands (not every band up to one): for rounds on given words, so a rare word doesn't load everything. */
+export async function loadVerbsIn(bands: number[]): Promise<Verb[]> {
+  return (await loadRows<VerbRow>('verbs', bands)).map(({ row, band }) => toVerb(row, band));
+}
+export async function loadNounsIn(bands: number[]): Promise<Noun[]> {
+  return (await loadRows<NounRow>('nouns', bands)).map(({ row, band }) => toNoun(row, band));
+}
+export async function loadAdjectivesIn(bands: number[]): Promise<Adjective[]> {
+  return (await loadRows<AdjRow>('adjectives', bands)).map(({ row, band }) => toAdjective(row, band));
+}
 export async function loadVerbs(maxBand: number): Promise<Verb[]> {
   return (await loadRows<VerbRow>('verbs', maxBand)).map(({ row, band }) => toVerb(row, band));
 }
@@ -53,8 +65,8 @@ export async function loadNouns(maxBand: number): Promise<Noun[]> {
   return (await loadRows<NounRow>('nouns', maxBand)).map(({ row, band }) => toNoun(row, band));
 }
 /** The vocabulary lists (every word type) up to this band. */
-export async function loadWordList(maxBand: number): Promise<Word[]> {
-  return (await loadRows<WordRow>('words', maxBand)).map(({ row: [key, accented, gloss, pos, extra], band }) => ({ key, accented, gloss, pos, extra, band }));
+export async function loadWordList(bands: number | number[]): Promise<Word[]> {
+  return (await loadRows<WordRow>('words', bands)).map(({ row: [key, accented, gloss, pos, extra], band }) => ({ key, accented, gloss, pos, extra, band }));
 }
 export async function loadParticiples(maxBand: number): Promise<{ row: ParticipleRow; band: number }[]> {
   return loadRows<ParticipleRow>('participles', maxBand);
