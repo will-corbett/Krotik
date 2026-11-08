@@ -6,6 +6,7 @@
   import { renderForm } from '../shared/forms.ts';
   import type { ReadingIndex, ReadingUnit } from '../shared/types.ts';
   import ExplainedText from './ExplainedText.svelte';
+  import type { Word } from '../lib/types.ts';
   import ReportLink from './ReportLink.svelte';
   import { today } from '../lib/progress.ts';
   import { addWords, loadWords, saveWords } from '../lib/words.ts';
@@ -14,8 +15,10 @@
    * One story or scene. Every word is a button: hovering, tapping or focusing it shows what it is (dictionary form,
    * meaning, which form). Arrow keys move between words, so the text is one Tab stop. Questions follow the text.
    */
-  let { id, settings = $bindable(), onpractise }: { id: string; settings: Settings; onpractise: (keys: [string, number][]) => void } = $props();
+  let { id, settings = $bindable(), onpractise }: { id: string; settings: Settings; onpractise: (keys: [string, number][], direction?: 'recognise', theme?: string, words?: Word[]) => void } = $props();
   let unit = $state<ReadingUnit | null>(null);
+  // The key words whole (meaning and band), so practising them needn't download the rare-word lists they're in.
+  const keyWordList = $derived((unit?.keyWords ?? []).map(([key, band, accented, gloss]): Word => ({ key, accented, gloss, pos: key[0] as Word['pos'], extra: '', band })));
   let index = $state<ReadingIndex | null>(null);
   let error = $state('');
   $effect(() => {
@@ -80,7 +83,7 @@
           {/each}
         </ul>
         <div class="kw-actions">
-          <button type="button" class="btn" onclick={() => onpractise(unit!.keyWords.map(([k, b]) => [k, b]))}>Practise these</button>
+          <button type="button" class="btn" onclick={() => onpractise(unit!.keyWords.map(([k, b]) => [k, b]), 'recognise', undefined, keyWordList)}>Practise these</button>
           {#if settings.progress}
             <button type="button" class="btn quiet" disabled={allIn} onclick={() => add(unit!.keyWords.map(([k, b]) => [k, b]))}>{allIn ? 'All in your words ✓' : 'Add all to my words'}</button>
           {/if}
