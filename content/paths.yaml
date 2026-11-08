@@ -104,11 +104,14 @@
     - { vocab: education }
     - { learn: reportedSpeech }
     - { vocab: media }
+    - { read: radost, why: "A Chekhov story: proud to be in the newspaper, but for what?" }
     - { learn: wordOrder, why: "How Russian orders words to put the news at the end." }
     - { vocab: arts }
     - { read: lev-i-sobachka }
     - { vocab: environment }
     - { read: akula }
+    - { read: tolstyy-i-tonkiy }
+    - { read: glubiny-vselennoy, why: "Your first news article: science from Russian Wikinews." }
     - { drill: translate }
     - { drill: mixed }
     - { test: true }
@@ -124,6 +127,7 @@
     - { vocab: society }
     - { learn: numbers, why: "Numbers in every case (с тремя друзьями) are among the last things to become secure." }
     - { vocab: business }
+    - { read: khameleon, why: "Chekhov's «Хамелеон»: now the questions ask you to read between the lines." }
     - { read: predlozhenie-1, why: "Chekhov's comedy «Предложение», scene by scene." }
     - { learn: complexSentences }
     - { vocab: law }
@@ -131,12 +135,15 @@
     - { vocab: medicine }
     - { read: predlozhenie-2 }
     - { vocab: science }
+    - { read: tri-obitaemye-planety, why: "A science article: how sure are the scientists?" }
     - { learn: prefixedMotion }
     - { vocab: mind }
     - { read: predlozhenie-3 }
     - { learn: reportedSpeech }
     - { vocab: innovation }
     - { vocab: climate }
+    - { read: muravi-i-temperatura }
+    - { read: smert-chinovnika }
     - { read: zhivchik }
     - { drill: translate, why: "Longer sentences now." }
     - { drill: mixed }
@@ -160,6 +167,8 @@
     - { vocab: information }
     - { read: medved-8 }
     - { vocab: negotiation }
+    - { read: ustritsy, why: "Chekhov at his most serious: hunger, seen by a child." }
+    - { read: nobel-teoriya-kontraktov }
     - { vocab: history }
     - { read: dlya-chego-veter }
     - { drill: translate }

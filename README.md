@@ -19,8 +19,9 @@ and your words) is optional, off by default, and kept only in your browser.
 - **Vocabulary**: words in 47 themes from A1 to C1 (food, family, travel, work, the law, science, formal Russian, shades of meaning…): words with stress and meaning,
   a real sentence for each, short dialogues where every word can be tapped (published once a native speaker has
   checked them), and practice rounds (`content/words/*.yaml`).
-- **Reading**: short stories by Tolstoy and comedies by Chekhov (public domain), with every word explained on hover or
-  tap and comprehension questions in English or Russian (`curated/literature.yaml`, `content/reading/questions.yaml`).
+- **Reading**: short stories by Tolstoy, Chekhov's stories and comedies (public domain) and science news from Russian
+  Wikinews (CC BY 4.0), with every word explained on hover or tap and comprehension questions in English or Russian,
+  including reading between the lines and tone from B2 (`curated/literature.yaml`, `content/reading/questions.yaml`).
 - **Culture**: about 120 hand-picked links to videos, cartoons, films, podcasts, books and tools, each type with a suggested activity, filterable by level, topic and region (`content/culture/links.yaml`),
   and short culture notes (`content/culture/notes/*.md`). `npm run links:check` checks the links (monthly in CI).
 

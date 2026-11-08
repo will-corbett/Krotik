@@ -261,7 +261,16 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   or people. Culture links keep their stricter rule (nothing whose main theme is politics or the war).
 - Reading (`/reading/`, `/reading/<id>/`; `ReadingIndex.svelte`, `ReadingText.svelte`): whole stories and scenes of
   public-domain literature listed in `curated/literature.yaml` (Tolstoy's Second Russian reader; Chekhov's Медведь and
-  Предложение), fetched from Russian Wikisource at pinned revisions and never changed. `scripts/lib/literature.ts`
+  Предложение; 8 Chekhov short stories as a `kind: pages` collection, one Wikisource page each, with its own level and
+  year), fetched from Russian Wikisource at pinned revisions and never changed. Science news from Russian Wikinews
+  (CC BY 4.0, `site: wikinews`, credited to Wikinews contributors with a link to the revision; `readingCredit.ts`): only
+  articles written by Wikinews contributors (never the bot copies of other outlets, "Загружено ботом"), none copying an
+  outlet word for word, none citing a sanctioned outlet (VGTRK/Vesti, TASS, RIA…), nothing on politics or war. Wikinews
+  templates holding the article's words (цитата, lang-xx, nobr, w) keep their text; files, tables, sources and
+  categories go. Raw files are named by revision. Questions may have `kind: inference` (reading between the lines) or
+  `kind: tone` (attitude, irony), labelled in the page; texts aimed at B2+ (lowest level B2 or C1) of 150+ words must
+  have both (`tests/unit/reading.test.ts`). Hand glosses starting "(name) " mark a name with a note (the made-up horse
+  surnames in Лошадиная фамилия). `scripts/lib/literature.ts`
   explains every word: our data (dictionary form, meaning, which form), else Wiktionary; flags: old-fashioned
   (Wiktionary has it only as archaic/obsolete/dated; mis-tags go in `notOld` with a reason), the polite -с, names,
   and hyphenated speech (-то, repeats, stammers, spelt out). Words neither source has get an English meaning by hand in

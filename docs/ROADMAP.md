@@ -189,7 +189,9 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    device voice where available, minimal pairs), about 4,000 words and 5,700 sentences, fetched gradually by a
    scheduled workflow; record-and-compare kept on the device (no speech recognition: it sends audio to third
    parties). Possible later: more word recordings (all 7,700 available), Common Voice.
-4. Reading: more public-domain literature, then Wikinews; inference and tone questions at B2 and C1.
+4. Reading (done 2026-11-08): 8 Chekhov short stories (B1–B2) and 7 Russian Wikinews science articles (CC BY 4.0;
+   contributor-written only, no bot copies of outlets, no sanctioned sources, no politics); inference and tone
+   questions on every text aimed at B2+ (Chekhov stories, the plays' longer scenes, B2–C1 articles).
 5. Depth: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
    register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
 Not doing: accounts or sync, social features, leaderboards, gamification, animations, a chatbot, speech recognition.
