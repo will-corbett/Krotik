@@ -19,7 +19,7 @@
     { id: 'a', en: 'Adjectives', ru: 'прилагательные' },
     { id: 'o', en: 'Other words (prepositions, adverbs, pronouns…)', ru: 'другие слова' },
   ];
-  const MIX_GROUPS = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill).filter((t) => t.id !== 'mixed' && t.id !== 'translate') })).filter((g) => g.modes.length);
+  const MIX_GROUPS = TOPIC_GROUPS.map((g) => ({ ...g, modes: g.modes.filter(isDrill).filter((t) => t.id !== 'mixed' && t.id !== 'translate' && t.id !== 'build') })).filter((g) => g.modes.length);
   const weak = $derived(settings.progress && settings.mode === 'mixed' ? summarise(loadProgress(), today()).weak.map((w) => w.mode) : []);
   const COMPARE_TYPES: { id: CompareSettings['types'][number]; label: Term }[] = [
     { id: 'comparative', label: TERMS.comparative },
@@ -555,6 +555,19 @@
             {/each}
           </div>
         {/each}
+      </fieldset>
+    {:else if settings.mode === 'build'}
+      <fieldset>
+        <legend>Sentence length</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.build.lengths.includes('short')} onchange={() => (settings.build.lengths = toggle(settings.build.lengths, 'short'))} /> Short (3–5 words)</label>
+          <label class="chip"><input type="checkbox" checked={settings.build.lengths.includes('long')} onchange={() => (settings.build.lengths = toggle(settings.build.lengths, 'long'))} /> Longer (6–9 words)</label>
+        </div>
+        <p class="hint muted">
+          You'll see an English sentence and its Russian words in the wrong order: tap them in the right order. The
+          original order is marked right; Russian word order is free, so if yours differs, compare it with the original
+          and mark it yourself.
+        </p>
       </fieldset>
     {:else if settings.mode === 'translate'}
       <fieldset>

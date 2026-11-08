@@ -19,6 +19,7 @@ import { generateOrdinalQuestions } from './questions/ordinals.ts';
 import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
 import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
+import { generateBuildQuestions } from './questions/build.ts';
 import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
 import { today } from './progress.ts';
@@ -95,7 +96,7 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
     }
     case 'mixed': {
       // Each topic with its own saved settings; questions interleaved at random, each topic about equally often.
-      const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate');
+      const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate' && t !== 'build');
       const gens = await Promise.all(topics.map((t) => prepareRound({ ...s, mode: t }, rng)));
       return (n) => {
         const each = Math.ceil(n / Math.max(1, gens.length)) + 2;
@@ -104,6 +105,13 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
           .filter((q) => !seen.has(q.key) && seen.add(q.key))
           .slice(0, n);
       };
+    }
+    case 'build': {
+      // Sentences that come with the commonest verbs, as in Translate and compare.
+      const bands = [0, 1, 2].filter((b) => b <= s.band);
+      const shards = await Promise.all(bands.map((b) => loadSentences('verbs', b)));
+      const rows = shards.flatMap((sh) => Object.values(sh).flat());
+      return (n) => generateBuildQuestions(rows, s.build, n, rng);
     }
     case 'translate': {
       // Sentences that come with the commonest verbs (up to the chosen band, at most the 2,500 commonest).
@@ -300,7 +308,7 @@ export function nextBatch(generate: Generate, pending: Set<string>, recent: stri
 /** Does the mode have at least one option selected? */
 export function settingsValid(s: Settings): string | null {
   if (s.mode === 'mixed') {
-    const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate');
+    const topics = s.mixed.topics.filter((t) => t !== 'mixed' && t !== 'translate' && t !== 'build');
     if (topics.length < 2) return 'Choose at least two topics.';
     for (const t of topics) {
       const e = settingsValid({ ...s, mode: t });
@@ -317,6 +325,7 @@ export function settingsValid(s: Settings): string | null {
       if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the commonest words instead, or come back tomorrow.';
     }
   }
+  if (s.mode === 'build' && !s.build.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'translate' && !s.translate.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'verbs' && !s.verbs.groups.length) return 'Choose at least one tense.';
   if (s.mode === 'reflexive' && !s.reflexive.groups.length) return 'Choose at least one tense.';

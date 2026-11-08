@@ -41,7 +41,8 @@ export type Mode =
   | 'alphabet'
   | 'mixed'
   | 'translate'
-  | 'vocab';
+  | 'vocab'
+  | 'build';
 
 export interface Verb {
   id: number;
@@ -123,6 +124,8 @@ export interface Question {
    * whole) and mark it yourself; only an exact match is marked right automatically.
    */
   selfMark?: boolean;
+  /** Build the sentence: the sentence's words, shuffled, to put in order (the answer is the original sentence). */
+  build?: string[];
   /** The answer is typed in English (translate Russian → English): no Cyrillic keyboard, English normalisation. */
   answerLang?: 'en';
   /** Vocabulary "choose the meaning": the options and the answer are English meanings, compared exactly. */
@@ -136,6 +139,10 @@ export interface Question {
 /** Mixed review: questions from several topics in one round, each with that topic's own settings. */
 export interface MixedSettings {
   topics: Mode[];
+}
+/** Build the sentence: short (3–5 words) and/or longer (6–9) sentences. */
+export interface BuildSettings {
+  lengths: ('short' | 'long')[];
 }
 /** Vocabulary: which way round, which word types, and where the words come from. */
 export interface VocabSettings {

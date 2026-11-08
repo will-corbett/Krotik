@@ -117,6 +117,7 @@ export const TOPIC_GROUPS: TopicGroup[] = [
     modes: [
       { id: 'mixed', title: TERMS.mixed, learn: false, blurb: 'Several topics in one round', level: ['A1', 'C1'], related: [] },
       { id: 'translate', title: TERMS.translate, learn: false, blurb: 'Translate a sentence, then compare', level: ['A2', 'C1'], related: [] },
+      { id: 'build', title: TERMS.build, learn: false, blurb: 'Put the Russian words in order', level: ['A1', 'C1'], related: [] },
     ],
   },
 ];

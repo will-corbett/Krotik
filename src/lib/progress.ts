@@ -91,7 +91,7 @@ export interface Summary {
   all: { mode: Mode; rounds: number; percent: number; last: string }[];
 }
 
-/** Translation is self-marked, so it's listed but never suggested as weak or due. */
+/** Translation and sentence building are self-marked, so they're listed but never suggested as weak or due. */
 export function summarise(p: Progress, date: string): Summary {
   const entries = Object.entries(p.topics) as [Mode, TopicRecord][];
   const recentPct = (r: TopicRecord) => {
@@ -99,12 +99,12 @@ export function summarise(p: Progress, date: string): Summary {
     return { n, pct: n ? right / n : 1 };
   };
   const weak = entries
-    .filter(([m, r]) => m !== 'translate' && recentPct(r).n >= WEAK_MIN && recentPct(r).pct < WEAK_BELOW)
+    .filter(([m, r]) => m !== 'translate' && m !== 'build' && recentPct(r).n >= WEAK_MIN && recentPct(r).pct < WEAK_BELOW)
     .map(([mode, r]) => ({ mode, percent: Math.round(100 * recentPct(r).pct) }))
     .sort((a, b) => a.percent - b.percent || (a.mode < b.mode ? -1 : 1));
   const weakSet = new Set(weak.map((w) => w.mode));
   const due = entries
-    .filter(([m, r]) => m !== 'translate' && !weakSet.has(m) && daysBetween(r.last, date) >= DUE_DAYS)
+    .filter(([m, r]) => m !== 'translate' && m !== 'build' && !weakSet.has(m) && daysBetween(r.last, date) >= DUE_DAYS)
     .map(([mode, r]) => ({ mode, days: daysBetween(r.last, date) }))
     .sort((a, b) => b.days - a.days || (a.mode < b.mode ? -1 : 1));
   const all = entries

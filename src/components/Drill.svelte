@@ -79,6 +79,8 @@
   async function focusField() {
     await tick();
     if (selfPending) markButton?.focus();
+    else if (q?.build && phase === 'answering') poolButtons.find(Boolean)?.focus();
+    else if (q?.build) nextButton?.focus();
     else if (q?.choices || q?.stress) (phase === 'feedback' ? nextButton : choiceButtons.find(Boolean))?.focus();
     else field?.focus();
   }
@@ -101,9 +103,33 @@
     e?.preventDefault();
     if (!q) return;
     if (phase === 'feedback') return selfPending ? undefined : next();
+    if (q.build) {
+      if (built.length === q.build.length) grade(built.map((i) => q!.build![i]).join(' '));
+      return;
+    }
     if (!input.trim()) return;
     grade(input);
   }
+
+  // Build the sentence: the words placed so far (indices into q.build), in order.
+  let built = $state<number[]>([]);
+  let poolButtons = $state<HTMLButtonElement[]>([]);
+  $effect(() => {
+    void q?.key;
+    built = [];
+  });
+  async function place(i: number) {
+    if (phase !== 'answering' || built.includes(i)) return;
+    built = [...built, i];
+    await tick();
+    // Focus the next unused word, or Check when all are placed.
+    (poolButtons.find((b, j) => b && !built.includes(j)) ?? checkButton)?.focus();
+  }
+  function unplace(at: number) {
+    if (phase !== 'answering') return;
+    built = built.filter((_, k) => k !== at);
+  }
+  let checkButton = $state<HTMLButtonElement>();
 
   function grade(value: string) {
     if (!q) return;
@@ -247,6 +273,20 @@
               {/if}
             {/each}
           </div>
+        {:else if q.build}
+          <div class="build">
+            <p class="built" lang="ru">
+              <span class="visually-hidden" lang="en">Your sentence: </span>
+              {#if !built.length}<span class="muted placeholder" lang="en">Tap the words in order</span>{/if}
+              {#each built as bi, k (bi)}<button type="button" class="wchip placed" disabled={phase === 'feedback'} onclick={() => unplace(k)} aria-label="{q.build[bi]} (take it out)">{q.build[bi]}</button>{/each}
+            </p>
+            <div class="pool" role="group" aria-label="Words to put in order" lang="ru">
+              {#each q.build as w, bi (bi)}
+                <button type="button" class="wchip" disabled={built.includes(bi) || phase === 'feedback'} onclick={() => place(bi)} bind:this={poolButtons[bi]}>{w}</button>
+              {/each}
+            </div>
+            {#if built.length && phase === 'answering'}<button type="button" class="btn quiet small-btn" onclick={() => (built = [])}>Start again</button>{/if}
+          </div>
         {:else if q.choices && q.meaning}
           <div class="choices meanings" role="group" aria-label="Choose the meaning">
             {#each q.choices as c, i (c)}
@@ -298,10 +338,11 @@
         {/if}
         <div class="actions">
           {#if phase === 'answering'}
-            {#if !q.choices && !q.stress}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
+            {#if q.build}<button class="btn primary" type="submit" bind:this={checkButton} disabled={built.length < q.build.length}>Check</button>
+            {:else if !q.choices && !q.stress}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
             {#if q.choices}<span class="muted kbd-hint">or press 1–{q.choices.length}</span>{/if}
-            {#if !q.choices && !q.stress && q.answerLang !== 'en'}
+            {#if !q.choices && !q.stress && !q.build && q.answerLang !== 'en'}
               <button
                 class="btn quiet kb-toggle"
                 type="button"
@@ -323,7 +364,7 @@
         </div>
       </form>
 
-      {#if settings.keyboard && phase === 'answering' && !q.choices && !q.stress && q.answerLang !== 'en'}
+      {#if settings.keyboard && phase === 'answering' && !q.choices && !q.stress && !q.build && q.answerLang !== 'en'}
         <Keyboard oninsert={insert} onbackspace={backspace} />
       {/if}
     </div>
@@ -568,6 +609,54 @@
   }
   .cons {
     padding: 0 1px;
+  }
+  .build {
+    margin-top: 12px;
+  }
+  .build .small-btn {
+    min-height: 36px;
+    padding: 0.25em 0.9em;
+  }
+  .built {
+    min-height: 2.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    margin: 0 0 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .placeholder {
+    font-size: 0.95rem;
+  }
+  .pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .wchip {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .wchip:disabled {
+    cursor: default;
+  }
+  .pool .wchip:disabled {
+    opacity: 0.35;
+  }
+  .wchip.placed {
+    background: var(--surface-2);
+  }
+  .wchip.placed:disabled {
+    opacity: 1;
   }
   .choices {
     display: flex;

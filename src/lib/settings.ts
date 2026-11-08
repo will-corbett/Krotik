@@ -2,7 +2,7 @@
 import type { Case, VerbGroup } from '../shared/cells.ts';
 import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
-import type { MixedSettings, TranslateSettings, VocabSettings } from './types.ts';
+import type { BuildSettings, MixedSettings, TranslateSettings, VocabSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
@@ -31,6 +31,7 @@ export interface Settings {
   progress: boolean;
   mixed: MixedSettings;
   translate: TranslateSettings;
+  build: BuildSettings;
   vocab: VocabSettings;
   /**
    * Reading: the language of the comprehension questions; Russian unless you choose English. (Stored under a new name:
@@ -111,6 +112,7 @@ export const DEFAULTS: Settings = {
   chtoby: { kinds: ['inf', 'past'] },
   mixed: { topics: ['verbs', 'nounCases', 'adjectives', 'pronouns', 'prepositions'] },
   translate: { lengths: ['short'], direction: 'en-ru' },
+  build: { lengths: ['short'] },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
   questionLang: 'ru',
   pathLevel: 'A1',
@@ -165,6 +167,7 @@ export function loadSettings(): Settings {
       chtoby: { ...DEFAULTS.chtoby, ...saved.chtoby },
       mixed: { ...DEFAULTS.mixed, ...saved.mixed },
       translate: { ...DEFAULTS.translate, ...saved.translate },
+      build: { ...DEFAULTS.build, ...saved.build },
       vocab: { ...DEFAULTS.vocab, ...saved.vocab },
     };
   } catch {
