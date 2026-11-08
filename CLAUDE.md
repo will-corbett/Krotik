@@ -5,8 +5,8 @@ UI settings go in localStorage (`krotik.settings.v1`). Progress is **opt-in only
 then `src/lib/progress.ts` keeps per-topic round counts, first-attempt results, the last five rounds and the date last
 practised under `krotik.progress.v1`, and `src/lib/words.ts` keeps "My words" under `krotik.words.v1`: per word only its
 key (`n:<id>`, `v:<id>`, `a:<id>`, `o:<word>`), band, Leitner box and the dates added and next due. Both stay in this
-browser, are never sent anywhere, and are deleted when progress is turned off. Export/import is a file on the user's own
-device only. Never store answers, typed text, times or anything else, and keep the About page's description of what is
+browser, are never sent anywhere, and are deleted when progress is turned off. Export/import (`src/lib/backup.ts`: both records
+in one file, merged on import; old words-only files still import) is a file on the user's own device only. Never store answers, typed text, times or anything else, and keep the About page's description of what is
 kept exact.
 
 ## Commands (Node ≥ 22.12; `.nvmrc` = 22)

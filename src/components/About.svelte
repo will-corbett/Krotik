@@ -29,8 +29,9 @@
   <p>
     That's all: no answers, nothing you type, and no times are kept, and Learn-page checks and the Grammar test aren't
     recorded. Both are stored in this browser's local storage, are never sent anywhere, and aren't shared between your
-    devices. You can move your words to another device yourself: <em>Export to a file</em> on the Progress page saves
-    them as a file on your device, and <em>Import from a file</em> reads one; nothing is uploaded. To delete everything,
+    devices. You can move both to another device yourself: <em>Export to a file</em> on the Progress page
+    saves them as one file on your device, and <em>Import from a file</em> reads one and adds it to what's there;
+    nothing is uploaded. To delete everything,
     choose <em>Turn off…</em> on the Progress page (or <em>Delete my words…</em> for the words alone), or clear this
     site's data in your browser.
   </p>

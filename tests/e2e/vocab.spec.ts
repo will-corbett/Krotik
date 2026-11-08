@@ -1,5 +1,6 @@
 /** Vocabulary: the word drill both ways round, the opt-in record of your words, and Reading's key words. */
 import AxeBuilder from '@axe-core/playwright';
+import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import { playRetryRound, setup } from './helpers.ts';
 
@@ -90,15 +91,19 @@ test('your words: kept only with progress on, reviewed when due, removed, export
   await expect(words).toContainText('2 words');
   expect(Object.keys(JSON.parse((await stored(page))!).words).sort()).toEqual(['n:1', 'v:2']);
 
-  // Export: a file on this device.
-  const [download] = await Promise.all([page.waitForEvent('download'), words.getByRole('button', { name: 'Export to a file' }).click()]);
-  expect(download.suggestedFilename()).toMatch(/^krotik-words-\d{4}-\d{2}-\d{2}\.json$/);
-  // Import: merged in; a file that isn't a word list is refused.
-  await words.getByLabel('Import from a file').setInputFiles({ name: 'w.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ v: 1, words: { 'n:3': { b: 0, box: 2, due: '2099-01-01', added: '2026-01-01' } } })) });
-  await expect(words.getByRole('status')).toContainText('Imported: 1 new word');
+  // Export: one file with topics and words, on this device.
+  const move = page.locator('section', { has: page.getByRole('heading', { name: 'Move to another device' }) });
+  const [download] = await Promise.all([page.waitForEvent('download'), move.getByRole('button', { name: 'Export to a file' }).click()]);
+  expect(download.suggestedFilename()).toMatch(/^krotik-progress-\d{4}-\d{2}-\d{2}\.json$/);
+  const saved = JSON.parse(readFileSync(await download.path(), 'utf8'));
+  expect(saved.krotik).toBe(1);
+  expect(Object.keys(saved.words.words).sort()).toEqual(['n:1', 'v:2']);
+  // Import: merged in (an old words-only file works too); a file that isn't Krotik's is refused.
+  await move.getByLabel('Import from a file').setInputFiles({ name: 'w.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ v: 1, words: { 'n:3': { b: 0, box: 2, due: '2099-01-01', added: '2026-01-01' } } })) });
+  await expect(move.getByRole('status')).toContainText('1 new word');
   await expect(words).toContainText('3 words');
-  await words.getByLabel('Import from a file').setInputFiles({ name: 'x.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
-  await expect(words.getByRole('status')).toContainText("isn't a Krotik word list");
+  await move.getByLabel('Import from a file').setInputFiles({ name: 'x.json', mimeType: 'application/json', buffer: Buffer.from('{"hello":1}') });
+  await expect(move.getByRole('status')).toContainText("isn't a Krotik progress file");
 
   await words.getByRole('button', { name: 'Delete my words…' }).click();
   await words.getByRole('button', { name: 'Delete', exact: true }).click();

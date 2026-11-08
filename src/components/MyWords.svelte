@@ -4,11 +4,11 @@
   import { today } from '../lib/progress.ts';
   import { href } from '../lib/router.ts';
   import type { Word } from '../lib/types.ts';
-  import { clearWords, dueKeys, exportWords, loadWords, mergeWords, parseWords, removeWord, saveWords, type MyWords } from '../lib/words.ts';
+  import { clearWords, dueKeys, loadWords, removeWord, saveWords, type MyWords } from '../lib/words.ts';
 
   /**
    * "Your words" on the Progress page (shown only while progress is on): how many words, how many are due, a review
-   * button, the list with Remove, and export/import as a file on this device (nothing is uploaded).
+   * button and the list with Remove. Export and import (of all progress) are on the Progress page.
    */
   let { onreview }: { onreview: () => void } = $props();
   const SHOW = 30;
@@ -19,7 +19,6 @@
   let showAll = $state(false);
   let message = $state('');
   let confirmDelete = $state(false);
-  let fileInput = $state<HTMLInputElement>();
 
   const date = today();
   const keys = $derived(Object.keys(mine.words).sort((a, b) => (mine.words[a]!.due < mine.words[b]!.due ? -1 : mine.words[a]!.due > mine.words[b]!.due ? 1 : a < b ? -1 : 1)));
@@ -42,28 +41,6 @@
   function remove(key: string) {
     update(removeWord(mine, key));
     message = '';
-  }
-  function exportFile() {
-    const url = URL.createObjectURL(new Blob([exportWords(mine)], { type: 'application/json' }));
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `krotik-words-${date}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-  async function importFile(e: Event) {
-    const file = (e.currentTarget as HTMLInputElement).files?.[0];
-    if (!file) return;
-    const incoming = parseWords(await file.text());
-    if (fileInput) fileInput.value = '';
-    if (!incoming) {
-      message = "That file isn't a Krotik word list.";
-      return;
-    }
-    const before = Object.keys(mine.words).length;
-    update(mergeWords(mine, incoming));
-    const added = Object.keys(mine.words).length - before;
-    message = `Imported: ${added} new ${added === 1 ? 'word' : 'words'}${Object.keys(incoming.words).length > added ? ', and the later schedule kept for words you already had' : ''}.`;
   }
   function deleteAll() {
     clearWords();
@@ -109,11 +86,6 @@
   {/if}
 
   <div class="files">
-    {#if keys.length}<button class="btn small-btn" onclick={exportFile}>Export to a file</button>{/if}
-    <label class="btn small-btn import">
-      Import from a file
-      <input bind:this={fileInput} type="file" accept=".json,application/json" onchange={importFile} />
-    </label>
     {#if keys.length}
       {#if confirmDelete}
         <span class="small">Delete all {keys.length} words?</span>
@@ -124,10 +96,6 @@
       {/if}
     {/if}
   </div>
-  <p class="muted small fine">
-    To move your words to another device or browser, export them here and import the file there. The file stays on your
-    device: nothing is uploaded.
-  </p>
   <p class="status small" role="status" aria-live="polite">{message}</p>
 </section>
 
@@ -198,24 +166,6 @@
   .small-btn {
     min-height: 36px;
     padding: 0.25em 0.9em;
-  }
-  .import {
-    position: relative;
-    cursor: pointer;
-  }
-  .import input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-  }
-  .import:focus-within {
-    outline: 3px solid var(--focus, var(--accent));
-    outline-offset: 2px;
-  }
-  .fine {
-    margin: 10px 0 0;
   }
   .status:empty {
     display: none;

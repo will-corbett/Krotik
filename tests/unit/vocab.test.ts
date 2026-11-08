@@ -132,3 +132,29 @@ describe('my words (spaced repetition)', () => {
     expect(mergeWords(inc, mine).words['n:1']!.box).toBe(3);
   });
 });
+
+describe('moving all progress (topics and words) between devices', async () => {
+  const { exportBackup, mergeBackup, parseBackup } = await import('../../src/lib/backup.ts');
+  const isMode = (m: string) => ['verbs', 'nounCases'].includes(m);
+  const day = '2026-11-08';
+  const progress = { v: 1 as const, topics: { verbs: { rounds: 2, attempted: 20, right: 15, last: '2026-11-01', recent: [[7, 10], [8, 10]] as [number, number][] } } };
+  const words: MyWords = { v: 1, words: { 'n:1': { b: 0, box: 1, due: day, added: day } } };
+  it('round-trips through a file, and drops what is malformed or unknown', () => {
+    expect(parseBackup(exportBackup(progress, words), isMode)).toEqual({ krotik: 1, progress, words });
+    const bad = JSON.stringify({ krotik: 1, progress: { topics: { verbs: { rounds: 1, attempted: 2, right: 5, last: day, recent: [] }, nope: progress.topics.verbs } }, words: { v: 1, words: {} } });
+    expect(parseBackup(bad, isMode)!.progress.topics).toEqual({});
+    expect(parseBackup('{"hello":1}', isMode)).toBeNull();
+    expect(parseBackup('not json', isMode)).toBeNull();
+  });
+  it('still imports an old words-only file', () => {
+    expect(parseBackup(JSON.stringify(words), isMode)).toEqual({ krotik: 1, progress: { v: 1, topics: {} }, words });
+  });
+  it('merges: new topics and words added; for one in both, the more recent record wins', () => {
+    const newer = { ...progress.topics.verbs, rounds: 5, last: '2026-11-07' };
+    const incoming = { krotik: 1 as const, progress: { v: 1 as const, topics: { verbs: newer, nounCases: newer } }, words: { v: 1 as const, words: { 'v:2': { b: 0, box: 0, due: day, added: day } } } };
+    const m = mergeBackup({ progress, words }, incoming);
+    expect(m.progress.topics.verbs!.rounds).toBe(5);
+    expect(Object.keys(m.progress.topics).sort()).toEqual(['nounCases', 'verbs']);
+    expect(Object.keys(m.words.words).sort()).toEqual(['n:1', 'v:2']);
+  });
+});

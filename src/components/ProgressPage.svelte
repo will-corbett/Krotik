@@ -1,6 +1,8 @@
 <script lang="ts">
   import { LEARN_TOPICS } from '../lib/learn.ts';
-  import { DUE_DAYS, WEAK_MIN, loadProgress, summarise, today } from '../lib/progress.ts';
+  import { DUE_DAYS, WEAK_MIN, loadProgress, saveProgress, summarise, today } from '../lib/progress.ts';
+  import { exportBackup, mergeBackup, parseBackup } from '../lib/backup.ts';
+  import { loadWords, saveWords } from '../lib/words.ts';
   import { href } from '../lib/router.ts';
   import { topicById } from '../lib/topics.ts';
   import MyWords from './MyWords.svelte';
@@ -8,7 +10,37 @@
 
   /** The Progress page (/progress/): an offer to turn it on, or (when on) weak topics, revision and history. */
   let { on, onprogress, onreview, onreviewwords }: { on: boolean; onprogress: (on: boolean) => void; onreview: (topics: Mode[]) => void; onreviewwords: () => void } = $props();
-  const s = $derived(on ? summarise(loadProgress(), today()) : null);
+  // Bumped after an import, so the summary and the word list read the merged records.
+  let version = $state(0);
+  const s = $derived((void version, on ? summarise(loadProgress(), today()) : null));
+  let message = $state('');
+  let fileInput = $state<HTMLInputElement>();
+  function exportFile() {
+    const url = URL.createObjectURL(new Blob([exportBackup(loadProgress(), loadWords())], { type: 'application/json' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `krotik-progress-${today()}.json`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  async function importFile(e: Event) {
+    const file = (e.currentTarget as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const incoming = parseBackup(await file.text(), (m) => !!topicById(m));
+    if (fileInput) fileInput.value = '';
+    if (!incoming) {
+      message = "That file isn't a Krotik progress file.";
+      return;
+    }
+    const before = { topics: Object.keys(loadProgress().topics).length, words: Object.keys(loadWords().words).length };
+    const merged = mergeBackup({ progress: loadProgress(), words: loadWords() }, incoming);
+    saveProgress(merged.progress);
+    saveWords(merged.words);
+    version++;
+    const t = Object.keys(merged.progress.topics).length - before.topics;
+    const w = Object.keys(merged.words.words).length - before.words;
+    message = `Imported: ${t} new ${t === 1 ? 'topic' : 'topics'} and ${w} new ${w === 1 ? 'word' : 'words'}. Where both had the same one, the more recent record was kept.`;
+  }
   const name = (m: Mode) => topicById(m)?.title.en ?? m;
   let confirmOff = $state(false);
 </script>
@@ -83,10 +115,59 @@
       {/if}
     </p>
   </section>
-  <MyWords onreview={onreviewwords} />
+  {#key version}<MyWords onreview={onreviewwords} />{/key}
+  <section class="card move" aria-labelledby="move-h">
+    <h2 id="move-h">Move to another device</h2>
+    <p class="small">
+      Save your progress (topics and words) as a file, then import it in another browser or on another device. Importing
+      adds to what's already there. The file stays on your device: nothing is uploaded.
+    </p>
+    <div class="files">
+      <button class="btn small-btn" onclick={exportFile}>Export to a file</button>
+      <label class="btn small-btn import">
+        Import from a file
+        <input bind:this={fileInput} type="file" accept=".json,application/json" onchange={importFile} />
+      </label>
+    </div>
+    <p class="status small" role="status" aria-live="polite">{message}</p>
+  </section>
 {/if}
 
 <style>
+  .move {
+    margin-top: 16px;
+  }
+  .move h2 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+  }
+  .files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .small-btn {
+    min-height: 36px;
+    padding: 0.25em 0.9em;
+  }
+  .import {
+    position: relative;
+    cursor: pointer;
+  }
+  .import input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+  }
+  .import:focus-within {
+    outline: 3px solid var(--focus, var(--accent));
+    outline-offset: 2px;
+  }
+  .status:empty {
+    display: none;
+  }
   .page-title {
     font-family: var(--serif);
     margin: 0 0 12px;
