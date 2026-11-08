@@ -74,30 +74,21 @@ test('the Dashboard has no Culture card; Culture is in the main menu', async ({ 
   await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
 });
 
-test('wide screens show the main pages as a bar, with the current page marked', async ({ page }) => {
-  await page.setViewportSize({ width: 1024, height: 800 });
-  await page.goto('./#/learn');
-  await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
-  const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Culture']);
-  await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
-  await nav.getByRole('link', { name: 'Culture' }).click();
-  await expect(page).toHaveURL(/\/Krotik\/culture\/(\?.*)?$/);
-  await expect(nav.getByRole('link', { name: 'Culture' })).toHaveAttribute('aria-current', 'page');
-});
-
-test('at the narrowest width with a bar (720px), the seven links fit without scrolling sideways', async ({ page }) => {
-  await page.setViewportSize({ width: 720, height: 800 });
-  await page.goto('./reading/');
-  await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
-  const fits = await page.evaluate(() => {
-    const ul = document.querySelector('nav[aria-label="Main"] ul') as HTMLElement;
-    return ul.scrollWidth <= ul.clientWidth + 1 && document.documentElement.scrollWidth <= innerWidth;
+for (const width of [1280, 720, 390]) {
+  test(`at ${width}px the main menu is a dropdown, level with the logo`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('./learn/');
+    const menu = page.getByRole('button', { name: 'Menu' });
+    await expect(menu).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link')).toHaveCount(0);
+    const logo = (await page.getByRole('link', { name: 'Krotik, dashboard' }).boundingBox())!;
+    const btn = (await menu.boundingBox())!;
+    expect(Math.abs(logo.y + logo.height / 2 - (btn.y + btn.height / 2))).toBeLessThanOrEqual(2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
-  expect(fits).toBe(true);
-});
+}
 
-test('on a phone the main menu is a dropdown: opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
+test('the main menu dropdown opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 800 });
   await page.goto('./#/learn');
   const menu = page.getByRole('button', { name: 'Menu' });
