@@ -29,7 +29,7 @@
     <img src="{import.meta.env.BASE_URL}brand/krotik-192.png" alt="Krotik the mole, reading" width="80" height="80" />
     <div>
       <h1 id="dash-title">Krotik</h1>
-      <p class="muted">Learn and drill Russian grammar. <span lang="ru">Учись и тренируйся.</span></p>
+      <p class="muted">Learn and practise Russian. <span lang="ru">Учись и тренируйся.</span></p>
       {#if settings.guideSeen}<p class="guide-link small"><a href={href({ page: 'start' })}>New here? Read the short guide →</a></p>{/if}
     </div>
   </div>

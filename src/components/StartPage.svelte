@@ -11,7 +11,8 @@
 <article class="start fade-in" aria-labelledby="start-title">
   <h1 id="start-title">Start here <span lang="ru" class="ru">с чего начать</span></h1>
   <p class="lead">
-    Krotik is a free place to learn Russian grammar and practise it until it's automatic. There's no account to make and
+    Krotik is a free place to learn Russian and practise it until it's automatic: grammar, vocabulary and reading. There's
+    no account to make and
     nothing to install: everything works in your browser.
   </p>
 

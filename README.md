@@ -1,6 +1,6 @@
 # Krotik
 
-Learn and drill Russian grammar and vocabulary. There are no accounts and no analytics; progress tracking (topic results
+Learn and practise Russian: grammar, vocabulary and reading. There are no accounts and no analytics; progress tracking (topic results
 and your words) is optional, off by default, and kept only in your browser.
 
 - **Home**: your last drill, and cards for Grammar (Learn & drill), Vocabulary, the Grammar test, Reading and (if you turn it on) your progress,

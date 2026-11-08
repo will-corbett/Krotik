@@ -6,11 +6,11 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
   const t = (id?: string) => (id ? topicById(id) : undefined);
   switch (route.page) {
     case 'home':
-      return 'Krotik: learn and drill Russian grammar';
+      return 'Krotik: learn and practise Russian';
     case 'test':
       return 'Grammar test: find your Russian grammar level | Krotik';
     case 'start':
-      return 'Start here: how to learn Russian grammar with Krotik';
+      return 'Start here: how to learn Russian with Krotik';
     case 'learn': {
       const topic = t(route.topic);
       return topic ? `${topic.title.en} (${topic.title.ru}): Russian grammar explained | Krotik` : 'Learn Russian grammar | Krotik';

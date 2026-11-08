@@ -5,9 +5,9 @@
 <article class="card about fade-in">
   <h1>About</h1>
   <p>
-    Krotik is a no-login drill for Russian grammar: verb forms, aspect, motion verbs, participles and verbal adverbs,
-    adjectives, plurals, numbers, diminutives, and sentence drills (который, чтобы, conditional, negation,
-    indefinite pronouns, particles), with a vocabulary drill of the commonest words. There are no accounts, no analytics and no cookies. Your drill settings are
+    Krotik is a free, no-login site for learning and practising Russian: grammar explained and drilled (verb forms,
+    aspect, motion verbs, participles, cases, numbers and sentence drills), vocabulary by theme from A1 to C1, a
+    grammar test, real literature with every word explained, and culture links. There are no accounts, no analytics and no cookies. Your drill settings are
     remembered in this browser.
   </p>
   <h2>Your progress</h2>

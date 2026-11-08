@@ -118,7 +118,7 @@ const nav = `<nav aria-label="Main"><ul>${(
 const footer = `<footer><p>${a({ page: 'about' }, 'About & sources')} · Data: <a href="https://en.openrussian.org" rel="noopener">OpenRussian.org</a> (CC BY-SA 4.0) · <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> via kaikki.org (CC BY-SA 4.0) · <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> (CC BY 2.0 FR)</p></footer>`;
 // The progress page shows what's kept in this browser: a page, but nothing to index.
 const PROGRESS_PAGE = { route: { page: 'progress' } as Route, description: 'Your Krotik progress, kept only in this browser.', index: false, body: '<h1>Your progress</h1><p>Progress is kept only in your browser, and only if you turn it on.</p>' };
-const SITE_DESCRIPTION = 'Learn and drill Russian grammar: short explanations with real examples, instant drills, a grammar test and hand-picked culture links. Free, no login.';
+const SITE_DESCRIPTION = 'Learn and practise Russian: grammar explained with real examples, instant drills, vocabulary by theme from A1 to C1, a grammar test, real literature with every word explained, and hand-picked culture links. Free, no login.';
 
 const pages: Page[] = [];
 pages.push({
@@ -270,9 +270,9 @@ for (const n of notes) {
 }
 pages.push({
   route: { page: 'start' },
-  description: 'How to learn Russian grammar with Krotik: what is here, the order to start in, and how the drills work.',
+  description: 'How to learn Russian with Krotik: what is here, the order to start in, and how the drills work.',
   index: true,
-  body: `<h1>Start here <span lang="ru">с чего начать</span></h1><p>Krotik is a free place to learn Russian grammar and practise it until it's automatic, with no account.</p><h2>New to Russian? Try this order</h2><ol>${(['alphabet', 'stress', 'pronouns', 'verbs', 'nounCases', 'prepositions', 'adjectives', 'plurals', 'questionWords', 'numbers', 'time'] as const)
+  body: `<h1>Start here <span lang="ru">с чего начать</span></h1><p>Krotik is a free place to learn Russian and practise it until it's automatic: grammar, vocabulary and reading, with no account.</p><h2>New to Russian? Try this order</h2><ol>${(['alphabet', 'stress', 'pronouns', 'verbs', 'nounCases', 'prepositions', 'adjectives', 'plurals', 'questionWords', 'numbers', 'time'] as const)
     .map((id) => topicById(id)!)
     .map((t) => `<li>${a({ page: 'learn', topic: t.id }, t.title.en)} <span lang="ru">${esc(t.title.ru)}</span></li>`)
     .join('')}</ol><h2>Already know some Russian?</h2><p>Take the ${a({ page: 'test' }, 'Grammar test')}, then review the Learn pages it suggests.</p><h2>How drills work</h2><p>Type the answer and press Enter. A wrong answer comes back about ten cards later; the round ends when everything is right. Use the on-screen keyboard or phonetic typing (zh → ж, ch → ч, sh → ш) if you have no Russian keyboard.</p>`,
@@ -282,7 +282,7 @@ pages.push({
   route: { page: 'about' },
   description: 'About Krotik: where the Russian forms and sentences come from (OpenRussian, Wiktionary, Tatoeba), their licences, and what is kept in your browser.',
   index: true,
-  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and drilling Russian grammar. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR); the reading texts are public-domain stories and plays by Tolstoy and Chekhov from Russian Wikisource. There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
+  body: '<h1>About</h1><p>Krotik is a free, no-login site for learning and practising Russian: grammar, vocabulary and reading. Every Russian form comes from a source: OpenRussian.org and Wiktionary (CC BY-SA 4.0); example sentences and translations come from Tatoeba (CC BY 2.0 FR); the reading texts are public-domain stories and plays by Tolstoy and Chekhov from Russian Wikisource. There are no accounts, no analytics and no cookies; progress tracking is optional and kept only in your browser.</p>',
 });
 
 // ---- write
