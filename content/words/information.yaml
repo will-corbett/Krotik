@@ -1,0 +1,16 @@
+title: Information and its sources
+ru: Информация и источники
+level: C1
+blurb: "Checking facts, judging sources, and reading between the lines."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  обзор: 3603288
+  слух: 3649823
+groups:
+  - title: "Information"
+    words: ["информация = information", "сведение = information (сведения: details, information)", "данные = data", "источник = source", "факт = fact", "слух = rumour", "сенсация = sensation", "обзор = review, overview"]
+  - title: "Judging it"
+    words: ["достоверный = reliable, authentic", "надёжный = reliable, trustworthy", "сомнительный = doubtful, dubious", "объективный = objective", "предвзятый = biased", "точный = accurate", "ложный = false"]
+  - title: "What people do with it"
+    words: ["проверять = check, verify", "искажать = distort", "скрывать = hide, conceal", "распространять = spread", "опровергнуть = refute, deny", "подтвердить = confirm", "утверждать = claim"]

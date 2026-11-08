@@ -1,0 +1,12 @@
+title: Ethics and values
+ru: Этика и ценности
+level: C1
+blurb: "Right and wrong, duty, conscience, and what people value."
+names: []
+groups:
+  - title: "Values"
+    words: ["ценность = value", "нравственность = morality", "совесть = conscience", "долг = duty; debt", "честь:n = honour", "достоинство = dignity", "справедливость = justice, fairness", "ответственность = responsibility"]
+  - title: "Right and wrong"
+    words: ["поступок = act, deed", "выбор = choice", "ошибка = mistake", "раскаяние = remorse, repentance", "прощение = forgiveness", "соблазн = temptation", "принцип = principle"]
+  - title: "Judging"
+    words: ["оправдать = justify; acquit", "осуждать = condemn, disapprove of", "сожалеть = regret", "простить = forgive", "порядочный = decent, honest", "бескорыстный = unselfish", "предвзятый = biased"]

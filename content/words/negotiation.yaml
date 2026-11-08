@@ -1,0 +1,16 @@
+title: Negotiation and agreement
+ru: Переговоры
+level: C1
+blurb: "Proposals, conditions, compromise and reaching an agreement."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  сторона: 5700700
+  позиция: 4206201
+groups:
+  - title: "At the table"
+    words: ["переговоры = negotiations, talks", "сторона = party, side", "предложение = proposal, offer", "условие = condition, term", "требование = demand, requirement", "интерес = interest", "позиция = position, stance"]
+  - title: "Reaching agreement"
+    words: ["компромисс = compromise", "уступка = concession", "договорённость = agreement, arrangement", "соглашение = agreement", "сделка = deal", "согласие = consent, agreement", "отказ = refusal"]
+  - title: "Negotiating"
+    words: ["предлагать = propose, offer", "обсуждать = discuss", "настаивать = insist", "уступить = concede, give way", "договориться = come to an agreement", "отказаться = refuse, turn down", "взаимный = mutual", "выгодный = advantageous"]

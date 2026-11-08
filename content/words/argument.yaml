@@ -1,0 +1,15 @@
+title: Abstract ideas and argument
+ru: Абстрактные понятия
+level: C1
+blurb: "The vocabulary of essays and discussion: causes, trends, contradictions and consequences."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  неизбежный: 12074811
+groups:
+  - title: "Ideas"
+    words: ["понятие = concept, notion (понятия не имею: no idea)", "явление = phenomenon", "предпосылка = precondition, premise", "тенденция = tendency, trend", "противоречие = contradiction", "последствие = consequence", "суть = essence, gist", "смысл = meaning, sense, point"]
+  - title: "Reasoning"
+    words: ["подразумевать = imply, mean", "вытекать = flow out; follow (from)", "предполагать = suppose, assume", "опровергнуть = refute, disprove", "обосновать = justify, substantiate", "учитывать = take into account", "недооценивать = underestimate", "преувеличивать = exaggerate"]
+  - title: "Judging"
+    words: ["неизбежный = inevitable", "очевидный = obvious", "сомнительный = doubtful, questionable", "существенный = significant, essential", "целесообразный = advisable, expedient", "двусмысленный = ambiguous", "общепринятый = generally accepted"]

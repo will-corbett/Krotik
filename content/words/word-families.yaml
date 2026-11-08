@@ -1,0 +1,20 @@
+title: Word families
+ru: Слова одного корня
+level: C1
+blurb: "One root, many words: how prefixes and suffixes build vocabulary."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  вывод: 2488853
+  проводить: 4245020
+  исход: 7997654
+  руководить: 5793204
+groups:
+  - title: "-вод- (lead)"
+    words: ["водить = lead, take (repeatedly); drive", "проводить = carry out; spend (time); see off", "выводи'ть = take out; derive", "вывод = conclusion", "руководить = lead, manage", "переводить = translate; transfer", "заводить = start (a car); keep (a pet)"]
+  - title: "-ход- (go)"
+    words: ["выход = exit; way out", "доход = income", "расход = expense", "подход = approach", "переход = crossing; transition", "исход = outcome", "поход = hike, trip; campaign"]
+  - title: "-пис- (write)"
+    words: ["записать = write down, record", "описа'ть = describe", "подписать = sign", "переписать = rewrite; copy out", "расписание = timetable", "подпись = signature", "описание = description"]
+  - title: "-нос- (carry)"
+    words: ["приносить = bring", "относиться = relate to; treat", "сносить = demolish; put up with", "выноси'ть = carry out; bear, stand", "переносить = postpone; carry over; bear, stand", "отношение = attitude; relationship"]

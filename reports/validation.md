@@ -52,7 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 78 texts, 161 questions | 1383 KB |
-| themes.json, theme.*.json | 38 themes, 0 dialogues published | 136 KB |
+| themes.json, theme.*.json | 47 themes, 0 dialogues published | 170 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -461,6 +461,24 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | innovation: words with a real sentence in use | 19 |
 | climate: words | 20 |
 | climate: words with a real sentence in use | 20 |
+| formal: words | 23 |
+| formal: words with a real sentence in use | 19 |
+| argument: words | 23 |
+| argument: words with a real sentence in use | 21 |
+| shades: words | 23 |
+| shades: words with a real sentence in use | 23 |
+| word-families: words | 27 |
+| word-families: words with a real sentence in use | 25 |
+| character: words | 23 |
+| character: words with a real sentence in use | 23 |
+| ethics: words | 22 |
+| ethics: words with a real sentence in use | 21 |
+| information: words | 22 |
+| information: words with a real sentence in use | 21 |
+| negotiation: words | 22 |
+| negotiation: words with a real sentence in use | 22 |
+| history: words | 23 |
+| history: words with a real sentence in use | 20 |
 
 greetings: 0 dialogue(s) published, 2 waiting for review.
 
@@ -537,6 +555,24 @@ mind: 0 dialogue(s) published, 2 waiting for review.
 innovation: 0 dialogue(s) published, 2 waiting for review.
 
 climate: 0 dialogue(s) published, 2 waiting for review.
+
+formal: 0 dialogue(s) published, 0 waiting for review.
+
+argument: 0 dialogue(s) published, 0 waiting for review.
+
+shades: 0 dialogue(s) published, 0 waiting for review.
+
+word-families: 0 dialogue(s) published, 0 waiting for review.
+
+character: 0 dialogue(s) published, 0 waiting for review.
+
+ethics: 0 dialogue(s) published, 0 waiting for review.
+
+information: 0 dialogue(s) published, 0 waiting for review.
+
+negotiation: 0 dialogue(s) published, 0 waiting for review.
+
+history: 0 dialogue(s) published, 0 waiting for review.
 
 ## Hand-made lists (curated/)
 

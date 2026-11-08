@@ -1,0 +1,18 @@
+title: Formal and written Russian
+ru: Официальный стиль
+level: C1
+blurb: "The words of reports, letters and official texts, and their everyday equivalents."
+names: []
+# Hand-chosen In use sentences (Tatoeba ids), where the shortest was an idiom or another sense of the word.
+use:
+  осуществлять: 1865559
+  рассматривать: 6805349
+  лицо: 2344772
+  ибо: 3274220
+groups:
+  - title: "Bookish verbs"
+    words: ["являться = be (formal: является причиной: is the cause)", "осуществлять = carry out, implement", "обусловить = cause, determine", "предоставлять = provide, give", "обеспечивать = ensure; provide", "рассматривать = consider, examine", "сообщать = inform, report", "приобрести = acquire, buy"]
+  - title: "Linking words"
+    words: ["вследствие = as a result of", "ввиду = in view of", "согласно = according to", "относительно = concerning, regarding", "посредством = by means of", "кроме = apart from, besides", "вопреки = despite, contrary to", "ибо = for, because (bookish)"]
+  - title: "Official nouns"
+    words: ["заявление = application; statement", "документ = document", "решение = decision", "мероприятие = event, measure", "учреждение = institution, office", "лицо = face; person (in official use)", "срок = deadline, period"]

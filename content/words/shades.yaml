@@ -1,0 +1,14 @@
+title: Shades of meaning
+ru: Оттенки значения
+level: C1
+blurb: "Words that look alike in a dictionary but are not the same: which one, when."
+names: []
+groups:
+  - title: "Looking"
+    words: ["смотреть = look, watch (the everyday word)", "глядеть = look, gaze (more vivid, often colloquial)", "взглянуть = glance, take a look", "разглядеть = make out, see clearly", "наблюдать = observe, watch closely", "замечать = notice"]
+  - title: "Clever and wise"
+    words: ["умный = clever, intelligent", "мудрый = wise (from experience)", "проницательный = perceptive, astute", "сообразительный = quick-witted", "образованный = educated, well-read"]
+  - title: "Saying"
+    words: ["говорить = speak, say (general)", "сказать = say (once)", "заявить = declare, state (publicly)", "утверждать = claim, maintain", "намекать = hint", "упомянуть = mention", "признаться = admit, confess"]
+  - title: "Big and important"
+    words: ["большой = big", "огромный = huge", "значительный = considerable, significant", "важный = important", "значимый = meaningful, significant"]

@@ -1,0 +1,12 @@
+title: Describing people precisely
+ru: Характер и поведение
+level: C1
+blurb: "The fine distinctions: reserved or cold, stubborn or determined, frank or tactless."
+names: []
+groups:
+  - title: "Good qualities"
+    words: ["сдержанный = reserved, restrained", "решительный = determined, decisive", "добросовестный = conscientious", "отзывчивый = kind, responsive", "трудолюбивый = hard-working", "искренний = sincere", "великодушный = generous, magnanimous", "остроумный = witty"]
+  - title: "Less good"
+    words: ["высокомерный = arrogant", "равнодушный = indifferent", "завистливый = envious", "легкомысленный = frivolous, careless", "мелочный = petty", "бестактный = tactless", "капризный = capricious, fussy", "лицемерный = hypocritical"]
+  - title: "Behaviour"
+    words: ["пренебрегать = neglect, disregard", "злоупотреблять = abuse, overuse", "проявлять = show, display", "притворяться = pretend", "сдерживаться = hold back, restrain oneself", "уступать = give way, give in", "настаивать = insist"]
