@@ -96,7 +96,7 @@ test('Grammar test stage 2: typed answers give a separate result beside stage 1'
 
 test('Writing: tasks by level with a checklist; nothing typed is stored', async ({ page }) => {
   await page.goto('start/');
-  await page.getByRole('link', { name: 'Writing', exact: true }).click();
+  await page.getByRole('main').getByRole('link', { name: 'Writing', exact: true }).click();
   await expect(page).toHaveURL(/\/writing\/$/);
   for (const l of ['A1', 'A2', 'B1', 'B2', 'C1']) await expect(page.getByRole('heading', { name: l, exact: true })).toBeVisible();
   await page.getByText('About me', { exact: true }).click();
