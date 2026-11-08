@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadTheme, loadWordList, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadLevelTest, loadTheme, loadWordList, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -20,6 +20,7 @@ import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
 import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
 import { generateBuildQuestions } from './questions/build.ts';
+import { generateFixQuestions } from './questions/fix.ts';
 import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
 import { today } from './progress.ts';
@@ -105,6 +106,10 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
           .filter((q) => !seen.has(q.key) && seen.add(q.key))
           .slice(0, n);
       };
+    }
+    case 'fix': {
+      const data = await loadLevelTest();
+      return (n) => generateFixQuestions(data, s.fix, n, rng);
     }
     case 'build': {
       // Sentences that come with the commonest verbs, as in Translate and compare.
@@ -325,6 +330,7 @@ export function settingsValid(s: Settings): string | null {
       if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the commonest words instead, or come back tomorrow.';
     }
   }
+  if (s.mode === 'fix' && !s.fix.levels.length) return 'Choose at least one level.';
   if (s.mode === 'build' && !s.build.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'translate' && !s.translate.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'verbs' && !s.verbs.groups.length) return 'Choose at least one tense.';

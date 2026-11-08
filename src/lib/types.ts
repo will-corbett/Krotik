@@ -42,7 +42,8 @@ export type Mode =
   | 'mixed'
   | 'translate'
   | 'vocab'
-  | 'build';
+  | 'build'
+  | 'fix';
 
 export interface Verb {
   id: number;
@@ -124,6 +125,11 @@ export interface Question {
    * whole) and mark it yourself; only an exact match is marked right automatically.
    */
   selfMark?: boolean;
+  /**
+   * Error correction: the sentence (with one wrong form) as pieces, words numbered; which word is wrong, its form, and
+   * the original sentence.
+   */
+  fix?: { pieces: { text: string; word?: number }[]; wrong: number; wrongForm: string; original: string };
   /** Build the sentence: the sentence's words, shuffled, to put in order (the answer is the original sentence). */
   build?: string[];
   /** The answer is typed in English (translate Russian → English): no Cyrillic keyboard, English normalisation. */
@@ -139,6 +145,10 @@ export interface Question {
 /** Mixed review: questions from several topics in one round, each with that topic's own settings. */
 export interface MixedSettings {
   topics: Mode[];
+}
+/** Error correction: sentences from these Grammar test levels. */
+export interface FixSettings {
+  levels: ('A1' | 'A2' | 'B1' | 'B2' | 'C1')[];
 }
 /** Build the sentence: short (3–5 words) and/or longer (6–9) sentences. */
 export interface BuildSettings {

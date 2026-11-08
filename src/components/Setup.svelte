@@ -556,6 +556,20 @@
           </div>
         {/each}
       </fieldset>
+    {:else if settings.mode === 'fix'}
+      <fieldset>
+        <legend>Levels</legend>
+        <div class="chips">
+          {#each ['A1', 'A2', 'B1', 'B2', 'C1'] as const as l (l)}
+            <label class="chip"><input type="checkbox" checked={settings.fix.levels.includes(l)} onchange={() => (settings.fix.levels = toggle(settings.fix.levels, l))} /> {l}</label>
+          {/each}
+        </div>
+        <p class="hint muted">
+          A real sentence with one word in the wrong form (the wrong person, case, gender or number). Tap the wrong word,
+          then type the right form. The sentences and the wrong forms are the Grammar test's, checked so the wrong one
+          can't fit.
+        </p>
+      </fieldset>
     {:else if settings.mode === 'build'}
       <fieldset>
         <legend>Sentence length</legend>
@@ -633,7 +647,7 @@
       </fieldset>
     {/if}
 
-    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

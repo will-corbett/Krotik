@@ -2,7 +2,7 @@
 import type { Case, VerbGroup } from '../shared/cells.ts';
 import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
-import type { BuildSettings, MixedSettings, TranslateSettings, VocabSettings } from './types.ts';
+import type { BuildSettings, FixSettings, MixedSettings, TranslateSettings, VocabSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
 export interface Settings {
@@ -32,6 +32,7 @@ export interface Settings {
   mixed: MixedSettings;
   translate: TranslateSettings;
   build: BuildSettings;
+  fix: FixSettings;
   vocab: VocabSettings;
   /**
    * Reading: the language of the comprehension questions; Russian unless you choose English. (Stored under a new name:
@@ -113,6 +114,7 @@ export const DEFAULTS: Settings = {
   mixed: { topics: ['verbs', 'nounCases', 'adjectives', 'pronouns', 'prepositions'] },
   translate: { lengths: ['short'], direction: 'en-ru' },
   build: { lengths: ['short'] },
+  fix: { levels: ['A1', 'A2'] },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
   questionLang: 'ru',
   pathLevel: 'A1',
@@ -168,6 +170,7 @@ export function loadSettings(): Settings {
       mixed: { ...DEFAULTS.mixed, ...saved.mixed },
       translate: { ...DEFAULTS.translate, ...saved.translate },
       build: { ...DEFAULTS.build, ...saved.build },
+      fix: { ...DEFAULTS.fix, ...saved.fix },
       vocab: { ...DEFAULTS.vocab, ...saved.vocab },
     };
   } catch {

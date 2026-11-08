@@ -113,6 +113,8 @@ export const TERMS = {
   mixed: t('Mixed review', 'смешанное повторение'),
   translate: t('Translate and compare', 'перевод'),
   translateTask: t('Translate into Russian', 'переведите на русский'),
+  fix: t('Find the mistake', 'найдите ошибку'),
+  fixTask: t('Find the wrong word and correct it', 'найдите ошибку и исправьте'),
   build: t('Build the sentence', 'составьте предложение'),
   buildTask: t('Put the words in order', 'составьте предложение'),
   translateToEnglish: t('Translate into English', 'переведите на английский'),

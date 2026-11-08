@@ -107,16 +107,20 @@
       if (built.length === q.build.length) grade(built.map((i) => q!.build![i]).join(' '));
       return;
     }
+    if (q.fix && picked === null) return;
     if (!input.trim()) return;
     grade(input);
   }
 
+  // Find the mistake: the word you picked (its number in the sentence).
+  let picked = $state<number | null>(null);
   // Build the sentence: the words placed so far (indices into q.build), in order.
   let built = $state<number[]>([]);
   let poolButtons = $state<HTMLButtonElement[]>([]);
   $effect(() => {
     void q?.key;
     built = [];
+    picked = null;
   });
   async function place(i: number) {
     if (phase !== 'answering' || built.includes(i)) return;
@@ -144,8 +148,9 @@
       focusField();
       return;
     }
-    // A meaning (English) is one of the options as given, so it's compared as it is.
-    result = q.meaning ? { correct: value === q.answer } : checkAnswer(q, value);
+    // A meaning (English) is one of the options as given, so it's compared as it is. Find the mistake: the right word
+    // picked and the right form typed.
+    result = q.meaning ? { correct: value === q.answer } : q.fix ? { correct: picked === q.fix.wrong && checkAnswer(q, value).correct } : checkAnswer(q, value);
     phase = 'feedback';
     if (q.choices || q.stress) focusField();
   }
@@ -273,6 +278,25 @@
               {/if}
             {/each}
           </div>
+        {:else if q.fix}
+          <p class="fix-sentence" lang="ru" role="group" aria-label="The sentence: tap the wrong word">
+            {#each q.fix.pieces as p, pi (pi)}{#if p.word === undefined}{p.text}{:else}{@const w = p.word}<button
+                  type="button"
+                  class="fw"
+                  class:on={picked === w}
+                  class:was-wrong={phase === 'feedback' && w === q.fix.wrong}
+                  disabled={phase === 'feedback'}
+                  aria-pressed={picked === w}
+                  onclick={() => {
+                    picked = w;
+                    focusField();
+                  }}>{p.text}</button
+                >{/if}{/each}
+          </p>
+          <label class="frame fix-input" lang="ru">
+            <span class="fix-label" lang="en">{picked === null ? 'Tap the wrong word, then type it correctly:' : 'The right form:'}</span>
+            {@render answerInput()}
+          </label>
         {:else if q.build}
           <div class="build">
             <p class="built" lang="ru">
@@ -339,6 +363,7 @@
         <div class="actions">
           {#if phase === 'answering'}
             {#if q.build}<button class="btn primary" type="submit" bind:this={checkButton} disabled={built.length < q.build.length}>Check</button>
+            {:else if q.fix}<button class="btn primary" type="submit" disabled={picked === null || !input.trim()}>Check</button>
             {:else if !q.choices && !q.stress}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
             {#if q.choices}<span class="muted kbd-hint">or press 1–{q.choices.length}</span>{/if}
@@ -400,6 +425,11 @@
             <p class="typed">It comes back {round.queue.length > RETRY_GAP ? `in ${RETRY_GAP} cards` : 'at the end of the round'}.</p>
           {/if}
 
+          {#if q.fix}
+            {@const wrongIdx = q.fix.wrong}
+            {#if picked !== null && picked !== wrongIdx}<p class="typed">You picked <span lang="ru">«{q.fix.pieces.find((p) => p.word === picked)?.text}»</span>, but that word was right.</p>{/if}
+            <p class="typed">The wrong word was <span lang="ru">«{q.fix.wrongForm}»</span>. The sentence: <span lang="ru">{q.fix.original}</span></p>
+          {/if}
           {#if q.explain}<p class="explain">{q.explain}</p>{/if}
 
           {#if canSpeak}
@@ -609,6 +639,45 @@
   }
   .cons {
     padding: 0 1px;
+  }
+  .fix-sentence {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    line-height: 1.9;
+    margin: 10px 0 8px;
+  }
+  .fw {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    border-bottom: 2px dotted var(--border);
+    padding: 0 2px;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .fw:hover,
+  .fw.on {
+    background: var(--mark);
+  }
+  .fw:disabled {
+    cursor: default;
+  }
+  .fw.was-wrong {
+    text-decoration: line-through;
+    text-decoration-color: var(--wrong);
+  }
+  .fix-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .fix-label {
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    color: var(--muted);
   }
   .build {
     margin-top: 12px;
