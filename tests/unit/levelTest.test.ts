@@ -222,3 +222,13 @@ describe('level test explanations', () => {
     expect(formTerm('c4')).toEqual({ en: 'instrumental', ru: 'творительный падеж' });
   });
 });
+
+describe('every Grammar test answer is the word in its sentence', () => {
+  it('holds for the whole built pool', async () => {
+    const { readFileSync } = await import('node:fs');
+    const data = JSON.parse(readFileSync('public/data/level-test.json', 'utf8')) as import('../../src/shared/types.ts').LevelTestData;
+    const n = (s: string) => s.toLowerCase().replace(/'/g, '').replace(/ё/g, 'е');
+    const bad = data.slots.flatMap((s) => s.items).filter((c) => !c[6].split(',').map((x) => n(x.replace(/[()]/g, ''))).includes(n(c[1].slice(c[3], c[4]))));
+    expect(bad.map((c) => `${c[0]}: ${c[1].slice(c[3], c[4])} vs ${c[6]}`)).toEqual([]);
+  });
+});

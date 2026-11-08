@@ -417,6 +417,8 @@ function adverbCandidate(slot: FormSlot, ctx: Ctx, keys: Set<string>): LevelTest
     if (keys.has(key)) continue;
     const token = row[1].slice(row[4], row[5]);
     const cell = row[3] & 1 ? advs[0]! : advs[1]!;
+    // The answer is always the word in the sentence: skip a row whose word isn't one of the adverb's forms.
+    if (!formsOf([cell]).has(normalise(token))) continue;
     // The verb's other adverb could also be acceptable, so it isn't offered; participles and finite forms are wrong.
     const exclude = formsOf([p[4], p[5]]);
     const pool: Opt[] = [{ f: v.accented, code: 'inf' }, ...cellsOf(v, [2, 6]), ...p[6].filter(([k]) => k.startsWith('act')).map(([k, nom]) => ({ f: nom, code: `p:${k}:0` }))];
