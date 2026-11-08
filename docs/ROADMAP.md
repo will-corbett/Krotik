@@ -158,6 +158,9 @@ Done in batches, each reviewed before the next.
   waiting for review (`reports/dialogues-for-review.md`); they appear on the site only once marked reviewed.
 - Vocabulary section, expanded (2026-11-08): 38 themes from A1 to B2 (B1 grown to nine, B2 new with nine), about 900
   words, 76 dialogues waiting for review; buttons at the top jump to a level.
+- C1 (2026-11-08): nine themes, five about the language (formal style, argument, shades of meaning, word families,
+  describing people) and four topics (ethics, information, negotiation, history); 94 dialogues now wait for review.
+  Idioms and set phrases are left for later: the word lists hold single words, so they need a phrase source.
 - Next for vocabulary: curated English meanings for the top 2,500 (the source's are sometimes long-winded); audio from
   Wikimedia Commons for the top 1,000 (self-hosted, credited), for devices without a Russian voice; themed sets from
   Wiktionary categories; word families.

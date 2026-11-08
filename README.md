@@ -13,7 +13,7 @@ and your words) is optional, off by default, and kept only in your browser.
 - **Drill**: the drills below, with retries, example sentences and audio, plus a mixed review of several topics and a
   translate-and-compare drill. A **Vocabulary** drill covers the commonest words both ways round; with progress on, the
   words you practise (or add while reading) come back for review on a spaced-repetition schedule. The end screen breaks results down by question type or topic.
-- **Vocabulary**: everyday words in 38 themes from A1 to B2 (food, family, travel, work, the law, science…): words with stress and meaning,
+- **Vocabulary**: words in 47 themes from A1 to C1 (food, family, travel, work, the law, science, formal Russian, shades of meaning…): words with stress and meaning,
   a real sentence for each, short dialogues where every word can be tapped (published once a native speaker has
   checked them), and practice rounds (`content/words/*.yaml`).
 - **Reading**: short stories by Tolstoy and comedies by Chekhov (public domain), with every word explained on hover or
