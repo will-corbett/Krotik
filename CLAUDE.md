@@ -127,6 +127,20 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Layout: the frame is 1000px wide (lists, tables, Vocabulary, Culture, Paths); drills, the test, progress and pages of
   running text (Reading texts, Start here, About, culture notes) keep 760px (`main.narrow` in App), and Learn paragraphs
   46rem.
+- Production exercises (critique batch 2):
+  - Translate and compare goes both ways (`translate.direction`: en-ru, ru-en, both); Russian → English types English
+    (`Question.answerLang`), compared with the Tatoeba English and self-marked.
+  - Build the sentence (`build`, Review group, `src/lib/questions/build.ts`): a Tatoeba sentence's words shuffled, never
+    already in order; the original order is right, any other is self-marked (Russian word order is free).
+  - Find the mistake (`fix`, Review group, `src/lib/questions/fix.ts`): a Grammar test sentence with one checked wrong
+    form of the same word; tap it, type the right form. Only "word in brackets" items (choice items can also fit).
+  - Vocabulary gap-fill: each theme keeps up to 3 real sentences a word (`ThemeData.gaps`; only the hand-chosen one where
+    the shortest were idioms); "Practise: fill the gap" (dictionary form in brackets, type the form used).
+  - Grammar test stage 2 (`LevelTestTyped.svelte`, `buildTypedTest`): 6 typed questions per level, word in brackets,
+    none from stage 1; a separate productive result beside the receptive one. In memory only.
+  - Writing (`/writing/`, `content/writing.yaml`, word-checked in learn.test.ts): 3 tasks per level with a checklist and
+    links to grammar and vocabulary. What's typed is never stored; no model answers until a native speaker can review
+    them. Self-marked drills (translate, build) are never suggested as weak or due.
 - Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
   GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
   text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent

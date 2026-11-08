@@ -180,7 +180,7 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    progress; a Report a problem link (GitHub issue or email, prefilled, nothing sent automatically); desktop nav bar on
    wide screens; learning paths A1 to C1 (Learn topics, Vocabulary themes and Reading in a recommended order); a
    personalised home page when progress is on; Learn index filters (level, group, studied, needs revision).
-2. Production: vocabulary gap-fill per theme; build the sentence (self-marked, Russian order is free); translate
+2. Production (done 2026-11-08; guided writing without model answers until native review): vocabulary gap-fill per theme; build the sentence (self-marked, Russian order is free); translate
    Russian to English; error correction (a real form swapped for another real form of the same word); a typed stage
    of the grammar test (receptive vs productive results); guided writing with a checklist and model answer.
 3. Listening: Common Voice sentences (listen and choose, dictation, endings), Commons word audio (instead of the

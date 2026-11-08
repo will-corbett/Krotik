@@ -8,12 +8,13 @@ and your words) is optional, off by default, and kept only in your browser.
 - **Learning paths**: a recommended route for each level from A1 to C1 through grammar, vocabulary, reading and
   review (`content/paths.yaml`); with progress on, the home page suggests your next step.
 - **Learn & drill**: every topic, easiest first in each group, with its level, Learn page and drill.
-- **Grammar test**: 60 multiple-choice questions from A1 to C1, an approximate grammar level with what it means, every
+- **Writing**: guided tasks for each level with a checklist (nothing typed is stored).
+- **Grammar test**: 60 multiple-choice questions from A1 to C1, then an optional typed stage for a productive result, an approximate grammar level with what it means, every
   wrong answer explained, and the Learn pages worth reviewing.
 - **Learn**: short explanations with tables and real sentences from the data, and a quick check on each page
   (`content/learn/*.md`).
-- **Drill**: the drills below, with retries, example sentences and audio, plus a mixed review of several topics and a
-  translate-and-compare drill. A **Vocabulary** drill covers the commonest words both ways round; with progress on, the
+- **Drill**: the drills below, with retries, example sentences and audio, plus review drills: a mixed review of several
+  topics, translate and compare (both ways), build the sentence and find the mistake. A **Vocabulary** drill covers the commonest words both ways round; with progress on, the
   words you practise (or add while reading) come back for review on a spaced-repetition schedule. The end screen breaks results down by question type or topic.
 - **Vocabulary**: words in 47 themes from A1 to C1 (food, family, travel, work, the law, science, formal Russian, shades of meaning…): words with stress and meaning,
   a real sentence for each, short dialogues where every word can be tapped (published once a native speaker has
