@@ -23,6 +23,9 @@ import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
 import { buildSentences } from './lib/sentences.ts';
 import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } from './lib/literature.ts';
 import { buildThemes, loadThemes } from './lib/themes.ts';
+import { buildListening, findPairs } from './lib/listening.ts';
+import { packAudio, wantedAudio, writeWanted } from './lib/audio.ts';
+import { readTatoebaAudio } from './lib/tatoeba-audio.ts';
 import { CASES } from '../src/shared/cells.ts';
 import { cellForms } from '../src/shared/forms.ts';
 import { normalise } from '../src/shared/normalise.ts';
@@ -252,6 +255,34 @@ let themesBytes = writeJson('themes.json', themes.index);
 for (const t of themes.themes) themesBytes += writeJson(`theme.${t.id}.json`, t);
 writeFileSync('reports/dialogues-for-review.md', themes.review);
 
+// ---- Native recordings (scripts/lib/audio.ts): what we'd like (for `npm run audio:fetch`) and what's cached so far.
+// Words: every Vocabulary theme word, then the commonest 1,000 of each word type.
+const rowByKey = new Map(words.rows.map((r) => [r[0], r]));
+const byRank = [...words.rows].sort((a, b) => words.rank(a) - words.rank(b));
+const audioWords = [
+  ...themes.index.themes.flatMap((t) => t.keys).flatMap((k) => (rowByKey.has(k) ? [rowByKey.get(k)!] : [])),
+  ...byRank.filter((r) => bandOf(words.rank(r)) <= 1),
+].map((r) => ({ key: r[0], accented: r[1], bare: r[1].replace(/'/g, '') }));
+// …and every word in a minimal pair (брат / брать) whose two words both have a recording of that stress.
+const recordable = words.rows
+  .filter((r) => (wk.audio[r[1].replace(/'/g, '')] ?? []).some(([canon]) => canon === r[1]))
+  .map((r) => ({ key: r[0], accented: r[1], bare: r[1].replace(/'/g, '') }));
+const pairWords = new Set(findPairs(recordable).flatMap((p) => [p[1], p[3]]));
+audioWords.push(...recordable.filter((w) => pairWords.has(w.key)));
+const wanted = wantedAudio({ words: audioWords, commons: wk.audio, pairs: corpus.pairs, tatoeba: await readTatoebaAudio(), report });
+writeWanted(wanted);
+const audioIndex = packAudio(wanted, report);
+const audioBytes = writeJson('audio.json', audioIndex);
+const listening = buildListening({
+  sentences: corpus.pairs.filter((p) => audioIndex.sentences[p.rid] !== undefined),
+  owners: corpus.owners,
+  noun: (id) => nounById.get(id),
+  adjective: (id) => adjById.get(id),
+  words: words.rows.filter((r) => audioIndex.words[r[0]]).map((r) => ({ key: r[0], accented: r[1] })),
+  report,
+});
+const listeningBytes = writeJson('listening.json', listening);
+
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);
 const prefixedMotion = buildPrefixedMotion(verbs, report);
@@ -285,6 +316,8 @@ const manifest: Manifest = {
   learn: 'learn.json',
   reading: 'reading.json',
   themes: 'themes.json',
+  audio: 'audio.json',
+  listening: 'listening.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -319,6 +352,8 @@ sizes.push(`| level-test.json | ${levelTest.slots.reduce((n, s) => n + s.items.l
 sizes.push(`| learn.json | ${learnTatoeba.length} sentences, ${learnIpa.length} pronunciations | ${(learnBytes / 1024).toFixed(1)} KB |`);
 sizes.push(`| reading.json, reading.*.json | ${reading.units.length} texts, ${reading.units.reduce((n, u) => n + u.questions.length, 0)} questions | ${(readingBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| themes.json, theme.*.json | ${themes.themes.length} themes, ${themes.themes.reduce((n, t) => n + t.dialogues.length, 0)} dialogues published | ${(themesBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| audio.json | ${Object.keys(audioIndex.words).length} words, ${Object.keys(audioIndex.sentences).length} sentences recorded | ${(audioBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| listening.json | ${listening.sentences.length} sentences, ${listening.endings.length} endings, ${listening.pairs.length} pairs | ${(listeningBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

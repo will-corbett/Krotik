@@ -53,6 +53,8 @@ export interface Manifest {
   reading: string;
   /** the Vocabulary section's index (theme.<id>.json per theme) */
   themes: string;
+  audio: string;
+  listening: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -204,6 +206,27 @@ export interface ThemeData {
   words: Record<string, WordReading[]>;
   /** dialogues written but not yet reviewed (not published) */
   drafts: number;
+}
+/**
+ * public/data/audio.json: the native recordings the site hosts (public/audio/), each credited.
+ * credits: [name, licence, link (the person's or project's page, or the file's), source, the licence's address].
+ */
+export interface AudioIndex {
+  credits: [string, string, string, 'commons' | 'tatoeba', string][];
+  /** word list key → [file name in audio/w/ without .mp3, credit index] */
+  words: Record<string, [string, number]>;
+  /** Tatoeba sentence id → credit index (the file is audio/s/<id>.mp3) */
+  sentences: Record<string, number>;
+}
+export type PairType = 'soft' | 'yi' | 'shsch';
+/** public/data/listening.json: listening drills, from the published recordings only. */
+export interface ListeningData {
+  /** recorded sentences: [Tatoeba id, Russian, English] */
+  sentences: [number, string, string][];
+  /** which ending did you hear: [Tatoeba id, word start, word end, options (the sentence's word among them)] */
+  endings: [number, number, number, string[]][];
+  /** minimal pairs: [type, key, word (stress marked), key, word] */
+  pairs: [PairType, string, string, string, string][];
 }
 /** public/data/themes.json: the Vocabulary section's themes, in order. */
 export interface ThemeIndex {
