@@ -188,13 +188,13 @@
       bind:this={field}
       bind:value={input}
       oninput={() => {
-        if (settings.translit) input = toCyrillic(input);
+        if (settings.translit && q?.answerLang !== 'en') input = toCyrillic(input);
       }}
       class:right={phase === 'feedback' && !selfPending && result?.correct}
       class:wrong={phase === 'feedback' && !selfPending && !result?.correct}
       readonly={phase === 'feedback'}
-      inputmode={settings.keyboard ? 'none' : 'text'}
-      lang="ru"
+      inputmode={settings.keyboard && q?.answerLang !== 'en' ? 'none' : 'text'}
+      lang={q?.answerLang ?? 'ru'}
       autocapitalize="off"
       autocorrect="off"
       spellcheck="false"
@@ -289,7 +289,7 @@
             {/each}
           </div>
         {:else}
-        <label class="frame" class:sentence-answer={q.selfMark} lang="ru">
+        <label class="frame" class:sentence-answer={q.selfMark} lang={q.answerLang ?? 'ru'}>
           <span class="visually-hidden" lang="en">Your answer</span>
           {#if frameParts[0]}<span class="frame-text">{frameParts[0]}</span>{/if}
           {@render answerInput()}
@@ -301,7 +301,7 @@
             {#if !q.choices && !q.stress}<button class="btn primary" type="submit" disabled={!input.trim()}>Check</button>{/if}
             <button class="btn quiet" type="button" onclick={dontKnow}>I don't know</button>
             {#if q.choices}<span class="muted kbd-hint">or press 1–{q.choices.length}</span>{/if}
-            {#if !q.choices && !q.stress}
+            {#if !q.choices && !q.stress && q.answerLang !== 'en'}
               <button
                 class="btn quiet kb-toggle"
                 type="button"
@@ -323,7 +323,7 @@
         </div>
       </form>
 
-      {#if settings.keyboard && phase === 'answering' && !q.choices && !q.stress}
+      {#if settings.keyboard && phase === 'answering' && !q.choices && !q.stress && q.answerLang !== 'en'}
         <Keyboard oninsert={insert} onbackspace={backspace} />
       {/if}
     </div>
@@ -337,12 +337,12 @@
           {#if q.meaning}
             <p class="solution meaning-solution"><span lang="ru">{r(q.headword)}</span> <span class="muted" aria-hidden="true">=</span><span class="visually-hidden">means</span> <strong lang="en">{q.answer}</strong></p>
           {:else}
-            <p class="solution" lang="ru">
-              {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{q.stress ? renderForm(a, true) : r(a)}</strong>{/each}
+            <p class="solution" lang={q.answerLang ?? 'ru'}>
+              {#each answers as a, i (a)}{#if i}<span class="or" lang="en"> or </span>{/if}<strong>{q.stress ? renderForm(a, true) : q.answerLang === 'en' ? a : r(a)}</strong>{/each}
             </p>
           {/if}
           {#if q.selfMark && typed}
-            <p class="typed">You wrote <span lang="ru">{typed}</span>{selfPending ? '' : '.'}</p>
+            <p class="typed">You wrote <span lang={q.answerLang ?? 'ru'}>{typed}</span>{selfPending ? '' : '.'}</p>
             {#if selfPending}
               <p class="hint muted">Other word orders and words can be just as right. Count it as right if it says the same thing with correct grammar.</p>
               <div class="mark">

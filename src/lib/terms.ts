@@ -112,6 +112,7 @@ export const TERMS = {
   mixed: t('Mixed review', 'смешанное повторение'),
   translate: t('Translate and compare', 'перевод'),
   translateTask: t('Translate into Russian', 'переведите на русский'),
+  translateToEnglish: t('Translate into English', 'переведите на английский'),
   reading: t('Reading', 'чтение'),
   comparison: t('Comparisons', 'сравнительные конструкции'),
   conjunctions: t('Conjunctions', 'союзы'),

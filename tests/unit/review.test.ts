@@ -121,8 +121,18 @@ describe('translate and compare', () => {
       [1, 'Я не знаю.', "I don't know.", 0, 0, 0],
       [2, 'Я буду ждать здесь, пока она не придёт.', "I'll wait here until she comes.", 0, 0, 0],
     ];
-    const qs = generateTranslateQuestions(rows, { lengths: ['short'] }, 10, mulberry32(1));
+    const qs = generateTranslateQuestions(rows, { lengths: ['short'], direction: 'en-ru' as const }, 10, mulberry32(1));
     expect(qs.map((x) => [x.source, x.answer, x.selfMark, x.headwordIsEnglish])).toEqual([[1, 'Я не знаю.', true, true]]);
-    expect(generateTranslateQuestions(rows, { lengths: ['short', 'long'] }, 10, mulberry32(1))).toHaveLength(2);
+    expect(generateTranslateQuestions(rows, { lengths: ['short', 'long'], direction: 'en-ru' as const }, 10, mulberry32(1))).toHaveLength(2);
+  });
+});
+
+describe('translate Russian → English', () => {
+  it('shows the Russian and takes the English, self-marked, with an exact match marked right', async () => {
+    const { translateQuestion } = await import('../../src/lib/questions/translate.ts');
+    const q = translateQuestion([42, 'Я люблю чай.', "I don't like coffee.", 0, 0, 0], true);
+    expect(q).toMatchObject({ headword: 'Я люблю чай.', answer: "I don't like coffee.", answerLang: 'en', selfMark: true });
+    expect(q.headwordIsEnglish).toBeFalsy();
+    expect(sameSentence('i dont like coffee', "I don't like coffee.", normalise)).toBe(true);
   });
 });

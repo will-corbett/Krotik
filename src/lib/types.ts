@@ -123,6 +123,8 @@ export interface Question {
    * whole) and mark it yourself; only an exact match is marked right automatically.
    */
   selfMark?: boolean;
+  /** The answer is typed in English (translate Russian → English): no Cyrillic keyboard, English normalisation. */
+  answerLang?: 'en';
   /** Vocabulary "choose the meaning": the options and the answer are English meanings, compared exactly. */
   meaning?: true;
   /** Vocabulary: the word asked about (for the opt-in word record, src/lib/words.ts). */
@@ -155,6 +157,8 @@ export interface Word {
 /** Translate and compare: short (up to 5 words) and/or longer (6–9 words) sentences. */
 export interface TranslateSettings {
   lengths: ('short' | 'long')[];
+  /** en-ru: English shown, type the Russian; ru-en: Russian shown, type the English; both: either, at random. */
+  direction: 'en-ru' | 'ru-en' | 'both';
 }
 
 export interface VerbSettings {

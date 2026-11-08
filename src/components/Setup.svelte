@@ -558,14 +558,22 @@
       </fieldset>
     {:else if settings.mode === 'translate'}
       <fieldset>
+        <legend>Which way round</legend>
+        <div class="chips">
+          <label class="chip"><input type="radio" name="tdir" value="en-ru" bind:group={settings.translate.direction} /> English → Russian</label>
+          <label class="chip"><input type="radio" name="tdir" value="ru-en" bind:group={settings.translate.direction} /> Russian → English</label>
+          <label class="chip"><input type="radio" name="tdir" value="both" bind:group={settings.translate.direction} /> Both</label>
+        </div>
+      </fieldset>
+      <fieldset>
         <legend>Sentence length</legend>
         <div class="chips">
           <label class="chip"><input type="checkbox" checked={settings.translate.lengths.includes('short')} onchange={() => (settings.translate.lengths = toggle(settings.translate.lengths, 'short'))} /> Short (up to 5 words)</label>
           <label class="chip"><input type="checkbox" checked={settings.translate.lengths.includes('long')} onchange={() => (settings.translate.lengths = toggle(settings.translate.lengths, 'long'))} /> Longer (6–9 words)</label>
         </div>
         <p class="hint muted">
-          You'll see an English sentence; type it in Russian. Then compare yours with the Russian sentence it was translated
-          from (from Tatoeba) and mark it yourself: other words and word orders can be just as right.
+          You'll see a sentence; type it in the other language. Then compare yours with the real translation (from
+          Tatoeba) and mark it yourself: other words and word orders can be just as right.
         </p>
       </fieldset>
     {:else}

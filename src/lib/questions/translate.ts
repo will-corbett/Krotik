@@ -14,8 +14,23 @@ export function lengthOf(ru: string): 'short' | 'long' | null {
   return n <= 5 ? 'short' : n <= 9 ? 'long' : null;
 }
 
-export function translateQuestion(row: SentenceRow): Question {
+export function translateQuestion(row: SentenceRow, toEnglish = false): Question {
   const [id, ru, en] = row;
+  if (toEnglish)
+    return {
+      key: `tre:${id}`,
+      mode: 'translate',
+      headword: ru,
+      gloss: '',
+      task: [TERMS.translateToEnglish],
+      answer: en,
+      answerLang: 'en',
+      others: [],
+      label: TERMS.translate.en,
+      source: id,
+      selfMark: true,
+      speak: () => ru,
+    };
   return {
     key: `tr:${id}`,
     mode: 'translate',
@@ -41,7 +56,9 @@ export function generateTranslateQuestions(rows: SentenceRow[], s: TranslateSett
     const len = lengthOf(r[1]);
     return len !== null && s.lengths.includes(len);
   });
-  return shuffle(rng, pool).slice(0, n).map(translateQuestion);
+  return shuffle(rng, pool)
+    .slice(0, n)
+    .map((r) => translateQuestion(r, s.direction === 'ru-en' || (s.direction === 'both' && rng() < 0.5)));
 }
 
 /** Does a typed translation match the model exactly (ignoring case, stress, ё, spacing and punctuation)? */

@@ -110,7 +110,7 @@ export const DEFAULTS: Settings = {
   position: { tenses: ['presfut', 'past', 'imperative', 'inf'] },
   chtoby: { kinds: ['inf', 'past'] },
   mixed: { topics: ['verbs', 'nounCases', 'adjectives', 'pronouns', 'prepositions'] },
-  translate: { lengths: ['short'] },
+  translate: { lengths: ['short'], direction: 'en-ru' },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
   questionLang: 'ru',
   pathLevel: 'A1',
