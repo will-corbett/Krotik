@@ -21,7 +21,7 @@
     id,
     settings = $bindable(),
     onpractise,
-  }: { id: string; settings: Settings; onpractise: (keys: [string, number][], direction: 'recognise' | 'recall') => void } = $props();
+  }: { id: string; settings: Settings; onpractise: (keys: [string, number][], direction: 'recognise' | 'recall' | 'gap', theme?: string) => void } = $props();
   let theme = $state<ThemeData | null>(null);
   let index = $state<ThemeIndex | null>(null);
   let error = $state('');
@@ -81,6 +81,7 @@
     <div class="practise" role="group" aria-label="Practise these words">
       <button type="button" class="btn primary" onclick={() => onpractise(keys, 'recognise')}>Practise: choose the meaning</button>
       <button type="button" class="btn" onclick={() => onpractise(keys, 'recall')}>Practise: type the word</button>
+      {#if Object.keys(theme.gaps).length}<button type="button" class="btn" onclick={() => onpractise(keys, 'gap', theme!.id)}>Practise: fill the gap</button>{/if}
       {#if settings.progress}
         <button type="button" class="btn quiet" disabled={allIn} onclick={() => add(keys)}>{allIn ? 'All in your words ✓' : 'Add all to my words'}</button>
       {/if}

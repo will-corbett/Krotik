@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadWordList, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadTheme, loadWordList, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -19,7 +19,7 @@ import { generateOrdinalQuestions } from './questions/ordinals.ts';
 import { generateSpecialCaseQuestions } from './questions/specialCases.ts';
 import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
-import { generateVocabQuestions } from './questions/vocab.ts';
+import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
 import { today } from './progress.ts';
 import type { ParadigmRef, Word } from './types.ts';
@@ -61,7 +61,7 @@ async function partners(): Promise<PartnerPicker> {
 }
 
 /** Load the data for these settings once; the returned function generates any number of questions. */
-export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string, number][] } = {}): Promise<Generate> {
+export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string, number][]; gapTheme?: string } = {}): Promise<Generate> {
   switch (s.mode) {
     case 'vocab': {
       // Words to ask: the given keys (Reading's key words), your due words, or the commonest up to the band.
@@ -85,6 +85,11 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
         ...adjs.map((adjective) => [`a:${adjective.id}`, { kind: 'adjective', adjective }] as [string, ParadigmRef]),
       ]);
       const pool = { all, paradigm: (w: Word) => lex.get(w.key) };
+      // A theme's gap-fill: its words in real sentences (theme.<id>.json), one question per word.
+      if (opts.gapTheme) {
+        const theme = await loadTheme(opts.gapTheme);
+        return (n) => generateGapQuestions(targets, theme.gaps, n, rng);
+      }
       // Your due words come in order, most overdue first; other words (the commonest, a text's key words) at random.
       return (n) => generateVocabQuestions(targets, pool, s.vocab, n, rng, !!record);
     }

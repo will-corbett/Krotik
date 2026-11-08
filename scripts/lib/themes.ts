@@ -26,6 +26,8 @@ interface Corpus {
 }
 
 const S = 'Words section (themes)';
+/** Real sentences kept per word for the theme's gap-fill practice (the first is also its In use example). */
+export const GAPS = 3;
 export const THEMES_DIR = 'content/words';
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'] as const;
 const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
@@ -157,7 +159,7 @@ export function buildThemes(
       }),
     })),
   }));
-  const uses = findUses(new Set(resolved.flatMap((t) => t.groups.flatMap((g) => g.words.map((w) => ownerOf(w[0]))))), input.corpus, process.env.THEMES_DEBUG ? 8 : 1);
+  const uses = findUses(new Set(resolved.flatMap((t) => t.groups.flatMap((g) => g.words.map((w) => ownerOf(w[0]))))), input.corpus, process.env.THEMES_DEBUG ? 8 : GAPS);
   // THEMES_DEBUG=file: write each word's candidate sentences there, to choose better ones by hand (`use:`).
   if (process.env.THEMES_DEBUG) {
     const lines = resolved.flatMap((t) => t.groups.flatMap((g) => g.words.map((w) => `${t.id} ${w[1]}\n${(uses.get(ownerOf(w[0])) ?? []).map((u) => `   ${u[0]} ${u[1]} — ${u[2]}`).join('\n')}`)));
@@ -194,6 +196,7 @@ export function buildThemes(
       }
     }
     const themeUses: ThemeData['uses'] = {};
+    const gaps: ThemeData['gaps'] = {};
     const chosen = new Map<string, number>();
     for (const [name, rid] of Object.entries(t.src.use ?? {})) {
       const r = resolveWord(name, byHead);
@@ -211,6 +214,14 @@ export function buildThemes(
       const u = uses.get(ownerOf(w[0]))?.[0];
       if (u) themeUses[w[0]] = u;
     }
+    // Gap-fill: the In use sentence first, then the other shortest ones, at most GAPS.
+    for (const g of t.groups) for (const w of g.words) {
+      const first = themeUses[w[0]];
+      // A hand-chosen sentence means the shortest ones were idioms or another sense: use only the chosen one.
+      const rest = chosen.has(w[0]) ? [] : (uses.get(ownerOf(w[0])) ?? []).filter((u) => u[0] !== first?.[0]);
+      const list = [...(first ? [first] : []), ...rest].slice(0, GAPS);
+      if (list.length) gaps[w[0]] = list;
+    }
     const count = t.groups.reduce((n, g) => n + g.words.length, 0);
     report.count(S, `${t.id}: words`, count);
     report.count(S, `${t.id}: words with a real sentence in use`, Object.keys(themeUses).length);
@@ -223,6 +234,7 @@ export function buildThemes(
       blurb: t.src.blurb,
       groups: t.groups,
       uses: themeUses,
+      gaps,
       dialogues: published,
       words: Object.fromEntries(Object.entries(words).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))),
       drafts: (t.src.dialogues ?? []).length - published.length,

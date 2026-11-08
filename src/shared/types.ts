@@ -196,6 +196,8 @@ export interface ThemeData {
   groups: { title: string; words: ThemeWord[] }[];
   /** word key → a real Tatoeba sentence using it: [Tatoeba id, Russian, English, word start, word end] */
   uses: Record<string, [number, string, string, number, number]>;
+  /** word key → up to 3 real sentences using it, for the gap-fill practice (same shape as `uses`) */
+  gaps: Record<string, [number, string, string, number, number][]>;
   /** our own dialogues, published only once a native speaker has reviewed them ("<who>, YYYY-MM-DD") */
   dialogues: { title: string; reviewed: string; lines: ReadingLine[]; en: string[] }[];
   /** the dialogues' words, explained as in Reading */

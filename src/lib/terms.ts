@@ -106,6 +106,7 @@ export const TERMS = {
   vocab: t('Vocabulary', 'лексика'),
   meaningTask: t('What does it mean?', 'значение'),
   recallTask: t('Say it in Russian', 'как по-русски?'),
+  gapTask: t('Fill the gap', 'вставьте слово'),
   nounPos: t('noun', 'существительное'),
   verbPos: t('verb', 'глагол'),
   adjectivePos: t('adjective', 'прилагательное'),

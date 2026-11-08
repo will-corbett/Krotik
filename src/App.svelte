@@ -121,10 +121,10 @@
   }
 
   /** Reading's key words: a "choose the meaning" round on just these words (kept for "again" until you leave). */
-  let practice = $state<{ keys: [string, number][]; direction: 'recognise' | 'recall' } | null>(null);
-  function practise(keys: [string, number][], direction: 'recognise' | 'recall' = 'recognise') {
+  let practice = $state<{ keys: [string, number][]; direction: 'recognise' | 'recall' | 'gap'; theme?: string } | null>(null);
+  function practise(keys: [string, number][], direction: 'recognise' | 'recall' | 'gap' = 'recognise', theme?: string) {
     navigate(href({ page: 'drill', mode: 'vocab' }));
-    practice = { keys, direction };
+    practice = { keys, direction, theme };
     start();
   }
 
@@ -135,7 +135,7 @@
     try {
       const s = $state.snapshot(settings) as Settings;
       const gen = practice
-        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: practice.direction } }, mulberry32(seed()), { keys: practice.keys })
+        ? await prepareRound({ ...s, mode: 'vocab', vocab: { ...s.vocab, direction: practice.direction === 'gap' ? 'recognise' : practice.direction } }, mulberry32(seed()), { keys: practice.keys, gapTheme: practice.direction === 'gap' ? practice.theme : undefined })
         : await prepareRound(s, mulberry32(seed()));
       const unlimited = settings.count === 0 && !practice;
       const qs = unlimited ? nextBatch(gen, new Set(), [], UNLIMITED_BATCH) : gen(practice ? practice.keys.length : settings.count);

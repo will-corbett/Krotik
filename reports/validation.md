@@ -52,7 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 78 texts, 161 questions | 1383 KB |
-| themes.json, theme.*.json | 47 themes, 0 dialogues published | 181 KB |
+| themes.json, theme.*.json | 47 themes, 0 dialogues published | 428 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs

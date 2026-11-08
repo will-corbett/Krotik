@@ -162,3 +162,34 @@ export function generateVocabQuestions(targets: Word[], pool: VocabPool, s: Voca
   }
   return out;
 }
+
+/**
+ * Gap-fill: a real sentence with the word missing, its English translation as the cue and the word's dictionary form in
+ * brackets; type the form the sentence uses. One question per word (one of its sentences, at random).
+ */
+export function generateGapQuestions(words: Word[], gaps: Record<string, [number, string, string, number, number][]>, n: number, rng: Rng): Question[] {
+  const out: Question[] = [];
+  for (const w of shuffle(rng, words.filter((x) => gaps[x.key]?.length))) {
+    if (out.length >= n) break;
+    const list = gaps[w.key]!;
+    const [id, ru, en, start, end] = list[Math.floor(rng() * list.length)]!;
+    const before = ru.slice(0, start);
+    const after = ru.slice(end);
+    out.push({
+      key: `vg:${w.key}:${id}`,
+      mode: 'vocab',
+      headword: en,
+      headwordIsEnglish: true,
+      gloss: '',
+      task: [TERMS.gapTask],
+      frame: `${before}___ (${w.accented.split(',')[0]})${after}`,
+      answer: ru.slice(start, end).toLowerCase() === ru.slice(start, end) ? ru.slice(start, end) : ru.slice(start, end).toLowerCase(),
+      others: [],
+      label: TERMS.gapTask.en,
+      source: id,
+      word: { key: w.key, band: w.band },
+      speak: (f) => `${before}${f.replace(/'/g, '')}${after}`,
+    });
+  }
+  return out;
+}

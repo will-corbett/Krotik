@@ -158,3 +158,25 @@ describe('moving all progress (topics and words) between devices', async () => {
     expect(Object.keys(m.words.words).sort()).toEqual(['n:1', 'v:2']);
   });
 });
+
+describe('theme gap-fill', async () => {
+  const { generateGapQuestions } = await import('../../src/lib/questions/vocab.ts');
+  const theme = JSON.parse(readFileSync('public/data/theme.food.json', 'utf8')) as import('../../src/shared/types.ts').ThemeData;
+  it('asks each word once, in one of its real sentences, with the dictionary form in brackets and the form used as the answer', () => {
+    const words = theme.groups.flatMap((g) => g.words).map(([key, accented, gloss, pos, extra, band]) => ({ key, accented, gloss, pos, extra, band }));
+    const qs = generateGapQuestions(words, theme.gaps, 100, mulberry32(2));
+    expect(qs.length).toBe(Object.keys(theme.gaps).length);
+    expect(new Set(qs.map((q) => q.word!.key)).size).toBe(qs.length);
+    for (const q of qs) {
+      const [id, ru, en, start, end] = theme.gaps[q.word!.key]!.find((g) => g[0] === q.source)!;
+      expect(q.headword).toBe(en);
+      expect(q.frame).toBe(`${ru.slice(0, start)}___ (${words.find((w) => w.key === q.word!.key)!.accented.split(',')[0]})${ru.slice(end)}`);
+      expect(checkAnswer(q, ru.slice(start, end)).correct, `${id}`).toBe(true);
+    }
+  });
+  it('keeps at most three sentences a word, and only the hand-chosen one where the shortest were idioms', () => {
+    for (const list of Object.values(theme.gaps)) expect(list.length).toBeLessThanOrEqual(3);
+    const fish = theme.groups.flatMap((g) => g.words).find((w) => w[1] === "ры'ба")!;
+    expect(theme.gaps[fish[0]]!.map((g) => g[0])).toEqual([3005758]);
+  });
+});
