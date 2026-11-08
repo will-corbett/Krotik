@@ -17,7 +17,7 @@ groups:
     words: ["запомнить = remember, memorise", забыть, "сосредоточиться = concentrate", "представить = imagine", "решить = decide; solve", "осознать = realise", рациональный]
 dialogues:
   - title: "Stress"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Ты в последнее время очень нервный.", "You've been very tense lately."]
       - [Олег, "Да, на работе стресс. Я плохо сплю.", "Yes, there is stress at work. I'm sleeping badly."]
@@ -25,7 +25,7 @@ dialogues:
       - [Олег, "Знаю, но не могу сосредоточиться ни на чём, кроме работы.", "I know, but I can't concentrate on anything except work."]
       - [Анна, "Попробуй хотя бы вечером не думать о ней.", "Try at least not to think about it in the evening."]
   - title: "A good memory"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Дима, "Как ты запоминаешь столько слов?", "How do you remember so many words?"]
       - [Маша, "У меня есть привычка: каждый день я учу десять новых слов.", "I have a habit: every day I learn ten new words."]

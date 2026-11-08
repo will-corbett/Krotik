@@ -12,7 +12,7 @@ groups:
     words: ["роман = novel", "стихи = poems, poetry", "картина = picture, painting", "спектакль = play, performance", песня, "сюжет = plot", "талантливый = talented", "знаменитый = famous"]
 dialogues:
   - title: "At the theatre"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Как тебе спектакль?", "How did you like the play?"]
       - [Олег, "Очень понравился. Актёры прекрасно играли.", "I liked it a lot. The actors were wonderful."]
@@ -20,7 +20,7 @@ dialogues:
       - [Олег, "Сюжет простой, но режиссёр сделал его интересным.", "The plot is simple, but the director made it interesting."]
       - [Анна, "Давай в следующий раз пойдём на балет.", "Let's go to the ballet next time."]
   - title: "A favourite writer"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Катя, "Кто твой любимый писатель?", "Who is your favourite writer?"]
       - [Дима, "Чехов. Я люблю его рассказы.", "Chekhov. I love his stories."]

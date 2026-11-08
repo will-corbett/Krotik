@@ -12,7 +12,7 @@ groups:
     words: ["молодой = young", "старый = old", жить, любить, возраст]
 dialogues:
   - title: "A family photo"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Катя, "Это твоя семья?", "Is this your family?"]
       - [Олег, "Да. Вот мама и папа, а это моя сестра.", "Yes. Here are my mum and dad, and this is my sister."]
@@ -22,7 +22,7 @@ dialogues:
       - [Олег, "Это её сын. Ему три года.", "That is her son. He is three."]
       - [Катя, "Какая большая семья!", "What a big family!"]
   - title: "Neighbours"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Кто живёт в этой квартире?", "Who lives in this flat?"]
       - [Олег, "Наш новый сосед. Он живёт с женой и дочерью.", "Our new neighbour. He lives with his wife and daughter."]

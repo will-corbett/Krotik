@@ -16,7 +16,7 @@ groups:
     words: ["предлагать = propose, offer", "обсуждать = discuss", "настаивать = insist", "уступить = concede, give way", "договориться = come to an agreement", "отказаться = refuse, turn down", "взаимный = mutual", "выгодный = advantageous"]
 dialogues:
   - title: "The terms"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Мы рассмотрели ваше предложение. Условия нас в целом устраивают.", "We've considered your proposal. On the whole the terms suit us."]
       - [Олег, "Рад это слышать. Какие у вас требования?", "I'm glad to hear it. What are your requirements?"]
@@ -24,7 +24,7 @@ dialogues:
       - [Олег, "Это сложно, но мы готовы пойти на уступку, если вы увеличите заказ.", "That's difficult, but we're ready to make a concession if you increase the order."]
       - [Анна, "Думаю, мы сможем договориться.", "I think we can reach an agreement."]
   - title: "A compromise"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Дима, "Ты хочешь в горы, а я на море. Что будем делать?", "You want to go to the mountains and I want the sea. What shall we do?"]
       - [Катя, "Давай найдём компромисс: неделю в горах, неделю на море.", "Let's find a compromise: a week in the mountains and a week at the sea."]

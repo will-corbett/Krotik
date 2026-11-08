@@ -15,7 +15,7 @@ groups:
     words: ["учиться = study, learn (at school, university)", "изучать = study (a subject)", университет, студент, "урок = lesson", "экзамен = exam", "задание = task, assignment", "учебник = textbook"]
 dialogues:
   - title: "What do you do?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Кем ты работаешь?", "What do you do for a living?"]
       - [Олег, "Я программист. Работаю в большой компании.", "I am a programmer. I work for a big company."]
@@ -24,7 +24,7 @@ dialogues:
       - [Анна, "А начальник?", "And your boss?"]
       - [Олег, "Начальник строгий, но справедливый.", "The boss is strict but fair."]
   - title: "Before the exam"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Когда у тебя экзамен?", "When is your exam?"]
       - [Анна, "В пятницу. Я каждый день учусь.", "On Friday. I'm studying every day."]

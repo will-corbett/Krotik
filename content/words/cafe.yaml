@@ -18,7 +18,7 @@ groups:
     words: [платить, сколько, "стоить = cost", "рубль = rouble", "карта = card; map", наличные]
 dialogues:
   - title: "Ordering"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Официант, "Добрый день! Вот меню.", "Good afternoon! Here is the menu."]
       - [Анна, "Спасибо. Можно чашку кофе и кусок торта?", "Thank you. Can I have a cup of coffee and a piece of cake?"]
@@ -28,7 +28,7 @@ dialogues:
       - [Олег, "С сыром.", "With cheese."]
       - [Официант, "Хорошо. Сейчас принесу.", "All right. I will bring them right away."]
   - title: "The bill"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Принесите, пожалуйста, счёт.", "Could you bring the bill, please?"]
       - [Официант, "Пожалуйста. Восемьсот рублей.", "Here you are. Eight hundred roubles."]

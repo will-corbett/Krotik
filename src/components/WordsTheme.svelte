@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { reviewedText } from '../lib/reviewed.ts';
   import { loadTheme, loadThemeIndex } from '../lib/data.ts';
   import { pageTitle } from '../lib/pageMeta.ts';
   import { today } from '../lib/progress.ts';
@@ -163,7 +164,7 @@
           <section class="dialogue" aria-labelledby="d-{di}">
             <h3 id="d-{di}">{d.title}</h3>
             <ExplainedText lines={d.lines} words={theme.words} label="Dialogue: {d.title}. Each word shows its meaning" uid="d{di}" progress={settings.progress} {mine} onadd={add} translations={d.en} showTranslation={english} />
-            <p class="muted reviewed">Written for Krotik; checked by a native speaker ({d.reviewed}).</p>
+            <p class="muted reviewed">{reviewedText(d.reviewed)}</p>
           </section>
         {/each}
       </section>

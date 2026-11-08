@@ -14,7 +14,7 @@ groups:
     words: [вчера, сегодня, завтра, всегда, "никогда = never", иногда, часто]
 dialogues:
   - title: "What time is it?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Сколько сейчас времени?", "What time is it now?"]
       - [Олег, "Без пяти восемь.", "Five to eight."]
@@ -22,7 +22,7 @@ dialogues:
       - [Олег, "Во сколько у тебя урок?", "What time is your lesson?"]
       - [Анна, "В восемь. Ничего, скоро буду там.", "At eight. Never mind, I will be there soon."]
   - title: "Making plans"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Что ты делаешь в субботу?", "What are you doing on Saturday?"]
       - [Анна, "В субботу я работаю. А в воскресенье свободна.", "I am working on Saturday. But I am free on Sunday."]

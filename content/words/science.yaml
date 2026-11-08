@@ -15,7 +15,7 @@ groups:
     words: ["изучать = study", "исследовать = research, investigate", "доказать = prove", измерить, "вывод = conclusion", "результат = result", "точный = precise, exact", научный]
 dialogues:
   - title: "An experiment"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Чем вы занимаетесь в лаборатории?", "What do you do in the lab?"]
       - [Олег, "Мы проводим эксперименты, чтобы проверить новую теорию.", "We do experiments to test a new theory."]
@@ -24,7 +24,7 @@ dialogues:
       - [Анна, "А когда вы опубликуете исследование?", "And when will you publish the research?"]
       - [Олег, "Надеюсь, в следующем году.", "Next year, I hope."]
   - title: "Physics or chemistry?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Какой предмет тебе больше нравится, физика или химия?", "Which subject do you like more, physics or chemistry?"]
       - [Дима, "Физика. Мне интересно, как устроен мир.", "Physics. I'm interested in how the world works."]

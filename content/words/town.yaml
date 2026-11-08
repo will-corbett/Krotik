@@ -17,7 +17,7 @@ groups:
     words: ["идти = go (on foot), walk", "пройти = get to, go past", "повернуть = turn", найти, искать, "карта = map", "дорога = road, way", мост]
 dialogues:
   - title: "Asking the way"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Извините, вы не знаете, где здесь музей?", "Excuse me, do you know where the museum is?"]
       - [Олег, "Знаю. Идите прямо, потом направо.", "I do. Go straight on, then right."]
@@ -27,7 +27,7 @@ dialogues:
       - [Олег, "Да, напротив музея, на углу.", "Yes, opposite the museum, on the corner."]
       - [Анна, "Большое спасибо!", "Thank you very much!"]
   - title: "Meeting in town"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Где встретимся?", "Where shall we meet?"]
       - [Анна, "На площади, около театра.", "On the square, by the theatre."]

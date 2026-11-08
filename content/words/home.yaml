@@ -12,7 +12,7 @@ groups:
     words: [жить, спать, "убирать = tidy up, clear away", мыть, "открыть = open", "закрыть = close, shut", "удобный = comfortable, convenient", "чистый = clean"]
 dialogues:
   - title: "A new flat"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Катя, "Какая у тебя большая квартира!", "What a big flat you have!"]
       - [Анна, "Да, три комнаты: спальня, гостиная и кабинет.", "Yes, three rooms: a bedroom, a living room and a study."]
@@ -21,7 +21,7 @@ dialogues:
       - [Катя, "А на каком этаже ты живёшь?", "And which floor do you live on?"]
       - [Анна, "На пятом. Есть балкон, и из окна видно парк.", "On the fifth. There is a balcony, and you can see the park from the window."]
   - title: "Tidying up"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Где моя книга? Она была на столе.", "Where is my book? It was on the table."]
       - [Анна, "Я убирала и положила её в шкаф.", "I was tidying up and put it in the cupboard."]

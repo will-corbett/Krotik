@@ -12,7 +12,7 @@ groups:
     words: ["звонить = call, ring", "позвонить = call, ring", "писа'ть = write", "отправить = send", "получить = get, receive", "скачать = download", включить, "выключить = turn off"]
 dialogues:
   - title: "My phone is dead"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Можно позвонить с твоего телефона? Мой разрядился.", "Can I make a call from your phone? Mine has run out of battery."]
       - [Олег, "Конечно, вот. А зарядка у тебя есть?", "Of course, here. Do you have a charger?"]
@@ -20,7 +20,7 @@ dialogues:
       - [Олег, "Возьми мою. Розетка рядом с компьютером.", "Take mine. The socket is next to the computer."]
       - [Анна, "Спасибо, ты меня спас!", "Thank you, you saved me!"]
   - title: "Did you get my message?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Ты получила моё сообщение?", "Did you get my message?"]
       - [Анна, "Нет. Когда ты его отправил?", "No. When did you send it?"]

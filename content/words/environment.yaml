@@ -15,7 +15,7 @@ groups:
     words: ["защищать = protect", "беречь = look after, save", "сохранить = keep, preserve", "экономить = save, use less", "выбрасывать = throw away", "переработка = recycling, processing", "чистый = clean", "вредный = harmful"]
 dialogues:
   - title: "Sorting the rubbish"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Не выбрасывай бутылку в этот пакет!", "Don't throw the bottle in that bag!"]
       - [Олег, "Почему?", "Why?"]
@@ -24,7 +24,7 @@ dialogues:
       - [Анна, "Потом это идёт на переработку. Так меньше отходов.", "Then it goes for recycling. That way there's less waste."]
       - [Олег, "Понятно. Буду знать.", "I see. I will remember that."]
   - title: "Saving water"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Почему ты закрываешь кран, когда чистишь зубы?", "Why do you turn off the tap when you brush your teeth?"]
       - [Анна, "Чтобы экономить воду. Её надо беречь.", "To save water. We should look after it."]

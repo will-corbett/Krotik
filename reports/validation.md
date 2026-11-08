@@ -52,7 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | level-test.json | 2250 questions | 649 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2085 KB |
-| themes.json, theme.*.json | 47 themes, 0 dialogues published | 428 KB |
+| themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
 | audio.json | 4007 words, 3321 sentences recorded | 277 KB |
 | listening.json | 3321 sentences, 1920 endings, 38 pairs | 423 KB |
 | motion.json | 12 pairs | 7.3 KB |
@@ -497,99 +497,99 @@ participles: 497 of the top-1000 lemmas have at least one sentence.
 | history: words | 23 |
 | history: words with a real sentence in use | 20 |
 
-greetings: 0 dialogue(s) published, 2 waiting for review.
+greetings: 2 dialogue(s) published, 0 waiting for review.
 
-people: 0 dialogue(s) published, 2 waiting for review.
+people: 2 dialogue(s) published, 0 waiting for review.
 
-food: 0 dialogue(s) published, 2 waiting for review.
+food: 2 dialogue(s) published, 0 waiting for review.
 
-cafe: 0 dialogue(s) published, 2 waiting for review.
+cafe: 2 dialogue(s) published, 0 waiting for review.
 
-home: 0 dialogue(s) published, 2 waiting for review.
+home: 2 dialogue(s) published, 0 waiting for review.
 
-daily-routine: 0 dialogue(s) published, 2 waiting for review.
+daily-routine: 2 dialogue(s) published, 0 waiting for review.
 
-time: 0 dialogue(s) published, 2 waiting for review.
+time: 2 dialogue(s) published, 0 waiting for review.
 
-shopping: 0 dialogue(s) published, 2 waiting for review.
+shopping: 2 dialogue(s) published, 0 waiting for review.
 
-clothes: 0 dialogue(s) published, 2 waiting for review.
+clothes: 2 dialogue(s) published, 0 waiting for review.
 
-languages: 0 dialogue(s) published, 2 waiting for review.
+languages: 2 dialogue(s) published, 0 waiting for review.
 
-town: 0 dialogue(s) published, 2 waiting for review.
+town: 2 dialogue(s) published, 0 waiting for review.
 
-travel: 0 dialogue(s) published, 2 waiting for review.
+travel: 2 dialogue(s) published, 0 waiting for review.
 
-weather: 0 dialogue(s) published, 2 waiting for review.
+weather: 2 dialogue(s) published, 0 waiting for review.
 
-health: 0 dialogue(s) published, 2 waiting for review.
+health: 2 dialogue(s) published, 0 waiting for review.
 
-work: 0 dialogue(s) published, 2 waiting for review.
+work: 2 dialogue(s) published, 0 waiting for review.
 
-free-time: 0 dialogue(s) published, 2 waiting for review.
+free-time: 2 dialogue(s) published, 0 waiting for review.
 
-sport: 0 dialogue(s) published, 2 waiting for review.
+sport: 2 dialogue(s) published, 0 waiting for review.
 
-holidays: 0 dialogue(s) published, 2 waiting for review.
+holidays: 2 dialogue(s) published, 0 waiting for review.
 
-technology: 0 dialogue(s) published, 2 waiting for review.
+technology: 2 dialogue(s) published, 0 waiting for review.
 
-nature: 0 dialogue(s) published, 2 waiting for review.
+nature: 2 dialogue(s) published, 0 waiting for review.
 
-feelings: 0 dialogue(s) published, 2 waiting for review.
+feelings: 2 dialogue(s) published, 0 waiting for review.
 
-relationships: 0 dialogue(s) published, 2 waiting for review.
+relationships: 2 dialogue(s) published, 0 waiting for review.
 
-housing: 0 dialogue(s) published, 2 waiting for review.
+housing: 2 dialogue(s) published, 0 waiting for review.
 
-career: 0 dialogue(s) published, 2 waiting for review.
+career: 2 dialogue(s) published, 0 waiting for review.
 
-money: 0 dialogue(s) published, 2 waiting for review.
+money: 2 dialogue(s) published, 0 waiting for review.
 
-education: 0 dialogue(s) published, 2 waiting for review.
+education: 2 dialogue(s) published, 0 waiting for review.
 
-media: 0 dialogue(s) published, 2 waiting for review.
+media: 2 dialogue(s) published, 0 waiting for review.
 
-arts: 0 dialogue(s) published, 2 waiting for review.
+arts: 2 dialogue(s) published, 0 waiting for review.
 
-environment: 0 dialogue(s) published, 2 waiting for review.
+environment: 2 dialogue(s) published, 0 waiting for review.
 
-opinions: 0 dialogue(s) published, 2 waiting for review.
+opinions: 2 dialogue(s) published, 0 waiting for review.
 
-society: 0 dialogue(s) published, 2 waiting for review.
+society: 2 dialogue(s) published, 0 waiting for review.
 
-business: 0 dialogue(s) published, 2 waiting for review.
+business: 2 dialogue(s) published, 0 waiting for review.
 
-law: 0 dialogue(s) published, 2 waiting for review.
+law: 2 dialogue(s) published, 0 waiting for review.
 
-medicine: 0 dialogue(s) published, 2 waiting for review.
+medicine: 2 dialogue(s) published, 0 waiting for review.
 
-science: 0 dialogue(s) published, 2 waiting for review.
+science: 2 dialogue(s) published, 0 waiting for review.
 
-mind: 0 dialogue(s) published, 2 waiting for review.
+mind: 2 dialogue(s) published, 0 waiting for review.
 
-innovation: 0 dialogue(s) published, 2 waiting for review.
+innovation: 2 dialogue(s) published, 0 waiting for review.
 
-climate: 0 dialogue(s) published, 2 waiting for review.
+climate: 2 dialogue(s) published, 0 waiting for review.
 
-formal: 0 dialogue(s) published, 2 waiting for review.
+formal: 2 dialogue(s) published, 0 waiting for review.
 
-argument: 0 dialogue(s) published, 2 waiting for review.
+argument: 2 dialogue(s) published, 0 waiting for review.
 
-shades: 0 dialogue(s) published, 2 waiting for review.
+shades: 2 dialogue(s) published, 0 waiting for review.
 
-word-families: 0 dialogue(s) published, 2 waiting for review.
+word-families: 2 dialogue(s) published, 0 waiting for review.
 
-character: 0 dialogue(s) published, 2 waiting for review.
+character: 2 dialogue(s) published, 0 waiting for review.
 
-ethics: 0 dialogue(s) published, 2 waiting for review.
+ethics: 2 dialogue(s) published, 0 waiting for review.
 
-information: 0 dialogue(s) published, 2 waiting for review.
+information: 2 dialogue(s) published, 0 waiting for review.
 
-negotiation: 0 dialogue(s) published, 2 waiting for review.
+negotiation: 2 dialogue(s) published, 0 waiting for review.
 
-history: 0 dialogue(s) published, 2 waiting for review.
+history: 2 dialogue(s) published, 0 waiting for review.
 
 ## Recordings
 

@@ -28,7 +28,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   flag disagreements in the report.
 - Our own Russian (Learn pages, notes, questions, the Vocabulary section's dialogues) is word-checked: every word must be a
   real form in the data. **Dialogues** (`content/words/<theme>.yaml`) are also published only once a native speaker has
-  reviewed them (`reviewed: "<who>, YYYY-MM-DD"`); until then the build leaves them out of public/data and lists them in
+  reviewed them (`reviewed: "<who>, YYYY-MM-DD"`; "a native speaker" when the reviewer prefers not to be named, shown as "checked by a native speaker on 8 November 2026"; all 94 first dialogues were reviewed on 2026-11-08); until then the build leaves them out of public/data and lists them in
   `reports/dialogues-for-review.md` for the reviewer. Never mark a dialogue reviewed yourself.
 - Fix data in `overrides/overrides.yaml` (fix / exclude / gloss / sentence deny), never by editing shards.
   Every `fix` form must pass `npm run data:verify-overrides`.

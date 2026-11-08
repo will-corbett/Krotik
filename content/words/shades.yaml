@@ -14,14 +14,14 @@ groups:
     words: ["большой = big", "огромный = huge", "значительный = considerable, significant", "важный = important", "значимый = meaningful, significant"]
 dialogues:
   - title: "Which word?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Какая разница между «смотреть» и «глядеть»?", "What is the difference between «смотреть» and «глядеть»?"]
       - [Олег, "«Смотреть» — обычное слово. «Глядеть» чаще встречается в разговоре и в литературе.", "«Смотреть» is the ordinary word. «Глядеть» is more common in conversation and in literature."]
       - [Маша, "А «наблюдать»?", "And «наблюдать»?"]
       - [Олег, "Это смотреть внимательно и долго. Учёные наблюдают, а не просто смотрят.", "That means watching carefully for a long time. Scientists observe, they do not just look."]
   - title: "Clever or wise?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Катя, "Твой дедушка очень умный человек.", "Your grandfather is a very clever man."]
       - [Дима, "Скорее мудрый. Он не учился в университете, но много понимает.", "Wise, more like. He didn't go to university, but he understands a lot."]

@@ -21,7 +21,7 @@ groups:
     words: ["вкусный = tasty, delicious", "свежий = fresh", "горячий = hot", холодный, голодный, "сладкий = sweet"]
 dialogues:
   - title: "Breakfast"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Мама, "Доброе утро! Ты будешь завтракать?", "Good morning! Are you going to have breakfast?"]
       - [Сын, "Да. А что у нас на завтрак?", "Yes. What's for breakfast?"]
@@ -32,7 +32,7 @@ dialogues:
       - [Мама, "Сахар положить?", "Shall I put sugar in?"]
       - [Сын, "Нет, спасибо. Я пью без сахара.", "No, thanks. I drink it without sugar."]
   - title: "What shall we cook?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Что будем готовить на ужин?", "What shall we cook for dinner?"]
       - [Олег, "Может быть, рыбу с картошкой?", "Maybe fish and potatoes?"]

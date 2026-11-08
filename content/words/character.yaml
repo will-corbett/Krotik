@@ -12,7 +12,7 @@ groups:
     words: ["пренебрегать = neglect, disregard", "злоупотреблять = abuse, overuse", "проявлять = show, display", "притворяться = pretend", "сдерживаться = hold back, restrain oneself", "уступать = give way, give in", "настаивать = insist"]
 dialogues:
   - title: "A new colleague"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Как тебе новый коллега?", "What do you think of the new colleague?"]
       - [Олег, "Сначала он показался мне высокомерным, но я ошибся.", "At first he seemed arrogant to me, but I was wrong."]
@@ -20,7 +20,7 @@ dialogues:
       - [Олег, "Да. И очень добросовестный: всё делает вовремя.", "Yes. And very conscientious: he does everything on time."]
       - [Анна, "А ещё остроумный, когда познакомишься поближе.", "And witty, too, once you get to know him."]
   - title: "Tactless"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Катя, "Зачем ты сказал ей, что платье некрасивое?", "Why did you tell her the dress was ugly?"]
       - [Дима, "Я просто был искренним.", "I was just being honest."]

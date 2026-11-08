@@ -18,7 +18,7 @@ groups:
     words: ["заявление = application; statement", "документ = document", "решение = decision", "мероприятие = event, measure", "учреждение = institution, office", "лицо = face; person (in official use)", "срок = deadline, period"]
 dialogues:
   - title: "At the office"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Сотрудник, "Добрый день. Чем могу помочь?", "Good afternoon. How can I help?"]
       - [Анна, "Я хотела бы подать заявление на получение разрешения.", "I would like to submit an application for a permit."]
@@ -26,7 +26,7 @@ dialogues:
       - [Анна, "А в какой срок рассматривают заявление?", "And how long does it take to consider an application?"]
       - [Сотрудник, "Как правило, в течение месяца. Решение мы сообщим по почте.", "As a rule, within a month. We will send you the decision by post."]
   - title: "Everyday or official?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Почему в письме написано «является», а не просто «это»?", "Why does the letter say «является» rather than just «это»?"]
       - [Олег, "Это официальный стиль. В документах так принято.", "That's official style. It's the custom in documents."]

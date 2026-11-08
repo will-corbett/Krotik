@@ -20,14 +20,14 @@ groups:
     words: ["приносить = bring", "относиться = relate to; treat", "сносить = demolish; put up with", "выноси'ть = carry out; bear, stand", "переносить = postpone; carry over; bear, stand", "отношение = attitude; relationship"]
 dialogues:
   - title: "One root"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Я заметила, что «вывод», «перевод» и «руководить» похожи.", "I noticed that «вывод», «перевод» and «руководить» look alike."]
       - [Олег, "У них один корень. Приставка меняет значение.", "They have the same root. The prefix changes the meaning."]
       - [Маша, "А «выход», «доход» и «подход» — от слова «ходить»?", "And «выход», «доход» and «подход» come from «ходить»?"]
       - [Олег, "Да. Если знаешь корень, легче догадаться о значении.", "Yes. If you know the root, it's easier to guess the meaning."]
   - title: "A busy week"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Мы перенесли совещание на четверг.", "We've moved the meeting to Thursday."]
       - [Олег, "Хорошо. Я как раз переписываю отчёт.", "Good. I'm just rewriting the report."]

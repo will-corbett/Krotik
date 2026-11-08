@@ -15,7 +15,7 @@ groups:
     words: ["лечение = treatment", операция, "укол = injection", "прививка = vaccination", "рецепт = prescription", "выздороветь = recover, get better", "лечиться = be treated, have treatment", хронический]
 dialogues:
   - title: "Test results"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Врач, "Я посмотрел ваши анализы.", "I've looked at your test results."]
       - [Олег, "И что? Это что-то серьёзное?", "And? Is it something serious?"]
@@ -23,7 +23,7 @@ dialogues:
       - [Олег, "А операция не нужна?", "I won't need an operation?"]
       - [Врач, "Нет. Через неделю выздоровеете.", "No. You'll be better in a week."]
   - title: "In hospital"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Как ты себя чувствуешь?", "How are you feeling?"]
       - [Олег, "Лучше. Медсестра говорит, что давление уже в норме.", "Better. The nurse says my blood pressure is normal now."]

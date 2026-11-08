@@ -12,7 +12,7 @@ groups:
     words: ["зарабатывать = earn", "тратить = spend", "копить = save up", "экономить = save, economise", "одолжить = lend", "вернуть = give back, pay back", "богатый = rich", бедный]
 dialogues:
   - title: "At the bank"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Я хочу открыть счёт.", "I would like to open an account."]
       - [Сотрудник, "Хорошо. Ваш паспорт, пожалуйста. Карту хотите сразу?", "Fine. Your passport, please. Would you like a card straight away?"]
@@ -20,7 +20,7 @@ dialogues:
       - [Сотрудник, "Можно, но в чужих банкоматах есть процент.", "You can, but other banks' machines charge a fee."]
       - [Анна, "Понятно, спасибо.", "I see, thank you."]
   - title: "Saving up"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Я коплю на новую машину.", "I'm saving up for a new car."]
       - [Дима, "А сколько тебе ещё нужно?", "How much more do you need?"]

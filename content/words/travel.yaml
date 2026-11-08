@@ -12,7 +12,7 @@ groups:
     words: ["ехать = go (by transport)", "ездить = go, travel (by transport, often)", "лететь = fly", "приехать = arrive", "уехать = leave, go away", "опоздать = be late", "поездка = trip", "путешествие = journey, travels", "гостиница = hotel"]
 dialogues:
   - title: "At the station"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Один билет до Москвы, пожалуйста.", "One ticket to Moscow, please."]
       - [Кассир, "На какое число?", "For what date?"]
@@ -21,7 +21,7 @@ dialogues:
       - [Анна, "Вот, пожалуйста.", "Here you are."]
       - [Кассир, "Ваше место двенадцатое. Счастливого пути!", "Your seat is number twelve. Have a good trip!"]
   - title: "Late for the plane"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Быстрее, мы опаздываем на самолёт!", "Hurry up, we are going to miss the plane!"]
       - [Анна, "Не волнуйся. Сейчас возьмём такси.", "Do not worry. We will get a taxi now."]

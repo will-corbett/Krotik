@@ -15,7 +15,7 @@ groups:
     words: ["участвовать = take part", "помогать = help", волонтёр, "благотворительность = charity", "уважать = respect", "общественный = public, social", социальный]
 dialogues:
   - title: "Volunteering"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Чем ты занимаешься по выходным?", "What do you do at weekends?"]
       - [Олег, "Я волонтёр. Мы помогаем пожилым людям.", "I volunteer. We help elderly people."]
@@ -23,7 +23,7 @@ dialogues:
       - [Олег, "Покупаем продукты, разговариваем с ними. Многие живут одни.", "We buy groceries and talk to them. Many live alone."]
       - [Анна, "Можно мне тоже участвовать?", "Can I take part too?"]
   - title: "Two generations"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Дима, "Почему наши родители нас не понимают?", "Why don't our parents understand us?"]
       - [Катя, "Они из другого поколения. У них другие традиции и привычки.", "They are from another generation. They have different traditions and habits."]

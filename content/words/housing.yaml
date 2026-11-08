@@ -18,7 +18,7 @@ groups:
     words: ["переезжать = move (house)", "переехать = move (house)", "ремонт = repairs, redecoration", "чинить = repair, fix", "сломаться = break (down)", мебель, "уютный = cosy", "шумный = noisy"]
 dialogues:
   - title: "Looking for a flat"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Здравствуйте, я по объявлению. Вы сдаёте квартиру?", "Hello, I'm calling about the advert. Are you renting out a flat?"]
       - [Хозяин, "Да. Две комнаты, в тихом районе.", "Yes. Two rooms, in a quiet area."]
@@ -27,7 +27,7 @@ dialogues:
       - [Анна, "А можно посмотреть квартиру сегодня?", "Can I see the flat today?"]
       - [Хозяин, "Конечно. Приходите в шесть.", "Of course. Come at six."]
   - title: "Moving house"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Мы переезжаем в субботу. Поможешь?", "We're moving on Saturday. Will you help?"]
       - [Дима, "Конечно. Много у вас мебели?", "Of course. Do you have a lot of furniture?"]

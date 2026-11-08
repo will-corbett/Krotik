@@ -10,6 +10,7 @@
  *   ("<who>, YYYY-MM-DD": a native speaker has checked them) are published; the rest go to
  *   reports/dialogues-for-review.md for the reviewer.
  */
+import { REVIEWED } from '../../src/lib/reviewed.ts';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parse } from 'yaml';
@@ -185,6 +186,7 @@ export function buildThemes(
       const lines: ReadingLine[] = d.lines.map(([sp, ru]) => [sp, ru, 0]);
       const { words: w, problems } = checkRussian(lines, names, input.lex);
       for (const p of problems) errors.push(`${t.id}, dialogue «${d.title}»: ${p}`);
+      if (d.reviewed?.trim() && !REVIEWED.test(d.reviewed.trim())) errors.push(`${t.id}, dialogue «${d.title}»: reviewed must be "<who>, YYYY-MM-DD" (got "${d.reviewed}")`);
       if (d.reviewed?.trim()) {
         published.push({ title: d.title, reviewed: d.reviewed.trim(), lines, en: d.lines.map((l) => l[2]) });
         Object.assign(words, w);

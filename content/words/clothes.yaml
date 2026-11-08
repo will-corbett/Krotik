@@ -17,7 +17,7 @@ groups:
     words: ["носить = wear; carry", надеть, "снять = take off", "размер = size", "большой = big, large", "маленький = small, little", "новый = new"]
 dialogues:
   - title: "Trying things on"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Можно примерить эту куртку?", "Can I try on this jacket?"]
       - [Продавец, "Конечно. Какой у вас размер?", "Of course. What is your size?"]
@@ -27,7 +27,7 @@ dialogues:
       - [Продавец, "Как вам?", "How is it?"]
       - [Олег, "Отлично. Я её возьму.", "Great. I will take it."]
   - title: "What to wear"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "На улице холодно. Надень шапку.", "It is cold outside. Put on a hat."]
       - [Олег, "Не хочу. Я не ношу шапки.", "I do not want to. I do not wear hats."]

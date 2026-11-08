@@ -17,7 +17,7 @@ groups:
     words: ["врач = doctor", "лекарство = medicine", "таблетка = pill, tablet", "аптека = chemist, pharmacy", здоровье, "лечить = treat (an illness)"]
 dialogues:
   - title: "At the doctor"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Врач, "Что у вас болит?", "What is hurting?"]
       - [Олег, "Голова и горло. И у меня температура.", "My head and my throat. And I have a temperature."]
@@ -27,7 +27,7 @@ dialogues:
       - [Олег, "А лекарство нужно?", "Do I need any medicine?"]
       - [Врач, "Вот рецепт. Таблетки купите в аптеке.", "Here is a prescription. Buy the tablets at the chemist."]
   - title: "Feeling ill"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Ты плохо выглядишь. Ты не болен?", "You don't look well. Are you ill?"]
       - [Олег, "Немного. У меня болит живот.", "A little. I have a stomach ache."]

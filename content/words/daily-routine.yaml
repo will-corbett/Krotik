@@ -18,7 +18,7 @@ groups:
     words: ["каждый = every, each", "обычно = usually", всегда, иногда, редко, утром, "днём = in the daytime, in the afternoon"]
 dialogues:
   - title: "An ordinary day"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Во сколько ты обычно встаёшь?", "What time do you usually get up?"]
       - [Олег, "В семь. Потом принимаю душ и завтракаю.", "At seven. Then I have a shower and breakfast."]
@@ -27,7 +27,7 @@ dialogues:
       - [Анна, "А что ты делаешь вечером?", "And what do you do in the evening?"]
       - [Олег, "Ужинаю, гуляю с собакой и рано ложусь спать.", "I have dinner, walk the dog and go to bed early."]
   - title: "The alarm clock"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Мама, "Таня, вставай! Уже восемь часов!", "Tanya, get up! It's already eight o'clock!"]
       - [Таня, "Как восемь? Почему будильник не звонил?", "What do you mean, eight? Why didn't the alarm go off?"]

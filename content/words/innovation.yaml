@@ -16,14 +16,14 @@ groups:
     words: ["изобрести = invent", "разработать = develop, design", "внедрить = introduce, bring in", "заменить = replace", "хранить = store, keep", "защищать = protect", "взломать = hack; break into", "удобный = convenient"]
 dialogues:
   - title: "Robots at work"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Ты думаешь, роботы заменят людей?", "Do you think robots will replace people?"]
       - [Анна, "Некоторые профессии — да. Автоматизация идёт очень быстро.", "Some jobs, yes. Automation is moving very fast."]
       - [Олег, "А искусственный интеллект?", "And artificial intelligence?"]
       - [Анна, "Он помогает, но решения пока принимают люди.", "It helps, but people still make the decisions."]
   - title: "Keeping data safe"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Дима, "Мою почту взломали!", "My email has been hacked!"]
       - [Катя, "Какой у тебя был пароль?", "What was your password?"]

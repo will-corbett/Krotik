@@ -12,7 +12,7 @@ groups:
     words: ["характер = character, nature", "добрый = kind", "умный = clever", "честный = honest", вежливый, ленивый, "смелый = brave", "скромный = modest", "упрямый = stubborn"]
 dialogues:
   - title: "Good news"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Почему ты такой весёлый?", "Why are you so cheerful?"]
       - [Олег, "Меня взяли на новую работу!", "I've got a new job!"]
@@ -20,7 +20,7 @@ dialogues:
       - [Олег, "Я немного волнуюсь, но очень счастлив.", "I'm a bit nervous, but very happy."]
       - [Анна, "Не бойся, ты справишься.", "Don't be afraid, you'll manage."]
   - title: "What is he like?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Какой у тебя брат?", "What is your brother like?"]
       - [Анна, "Он добрый и умный, но очень упрямый.", "He's kind and clever, but very stubborn."]

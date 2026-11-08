@@ -16,7 +16,7 @@ groups:
     words: ["звать = call (меня зовут: my name is)", имя, "знакомиться = get to know, meet", "приятно = nice, pleasant", "очень = very, very much", "рад = glad"]
 dialogues:
   - title: "Meeting someone new"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Здравствуйте! Меня зовут Анна.", "Hello! My name is Anna."]
       - [Олег, "Очень приятно, Анна. А я Олег.", "Very nice to meet you, Anna. And I am Oleg."]
@@ -26,7 +26,7 @@ dialogues:
       - [Олег, "Если что-нибудь нужно, спрашивайте.", "If you need anything, just ask."]
       - [Анна, "Спасибо большое!", "Thank you very much!"]
   - title: "Hi and bye"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Привет, Дима! Как дела?", "Hi, Dima! How are you?"]
       - [Дима, "Привет! Хорошо, спасибо. А у тебя?", "Hi! Fine, thanks. And you?"]

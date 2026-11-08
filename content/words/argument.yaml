@@ -15,7 +15,7 @@ groups:
     words: ["неизбежный = inevitable", "очевидный = obvious", "сомнительный = doubtful, questionable", "существенный = significant, essential", "целесообразный = advisable, expedient", "двусмысленный = ambiguous", "общепринятый = generally accepted"]
 dialogues:
   - title: "A seminar"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Преподаватель, "Какие последствия может иметь эта тенденция?", "What consequences could this trend have?"]
       - [Анна, "На мой взгляд, они неизбежны, хотя их часто недооценивают.", "In my view they are inevitable, although people often underestimate them."]
@@ -23,7 +23,7 @@ dialogues:
       - [Анна, "Да. Из этих данных вытекает, что проблема существенная.", "Yes. It follows from these data that the problem is significant."]
       - [Преподаватель, "Хорошо. Но учитывайте и другие причины.", "Good. But take other causes into account too."]
   - title: "Is that obvious?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Дима, "По-моему, ответ очевиден.", "I think the answer is obvious."]
       - [Катя, "Не уверена. В твоём рассуждении есть противоречие.", "I'm not sure. There is a contradiction in your reasoning."]

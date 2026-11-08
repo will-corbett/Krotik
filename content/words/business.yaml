@@ -15,7 +15,7 @@ groups:
     words: ["прибыль = profit", "доход = income", "расход = expense, spending", убыток, "вкладывать = invest", "производить = produce, manufacture", "продажа = sale", "выгодный = profitable, worthwhile"]
 dialogues:
   - title: "A new business"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Я хочу открыть своё кафе.", "I want to open my own café."]
       - [Анна, "Это хорошая идея, но конкуренция большая.", "That's a good idea, but there is a lot of competition."]
@@ -23,7 +23,7 @@ dialogues:
       - [Анна, "А деньги у тебя есть?", "And do you have the money?"]
       - [Олег, "Мой друг готов вложить деньги. Будем партнёрами.", "My friend is ready to invest. We will be partners."]
   - title: "Good results"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Директор, "Как идут продажи?", "How are sales going?"]
       - [Анна, "Хорошо. В этом году прибыль выросла на десять процентов.", "Well. This year profit is up ten per cent."]

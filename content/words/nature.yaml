@@ -16,7 +16,7 @@ groups:
     words: ["деревня = village; the country", "дача = dacha, country cottage", сад, "огород = vegetable garden", "расти = grow", "собирать = gather, pick"]
 dialogues:
   - title: "At the dacha"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Летом мы живём на даче.", "In the summer we live at the dacha."]
       - [Олег, "А что там есть?", "And what's there?"]
@@ -24,7 +24,7 @@ dialogues:
       - [Олег, "Что вы выращиваете?", "What do you grow?"]
       - [Анна, "Помидоры, огурцы, картошку. А в саду растут яблоки.", "Tomatoes, cucumbers and potatoes. And apples grow in the garden."]
   - title: "In the forest"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Смотри, там на дереве птица!", "Look, there's a bird in the tree!"]
       - [Анна, "А в лесу есть медведи?", "Are there bears in the forest?"]

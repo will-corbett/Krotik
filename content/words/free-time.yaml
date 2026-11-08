@@ -15,7 +15,7 @@ groups:
     words: ["концерт = concert", "выставка = exhibition", вечеринка, друг, "встретиться = meet", "интересный = interesting", скучный]
 dialogues:
   - title: "At the weekend"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Что ты любишь делать в свободное время?", "What do you like doing in your free time?"]
       - [Олег, "Я играю в футбол и слушаю музыку. А ты?", "I play football and listen to music. And you?"]
@@ -23,7 +23,7 @@ dialogues:
       - [Олег, "А в кино ходишь?", "And do you go to the cinema?"]
       - [Анна, "Редко. Я смотрю фильмы дома.", "Rarely. I watch films at home."]
   - title: "An invitation"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "В субботу будет концерт. Пойдёшь со мной?", "There's a concert on Saturday. Will you come with me?"]
       - [Анна, "С удовольствием! А где?", "I would love to! Where is it?"]

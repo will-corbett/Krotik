@@ -12,7 +12,7 @@ groups:
     words: ["идти = go; fall (rain, snow)", "светить = shine", "дуть = blow", "градус = degree", прогноз, "зонт = umbrella"]
 dialogues:
   - title: "What is it like outside?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Какая сегодня погода?", "What's the weather like today?"]
       - [Олег, "Холодно и идёт снег.", "It's cold and snowing."]
@@ -20,7 +20,7 @@ dialogues:
       - [Олег, "Минус десять градусов. И сильный ветер.", "Minus ten degrees. And a strong wind."]
       - [Анна, "Тогда я останусь дома.", "Then I will stay at home."]
   - title: "Planning a walk"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Давай погуляем в парке.", "Let's go for a walk in the park."]
       - [Анна, "А какой прогноз на сегодня?", "And what's the forecast for today?"]

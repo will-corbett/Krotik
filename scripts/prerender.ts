@@ -4,6 +4,7 @@
  * JavaScript) can read it. The app replaces this content when it starts. Also writes sitemap.xml and 404.html.
  * Interactive pages (drills) get a short description and `noindex`. Deterministic: same input, same files.
  */
+import { reviewedText } from '../src/lib/reviewed.ts';
 import { readingCredit } from '../src/lib/readingCredit.ts';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -237,7 +238,7 @@ for (const meta of themeIndex.themes) {
         return `<li><span lang="ru">${esc(renderForm(w[1].split(',')[0]!, true))}</span>${GENDER[w[4]] && w[3] !== 'a' ? ` (${GENDER[w[4]]})` : ''}: ${esc(w[2])}${u ? sentence(u[0], u[1], u[2], u[3], u[4]) : ''}</li>`;
       }).join('')}</ul>`)
       .join('')}${t.dialogues
-      .map((d) => `<h2>${esc(d.title)}</h2>${d.lines.map((l, i) => `<p><strong lang="ru">${esc(l[0])}:</strong> <span lang="ru">${esc(l[1])}</span> <em>${esc(d.en[i] ?? '')}</em></p>`).join('')}`)
+      .map((d) => `<h2>${esc(d.title)}</h2>${d.lines.map((l, i) => `<p><strong lang="ru">${esc(l[0])}:</strong> <span lang="ru">${esc(l[1])}</span> <em>${esc(d.en[i] ?? '')}</em></p>`).join('')}<p>${esc(reviewedText(d.reviewed))}</p>`)
       .join('')}`,
   });
 }

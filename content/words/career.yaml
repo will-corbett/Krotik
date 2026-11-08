@@ -15,7 +15,7 @@ groups:
     words: ["устроиться = get a job (устроиться на работу)", "уволиться = quit, leave a job", "нанять = hire", "уволить = fire, dismiss", "отвечать = be responsible (за); answer", "успевать = manage in time, keep up", "ответственный = responsible", "опытный = experienced"]
 dialogues:
   - title: "A job interview"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Директор, "Расскажите о своём опыте работы.", "Tell me about your work experience."]
       - [Анна, "Я три года работала в отделе продаж в небольшой компании.", "I worked in the sales department of a small company for three years."]
@@ -23,7 +23,7 @@ dialogues:
       - [Анна, "Я хочу развиваться и заниматься более сложными проектами.", "I want to develop and work on more complex projects."]
       - [Директор, "Хорошо. Мы сообщим вам о нашем решении на следующей неделе.", "Good. We will let you know our decision next week."]
   - title: "Too much work"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Ты опять поздно с работы?", "Are you late home from work again?"]
       - [Анна, "Да, у нас новый проект, и я ничего не успеваю.", "Yes, we have a new project and I can't keep up with anything."]

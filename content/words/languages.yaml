@@ -18,7 +18,7 @@ groups:
     words: ["страна = country", "родина = homeland", иностранец, иностранный, "родной = native (language); dear", "откуда = where from"]
 dialogues:
   - title: "What languages do you speak?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Какие языки вы знаете?", "What languages do you know?"]
       - [Олег, "Мой родной язык — русский. Ещё я говорю по-английски и немного по-немецки.", "My native language is Russian. I also speak English and a little German."]
@@ -26,7 +26,7 @@ dialogues:
       - [Олег, "В школе. Но я уже много забыл.", "At school. But I've already forgotten a lot."]
       - [Анна, "А я сейчас учу китайский. Это очень трудно!", "And I am learning Chinese now. It is very hard!"]
   - title: "Could you repeat that?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Иностранец, "Извините, я плохо говорю по-русски.", "Excuse me, I don't speak Russian well."]
       - [Олег, "Ничего. Откуда вы?", "No problem. Where are you from?"]

@@ -17,14 +17,14 @@ groups:
     words: ["заниматься = do (sport), go in for", "тренироваться = train", "играть = play", "выиграть = win", "проиграть = lose", "победа = win, victory", "сильный = strong", "быстрый = fast"]
 dialogues:
   - title: "Watching the match"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Ты смотрел вчера футбол?", "Did you watch the football yesterday?"]
       - [Дима, "Конечно! Наша команда выиграла три — один.", "Of course! Our team won three to one."]
       - [Олег, "А я не успел. Кто забил?", "And I missed it. Who scored?"]
       - [Дима, "Новый игрок, два гола. Тренер очень доволен.", "The new player, two goals. The coach is very pleased."]
   - title: "Keeping fit"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Ты занимаешься спортом?", "Do you do any sport?"]
       - [Олег, "Да, я бегаю по утрам и плаваю два раза в неделю.", "Yes, I run in the mornings and swim twice a week."]

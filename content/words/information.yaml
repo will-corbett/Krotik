@@ -16,14 +16,14 @@ groups:
     words: ["проверять = check, verify", "искажать = distort", "скрывать = hide, conceal", "распространять = spread", "опровергнуть = refute, deny", "подтвердить = confirm", "утверждать = claim"]
 dialogues:
   - title: "Is it true?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Ты видела эту новость? Говорят, завтра закроют все магазины.", "Have you seen this news? They say all the shops will close tomorrow."]
       - [Анна, "А какой источник?", "And what's the source?"]
       - [Олег, "Кто-то написал в интернете.", "Someone wrote it online."]
       - [Анна, "Это слухи. Пока информацию не подтвердили, не стоит её распространять.", "That's rumours. Until the information is confirmed, it's not worth spreading it."]
   - title: "Checking the facts"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Как понять, что статья достоверная?", "How can you tell that an article is reliable?"]
       - [Дима, "Проверь, кто автор и откуда он берёт данные.", "Check who the author is and where they get their data."]

@@ -15,7 +15,7 @@ groups:
     words: [праздновать, "отмечать = celebrate; mark", "приглашать = invite", "пригласить = invite", танцевать, "петь = sing", "весело = fun, merrily", "счастье = happiness"]
 dialogues:
   - title: "A birthday"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Олег, с днём рождения! Это тебе подарок.", "Happy birthday, Oleg! This is a present for you."]
       - [Олег, "Спасибо! Какая красивая книга!", "Thank you! What a beautiful book!"]
@@ -24,7 +24,7 @@ dialogues:
       - [Анна, "А торт будет?", "Will there be cake?"]
       - [Олег, "Конечно! Мама испекла.", "Of course! Mum baked it."]
   - title: "New Year"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Маша, "Где вы будете встречать Новый год?", "Where will you see in the New Year?"]
       - [Дима, "Дома, с семьёй. Мы уже купили ёлку.", "At home, with the family. We've already bought a tree."]

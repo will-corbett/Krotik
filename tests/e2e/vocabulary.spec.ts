@@ -37,7 +37,7 @@ test('Vocabulary is in the menu and on the home page (beside Grammar); themes ar
   await expect(page).toHaveTitle(/Food and drink/);
 });
 
-test('a theme: its words with gender or aspect and meaning; an arrow opens a real sentence for each; dialogues waiting for review', async ({ page }) => {
+test('a theme: its words with gender or aspect and meaning; an arrow opens a real sentence for each; reviewed dialogues', async ({ page }) => {
   await page.goto('vocabulary/food/');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Еда и напитки');
   const bread = page.locator('.words li', { hasText: 'хлеб' }).first();
@@ -62,10 +62,12 @@ test('a theme: its words with gender or aspect and meaning; an arrow opens a rea
   // Hovering a word shows nothing.
   await page.locator('.words li', { hasText: 'хлеб' }).first().hover();
   await expect(page.locator('.example')).toHaveCount(0);
-  await expect(page.getByText(/waiting for a native speaker's check/)).toBeVisible();
-  // Nothing unreviewed is ever served.
+  // The dialogues, every one checked by a native speaker (who preferred not to be named), with the date.
+  await expect(page.getByText('Written for Krotik; checked by a native speaker on 8 November 2026.').first()).toBeVisible();
+  await expect(page.getByText(/waiting for a native speaker's check/)).toHaveCount(0);
   const data = await page.evaluate(() => fetch(`${location.pathname.replace(/vocabulary\/food\/$/, '')}data/theme.food.json`).then((r) => r.json()));
-  expect(data.dialogues).toEqual([]);
+  expect(data.dialogues.length).toBeGreaterThan(0);
+  for (const d of data.dialogues) expect(d.reviewed).toMatch(/, \d{4}-\d{2}-\d{2}$/);
   // No sideways scrolling on a phone.
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

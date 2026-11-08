@@ -12,7 +12,7 @@ groups:
     words: ["обвинять = accuse, blame", "нарушать = break (a law, a rule)", "наказать = punish", "наказание = punishment", "штраф = fine", виноватый, невиновный, "законный = legal, lawful"]
 dialogues:
   - title: "A stolen bike"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "У меня украли велосипед.", "My bike has been stolen."]
       - [Анна, "Ты сообщил в полицию?", "Did you report it to the police?"]
@@ -20,7 +20,7 @@ dialogues:
       - [Анна, "А свидетели есть?", "Are there any witnesses?"]
       - [Олег, "Сосед видел, как вор уезжал, но лица не разглядел.", "A neighbour saw the thief riding away, but didn't see his face."]
   - title: "A fine"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Анна, "Почему ты такой злой?", "Why are you so angry?"]
       - [Олег, "Мне выписали штраф за парковку.", "I got a parking fine."]

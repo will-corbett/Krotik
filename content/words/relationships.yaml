@@ -17,7 +17,7 @@ groups:
     words: ["доверять = trust", "поддерживать = support", ревновать, "обижаться = take offence", "понимать = understand", "верный = faithful, loyal; correct", "близкий = close"]
 dialogues:
   - title: "How did you meet?"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Катя, "Как вы познакомились с мужем?", "How did you meet your husband?"]
       - [Анна, "В университете. Мы учились на одном факультете.", "At university. We were in the same faculty."]
@@ -25,7 +25,7 @@ dialogues:
       - [Анна, "Нет, сначала мы были просто друзьями. А через два года поженились.", "No, at first we were just friends. And two years later we got married."]
       - [Катя, "Какая красивая история!", "What a lovely story!"]
   - title: "Making up"
-    reviewed: ""
+    reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Ты всё ещё обижаешься на меня?", "Are you still upset with me?"]
       - [Анна, "Немного. Ты обещал позвонить и не позвонил.", "A little. You promised to call and you didn't."]
