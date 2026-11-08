@@ -154,7 +154,7 @@
 
     <article class="card tile" aria-labelledby="t-read">
       <h2 id="t-read">Reading <span lang="ru" class="ru">чтение</span></h2>
-      <p class="muted small">Tolstoy’s stories and Chekhov’s comedies, every word explained, with questions after each.</p>
+      <p class="muted small">Stories by Tolstoy and Chekhov, comedies and science news, every word explained, with questions after each.</p>
       <a class="btn" href={href({ page: 'reading' })}>Start reading</a>
     </article>
 

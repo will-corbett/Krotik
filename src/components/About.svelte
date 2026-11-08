@@ -81,11 +81,14 @@
     </li>
     <li>
       Reading: stories for children by Leo Tolstoy (from his <span lang="ru">Вторая русская книга для чтения</span>, 1875)
-      and Anton Chekhov's one-act comedies <span lang="ru">Медведь</span> and <span lang="ru">Предложение</span> (1888), in
-      modern spelling, from <a href="https://ru.wikisource.org" rel="noopener">Russian Wikisource</a>, unchanged. Both
-      authors died over a century ago, so the texts are in the public domain. Word meanings come from the sources above
-      (OpenRussian, Wiktionary); where neither has a word, the meaning is ours and is marked as such. The comprehension
-      questions are ours.
+      and Anton Chekhov's short stories (1883–1886) and one-act comedies <span lang="ru">Медведь</span> and
+      <span lang="ru">Предложение</span> (1888), in modern spelling, from
+      <a href="https://ru.wikisource.org" rel="noopener">Russian Wikisource</a>, unchanged. Both authors died over a
+      century ago, so the texts are in the public domain. Science news: articles written by
+      <a href="https://ru.wikinews.org" rel="noopener">Russian Wikinews</a> contributors, licensed
+      <a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>, unchanged; each links to the
+      version used. Word meanings come from the sources above (OpenRussian, Wiktionary); where neither has a word, the
+      meaning is ours and is marked as such. The comprehension questions are ours.
     </li>
     <li>
       A few small grammar lists were written by hand for this site (which case a verb takes, what a motion prefix

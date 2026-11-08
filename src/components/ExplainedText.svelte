@@ -147,7 +147,7 @@
         {#each shown.readings as [dict, meaning, form, flags], ri (ri)}
           <div class="reading-item">
             {#if flags.includes('n')}
-              <p><strong lang="ru">{dict}</strong> <span class="muted">a name</span></p>
+              <p><strong lang="ru">{dict}</strong> <span class="muted">a name</span>{#if meaning}: <span>{meaning}</span>{/if}</p>
             {:else}
               <p><strong lang="ru">{renderForm(dict, true)}</strong>{#if meaning} <span>{meaning}</span>{/if}</p>
               {#if form}<p class="form muted">{form}</p>{/if}

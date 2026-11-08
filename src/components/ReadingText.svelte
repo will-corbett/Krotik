@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { QUESTION_KIND, readingCredit } from '../lib/readingCredit.ts';
   import { loadReadingIndex, loadReadingUnit } from '../lib/data.ts';
   import { href } from '../lib/router.ts';
   import { pageTitle } from '../lib/pageMeta.ts';
@@ -67,9 +68,11 @@
     <p class="muted">{error}</p>
   {:else if unit && work}
     <h1 id="text-title" lang="ru">{heading}</h1>
+    {@const cr = readingCredit(work, unit)}
     <p class="muted credit">
-      <span lang="ru">{work.author}, «{work.title}»</span>
-      ({work.year}). Public domain, from <a href={work.source} rel="noopener" target="_blank">Russian Wikisource</a>.
+      <span lang="ru">{cr.by}</span>.
+      {#if cr.licenceUrl}<a href={cr.licenceUrl} rel="noopener" target="_blank">{cr.licence}</a>{:else}{cr.licence}{/if}, from
+      <a href={cr.url} rel="noopener" target="_blank">{cr.site}</a>.
     </p>
     <p class="hint muted">Hover over or tap a word to see what it means. With a keyboard, Tab into the text and use the arrow keys.</p>
 
@@ -111,7 +114,7 @@
           {#each unit.questions as q, qi (qi)}
             {@const t = q[lang]}
             <fieldset class="q" lang={lang}>
-              <legend>{qi + 1}. {t.q}</legend>
+              <legend>{qi + 1}. {t.q}{#if q.kind}<span class="kind" lang={lang}>{QUESTION_KIND[q.kind][lang]}</span>{/if}</legend>
               {#each t.options as o, oi (oi)}
                 <label
                   class="opt"
@@ -234,6 +237,17 @@
     border: 0;
     padding: 0;
     margin: 16px 0 0;
+  }
+  .kind {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 0 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
+    vertical-align: middle;
   }
   .q legend {
     font-weight: 700;

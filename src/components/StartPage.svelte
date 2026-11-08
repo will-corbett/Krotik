@@ -23,7 +23,7 @@
       <div><dt><a href={href({ page: 'vocabulary' })}>Vocabulary</a></dt><dd>Words by theme from A1 to C1 (food, family, travel, work…), with real sentences and practice. The <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a> covers the commonest words.</dd></div>
       <div><dt><a href={href({ page: 'writing' })}>Writing</a></dt><dd>Short writing tasks for each level, with a checklist to check your own text.</dd></div>
       <div><dt><a href={href({ page: 'test' })}>Grammar test</a></dt><dd>Sixty questions from A1 to C1 that estimate your grammar level and point you to what to review.</dd></div>
-      <div><dt><a href={href({ page: 'reading' })}>Reading</a></dt><dd>Short stories by Tolstoy and comedies by Chekhov. Tap any word to see what it means.</dd></div>
+      <div><dt><a href={href({ page: 'reading' })}>Reading</a></dt><dd>Stories by Tolstoy and Chekhov, Chekhov's comedies and science news. Tap any word to see what it means.</dd></div>
       <div><dt><a href={href({ page: 'culture' })}>Culture</a></dt><dd>Hand-picked films, cartoons, podcasts and books, and short notes on names, holidays and more.</dd></div>
     </dl>
   </section>

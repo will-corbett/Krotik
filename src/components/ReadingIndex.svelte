@@ -3,7 +3,10 @@
   import { href } from '../lib/router.ts';
   import type { ReadingIndex } from '../shared/types.ts';
 
-  /** The Reading section: real Russian literature, public domain, every word explained, questions after each text. */
+  /**
+   * The Reading section: real Russian texts, every word explained, questions after each: public-domain literature
+   * (Tolstoy, Chekhov) and science news from Russian Wikinews (CC BY).
+   */
   let index = $state<ReadingIndex | null>(null);
   let error = $state('');
   $effect(() => {
@@ -17,13 +20,15 @@
 <section class="fade-in" aria-labelledby="reading-title">
   <h1 id="reading-title">Reading <span lang="ru" class="ru">чтение</span></h1>
   <p>
-    Real Russian literature, in modern spelling: short stories Leo Tolstoy wrote for children learning to read, and two
-    one-act comedies by Anton Chekhov. Hover over or tap any word to see its dictionary form, what it means and which
-    form it is; then answer a few questions to check you followed the story.
+    Real Russian texts: short stories Leo Tolstoy wrote for children learning to read, Anton Chekhov's comic stories and
+    two of his one-act comedies, and science news. Hover over or tap any word to see its dictionary form, what it means
+    and which form it is; then answer a few questions to check you followed it. From B2, some questions ask you to read
+    between the lines or to judge the tone.
   </p>
   <p class="muted small">
-    The texts are in the public domain and come from Russian Wikisource, unchanged. A few words are old-fashioned (they're
-    marked when you look them up).
+    The literature is in the public domain and comes from Russian Wikisource, in modern spelling, unchanged. A few words
+    are old-fashioned (they're marked when you look them up). The news articles are by Russian Wikinews contributors
+    (CC BY 4.0), also unchanged.
   </p>
 
   {#if error}
@@ -34,8 +39,8 @@
       {#if units.length}
         <section class="work" aria-labelledby="work-{w.id}">
           <h2 id="work-{w.id}">
-            <span lang="ru">{w.author}, «{w.title}»</span>
-            <span class="meta muted">{w.year} · {w.level[0]}–{w.level[1]}</span>
+            <span lang="ru">{w.site === 'wikinews' ? w.title : `${w.author}, «${w.title}»`}</span>
+            <span class="meta muted">{w.site === 'wikinews' ? 'Wikinews' : w.year} · {w.level[0]}–{w.level[1]}</span>
           </h2>
           <p class="muted small">{w.titleEn}.</p>
           <ul>
@@ -43,6 +48,8 @@
               <li>
                 <a href={href({ page: 'reading', text: u.id })} lang="ru">{u.title}</a>
                 <span class="muted small">
+                  {#if u.level}{u.level[0]}–{u.level[1]} ·{/if}
+                  {#if u.date}<span lang="ru">{u.date}</span> ·{/if}
                   {#if u.genre}<span lang="ru">{u.genre.toLowerCase()}</span> ·{/if}
                   {u.words} words, about {minutes(u.words)} min · {u.questions}
                   {u.questions === 1 ? 'question' : 'questions'}

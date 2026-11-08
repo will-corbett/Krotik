@@ -4,6 +4,7 @@
  * JavaScript) can read it. The app replaces this content when it starts. Also writes sitemap.xml and 404.html.
  * Interactive pages (drills) get a short description and `noindex`. Deterministic: same input, same files.
  */
+import { readingCredit } from '../src/lib/readingCredit.ts';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { parse } from 'yaml';
@@ -186,12 +187,12 @@ const unitTitle = (u: { w: number; title: string }) => {
 };
 pages.push({
   route: { page: 'reading' },
-  description: 'Read real Russian literature with every word explained: short stories by Leo Tolstoy and comedies by Anton Chekhov, with comprehension questions.',
+  description: 'Read real Russian with every word explained: stories by Leo Tolstoy and Anton Chekhov, Chekhov comedies and science news, with comprehension questions.',
   index: true,
-  body: `<h1>Reading <span lang="ru">чтение</span></h1><p>Real Russian literature in modern spelling, public domain: tap or hover any word to see what it means, then answer a few questions.</p>${readingIndex.works
+  body: `<h1>Reading <span lang="ru">чтение</span></h1><p>Real Russian texts: public-domain literature in modern spelling and science news from Russian Wikinews (CC BY 4.0). Tap or hover any word to see what it means, then answer a few questions.</p>${readingIndex.works
     .map((w, wi) => {
       const units = readingIndex.units.filter((u) => u.w === wi);
-      return units.length ? `<h2 lang="ru">${esc(w.author)}, «${esc(w.title)}» (${w.year})</h2><ul>${units.map((u) => `<li>${a({ page: 'reading', text: u.id }, u.title)}: ${u.words} words</li>`).join('')}</ul>` : '';
+      return units.length ? `<h2 lang="ru">${w.site === 'wikinews' ? esc(w.title) : `${esc(w.author)}, «${esc(w.title)}» (${w.year})`}</h2><ul>${units.map((u) => `<li>${a({ page: 'reading', text: u.id }, u.title)}: ${u.words} words</li>`).join('')}</ul>` : '';
     })
     .join('')}`,
 });
@@ -199,11 +200,12 @@ for (const meta of readingIndex.units) {
   const u = json<ReadingUnit>(`reading.${meta.id}.json`);
   const w = readingIndex.works[u.w]!;
   const first = u.lines.find((l) => !l[2])?.[1] ?? '';
+  const cr = readingCredit(w, u);
   pages.push({
     route: { page: 'reading', text: u.id },
-    description: `${unitTitle(u)} by ${w.authorEn} (${w.year}), in Russian with every word explained and comprehension questions. ${first.slice(0, 80)}${first.length > 80 ? '…' : ''}`,
+    description: `${unitTitle(u)} ${w.site === 'wikinews' ? `(Russian Wikinews${u.date ? `, ${u.date}` : ''})` : `by ${w.authorEn} (${w.year})`}, in Russian with every word explained and comprehension questions. ${first.slice(0, 80)}${first.length > 80 ? '…' : ''}`,
     index: true,
-    body: `<p>${a({ page: 'reading' }, 'Reading')} ›</p><h1 lang="ru">${esc(unitTitle(u))}</h1><p><span lang="ru">${esc(w.author)}, «${esc(w.title)}»</span> (${w.year}). Public domain, from <a href="${esc(w.source)}" rel="noopener">Russian Wikisource</a>.</p>${
+    body: `<p>${a({ page: 'reading' }, 'Reading')} ›</p><h1 lang="ru">${esc(unitTitle(u))}</h1><p><span lang="ru">${esc(cr.by)}</span>. ${cr.licenceUrl ? `<a href="${esc(cr.licenceUrl)}" rel="noopener">${esc(cr.licence)}</a>` : esc(cr.licence)}, from <a href="${esc(cr.url)}" rel="noopener">${esc(cr.site)}</a>.</p>${
       u.keyWords.length >= 3 ? `<h2>Key words</h2><ul>${u.keyWords.map(([, , dict, meaning]) => `<li><span lang="ru">${esc(renderForm(dict.split(',')[0]!, true))}</span>: ${esc(meaning)}</li>`).join('')}</ul>` : ''
     }<div lang="ru">${u.lines
       .map(([speaker, text, stage]) => (stage ? `<p><em>${esc(text)}</em></p>` : `<p>${speaker ? `<strong>${esc(speaker)}.</strong> ` : ''}${esc(text)}</p>`))

@@ -12,7 +12,7 @@ async function openText(page: Page, path: string) {
   await page.evaluate(() => document.fonts.ready.then(() => undefined));
 }
 
-test('the Reading page lists Tolstoy stories and Chekhov scenes, from the menu', async ({ page }) => {
+test('the Reading page lists Tolstoy stories, Chekhov scenes and stories, and news, from the menu', async ({ page }) => {
   await page.goto('./');
   await goTo(page, 'Reading');
   await expect(page).toHaveURL(/\/Krotik\/reading\/$/);
@@ -115,3 +115,26 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
     await scan('questions checked');
   });
 }
+
+test('batch 4: Chekhov stories and Wikinews science news, each credited; B2 questions read between the lines', async ({ page }) => {
+  await page.goto('reading/');
+  await expect(page.getByRole('heading', { name: /Антон Чехов, «Рассказы»/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Новости науки/ })).toBeVisible();
+  // A story: credited with its own title and year, public domain.
+  await openText(page, 'reading/khameleon/');
+  await expect(page.locator('article .credit')).toContainText('Антон Чехов, «Хамелеон» (1884). Public domain');
+  await expect(page.getByText('между строк')).toBeVisible();
+  await expect(page.getByText('тон', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'English' }).click();
+  await expect(page.getByText('Reading between the lines')).toBeVisible();
+  // A made-up surname is a name, with a note on what it's made from.
+  await openText(page, 'reading/loshadinaya-familiya/');
+  await page.locator('.text button.w', { hasText: /^Кобылин\?$|^Кобылин$/ }).first().click();
+  await expect(page.getByRole('tooltip')).toContainText('a name');
+  await expect(page.getByRole('tooltip')).toContainText('mare');
+  // A news article: Wikinews contributors, CC BY 4.0, linked to the revision used.
+  await openText(page, 'reading/tri-obitaemye-planety/');
+  await expect(page.locator('article .credit')).toContainText('20 апреля 2013');
+  await expect(page.getByRole('link', { name: 'Wikinews contributors, CC BY 4.0' })).toHaveAttribute('href', 'https://creativecommons.org/licenses/by/4.0/');
+  await expect(page.getByRole('link', { name: 'Russian Wikinews' })).toHaveAttribute('href', /ru\.wikinews\.org\/w\/index\.php\?oldid=\d+$/);
+});

@@ -21,7 +21,7 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
     }
     case 'reading': {
       const text = route.text ? textTitle(route.text) : undefined;
-      return text ? `${text}: read with every word explained | Krotik` : 'Read Russian literature, every word explained | Krotik';
+      return text ? `${text}: read with every word explained | Krotik` : 'Read real Russian texts, every word explained | Krotik';
     }
     case 'vocabulary': {
       const theme = route.theme ? textTitle(route.theme) : undefined;
