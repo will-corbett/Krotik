@@ -23,6 +23,22 @@ verbs:
       past_pl: "накаля'ли"
     соскучиться:
       presfut_sg2: "соску'чишься" # source: соску'шься
+    "проясниться@проя'сниться":
+      # Two source rows share this spelling; the first (more frequent) has the stress on я throughout. Wiktionary:
+      # проясни́ться, проясню́сь, проясни́шься … проясни́лся. The second row is already right.
+      accented: "проясни'ться"
+      imperative_sg: "проясни'сь"
+      imperative_pl: "проясни'тесь"
+      past_m: "проясни'лся"
+      past_f: "проясни'лась"
+      past_n: "проясни'лось"
+      past_pl: "проясни'лись"
+      presfut_sg1: "проясню'сь"
+      presfut_sg2: "проясни'шься"
+      presfut_sg3: "проясни'тся"
+      presfut_pl1: "проясни'мся"
+      presfut_pl2: "проясни'тесь"
+      presfut_pl3: "проясня'тся"
     оказать:
       # Source conjugates it like a regular -ать verb (оказа'ю, оказа'й); Wiktionary: окажу́, ока́жешь …, окажи́.
       imperative_sg: "окажи'"

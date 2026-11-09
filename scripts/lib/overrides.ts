@@ -44,14 +44,18 @@ export function applyOverrides(
       log('excluded by override', `${bare} (${ov.exclude[bare]})`);
       continue;
     }
-    const fix = ov.fix?.[bare];
-    if (fix && !seenFix.has(bare)) {
-      seenFix.add(bare); // only the first (most frequent) row with this bare form
+    // A key "bare@accented" fixes that exact row (where two source rows share a spelling and the first is the wrong
+    // one); a plain "bare" key fixes the first (most frequent) row with that spelling.
+    const exactKey = `${bare}@${row.accented}`;
+    const key = ov.fix?.[exactKey] && !seenFix.has(exactKey) ? exactKey : ov.fix?.[bare] && !seenFix.has(bare) ? bare : '';
+    const fix = key ? ov.fix![key] : undefined;
+    if (fix) {
+      seenFix.add(key);
       for (const [col, val] of Object.entries(fix)) {
         if (!(col in row)) throw new Error(`override for ${bare}: unknown column ${col}`);
         row[col] = val;
       }
-      log('fixed by override', `${bare}: ${Object.keys(fix).join(', ')}`);
+      log('fixed by override', `${key}: ${Object.keys(fix).join(', ')}`);
     }
     out.push(row);
   }

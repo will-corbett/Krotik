@@ -39,7 +39,9 @@ async function wiktionaryForms(word: string): Promise<{ accented: Set<string>; p
 const ov = loadOverrides();
 let failures = 0;
 for (const type of ['verbs', 'adjectives', 'nouns'] as const) {
-  for (const [bare, cols] of Object.entries(ov[type]?.fix ?? {})) {
+  for (const [key, cols] of Object.entries(ov[type]?.fix ?? {})) {
+    // "bare@accented" names one exact source row; the word to look up is the bare part.
+    const bare = key.split('@')[0]!;
     const wk = await wiktionaryForms(bare);
     for (const [col, val] of Object.entries(cols)) {
       if (val === '-') continue;
