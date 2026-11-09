@@ -1,0 +1,51 @@
+# Idioms and proverbs from Wiktionary (CC BY-SA), kept only when a real Tatoeba sentence uses them. Grammar facts only:
+# the idiom's words and meaning come from Wiktionary; this file only leaves some out, or gives a clearer meaning.
+#
+#   exclude   idiom: reason (matched literal uses, not an idiom, a gloss that isn't a meaning, crude)
+#   gloss     idiom: our English, where Wiktionary's is long or unclear
+exclude:
+  меня зовут: an everyday phrase, not an idiom
+  в виде: the sentences use it literally (in the form of)
+  головная боль: the sentences use it literally (a headache)
+  не такой как все: Wiktionary lists it as a misspelling
+  наше всё: the sentences use the words literally
+  бред сивой кобылы: Wiktionary's meaning is crude
+  на коленке: the sentences use it literally (on someone's knee)
+  подводный камень: the sentences use it literally (an underwater rock)
+gloss:
+  читать между строк: to read between the lines
+  до нитки: to the skin, completely (промокнуть до нитки, get soaked to the skin)
+  играть с огнём: to play with fire
+  ввести в заблуждение: to mislead
+  вводить в заблуждение: to mislead
+  сыпать соль на рану: to rub salt in the wound
+  вешать лапшу на уши: to pull someone's leg, to tell tall stories
+  волк в овечьей шкуре: a wolf in sheep's clothing
+  дать на чай: to tip (a waiter, a driver)
+  белая ворона: the odd one out, a black sheep
+  разбитое сердце: a broken heart
+  сыграть в ящик: to kick the bucket
+  крепкий орешек: a tough nut to crack
+  отдавать себе отчёт: to realise, to be aware
+  ни свет ни заря: at the crack of dawn
+  на широкую ногу: in grand style
+  круглые сутки: round the clock
+  как не в себя: like there's no tomorrow (eating, drinking)
+  накрыться медным тазом: to go down the drain
+  мир тесен: it's a small world
+  утро вечера мудренее: "sleep on it: things look clearer in the morning"
+  большому кораблю большое плавание: great talents need room to grow
+  в целости и сохранности: safe and sound
+  пудрить мозги: to pull the wool over someone's eyes
+  идти по пятам: to follow close behind, to be hot on someone's heels
+  давать на чай: to tip (a waiter, a driver)
+  будет день, будет пища: tomorrow will take care of itself
+  вода камень точит: constant dripping wears away the stone
+  капля камень точит: constant dripping wears away the stone
+  ночью все кошки серы: at night all cats are grey
+  дурная голова ногам покоя не даёт: little wit in the head makes much work for the feet
+  плетью обуха не перешибёшь: you can't fight the powers that be
+  в тихом омуте черти водятся: still waters run deep
+  отбросить коньки: to kick the bucket
+  склеить ласты: to kick the bucket
+  протянуть ноги: to kick the bucket

@@ -57,6 +57,7 @@ export interface Manifest {
   listening: string;
   verbNoun: string;
   wordOrder: string;
+  idioms: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -241,6 +242,13 @@ export interface CollocationData {
 /** public/data/word-order.json: reviewed word-order items: [question, its English, natural answer, other order, answer's English, reviewed]. */
 export interface WordOrderData {
   items: [string, string, string, string, string, string][];
+}
+/**
+ * public/data/idioms.json: idioms and proverbs (Wiktionary) with real sentences that use them:
+ * [idiom (stress marked), meaning, 1 if a proverb, examples [Tatoeba id, Russian, English, start, end] (the idiom's span)].
+ */
+export interface IdiomData {
+  idioms: [string, string, 0 | 1, [number, string, string, number, number][]][];
 }
 export type PairType = 'soft' | 'yi' | 'shsch';
 /** public/data/listening.json: listening drills, from the published recordings only. */

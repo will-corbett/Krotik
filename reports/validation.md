@@ -56,6 +56,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | audio.json | 4006 words, 3321 sentences recorded | 277 KB |
 | listening.json | 3321 sentences, 1919 endings, 38 pairs | 423 KB |
 | verb-noun.json | 123 pairs, 355 items | 79 KB |
+| idioms.json | 127 idioms and proverbs | 32 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -630,6 +631,15 @@ history: 2 dialogue(s) published, 0 waiting for review.
 
 - **pairs whose noun or verb is not in the data (left out)** (4): тратить/потратить деньги; вести переговоры; включать/включить свет; поднимать/поднять шум
 - **pairs not found in any sentence (left out)** (16): ставить/поставить задача; ставить/поставить цель; достигать/достичь цель; делать/сделать карьера; принимать/принять душ; нарушать/нарушить правило; соблюдать правило; вести хозяйство; вести разговор; проводить/провести ремонт; ставить/поставить спектакль; отдавать/отдать долг; признавать/признать вина; заводить/завести семья; иметь право; забивать/забить гол
+
+## Idioms (Wiktionary, found in Tatoeba)
+
+| count | n |
+|---|---:|
+| idioms found in a sentence | 57 |
+| proverbs found in a sentence | 70 |
+| left out by hand (curated/idioms.yaml) | 8 |
+| idioms and proverbs in Wiktionary (several words, idiomatic, not crude or old) | 277 |
 
 ## Word order practice (content/word-order.yaml)
 

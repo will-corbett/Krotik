@@ -80,7 +80,7 @@ const ownerOf = (key: string) => {
 };
 
 /** Sentences never shown as a word's example: crude or violent ones (Tatoeba has them, and the shortest can be one). */
-const CRUDE = /(^|[^а-яё])(дерьм|говн|сук[аи]|бля|хуй|хуё|пизд|жоп|задниц|ублюд|сволоч|мудак|трах|секс|убью|убил|убей)/i;
+export const CRUDE = /(^|[^а-яё])(дерьм|говн|сук[аи]|бля|хуй|хуё|пизд|жоп|задниц|ублюд|сволоч|мудак|трах|секс|убью|убил|убей)/i;
 
 /**
  * For each owner, the shortest sentences (then lowest Tatoeba id) where one of its forms appears unambiguously, best

@@ -91,6 +91,11 @@ export interface WkExtract {
    * that Wiktionary gives for words with different stress or spelling (за'мок / замо'к, the letter names) is left out.
    */
   audio: Record<string, [string, string, string][]>;
+  /**
+   * Idioms and proverbs: several words, a sense Wiktionary tags idiomatic (or a proverb), not vulgar, offensive,
+   * derogatory or old: [headword, dictionary form (stress marked), first gloss, tags]. First entry per headword.
+   */
+  idioms: [string, string, string, string[]][];
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -111,8 +116,10 @@ interface RawEntry {
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 6;
+const EXTRACT_VERSION = 7;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
+/** Idioms with these tags are left out. */
+const IDIOM_BAD = new Set(['vulgar', 'offensive', 'derogatory', 'obsolete', 'archaic', 'dated', 'slur', 'ethnic', 'pejorative']);
 /** Tags that mark a word or form as not modern Russian. */
 const OLD_TAGS = new Set(['archaic', 'obsolete', 'dated']);
 
@@ -169,7 +176,8 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {} };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {}, idioms: [] };
+  const idiomSeen = new Set<string>();
   // Commons file → the words (dictionary form) Wiktionary gives it for, and its MP3 address.
   const audioWords = new Map<string, { words: Set<string>; heads: Set<string>; mp3: string }>();
   const attested = new Set<string>();
@@ -214,6 +222,17 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         const old = entryOld || tags.some((t) => OLD_TAGS.has(t));
         (old ? checkOld : checkModern).add(ff);
         note(ff, old, tags.filter((t) => !OLD_TAGS.has(t)).join(' '));
+      }
+    }
+    if (/ /.test(word) && /^[а-яё ,-]+$/.test(word) && !idiomSeen.has(word)) {
+      const senses = e.senses ?? [];
+      const idiomatic = e.pos === 'proverb' ? senses : senses.filter((x) => (x.tags ?? []).includes('idiomatic'));
+      const first = idiomatic[0];
+      const tags = first?.tags ?? [];
+      const gloss = first?.glosses?.[0];
+      if (first && gloss && !tags.some((t) => IDIOM_BAD.has(t))) {
+        idiomSeen.add(word);
+        out.idioms.push([word, canonical(e), gloss, e.pos === 'proverb' ? [...tags, 'proverb'] : tags]);
       }
     }
     if (e.pos !== 'name' && /^[а-яё-]+$/.test(word)) {

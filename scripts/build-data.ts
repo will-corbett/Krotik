@@ -26,6 +26,7 @@ import { buildThemes, loadThemes } from './lib/themes.ts';
 import { buildListening, findPairs } from './lib/listening.ts';
 import { buildVerbNoun } from './lib/verbNoun.ts';
 import { buildWordOrder } from './lib/wordOrderQa.ts';
+import { buildIdioms } from './lib/idioms.ts';
 import { packAudio, wantedAudio, writeWanted } from './lib/audio.ts';
 import { readTatoebaAudio } from './lib/tatoeba-audio.ts';
 import { CASES } from '../src/shared/cells.ts';
@@ -288,6 +289,10 @@ const listeningBytes = writeJson('listening.json', listening);
 // ---- Words that go together: curated verb + noun pairs, checked against the sentences (scripts/lib/verbNoun.ts)
 const verbNoun = buildVerbNoun({ corpus, verbs, nouns, report });
 const verbNounBytes = writeJson('verb-noun.json', verbNoun);
+// ---- Idioms and proverbs: Wiktionary's, kept when a real sentence uses them (scripts/lib/idioms.ts)
+const verbForms = new Map(verbs.map((v) => [v.bare, new Set([v.bare, ...v.cells.flatMap((c) => (c ? cellForms(c) : [])).map(normalise)])]));
+const idioms = buildIdioms({ idioms: wk.idioms, pairs: corpus.pairs, verbForms, report });
+const idiomBytes = writeJson('idioms.json', idioms);
 // ---- Word order practice: our own question-and-answer items, published once reviewed (scripts/lib/wordOrderQa.ts)
 const wordOrder = buildWordOrder(themeLex, report);
 writeJson('word-order.json', wordOrder.data);
@@ -330,6 +335,7 @@ const manifest: Manifest = {
   listening: 'listening.json',
   verbNoun: 'verb-noun.json',
   wordOrder: 'word-order.json',
+  idioms: 'idioms.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -367,6 +373,7 @@ sizes.push(`| themes.json, theme.*.json | ${themes.themes.length} themes, ${them
 sizes.push(`| audio.json | ${Object.keys(audioIndex.words).length} words, ${Object.keys(audioIndex.sentences).length} sentences recorded | ${(audioBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| listening.json | ${listening.sentences.length} sentences, ${listening.endings.length} endings, ${listening.pairs.length} pairs | ${(listeningBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| verb-noun.json | ${verbNoun.pairs.length} pairs, ${verbNoun.items.length} items | ${(verbNounBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| idioms.json | ${idioms.idioms.length} idioms and proverbs | ${(idiomBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [
