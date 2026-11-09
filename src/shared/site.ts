@@ -10,3 +10,5 @@ export const SITE_URL = 'https://will-corbett.github.io/Krotik/';
  * Nothing is sent unless the reader submits it there. Moving the repository means changing this line.
  */
 export const ISSUES_URL = 'https://github.com/will-corbett/Krotik/issues/new';
+/** Feedback and problem reports by email, for readers without a GitHub account (the Feedback page, Report a problem). */
+export const CONTACT_EMAIL = 'krotik.feedback@gmail.com';

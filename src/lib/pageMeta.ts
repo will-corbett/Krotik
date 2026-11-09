@@ -45,5 +45,7 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
       return 'Search | Krotik';
     case 'listening':
       return 'Russian listening practice with native recordings | Krotik';
+    case 'feedback':
+      return 'Feedback | Krotik';
   }
 }

@@ -482,20 +482,47 @@ test('Culture links come 20 to a page, with Previous/Next and page numbers; a fi
   await expect(page.locator('li.link').first()).toBeVisible();
 });
 
-test('Report a problem opens a prefilled GitHub issue for the page or item, and sends nothing itself', async ({ page }) => {
+test('Report a problem offers a prefilled email or GitHub issue for the page or item, and sends nothing itself', async ({ page }) => {
   await page.goto('./learn/nounCases/');
-  const footer = page.getByRole('link', { name: /^Report a problem/ }).last();
-  const url = new URL((await footer.getAttribute('href'))!);
+  const footer = page.locator('footer');
+  await footer.getByText('Report a problem').click();
+  const mail = new URL((await footer.getByRole('link', { name: 'By email' }).getAttribute('href'))!);
+  expect(mail.protocol).toBe('mailto:');
+  expect(mail.pathname).toBe('krotik.feedback@gmail.com');
+  expect(mail.searchParams.get('body')).toContain('/Krotik/learn/nounCases/');
+  const gh = footer.getByRole('link', { name: /^On GitHub/ });
+  const url = new URL((await gh.getAttribute('href'))!);
   expect(url.origin + url.pathname).toBe('https://github.com/will-corbett/Krotik/issues/new');
   expect(url.searchParams.get('body')).toContain('/Krotik/learn/nounCases/');
-  await expect(footer).toHaveAttribute('target', '_blank');
+  await expect(gh).toHaveAttribute('target', '_blank');
   // The footer follows you to other pages.
   await page.getByRole('link', { name: /Next →/ }).click();
-  expect(new URL((await page.getByRole('link', { name: /^Report a problem/ }).last().getAttribute('href'))!).searchParams.get('body')).not.toContain('nounCases');
+  expect(decodeURIComponent((await footer.getByRole('link', { name: 'By email' }).getAttribute('href'))!)).not.toContain('nounCases');
   // A drill answer: the question and the expected answer go in the report.
   await page.goto('./drill/verbs/?seed=3');
   await page.getByRole('button', { name: 'Start' }).click();
   await page.getByRole('button', { name: "I don't know" }).click();
-  const q = new URL((await page.locator('.feedback').getByRole('link', { name: /^Report a problem/ }).getAttribute('href'))!);
+  await page.locator('.feedback').getByText('Report a problem').click();
+  const q = new URL((await page.locator('.feedback').getByRole('link', { name: 'By email' }).getAttribute('href'))!);
   expect(q.searchParams.get('body')).toMatch(/Question: .*\nAnswer given as right: /);
+});
+
+test('the beta note links to the Feedback page and stays hidden once closed; the page offers an email', async ({ page }) => {
+  await page.goto('./');
+  const note = page.getByRole('complementary', { name: 'Beta' });
+  await expect(note).toContainText('still being tested');
+  await note.getByRole('link', { name: 'Tell us' }).click();
+  await expect(page).toHaveURL(/\/Krotik\/feedback\/$/);
+  await expect(page.getByRole('heading', { name: /^Feedback/, level: 1 })).toBeVisible();
+  await expect(note).toHaveCount(0); // not repeated on the Feedback page itself
+  const mail = new URL((await page.getByRole('link', { name: 'Email your feedback' }).getAttribute('href'))!);
+  expect(mail.pathname).toBe('krotik.feedback@gmail.com');
+  expect(mail.searchParams.get('subject')).toBe('Krotik feedback');
+  await page.goto('./learn/');
+  await note.getByRole('button', { name: 'Hide this note' }).click();
+  await expect(note).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
+  await expect(note).toHaveCount(0);
+  await expect(page.locator('footer').getByRole('link', { name: 'Feedback' })).toBeVisible();
 });

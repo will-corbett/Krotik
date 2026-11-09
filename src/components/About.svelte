@@ -1,5 +1,7 @@
 <script lang="ts">
   import { audioIndex } from '../lib/recordings.ts';
+  import { href } from '../lib/router.ts';
+  import { CONTACT_EMAIL } from '../shared/site.ts';
 
   let { onback }: { onback: () => void } = $props();
 
@@ -57,6 +59,12 @@
   <p>
     A wrong answer comes back about ten cards later (or at the end, if fewer are left, so it also works in unlimited rounds), and a round finishes only when every question has been answered
     correctly. The score counts answers that were right the first time.
+  </p>
+  <p>
+    <strong>Feedback and problems.</strong> <em>Report a problem</em> (beside questions, sentences and texts, and in
+    the footer) and the <a href={href({ page: 'feedback' })}>Feedback</a> page open your own email app, or a GitHub
+    issue, filled in with the page and the item. Nothing is sent unless you send it, and nothing about you (settings,
+    progress, answers) is included. Emails go to {CONTACT_EMAIL} and are used only to reply.
   </p>
 
   <h2>Sources and licences</h2>

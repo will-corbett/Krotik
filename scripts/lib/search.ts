@@ -46,6 +46,7 @@ export function buildSearch(): SearchIndex {
     ['culture/', 'Culture', 'Hand-picked videos, films, podcasts, books and tools, and short culture notes.'],
     ['settings/', 'Settings', 'Your level, stress marks, the Cyrillic keyboard, phonetic typing, theme, progress.'],
     ['progress/', 'Your progress', 'Rounds, scores and your words, kept only in this browser if you turn progress on.'],
+    ['feedback/', 'Feedback', 'Tell us what is wrong, confusing or missing: by email or on GitHub. Report a problem.'],
     ['about/', 'About and sources', 'Where the data comes from, licences, privacy and the people who recorded the audio.'],
   ];
   for (const [path, title, text] of PAGES) add({ k: 'page', path, title, text });

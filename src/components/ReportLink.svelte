@@ -1,23 +1,46 @@
 <script lang="ts">
-  import { reportUrl } from '../lib/report.ts';
+  import { reportMail, reportUrl } from '../lib/report.ts';
 
   /**
-   * A small "Report a problem" link: opens a prefilled GitHub issue in a new tab. `what` names the item; `details`
-   * are extra lines (the sentence, the expected answer). Nothing is sent unless the reader submits the form there.
+   * A small "Report a problem" control: it opens to two links, an email (the reader's own email app) or a GitHub
+   * issue, both prefilled with the page and the item. `what` names the item; `details` are extra lines (the sentence,
+   * the expected answer). Nothing is sent unless the reader sends it.
    */
-  let { what, details = [], label = 'Report a problem' }: { what: string; details?: string[]; label?: string } = $props();
+  let { what, details = [], label = 'Report a problem', path }: { what: string; details?: string[]; label?: string; path?: string } = $props();
 </script>
 
-<a class="report" href={reportUrl(what, details)} target="_blank" rel="noopener noreferrer external"
-  >{label}<span class="visually-hidden"> (opens GitHub in a new tab)</span></a
->
+<details class="report">
+  <summary>{label}</summary>
+  <span class="ways">
+    <a href={reportMail(what, details, path)}>By email</a>
+    ·
+    <a href={reportUrl(what, details, path)} target="_blank" rel="noopener noreferrer external">On GitHub<span class="visually-hidden"> (opens in a new tab)</span></a>
+  </span>
+</details>
 
 <style>
   .report {
+    display: inline-block;
     font-size: 0.8rem;
     color: var(--muted);
   }
-  .report:hover {
+  summary {
+    display: inline;
+    list-style: none;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  summary:hover {
     color: var(--text);
+  }
+  .ways {
+    margin-left: 6px;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .report {
+    white-space: nowrap;
   }
 </style>

@@ -31,7 +31,8 @@
   import { pageTitle } from './lib/pageMeta.ts';
   import { NOTES } from './lib/culture.ts';
   import { SITE_BASE } from './shared/site.ts';
-  import { reportUrl } from './lib/report.ts';
+  import FeedbackPage from './components/FeedbackPage.svelte';
+  import ReportLink from './components/ReportLink.svelte';
   import { isDrill, topicById } from './lib/topics.ts';
   import MainNav from './components/MainNav.svelte';
   const isDrillId = (id: string) => {
@@ -220,7 +221,7 @@
   }
 
   const narrow = $derived(
-    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'settings' || route.page === 'writing' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
+    route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'settings' || route.page === 'writing' || route.page === 'feedback' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
   );
 </script>
 
@@ -244,6 +245,13 @@
       }}
     />
   </header>
+
+  {#if !settings.betaNoteHidden && route.page !== 'feedback'}
+    <aside class="beta" aria-label="Beta">
+      <p><strong>Krotik is new and still being tested.</strong> Something wrong, confusing or missing? <a href={href({ page: 'feedback' })}>Tell us</a>.</p>
+      <button type="button" class="beta-close" aria-label="Hide this note" onclick={() => (settings.betaNoteHidden = true)}>×</button>
+    </aside>
+  {/if}
 
   <main id="main" class:narrow>
     {#if route.page === 'home'}
@@ -278,6 +286,8 @@
       <Culture />
     {:else if route.page === 'listening'}
       <ListeningPage />
+    {:else if route.page === 'feedback'}
+      <FeedbackPage />
     {:else if route.page === 'search'}
       <SearchPage {settings} />
     {:else if route.page === 'about'}
@@ -297,7 +307,8 @@
     <a class="btn quiet" href={href({ page: 'start' })}>Start here</a>
     <a class="btn quiet" href={href({ page: 'settings' })}>Settings</a>
     <a class="btn quiet" href={href({ page: 'about' })}>About &amp; sources</a>
-    <a class="btn quiet" href={reportUrl('this page', [], href(route))} target="_blank" rel="noopener noreferrer external">Report a problem<span class="visually-hidden"> (opens GitHub in a new tab)</span></a>
+    <a class="btn quiet" href={href({ page: 'feedback' })}>Feedback</a>
+    <span class="foot-report"><ReportLink what="this page" path={href(route)} /></span>
     <label class="theme">
       Theme
       <select bind:value={settings.theme}>
@@ -360,6 +371,40 @@
   }
   main {
     flex: 1;
+  }
+  .beta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: -6px 0 16px;
+    padding: 6px 6px 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-2);
+    font-size: 0.9rem;
+  }
+  .beta p {
+    margin: 0;
+    flex: 1;
+  }
+  .beta-close {
+    flex: none;
+    min-width: 36px;
+    min-height: 36px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--muted);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .beta-close:hover {
+    background: var(--surface);
+    color: var(--text);
+  }
+  .foot-report {
+    padding: 0 8px;
   }
   /* Drills, the test, progress and pages of running text keep a compact width; lists and tables use the full frame. */
   main.narrow {

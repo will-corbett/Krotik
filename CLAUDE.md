@@ -203,8 +203,12 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   я/ты/мы/вы, a missing я form like победить) are blanked in the build and never drilled.
 - Overrides: a `fix` key "bare@accented" names one exact source row (where a spelling has two rows and the first is
   wrong, as проясниться); a plain key fixes the first row.
-- Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
-  GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
+- Beta (2026-11): a note under the header ("still being tested", Tell us → `/feedback/`; closing it sets
+  `settings.betaNoteHidden`) and a Feedback page (`FeedbackPage.svelte`, noindex, footer link): an email to
+  `CONTACT_EMAIL` (krotik.feedback@gmail.com, `src/shared/site.ts`) with a few optional prompts, or GitHub.
+- Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` and `CONTACT_EMAIL` in `src/shared/site.ts`):
+  opens to two links, an email (mailto, the reader's own email app) or a new GitHub issue, each prefilled with the page
+  and the item (drill question and expected answer, Tatoeba sentence, Reading
   text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent
   unless the reader submits it, and nothing about the reader (settings, progress, answers) goes in.
 

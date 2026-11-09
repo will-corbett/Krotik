@@ -30,6 +30,8 @@ export interface Settings {
    * The setting itself is a UI setting; the record is stored under its own key and never leaves the browser.
    */
   progress: boolean;
+  /** The beta note under the header was closed. */
+  betaNoteHidden: boolean;
   mixed: MixedSettings;
   translate: TranslateSettings;
   build: BuildSettings;
@@ -89,6 +91,7 @@ export const DEFAULTS: Settings = {
   hideContinue: false,
   guideSeen: false,
   progress: false,
+  betaNoteHidden: false,
   verbs: { groups: ['presfut', 'past'] as VerbGroup[] },
   reflexive: { groups: ['presfut', 'past'] as VerbGroup[] },
   compare: { types: ['comparative', 'superlative', 'samyi'] },

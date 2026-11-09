@@ -301,6 +301,7 @@ pages.push({
   index: true,
   body: '<h1>Listening <span lang="ru">аудирование</span></h1><p>Native speakers’ recordings of real sentences and words. Drills: listen and choose, dictation, hear the ending, minimal pairs. Listen and read: hear a sentence, then show its Russian and English, and record yourself to compare.</p>',
 });
+pages.push({ route: { page: 'feedback' }, description: 'Tell us what is wrong, confusing or missing in Krotik, by email or on GitHub.', index: false, body: '<h1>Feedback</h1><p>Krotik is new and still being tested. Tell us what is wrong, confusing or missing: email krotik.feedback@gmail.com, or open an issue on GitHub.</p>' });
 pages.push({ route: { page: 'search' }, description: 'Search Krotik: lessons, drills, words, idioms, texts and culture, in English or Russian.', index: false, body: '<h1>Search</h1><p>Search the lessons, drills, vocabulary, idioms, texts and culture links, in English or Russian.</p>' });
 pages.push({ route: { page: 'settings' }, description: 'Krotik settings: your level, display, reading and progress, kept in this browser only.', index: false, body: '<h1>Settings</h1><p>Your level, display and reading settings, and whether Krotik keeps track of your progress. Kept in this browser only.</p>' });
 // ---- Learning paths: each level's route, with every step linked
