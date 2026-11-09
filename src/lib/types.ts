@@ -192,7 +192,7 @@ export interface BuildSettings {
 export interface VocabSettings {
   direction: 'recognise' | 'recall' | 'both';
   types: WordPos[];
-  /** common = the commonest words up to the chosen band; mine = your words that are due (opt-in record) */
+  /** common = the most common words up to the chosen band; mine = your words that are due (opt-in record) */
   source: 'common' | 'mine';
 }
 /** A word in the vocabulary lists (public/data/words.b*.json). */

@@ -20,7 +20,7 @@
     <h2 id="parts">What's here</h2>
     <dl class="parts">
       <div><dt><a href={href({ page: 'learn' })}>Learn &amp; drill</a></dt><dd>Every grammar topic, easiest first. <strong>Learn</strong> is a short explanation with real examples; <strong>Drill</strong> is practice with instant feedback.</dd></div>
-      <div><dt><a href={href({ page: 'vocabulary' })}>Vocabulary</a></dt><dd>Words by theme from A1 to C1 (food, family, travel, work…), with real sentences and practice. The <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a> covers the commonest words.</dd></div>
+      <div><dt><a href={href({ page: 'vocabulary' })}>Vocabulary</a></dt><dd>Words by theme from A1 to C1 (food, family, travel, work…), with real sentences and practice. The <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a> covers the most common words.</dd></div>
       <div><dt><a href={href({ page: 'writing' })}>Writing</a></dt><dd>Short writing tasks for each level, with a checklist to check your own text.</dd></div>
       <div><dt><a href={href({ page: 'listening' })}>Listening</a></dt><dd>Native speakers' recordings: drills, dictation, and listen-and-read with record-and-compare.</dd></div>
       <div><dt><a href={href({ page: 'test' })}>Grammar test</a></dt><dd>Sixty questions from A1 to C1 that estimate your grammar level and point you to what to review.</dd></div>

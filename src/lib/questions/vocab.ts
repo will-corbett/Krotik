@@ -1,5 +1,5 @@
 /**
- * Vocabulary: the commonest words (or your own, src/lib/words.ts), both ways round.
+ * Vocabulary: the most common words (or your own, src/lib/words.ts), both ways round.
  * - Recognise: the Russian word, choose its English meaning from four. The wrong meanings are of the same word type,
  *   from words spelt differently, and share no English word with the right one (so two can't both fit).
  * - Recall: the English meaning and the word type; type the Russian word. Any word of the same type whose meaning

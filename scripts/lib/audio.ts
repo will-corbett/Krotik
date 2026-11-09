@@ -63,7 +63,7 @@ const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
 
 /**
  * The recordings we'd like, most useful first (the fetch stops when its time is up, so order matters):
- * words in the Vocabulary themes, then the commonest words of each type; sentences shortest first.
+ * words in the Vocabulary themes, then the most common words of each type; sentences shortest first.
  */
 export function wantedAudio(inp: {
   /** word list rows in priority order: [key, accented, bare] */

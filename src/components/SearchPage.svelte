@@ -27,7 +27,7 @@
     box?.focus();
     try {
       [index, themes] = await Promise.all([getSearchIndex(), loadThemeIndex()]);
-      // The commonest words of every type (bands 0–2): enough for a dictionary-style lookup, without the rare ones.
+      // The most common words of every type (bands 0–2): enough for a dictionary-style lookup, without the rare ones.
       words = await loadWordList(2);
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);

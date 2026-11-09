@@ -163,7 +163,7 @@ describe('vocabulary links', () => {
     expect(ex('красота', false, lex)[0]).toEqual(["красота'", 'beauty', 'nominative singular', '', 'n:2', 2]);
     expect(ex('ежели', false, lex)[0]).toHaveLength(4); // not in the word lists
     const words = { красота: ex('красота', false, lex), слушаю: ex('слушаю', false, lex) };
-    // слушать is band 3 in the source but among the commonest forms in the frequency list: not a key word.
+    // слушать is band 3 in the source but among the most common forms in the frequency list: not a key word.
     expect(keyWords([['', 'Слушаю: красота, красота!', 0]], words)).toHaveLength(2);
     expect(keyWords([['', 'Слушаю: красота, красота!', 0]], words, lex.commonForm)).toEqual([['n:2', 2, "красота'", 'beauty']]);
   });

@@ -178,7 +178,7 @@ export interface ReadingUnit {
   /** normalised word → its readings */
   words: Record<string, WordReading[]>;
   /**
-   * Key words: words of the text outside the 1,000 commonest of their type, in order of first appearance (at most
+   * Key words: words of the text outside the 1,000 most common of their type, in order of first appearance (at most
    * KEY_WORDS_MAX): [word key, band, dictionary form, meaning].
    */
   keyWords: [string, number, string, string][];

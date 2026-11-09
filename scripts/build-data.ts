@@ -188,12 +188,12 @@ const words = buildWords(
   { verbs, nouns, adjectives, extras, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
   report,
 );
-// Register labels (colloquial, bookish …) from Wiktionary, read by hand for the commonest words (scripts/lib/registers.ts).
+// Register labels (colloquial, bookish …) from Wiktionary, read by hand for the most common words (scripts/lib/registers.ts).
 words.rows = withRegisters(words.rows, wk.registers, report);
 const wordShards = writeBandsByRank('words', words.rows, words.rank);
 const wordBand = new Map(words.rows.map((r) => [r[0], bandOf(words.rank(r))]));
 const wordRegister = new Map(words.rows.flatMap((r) => (r[5] ? [[r[0], r[5]] as [string, string]] : [])));
-// The 3,000 commonest word forms in the independent frequency list (Reading's key words leave these out).
+// The 3,000 most common word forms in the independent frequency list (Reading's key words leave these out).
 const commonForms = new Set([...freq].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, 3000).map(([w]) => w));
 
 const properNouns = N.rows.filter((r) => /^[А-ЯЁ]/.test(r.bare!));
@@ -274,9 +274,9 @@ for (const t of themes.themes) themesBytes += writeJson(`theme.${t.id}.json`, t)
 writeFileSync('reports/dialogues-for-review.md', themes.review);
 
 // ---- Native recordings (scripts/lib/audio.ts): what we'd like (for `npm run audio:fetch`) and what's cached so far.
-// Words: every word among the 2,500 commonest of each type that has a recording of its own stress (about 7,700), most
+// Words: every word among the 2,500 most common of each type that has a recording of its own stress (about 7,700), most
 // useful first: Vocabulary theme words, minimal-pair words, then the rest by frequency. (Until 2026-11-09, only the
-// commonest 1,000 of each type.)
+// most common 1,000 of each type.)
 const rowByKey = new Map(words.rows.map((r) => [r[0], r]));
 const byRank = [...words.rows].sort((a, b) => words.rank(a) - words.rank(b));
 const audioWords = themes.index.themes

@@ -63,7 +63,7 @@ function verbForm(q: Question): string | null {
   const first = /[её]шь(ся)?$/.test(tyForm);
   const ends = PERSON_END[person];
   const conj = second ? `It is a second-conjugation verb (ты ${tyForm}): the ${person} form ends ${ends?.[1] ?? ''}.` : first ? `It is a first-conjugation verb (ты ${tyForm}): the ${person} form ends ${ends?.[0] ?? ''}.` : `The ${person} form.`;
-  // A consonant that changes only in the я form (ношу, носишь) is the commonest trap.
+  // A consonant that changes only in the я form (ношу, носишь) is the most common trap.
   const ya = verb ? bare(verb.cells[0] ?? '') : '';
   const stemTy = tyForm.replace(/[еёи]шь(ся)?$/, '');
   const stemYa = ya.replace(/[уюь]?(сь)?$/, '').replace(/[ую]$/, '');

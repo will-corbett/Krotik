@@ -1,6 +1,6 @@
 /**
  * Site search, in the browser: the index (search.json: pages, Learn, drills, themes, Reading, culture, idioms, words
- * that go together, writing tasks) and the commonest words of the vocabulary lists. Russian or English; case, stress
+ * that go together, writing tasks) and the most common words of the vocabulary lists. Russian or English; case, stress
  * marks and ё don't matter, and a Russian word is also found from another of its forms (книги finds книга) by
  * matching the start of words.
  */

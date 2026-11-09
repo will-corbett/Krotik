@@ -145,7 +145,7 @@
       <fieldset>
         <legend>Words</legend>
         <div class="chips">
-          <label class="chip"><input type="radio" name="vsrc" value="common" bind:group={settings.vocab.source} /> The commonest words</label>
+          <label class="chip"><input type="radio" name="vsrc" value="common" bind:group={settings.vocab.source} /> The most common words</label>
           <label class="chip"><input type="radio" name="vsrc" value="mine" bind:group={settings.vocab.source} /> My words that are due</label>
         </div>
         {#if settings.vocab.source === 'mine'}

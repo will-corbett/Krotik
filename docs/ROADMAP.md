@@ -150,7 +150,7 @@ Done in batches, each reviewed before the next.
   Chekhov comedies scene by scene, every word explained on hover/tap, 2–3 comprehension questions per text in English
   or Russian. Then (2026-11-07) the rest of Tolstoy's book: 60 stories in all; four stay out (Уж, Лозина and Ермак have too many dialect words to gloss reliably; Воробей и ласточки has a transcription error, всб for всё, and the text is never edited).
 - Vocabulary (2026-11-08): the owner agreed to relax "never store words", opt-in only. A Vocabulary drill of the
-  commonest words (choose the meaning / type the word); "My words", a per-word spaced-repetition record (word key,
+  most common words (choose the meaning / type the word); "My words", a per-word spaced-repetition record (word key,
   band, box, dates; off by default, browser only, export/import as a file, deleted with progress); Reading's key words
   (practise them, add them) and Add to my words from any explained word.
 - Vocabulary section (2026-11-08; first called Words, owner's choices: our own dialogues, reviewed by a native speaker; the full set of
@@ -200,7 +200,7 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    disagree with Wiktionary, to audit separately. Syntax lessons done 2026-11-09: three new Learn pages (aspect nuance, linking ideas, register), Word order and
    Reported speech expanded, 32 word-order question-and-answer items written and waiting for native review. Idioms done 2026-11-09: 127 idioms and
    proverbs from Wiktionary, each used in a real Tatoeba sentence, with a Learn page and a meaning drill. Register labels done 2026-11-09 (Wiktionary, the
-   commonest words checked by hand). Batch 5 complete. Also added: site search, a Listening page, all ~7,700 word recordings, Full forms loaded on
+   most common words checked by hand). Batch 5 complete. Also added: site search, a Listening page, all ~7,700 word recordings, Full forms loaded on
    demand, a path link on the home page, verbs without a present tense, and fuller C1 participle questions. Waiting
    on a native speaker: the word-order items (then the Word order drill goes live) and 12 doubtful imperatives
    (reports/imperatives-for-review.md).

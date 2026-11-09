@@ -59,7 +59,7 @@ export const UNLIMITED_BATCH = 30;
 export type Generate = (n: number) => Question[];
 
 /**
- * Nouns for agreement questions: only real partners (Tatoeba pairs) from the 2,500 commonest nouns, so the
+ * Nouns for agreement questions: only real partners (Tatoeba pairs) from the 2,500 most common nouns, so the
  * pair makes sense whatever the adjective's frequency.
  */
 async function partners(): Promise<PartnerPicker> {
@@ -77,13 +77,13 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
 async function questionsFor(s: Settings, rng: Rng, opts: { keys?: [string, number][]; words?: Word[]; gapTheme?: string } = {}): Promise<Generate> {
   switch (s.mode) {
     case 'vocab': {
-      // Words to ask: the given keys (Reading's key words), your due words, or the commonest up to the band.
+      // Words to ask: the given keys (Reading's key words), your due words, or the most common up to the band.
       const record = opts.keys || s.vocab.source !== 'mine' ? null : loadWords();
       const due = record ? dueKeys(record, today()) : opts.keys?.map(([k]) => k);
       const bandOf = (k: string) => record?.words[k]?.b ?? opts.keys?.find(([x]) => x === k)?.[1] ?? 3;
-      // Rounds on given words load only what they need: the two commonest bands (for wrong options and other right
+      // Rounds on given words load only what they need: the two most common bands (for wrong options and other right
       // answers) plus the bands the words are in. A theme passes its words whole, so its rare words don't need a word
-      // list at all. Otherwise (the commonest words) every band up to the chosen one.
+      // list at all. Otherwise (the most common words) every band up to the chosen one.
       const given = opts.words;
       const targetBands = due ? [...new Set(due.map(bandOf))] : given ? [...new Set(given.map((w) => w.band))] : null;
       const wordBands = given ? [0, 1] : targetBands ? [...new Set([0, 1, ...targetBands])].sort() : null;
@@ -99,7 +99,7 @@ async function questionsFor(s: Settings, rng: Rng, opts: { keys?: [string, numbe
         const theme = await loadTheme(opts.gapTheme);
         return (n) => generateGapQuestions(targets, theme.gaps, n, rng);
       }
-      // Your due words come in order, most overdue first; other words (the commonest, a text's key words) at random.
+      // Your due words come in order, most overdue first; other words (the most common, a text's key words) at random.
       return (n) => generateVocabQuestions(targets, pool, s.vocab, n, rng, !!record);
     }
     case 'mixed': {
@@ -146,14 +146,14 @@ async function questionsFor(s: Settings, rng: Rng, opts: { keys?: [string, numbe
       return (n) => generateFixQuestions(data, s.fix, n, rng);
     }
     case 'build': {
-      // Sentences that come with the commonest verbs, as in Translate and compare.
+      // Sentences that come with the most common verbs, as in Translate and compare.
       const bands = [0, 1, 2].filter((b) => b <= s.band);
       const shards = await Promise.all(bands.map((b) => loadSentences('verbs', b)));
       const rows = shards.flatMap((sh) => Object.values(sh).flat());
       return (n) => generateBuildQuestions(rows, s.build, n, rng);
     }
     case 'translate': {
-      // Sentences that come with the commonest verbs (up to the chosen band, at most the 2,500 commonest).
+      // Sentences that come with the most common verbs (up to the chosen band, at most the 2,500 most common).
       const bands = [0, 1, 2].filter((b) => b <= s.band);
       const shards = await Promise.all(bands.map((b) => loadSentences('verbs', b)));
       const rows = shards.flatMap((sh) => Object.values(sh).flat());
@@ -361,7 +361,7 @@ export function settingsValid(s: Settings): string | null {
       if (!s.progress) return 'Your words are kept only when progress is on: turn it on on the Progress page.';
       const w = loadWords();
       if (!Object.keys(w.words).length) return 'Your word list is empty. Words you practise here, or add while reading, go into it.';
-      if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the commonest words instead, or come back tomorrow.';
+      if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the most common words instead, or come back tomorrow.';
     }
   }
   if (s.mode === 'idioms' && !s.idioms.kinds.length) return 'Choose idioms, proverbs or both.';

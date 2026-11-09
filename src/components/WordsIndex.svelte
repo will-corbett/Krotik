@@ -23,7 +23,7 @@
     for each{#if hasDialogues}, short dialogues where you can tap any word{/if} and practice rounds.
   </p>
   <p class="muted small">
-    Want the commonest words, whatever the theme? Try the <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a>.
+    Want the most common words, whatever the theme? Try the <a href={href({ page: 'drill', mode: 'vocab' })}>Vocabulary drill</a>.
   </p>
 
   {#if error}

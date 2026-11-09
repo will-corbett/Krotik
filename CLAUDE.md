@@ -46,7 +46,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (`public/audio/`, gitignored): no third-party requests. Neither site has a bulk download, so `audio.yml` fetches
   for 45 minutes a run, back to back while recordings remain (then daily), into an Actions cache (`audio-<run>`, older ones deleted) and redeploys when anything
   new arrived; `deploy.yml` restores the newest cache. Wanted: every Vocabulary theme word, minimal-pair words, and
-  every word among the 2,500 commonest of each type with a recording of its own stress (about 7,700), and every CC BY/CC0 recorded corpus sentence of up to 10 words, most useful first.
+  every word among the 2,500 most common of each type with a recording of its own stress (about 7,700), and every CC BY/CC0 recorded corpus sentence of up to 10 words, most useful first.
 - Licences: OpenRussian/Wiktionary-derived data is CC BY-SA 4.0 (share-alike applies to our shards);
   Tatoeba sentences are CC BY 2.0 FR. Keep the About page and public/data/LICENSE.md accurate.
 - Keep the site commercially usable: only sources whose licence allows commercial use (CC BY / CC BY-SA, public
@@ -220,14 +220,14 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Register labels (critique batch 5): the extract's `registers` gives a word a label only when every sense of every
   Wiktionary entry for it (same part of speech) carries it (vulgar, offensive, derogatory, slang, colloquial/informal,
   literary, formal, poetic, humorous; first wins). Wiktionary's tags are noisy (a usage note read as "poetic", an old
-  declension as "archaic"), so `curated/registers.yaml` excludes or replaces labels; the commonest words were read by
+  declension as "archaic"), so `curated/registers.yaml` excludes or replaces labels; the most common words were read by
   hand. `scripts/lib/registers.ts` adds the label as word rows' sixth field (and theme words' seventh); Reading carries
   it as an upper-case flag letter (`src/lib/register.ts`). Shown on Vocabulary themes, the vocab drill, My words and
   Reading's word box.
 - Site search (`/search/?q=`, `SearchPage.svelte`, `src/lib/search.ts`; header button "Search the site", or "/"
   anywhere): `scripts/lib/search.ts` writes `search.json` at the end of the data build (main pages, Learn pages' full
   text, drills, themes with their words, Reading, culture notes and links, idioms, collocations, writing tasks); the
-  commonest words (bands 0–2) are searched from the word lists. Case, stress and ё ignored; a Russian term of 4+
+  most common words (bands 0–2) are searched from the word lists. Case, stress and ё ignored; a Russian term of 4+
   letters also matches word starts by its stem (книги → книга). Nothing stored or sent; the page is noindex. Links
   carry only ?seed= across pages (`navigate`).
 - Every answer is explained. A question's own `explain` (sentence drills, collocations, idioms, Find the mistake,
@@ -290,7 +290,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   aspect partner is named as a near miss. With progress on, every word answered is scheduled (right first time → next box,
   1/3/7/14/30/60 days; wrong → box 0, due tomorrow); "My words that are due" reviews them, most overdue first. The
   Progress page lists them (Remove, Export, Import, Delete). Reading: every explained word carries its key and band;
-  each text lists up to 15 key words (band 2+, not among FrequencyWords' 3,000 commonest forms, which overrules a few
+  each text lists up to 15 key words (band 2+, not among FrequencyWords' 3,000 most common forms, which overrules a few
   misplaced source ranks), with Practise these and Add all; a clicked/tapped/focused word's box is pinned and offers
   Add to my words.
 - Vocabulary section (`/vocabulary/`, `/vocabulary/<theme>/`; content in `content/words/`; `WordsIndex.svelte`, `WordsTheme.svelte`; `scripts/lib/themes.ts`):

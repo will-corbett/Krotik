@@ -79,7 +79,7 @@
     {#if unit.keyWords.length >= 3}
       <details class="key-words">
         <summary>Key words before you read <span class="muted">({unit.keyWords.length})</span></summary>
-        <p class="muted small">Words in this text that aren't among the 1,000 commonest.</p>
+        <p class="muted small">Words in this text that aren't among the 1,000 most common.</p>
         <ul>
           {#each unit.keyWords as [key, , dict, meaning] (key)}
             <li><strong lang="ru">{renderForm(dict.split(',')[0]!, true)}</strong> <span>{meaning}</span></li>

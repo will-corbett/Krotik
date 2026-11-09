@@ -60,7 +60,7 @@ const hash = (s: string) => {
 export function buildVerbNoun(inp: { corpus: Corpus; verbs: Verb[]; nouns: Noun[]; entries?: Entry[]; report: Report }): CollocationData {
   const { corpus, report } = inp;
   const entries = inp.entries ?? loadCollocations();
-  // The commonest lemma for each spelling (the lists are in frequency order).
+  // The most common lemma for each spelling (the lists are in frequency order).
   const verbByBare = new Map<string, Verb>();
   for (const v of inp.verbs) if (!verbByBare.has(v.bare)) verbByBare.set(v.bare, v);
   const nounByBare = new Map<string, Noun>();

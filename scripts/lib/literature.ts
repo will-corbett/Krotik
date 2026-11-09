@@ -201,7 +201,7 @@ export interface Lexicon {
   old: Set<string>;
   /** vocabulary list key → its band, for words in the lists (scripts/lib/vocab.ts) */
   wordBand: (key: string) => number | undefined;
-  /** among the commonest word forms in the independent frequency list (guards against the source's misplaced ranks) */
+  /** among the most common word forms in the independent frequency list (guards against the source's misplaced ranks) */
   commonForm: (form: string) => boolean;
   /** vocabulary list key → its register label (colloquial, literary …), if it has one */
   register?: (key: string) => string | undefined;
@@ -334,8 +334,8 @@ export function explainWord(token: string, name: boolean, lex: Lexicon): WordRea
 
 export const KEY_WORDS_MAX = 15;
 /**
- * The text's words worth learning before you read: in the vocabulary lists but outside the 1,000 commonest of their
- * type (band 2 or 3) and not among the commonest forms in the frequency list, not names or old-fashioned words, with
+ * The text's words worth learning before you read: in the vocabulary lists but outside the 1,000 most common of their
+ * type (band 2 or 3) and not among the most common forms in the frequency list, not names or old-fashioned words, with
  * one clear reading, in order of first appearance.
  */
 export function keyWords(lines: ReadingLine[], words: Record<string, WordReading[]>, commonForm: (form: string) => boolean = () => false): [string, number, string, string][] {

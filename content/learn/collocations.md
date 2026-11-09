@@ -1,6 +1,6 @@
 Some verbs go with some nouns, and the pairs have to be learnt as pairs. In English you *make* a decision and *take*
 a shower; in Russian you *accept* a decision (**принять решение**) and *accept* a shower too (**принять душ**). Translate
-the English verb and you'll be understood, but it will sound foreign. These are the commonest pairs, every one found in
+the English verb and you'll be understood, but it will sound foreign. These are the most common pairs, every one found in
 real sentences.
 
 ## Both aspects
