@@ -10,7 +10,7 @@
  *   3. the next data build copies the cached, licensed files to `public/audio/` and lists them in `audio.json`.
  */
 import { createHash } from 'node:crypto';
-import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { AudioIndex } from '../../src/shared/types.ts';
 import type { Report } from './report.ts';
@@ -144,9 +144,15 @@ export function plainArtist(html: string): string {
  * isn't cached yet is simply left out: the app falls back to the device's voice, and listening drills use what's there.
  */
 export function packAudio(wanted: Wanted, report: Report): AudioIndex {
-  rmSync(AUDIO_OUT, { recursive: true, force: true });
+  // public/audio is synced, not deleted and rebuilt: copy what's new or changed, then remove what's no longer wanted
+  // (deleting the folder races with a dev server watching public/).
   mkdirSync(join(AUDIO_OUT, 'w'), { recursive: true });
   mkdirSync(join(AUDIO_OUT, 's'), { recursive: true });
+  const kept = new Set<string>();
+  const put = (from: string, to: string) => {
+    kept.add(to);
+    if (!existsSync(to) || statSync(to).size !== statSync(from).size) copyFileSync(from, to);
+  };
   const commons: Record<string, CommonsInfo> = existsSync(COMMONS_FILE) ? JSON.parse(readFileSync(COMMONS_FILE, 'utf8')) : {};
   const index: AudioIndex = { credits: [], words: {}, sentences: {} };
   const creditIds = new Map<string, number>();
@@ -170,7 +176,7 @@ export function packAudio(wanted: Wanted, report: Report): AudioIndex {
       continue;
     }
     const out = wordFile(w.file);
-    copyFileSync(rawWordPath(w.file), join(AUDIO_OUT, 'w', out));
+    put(rawWordPath(w.file), join(AUDIO_OUT, 'w', out));
     // Credited to the author (Commons "Artist"; for Lingua Libre recordings, the speaker), else to whoever Commons
     // credits (the Shtooka Project), linking to their page; failing both, to the file's page.
     const filePage = `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(w.file.replace(/ /g, '_'))}`;
@@ -183,9 +189,10 @@ export function packAudio(wanted: Wanted, report: Report): AudioIndex {
       report.count(R, 'sentence recordings not fetched yet');
       continue;
     }
-    copyFileSync(rawSentencePath(s.audio), join(AUDIO_OUT, 's', `${s.rid}.mp3`));
+    put(rawSentencePath(s.audio), join(AUDIO_OUT, 's', `${s.rid}.mp3`));
     index.sentences[s.rid] = credit([s.user, s.licence, s.url || `https://tatoeba.org/user/profile/${encodeURIComponent(s.user)}`, 'tatoeba', TATOEBA_LICENCE_URL[s.licence]!]);
   }
+  for (const dir of ['w', 's']) for (const f of readdirSync(join(AUDIO_OUT, dir))) if (!kept.has(join(AUDIO_OUT, dir, f))) rmSync(join(AUDIO_OUT, dir, f), { force: true });
   report.count(R, 'word recordings published', Object.keys(index.words).length);
   report.count(R, 'sentence recordings published', Object.keys(index.sentences).length);
   report.count(R, 'people credited', index.credits.length);

@@ -8,11 +8,11 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | file | rows / lemmas | size (uncompressed) |
 |---|---:|---:|
-| search.json | 648 entries | 249 KB |
+| search.json | 649 entries | 249 KB |
 | verbs.b0.json | 250 | 75 KB |
 | verbs.b1.json | 750 | 240 KB |
-| verbs.b2.json | 1500 | 496 KB |
-| verbs.b3.json | 11663 | 4031 KB |
+| verbs.b2.json | 1500 | 495 KB |
+| verbs.b3.json | 11662 | 4029 KB |
 | adjectives.b0.json | 250 | 158 KB |
 | adjectives.b1.json | 750 | 555 KB |
 | adjectives.b2.json | 1500 | 1166 KB |
@@ -24,7 +24,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | participles.b0.json | 249 | 366 KB |
 | participles.b1.json | 749 | 1171 KB |
 | participles.b2.json | 1495 | 2437 KB |
-| participles.b3.json | 7607 | 13006 KB |
+| participles.b3.json | 7606 | 13005 KB |
 | diminutives.b0.json | 140 | 9 KB |
 | diminutives.b1.json | 269 | 17 KB |
 | diminutives.b2.json | 332 | 21 KB |
@@ -32,29 +32,29 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | words.b0.json | 986 | 56 KB |
 | words.b1.json | 2892 | 184 KB |
 | words.b2.json | 5171 | 338 KB |
-| words.b3.json | 36193 | 2296 KB |
+| words.b3.json | 36192 | 2296 KB |
 | sentences.verbs.b0.json | 247 lemmas, 2235 sentences | 183 KB |
 | sentences.verbs.b1.json | 736 lemmas, 5441 sentences | 512 KB |
 | sentences.verbs.b2.json | 1371 lemmas, 6750 sentences | 704 KB |
-| sentences.verbs.b3.json | 4352 lemmas, 11969 sentences | 1375 KB |
+| sentences.verbs.b3.json | 4353 lemmas, 11973 sentences | 1375 KB |
 | sentences.adjectives.b0.json | 248 lemmas, 2181 sentences | 219 KB |
 | sentences.adjectives.b1.json | 697 lemmas, 4288 sentences | 500 KB |
 | sentences.adjectives.b2.json | 1131 lemmas, 4143 sentences | 521 KB |
 | sentences.adjectives.b3.json | 2116 lemmas, 5298 sentences | 683 KB |
 | sentences.nouns.b0.json | 245 lemmas, 1627 sentences | 154 KB |
 | sentences.nouns.b1.json | 736 lemmas, 3984 sentences | 413 KB |
-| sentences.nouns.b2.json | 1387 lemmas, 5688 sentences | 628 KB |
+| sentences.nouns.b2.json | 1387 lemmas, 5689 sentences | 628 KB |
 | sentences.nouns.b3.json | 6412 lemmas, 15973 sentences | 1939 KB |
 | sentences.participles.b0.json | 172 lemmas, 603 sentences | 83 KB |
 | sentences.participles.b1.json | 325 lemmas, 888 sentences | 121 KB |
 | sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
 | sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| level-test.json | 2244 questions | 645 KB |
+| level-test.json | 2250 questions | 650 KB |
 | learn.json | 80 sentences, 50 pronunciations | 9.3 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2086 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
-| audio.json | 4006 words, 3321 sentences recorded | 277 KB |
+| audio.json | 4007 words, 3321 sentences recorded | 277 KB |
 | listening.json | 3321 sentences, 1919 endings, 38 pairs | 509 KB |
 | verb-noun.json | 123 pairs, 355 items | 79 KB |
 | idioms.json | 127 idioms and proverbs | 32 KB |
@@ -69,14 +69,15 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | kept without an English gloss | 2028 |
 | past masculine without -л (мог/шёл type; f/n/pl checked) | 501 |
 | perfective with no imperfective partner (normal for e.g. пойти, закричать) | 2322 |
-| kept | 14163 |
+| kept | 14162 |
+| present/future forms left out: Wiktionary has none (past-only and impersonal verbs) | 109 |
 
 **Frequency check** (first 2000 kept lemmas vs OpenSubtitles word-form counts): Spearman ρ = 0.67; 253 lemmas have no form in the 50k list.
 
 ### Dropped
 
 - **presfut: empty form** (694): хотеться, пусть, видать, сходить, захотеться, слыхать, использоваться, ночевать, свалиться, убедить, вестись, думаться, довестись, производиться, восприниматься, надлежать, сформулировать, зафиксировать, вериться, услыхать, пятиться, формироваться, планироваться, обсуждаться, фыркнуть, …
-- **duplicate entry (same accented form; kept the earlier row)** (5): жарить, промокнуть, утыкать, выметать, надрезать
+- **duplicate entry (same accented form; kept the earlier row)** (6): жарить, промокнуть, проясниться, утыкать, выметать, надрезать
 - **past: empty form** (3): звучать, житься, отреставрировать
 - **presfut: fragment (leading/trailing hyphen)** (1): пробежаться
 - **past: unbalanced parenthesis** (1): взъесться
@@ -84,7 +85,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 ### Anomalies
 
-- **fixed by override** (99): быть: presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; видеть: imperative_sg, imperative_pl; слышать: imperative_sg, imperative_pl; двигаться: imperative_sg, imperative_pl; разуметься: imperative_sg, imperative_pl; вытащить: imperative_sg, imperative_pl; выдержать: imperative_sg, imperative_pl; состояться: imperative_sg, imperative_pl; завести: imperative_sg, imperative_pl, presfut_sg1, presfut_pl3, past_f, past_n, past_pl; дождаться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; послышаться: imperative_sg, imperative_pl; слышаться: imperative_sg, imperative_pl; выразить: imperative_sg, imperative_pl; приподнять: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; виднеться: imperative_sg, imperative_pl; видеться: imperative_sg, imperative_pl; оказать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; беспокоить: imperative_sg, imperative_pl; твориться: imperative_sg, imperative_pl; поражать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3, past_m, past_f, past_n, past_pl; рассыпаться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; отражать: imperative_sg, imperative_pl, past_m, past_f, past_n, past_pl; приподняться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; заехать: imperative_sg, imperative_pl; предстать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; …
+- **fixed by override** (100): быть: presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; видеть: imperative_sg, imperative_pl; слышать: imperative_sg, imperative_pl; двигаться: imperative_sg, imperative_pl; разуметься: imperative_sg, imperative_pl; вытащить: imperative_sg, imperative_pl; выдержать: imperative_sg, imperative_pl; состояться: imperative_sg, imperative_pl; завести: imperative_sg, imperative_pl, presfut_sg1, presfut_pl3, past_f, past_n, past_pl; дождаться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; послышаться: imperative_sg, imperative_pl; слышаться: imperative_sg, imperative_pl; выразить: imperative_sg, imperative_pl; приподнять: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; виднеться: imperative_sg, imperative_pl; видеться: imperative_sg, imperative_pl; оказать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; беспокоить: imperative_sg, imperative_pl; твориться: imperative_sg, imperative_pl; поражать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3, past_m, past_f, past_n, past_pl; рассыпаться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; отражать: imperative_sg, imperative_pl, past_m, past_f, past_n, past_pl; приподняться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; заехать: imperative_sg, imperative_pl; предстать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; …
 - **excluded by override** (3): размежёвывать (all six present forms are the 1sg form); выпуститься (past f/n/pl forms are non-reflexive and mismatched); надобиться (past forms garbled (надобила/надобило/надобило))
 - **partner not found in source (ignored)** (3445): взять → взымать; выходить → вы'йти; поставить → проставляться; прочесть → читать,прочитывать; вырасти → расти,вырастать; посадить → сажать,садить; волноваться → взволноваться,заволноваться,поволноваться; орать → заорать,поорать,наорать; тянуться → потянуться,протянуться; съесть → есть,съедать; ловить → поймать,изловить; радоваться → обрадоваться,порадоваться; везти → повезти,отвезти,свезти; тащить → вытащить,стащить; покрыть → крыть,покрывать; замолчать → замолкать,молчать; менять → поменять,обменять; стучать → постучать,стукнуть; закурить → закуривать,курить; прыгать → попрыгать,прыгнуть; услать → усылать,слать; гнать → погнать,загнать; плыть → поплы'ть; налить → наливать,лить; оглядываться → оглянуться,оглядеться; …
 - **partner not of the opposite aspect (ignored for aspect drill)** (162): ходить (impf) → сходить (both); читать (impf) → почитать (both); выглядеть (impf) → выглядывать (impf); носить (impf) → наносить (impf); носить (impf) → сносить (both); носить (impf) → относить (impf); дрожать (impf) → дрогнуть (both); сойти (pf) → сходить (both); родить (both) → рожать (impf); провожать (impf) → проводить (impf); накрыть (pf) → застигнуть (pf); счесть (pf) → сосчитать (pf); покидать (impf) → кидать (impf); прозвучать (impf) → звучать (impf); рекомендовать (both) → порекомендовать (pf); дрогнуть (both) → дрожать (impf); дрогнуть (both) → продрогнуть (pf); почитать (both) → читать (impf); почитать (both) → почесть (pf); преодолеть (pf) → преодолевать (both); запустить (pf) → забросить (pf); зарасти (impf) → зарастать (impf); кидать (impf) → покидать (impf); снести (pf) → сносить (both); завязать (both) → завязывать (impf); …
@@ -200,13 +201,13 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | participle without its own declension entry (act_pres) | 344 |
 | participle without its own declension entry (pass_past) | 168 |
 | verbs not matched to a Wiktionary entry | 4047 |
-| verbs with Wiktionary participles or verbal adverbs | 10100 |
+| verbs with Wiktionary participles or verbal adverbs | 10099 |
 | … with a present verbal adverb | 5349 |
-| … with a past verbal adverb | 10092 |
+| … with a past verbal adverb | 10091 |
 | … with act_pres (any) | 5423 |
 | … with act_pres full declension | 5079 |
-| … with act_past (any) | 10092 |
-| … with act_past full declension | 9530 |
+| … with act_past (any) | 10091 |
+| … with act_past full declension | 9529 |
 | … with pass_pres (any) | 2977 |
 | … with pass_pres full declension | 2787 |
 | … with pass_past (any) | 3424 |
@@ -244,7 +245,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| kept: verbs | 12389 |
+| kept: verbs | 12388 |
 | kept: adjectives | 9361 |
 | kept: nouns | 21421 |
 | of which not in the drill data (forms missing or unclear): nouns | 1885 |
@@ -287,8 +288,8 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
 | kept after filters (with an English translation) | 650395 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 274847 |
-| verbs: lemmas with ≥1 sentence | 6706 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 274791 |
+| verbs: lemmas with ≥1 sentence | 6707 |
 | adjectives: lemmas with ≥1 sentence | 4192 |
 | nouns: lemmas with ≥1 sentence | 8780 |
 | participles: lemmas with ≥1 sentence | 1479 |
@@ -608,11 +609,12 @@ history: 2 dialogue(s) published, 0 waiting for review.
 
 | count | n |
 |---|---:|
-| wanted words with no Commons recording of that stress | 298 |
-| word recordings wanted (Commons) | 4006 |
+| wanted words with no Commons recording of that stress | 52 |
+| word recordings wanted (Commons) | 7753 |
 | sentence recordings wanted (Tatoeba, CC BY / CC0, up to 10 words, with English) | 5738 |
+| word recordings not fetched yet | 3746 |
 | sentence recordings not fetched yet | 2417 |
-| word recordings published | 4006 |
+| word recordings published | 4007 |
 | sentence recordings published | 3321 |
 | people credited | 605 |
 
@@ -749,7 +751,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | prepositions / через:acc: candidates (kept up to 400) | 230 |
 | prepositions / на:prep: candidates (kept up to 400) | 4120 |
 | prepositions / за:inst: candidates (kept up to 400) | 1662 |
-| prepositions / на:acc: candidates (kept up to 400) | 3791 |
+| prepositions / на:acc: candidates (kept up to 400) | 3793 |
 | prepositions / после:gen: candidates (kept up to 400) | 367 |
 | prepositions / с:inst: candidates (kept up to 400) | 5154 |
 | prepositions / с:gen: candidates (kept up to 400) | 906 |
@@ -766,11 +768,11 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | prepositions / у:gen: candidates (kept up to 400) | 170 |
 | prepositions / про:acc: candidates (kept up to 400) | 24 |
 | prepositions / около:gen: candidates (kept up to 400) | 42 |
-| aspectContext / impf@presfut: candidates (kept up to 400) | 148924 |
-| aspectContext / pf@presfut: candidates (kept up to 400) | 28403 |
+| aspectContext / impf@presfut: candidates (kept up to 400) | 148948 |
+| aspectContext / pf@presfut: candidates (kept up to 400) | 28416 |
 | aspectContext / impf@past: candidates (kept up to 400) | 63325 |
-| aspectContext / impf@inf: candidates (kept up to 400) | 20228 |
-| aspectContext / pf@past: candidates (kept up to 400) | 120077 |
+| aspectContext / impf@inf: candidates (kept up to 400) | 20227 |
+| aspectContext / pf@past: candidates (kept up to 400) | 120084 |
 | aspectContext / pf@inf: candidates (kept up to 400) | 27281 |
 | aspectContext / impf@imperative: candidates (kept up to 400) | 8571 |
 | aspectContext / pf@imperative: candidates (kept up to 400) | 7126 |
@@ -868,7 +870,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | time / cherez: candidates (kept up to 1500) | 220 |
 | time / po-days: candidates (kept up to 1500) | 233 |
 | narechiya / adj: candidates (kept up to 1500) | 18688 |
-| narechiya / adv: candidates (kept up to 1500) | 17726 |
+| narechiya / adv: candidates (kept up to 1500) | 17728 |
 | questionWords / kakoy: candidates (kept up to 1500) | 3165 |
 | questionWords / chto: candidates (kept up to 1500) | 8148 |
 | questionWords / kakoy-prep: candidates (kept up to 1500) | 787 |
@@ -885,13 +887,9 @@ Typed answers are the sentence’s own word; the blanked token must belong to ex
 | count | n |
 |---|---:|
 | A1 question types | 17 |
-| candidate questions | 2244 |
+| candidate questions | 2250 |
 | A2 question types | 14 |
 | B1 question types | 15 |
 | B2 question types | 15 |
 | C1 question types | 14 |
-
-### Anomalies
-
-- **question types with fewer than 30 candidates** (1): C1 participles (w3): 24
 

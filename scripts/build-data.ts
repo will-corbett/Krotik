@@ -118,6 +118,14 @@ report.count('Learn pages', 'extra words in content/learn/words.yaml, all found 
 const noIpa = learnIpa.filter((w) => !wk.ipa[w]);
 if (noIpa.length) throw new Error(`content/learn: ::ipa words with no standard IPA in Wiktionary: ${noIpa.join(', ')}`);
 report.count('Learn pages', '::ipa words, each with its IPA from Wiktionary', learnIpa.length);
+// Present (or perfective future) forms Wiktionary says don't exist (говаривать, светать): left blank, not drilled.
+for (const v of verbs) {
+  for (const i of wk.noPresent[v.bare] ?? []) {
+    if (!v.cells[i]) continue;
+    v.cells[i] = '';
+    report.count('Verbs', 'present/future forms left out: Wiktionary has none (past-only and impersonal verbs)');
+  }
+}
 fillNounGender(nouns, wk, report);
 fillDegrees(adjectives, wk, report);
 const participleRows = buildParticiples(verbs, wk, report);
@@ -266,19 +274,20 @@ for (const t of themes.themes) themesBytes += writeJson(`theme.${t.id}.json`, t)
 writeFileSync('reports/dialogues-for-review.md', themes.review);
 
 // ---- Native recordings (scripts/lib/audio.ts): what we'd like (for `npm run audio:fetch`) and what's cached so far.
-// Words: every Vocabulary theme word, then the commonest 1,000 of each word type.
+// Words: every word among the 2,500 commonest of each type that has a recording of its own stress (about 7,700), most
+// useful first: Vocabulary theme words, minimal-pair words, then the rest by frequency. (Until 2026-11-09, only the
+// commonest 1,000 of each type.)
 const rowByKey = new Map(words.rows.map((r) => [r[0], r]));
 const byRank = [...words.rows].sort((a, b) => words.rank(a) - words.rank(b));
-const audioWords = [
-  ...themes.index.themes.flatMap((t) => t.keys).flatMap((k) => (rowByKey.has(k) ? [rowByKey.get(k)!] : [])),
-  ...byRank.filter((r) => bandOf(words.rank(r)) <= 1),
-].map((r) => ({ key: r[0], accented: r[1], bare: r[1].replace(/'/g, '') }));
-// …and every word in a minimal pair (брат / брать) whose two words both have a recording of that stress.
-const recordable = words.rows
+const audioWords = themes.index.themes
+  .flatMap((t) => t.keys)
+  .flatMap((k) => (rowByKey.has(k) ? [rowByKey.get(k)!] : []))
+  .map((r) => ({ key: r[0], accented: r[1], bare: r[1].replace(/'/g, '') }));
+const recordable = byRank
   .filter((r) => (wk.audio[r[1].replace(/'/g, '')] ?? []).some(([canon]) => canon === r[1]))
   .map((r) => ({ key: r[0], accented: r[1], bare: r[1].replace(/'/g, '') }));
 const pairWords = new Set(findPairs(recordable).flatMap((p) => [p[1], p[3]]));
-audioWords.push(...recordable.filter((w) => pairWords.has(w.key)));
+audioWords.push(...recordable.filter((w) => pairWords.has(w.key)), ...recordable.filter((w) => bandOf(words.rank(rowByKey.get(w.key)!)) <= 2));
 const wanted = wantedAudio({ words: audioWords, commons: wk.audio, pairs: corpus.pairs, tatoeba: await readTatoebaAudio(), report });
 writeWanted(wanted);
 const audioIndex = packAudio(wanted, report);
