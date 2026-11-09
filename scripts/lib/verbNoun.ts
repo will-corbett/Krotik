@@ -19,7 +19,14 @@ import type { CollocationData } from '../../src/shared/types.ts';
 import type { Noun } from './clean-nouns.ts';
 import type { Verb } from './clean-verbs.ts';
 import type { Report } from './report.ts';
-import { TOKEN, type Corpus } from './sentences.ts';
+// The corpus shape, declared here rather than imported: sentences.ts pulls in the bzip2 stream, which has no type
+// declarations where the unit tests are type-checked (svelte-check).
+interface Corpus {
+  pairs: { rid: number; ru: string; en: string }[];
+  owners: Map<string, Set<string>>;
+  masks: Map<string, number>;
+}
+const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
 
 const S = 'Words that go together (curated/collocations.yaml)';
 const NEAR = 3;

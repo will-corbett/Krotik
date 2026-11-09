@@ -6,7 +6,6 @@ import { Report } from '../../scripts/lib/report.ts';
 import { generateCollocationQuestions } from '../../src/lib/questions/collocations.ts';
 import { pairsFor, pairsWithNouns } from '../../src/lib/collocations.ts';
 import { mulberry32 } from '../../src/lib/rng.ts';
-import type { Corpus } from '../../scripts/lib/sentences.ts';
 
 // Twelve verb cells (present 1sg…3pl, past m f n pl, imperative sg pl): only the past masculine matters here.
 const verb = (id: number, bare: string, past: string, aspect: 'pf' | 'impf' = 'pf') => ({
@@ -26,7 +25,7 @@ const noun = (id: number, bare: string, acc: string) => {
 };
 const verbs = [verb(1, 'принять', "при'нял"), verb(2, 'задать', "за'дал"), verb(3, 'оказать', "оказа'л"), verb(4, 'привлечь', "привлёк"), verb(5, 'одержать', "одержа'л"), verb(6, 'сделать', "сде'лал")];
 const nouns = [noun(10, 'решение', "реше'ние"), noun(11, 'вопрос', "вопро'с"), noun(12, 'помощь', "по'мощь"), noun(13, 'победа', "побе'ду")];
-function corpus(sentences: [number, string, string][]): Corpus {
+function corpus(sentences: [number, string, string][]) {
   const owners = new Map<string, Set<string>>();
   const masks = new Map<string, number>();
   const own = (form: string, owner: string, mask: number) => {
