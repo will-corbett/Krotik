@@ -153,7 +153,7 @@ export interface Question {
   /** Multiple-choice options in Russian, shown as a list like meanings (listen and choose, minimal pairs). */
   optionsLang?: 'ru';
   /** Vocabulary: the word asked about (for the opt-in word record, src/lib/words.ts). */
-  word?: { key: string; band: number };
+  word?: { key: string; band: number; register?: string };
   /** Text for speech synthesis, built from the first answer variant. */
   speak: (answerForm: string) => string;
 }
@@ -202,6 +202,8 @@ export interface Word {
   /** aspect (verbs) or gender (nouns), "" otherwise */
   extra: string;
   band: number;
+  /** register label (colloquial, literary …), if the word has one */
+  register?: string;
 }
 /** Translate and compare: short (up to 5 words) and/or longer (6–9 words) sentences. */
 export interface TranslateSettings {

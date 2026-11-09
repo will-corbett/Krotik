@@ -2,7 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AudioIndex, CollocationData, IdiomData, ListeningData, WordOrderData } from '../shared/types.ts';
+import type { AudioIndex, CollocationData, IdiomData, ListeningData, SearchIndex, WordOrderData } from '../shared/types.ts';
 import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, ThemeData, ThemeIndex, VerbRow, WordRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb, Word } from './types.ts';
 
@@ -34,6 +34,8 @@ export const loadAudioIndex = () => getJson<AudioIndex>('audio.json');
 /** Listening drills: recorded sentences, "which ending" items, minimal pairs. */
 export const loadListening = () => getJson<ListeningData>('listening.json');
 /** Words that go together: curated verb + noun pairs and the "Which verb?" items. */
+/** The site search's index (search.json). */
+export const getSearchIndex = () => getJson<SearchIndex>('search.json');
 /** Idioms and proverbs, each with real sentences. */
 export const loadIdioms = () => getJson<IdiomData>('idioms.json');
 /** Word order practice: reviewed question-and-answer items only. */
@@ -77,7 +79,7 @@ export async function loadNouns(maxBand: number): Promise<Noun[]> {
 }
 /** The vocabulary lists (every word type) up to this band. */
 export async function loadWordList(bands: number | number[]): Promise<Word[]> {
-  return (await loadRows<WordRow>('words', bands)).map(({ row: [key, accented, gloss, pos, extra], band }) => ({ key, accented, gloss, pos, extra, band }));
+  return (await loadRows<WordRow>('words', bands)).map(({ row: [key, accented, gloss, pos, extra, register], band }) => ({ key, accented, gloss, pos, extra, band, ...(register ? { register } : {}) }));
 }
 export async function loadParticiples(maxBand: number): Promise<{ row: ParticipleRow; band: number }[]> {
   return loadRows<ParticipleRow>('participles', maxBand);

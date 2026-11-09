@@ -27,6 +27,8 @@ import { buildListening, findPairs } from './lib/listening.ts';
 import { buildVerbNoun } from './lib/verbNoun.ts';
 import { buildWordOrder } from './lib/wordOrderQa.ts';
 import { buildIdioms } from './lib/idioms.ts';
+import { withRegisters } from './lib/registers.ts';
+import { buildSearch } from './lib/search.ts';
 import { packAudio, wantedAudio, writeWanted } from './lib/audio.ts';
 import { readTatoebaAudio } from './lib/tatoeba-audio.ts';
 import { CASES } from '../src/shared/cells.ts';
@@ -105,6 +107,7 @@ const wk = await loadWiktionary(
     attest: new Set(learnWords),
     ipa: new Set(learnIpa),
     check: literatureWords(),
+    registers: new Set([...V.rows, ...A.rows, ...N.rows, ...readTsv(raw('others.csv'))].map((r) => r.bare!).filter(Boolean)),
   },
   sourcesJson[KAIKKI_FILE]?.sha256 ?? '',
   console.log,
@@ -177,8 +180,11 @@ const words = buildWords(
   { verbs, nouns, adjectives, extras, others, pronouns: pronouns.personal.map(([w, cells]) => [w, cells] as [string, string[]]), exclude: ov.vocab?.exclude ?? {}, gloss: ov.vocab?.gloss ?? {}, keep: ov.vocab?.keep ?? {}, freq },
   report,
 );
+// Register labels (colloquial, bookish …) from Wiktionary, read by hand for the commonest words (scripts/lib/registers.ts).
+words.rows = withRegisters(words.rows, wk.registers, report);
 const wordShards = writeBandsByRank('words', words.rows, words.rank);
 const wordBand = new Map(words.rows.map((r) => [r[0], bandOf(words.rank(r))]));
+const wordRegister = new Map(words.rows.flatMap((r) => (r[5] ? [[r[0], r[5]] as [string, string]] : [])));
 // The 3,000 commonest word forms in the independent frequency list (Reading's key words leave these out).
 const commonForms = new Set([...freq].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, 3000).map(([w]) => w));
 
@@ -231,6 +237,7 @@ const lexicon: Lexicon = {
     old: new Set(wk.checkedOld),
     wordBand: (k) => wordBand.get(k),
     commonForm: (f) => commonForms.has(f),
+    register: (k) => wordRegister.get(k),
 };
 const reading = buildReading(lexicon, report);
 let readingBytes = writeJson('reading.json', reading.index);
@@ -337,6 +344,7 @@ const manifest: Manifest = {
   verbNoun: 'verb-noun.json',
   wordOrder: 'word-order.json',
   idioms: 'idioms.json',
+  search: 'search.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -354,6 +362,11 @@ const learnExtras: LearnExtras = {
 };
 report.count('Learn pages', '::tatoeba sentences, each found in the corpus', learnTatoeba.length);
 const learnBytes = writeJson('learn.json', learnExtras);
+
+// The site search's index, from everything written above (scripts/lib/search.ts).
+const search = buildSearch();
+const searchBytes = writeJson('search.json', search);
+sizes.push(`| search.json | ${search.docs.length} entries | ${(searchBytes / 1024).toFixed(0)} KB |`);
 
 // The level test's questions, made here from the files just written so the browser needn't load the shards.
 const levelTest = buildLevelTestPool(<T>(file: string) => JSON.parse(readFileSync(join(OUT_DIR, file), 'utf8')) as T);

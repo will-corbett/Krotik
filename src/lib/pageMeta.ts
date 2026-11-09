@@ -41,5 +41,7 @@ export function pageTitle(route: Route, noteTitle: (id: string) => string | unde
       return 'Your progress | Krotik';
     case 'about':
       return 'About Krotik: sources and licences';
+    case 'search':
+      return 'Search | Krotik';
   }
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import SearchPage from './components/SearchPage.svelte';
   import Setup from './components/Setup.svelte';
   import DrillChoose from './components/DrillChoose.svelte';
   import Drill from './components/Drill.svelte';
@@ -211,6 +212,13 @@
   let menuOpen = $state(false);
   let menuEl = $state<HTMLElement>();
   function onWindowKey(e: KeyboardEvent) {
+    // "/" opens the search from anywhere, unless you're typing.
+    const typing = e.target instanceof HTMLElement && (e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName));
+    if (e.key === '/' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey && route.page !== 'search') {
+      e.preventDefault();
+      navigate(href({ page: 'search' }));
+      return;
+    }
     if (e.key === 'Escape' && menuOpen) {
       menuOpen = false;
       menuEl?.querySelector<HTMLButtonElement>('.menu-btn')?.focus();
@@ -257,6 +265,9 @@
       <img src="{import.meta.env.BASE_URL}brand/krotik-128.png" alt="" width="40" height="40" />
       <span>Krotik</span>
     </a>
+    <a class="btn quiet search-btn" href={href({ page: 'search' })} aria-label="Search" title="Search (press /)" aria-current={route.page === 'search' ? 'page' : undefined}
+      ><svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2" /><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></a
+    >
     <nav aria-label="Main" class="menu" bind:this={menuEl}>
       {#if !wide}
         <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
@@ -315,6 +326,8 @@
       <CultureNote id={route.note} bind:settings />
     {:else if route.page === 'culture'}
       <Culture />
+    {:else if route.page === 'search'}
+      <SearchPage {settings} />
     {:else if route.page === 'about'}
       <About onback={() => navigate(href({ page: 'home' }))} />
     {:else if screen === 'drill' && round}
@@ -381,6 +394,22 @@
   .menu {
     position: relative;
     margin-left: auto;
+    order: 2;
+  }
+  /* The search button sits after the menu (bar or dropdown), at the end of the logo's line. */
+  .search-btn {
+    order: 3;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+  }
+  .search-btn[aria-current='page'] {
+    background: var(--primary-bg);
+    color: var(--primary-fg, var(--text));
   }
   .menu-btn {
     font-weight: 700;

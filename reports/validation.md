@@ -8,6 +8,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | file | rows / lemmas | size (uncompressed) |
 |---|---:|---:|
+| search.json | 648 entries | 249 KB |
 | verbs.b0.json | 250 | 75 KB |
 | verbs.b1.json | 750 | 240 KB |
 | verbs.b2.json | 1500 | 496 KB |
@@ -30,8 +31,8 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | diminutives.b3.json | 656 | 40 KB |
 | words.b0.json | 986 | 56 KB |
 | words.b1.json | 2892 | 184 KB |
-| words.b2.json | 5171 | 336 KB |
-| words.b3.json | 36193 | 2281 KB |
+| words.b2.json | 5171 | 338 KB |
+| words.b3.json | 36193 | 2296 KB |
 | sentences.verbs.b0.json | 247 lemmas, 2235 sentences | 183 KB |
 | sentences.verbs.b1.json | 736 lemmas, 5441 sentences | 512 KB |
 | sentences.verbs.b2.json | 1371 lemmas, 6750 sentences | 704 KB |
@@ -51,7 +52,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | numerals.json | 37 | 8.4 KB |
 | level-test.json | 2244 questions | 645 KB |
 | learn.json | 80 sentences, 50 pronunciations | 9.3 KB |
-| reading.json, reading.*.json | 93 texts, 241 questions | 2085 KB |
+| reading.json, reading.*.json | 93 texts, 241 questions | 2086 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
 | audio.json | 4006 words, 3321 sentences recorded | 277 KB |
 | listening.json | 3321 sentences, 1919 endings, 38 pairs | 509 KB |
@@ -265,6 +266,20 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 ### Anomalies
 
 - **noun left out: spelt like a verb or other word** (15): стать (figure, character, type); тут (mulberry fruit); уж (grass snake); подать (tax, duty, assessment); чернеть (blacken, show black); каракуль (scrawl); помочь (help, assist, aid); полоть (weed); мочь (power, might); знать (nobility, noble people); выть (); насесть (); пропасть (precipice, abyss, chasm); печь (oven); перед (before)
+
+## Register labels (Wiktionary, curated/registers.yaml)
+
+| count | n |
+|---|---:|
+| words labelled colloquial | 1085 |
+| words labelled formal | 7 |
+| words labelled literary | 222 |
+| words labelled vulgar | 12 |
+| words labelled poetic | 49 |
+| words labelled derogatory | 77 |
+| words labelled slang | 25 |
+| words labelled humorous | 4 |
+| words labelled offensive | 2 |
 
 ## Sentences
 

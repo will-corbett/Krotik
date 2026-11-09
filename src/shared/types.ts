@@ -25,7 +25,8 @@ export type WordPos = 'n' | 'v' | 'a' | 'o';
  * words.b{0..3}.json: [key ("n:<id>", "v:<id>", "a:<id>", "o:<word>"), accented headword, English meaning, word type,
  * aspect (verbs) or gender (nouns), "" otherwise]
  */
-export type WordRow = [string, string, string, WordPos, string];
+/** A word in the vocabulary lists: [key, accented, meaning, type, aspect or gender, register label (colloquial …)?]. */
+export type WordRow = [string, string, string, WordPos, string, string?];
 
 export type LexType = 'verbs' | 'adjectives' | 'nouns';
 export type ShardType = LexType | 'participles' | 'diminutives' | 'words';
@@ -58,6 +59,7 @@ export interface Manifest {
   verbNoun: string;
   wordOrder: string;
   idioms: string;
+  search: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -200,7 +202,7 @@ export interface ReadingIndex {
 }
 
 /** A word in a Words-section theme: [word-list key, accented, meaning, word type, aspect or gender, band]. */
-export type ThemeWord = [string, string, string, WordPos, string, number];
+export type ThemeWord = [string, string, string, WordPos, string, number, string?];
 /** public/data/theme.<id>.json: one theme of the Vocabulary section. */
 export interface ThemeData {
   id: string;
@@ -249,6 +251,22 @@ export interface WordOrderData {
  */
 export interface IdiomData {
   idioms: [string, string, 0 | 1, [number, string, string, number, number][]][];
+}
+/**
+ * public/data/search.json: what the site search looks through. k: page | learn | drill | theme | reading | note | link |
+ * idiom | pair | writing; path: the page below the site base (or url: an outside link); text: what else to match.
+ */
+export interface SearchDoc {
+  k: 'page' | 'learn' | 'drill' | 'theme' | 'reading' | 'note' | 'link' | 'idiom' | 'pair' | 'writing';
+  title: string;
+  ru?: string;
+  level?: string;
+  path?: string;
+  url?: string;
+  text: string;
+}
+export interface SearchIndex {
+  docs: SearchDoc[];
 }
 export type PairType = 'soft' | 'yi' | 'shsch';
 /** public/data/listening.json: listening drills, from the published recordings only. */

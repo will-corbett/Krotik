@@ -304,6 +304,7 @@ pages.push({
     .map((l) => `<h2>${l.level}</h2>${l.prompts.map((p) => `<h3>${esc(p.title)} (${esc(p.words)} words)</h3><p>${esc(p.task)}</p><ul>${p.checklist.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>`).join('')}`)
     .join('')}`,
 });
+pages.push({ route: { page: 'search' }, description: 'Search Krotik: lessons, drills, words, idioms, texts and culture, in English or Russian.', index: false, body: '<h1>Search</h1><p>Search the lessons, drills, vocabulary, idioms, texts and culture links, in English or Russian.</p>' });
 pages.push({ route: { page: 'settings' }, description: 'Krotik settings: your level, display, reading and progress, kept in this browser only.', index: false, body: '<h1>Settings</h1><p>Your level, display and reading settings, and whether Krotik keeps track of your progress. Kept in this browser only.</p>' });
 // ---- Learning paths: each level's route, with every step linked
 const paths = parse(readFileSync('content/paths.yaml', 'utf8')) as Path[];
