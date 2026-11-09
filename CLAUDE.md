@@ -203,6 +203,19 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   the source variants against nom/gen. Source order is unreliable; never use position.
 - Shards: `{type}.b{0..3}.json` = frequency ranks 1–250, 251–1000, 1001–2500, rest. "Top N" loads
   b0..bk. Sentence shards load lazily after a round starts.
+- Register labels (critique batch 5): the extract's `registers` gives a word a label only when every sense of every
+  Wiktionary entry for it (same part of speech) carries it (vulgar, offensive, derogatory, slang, colloquial/informal,
+  literary, formal, poetic, humorous; first wins). Wiktionary's tags are noisy (a usage note read as "poetic", an old
+  declension as "archaic"), so `curated/registers.yaml` excludes or replaces labels; the commonest words were read by
+  hand. `scripts/lib/registers.ts` adds the label as word rows' sixth field (and theme words' seventh); Reading carries
+  it as an upper-case flag letter (`src/lib/register.ts`). Shown on Vocabulary themes, the vocab drill, My words and
+  Reading's word box.
+- Site search (`/search/?q=`, `SearchPage.svelte`, `src/lib/search.ts`; header button "Search the site", or "/"
+  anywhere): `scripts/lib/search.ts` writes `search.json` at the end of the data build (main pages, Learn pages' full
+  text, drills, themes with their words, Reading, culture notes and links, idioms, collocations, writing tasks); the
+  commonest words (bands 0–2) are searched from the word lists. Case, stress and ё ignored; a Russian term of 4+
+  letters also matches word starts by its stem (книги → книга). Nothing stored or sent; the page is noindex. Links
+  carry only ?seed= across pages (`navigate`).
 - Every answer is explained. A question's own `explain` (sentence drills, collocations, idioms, Find the mistake,
   Hear the ending) wins; otherwise `src/lib/explain.ts` builds one from the question (label, dictionary form, frame,
   forms): verb conjugation from the ты form (and a я-only consonant change), past, imperative, aspect and motion

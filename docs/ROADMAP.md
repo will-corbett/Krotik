@@ -199,7 +199,9 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    like a regular -ать verb and gives five вы- imperatives without their -и (fixed in overrides); 87 imperatives in all
    disagree with Wiktionary, to audit separately. Syntax lessons done 2026-11-09: three new Learn pages (aspect nuance, linking ideas, register), Word order and
    Reported speech expanded, 32 word-order question-and-answer items written and waiting for native review. Idioms done 2026-11-09: 127 idioms and
-   proverbs from Wiktionary, each used in a real Tatoeba sentence, with a Learn page and a meaning drill. Still to do:
-   register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
+   proverbs from Wiktionary, each used in a real Tatoeba sentence, with a Learn page and a meaning drill. Register labels done 2026-11-09 (Wiktionary, the
+   commonest words checked by hand). Batch 5 complete. Also added: site search. Waiting
+   on a native speaker: the word-order items (then the Word order drill goes live) and 12 doubtful imperatives
+   (reports/imperatives-for-review.md).
 Not doing: accounts or sync, social features, leaderboards, gamification, animations, a chatbot, speech recognition.
 
