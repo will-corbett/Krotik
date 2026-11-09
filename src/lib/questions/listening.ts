@@ -8,6 +8,8 @@
  */
 import type { ListeningData, PairType } from '../../shared/types.ts';
 import { TERMS } from '../terms.ts';
+import { caseReason } from '../fixExplain.ts';
+import type { Case } from '../../shared/cells.ts';
 import { shuffle, type Rng } from '../rng.ts';
 import type { DictationSettings, ListenSettings, PairSettings, Question } from '../types.ts';
 
@@ -97,11 +99,21 @@ export function generateDictationQuestions(data: ListeningData, s: DictationSett
     }));
 }
 
+/** "речь is the nominative singular. Here the noun is the nominative: the subject …" */
+function endingExplanation(ru: string, start: number, word: string, form?: string): string {
+  const parts = (form ?? '').split(' / ');
+  const m = parts.length === 1 ? /^(nominative|genitive|dative|accusative|instrumental|prepositional)\b.*?\b(singular|plural)$/.exec(parts[0]!) : null;
+  const named = form ? `${word} is the ${form}.` : `You heard ${word}.`;
+  const why = m ? ` ${caseReason(ru, start, CASE_OF[m[1]!]!, m[2] === 'plural', 'the word')}` : '';
+  return `${named}${why} Unstressed endings are said quickly, so listen for the consonants and the stressed syllable.`;
+}
+const CASE_OF: Record<string, Case> = { nominative: 'nom', genitive: 'gen', dative: 'dat', accusative: 'acc', instrumental: 'inst', prepositional: 'prep' };
+
 export function generateEndingQuestions(data: ListeningData, n: number, rng: Rng): Question[] {
   const byId = new Map(data.sentences.map((x) => [x[0], x]));
   return shuffle(rng, data.endings)
     .slice(0, n)
-    .flatMap(([rid, start, end, options]): Question[] => {
+    .flatMap(([rid, start, end, options, form]): Question[] => {
       const x = byId.get(rid);
       if (!x) return [];
       const word = x[1].slice(start, end);
@@ -113,6 +125,7 @@ export function generateEndingQuestions(data: ListeningData, n: number, rng: Rng
           answer: word,
           choices: shuffle(rng, options),
           label: TERMS.endings.en,
+          explain: endingExplanation(x[1], start, word, form),
         },
       ];
     });

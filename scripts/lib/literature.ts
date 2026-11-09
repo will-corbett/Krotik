@@ -214,7 +214,7 @@ const bits = (m: number) => [...Array(31).keys()].filter((i) => m & (1 << i));
 const ADJ_EXTRA = ['short form, masculine', 'short form, feminine', 'short form, neuter', 'short form, plural', 'comparative', 'superlative'];
 const caseName = (c: Case) => lower(CASE_TERM[c].en);
 
-function formLabels(type: string, mask: number, aspect?: Aspect): string[] {
+export function formLabels(type: string, mask: number, aspect?: Aspect): string[] {
   return bits(mask).map((i) => {
     if (type === 'verbs') {
       if (i >= VERB_CELLS.length) return 'infinitive';

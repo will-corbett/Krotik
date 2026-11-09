@@ -255,8 +255,8 @@ export type PairType = 'soft' | 'yi' | 'shsch';
 export interface ListeningData {
   /** recorded sentences: [Tatoeba id, Russian, English] */
   sentences: [number, string, string][];
-  /** which ending did you hear: [Tatoeba id, word start, word end, options (the sentence's word among them)] */
-  endings: [number, number, number, string[]][];
+  /** which ending did you hear: [Tatoeba id, word start, word end, options (the sentence's word among them), which form it is] */
+  endings: [number, number, number, string[], string?][];
   /** minimal pairs: [type, key, word (stress marked), key, word] */
   pairs: [PairType, string, string, string, string][];
 }

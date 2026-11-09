@@ -54,7 +54,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | reading.json, reading.*.json | 93 texts, 241 questions | 2085 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
 | audio.json | 4006 words, 3321 sentences recorded | 277 KB |
-| listening.json | 3321 sentences, 1919 endings, 38 pairs | 423 KB |
+| listening.json | 3321 sentences, 1919 endings, 38 pairs | 509 KB |
 | verb-noun.json | 123 pairs, 355 items | 79 KB |
 | idioms.json | 127 idioms and proverbs | 32 KB |
 | motion.json | 12 pairs | 7.3 KB |

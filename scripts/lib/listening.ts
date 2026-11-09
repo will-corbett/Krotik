@@ -11,6 +11,7 @@ import { cellForms } from '../../src/shared/forms.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { ListeningData, PairType } from '../../src/shared/types.ts';
 import type { Report } from './report.ts';
+import { formLabels } from './literature.ts';
 
 const R = 'Listening';
 const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
@@ -59,6 +60,8 @@ export function buildListening(inp: {
   /** recorded sentences: rid, Russian, English */
   sentences: { rid: number; ru: string; en: string }[];
   owners: Map<string, Set<string>>;
+  /** `${form}|${owner}` → which cells that spelling is (to name the form heard) */
+  masks?: Map<string, number>;
   noun: (id: number) => Lemma | undefined;
   adjective: (id: number) => Lemma | undefined;
   /** recorded words: key, accented */
@@ -68,7 +71,7 @@ export function buildListening(inp: {
   const out: ListeningData = { sentences: inp.sentences.map((s) => [s.rid, s.ru, s.en]), endings: [], pairs: [] };
 
   for (const s of inp.sentences) {
-    let best: [number, number, number, string[]] | null = null;
+    let best: [number, number, number, string[], string?] | null = null;
     for (const m of s.ru.matchAll(TOKEN)) {
       const token = m[0];
       const norm = normalise(token);
@@ -100,7 +103,9 @@ export function buildListening(inp: {
       }
       if (options.length < 2) continue;
       const start = m.index!;
-      if (!best || options.length >= best[3].length) best = [s.rid, start, start + token.length, [token, ...options].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))];
+      // Which form it is ("accusative singular"), for the explanation after answering.
+      const label = [...new Set(formLabels(type, inp.masks?.get(`${norm}|${type}:${id}`) ?? 0))].join(' / ');
+      if (!best || options.length >= best[3].length) best = [s.rid, start, start + token.length, [token, ...options].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), ...(label ? [label] : [])] as [number, number, number, string[], string?];
     }
     if (best) out.endings.push(best);
   }

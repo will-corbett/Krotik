@@ -279,6 +279,7 @@ const audioBytes = writeJson('audio.json', audioIndex);
 const listening = buildListening({
   sentences: corpus.pairs.filter((p) => audioIndex.sentences[p.rid] !== undefined),
   owners: corpus.owners,
+  masks: corpus.masks,
   noun: (id) => nounById.get(id),
   adjective: (id) => adjById.get(id),
   words: words.rows.filter((r) => audioIndex.words[r[0]]).map((r) => ({ key: r[0], accented: r[1] })),
