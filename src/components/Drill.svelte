@@ -695,6 +695,12 @@
     align-items: flex-start;
     gap: 4px;
   }
+  /* In a column the shared flex-basis (10ch) would set the box's height: give it a width instead. */
+  .fix-input input {
+    flex: none;
+    width: 100%;
+    max-width: 18rem;
+  }
   .fix-label {
     font-family: var(--sans);
     font-size: 0.92rem;
