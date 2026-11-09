@@ -122,3 +122,8 @@ test('an old saved setting with no level chosen becomes A1', async ({ page }) =>
   await page.goto('settings/');
   await expect(page.getByRole('radio', { name: /^A1/ })).toBeChecked();
 });
+
+test('with progress off, the home page still points to the learning path for your level', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.getByRole('link', { name: 'A1 learning path' })).toHaveAttribute('href', /\/paths\/$/);
+});

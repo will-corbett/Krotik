@@ -131,6 +131,12 @@
         {/if}
       </ul>
     </section>
+  {:else if path}
+    <!-- With progress off nothing is tracked, but the path for your level is still the way to choose what's next. -->
+    <p class="path-line">
+      Not sure what to do next? Follow the <a href={href({ page: 'paths' })}>{path.level} learning path</a>: topics, words and
+      texts in a sensible order.
+    </p>
   {/if}
 
   <div class="cards">
@@ -302,5 +308,8 @@
   .small-btn {
     min-height: 36px;
     padding: 0.25em 0.9em;
+  }
+  .path-line {
+    margin: 0 0 16px;
   }
 </style>
