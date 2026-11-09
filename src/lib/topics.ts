@@ -9,7 +9,7 @@ import type { Mode } from './types.ts';
 
 export type Cefr = 'A1' | 'A2' | 'B1' | 'B2' | 'C1';
 /** Topics with a Learn page but no drill of their own. */
-export type LearnOnly = 'modals' | 'complexSentences' | 'reportedSpeech' | 'wordOrder' | 'sounds';
+export type LearnOnly = 'modals' | 'complexSentences' | 'reportedSpeech' | 'wordOrder' | 'sounds' | 'aspectNuance' | 'discourse' | 'register';
 export type TopicId = Mode | LearnOnly;
 interface TopicBase {
   title: Term;
@@ -46,6 +46,7 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       { id: 'motion', title: TERMS.motionVerbs, blurb: 'идти/ходить and 11 more pairs', level: ['A2', 'B1'], related: ['prefixedMotion', 'prepositions', 'position'] },
       { id: 'reflexive', title: TERMS.reflexive, blurb: '-ся after consonants, -сь after vowels', level: ['A1', 'A2'], related: ['verbs', 'government'] },
       { id: 'aspectContext', title: TERMS.aspectContext, blurb: 'видел or увидел? in real sentences', level: ['A2', 'B2'], related: ['aspect', 'verbs'] },
+      { id: 'aspectNuance', title: TERMS.aspectNuance, drill: false, blurb: 'читал or прочитал? приходил or пришёл?', level: ['B1', 'C1'], related: ['aspect', 'aspectContext', 'motion'] },
       { id: 'position', title: TERMS.position, blurb: 'стоять / ставить / встать', level: ['A2', 'B1'], related: ['motion', 'prepositions'] },
       { id: 'government', title: TERMS.government, blurb: 'помогать кому, бояться чего, думать о ком', level: ['A2', 'B1'], related: ['nounCases', 'prepositions', 'pronouns'] },
       { id: 'prefixedMotion', title: TERMS.prefixedMotion, blurb: 'прийти / приходить, выйти, перейти', level: ['B1', 'B2'], related: ['motion', 'aspect'] },
@@ -98,6 +99,8 @@ export const TOPIC_GROUPS: TopicGroup[] = [
       { id: 'reportedSpeech', title: TERMS.reportedSpeech, drill: false, blurb: 'сказал, что…; спросил, знаю ли я', level: ['B1', 'B2'], related: ['conjunctions', 'chtoby', 'particles'] },
       { id: 'indefinite', title: TERMS.indefinite, blurb: 'кто-то, кто-нибудь, кое-кто', level: ['A2', 'B1'], related: ['negation', 'questionWords'] },
       { id: 'wordOrder', title: TERMS.wordOrder, drill: false, blurb: 'Книга на столе / На столе книга', level: ['B1', 'C1'], related: ['nounCases', 'particles', 'complexSentences'] },
+      { id: 'discourse', title: TERMS.discourse, drill: false, blurb: 'однако, впрочем, итак, кстати', level: ['B1', 'C1'], related: ['conjunctions', 'complexSentences', 'wordOrder'] },
+      { id: 'register', title: TERMS.register, drill: false, blurb: 'ты or вы, здравствуйте or привет', level: ['A1', 'C1'], related: ['pronouns', 'discourse'] },
       { id: 'particles', title: TERMS.particlesTopic, blurb: 'ли, же, ведь, вот, ну, даже, только, -ка', level: ['B1', 'B2'], related: ['conjunctions'] },
     ],
   },

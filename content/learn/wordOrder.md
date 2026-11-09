@@ -28,6 +28,26 @@ Unstressed object pronouns usually come before the verb: я тебя люблю,
 
 A yes/no question usually keeps the word order of a statement; only the voice changes, rising sharply on the word being asked about. Ты читал эту книгу? can ask whether it was *you*, whether you *read* it, or whether it was *this* book, depending on where the voice rises. In writing, you can make it clear by putting that word first and adding ли (see Particles).
 
+## About five: the noun first
+
+Put the noun before the number and the number becomes approximate. Пять лет is *five years*; **лет пять** is *about
+five years*. It's everyday Russian, and often the only natural way to give a rough figure.
+
+::tatoeba 10267246:лет 8947948:часа
+
+## After a quotation
+
+After a quotation, the verb comes before its subject, as in old-fashioned English (*said he*):
+
+::tatoeba 3603454:сказал 13607019:спросил
+
+## Question words in conversation
+
+In everyday speech the subject often comes before the question word: Ты где хочешь поесть? is as natural as Где ты хочешь поесть?,
+just more conversational.
+
+::tatoeba 3646232:где
+
 ## Some fixed habits
 
 - Adjectives go before the noun: новая книга. After the noun (книга новая), the adjective becomes the point: *the book is new*.
@@ -41,3 +61,5 @@ A yes/no question usually keeps the word order of a statement; only the voice ch
 | Книга лежит на столе. (to say *there's a book on the desk*) | На столе лежит книга. | Correct, with another meaning: it's about *the* book, one we already know. |
 | Я написал эту книгу. (answering *who wrote this book?*) | Эту книгу написал я. | Correct, but unnatural as an answer: the new information (я) goes last. |
 | Я тебя люблю очень. | Я тебя очень люблю. | Unnatural: очень goes before the word it strengthens. |
+| Ему пять лет. (meaning *about five*) | Ему лет пять. | Correct, with another meaning: exactly five. |
+| «Поверь мне», — он сказал. | «Поверь мне», — сказал он. | Unnatural: after a quotation the verb comes first. |

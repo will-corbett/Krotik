@@ -34,6 +34,20 @@ An order or a request becomes **чтобы** with a past-tense verb (see что�
 
 ::tatoeba 6400746:подождал 6466240:ждал
 
+## Asking someone to do something: the infinitive
+
+After **просить** (*ask*), **велеть** (*tell, order*) and **советовать** (*advise*), the person is the object and the
+action is an infinitive. It's shorter than чтобы, and means the same when the person asked is the one who'll do it:
+
+::tatoeba 3673998:помочь 5582079:уйти
+
+## In conversation: мол
+
+In speech, **мол** marks someone else's words without quoting them exactly, often with a hint of doubt, like *he said
+he was, like, …*:
+
+::tatoeba 9946842:мол 4732590:мол
+
 ## Verbs that report speech
 
 - сказать / говорить: *say*, *tell*.
@@ -50,6 +64,7 @@ An order or a request becomes **чтобы** with a past-tense verb (see что�
 | Она спросила, если я знаю её адрес. | Она спросила, знаю ли я её адрес. | Wrong: *whether* is ли. |
 | Он попросил, где я живу. | Он спросил, где я живу. | Wrong: попросить is to ask *for* something; a question needs спросить. |
 | Том сказал мне, чтобы я подожду. | Том сказал мне, чтобы я подождал. | Wrong: after чтобы with a new subject, the verb goes in the past. |
+| Он попросил меня, чтобы помочь. | Он попросил меня помочь. | Wrong: when the person asked will do it, use the infinitive. |
 
 ## Quick check
 

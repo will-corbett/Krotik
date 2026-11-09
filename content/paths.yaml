@@ -79,6 +79,7 @@
     - { vocab: technology }
     - { vocab: nature }
     - { read: dve-loshadi }
+    - { learn: register, why: "ты or вы, привет or здравствуйте: what to say to whom." }
     - { drill: translate, why: "Put whole sentences into Russian and compare with a native version." }
     - { drill: mixed }
     - { test: true }
@@ -130,6 +131,7 @@
     - { read: khameleon, why: "Chekhov's «Хамелеон»: now the questions ask you to read between the lines." }
     - { read: predlozhenie-1, why: "Chekhov's comedy «Предложение», scene by scene." }
     - { learn: complexSentences }
+    - { learn: discourse, why: "однако, впрочем, итак: the words that join sentences into a text." }
     - { vocab: law }
     - { learn: participles, why: "Back to participles, now to use them as well as recognise them." }
     - { vocab: medicine }
@@ -138,6 +140,7 @@
     - { read: tri-obitaemye-planety, why: "A science article: how sure are the scientists?" }
     - { learn: prefixedMotion }
     - { vocab: mind }
+    - { learn: aspectNuance, why: "читал or прочитал, приходил or пришёл: the uses of aspect that surprise learners." }
     - { read: predlozhenie-3 }
     - { learn: reportedSpeech }
     - { vocab: innovation }

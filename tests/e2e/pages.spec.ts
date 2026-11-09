@@ -140,7 +140,7 @@ test('every written Learn page loads without errors', async ({ page }) => {
   await page.goto('./#/learn');
   const links = await page.locator('main li a[href*="/learn/"]').evaluateAll((as) => as.map((a) => (a as HTMLAnchorElement).getAttribute('href')!));
   expect(links.length).toBeGreaterThanOrEqual(6);
-  const learnOnly = ['wordOrder', 'complexSentences', 'modals', 'reportedSpeech', 'sounds'];
+  const learnOnly = ['wordOrder', 'complexSentences', 'modals', 'reportedSpeech', 'sounds', 'aspectNuance', 'discourse', 'register'];
   for (const l of links) {
     await page.goto(l);
     await expect(page.locator('nav.pager')).toBeVisible();
