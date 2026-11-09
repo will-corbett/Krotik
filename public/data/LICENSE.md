@@ -8,6 +8,8 @@ Files in this folder are derived data.
 - `participles.*`, `diminutives.*`, `numerals.json`, and some comparatives, superlatives and noun genders in the files
   above: from Wiktionary (https://en.wiktionary.org) via kaikki.org's wiktextract extract. Wiktionary content is
   CC BY-SA 4.0 (and GFDL); these derived files are CC BY-SA 4.0.
+- `idioms.json`: idioms and proverbs and their meanings from Wiktionary (CC BY-SA 4.0; some meanings rewritten by us),
+  with example sentences from Tatoeba (CC BY 2.0 FR).
 - `learn.json`: the sentences Learn pages quote (Tatoeba, CC BY 2.0 FR, keyed by Tatoeba id) and pronunciations (IPA)
   from Wiktionary (CC BY-SA 4.0).
 - `reading.json` and `reading.*.json`: texts by Leo Tolstoy (1828–1910) and Anton Chekhov (1860–1904), public domain,

@@ -171,6 +171,13 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   imperative) of other listed verbs of the same aspect that are neither listed nor found with that noun, never a
   generic verb (сделать, взять, дать, отдать, найти … `GENERIC`), since those fit almost anything. `::collocations
   <verbs>` draws the pairs on a Learn page; Vocabulary themes list the pairs whose noun is one of their words.
+- Idioms and proverbs (critique batch 5, topic `idioms` in group "Words", Learn page + drill): Wiktionary entries of
+  several words with an idiomatic sense or a proverb (the extract's `idioms`; vulgar, offensive, derogatory and old
+  ones left out), kept only when a real Tatoeba sentence uses them (`scripts/lib/idioms.ts`: the words in order, a
+  verb in any form, at most one other word between; crude sentences never). `curated/idioms.yaml` excludes literal
+  matches and non-idioms and gives our own meaning where Wiktionary's is long, crude or unclear. Output `idioms.json`;
+  `::idioms idioms|proverbs` lists them on the Learn page; the drill asks the meaning (wrong options: other idioms'
+  meanings of the same kind).
 - Syntax lessons (critique batch 5): Learn-only pages aspectNuance (fact-of-action imperfective, came-and-went,
   trying vs succeeding, не + imperfective, inviting imperfective), discourse (однако, впрочем, зато, итак, кстати…),
   register (ты/вы, names, greetings, polite requests, bookish vs everyday words); Word order gained approximate
