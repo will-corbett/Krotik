@@ -16,6 +16,7 @@ import { pickExamples } from '../src/lib/learnData.ts';
 import { pageTitle } from '../src/lib/pageMeta.ts';
 import { href, pathOf, type Route } from '../src/lib/router.ts';
 import { ALL_TOPICS, isDrill, neighbours, topicById, TOPIC_GROUPS } from '../src/lib/topics.ts';
+import { NAV, isGroup } from '../src/lib/nav.ts';
 import { renderForm } from '../src/shared/forms.ts';
 import { stepKind, type Path, type PathStep } from '../src/lib/paths.ts';
 import { SITE_URL } from '../src/shared/site.ts';
@@ -116,21 +117,10 @@ function summary(src: string): string {
 // ---- pages
 interface Page { route: Route; description: string; body: string; index: boolean }
 const a = (route: Route, text: string) => `<a href="${href(route)}">${esc(text)}</a>`;
-const nav = `<nav aria-label="Main"><ul>${(
-  [
-    [{ page: 'home' }, 'Dashboard'],
-    [{ page: 'test' }, 'Grammar test'],
-    [{ page: 'learn' }, 'Learn'],
-    [{ page: 'drill' }, 'Drill'],
-    [{ page: 'vocabulary' }, 'Vocabulary'],
-    [{ page: 'reading' }, 'Reading'],
-    [{ page: 'writing' }, 'Writing'],
-    [{ page: 'listening' }, 'Listening'],
-    [{ page: 'culture' }, 'Culture'],
-  ] as [Route, string][]
-)
-  .map(([r, t]) => `<li>${a(r, t)}</li>`)
-  .join('')}</ul></nav>`;
+// The plain menu: the same groups as the app's, each group's pages listed under its name.
+const nav = `<nav aria-label="Main"><ul>${NAV.map((n) =>
+  isGroup(n) ? `<li>${esc(n.label)}<ul>${n.links.map((l) => `<li>${a(l.route, l.label)}</li>`).join('')}</ul></li>` : `<li>${a(n.route, n.label)}</li>`,
+).join('')}</ul></nav>`;
 // The same credits as the app's footer: the pages quote CC BY-SA and CC BY material, so they carry the attribution.
 const footer = `<footer><p>${a({ page: 'about' }, 'About & sources')} · Data: <a href="https://en.openrussian.org" rel="noopener">OpenRussian.org</a> (CC BY-SA 4.0) · <a href="https://en.wiktionary.org" rel="noopener">Wiktionary</a> via kaikki.org (CC BY-SA 4.0) · <a href="https://tatoeba.org" rel="noopener">Tatoeba</a> (CC BY 2.0 FR)</p></footer>`;
 // The progress page shows what's kept in this browser: a page, but nothing to index.

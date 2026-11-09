@@ -33,6 +33,7 @@
   import { SITE_BASE } from './shared/site.ts';
   import { reportUrl } from './lib/report.ts';
   import { isDrill, topicById } from './lib/topics.ts';
+  import MainNav from './components/MainNav.svelte';
   const isDrillId = (id: string) => {
     const t = topicById(id);
     return !!t && isDrill(t);
@@ -81,7 +82,6 @@
     if (next.page === 'drill') screen = 'setup';
     if (next.page === 'drill' && next.mode && isDrillId(next.mode)) settings.mode = next.mode as Mode;
     route = next;
-    menuOpen = false;
     if (next.page === 'start') settings.guideSeen = true;
     window.scrollTo({ top: 0 });
   }
@@ -209,9 +209,6 @@
     navigate(href({ page: 'drill', mode: 'mixed' }));
   }
 
-  // Main menu: a dropdown, so more pages can be added without crowding the header.
-  let menuOpen = $state(false);
-  let menuEl = $state<HTMLElement>();
   function onWindowKey(e: KeyboardEvent) {
     // "/" opens the search from anywhere, unless you're typing.
     const typing = e.target instanceof HTMLElement && (e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName));
@@ -220,45 +217,14 @@
       navigate(href({ page: 'search' }));
       return;
     }
-    if (e.key === 'Escape' && menuOpen) {
-      menuOpen = false;
-      menuEl?.querySelector<HTMLButtonElement>('.menu-btn')?.focus();
-    }
-  }
-  function onWindowClick(e: MouseEvent) {
-    if (menuOpen && menuEl && !menuEl.contains(e.target as Node)) menuOpen = false;
   }
 
   const narrow = $derived(
     route.page === 'drill' || route.page === 'test' || route.page === 'progress' || route.page === 'settings' || route.page === 'writing' || route.page === 'about' || route.page === 'start' || (route.page === 'reading' && !!route.text) || (route.page === 'culture' && !!route.note),
   );
-  // Wide screens (1000px and up) show the seven pages as a bar on the logo's line; narrower ones get the Menu dropdown
-  // (a bar there would wrap below the logo, out of line with it).
-  const wideQuery = typeof matchMedia === 'function' ? matchMedia('(min-width: 1000px)') : null;
-  let wide = $state(wideQuery?.matches ?? false);
-  $effect(() => {
-    const on = () => {
-      wide = wideQuery?.matches ?? false;
-      if (wide) menuOpen = false;
-    };
-    wideQuery?.addEventListener('change', on);
-    return () => wideQuery?.removeEventListener('change', on);
-  });
-
-  const NAV: { label: string; route: Route }[] = [
-    { label: 'Dashboard', route: { page: 'home' } },
-    { label: 'Grammar test', route: { page: 'test' } },
-    { label: 'Learn', route: { page: 'learn' } },
-    { label: 'Drill', route: { page: 'drill' } },
-    { label: 'Vocabulary', route: { page: 'vocabulary' } },
-    { label: 'Reading', route: { page: 'reading' } },
-    { label: 'Writing', route: { page: 'writing' } },
-    { label: 'Listening', route: { page: 'listening' } },
-    { label: 'Culture', route: { page: 'culture' } },
-  ];
 </script>
 
-<svelte:window onkeydown={onWindowKey} onclick={onWindowClick} />
+<svelte:window onkeydown={onWindowKey} />
 <svelte:document onclick={onLinkClick} />
 
 <div class="shell">
@@ -270,31 +236,13 @@
     <a class="btn quiet search-btn" href={href({ page: 'search' })} aria-label="Search the site" title="Search the site (press /)" aria-current={route.page === 'search' ? 'page' : undefined}
       ><svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2" /><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></a
     >
-    <nav aria-label="Main" class="menu" bind:this={menuEl}>
-      {#if !wide}
-        <button class="btn menu-btn" type="button" aria-expanded={menuOpen} aria-controls="main-menu" onclick={() => (menuOpen = !menuOpen)}>
-          <span aria-hidden="true">☰</span> Menu
-        </button>
-      {/if}
-      {#if wide || menuOpen}
-        <ul id="main-menu" class={wide ? 'bar' : 'menu-list'}>
-          {#each NAV as n (n.label)}
-            <li>
-              <a
-                class="nav-link"
-                href={href(n.route)}
-                aria-current={route.page === n.route.page ? 'page' : undefined}
-                onclick={() => {
-                  menuOpen = false;
-                  // Already on the Drill page (mid-round or results): the address doesn't change, so go back to setup here.
-                  if (n.route.page === 'drill' && route.page === 'drill') screen = 'setup';
-                }}>{n.label}</a
-              >
-            </li>
-          {/each}
-        </ul>
-      {/if}
-    </nav>
+    <MainNav
+      {route}
+      onchoose={(l) => {
+        // Already on the Drill page (mid-round or results): the address doesn't change, so go back to setup here.
+        if (l.route.page === 'drill' && route.page === 'drill') screen = 'setup';
+      }}
+    />
   </header>
 
   <main id="main" class:narrow>
@@ -395,11 +343,6 @@
   .brand img {
     border-radius: 10px;
   }
-  .menu {
-    position: relative;
-    margin-left: auto;
-    order: 2;
-  }
   /* The search button sits after the menu (bar or dropdown), at the end of the logo's line. */
   .search-btn {
     order: 3;
@@ -414,53 +357,6 @@
   .search-btn[aria-current='page'] {
     background: var(--primary-bg);
     color: var(--primary-fg, var(--text));
-  }
-  .menu-btn {
-    font-weight: 700;
-  }
-  .menu-list {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
-    z-index: 20;
-    list-style: none;
-    margin: 0;
-    padding: 6px;
-    min-width: 12rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow), 0 8px 24px rgb(0 0 0 / 0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .bar {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 2px;
-  }
-  .bar .nav-link {
-    padding: 8px 11px;
-  }
-  .nav-link {
-    display: block;
-    padding: 9px 14px;
-    border-radius: 8px;
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  .nav-link:hover {
-    background: var(--surface-2);
-  }
-  .nav-link[aria-current='page'] {
-    background: var(--primary-bg);
-    color: var(--primary-text);
   }
   main {
     flex: 1;

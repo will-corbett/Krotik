@@ -74,21 +74,25 @@ test('the Dashboard has no Culture card; Culture is in the main menu', async ({ 
   await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Culture' })).toBeVisible();
 });
 
-for (const width of [1280, 1000, 720, 390]) {
-  test(`at ${width}px the main menu sits level with the logo: a bar on wide screens, a dropdown below 1000px`, async ({ page }) => {
+const ALL = ['Dashboard', 'Learn', 'Vocabulary', 'Grammar test', 'Drill', 'Reading', 'Writing', 'Listening', 'Culture'];
+for (const width of [1280, 760, 720, 390]) {
+  test(`at ${width}px the main menu sits level with the logo: a bar of five from 760px, a Menu button below`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('./learn/');
     const nav = page.getByRole('navigation', { name: 'Main' });
     const logo = (await page.getByRole('link', { name: 'Krotik, dashboard' }).boundingBox())!;
     const centre = (b: { y: number; height: number }) => b.y + b.height / 2;
-    if (width >= 1000) {
+    if (width >= 760) {
       await expect(page.getByRole('button', { name: 'Menu' })).toHaveCount(0);
-      await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Writing', 'Listening', 'Culture']);
-      await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
+      const top = nav.locator('.bar > li > .nav-link');
+      await expect(top).toHaveText(['Dashboard', 'Study', 'Practice', 'Skills', 'Culture']);
+      // On a Learn page, Study (its group) is highlighted.
+      await expect(nav.getByRole('button', { name: 'Study' })).toHaveClass(/current/);
+      await expect(nav.getByRole('button', { name: 'Skills' })).not.toHaveClass(/current/);
       // One line, on the logo's line.
-      const tops = await nav.getByRole('link').evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
+      const tops = await top.evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
       expect(new Set(tops).size).toBe(1);
-      expect(Math.abs(centre(logo) - centre((await nav.getByRole('link').first().boundingBox())!))).toBeLessThanOrEqual(3);
+      expect(Math.abs(centre(logo) - centre((await top.first().boundingBox())!))).toBeLessThanOrEqual(3);
     } else {
       const menu = page.getByRole('button', { name: 'Menu' });
       await expect(menu).toBeVisible();
@@ -99,7 +103,7 @@ for (const width of [1280, 1000, 720, 390]) {
   });
 }
 
-test('the main menu dropdown opens, shows the current page, closes on Escape and after choosing', async ({ page }) => {
+test('the phone menu opens with every page under its group, shows the current page, closes on Escape and after choosing', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 800 });
   await page.goto('./#/learn');
   const menu = page.getByRole('button', { name: 'Menu' });
@@ -107,7 +111,8 @@ test('the main menu dropdown opens, shows the current page, closes on Escape and
   await menu.click();
   await expect(menu).toHaveAttribute('aria-expanded', 'true');
   const nav = page.getByRole('navigation', { name: 'Main' });
-  await expect(nav.getByRole('link')).toHaveText(['Dashboard', 'Grammar test', 'Learn', 'Drill', 'Vocabulary', 'Reading', 'Writing', 'Listening', 'Culture']);
+  await expect(nav.getByRole('link')).toHaveText(ALL);
+  await expect(nav.getByText('Study · Learn new material')).toBeVisible();
   await expect(nav.getByRole('link', { name: 'Learn' })).toHaveAttribute('aria-current', 'page');
   await page.keyboard.press('Escape');
   await expect(nav.getByRole('link')).toHaveCount(0);
@@ -115,6 +120,66 @@ test('the main menu dropdown opens, shows the current page, closes on Escape and
   await goTo(page, 'Culture');
   await expect(page).toHaveURL(/\/Krotik\/culture\/(\?.*)?$/);
   await expect(nav.getByRole('link')).toHaveCount(0);
+});
+
+test('wide screens: a group opens on hover and on click, highlights the page you are on, and works by keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto('./reading/');
+  const nav = page.getByRole('navigation', { name: 'Main' });
+  const skills = nav.getByRole('button', { name: 'Skills' });
+  await expect(skills).toHaveClass(/current/);
+  // Hover opens it; a click straight after keeps it open; moving away closes it.
+  await skills.hover();
+  await expect(skills).toHaveAttribute('aria-expanded', 'true');
+  await expect(nav.getByText('Develop language skills')).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Reading' })).toHaveAttribute('aria-current', 'page');
+  await expect(nav.getByRole('link', { name: 'Reading' })).toHaveAccessibleDescription('Stories and news, every word explained');
+  await skills.click();
+  await expect(skills).toHaveAttribute('aria-expanded', 'true');
+  await skills.click();
+  await expect(skills).toHaveAttribute('aria-expanded', 'false');
+  await page.mouse.move(400, 500);
+  await skills.hover();
+  await expect(skills).toHaveAttribute('aria-expanded', 'true');
+  await page.mouse.move(400, 500);
+  await expect(skills).toHaveAttribute('aria-expanded', 'false');
+  // Keyboard: Enter opens, down arrow moves through the links, Escape closes and returns to the button.
+  const study = nav.getByRole('button', { name: 'Study' });
+  await study.focus();
+  await page.keyboard.press('Enter');
+  await expect(study).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('ArrowDown');
+  await expect(nav.getByRole('link', { name: 'Learn' })).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(nav.getByRole('link', { name: 'Vocabulary' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(study).toBeFocused();
+  await expect(study).toHaveAttribute('aria-expanded', 'false');
+  // A click elsewhere closes an open group; choosing a page goes there and closes it.
+  await study.click();
+  await page.locator('h1').click();
+  await expect(study).toHaveAttribute('aria-expanded', 'false');
+  await goTo(page, 'Vocabulary');
+  await expect(page).toHaveURL(/\/Krotik\/vocabulary\/(\?.*)?$/);
+  await expect(study).toHaveAttribute('aria-expanded', 'false');
+  await expect(study).toHaveClass(/current/);
+});
+
+test.describe('on a touch screen', () => {
+  test.use({ hasTouch: true, viewport: { width: 820, height: 1180 } });
+  test('a tablet gets the bar; a tap opens a group and another tap closes it', async ({ page }) => {
+    await page.goto('./');
+    const practice = page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'Practice' });
+    await practice.tap();
+    await expect(practice).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('link', { name: 'Grammar test' })).toBeVisible();
+    await practice.tap();
+    await expect(practice).toHaveAttribute('aria-expanded', 'false');
+    await practice.tap();
+    await page.getByRole('link', { name: 'Drill', exact: true }).tap();
+    await expect(page).toHaveURL(/\/Krotik\/drill\/(\?.*)?$/);
+    await expect(practice).toHaveClass(/current/);
+  });
 });
 
 test('a Learn page shows data tables, real sentences and a working quick check', async ({ page }) => {

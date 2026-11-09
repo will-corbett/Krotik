@@ -105,8 +105,13 @@ export async function playRetryRound(page: Page): Promise<number> {
 
 /** Open the main menu and follow one of its links. */
 export async function goTo(page: Page, label: 'Dashboard' | 'Grammar test' | 'Learn' | 'Vocabulary' | 'Drill' | 'Reading' | 'Writing' | 'Listening' | 'Culture') {
-  // Phones have a Menu dropdown; wide screens show the links as a bar.
+  // Phones have a Menu button; wide screens a bar, where most pages are in a group's dropdown.
   const menu = page.getByRole('button', { name: 'Menu' });
   if (await menu.isVisible()) await menu.click();
+  else {
+    const group = ({ Learn: 'Study', Vocabulary: 'Study', 'Grammar test': 'Practice', Drill: 'Practice', Reading: 'Skills', Writing: 'Skills', Listening: 'Skills' } as Record<string, string>)[label];
+    const btn = group && page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: group });
+    if (btn && (await btn.getAttribute('aria-expanded')) !== 'true') await btn.click();
+  }
   await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: label, exact: true }).click();
 }

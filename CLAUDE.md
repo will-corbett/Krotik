@@ -108,8 +108,11 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   out of the Drill page and with no Drill links; their quick checks use a related drill. Each
   topic has a `level` [first met, core by] (our CEFR-style judgement, a guide not a gate) and `related` topics; Learn
   pages show both, with previous/next links in this order.
-- The main menu is a bar on the logo's line at 1000px and wider, and a Menu dropdown below that (a bar there wraps
-  below the logo, out of line with it). The level test is called the **Grammar test**
+- The main menu (`src/lib/nav.ts`, `MainNav.svelte`) has five items: Dashboard · Study (Learn, Vocabulary) · Practice
+  (Grammar test, Drill) · Skills (Reading, Writing, Listening; room for Speaking) · Culture. Add new pages to a group,
+  not the bar. From 760px it is a bar on the logo's line; a group opens on hover (mouse) or click/tap/Enter (down arrow
+  moves through it, Escape closes), and the group holding the current page is highlighted, as is the page inside it.
+  Below 760px it is a Menu (hamburger) button opening every page under its group's heading. The level test is called the **Grammar test**
   everywhere: it measures grammar, not a full CEFR level, and says so.
 - `content/learn/<topic>.md` — Learn pages (topic id = drill mode). Plain Markdown plus data blocks:
   `::table noun книга` (also verb, adjective, pronouns, participles <verb>, numeral <word>, possessive <word>),
@@ -189,7 +192,7 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   question + two orders of one answer, word-checked, same words required, published only once reviewed (like the
   dialogues; `reports/word-order-for-review.md`). Mode `wordOrder` and its generator exist; the topic stays
   `drill: false` (Learn-only) until reviewed items are published: then make it a drill and add `::drill wordOrder`.
-- Listening page (`/listening/`, `ListeningPage.svelte`, in the main menu after Writing): the four listening drills
+- Listening page (`/listening/`, `ListeningPage.svelte`, in the main menu's Skills group): the four listening drills
   with their item counts, and "listen and read" (a random recorded sentence; Russian, then English, on request; the
   first doesn't autoplay; record-and-compare). public/audio is synced by the build, never deleted and rebuilt.
 - Home page: with progress off, a line points to the learning path for your level (with progress on, "Your next
