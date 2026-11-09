@@ -24,6 +24,7 @@ import { generateFixQuestions } from './questions/fix.ts';
 import { generateCollocationQuestions } from './questions/collocations.ts';
 import { generateWordOrderQuestions } from './questions/wordOrder.ts';
 import { generateIdiomQuestions } from './questions/idioms.ts';
+import { withExplanations } from './explain.ts';
 import { generateDictationQuestions, generateEndingQuestions, generateListenQuestions, generatePairQuestions } from './questions/listening.ts';
 import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
@@ -67,7 +68,13 @@ async function partners(): Promise<PartnerPicker> {
 }
 
 /** Load the data for these settings once; the returned function generates any number of questions. */
+/** A round's question source, every question with an explanation of its answer (explain.ts). */
 export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string, number][]; words?: Word[]; gapTheme?: string } = {}): Promise<Generate> {
+  const gen = await questionsFor(s, rng, opts);
+  return (n) => withExplanations(gen(n));
+}
+
+async function questionsFor(s: Settings, rng: Rng, opts: { keys?: [string, number][]; words?: Word[]; gapTheme?: string } = {}): Promise<Generate> {
   switch (s.mode) {
     case 'vocab': {
       // Words to ask: the given keys (Reading's key words), your due words, or the commonest up to the band.

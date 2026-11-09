@@ -12,7 +12,7 @@ import { CASE_TERM } from './terms.ts';
 const TOKEN = /[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g;
 
 /** Prepositions and the cases they take, with what each pairing means. */
-const PREP: Record<string, Partial<Record<Case, string>>> = {
+export const PREP: Record<string, Partial<Record<Case, string>>> = {
   без: { gen: 'without' },
   для: { gen: 'for' },
   из: { gen: 'out of, from' },
@@ -47,7 +47,7 @@ const PREP: Record<string, Partial<Record<Case, string>>> = {
   при: { prep: 'in the presence of, in the time of' },
 };
 /** What each case is mostly for, when nothing in the sentence points to it. */
-const CASE_USE: Record<Case, string> = {
+export const CASE_USE: Record<Case, string> = {
   nom: 'the subject of the sentence, or what something is',
   gen: 'of, possession, after нет, after quantities, and after many verbs and prepositions',
   dat: 'to or for someone, and after verbs like помогать, звонить, нравиться',
@@ -67,27 +67,35 @@ function caseOf(code: string): { c: Case; plural: boolean } | null {
   return null;
 }
 
+/**
+ * Why a word in a sentence is in this case: the preposition, number or нет before it (from where the word starts),
+ * else what the case is for. Shared with every drill's explanations (explain.ts).
+ */
+export function caseReason(ru: string, start: number, c: Case, plural: boolean, what = 'the noun'): string {
+  const before = [...ru.slice(0, start).matchAll(TOKEN)].map((m) => normalise(m[0]));
+  const prev = before.at(-1) ?? '';
+  const prev2 = before.at(-2) ?? '';
+  const name = `the ${lc(CASE_TERM[c].en)} (${CASE_TERM[c].ru})`;
+  const prep = PREP[prev] ?? (SMALL_NUMBERS.has(prev) || MANY.has(prev) ? undefined : PREP[prev2]);
+  const viaPrep = PREP[prev] ? prev : prev2;
+  if (prep?.[c]) {
+    const others = Object.keys(prep).filter((x) => x !== c).map((x) => lc(CASE_TERM[x as Case].en));
+    const both = others.length ? ` With the ${others.join(' or ')}, ${viaPrep} means something else.` : '';
+    return `After ${viaPrep}, meaning “${prep[c]}”, ${what} takes ${name}.${both}`;
+  }
+  if (SMALL_NUMBERS.has(prev) && c === 'gen' && !plural) return `After ${prev} (and два, три, четыре, оба), a noun takes the genitive singular.`;
+  if (MANY.has(prev) && c === 'gen' && plural) return `After ${prev} (and five or more, сколько, несколько, много), a noun takes the genitive plural.`;
+  if (prev === 'нет' && c === 'gen') return 'After нет (there is no …), a noun takes the genitive.';
+  return `Here ${what} is ${name}: ${CASE_USE[c]}.`;
+}
+
 /** The reason, in a sentence, or null when the sentence shows nothing in particular. */
 function reasonFrom(ru: string, start: number, end: number, rightCode: string): string | null {
   const before = [...ru.slice(0, start).matchAll(TOKEN)].map((m) => normalise(m[0]));
   const after = [...ru.slice(end).matchAll(TOKEN)].map((m) => normalise(m[0]));
-  const prev = before.at(-1) ?? '';
-  const prev2 = before.at(-2) ?? '';
   const k = caseOf(rightCode);
-  if (k) {
-    const name = `the ${lc(CASE_TERM[k.c].en)} (${CASE_TERM[k.c].ru})`;
-    const prep = PREP[prev] ?? (SMALL_NUMBERS.has(prev) || MANY.has(prev) ? undefined : PREP[prev2]);
-    const viaPrep = PREP[prev] ? prev : prev2;
-    if (prep?.[k.c]) {
-      const others = Object.keys(prep).filter((c) => c !== k.c).map((c) => lc(CASE_TERM[c as Case].en));
-      const both = others.length ? ` With the ${others.join(' or ')}, ${viaPrep} means something else.` : '';
-      return `After ${viaPrep}, meaning “${prep[k.c]}”, the noun takes ${name}.${both}`;
-    }
-    if (SMALL_NUMBERS.has(prev) && k.c === 'gen' && !k.plural) return `After ${prev} (and два, три, четыре, оба), a noun takes the genitive singular.`;
-    if (MANY.has(prev) && k.c === 'gen' && k.plural) return `After ${prev} (and five or more, сколько, несколько, много), a noun takes the genitive plural.`;
-    if (prev === 'нет' && k.c === 'gen') return 'After нет (there is no …), a noun takes the genitive.';
-    return `Here the noun is ${name}: ${CASE_USE[k.c]}.`;
-  }
+  if (k) return caseReason(ru, start, k.c, k.plural);
+
   const v = /^v(\d+)$/.exec(rightCode.split('+')[0] ?? '');
   if (v) {
     const cell = VERB_CELLS[Number(v[1])]!;
