@@ -217,7 +217,7 @@ test('Culture lists links that open in a new tab, filters them, and opens notes'
   await expect(page.getByRole('link', { name: /Russian With Max/ })).toHaveCount(0);
   await page.getByRole('button', { name: 'Clear filters' }).click();
   await expect(count).toHaveText(all);
-  await page.getByLabel('Search').fill('chess');
+  await page.getByLabel('Search', { exact: true }).fill('chess');
   await expect(page.getByRole('link', { name: /Crestbook Chess/ })).toBeVisible();
   await expect(page.getByRole('link', { name: /Russian With Max/ })).toHaveCount(0);
   await page.getByRole('button', { name: 'Clear filters' }).click();

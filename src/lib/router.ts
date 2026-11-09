@@ -109,12 +109,14 @@ export function pathOf(route: Route): string {
 export const href = (route: Route): string => SITE_BASE + pathOf(route);
 
 /**
- * Go to a page inside the app without reloading. The query (e.g. ?seed=) is kept unless the target sets its own,
- * as it was with hash links. App listens for popstate, which this fires too.
+ * Go to a page inside the app without reloading. ?seed= is kept unless the target sets its own query; nothing else
+ * carries over. App listens for popstate, which this fires too.
  */
 export function navigate(target: string, replace = false): void {
   const url = new URL(target, location.href);
-  const next = url.pathname + (url.search || location.search) + url.hash;
+  // Only ?seed= (reproducible rounds for tests) carries over; a page's own query (a search) stays with that page.
+  const seed = new URLSearchParams(location.search).get('seed');
+  const next = url.pathname + (url.search || (seed ? `?seed=${seed}` : '')) + url.hash;
   if (replace) history.replaceState(null, '', next);
   else history.pushState(null, '', next);
   dispatchEvent(new PopStateEvent('popstate'));

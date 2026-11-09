@@ -265,7 +265,7 @@
       <img src="{import.meta.env.BASE_URL}brand/krotik-128.png" alt="" width="40" height="40" />
       <span>Krotik</span>
     </a>
-    <a class="btn quiet search-btn" href={href({ page: 'search' })} aria-label="Search" title="Search (press /)" aria-current={route.page === 'search' ? 'page' : undefined}
+    <a class="btn quiet search-btn" href={href({ page: 'search' })} aria-label="Search the site" title="Search the site (press /)" aria-current={route.page === 'search' ? 'page' : undefined}
       ><svg aria-hidden="true" viewBox="0 0 20 20" width="18" height="18"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="2" /><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></a
     >
     <nav aria-label="Main" class="menu" bind:this={menuEl}>

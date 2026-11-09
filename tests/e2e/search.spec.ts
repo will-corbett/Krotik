@@ -4,7 +4,7 @@ import { expect, test } from '@playwright/test';
 
 test('search from the header: words, lessons and themes, with the query in the address', async ({ page }) => {
   await page.goto('./');
-  await page.getByRole('link', { name: 'Search' }).click();
+  await page.getByRole('link', { name: 'Search the site' }).click();
   await expect(page).toHaveURL(/\/search\/$/);
   const box = page.getByRole('searchbox', { name: 'Search Krotik' });
   await expect(box).toBeFocused();
@@ -13,7 +13,7 @@ test('search from the header: words, lessons and themes, with the query in the a
   await expect(page.getByRole('heading', { name: 'Words' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Vocabulary themes' })).toBeVisible();
   await page.getByRole('link', { name: 'Weather and seasons' }).first().click();
-  await expect(page).toHaveURL(/\/vocabulary\/weather\//);
+  await expect(page).toHaveURL(/\/vocabulary\/weather\/$/);
   const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(r.violations.map((v) => v.id)).toEqual([]);
 });
