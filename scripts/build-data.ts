@@ -25,6 +25,7 @@ import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } 
 import { buildThemes, loadThemes } from './lib/themes.ts';
 import { buildListening, findPairs } from './lib/listening.ts';
 import { buildVerbNoun } from './lib/verbNoun.ts';
+import { buildWordOrder } from './lib/wordOrderQa.ts';
 import { packAudio, wantedAudio, writeWanted } from './lib/audio.ts';
 import { readTatoebaAudio } from './lib/tatoeba-audio.ts';
 import { CASES } from '../src/shared/cells.ts';
@@ -287,6 +288,10 @@ const listeningBytes = writeJson('listening.json', listening);
 // ---- Words that go together: curated verb + noun pairs, checked against the sentences (scripts/lib/verbNoun.ts)
 const verbNoun = buildVerbNoun({ corpus, verbs, nouns, report });
 const verbNounBytes = writeJson('verb-noun.json', verbNoun);
+// ---- Word order practice: our own question-and-answer items, published once reviewed (scripts/lib/wordOrderQa.ts)
+const wordOrder = buildWordOrder(themeLex, report);
+writeJson('word-order.json', wordOrder.data);
+writeFileSync('reports/word-order-for-review.md', wordOrder.review);
 
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);
@@ -324,6 +329,7 @@ const manifest: Manifest = {
   audio: 'audio.json',
   listening: 'listening.json',
   verbNoun: 'verb-noun.json',
+  wordOrder: 'word-order.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',

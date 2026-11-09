@@ -56,6 +56,7 @@ export interface Manifest {
   audio: string;
   listening: string;
   verbNoun: string;
+  wordOrder: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -236,6 +237,10 @@ export interface CollocationData {
   pairs: { phrase: string; noun: [string, string]; verbs: [string, string][]; en: string; case: 'acc' | 'gen'; pl?: true; prep?: string; sentences: number }[];
   /** [pair index, Tatoeba id, Russian, English, verb start, verb end, options (the sentence's verb among them)] */
   items: [number, number, string, string, number, number, string[]][];
+}
+/** public/data/word-order.json: reviewed word-order items: [question, its English, natural answer, other order, answer's English, reviewed]. */
+export interface WordOrderData {
+  items: [string, string, string, string, string, string][];
 }
 export type PairType = 'soft' | 'yi' | 'shsch';
 /** public/data/listening.json: listening drills, from the published recordings only. */

@@ -48,7 +48,8 @@ export type Mode =
   | 'dictation'
   | 'endings'
   | 'pairs'
-  | 'collocations';
+  | 'collocations'
+  | 'wordOrder';
 
 export interface Verb {
   id: number;

@@ -700,7 +700,7 @@
       </fieldset>
     {/if}
 
-    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'collocations', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'wordOrder', 'collocations', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

@@ -50,7 +50,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
 | level-test.json | 2244 questions | 645 KB |
-| learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
+| learn.json | 80 sentences, 50 pronunciations | 9.3 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2085 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
 | audio.json | 4006 words, 3321 sentences recorded | 277 KB |
@@ -185,9 +185,9 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | count | n |
 |---|---:|
-| extra words in content/learn/words.yaml, all found in Wiktionary | 85 |
+| extra words in content/learn/words.yaml, all found in Wiktionary | 86 |
 | ::ipa words, each with its IPA from Wiktionary | 50 |
-| ::tatoeba sentences, each found in the corpus | 42 |
+| ::tatoeba sentences, each found in the corpus | 80 |
 
 ## Participles and verbal adverbs (Wiktionary)
 
@@ -630,6 +630,14 @@ history: 2 dialogue(s) published, 0 waiting for review.
 
 - **pairs whose noun or verb is not in the data (left out)** (4): тратить/потратить деньги; вести переговоры; включать/включить свет; поднимать/поднять шум
 - **pairs not found in any sentence (left out)** (16): ставить/поставить задача; ставить/поставить цель; достигать/достичь цель; делать/сделать карьера; принимать/принять душ; нарушать/нарушить правило; соблюдать правило; вести хозяйство; вести разговор; проводить/провести ремонт; ставить/поставить спектакль; отдавать/отдать долг; признавать/признать вина; заводить/завести семья; иметь право; забивать/забить гол
+
+## Word order practice (content/word-order.yaml)
+
+| count | n |
+|---|---:|
+| items written | 32 |
+| items published (reviewed by a native speaker) | 0 |
+| items waiting for review (reports/word-order-for-review.md) | 32 |
 
 ## Hand-made lists (curated/)
 

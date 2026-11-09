@@ -1,0 +1,42 @@
+# Word order practice: a question, and two orders of the same answer. Both are grammatical Russian; the one that
+# answers the question naturally puts the new information (what the question asks for) last. Our own Russian:
+# word-checked by the data build, and published only once a native speaker has reviewed each item
+# (`reviewed: "<who>, YYYY-MM-DD"`). Until then it's listed in reports/word-order-for-review.md.
+#
+#   q, qen     the question, and its English
+#   right      the natural answer; other: the same words in the other order
+#   en         the answer's English
+names: [Том, Мэри, Толстой]
+items:
+  - { q: Кто разбил окно?, qen: Who broke the window?, right: Окно разбил Том., other: Том разбил окно., en: Tom broke the window., reviewed: "" }
+  - { q: Что разбил Том?, qen: What did Tom break?, right: Том разбил окно., other: Окно разбил Том., en: Tom broke the window., reviewed: "" }
+  - { q: Где книга?, qen: Where is the book?, right: Книга на столе., other: На столе книга., en: The book is on the table., reviewed: "" }
+  - { q: Что на столе?, qen: What's on the table?, right: На столе книга., other: Книга на столе., en: There's a book on the table., reviewed: "" }
+  - { q: Кто пришёл?, qen: Who has come?, right: Пришла Мэри., other: Мэри пришла., en: Mary has come., reviewed: "" }
+  - { q: Когда приедет Том?, qen: When is Tom coming?, right: Том приедет завтра., other: Завтра приедет Том., en: Tom is coming tomorrow., reviewed: "" }
+  - { q: Кто приедет завтра?, qen: Who is coming tomorrow?, right: Завтра приедет Том., other: Том приедет завтра., en: Tom is coming tomorrow., reviewed: "" }
+  - { q: Где ты живёшь?, qen: Where do you live?, right: Я живу в Москве., other: В Москве я живу., en: I live in Moscow., reviewed: "" }
+  - { q: Кто живёт в этом доме?, qen: Who lives in this house?, right: В этом доме живёт мой брат., other: Мой брат живёт в этом доме., en: My brother lives in this house., reviewed: "" }
+  - { q: Что ты купил?, qen: What did you buy?, right: Я купил хлеб., other: Хлеб я купил., en: I bought bread., reviewed: "" }
+  - { q: Кто купил хлеб?, qen: Who bought the bread?, right: Хлеб купил папа., other: Папа купил хлеб., en: Dad bought the bread., reviewed: "" }
+  - { q: Что случилось?, qen: What happened?, right: Пошёл дождь., other: Дождь пошёл., en: It started to rain., reviewed: "" }
+  - { q: Кто звонил?, qen: Who called?, right: Звонила мама., other: Мама звонила., en: Mum called., reviewed: "" }
+  - { q: Кому ты звонил?, qen: Who did you call?, right: Я звонил маме., other: Маме я звонил., en: I called Mum., reviewed: "" }
+  - { q: Где кошка?, qen: Where is the cat?, right: Кошка под столом., other: Под столом кошка., en: The cat is under the table., reviewed: "" }
+  - { q: Кто под столом?, qen: Who's under the table?, right: Под столом кошка., other: Кошка под столом., en: The cat is under the table., reviewed: "" }
+  - { q: Когда открывается магазин?, qen: When does the shop open?, right: Магазин открывается в девять., other: В девять открывается магазин., en: The shop opens at nine., reviewed: "" }
+  - { q: Что открывается в девять?, qen: What opens at nine?, right: В девять открывается магазин., other: Магазин открывается в девять., en: The shop opens at nine., reviewed: "" }
+  - { q: Кто написал эту книгу?, qen: Who wrote this book?, right: Эту книгу написал Толстой., other: Толстой написал эту книгу., en: Tolstoy wrote this book., reviewed: "" }
+  - { q: Что ты читаешь?, qen: What are you reading?, right: Я читаю роман., other: Роман я читаю., en: I'm reading a novel., reviewed: "" }
+  - { q: Кто готовит ужин?, qen: Who is cooking dinner?, right: Ужин готовит Мэри., other: Мэри готовит ужин., en: Mary is cooking dinner., reviewed: "" }
+  - { q: Что готовит Мэри?, qen: What is Mary cooking?, right: Мэри готовит ужин., other: Ужин готовит Мэри., en: Mary is cooking dinner., reviewed: "" }
+  - { q: Где работает твоя сестра?, qen: Where does your sister work?, right: Моя сестра работает в больнице., other: В больнице работает моя сестра., en: My sister works in a hospital., reviewed: "" }
+  - { q: Кто работает в больнице?, qen: Who works in the hospital?, right: В больнице работает моя сестра., other: Моя сестра работает в больнице., en: My sister works in the hospital., reviewed: "" }
+  - { q: Где молоко?, qen: Where is the milk?, right: Молоко в холодильнике., other: В холодильнике молоко., en: The milk is in the fridge., reviewed: "" }
+  - { q: Что есть в холодильнике?, qen: What is there in the fridge?, right: В холодильнике есть молоко., other: Молоко есть в холодильнике., en: There's milk in the fridge., reviewed: "" }
+  - { q: Кто сидит рядом с тобой?, qen: Who is sitting next to you?, right: Рядом со мной сидит Том., other: Том сидит рядом со мной., en: Tom is sitting next to me., reviewed: "" }
+  - { q: Когда родился Том?, qen: When was Tom born?, right: Том родился в мае., other: В мае родился Том., en: Tom was born in May., reviewed: "" }
+  - { q: Кто родился в мае?, qen: Who was born in May?, right: В мае родился Том., other: Том родился в мае., en: Tom was born in May., reviewed: "" }
+  - { q: Что подарила тебе мама?, qen: What did Mum give you?, right: Мама подарила мне книгу., other: Книгу мне подарила мама., en: Mum gave me a book., reviewed: "" }
+  - { q: Кто подарил тебе книгу?, qen: Who gave you the book?, right: Книгу мне подарила мама., other: Мама подарила мне книгу., en: Mum gave me the book., reviewed: "" }
+  - { q: Что идёт в кино?, qen: What's on at the cinema?, right: В кино идёт новый фильм., other: Новый фильм идёт в кино., en: There's a new film on at the cinema., reviewed: "" }
