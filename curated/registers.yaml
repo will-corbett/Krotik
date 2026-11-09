@@ -1,0 +1,28 @@
+# Register labels (colloquial, bookish, slang …) come from Wiktionary: a word is labelled only when every sense of
+# every entry for it (same part of speech) carries the label. Wiktionary's tags are sometimes wrong for our purpose
+# (a usage note read as a label, an old declension tagged archaic), so the commonest words' labels were read by hand.
+#
+#   exclude   word: why its label is wrong
+#   set       word: the right label (one of colloquial, slang, literary, poetic, formal, humorous, derogatory, vulgar,
+#             offensive)
+exclude:
+  человек: a note about the plural, not a register
+  никакой: the slang sense is the adjective's (out of it), not the everyday pronoun
+  королева: an ordinary word
+  старуха: an ordinary word
+  дабы: bookish and old, not colloquial
+  достаться: an ordinary word
+  очутиться: an ordinary word
+  хирург: an ordinary word
+  лампочка: an ordinary word
+  дырка: an ordinary word (the vulgar sense is a rare one)
+  начинающий: an ordinary word
+  листать: an ordinary word
+  производительный: an ordinary word
+  безвольный: an ordinary word
+  твориться: an ordinary word
+  возражать: an ordinary word
+set:
+  башка: colloquial
+  чушь: colloquial
+  помирать: colloquial

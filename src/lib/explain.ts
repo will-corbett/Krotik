@@ -8,6 +8,7 @@ import type { Case } from '../shared/cells.ts';
 import { cellForms } from '../shared/forms.ts';
 import type { PairType } from '../shared/types.ts';
 import { caseReason } from './fixExplain.ts';
+import { REGISTER } from './register.ts';
 import type { Question } from './types.ts';
 
 const bare = (s: string) => (cellForms(s)[0] ?? s).replace(/'/g, '');
@@ -200,7 +201,8 @@ function listening(q: Question): string | null {
 function other(q: Question): string | null {
   if (q.mode === 'vocab' && q.word) {
     const pos = q.task.some((t) => typeof t === 'object' && t && 'en' in t && t.en === 'verb') ? 'verb' : '';
-    return q.meaning ? `${bare(q.headword)} means “${q.answer}”${pos ? ` (a ${pos})` : ''}.` : `“${q.headword}” is ${bare(q.answer)} in Russian.`;
+    const reg = q.word.register && REGISTER[q.word.register] ? ` It is ${REGISTER[q.word.register]!.en} (${REGISTER[q.word.register]!.ru}): ${REGISTER[q.word.register]!.note}.` : '';
+    return (q.meaning ? `${bare(q.headword)} means “${q.answer}”${pos ? ` (a ${pos})` : ''}.` : `“${q.headword}” is ${bare(q.answer)} in Russian.`) + reg;
   }
   if (q.mode === 'translate') return 'This is the translation Tatoeba gives. Other wordings and word orders can be just as right: compare the meaning and the grammar, not the exact words.';
   if (q.mode === 'build') return 'This is the order of the original sentence. Russian word order is free, but it isn’t random: the end of a sentence carries the new information (see Word order).';

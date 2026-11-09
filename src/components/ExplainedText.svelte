@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { REGISTER } from '../lib/register.ts';
   import { tick } from 'svelte';
   import { renderForm } from '../shared/forms.ts';
   import { normalise } from '../shared/normalise.ts';
@@ -94,6 +95,8 @@
     o: 'Old-fashioned: Wiktionary has it only as archaic, obsolete or dated.',
     s: 'With the old polite -с (short for сударь, "sir"), added to show respect.',
     h: 'Our explanation: this word isn’t in our dictionaries.',
+    // Register labels (colloquial, bookish …), by their letters.
+    ...Object.fromEntries(Object.values(REGISTER).map((r) => [r.letter, `${r.en[0]!.toUpperCase()}${r.en.slice(1)} (${r.ru}): ${r.note}.`])),
   };
   const keyed = (r: WordReading): r is [string, string, string, string, string, number] => r.length === 6;
 </script>

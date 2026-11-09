@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { REGISTER, registerName } from '../lib/register.ts';
   import { tick } from 'svelte';
   import { displayForms, renderForm } from '../shared/forms.ts';
   import type { SentenceShard, SentenceType } from '../shared/types.ts';
@@ -269,6 +270,7 @@
         </h1>
       {/if}
       {#if q.gloss}<p class="gloss" lang="en">{q.gloss}</p>{/if}
+      {#if q.word?.register}<p class="register"><span class="reg-chip" title={REGISTER[q.word.register]?.note}>{registerName(q.word.register)}</span></p>{/if}
       {#if q.note}<p class="note" lang="ru">{q.note.replace(/[а-яё]+'[а-яё']*/gi, (w) => r(w))}</p>{/if}
 
       <form class="answer" onsubmit={submit} autocomplete="off">
@@ -776,6 +778,16 @@
     font-size: 1rem;
     text-align: left;
     justify-content: flex-start;
+  }
+  .register {
+    margin: 4px 0 0;
+  }
+  .reg-chip {
+    font-size: 0.8rem;
+    padding: 1px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
   }
   .ru-options .choice {
     font-family: var(--serif);

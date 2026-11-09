@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { registerName } from '../lib/register.ts';
   import { renderForm } from '../shared/forms.ts';
   import { loadWordList } from '../lib/data.ts';
   import { today } from '../lib/progress.ts';
@@ -73,7 +74,7 @@
           {@const head = w ? renderForm(w.accented.split(',')[0]!, true) : k.slice(2)}
           <tr>
             <th scope="row" lang="ru">{head}</th>
-            <td class="meaning">{w?.gloss ?? ''}</td>
+            <td class="meaning">{w?.gloss ?? ''}{#if w?.register}<span class="reg muted"> · {registerName(w.register)}</span>{/if}</td>
             <td class="num">{when(mine.words[k]!.due)}</td>
             <td class="num"><button class="btn quiet small-btn" onclick={() => remove(k)} aria-label="Remove {head}">Remove</button></td>
           </tr>

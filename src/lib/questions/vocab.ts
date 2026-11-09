@@ -62,7 +62,7 @@ function base(w: Word, pool: VocabPool): Pick<Question, 'mode' | 'others' | 'lab
     others,
     label: TERMS.vocab.en,
     speak: () => bare(w.accented.split(',')[0]!),
-    word: { key: w.key, band: w.band },
+    word: { key: w.key, band: w.band, ...(w.register ? { register: w.register } : {}) },
     ...(type ? { sentence: { type, lemmaId: id, cell: -1, band: w.band } } : {}),
     ...(p ? { paradigm: p } : {}),
   };
@@ -187,7 +187,7 @@ export function generateGapQuestions(words: Word[], gaps: Record<string, [number
       others: [],
       label: TERMS.gapTask.en,
       source: id,
-      word: { key: w.key, band: w.band },
+      word: { key: w.key, band: w.band, ...(w.register ? { register: w.register } : {}) },
       speak: (f) => `${before}${f.replace(/'/g, '')}${after}`,
     });
   }

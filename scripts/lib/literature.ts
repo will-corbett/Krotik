@@ -19,6 +19,7 @@ import { normalise } from '../../src/shared/normalise.ts';
 import type { ReadingIndex, ReadingLine, ReadingQuestion, ReadingQuestionKind, ReadingUnit, WordReading } from '../../src/shared/types.ts';
 import { CASE_TERM, groupTerm, numberGenderTerm } from '../../src/lib/terms.ts';
 import { parseAdjKey } from '../../src/lib/labels.ts';
+import { REGISTER } from '../../src/lib/register.ts';
 import type { Report } from './report.ts';
 import { LITERATURE, LITERATURE_GLOSSES, LITERATURE_NOT_OLD, RAW_DIR, literatureFile, literatureSource, type LiteratureWork } from './sources.ts';
 
@@ -202,11 +203,16 @@ export interface Lexicon {
   wordBand: (key: string) => number | undefined;
   /** among the commonest word forms in the independent frequency list (guards against the source's misplaced ranks) */
   commonForm: (form: string) => boolean;
+  /** vocabulary list key → its register label (colloquial, literary …), if it has one */
+  register?: (key: string) => string | undefined;
 }
 /** A reading with its vocabulary key and band, when the word is in the lists. */
 const withKey = (r: [string, string, string, string], key: string, lex: Lexicon): WordReading => {
   const b = lex.wordBand(key);
-  return b === undefined ? r : [...r, key, b];
+  // A register label (colloquial, bookish …) rides in the flags as its letter.
+  const reg = lex.register?.(key);
+  const flagged: [string, string, string, string] = reg && REGISTER[reg] ? [r[0], r[1], r[2], r[3] + REGISTER[reg]!.letter] : r;
+  return b === undefined ? flagged : [...flagged, key, b];
 };
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);

@@ -96,6 +96,11 @@ export interface WkExtract {
    * derogatory or old: [headword, dictionary form (stress marked), first gloss, tags]. First entry per headword.
    */
   idioms: [string, string, string, string[]][];
+  /**
+   * Register labels for `wanted.registers` words, keyed "<word>|<n|v|a|o>": the one label (colloquial, literary …)
+   * that every sense of every entry for that word and part of speech carries. Words with none aren't listed.
+   */
+  registers: Record<string, string>;
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -116,8 +121,12 @@ interface RawEntry {
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 7;
+const EXTRACT_VERSION = 8;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
+/** Register labels worth showing a learner, most telling first (a word tagged both is labelled by the first). */
+const REGISTERS = ['vulgar', 'offensive', 'derogatory', 'slang', 'colloquial', 'informal', 'literary', 'formal', 'poetic', 'humorous'];
+/** Wiktionary's parts of speech, as the word lists' types (n, v, a; o for the rest). */
+const REGISTER_POS: Record<string, string> = { noun: 'n', verb: 'v', adj: 'a', adv: 'o', prep: 'o', conj: 'o', particle: 'o', intj: 'o', pron: 'o', det: 'o', num: 'o' };
 /** Idioms with these tags are left out. */
 const IDIOM_BAD = new Set(['vulgar', 'offensive', 'derogatory', 'obsolete', 'archaic', 'dated', 'slur', 'ethnic', 'pejorative']);
 /** Tags that mark a word or form as not modern Russian. */
@@ -162,6 +171,8 @@ export interface Wanted {
   ipa: Set<string>;
   /** words to check for modern or only old use (literature texts), lower case with ё written е */
   check: Set<string>;
+  /** words to find register labels for (every word in the vocabulary lists) */
+  registers?: Set<string>;
 }
 
 export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: string) => void): Promise<WkExtract> {
@@ -176,7 +187,8 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {}, idioms: [] };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {}, idioms: [], registers: {} };
+  const senseTags = new Map<string, Set<string>[]>();
   const idiomSeen = new Set<string>();
   // Commons file → the words (dictionary form) Wiktionary gives it for, and its MP3 address.
   const audioWords = new Map<string, { words: Set<string>; heads: Set<string>; mp3: string }>();
@@ -222,6 +234,14 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
         const old = entryOld || tags.some((t) => OLD_TAGS.has(t));
         (old ? checkOld : checkModern).add(ff);
         note(ff, old, tags.filter((t) => !OLD_TAGS.has(t)).join(' '));
+      }
+    }
+    if (wanted.registers?.has(word)) {
+      const p = REGISTER_POS[e.pos];
+      if (p) {
+        const list = senseTags.get(`${word}|${p}`) ?? [];
+        for (const sense of e.senses ?? []) if (sense.glosses?.length && !sense.form_of?.length) list.push(new Set(sense.tags ?? []));
+        senseTags.set(`${word}|${p}`, list);
       }
     }
     if (/ /.test(word) && /^[а-яё ,-]+$/.test(word) && !idiomSeen.has(word)) {
@@ -306,6 +326,11 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
   out.attested = [...attested].sort();
   out.checkedModern = [...checkModern].sort();
   out.checkedOld = [...checkOld].filter((w) => !checkModern.has(w)).sort();
+  for (const [k, list] of [...senseTags].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))) {
+    if (!list.length) continue;
+    const label = REGISTERS.find((t) => list.every((tags) => tags.has(t)));
+    if (label) out.registers[k] = label === 'informal' ? 'colloquial' : label;
+  }
   for (const [file, a] of [...audioWords].sort(([x], [y]) => (x < y ? -1 : x > y ? 1 : 0))) {
     if (a.words.size !== 1 || a.heads.size !== 1) continue;
     (out.audio[[...a.heads][0]!] ??= []).push([[...a.words][0]!, file, a.mp3]);

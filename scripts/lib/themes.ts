@@ -156,7 +156,7 @@ export function buildThemes(
           errors.push(`${id}: ${r}`);
           return [];
         }
-        return [[r.row[0], r.row[1], r.meaning, r.row[3], r.row[4], input.band(r.row)]];
+        return [r.row[5] ? [r.row[0], r.row[1], r.meaning, r.row[3], r.row[4], input.band(r.row), r.row[5]] : [r.row[0], r.row[1], r.meaning, r.row[3], r.row[4], input.band(r.row)]];
       }),
     })),
   }));

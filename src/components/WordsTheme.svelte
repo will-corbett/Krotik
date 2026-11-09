@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { REGISTER, registerName } from '../lib/register.ts';
   import { reviewedText } from '../lib/reviewed.ts';
   import { loadTheme, loadThemeIndex } from '../lib/data.ts';
   import { pageTitle } from '../lib/pageMeta.ts';
@@ -141,6 +142,7 @@
                 <span class="word">
                   <span class="head" lang="ru">{head(w)}</span>
                   {#if chip(w)}<span class="chip">{chip(w)}</span>{/if}
+                  {#if w[6]}<span class="chip reg" title={REGISTER[w[6]]?.note}>{registerName(w[6])}</span>{/if}
                   <span class="meaning">{w[2]}</span>
                 </span>
                 <Hear compact text={bare(w[1].split(',')[0]!)} wordKey={w[0]} />
