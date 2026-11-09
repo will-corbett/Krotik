@@ -24,6 +24,7 @@ import { buildSentences } from './lib/sentences.ts';
 import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } from './lib/literature.ts';
 import { buildThemes, loadThemes } from './lib/themes.ts';
 import { buildListening, findPairs } from './lib/listening.ts';
+import { buildVerbNoun } from './lib/verbNoun.ts';
 import { packAudio, wantedAudio, writeWanted } from './lib/audio.ts';
 import { readTatoebaAudio } from './lib/tatoeba-audio.ts';
 import { CASES } from '../src/shared/cells.ts';
@@ -283,6 +284,10 @@ const listening = buildListening({
 });
 const listeningBytes = writeJson('listening.json', listening);
 
+// ---- Words that go together: curated verb + noun pairs, checked against the sentences (scripts/lib/verbNoun.ts)
+const verbNoun = buildVerbNoun({ corpus, verbs, nouns, report });
+const verbNounBytes = writeJson('verb-noun.json', verbNoun);
+
 const government = buildGovernment(verbs, report);
 writeJson('government.json', government);
 const prefixedMotion = buildPrefixedMotion(verbs, report);
@@ -318,6 +323,7 @@ const manifest: Manifest = {
   themes: 'themes.json',
   audio: 'audio.json',
   listening: 'listening.json',
+  verbNoun: 'verb-noun.json',
   cloze,
   sentences: Object.fromEntries(Object.entries(sentences).map(([k, v]) => [k, v.map(({ bytes: _b, ...s }) => s)])),
   motion: 'motion.json',
@@ -354,6 +360,7 @@ sizes.push(`| reading.json, reading.*.json | ${reading.units.length} texts, ${re
 sizes.push(`| themes.json, theme.*.json | ${themes.themes.length} themes, ${themes.themes.reduce((n, t) => n + t.dialogues.length, 0)} dialogues published | ${(themesBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| audio.json | ${Object.keys(audioIndex.words).length} words, ${Object.keys(audioIndex.sentences).length} sentences recorded | ${(audioBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| listening.json | ${listening.sentences.length} sentences, ${listening.endings.length} endings, ${listening.pairs.length} pairs | ${(listeningBytes / 1024).toFixed(0)} KB |`);
+sizes.push(`| verb-noun.json | ${verbNoun.pairs.length} pairs, ${verbNoun.items.length} items | ${(verbNounBytes / 1024).toFixed(0)} KB |`);
 sizes.push(`| motion.json | ${motion.pairs.length} pairs | ${(motionBytes / 1024).toFixed(1)} KB |`);
 
 const md = report.toMarkdown('Data validation report', [

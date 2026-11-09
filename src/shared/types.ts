@@ -55,6 +55,7 @@ export interface Manifest {
   themes: string;
   audio: string;
   listening: string;
+  verbNoun: string;
   /** sentence drills: topic → file */
   cloze: Record<string, { file: string; count: number; kinds: Record<string, number> }>;
   sentences: Record<string, { band: number; file: string; lemmas: number; sentences: number }[]>;
@@ -227,6 +228,14 @@ export interface AudioIndex {
   words: Record<string, [string, number]>;
   /** Tatoeba sentence id → credit index (the file is audio/s/<id>.mp3) */
   sentences: Record<string, number>;
+}
+/** public/data/verb-noun.json: words that go together (curated/collocations.yaml) and the "Which verb?" items. */
+export interface CollocationData {
+  /** noun [word key, accented]; verbs [[key, accented]] (imperfective, perfective); our English; the noun's case */
+  /** phrase: the pair as it's said, stress marked (приня'ть реше'ние, обрати'ть внима'ние на) */
+  pairs: { phrase: string; noun: [string, string]; verbs: [string, string][]; en: string; case: 'acc' | 'gen'; pl?: true; prep?: string; sentences: number }[];
+  /** [pair index, Tatoeba id, Russian, English, verb start, verb end, options (the sentence's verb among them)] */
+  items: [number, number, string, string, number, number, string[]][];
 }
 export type PairType = 'soft' | 'yi' | 'shsch';
 /** public/data/listening.json: listening drills, from the published recordings only. */

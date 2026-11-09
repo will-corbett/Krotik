@@ -1,0 +1,154 @@
+# Words that go together: a verb and the noun it is used with (принять решение, сделать ошибку), where English uses a
+# different verb or none, so the pair has to be learnt. Grammar facts only, never forms: every form comes from the
+# data, and each pair must occur in a real Tatoeba sentence (the verb, then the noun within three words, in the case
+# given), or it isn't used and the report lists it.
+#
+#   noun     dictionary form
+#   verbs    [imperfective, perfective], or one verb
+#   case     the noun's case after the verb: acc (the default) or gen; pl: true when it's used in the plural;
+#            sg: true when only the singular has this meaning (дать слово, but not брать слова обратно)
+#   prep     a preposition that follows, as a note (обратить внимание на …)
+#   en       our English, for the pair
+- { noun: решение, verbs: [принимать, принять], en: make a decision }
+- { noun: решение, verbs: [находить, найти], en: find a solution }
+- { noun: ошибка, verbs: [делать, сделать], en: make a mistake }
+- { noun: ошибка, verbs: [признавать, признать], en: admit a mistake }
+- { noun: вопрос, verbs: [задавать, задать], en: ask a question }
+- { noun: вопрос, verbs: [решать, решить], en: settle a question }
+- { noun: проблема, verbs: [решать, решить], en: solve a problem }
+- { noun: задача, verbs: [решать, решить], en: solve a problem (a task) }
+- { noun: задача, verbs: [ставить, поставить], en: set a task }
+- { noun: цель, verbs: [ставить, поставить], en: set a goal }
+- { noun: цель, verbs: [достигать, достичь], case: gen, en: reach a goal }
+- { noun: успех, verbs: [добиваться, добиться], case: gen, en: achieve success }
+- { noun: успех, verbs: [иметь], en: be a success }
+- { noun: внимание, verbs: [обращать, обратить], prep: на, en: pay attention to }
+- { noun: внимание, verbs: [привлекать, привлечь], en: attract attention }
+- { noun: роль, verbs: [играть, сыграть], en: play a part }
+- { noun: участие, verbs: [принимать, принять], prep: в, en: take part in }
+- { noun: помощь, verbs: [оказывать, оказать], en: give help }
+- { noun: совет, verbs: [давать, дать], en: give advice }
+- { noun: обещание, verbs: [давать, дать], en: make a promise }
+- { noun: обещание, verbs: [нарушать, нарушить], en: break a promise }
+- { noun: слово, verbs: [давать, дать], sg: true, en: give your word }
+- { noun: слово, verbs: [держать, сдержать], sg: true, en: keep your word }
+- { noun: ответ, verbs: [давать, дать], en: give an answer }
+- { noun: согласие, verbs: [давать, дать], en: give consent }
+- { noun: разрешение, verbs: [давать, дать], en: give permission }
+- { noun: шанс, verbs: [давать, дать], en: give a chance }
+- { noun: концерт, verbs: [давать, дать], en: give a concert }
+- { noun: возможность, verbs: [упускать, упустить], en: miss an opportunity }
+- { noun: экзамен, verbs: [сдавать, сдать], en: take an exam (сдать, pass it) }
+- { noun: впечатление, verbs: [производить, произвести], en: make an impression }
+- { noun: шаг, verbs: [делать, сделать], en: take a step }
+- { noun: выбор, verbs: [делать, сделать], en: make a choice }
+- { noun: вывод, verbs: [делать, сделать], en: draw a conclusion }
+- { noun: доклад, verbs: [делать, сделать], en: give a talk }
+- { noun: комплимент, verbs: [делать, сделать], en: pay a compliment }
+- { noun: предложение, verbs: [делать, сделать], en: make an offer, propose }
+- { noun: заказ, verbs: [делать, сделать], en: place an order }
+- { noun: ремонт, verbs: [делать, сделать], en: do up, renovate }
+- { noun: покупка, verbs: [делать, сделать], pl: true, en: do the shopping }
+- { noun: урок, verbs: [делать, сделать], pl: true, en: do your homework }
+- { noun: вид, verbs: [делать, сделать], en: pretend (делать вид, что …) }
+- { noun: карьера, verbs: [делать, сделать], en: build a career }
+- { noun: мера, verbs: [принимать, принять], pl: true, en: take measures }
+- { noun: душ, verbs: [принимать, принять], en: take a shower }
+- { noun: лекарство, verbs: [принимать, принять], en: take medicine }
+- { noun: закон, verbs: [принимать, принять], en: pass a law }
+- { noun: закон, verbs: [нарушать, нарушить], en: break the law }
+- { noun: правило, verbs: [нарушать, нарушить], pl: true, en: break the rules }
+- { noun: правило, verbs: [соблюдать], pl: true, en: keep to the rules }
+- { noun: тайна, verbs: [хранить], en: keep a secret }
+- { noun: секрет, verbs: [раскрывать, раскрыть], en: reveal a secret }
+- { noun: пример, verbs: [приводить, привести], en: give an example }
+- { noun: пример, verbs: [подавать, подать], en: set an example }
+- { noun: заявление, verbs: [подавать, подать], en: hand in an application }
+- { noun: жалоба, verbs: [подавать, подать], en: make a complaint }
+- { noun: рука, verbs: [подавать, подать], en: hold out your hand }
+- { noun: знак, verbs: [подавать, подать], en: give a sign }
+- { noun: время, verbs: [проводить, провести], en: spend time }
+- { noun: время, verbs: [терять, потерять], en: waste time }
+- { noun: время, verbs: [занимать, занять], en: take time }
+- { noun: деньги, verbs: [тратить, потратить], en: spend money }
+- { noun: контроль, verbs: [терять, потерять], en: lose control }
+- { noun: терпение, verbs: [терять, потерять], en: lose patience }
+- { noun: сознание, verbs: [терять, потерять], en: lose consciousness }
+- { noun: надежда, verbs: [терять, потерять], en: lose hope }
+- { noun: вес, verbs: [набирать, набрать], en: put on weight }
+- { noun: скорость, verbs: [набирать, набрать], en: pick up speed }
+- { noun: номер, verbs: [набирать, набрать], en: dial a number }
+- { noun: порядок, verbs: [наводить, навести], en: tidy up, put in order }
+- { noun: договор, verbs: [заключать, заключить], en: sign an agreement }
+- { noun: мир, verbs: [заключать, заключить], en: make peace }
+- { noun: переговоры, verbs: [вести], en: hold talks }
+- { noun: дневник, verbs: [вести], en: keep a diary }
+- { noun: хозяйство, verbs: [вести], en: run the household }
+- { noun: разговор, verbs: [вести], en: carry on a conversation }
+- { noun: ремонт, verbs: [проводить, провести], en: carry out repairs }
+- { noun: исследование, verbs: [проводить, провести], en: carry out research }
+- { noun: эксперимент, verbs: [проводить, провести], en: carry out an experiment }
+- { noun: собрание, verbs: [проводить, провести], en: hold a meeting }
+- { noun: рекорд, verbs: [ставить, поставить], en: set a record }
+- { noun: диагноз, verbs: [ставить, поставить], en: make a diagnosis }
+- { noun: спектакль, verbs: [ставить, поставить], en: stage a play }
+- { noun: точка, verbs: [ставить, поставить], en: put a full stop (to) }
+- { noun: стол, verbs: [накрывать, накрыть], en: lay the table }
+- { noun: зуб, verbs: [чистить, почистить], pl: true, en: brush your teeth }
+- { noun: посуда, verbs: [мыть, помыть], en: do the washing-up }
+- { noun: обед, verbs: [готовить, приготовить], en: cook dinner }
+- { noun: свет, verbs: [включать, включить], en: switch on the light }
+- { noun: счёт, verbs: [оплачивать, оплатить], en: pay the bill }
+- { noun: счёт, verbs: [открывать, открыть], en: open an account }
+- { noun: долг, verbs: [отдавать, отдать], en: pay back a debt }
+- { noun: налог, verbs: [платить, заплатить], pl: true, en: pay taxes }
+- { noun: штраф, verbs: [платить, заплатить], en: pay a fine }
+- { noun: зарплата, verbs: [получать, получить], en: get your pay }
+- { noun: образование, verbs: [получать, получить], en: get an education }
+- { noun: удовольствие, verbs: [получать, получить], en: enjoy, get pleasure }
+- { noun: травма, verbs: [получать, получить], en: get injured }
+- { noun: работа, verbs: [искать, найти], en: look for (find) a job }
+- { noun: вина, verbs: [признавать, признать], en: admit guilt }
+- { noun: интерес, verbs: [вызывать, вызвать], en: arouse interest }
+- { noun: смех, verbs: [вызывать, вызвать], en: make people laugh }
+- { noun: врач, verbs: [вызывать, вызвать], en: call the doctor }
+- { noun: полиция, verbs: [вызывать, вызвать], en: call the police }
+- { noun: польза, verbs: [приносить, принести], en: be of use, do good }
+- { noun: извинение, verbs: [приносить, принести], pl: true, en: offer your apologies }
+- { noun: вред, verbs: [наносить, нанести], en: do harm }
+- { noun: ущерб, verbs: [наносить, нанести], en: cause damage }
+- { noun: визит, verbs: [наносить, нанести], en: pay a visit }
+- { noun: благодарность, verbs: [выражать, выразить], en: express your thanks }
+- { noun: мнение, verbs: [высказывать, высказать], en: give your opinion }
+- { noun: голос, verbs: [повышать, повысить], en: raise your voice }
+- { noun: цена, verbs: [повышать, повысить], pl: true, en: raise prices }
+- { noun: температура, verbs: [измерять, измерить], en: take someone's temperature }
+- { noun: собака, verbs: [заводить, завести], en: get a dog }
+- { noun: друг, verbs: [заводить, завести], pl: true, en: make friends }
+- { noun: семья, verbs: [заводить, завести], en: start a family }
+- { noun: машина, verbs: [заводить, завести], en: start the car }
+- { noun: значение, verbs: [иметь], en: matter }
+- { noun: право, verbs: [иметь], en: have the right }
+- { noun: смысл, verbs: [иметь], en: make sense }
+- { noun: место, verbs: [занимать, занять], en: take a seat, take up room }
+- { noun: очередь, verbs: [занимать, занять], en: take a place in the queue }
+- { noun: должность, verbs: [занимать, занять], en: hold a post }
+- { noun: боль, verbs: [терпеть], en: bear the pain }
+- { noun: победа, verbs: [одерживать, одержать], en: win a victory }
+- { noun: гол, verbs: [забивать, забить], en: score a goal }
+- { noun: лекция, verbs: [читать, прочитать], en: give a lecture }
+- { noun: фильм, verbs: [снимать, снять], en: make a film }
+- { noun: квартира, verbs: [снимать, снять], en: rent a flat }
+- { noun: трубка, verbs: [брать, взять], en: answer the phone }
+- { noun: слово, verbs: [брать, взять], sg: true, en: take the floor }
+- { noun: ответственность, verbs: [брать, взять], prep: на себя, en: take responsibility }
+- { noun: ответственность, verbs: [нести], en: bear responsibility }
+- { noun: шум, verbs: [поднимать, поднять], en: make a fuss }
+- { noun: настроение, verbs: [поднимать, поднять], en: lift someone's spirits }
+- { noun: настроение, verbs: [портить, испортить], en: spoil someone's mood }
+- { noun: речь, verbs: [произносить, произнести], en: make a speech }
+- { noun: тост, verbs: [произносить, произнести], en: propose a toast }
+- { noun: компания, verbs: [составлять, составить], en: keep someone company }
+- { noun: список, verbs: [составлять, составить], en: make a list }
+- { noun: план, verbs: [составлять, составить], en: draw up a plan }
+- { noun: жизнь, verbs: [спасать, спасти], en: save a life }

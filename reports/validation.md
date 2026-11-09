@@ -33,7 +33,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | words.b2.json | 5174 | 336 KB |
 | words.b3.json | 36189 | 2281 KB |
 | sentences.verbs.b0.json | 247 lemmas, 2232 sentences | 182 KB |
-| sentences.verbs.b1.json | 736 lemmas, 5429 sentences | 511 KB |
+| sentences.verbs.b1.json | 736 lemmas, 5436 sentences | 512 KB |
 | sentences.verbs.b2.json | 1371 lemmas, 6741 sentences | 703 KB |
 | sentences.verbs.b3.json | 4344 lemmas, 11946 sentences | 1372 KB |
 | sentences.adjectives.b0.json | 248 lemmas, 2181 sentences | 219 KB |
@@ -55,6 +55,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
 | audio.json | 4007 words, 3321 sentences recorded | 277 KB |
 | listening.json | 3321 sentences, 1920 endings, 38 pairs | 423 KB |
+| verb-noun.json | 123 pairs, 355 items | 79 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
 ## Verbs
@@ -85,7 +86,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 ### Anomalies
 
-- **fixed by override** (3): быть: presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; соскучиться: presfut_sg2; накалять: imperative_sg, past_pl
+- **fixed by override** (9): быть: presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; вытащить: imperative_sg, imperative_pl; выдержать: imperative_sg, imperative_pl; выразить: imperative_sg, imperative_pl; оказать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; выявить: imperative_sg, imperative_pl; соскучиться: presfut_sg2; выстоять: imperative_sg, imperative_pl; накалять: imperative_sg, past_pl
 - **excluded by override** (3): размежёвывать (all six present forms are the 1sg form); выпуститься (past f/n/pl forms are non-reflexive and mismatched); надобиться (past forms garbled (надобила/надобило/надобило))
 - **partner not found in source (ignored)** (3443): взять → взымать; выходить → вы'йти; поставить → проставляться; прочесть → читать,прочитывать; вырасти → расти,вырастать; посадить → сажать,садить; волноваться → взволноваться,заволноваться,поволноваться; орать → заорать,поорать,наорать; тянуться → потянуться,протянуться; съесть → есть,съедать; ловить → поймать,изловить; радоваться → обрадоваться,порадоваться; везти → повезти,отвезти,свезти; тащить → вытащить,стащить; покрыть → крыть,покрывать; замолчать → замолкать,молчать; менять → поменять,обменять; стучать → постучать,стукнуть; закурить → закуривать,курить; прыгать → попрыгать,прыгнуть; услать → усылать,слать; гнать → погнать,загнать; плыть → поплы'ть; налить → наливать,лить; оглядываться → оглянуться,оглядеться; …
 - **partner not of the opposite aspect (ignored for aspect drill)** (162): ходить (impf) → сходить (both); читать (impf) → почитать (both); выглядеть (impf) → выглядывать (impf); носить (impf) → наносить (impf); носить (impf) → сносить (both); носить (impf) → относить (impf); дрожать (impf) → дрогнуть (both); сойти (pf) → сходить (both); родить (both) → рожать (impf); провожать (impf) → проводить (impf); накрыть (pf) → застигнуть (pf); счесть (pf) → сосчитать (pf); покидать (impf) → кидать (impf); прозвучать (impf) → звучать (impf); рекомендовать (both) → порекомендовать (pf); дрогнуть (both) → дрожать (impf); дрогнуть (both) → продрогнуть (pf); почитать (both) → читать (impf); почитать (both) → почесть (pf); преодолеть (pf) → преодолевать (both); запустить (pf) → забросить (pf); зарасти (impf) → зарастать (impf); кидать (impf) → покидать (impf); снести (pf) → сносить (both); завязать (both) → завязывать (impf); …
@@ -621,6 +622,19 @@ history: 2 dialogue(s) published, 0 waiting for review.
 
 - **minimal pairs (check they are real contrasts)** (1): бит / бить, брат / брать, быт / быть, быт / бит, быть / бить, вес / весь, вест / весть, выть / вить, вяз / вязь, гран / грань, жест / жесть, забы'ть / заби'ть, забы'ться / заби'ться, забыва'ть / забива'ть, кон / конь, кров / кровь, мел / мель, мы'шка / ми'шка, ныть / нить, ост / ость, отбыва'ть / отбива'ть, плот / плоть, побы'ть / поби'ть, помеша'ть / помеща'ть, прибыва'ть / прибива'ть, пробы'ть / проби'ть, просты'ть / прости'ть, пыл / пыль, пыта'ть / пита'ть, пыта'ться / пита'ться, сбы'ться / сби'ться, сбыва'ть / сбива'ть, сбыт / сбыть, собра'т / собра'ть, стол / столь, у'гол / у'голь, хрен / хрень, шест / шесть
 
+## Words that go together (curated/collocations.yaml)
+
+| count | n |
+|---|---:|
+| pairs found in the sentences | 123 |
+| pairs in the list | 143 |
+| "Which verb?" items (real sentences, the verb gapped) | 355 |
+
+### Anomalies
+
+- **pairs whose noun or verb is not in the data (left out)** (4): тратить/потратить деньги; вести переговоры; включать/включить свет; поднимать/поднять шум
+- **pairs not found in any sentence (left out)** (16): ставить/поставить задача; ставить/поставить цель; достигать/достичь цель; делать/сделать карьера; принимать/принять душ; нарушать/нарушить правило; соблюдать правило; вести хозяйство; вести разговор; проводить/провести ремонт; ставить/поставить спектакль; отдавать/отдать долг; признавать/признать вина; заводить/завести семья; иметь право; забивать/забить гол
+
 ## Hand-made lists (curated/)
 
 | count | n |
@@ -724,13 +738,13 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | prepositions / про:acc: candidates (kept up to 400) | 24 |
 | prepositions / около:gen: candidates (kept up to 400) | 42 |
 | aspectContext / impf@presfut: candidates (kept up to 400) | 148916 |
-| aspectContext / pf@presfut: candidates (kept up to 400) | 28345 |
+| aspectContext / pf@presfut: candidates (kept up to 400) | 28352 |
 | aspectContext / impf@past: candidates (kept up to 400) | 63330 |
 | aspectContext / impf@inf: candidates (kept up to 400) | 20231 |
 | aspectContext / pf@past: candidates (kept up to 400) | 120008 |
 | aspectContext / pf@inf: candidates (kept up to 400) | 27280 |
 | aspectContext / impf@imperative: candidates (kept up to 400) | 8515 |
-| aspectContext / pf@imperative: candidates (kept up to 400) | 7099 |
+| aspectContext / pf@imperative: candidates (kept up to 400) | 7124 |
 | svoy / svoy: candidates (kept up to 1500) | 15968 |
 | svoy / ego: candidates (kept up to 1500) | 1857 |
 | government / dat|доверя'ть: candidates (kept up to 1500) | 51 |
