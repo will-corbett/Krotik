@@ -162,6 +162,15 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   (`RecordCompare.svelte`: MediaRecorder, kept in the page's memory only, never stored or sent, no speech recognition).
   "Hear it" elsewhere (`Hear.svelte`) plays a recording when there is one (vocabulary words, translate/build
   sentences, theme example sentences), else the device voice.
+- Words that go together (critique batch 5, topic `collocations` in group "Words", with a Learn page):
+  `curated/collocations.yaml` lists verb + noun pairs (grammar facts only: noun, verbs [impf, pf], case, pl/sg, prep,
+  our English). `scripts/lib/verbNoun.ts` keeps a pair only if a real sentence has a form of its verb within three words
+  of the noun in that case and number, either order, no punctuation between, each word owned by one lemma; output
+  `verb-noun.json` (pairs with a stress-marked `phrase`, and drill items). Drill "Which verb?": the verb gapped in the
+  sentence, its English as the cue; wrong options are the same form (an initial capitalised token reads as the
+  imperative) of other listed verbs of the same aspect that are neither listed nor found with that noun, never a
+  generic verb (сделать, взять, дать, отдать, найти … `GENERIC`), since those fit almost anything. `::collocations
+  <verbs>` draws the pairs on a Learn page; Vocabulary themes list the pairs whose noun is one of their words.
 - Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
   GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
   text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent

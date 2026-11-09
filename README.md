@@ -35,7 +35,8 @@ Modes are grouped as follows:
 - **Pronunciation:** stress.
 - **Listening:** listen and choose, dictation, hear the ending, minimal pairs (native recordings; record yourself and
   compare, kept on your device).
-- **Words:** vocabulary (nouns, verbs, adjectives and other words, by frequency; or your words that are due).
+- **Words:** vocabulary (nouns, verbs, adjectives and other words, by frequency; or your words that are due), and
+  words that go together (принять решение, задать вопрос) with a "Which verb?" drill.
 
 ## Run locally
 

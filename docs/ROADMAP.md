@@ -193,7 +193,11 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    contributor-written only, no bot copies of outlets, no sanctioned sources; politics only as pre-2014 history, none
    chosen this time); inference and tone
    questions on every text aimed at B2+ (Chekhov stories, the plays' longer scenes, B2–C1 articles).
-5. Depth: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
+5. Depth (in progress; owner's order: collocations first; word-order drill = question and answer pairs, reviewed by
+   the native speaker before publishing). Done 2026-11-09: words that go together (143 curated pairs, 123 found in
+   Tatoeba, 355 "Which verb?" items, Learn page, Vocabulary themes). Also found: OpenRussian conjugates оказать
+   like a regular -ать verb and gives five вы- imperatives without their -и (fixed in overrides); 87 imperatives in all
+   disagree with Wiktionary, to audit separately. Still to do: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
    register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
 Not doing: accounts or sync, social features, leaderboards, gamification, animations, a chatbot, speech recognition.
 
