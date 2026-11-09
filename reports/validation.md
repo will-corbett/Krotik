@@ -11,7 +11,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | verbs.b0.json | 250 | 75 KB |
 | verbs.b1.json | 750 | 240 KB |
 | verbs.b2.json | 1500 | 496 KB |
-| verbs.b3.json | 11656 | 4029 KB |
+| verbs.b3.json | 11663 | 4031 KB |
 | adjectives.b0.json | 250 | 158 KB |
 | adjectives.b1.json | 750 | 555 KB |
 | adjectives.b2.json | 1500 | 1166 KB |
@@ -22,39 +22,39 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | nouns.b3.json | 20437 | 6552 KB |
 | participles.b0.json | 249 | 366 KB |
 | participles.b1.json | 749 | 1171 KB |
-| participles.b2.json | 1495 | 2438 KB |
-| participles.b3.json | 7600 | 12996 KB |
+| participles.b2.json | 1495 | 2437 KB |
+| participles.b3.json | 7607 | 13006 KB |
 | diminutives.b0.json | 140 | 9 KB |
 | diminutives.b1.json | 269 | 17 KB |
 | diminutives.b2.json | 332 | 21 KB |
 | diminutives.b3.json | 656 | 40 KB |
 | words.b0.json | 986 | 56 KB |
-| words.b1.json | 2893 | 184 KB |
-| words.b2.json | 5174 | 336 KB |
-| words.b3.json | 36189 | 2281 KB |
-| sentences.verbs.b0.json | 247 lemmas, 2232 sentences | 182 KB |
-| sentences.verbs.b1.json | 736 lemmas, 5436 sentences | 512 KB |
-| sentences.verbs.b2.json | 1371 lemmas, 6741 sentences | 703 KB |
-| sentences.verbs.b3.json | 4344 lemmas, 11946 sentences | 1372 KB |
+| words.b1.json | 2892 | 184 KB |
+| words.b2.json | 5171 | 336 KB |
+| words.b3.json | 36193 | 2281 KB |
+| sentences.verbs.b0.json | 247 lemmas, 2235 sentences | 183 KB |
+| sentences.verbs.b1.json | 736 lemmas, 5441 sentences | 512 KB |
+| sentences.verbs.b2.json | 1371 lemmas, 6750 sentences | 704 KB |
+| sentences.verbs.b3.json | 4352 lemmas, 11969 sentences | 1375 KB |
 | sentences.adjectives.b0.json | 248 lemmas, 2181 sentences | 219 KB |
 | sentences.adjectives.b1.json | 697 lemmas, 4288 sentences | 500 KB |
 | sentences.adjectives.b2.json | 1131 lemmas, 4143 sentences | 521 KB |
 | sentences.adjectives.b3.json | 2116 lemmas, 5298 sentences | 683 KB |
 | sentences.nouns.b0.json | 245 lemmas, 1627 sentences | 154 KB |
-| sentences.nouns.b1.json | 736 lemmas, 3985 sentences | 413 KB |
+| sentences.nouns.b1.json | 736 lemmas, 3984 sentences | 413 KB |
 | sentences.nouns.b2.json | 1387 lemmas, 5688 sentences | 628 KB |
-| sentences.nouns.b3.json | 6412 lemmas, 15971 sentences | 1938 KB |
+| sentences.nouns.b3.json | 6412 lemmas, 15973 sentences | 1939 KB |
 | sentences.participles.b0.json | 172 lemmas, 603 sentences | 83 KB |
 | sentences.participles.b1.json | 325 lemmas, 888 sentences | 121 KB |
 | sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
 | sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| level-test.json | 2250 questions | 649 KB |
+| level-test.json | 2244 questions | 645 KB |
 | learn.json | 42 sentences, 50 pronunciations | 6.0 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2085 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
-| audio.json | 4007 words, 3321 sentences recorded | 277 KB |
-| listening.json | 3321 sentences, 1920 endings, 38 pairs | 423 KB |
+| audio.json | 4006 words, 3321 sentences recorded | 277 KB |
+| listening.json | 3321 sentences, 1919 endings, 38 pairs | 423 KB |
 | verb-noun.json | 123 pairs, 355 items | 79 KB |
 | motion.json | 12 pairs | 7.3 KB |
 
@@ -64,36 +64,32 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | rows in source | 14871 |
 | imperative dropped (capital letter in form), verb kept | 1 |
-| kept without an English gloss | 2027 |
-| imperative dropped (fragment (leading/trailing hyphen)), verb kept | 4 |
+| kept without an English gloss | 2028 |
 | past masculine without -л (мог/шёл type; f/n/pl checked) | 501 |
-| perfective with no imperfective partner (normal for e.g. пойти, закричать) | 2320 |
-| kept | 14156 |
+| perfective with no imperfective partner (normal for e.g. пойти, закричать) | 2322 |
+| kept | 14163 |
 
-**Frequency check** (first 2000 kept lemmas vs OpenSubtitles word-form counts): Spearman ρ = 0.67; 251 lemmas have no form in the 50k list.
+**Frequency check** (first 2000 kept lemmas vs OpenSubtitles word-form counts): Spearman ρ = 0.67; 253 lemmas have no form in the 50k list.
 
 ### Dropped
 
 - **presfut: empty form** (694): хотеться, пусть, видать, сходить, захотеться, слыхать, использоваться, ночевать, свалиться, убедить, вестись, думаться, довестись, производиться, восприниматься, надлежать, сформулировать, зафиксировать, вериться, услыхать, пятиться, формироваться, планироваться, обсуждаться, фыркнуть, …
 - **duplicate entry (same accented form; kept the earlier row)** (5): жарить, промокнуть, утыкать, выметать, надрезать
 - **past: empty form** (3): звучать, житься, отреставрировать
-- **presfut: fragment (leading/trailing hyphen)** (3): приподнять, приподняться, пробежаться
-- **presfut: other invalid characters** (3): застонать, простонать, скачать
-- **presfut: capital letter in form** (1): записаться
+- **presfut: fragment (leading/trailing hyphen)** (1): пробежаться
 - **past: unbalanced parenthesis** (1): взъесться
-- **reflexive -ся/-сь spelling inconsistent (-сь after vowels, -ся after consonants)** (1): поставиться (поставлю, поставишь, поставит, поставим, поставите, поставят, поставил, поставила, поставило, поставили, поставь, поставьте)
 - **missing aspect** (1): по-семейному
 
 ### Anomalies
 
-- **fixed by override** (9): быть: presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; вытащить: imperative_sg, imperative_pl; выдержать: imperative_sg, imperative_pl; выразить: imperative_sg, imperative_pl; оказать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; выявить: imperative_sg, imperative_pl; соскучиться: presfut_sg2; выстоять: imperative_sg, imperative_pl; накалять: imperative_sg, past_pl
+- **fixed by override** (99): быть: presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; видеть: imperative_sg, imperative_pl; слышать: imperative_sg, imperative_pl; двигаться: imperative_sg, imperative_pl; разуметься: imperative_sg, imperative_pl; вытащить: imperative_sg, imperative_pl; выдержать: imperative_sg, imperative_pl; состояться: imperative_sg, imperative_pl; завести: imperative_sg, imperative_pl, presfut_sg1, presfut_pl3, past_f, past_n, past_pl; дождаться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; послышаться: imperative_sg, imperative_pl; слышаться: imperative_sg, imperative_pl; выразить: imperative_sg, imperative_pl; приподнять: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; виднеться: imperative_sg, imperative_pl; видеться: imperative_sg, imperative_pl; оказать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; беспокоить: imperative_sg, imperative_pl; твориться: imperative_sg, imperative_pl; поражать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3, past_m, past_f, past_n, past_pl; рассыпаться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; отражать: imperative_sg, imperative_pl, past_m, past_f, past_n, past_pl; приподняться: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; заехать: imperative_sg, imperative_pl; предстать: imperative_sg, imperative_pl, presfut_sg1, presfut_sg2, presfut_sg3, presfut_pl1, presfut_pl2, presfut_pl3; …
 - **excluded by override** (3): размежёвывать (all six present forms are the 1sg form); выпуститься (past f/n/pl forms are non-reflexive and mismatched); надобиться (past forms garbled (надобила/надобило/надобило))
-- **partner not found in source (ignored)** (3443): взять → взымать; выходить → вы'йти; поставить → проставляться; прочесть → читать,прочитывать; вырасти → расти,вырастать; посадить → сажать,садить; волноваться → взволноваться,заволноваться,поволноваться; орать → заорать,поорать,наорать; тянуться → потянуться,протянуться; съесть → есть,съедать; ловить → поймать,изловить; радоваться → обрадоваться,порадоваться; везти → повезти,отвезти,свезти; тащить → вытащить,стащить; покрыть → крыть,покрывать; замолчать → замолкать,молчать; менять → поменять,обменять; стучать → постучать,стукнуть; закурить → закуривать,курить; прыгать → попрыгать,прыгнуть; услать → усылать,слать; гнать → погнать,загнать; плыть → поплы'ть; налить → наливать,лить; оглядываться → оглянуться,оглядеться; …
+- **partner not found in source (ignored)** (3445): взять → взымать; выходить → вы'йти; поставить → проставляться; прочесть → читать,прочитывать; вырасти → расти,вырастать; посадить → сажать,садить; волноваться → взволноваться,заволноваться,поволноваться; орать → заорать,поорать,наорать; тянуться → потянуться,протянуться; съесть → есть,съедать; ловить → поймать,изловить; радоваться → обрадоваться,порадоваться; везти → повезти,отвезти,свезти; тащить → вытащить,стащить; покрыть → крыть,покрывать; замолчать → замолкать,молчать; менять → поменять,обменять; стучать → постучать,стукнуть; закурить → закуривать,курить; прыгать → попрыгать,прыгнуть; услать → усылать,слать; гнать → погнать,загнать; плыть → поплы'ть; налить → наливать,лить; оглядываться → оглянуться,оглядеться; …
 - **partner not of the opposite aspect (ignored for aspect drill)** (162): ходить (impf) → сходить (both); читать (impf) → почитать (both); выглядеть (impf) → выглядывать (impf); носить (impf) → наносить (impf); носить (impf) → сносить (both); носить (impf) → относить (impf); дрожать (impf) → дрогнуть (both); сойти (pf) → сходить (both); родить (both) → рожать (impf); провожать (impf) → проводить (impf); накрыть (pf) → застигнуть (pf); счесть (pf) → сосчитать (pf); покидать (impf) → кидать (impf); прозвучать (impf) → звучать (impf); рекомендовать (both) → порекомендовать (pf); дрогнуть (both) → дрожать (impf); дрогнуть (both) → продрогнуть (pf); почитать (both) → читать (impf); почитать (both) → почесть (pf); преодолеть (pf) → преодолевать (both); запустить (pf) → забросить (pf); зарасти (impf) → зарастать (impf); кидать (impf) → покидать (impf); снести (pf) → сносить (both); завязать (both) → завязывать (impf); …
 - **gloss words not in English word list (top 2500)** (1): выкладывать: "Share a post on the internet" [internet]
 - **present/future endings not consistent with 1st or 2nd conjugation** (1): ссать: ссу ссышь ссыт ссым ссыте ссут
-- **source top-250 but outside frequency top-1000** (1): крикнуть (#151 → #1650), кивнуть (#162 → #1748), вздохнуть (#175 → #1622), протянуть (#184 → #1040), закричать (#217 → #1264), колоть (#231 → #1263), возникать (#234 → #1066), броситься (#246 → #1255), приняться (#249 → #1724)
-- **source rank > 1000 but frequency top-250** (1): узнавать (#1157 → #117), скучать (#1253 → #228), мыть (#1322 → #11), переть (#1650 → #93), править (#1797 → #205), позаботиться (#1920 → #244), тереть (#1991 → #75)
+- **source top-250 but outside frequency top-1000** (1): крикнуть (#151 → #1649), кивнуть (#162 → #1746), вздохнуть (#175 → #1621), протянуть (#184 → #1039), закричать (#217 → #1263), колоть (#231 → #1262), возникать (#234 → #1065), броситься (#246 → #1254), приняться (#249 → #1723)
+- **source rank > 1000 but frequency top-250** (1): узнавать (#1158 → #117), скучать (#1254 → #229), мыть (#1323 → #11), переть (#1652 → #93), править (#1799 → #205), позаботиться (#1922 → #245), тереть (#1993 → #75)
 
 ## Adjectives
 
@@ -202,25 +198,25 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | participle without its own declension entry (act_pres) | 344 |
 | participle without its own declension entry (pass_past) | 168 |
 | verbs not matched to a Wiktionary entry | 4047 |
-| verbs with Wiktionary participles or verbal adverbs | 10093 |
-| … with a present verbal adverb | 5348 |
-| … with a past verbal adverb | 10085 |
-| … with act_pres (any) | 5422 |
-| … with act_pres full declension | 5078 |
-| … with act_past (any) | 10085 |
-| … with act_past full declension | 9523 |
+| verbs with Wiktionary participles or verbal adverbs | 10100 |
+| … with a present verbal adverb | 5349 |
+| … with a past verbal adverb | 10092 |
+| … with act_pres (any) | 5423 |
+| … with act_pres full declension | 5079 |
+| … with act_past (any) | 10092 |
+| … with act_past full declension | 9530 |
 | … with pass_pres (any) | 2977 |
 | … with pass_pres full declension | 2787 |
-| … with pass_past (any) | 3422 |
-| … with pass_past full declension | 3254 |
-| … with short passive participles | 3254 |
+| … with pass_past (any) | 3424 |
+| … with pass_past full declension | 3256 |
+| … with short passive participles | 3256 |
 
 ### Anomalies
 
-- **differs from the regular pattern (present verbal adverb; Wiktionary kept)** (122): хотеть: желая (pattern: хотя); идти: идя/идучи (pattern: ида); жить: живя/живучи (pattern: жива); давать: давая (pattern: дая); оставаться: оставаясь (pattern: остаясь); вести: ведя (pattern: веда); брать: беря (pattern: бера); ехать: едучи (pattern: еда); звать: зовя (pattern: зова); нести: неся (pattern: неса); вставать: вставая (pattern: встая); честь: чтя (pattern: чта); лезть: лезя (pattern: леза); расти: растя (pattern: раста); отдавать: отдавая (pattern: отдая); орать: оря (pattern: ора); создавать: создавая (pattern: создая); везти: везя (pattern: веза); подавать: подавая (pattern: подая); плыть: плывя (pattern: плыва); удаваться: удаваясь (pattern: удаясь); продавать: продавая (pattern: продая); выдавать: выдавая (pattern: выдая); задавать: задавая (pattern: задая); ползти: ползя (pattern: полза); …
-- **differs from the regular pattern (past active participle; Wiktionary kept)** (129): идти: шедший (pattern: шевший); пойти: пошедший (pattern: пошевший); выйти: вышедший (pattern: вышевший); найти: нашедший (pattern: нашевший); прийти: пришедший (pattern: пришевший); уйти: ушедший (pattern: ушевший); вести: ведший (pattern: вевший); пройти: прошедший (pattern: прошевший); подойти: подошедший (pattern: подошевший); войти: вошедший (pattern: вошевший); произойти: происшедший/произошедший (pattern: произошевший); прийтись: пришедшийся (pattern: пришевшийся); привести: приведший (pattern: привевший); провести: проведший (pattern: провевший); исчезнуть: исчезнувший (pattern: исчезший); привыкнуть: привыкнувший (pattern: привыкший); зайти: зашедший (pattern: зашевший); честь: чтивший (pattern: чевший); перейти: перешедший (pattern: перешевший); найтись: нашедшийся (pattern: нашевшийся); перевести: переведший (pattern: перевевший); обойтись: обошедшийся (pattern: обошевшийся); отойти: отошедший (pattern: отошевший); дойти: дошедший (pattern: дошевший); вывести: выведший (pattern: вывевший); …
-- **perfective verb listed with a present participle/adverb (kept, not drilled for pf)** (40): честь; суетиться; затрещать; спеть; образовать; провозить; поводить; воротить; тесниться; наваливаться; переноситься; погонять; стыдить; наноситься; плодиться; плодить; откушать; помыкать; согласоваться; приравниваться; сжить; проползать; обносить; авторизовать; докупать; …
-- **differs from the regular pattern (present active participle; Wiktionary kept)** (15): врезаться: врезающийся (pattern: врежющийся); метать: мечущий (pattern: метающий); брызгать: брызгающий (pattern: брызжущий); соревноваться: соревнующийся (pattern: соревновающийся); лаяться: лаяющийся (pattern: лающийся); стелиться: стелющийся (pattern: стелящийся); мучаться: мучающийся (pattern: мучащийся); зазнаваться: зазнавающийся (pattern: зазнающийся); опознавать: опознающий (pattern: оппзнающий); возвеличить: возвеличиющий (pattern: возвеличащий); выделываться: выделывающийся (pattern: выделыватьющийся); прилежать: прилежающий (pattern: прилежащий); отмежеваться: отмежевающийся (pattern: отмежующийся); отрезать: отрезающий (pattern: отрежущий); затыкать: затыкающий (pattern: затычущий)
+- **differs from the regular pattern (present verbal adverb; Wiktionary kept)** (119): хотеть: желая (pattern: хотя); идти: идя/идучи (pattern: ида); жить: живя/живучи (pattern: жива); давать: давая (pattern: дая); оставаться: оставаясь (pattern: остаясь); вести: ведя (pattern: веда); брать: беря (pattern: бера); ехать: едучи (pattern: еда); звать: зовя (pattern: зова); нести: неся (pattern: неса); вставать: вставая (pattern: встая); честь: чтя (pattern: чта); лезть: лезя (pattern: леза); расти: растя (pattern: раста); отдавать: отдавая (pattern: отдая); орать: оря (pattern: ора); создавать: создавая (pattern: создая); везти: везя (pattern: веза); подавать: подавая (pattern: подая); плыть: плывя (pattern: плыва); удаваться: удаваясь (pattern: удаясь); продавать: продавая (pattern: продая); выдавать: выдавая (pattern: выдая); задавать: задавая (pattern: задая); ползти: ползя (pattern: полза); …
+- **differs from the regular pattern (past active participle; Wiktionary kept)** (126): идти: шедший (pattern: шевший); пойти: пошедший (pattern: пошевший); выйти: вышедший (pattern: вышевший); найти: нашедший (pattern: нашевший); прийти: пришедший (pattern: пришевший); уйти: ушедший (pattern: ушевший); вести: ведший (pattern: вевший); пройти: прошедший (pattern: прошевший); подойти: подошедший (pattern: подошевший); войти: вошедший (pattern: вошевший); произойти: происшедший/произошедший (pattern: произошевший); прийтись: пришедшийся (pattern: пришевшийся); привести: приведший (pattern: привевший); провести: проведший (pattern: провевший); исчезнуть: исчезнувший (pattern: исчезший); привыкнуть: привыкнувший (pattern: привыкший); зайти: зашедший (pattern: зашевший); честь: чтивший (pattern: чевший); перейти: перешедший (pattern: перешевший); найтись: нашедшийся (pattern: нашевшийся); перевести: переведший (pattern: перевевший); обойтись: обошедшийся (pattern: обошевшийся); отойти: отошедший (pattern: отошевший); дойти: дошедший (pattern: дошевший); вывести: выведший (pattern: вывевший); …
+- **perfective verb listed with a present participle/adverb (kept, not drilled for pf)** (41): честь; суетиться; затрещать; спеть; образовать; провозить; поводить; воротить; тесниться; наваливаться; переноситься; погонять; стыдить; наноситься; плодиться; плодить; откушать; помыкать; согласоваться; приравниваться; сжить; проползать; обносить; авторизовать; докупать; …
+- **differs from the regular pattern (present active participle; Wiktionary kept)** (12): врезаться: врезающийся (pattern: врежющийся); метать: мечущий (pattern: метающий); брызгать: брызгающий (pattern: брызжущий); лаяться: лаяющийся (pattern: лающийся); стелиться: стелющийся (pattern: стелящийся); зазнаваться: зазнавающийся (pattern: зазнающийся); опознавать: опознающий (pattern: оппзнающий); возвеличить: возвеличиющий (pattern: возвеличащий); прилежать: прилежающий (pattern: прилежащий); отмежеваться: отмежевающийся (pattern: отмежующийся); отрезать: отрезающий (pattern: отрежущий); затыкать: затыкающий (pattern: затычущий)
 
 ## Numerals (Wiktionary)
 
@@ -250,14 +246,14 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | kept: adjectives | 9361 |
 | kept: nouns | 21421 |
 | of which not in the drill data (forms missing or unclear): nouns | 1885 |
-| of which not in the drill data (forms missing or unclear): verbs | 261 |
+| of which not in the drill data (forms missing or unclear): verbs | 255 |
 | of which not in the drill data (forms missing or unclear): adjectives | 908 |
 | kept: other words | 2071 |
 | meaning given in overrides.yaml | 14 |
 
 ### Dropped
 
-- **no English meaning** (9925): попалить, задержаться, осведомиться, вмешаться, схватиться, удалиться, спохватиться, вытянуться, распахнуться, выпрямиться, разложить, оживиться, обнаружиться, удариться, проделать, вспомниться, подыматься, предполагаться, развалиться, отработать, завершиться, набить, насторожиться, вздумать, отделаться, …
+- **no English meaning** (9926): попалить, задержаться, осведомиться, вмешаться, схватиться, удалиться, спохватиться, вытянуться, распахнуться, выпрямиться, разложить, оживиться, обнаружиться, удариться, проделать, вспомниться, подыматься, предполагаться, развалиться, отработать, завершиться, набить, насторожиться, вздумать, отделаться, …
 - **name, abbreviation or phrase** (64): Кому, Вашингтон, Надя, Белоснежка, ВЧК, Кузбасс, Византия, Вильна, Египт, ЗеКа, ЗК, Израил, Исраэль, Комсомольск, Санкт-Петербург, Маньчжу, Маньчжоули, ПМЖ, Мещанинов, Мурман, ФИО, Бэйцзин, Джек-Потрошитель, РЛС, Рейнланд, …
 - **case form of a pronoun** (17): мне, меня, его, тебя, тебе, её, вас, нас, чём, вам, их, нам, ему, ей, чего, им, себе
 - **meaning is a grammar note** (12): наскучивать (to bore (+ dative of person bored)), весенний (Adjectival form of Spring the season), инструментальный (instrumental, tool-making, used for making tools), предложный (prepositional), именительный (Nominative), дательный (Dative), творительный (Instrumental), обращение (address, form of address, appeal, conversion), обо (about (used only with first person prepositional case pronoun)), здрасте (short form of здравствуйте), контрабандой (instrumental case singular of: контрабанда), черно (black (short form))
@@ -275,8 +271,8 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
 | kept after filters (with an English translation) | 650395 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 274946 |
-| verbs: lemmas with ≥1 sentence | 6698 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 274847 |
+| verbs: lemmas with ≥1 sentence | 6706 |
 | adjectives: lemmas with ≥1 sentence | 4192 |
 | nouns: lemmas with ≥1 sentence | 8780 |
 | participles: lemmas with ≥1 sentence | 1479 |
@@ -597,10 +593,10 @@ history: 2 dialogue(s) published, 0 waiting for review.
 | count | n |
 |---|---:|
 | wanted words with no Commons recording of that stress | 298 |
-| word recordings wanted (Commons) | 4007 |
+| word recordings wanted (Commons) | 4006 |
 | sentence recordings wanted (Tatoeba, CC BY / CC0, up to 10 words, with English) | 5738 |
 | sentence recordings not fetched yet | 2417 |
-| word recordings published | 4007 |
+| word recordings published | 4006 |
 | sentence recordings published | 3321 |
 | people credited | 605 |
 
@@ -613,7 +609,7 @@ history: 2 dialogue(s) published, 0 waiting for review.
 | count | n |
 |---|---:|
 | recorded sentences (listen and choose, dictation) | 3321 |
-| "which ending did you hear?" items | 1920 |
+| "which ending did you hear?" items | 1919 |
 | minimal pairs: soft | 20 |
 | minimal pairs: yi | 17 |
 | minimal pairs: shsch | 1 |
@@ -689,9 +685,9 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | count | n |
 |---|---:|
 | kotoryi / kotoryi: candidates (kept up to 1500) | 3916 |
-| chtoby / inf: candidates (kept up to 1500) | 3199 |
+| chtoby / inf: candidates (kept up to 1500) | 3201 |
 | chtoby / past: candidates (kept up to 1500) | 437 |
-| conditional / cond: candidates (kept up to 1500) | 9525 |
+| conditional / cond: candidates (kept up to 1500) | 9526 |
 | negation / net: candidates (kept up to 1500) | 2534 |
 | negation / nipron: candidates (kept up to 1500) | 7182 |
 | negation / ne-ni: candidates (kept up to 1500) | 1500 |
@@ -709,7 +705,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | particles / ka: candidates (kept up to 1500) | 28 |
 | particles / ne-ni: candidates (kept up to 1500) | 1500 |
 | prepositions / в:prep: candidates (kept up to 400) | 8283 |
-| prepositions / по:dat: candidates (kept up to 400) | 2297 |
+| prepositions / по:dat: candidates (kept up to 400) | 2295 |
 | prepositions / от:gen: candidates (kept up to 400) | 714 |
 | prepositions / к:dat: candidates (kept up to 400) | 1786 |
 | prepositions / за:acc: candidates (kept up to 400) | 738 |
@@ -737,16 +733,16 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | prepositions / у:gen: candidates (kept up to 400) | 170 |
 | prepositions / про:acc: candidates (kept up to 400) | 24 |
 | prepositions / около:gen: candidates (kept up to 400) | 42 |
-| aspectContext / impf@presfut: candidates (kept up to 400) | 148916 |
-| aspectContext / pf@presfut: candidates (kept up to 400) | 28352 |
-| aspectContext / impf@past: candidates (kept up to 400) | 63330 |
-| aspectContext / impf@inf: candidates (kept up to 400) | 20231 |
-| aspectContext / pf@past: candidates (kept up to 400) | 120008 |
-| aspectContext / pf@inf: candidates (kept up to 400) | 27280 |
-| aspectContext / impf@imperative: candidates (kept up to 400) | 8515 |
-| aspectContext / pf@imperative: candidates (kept up to 400) | 7124 |
+| aspectContext / impf@presfut: candidates (kept up to 400) | 148924 |
+| aspectContext / pf@presfut: candidates (kept up to 400) | 28403 |
+| aspectContext / impf@past: candidates (kept up to 400) | 63325 |
+| aspectContext / impf@inf: candidates (kept up to 400) | 20228 |
+| aspectContext / pf@past: candidates (kept up to 400) | 120077 |
+| aspectContext / pf@inf: candidates (kept up to 400) | 27281 |
+| aspectContext / impf@imperative: candidates (kept up to 400) | 8571 |
+| aspectContext / pf@imperative: candidates (kept up to 400) | 7126 |
 | svoy / svoy: candidates (kept up to 1500) | 15968 |
-| svoy / ego: candidates (kept up to 1500) | 1857 |
+| svoy / ego: candidates (kept up to 1500) | 1856 |
 | government / dat|доверя'ть: candidates (kept up to 1500) | 51 |
 | government / ot+gen|зави'сеть: candidates (kept up to 1500) | 75 |
 | government / inst|занима'ться: candidates (kept up to 1500) | 155 |
@@ -839,7 +835,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | time / cherez: candidates (kept up to 1500) | 220 |
 | time / po-days: candidates (kept up to 1500) | 233 |
 | narechiya / adj: candidates (kept up to 1500) | 18688 |
-| narechiya / adv: candidates (kept up to 1500) | 17718 |
+| narechiya / adv: candidates (kept up to 1500) | 17726 |
 | questionWords / kakoy: candidates (kept up to 1500) | 3165 |
 | questionWords / chto: candidates (kept up to 1500) | 8148 |
 | questionWords / kakoy-prep: candidates (kept up to 1500) | 787 |
@@ -856,9 +852,13 @@ Typed answers are the sentence’s own word; the blanked token must belong to ex
 | count | n |
 |---|---:|
 | A1 question types | 17 |
-| candidate questions | 2250 |
+| candidate questions | 2244 |
 | A2 question types | 14 |
 | B1 question types | 15 |
 | B2 question types | 15 |
 | C1 question types | 14 |
+
+### Anomalies
+
+- **question types with fewer than 30 candidates** (1): C1 participles (w3): 24
 

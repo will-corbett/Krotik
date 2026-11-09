@@ -49,6 +49,502 @@ verbs:
     выявить:
       imperative_sg: "вы'яви" # source: вы'явь
       imperative_pl: "вы'явите"
+    # Imperative audit (2026-11-09): source imperatives that match none of Wiktionary's. Forms taken from Wiktionary;
+    # the present/future and past are fixed too where the source has them wrong.
+    дождаться:  # source garbles every future and imperative form (дождала'ю'сь); Wiktionary: дожду́сь, дождёшься …, дожди́сь
+      imperative_sg: "дожди'сь" # source: дождала'и'сь
+      imperative_pl: "дожди'тесь" # source: дождала'и'тесь
+      presfut_sg1: "дожду'сь" # source: дождала'ю'сь
+      presfut_sg2: "дождёшься" # source: дождала'ёшься
+      presfut_sg3: "дождётся" # source: дождала'ётся
+      presfut_pl1: "дождёмся" # source: дождала'ёмся
+      presfut_pl2: "дождётесь" # source: дождала'ётесь
+      presfut_pl3: "дожду'тся" # source: дождала'ю'тся
+    добыться:  # source has добиться's forms (добью'сь, добе'йся, доби'лся); Wiktionary: добу́дусь …, добу́дься, добы́лся
+      imperative_sg: "добу'дься" # source: добе'йся
+      imperative_pl: "добу'дьтесь" # source: добе'йтесь
+      presfut_sg1: "добу'дусь" # source: добью'сь
+      presfut_sg2: "добу'дешься" # source: добьёшься
+      presfut_sg3: "добу'дется" # source: добьётся
+      presfut_pl1: "добу'демся" # source: добьёмся
+      presfut_pl2: "добу'детесь" # source: добьётесь
+      presfut_pl3: "добу'дутся" # source: добью'тся
+      past_m: "добы'лся,(добылся')" # source: доби'лся
+      past_f: "добыла'сь" # source: доби'лась
+      past_n: "добыло'сь,(добы'лось)" # source: доби'лось
+      past_pl: "добыли'сь,(добы'лись)" # source: доби'лись
+    беспокоить:  # source: безпоко'й (pre-1918 spelling)
+      imperative_sg: "беспоко'й" # source: безпоко'й
+      imperative_pl: "беспоко'йте" # source: безпоко'йте
+    отражать:  # a stray т in the source's imperative and past (отража'тй, отража'тл)
+      imperative_sg: "отража'й" # source: отража'тй
+      imperative_pl: "отража'йте" # source: отража'тйте
+      past_m: "отража'л" # source: отража'тл
+      past_f: "отража'ла" # source: отража'тла
+      past_n: "отража'ло" # source: отража'тло
+      past_pl: "отража'ли" # source: отража'тли
+    предстать:  # source conjugates it like представа'ть (предстаю', предста'й); Wiktionary: предста́ну, предста́нь
+      imperative_sg: "предста'нь" # source: предста'й
+      imperative_pl: "предста'ньте" # source: предста'йте
+      presfut_sg1: "предста'ну" # source: предстаю'
+      presfut_sg2: "предста'нешь" # source: предстаёшь
+      presfut_sg3: "предста'нет" # source: предстаёт
+      presfut_pl1: "предста'нем" # source: предстаём
+      presfut_pl2: "предста'нете" # source: предстаёте
+      presfut_pl3: "предста'нут" # source: предстаю'т
+    распять:  # source: разопну', разопни'; Wiktionary: распну́, распни́
+      imperative_sg: "распни'" # source: разопни'
+      imperative_pl: "распни'те" # source: разопни'те
+      presfut_sg1: "распну'" # source: разопну'
+      presfut_sg2: "распнёшь" # source: разопнёшь
+      presfut_sg3: "распнёт" # source: разопнёт
+      presfut_pl1: "распнём" # source: разопнём
+      presfut_pl2: "распнёте" # source: разопнёте
+      presfut_pl3: "распну'т" # source: разопну'т
+    соревноваться:  # source conjugates it like a plain -ать verb (соревнова'юсь); Wiktionary: соревну́юсь, соревну́йся
+      imperative_sg: "соревну'йся" # source: соревнова'йся
+      imperative_pl: "соревну'йтесь" # source: соревнова'йтесь
+      presfut_sg1: "соревну'юсь" # source: соревнова'юсь
+      presfut_sg2: "соревну'ешься" # source: соревнова'ешься
+      presfut_sg3: "соревну'ется" # source: соревнова'ется
+      presfut_pl1: "соревну'емся" # source: соревнова'емся
+      presfut_pl2: "соревну'етесь" # source: соревнова'етесь
+      presfut_pl3: "соревну'ются" # source: соревнова'ются
+    жарить:  # source: жа'ри; Wiktionary: жарь
+      imperative_sg: "жа'рь" # source: жа'ри
+      imperative_pl: "жа'рьте" # source: жа'рите
+    упорядочить:  # source: упоря'дочь; Wiktionary: упоря́дочи (plural упоря́дочьте, as in the source)
+      imperative_sg: "упоря'дочи" # source: упоря'дочь
+    опоясать:  # source conjugates it with -аю (опоя'саю, опоя'сай); Wiktionary: опоя́шу, опоя́шь
+      imperative_sg: "опоя'шь" # source: опоя'сай
+      imperative_pl: "опоя'шьте" # source: опоя'сайте
+      presfut_sg1: "опоя'шу" # source: опоя'саю
+      presfut_sg2: "опоя'шешь" # source: опоя'саешь
+      presfut_sg3: "опоя'шет" # source: опоя'сает
+      presfut_pl1: "опоя'шем" # source: опоя'саем
+      presfut_pl2: "опоя'шете" # source: опоя'саете
+      presfut_pl3: "опоя'шут" # source: опоя'сают
+    стопорить:  # source: сто'пори; Wiktionary: сто́порь
+      imperative_sg: "сто'порь" # source: сто'пори
+    вырубиться:  # source: вы'рубись; Wiktionary: вы́рубься
+      imperative_sg: "вы'рубься" # source: вы'рубись
+      imperative_pl: "вы'рубьтесь" # source: вы'рубитесь
+    выситься:  # source: вы'сьсся (garbled); Wiktionary: вы́сься
+      imperative_sg: "вы'сься" # source: вы'сьсся
+      imperative_pl: "вы'сьтесь" # source: вы'сьстесь
+    возрасти:  # source: возрости', возросту' (-рос- is the past stem only); Wiktionary: возрасти́, возрасту́
+      imperative_sg: "возрасти'" # source: возрости'
+      imperative_pl: "возрасти'те" # source: возрости'те
+      presfut_sg1: "возрасту'" # source: возросту'
+      presfut_sg2: "возрастёшь" # source: возростёшь
+      presfut_sg3: "возрастёт" # source: возростёт
+      presfut_pl1: "возрастём" # source: возростём
+      presfut_pl2: "возрастёте" # source: возростёте
+      presfut_pl3: "возрасту'т" # source: возросту'т
+    выбиться:  # source stresses the ending (выбью'сь, выбе'йся); вы- takes the stress: вы́бьюсь, вы́бейся
+      imperative_sg: "вы'бейся" # source: выбе'йся
+      imperative_pl: "вы'бейтесь" # source: выбе'йтесь
+      presfut_sg1: "вы'бьюсь" # source: выбью'сь
+      presfut_sg2: "вы'бьешься" # source: выбьёшься
+      presfut_sg3: "вы'бьется" # source: выбьётся
+      presfut_pl1: "вы'бьемся" # source: выбьёмся
+      presfut_pl2: "вы'бьетесь" # source: выбьётесь
+      presfut_pl3: "вы'бьются" # source: выбью'тся
+    выискать:  # source stresses the ending (выищу', выищи'); вы- takes the stress: вы́ищу, вы́ищи
+      imperative_sg: "вы'ищи" # source: выищи'
+      imperative_pl: "вы'ищите" # source: выищи'те
+      presfut_sg1: "вы'ищу" # source: выищу'
+      presfut_sg2: "вы'ищешь" # source: выи'щешь
+      presfut_sg3: "вы'ищет" # source: выи'щет
+      presfut_pl1: "вы'ищем" # source: выи'щем
+      presfut_pl2: "вы'ищете" # source: выи'щете
+      presfut_pl3: "вы'ищут" # source: выи'щут
+    выделываться:  # a stray -ть- in every source form (выде'лыватьйся, выде'лыватьлся)
+      imperative_sg: "выде'лывайся" # source: выде'лыватьйся
+      imperative_pl: "выде'лывайтесь" # source: выде'лыватьйтесь
+      presfut_sg1: "выде'лываюсь" # source: выде'лыватьюсь
+      presfut_sg2: "выде'лываешься" # source: выде'лыватьешься
+      presfut_sg3: "выде'лывается" # source: выде'лыватьется
+      presfut_pl1: "выде'лываемся" # source: выде'лыватьемся
+      presfut_pl2: "выде'лываетесь" # source: выде'лыватьетесь
+      presfut_pl3: "выде'лываются" # source: выде'лыватьются
+      past_m: "выде'лывался" # source: выде'лыватьлся
+      past_f: "выде'лывалась" # source: выде'лыватьлась
+      past_n: "выде'лывалось" # source: выде'лыватьлось
+      past_pl: "выде'лывались" # source: выде'лыватьлись
+    поставиться:  # source gives поставить's non-reflexive forms (поста'вь, поста'вил)
+      imperative_sg: "поста'вься" # source: поста'вь
+      imperative_pl: "поста'вьтесь" # source: поста'вьте
+      presfut_sg1: "поста'влюсь" # source: поста'влю
+      presfut_sg2: "поста'вишься" # source: поста'вишь
+      presfut_sg3: "поста'вится" # source: поста'вит
+      presfut_pl1: "поста'вимся" # source: поста'вим
+      presfut_pl2: "поста'витесь" # source: поста'вите
+      presfut_pl3: "поста'вятся" # source: поста'вят
+      past_m: "поста'вился" # source: поста'вил
+      past_f: "поста'вилась" # source: поста'вила
+      past_n: "поста'вилось" # source: поста'вило
+      past_pl: "поста'вились" # source: поста'вили
+    заклеивать:  # source stresses за- (за'клеивай); Wiktionary: закле́ивай
+      imperative_sg: "закле'ивай" # source: за'клеивай
+      imperative_pl: "закле'ивайте" # source: за'клеивайте
+      presfut_sg1: "закле'иваю" # source: за'клеиваю
+      presfut_sg2: "закле'иваешь" # source: за'клеиваешь
+      presfut_sg3: "закле'ивает" # source: за'клеивает
+      presfut_pl1: "закле'иваем" # source: за'клеиваем
+      presfut_pl2: "закле'иваете" # source: за'клеиваете
+      presfut_pl3: "закле'ивают" # source: за'клеивают
+      past_m: "закле'ивал" # source: за'клеивал
+      past_f: "закле'ивала" # source: за'клеивала
+      past_n: "закле'ивало" # source: за'клеивало
+      past_pl: "закле'ивали" # source: за'клеивали
+    вопиять:  # source: во'пий, вопиёшь; Wiktionary: вопи́й, вопие́шь
+      imperative_sg: "вопи'й" # source: во'пий
+      imperative_pl: "вопи'йте" # source: во'пийте
+      presfut_sg2: "вопие'шь" # source: вопиёшь
+      presfut_sg3: "вопие'т" # source: вопиёт
+      presfut_pl1: "вопие'м" # source: вопиём
+      presfut_pl2: "вопие'те" # source: вопиёте
+    застонать:  # source cells are garbled (застону//_устари'); Wiktionary: застону́, засто́нешь …, застони́; its -аю forms are kept as optional variants
+      imperative_sg: "застони',(застона'й)" # source: застону//_устари'
+      imperative_pl: "застони'те,(застона'йте)" # source: застону//_устари'те
+      presfut_sg1: "застону',(застона'ю)" # source: застону'//_устар._застона'ю
+      presfut_sg2: "засто'нешь,(застона'ешь)" # source: застону'//_устар._
+      presfut_sg3: "засто'нет,(застона'ет)" # source: застону'//_устар._
+      presfut_pl1: "засто'нем,(застона'ем)" # source: застону'//_устар._
+      presfut_pl2: "засто'нете,(застона'ете)" # source: застону'//_устар._
+      presfut_pl3: "засто'нут,(застона'ют)" # source: застону'//_устар._
+    простонать:  # source cells are garbled (простону//_устари'); Wiktionary: простону́, просто́нешь …, простони́; its -аю forms are kept as optional variants
+      imperative_sg: "простони',(простона'й)" # source: простону//_устари'
+      imperative_pl: "простони'те,(простона'йте)" # source: простону//_устари'те
+      presfut_sg1: "простону',(простона'ю)" # source: простону'//_устар._простона'ю
+      presfut_sg2: "просто'нешь,(простона'ешь)" # source: простону'//_устар._
+      presfut_sg3: "просто'нет,(простона'ет)" # source: простону'//_устар._
+      presfut_pl1: "просто'нем,(простона'ем)" # source: простону'//_устар._
+      presfut_pl2: "просто'нете,(простона'ете)" # source: простону'//_устар._
+      presfut_pl3: "просто'нут,(простона'ют)" # source: простону'//_устар._
+    записаться:  # source forms have capitals and no stress marks (Запишись)
+      imperative_sg: "запиши'сь" # source: Запишись
+      imperative_pl: "запиши'тесь" # source: Запишитесь
+      presfut_sg1: "запишу'сь" # source: Запишусь
+      presfut_sg2: "запи'шешься" # source: Запишешься
+      presfut_sg3: "запи'шется" # source: запишется
+      presfut_pl1: "запи'шемся" # source: запишемся
+      presfut_pl2: "запи'шетесь" # source: запишетесь
+      presfut_pl3: "запи'шутся" # source: Запишутся
+      past_m: "записа'лся" # source: Записался
+      past_f: "записа'лась" # source: Записалась
+      past_n: "записа'лось" # source: записалось
+      past_pl: "записа'лись" # source: записались
+    скачать:  # source marks stress with á instead of an apostrophe (скачáй)
+      imperative_sg: "скача'й" # source: скачáй
+      imperative_pl: "скача'йте" # source: скачáйте
+      presfut_sg1: "скача'ю" # source: скачáю
+      presfut_sg2: "скача'ешь" # source: скачáешь
+      presfut_sg3: "скача'ет" # source: скачáет
+      presfut_pl1: "скача'ем" # source: скачáем
+      presfut_pl2: "скача'ете" # source: скачáете
+      presfut_pl3: "скача'ют" # source: скачáют
+      past_m: "скача'л" # source: скачáл
+      past_f: "скача'ла" # source: скачáла
+      past_n: "скача'ло" # source: скачáло
+      past_pl: "скача'ли" # source: скачáли
+    лизать:  # source forms have no stress marks
+      imperative_sg: "лижи'" # source: лижи
+      imperative_pl: "лижи'те" # source: лижите
+      presfut_sg1: "лижу'" # source: лижу
+      presfut_sg2: "ли'жешь" # source: лижешь
+      presfut_sg3: "ли'жет" # source: лижет
+      presfut_pl1: "ли'жем" # source: лижем
+      presfut_pl2: "ли'жете" # source: лижете
+      presfut_pl3: "ли'жут" # source: лижут
+      past_m: "лиза'л" # source: лизал
+      past_f: "лиза'ла" # source: лизала
+      past_n: "лиза'ло" # source: лизало
+      past_pl: "лиза'ли" # source: лизали
+    поражать:  # source forms have no stress marks
+      imperative_sg: "поража'й" # source: поражай
+      imperative_pl: "поража'йте" # source: поражайте
+      presfut_sg1: "поража'ю" # source: поражаю
+      presfut_sg2: "поража'ешь" # source: поражаешь
+      presfut_sg3: "поража'ет" # source: поражает
+      presfut_pl1: "поража'ем" # source: поражаем
+      presfut_pl2: "поража'ете" # source: поражаете
+      presfut_pl3: "поража'ют" # source: поражают
+      past_m: "поража'л" # source: поражал
+      past_f: "поража'ла" # source: поражала
+      past_n: "поража'ло" # source: поражало
+      past_pl: "поража'ли" # source: поражали
+    перечесть:  # source forms have no stress marks; past: перёчла for перечла́
+      imperative_sg: "перечти'" # source: перечти
+      imperative_pl: "перечти'те" # source: перечтите
+      presfut_sg1: "перечту'" # source: перечту
+      presfut_sg2: "перечтёшь" # source: перечтешь
+      presfut_sg3: "перечтёт" # source: перечтет
+      presfut_pl1: "перечтём" # source: перечтем
+      presfut_pl2: "перечтёте" # source: перечтете
+      presfut_pl3: "перечту'т" # source: перечтут
+      past_f: "перечла'" # source: перёчла
+      past_n: "перечло'" # source: перёчло
+      past_pl: "перечли'" # source: перёчли
+    завести:  # source forms have no stress marks
+      imperative_sg: "заведи'" # source: заведи
+      imperative_pl: "заведи'те" # source: заведите
+      presfut_sg1: "заведу'" # source: заведу
+      presfut_pl3: "заведу'т" # source: заведут
+      past_f: "завела'" # source: завела
+      past_n: "завело'" # source: завело
+      past_pl: "завели'" # source: завели
+    адаптироваться:  # source forms have no stress marks
+      imperative_sg: "адапти'руйся" # source: адаптируйся
+      imperative_pl: "адапти'руйтесь" # source: адаптируйтесь
+      presfut_sg1: "адапти'руюсь" # source: адаптируюсь
+      presfut_sg2: "адапти'руешься" # source: адаптируешься
+      presfut_sg3: "адапти'руется" # source: адаптируется
+      presfut_pl1: "адапти'руемся" # source: адаптируемся
+      presfut_pl2: "адапти'руетесь" # source: адаптируетесь
+      presfut_pl3: "адапти'руются" # source: адаптируются
+      past_m: "адапти'ровался" # source: адаптировался
+      past_f: "адапти'ровалась" # source: адаптировалась
+      past_n: "адапти'ровалось" # source: адаптировалось
+      past_pl: "адапти'ровались" # source: адаптировались
+    афишировать:  # source forms have no stress marks
+      imperative_sg: "афиши'руй" # source: афишируй
+      imperative_pl: "афиши'руйте" # source: афишируйте
+      presfut_sg1: "афиши'рую" # source: афиширую
+      presfut_sg2: "афиши'руешь" # source: афишируешь
+      presfut_sg3: "афиши'рует" # source: афиширует
+      presfut_pl1: "афиши'руем" # source: афишируем
+      presfut_pl2: "афиши'руете" # source: афишируете
+      presfut_pl3: "афиши'руют" # source: афишируют
+      past_m: "афиши'ровал" # source: афишировал
+      past_f: "афиши'ровала" # source: афишировала
+      past_n: "афиши'ровало" # source: афишировало
+      past_pl: "афиши'ровали" # source: афишировали
+    преобразоваться:  # source forms have no stress marks
+      imperative_sg: "преобразу'йся" # source: преобразуйся
+      imperative_pl: "преобразу'йтесь" # source: преобразуйтесь
+      presfut_sg1: "преобразу'юсь" # source: преобразуюсь
+      presfut_sg2: "преобразу'ешься" # source: преобразуешься
+      presfut_sg3: "преобразу'ется" # source: преобразуется
+      presfut_pl1: "преобразу'емся" # source: преобразуемся
+      presfut_pl2: "преобразу'етесь" # source: преобразуетесь
+      presfut_pl3: "преобразу'ются" # source: преобразуются
+    заехать:  # source has no imperative; Wiktionary gives заезжа́й (from заезжать)
+      imperative_sg: "заезжа'й" # source: -
+      imperative_pl: "заезжа'йте" # source: -
+    наехать:  # source has no imperative; Wiktionary gives наезжа́й (from наезжать)
+      imperative_sg: "наезжа'й" # source: -
+      imperative_pl: "наезжа'йте" # source: -
+    отъехать:  # source: отъедь (no stress, colloquial); Wiktionary gives отъезжа́й (from отъезжать)
+      imperative_sg: "отъезжа'й" # source: отъедь
+      imperative_pl: "отъезжа'йте" # source: отъедьте
+    разъехаться:  # source: -ся (a fragment); Wiktionary gives разъезжа́йся (from разъезжаться)
+      imperative_sg: "разъезжа'йся" # source: -ся
+      imperative_pl: "разъезжа'йтесь" # source: -ся
+    проехаться:  # source: -ся (a fragment); Wiktionary gives проезжа́йся (from проезжаться)
+      imperative_sg: "проезжа'йся" # source: -ся
+      imperative_pl: "проезжа'йтесь" # source: -ся
+    мучаться:  # source conjugates it like мучиться (му'чусь, му'чься) and has no stress on the infinitive; Wiktionary: му́чаюсь, му́чайся
+      imperative_sg: "му'чайся" # source: му'чься
+      imperative_pl: "му'чайтесь" # source: му'чьтесь
+      presfut_sg1: "му'чаюсь" # source: му'чусь
+      presfut_sg2: "му'чаешься" # source: му'чишься
+      presfut_sg3: "му'чается" # source: му'чится
+      presfut_pl1: "му'чаемся" # source: му'чимся
+      presfut_pl2: "му'чаетесь" # source: му'читесь
+      presfut_pl3: "му'чаются" # source: му'чатся
+      accented: "му'чаться" # source: мучаться
+    рассыпаться:  # the perfective рассы́паться is conjugated like the imperfective рассыпа́ться in the source; Wiktionary: рассы́плюсь, рассы́пься
+      imperative_sg: "рассы'пься" # source: рассы'пайся
+      imperative_pl: "рассы'пьтесь" # source: рассы'пайтесь
+      presfut_sg1: "рассы'плюсь" # source: рассы'паюсь
+      presfut_sg2: "рассы'плешься,рассы'пешься" # source: рассы'паешься
+      presfut_sg3: "рассы'плется,рассы'пется" # source: рассы'пается
+      presfut_pl1: "рассы'племся,рассы'пемся" # source: рассы'паемся
+      presfut_pl2: "рассы'плетесь,рассы'петесь" # source: рассы'паетесь
+      presfut_pl3: "рассы'плются" # source: рассы'паются
+    осыпаться:  # the perfective осы́паться is conjugated like the imperfective осыпа́ться in the source; Wiktionary: осы́плюсь, осы́пься
+      imperative_sg: "осы'пься" # source: осы'пайся
+      imperative_pl: "осы'пьтесь" # source: осы'пайтесь
+      presfut_sg1: "осы'плюсь" # source: осы'паюсь
+      presfut_sg2: "осы'плешься,осы'пешься" # source: осы'паешься
+      presfut_sg3: "осы'плется,осы'пется" # source: осы'пается
+      presfut_pl1: "осы'племся,осы'пемся" # source: осы'паемся
+      presfut_pl2: "осы'плетесь,осы'петесь" # source: осы'паетесь
+      presfut_pl3: "осы'плются" # source: осы'паются
+    отсыпаться:  # the perfective отсы́паться is conjugated like the imperfective отсыпа́ться in the source; Wiktionary: отсы́плюсь, отсы́пься
+      imperative_sg: "отсы'пься" # source: отсы'пайся
+      imperative_pl: "отсы'пьтесь" # source: отсы'пайтесь
+      presfut_sg1: "отсы'плюсь" # source: отсы'паюсь
+      presfut_sg2: "отсы'плешься,отсы'пешься" # source: отсы'паешься
+      presfut_sg3: "отсы'плется,отсы'пется" # source: отсы'пается
+      presfut_pl1: "отсы'племся,отсы'пемся" # source: отсы'паемся
+      presfut_pl2: "отсы'плетесь,отсы'петесь" # source: отсы'паетесь
+      presfut_pl3: "отсы'плются" # source: отсы'паются
+    # No imperative: Wiktionary marks these verbs' imperative as absent (perception and state verbs, impersonal
+    # verbs, frequentatives used in the past only), and lists the source's form under no other tag either.
+    видеть:  # source: ви'дь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    видеться:  # source: ви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    виднеться:  # source: видне'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    гнить:  # source: гни'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    говаривать:  # source: гова'ривай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    езжать:  # source: езжа'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    заблагорассудиться:  # source: заблагорассу'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    загнить:  # source: за'гний
+      imperative_sg: "-"
+      imperative_pl: "-"
+    заслышать:  # source: заслы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    застояться:  # source: засто'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    знавать:  # source: знава'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    наслышаться:  # source: наслы'шься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    настоять:  # source: насто'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    нашивать:  # source: на'шивай; this row is на́шивать, the frequentative of носить; нашива́ть "sew on" (нашива́й) is another word
+      imperative_sg: "-"
+      imperative_pl: "-"
+    недоставать:  # source: недостава'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    послышаться:  # source: послы'шься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    посчастливиться:  # source: посчастли'вься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    почудиться:  # source: почу'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    предвидеть:  # source: предви'дь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    предвидеться:  # source: предви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    преминуть:  # source: преми'нь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    привидеться:  # source: приви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    приспичить:  # source: приспи'чь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    приуныть:  # source: приуно'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    прогнить:  # source: про'гний
+      imperative_sg: "-"
+      imperative_pl: "-"
+    прослышать:  # source: прослы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    прояснить:  # source: проя'сни; this row is проя́снить (impersonal); проясни́ть "clarify" is a separate row with проясни́
+      imperative_sg: "-"
+      imperative_pl: "-"
+    разуметься:  # source: разуме'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    расслышать:  # source: расслы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    сгнить:  # source: сгний
+      imperative_sg: "-"
+      imperative_pl: "-"
+    сиживать:  # source: си'живай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    слыхивать:  # source: слы'хивай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    слышать:  # source: слы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    слышаться:  # source: слы'шься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    состояться:  # source: состо'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    твориться:  # source: твори'сь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    увидеться:  # source: уви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    устоять:  # source: усто'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    устояться:  # source: усто'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    хаживать:  # source: ха'живай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    читывать:  # source: чи'тывай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    чудиться:  # source: чу'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    # Variant disagreements: the source gives several forms (or a fragment); Wiktionary gives one.
+    приподнять:  # source: приподним-//подыми' (a fragment plus the colloquial подыму́ forms); Wiktionary: приподниму́, приподними́
+      imperative_sg: "приподними'" # source: приподним-//подыми'
+      imperative_pl: "приподними'те" # source: приподним-//подыми'те
+      presfut_sg1: "приподниму'" # source: приподним-//подыму'
+      presfut_sg2: "приподни'мешь" # source: приподним-//поды'мешь
+      presfut_sg3: "приподни'мет" # source: приподним-//поды'мет
+      presfut_pl1: "приподни'мем" # source: приподним-//поды'мем
+      presfut_pl2: "приподни'мете" # source: приподним-//поды'мете
+      presfut_pl3: "приподни'мут" # source: приподним-//поды'мут
+    приподняться:  # source: приподним-//подыми'сь (a fragment plus the colloquial подыму́сь forms); Wiktionary: приподниму́сь, приподними́сь
+      imperative_sg: "приподними'сь" # source: приподним-//подыми'сь
+      imperative_pl: "приподними'тесь" # source: приподним-//подыми'тесь
+      presfut_sg1: "приподниму'сь" # source: приподним-//подыму'сь
+      presfut_sg2: "приподни'мешься" # source: приподним-//поды'мешься
+      presfut_sg3: "приподни'мется" # source: приподним-//поды'мется
+      presfut_pl1: "приподни'мемся" # source: приподним-//поды'мемся
+      presfut_pl2: "приподни'метесь" # source: приподним-//поды'метесь
+      presfut_pl3: "приподни'мутся" # source: приподним-//поды'мутся
+    откупорить:  # source: отку'пори//отку'порь; Wiktionary gives only отку́порь
+      imperative_sg: "отку'порь" # source: отку'пори//отку'порь
+    лакомиться:  # source: ла'комись//ла'комься; Wiktionary gives only ла́комься
+      imperative_sg: "ла'комься" # source: ла'комись//ла'комься
+    полакомиться:  # source: пола'комись//пола'комься; Wiktionary gives only пола́комься
+      imperative_sg: "пола'комься" # source: пола'комись//пола'комься
+    вымазаться:  # source: вы'мажись//вы'мажься, plural вы'мажьтесь; Wiktionary gives only вы́мажись, вы́мажитесь
+      imperative_sg: "вы'мажись" # source: вы'мажись//вы'мажься
+      imperative_pl: "вы'мажитесь" # source: вы'мажьтесь
+    почтить:  # source: почтят//почти' (a 3rd-person form among the imperatives)
+      imperative_sg: "почти'" # source: почтят//почти'
+      imperative_pl: "почти'те" # source: почтят//почти'те
+      presfut_pl3: "почтя'т,почту'т" # source: почтят//почтут
+    двигаться:  # source: дви'жься; Wiktionary gives дви́гайся for both present types (дви́гаюсь and дви́жусь)
+      imperative_sg: "дви'гайся" # source: дви'жься
+      imperative_pl: "дви'гайтесь" # source: дви'жьтесь
   exclude:
     размежёвывать: all six present forms are the 1sg form
     выпуститься: past f/n/pl forms are non-reflexive and mismatched
