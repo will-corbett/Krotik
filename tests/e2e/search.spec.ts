@@ -12,6 +12,9 @@ test('search from the header: words, lessons and themes, with the query in the a
   await expect(page).toHaveURL(/\?q=%D0%BF/);
   await expect(page.getByRole('heading', { name: 'Words' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Vocabulary themes' })).toBeVisible();
+  // Pages you can go to come before the list of words.
+  const headings = await page.locator('main h2').allInnerTexts();
+  expect(headings.indexOf('Vocabulary themes')).toBeLessThan(headings.indexOf('Words'));
   await page.getByRole('link', { name: 'Weather and seasons' }).first().click();
   await expect(page).toHaveURL(/\/vocabulary\/weather\/$/);
   const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();

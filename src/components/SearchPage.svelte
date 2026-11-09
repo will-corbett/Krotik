@@ -1,7 +1,7 @@
 <script lang="ts">
   /**
    * Search the whole site: lessons, drills, vocabulary themes and words, Reading, idioms, words that go together,
-   * culture and writing. The query is in the address (?q=), so a search can be bookmarked or shared; nothing is stored
+   * culture and writing. Pages you can go to come first; the dictionary-style list of words comes after them. The query is in the address (?q=), so a search can be bookmarked or shared; nothing is stored
    * or sent anywhere (the index is a file the page loads).
    */
   import { onMount, tick } from 'svelte';
@@ -78,23 +78,6 @@
     {#if error}{error}{:else if !query.trim()}Lessons, drills, words, idioms, texts and more. Stress marks and ё don't matter.{:else if !index}Loading…{:else if !total}Nothing found for “{query.trim()}”.{:else}{total} {total === 1 ? 'result' : 'results'}{/if}
   </p>
 
-  {#if wordHits.length}
-    <section aria-labelledby="g-words">
-      <h2 id="g-words">Words</h2>
-      <ul class="words">
-        {#each wordHits as w (w.key)}
-          {@const t = themeOf(w.key)}
-          <li>
-            <strong lang="ru">{renderForm(w.accented.split(',')[0]!, settings.stress)}</strong>
-            <span class="muted small">{[POS[w.pos], w.register ? registerName(w.register) : ''].filter(Boolean).join(' · ')}</span>
-            <span>{w.gloss}</span>
-            {#if t}<a class="small" href="{SITE_BASE}vocabulary/{t.id}/">in {t.title}</a>{/if}
-          </li>
-        {/each}
-      </ul>
-    </section>
-  {/if}
-
   {#each groups as g (g.k)}
     <section aria-labelledby="g-{g.k}">
       <h2 id="g-{g.k}">{g.title}</h2>
@@ -111,6 +94,23 @@
       </ul>
     </section>
   {/each}
+
+  {#if wordHits.length}
+    <section aria-labelledby="g-words">
+      <h2 id="g-words">Words</h2>
+      <ul class="words">
+        {#each wordHits as w (w.key)}
+          {@const t = themeOf(w.key)}
+          <li>
+            <strong lang="ru">{renderForm(w.accented.split(',')[0]!, settings.stress)}</strong>
+            <span class="muted small">{[POS[w.pos], w.register ? registerName(w.register) : ''].filter(Boolean).join(' · ')}</span>
+            <span>{w.gloss}</span>
+            {#if t}<a class="small" href="{SITE_BASE}vocabulary/{t.id}/">in {t.title}</a>{/if}
+          </li>
+        {/each}
+      </ul>
+    </section>
+  {/if}
 </section>
 
 <style>
