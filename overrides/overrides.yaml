@@ -23,6 +23,32 @@ verbs:
       past_pl: "накаля'ли"
     соскучиться:
       presfut_sg2: "соску'чишься" # source: соску'шься
+    оказать:
+      # Source conjugates it like a regular -ать verb (оказа'ю, оказа'й); Wiktionary: окажу́, ока́жешь …, окажи́.
+      imperative_sg: "окажи'"
+      imperative_pl: "окажи'те"
+      presfut_sg1: "окажу'"
+      presfut_sg2: "ока'жешь"
+      presfut_sg3: "ока'жет"
+      presfut_pl1: "ока'жем"
+      presfut_pl2: "ока'жете"
+      presfut_pl3: "ока'жут"
+    выдержать:
+      # Source: вы'держь; Wiktionary: вы́держи (вы- takes the stress, so the -и stays).
+      imperative_sg: "вы'держи"
+      imperative_pl: "вы'держите"
+    выразить:
+      imperative_sg: "вы'рази" # source: вы'разь
+      imperative_pl: "вы'разите"
+    выстоять:
+      imperative_sg: "вы'стой" # source: вы'стоь
+      imperative_pl: "вы'стойте"
+    вытащить:
+      imperative_sg: "вы'тащи" # source: вы'тащь
+      imperative_pl: "вы'тащите"
+    выявить:
+      imperative_sg: "вы'яви" # source: вы'явь
+      imperative_pl: "вы'явите"
   exclude:
     размежёвывать: all six present forms are the 1sg form
     выпуститься: past f/n/pl forms are non-reflexive and mismatched
