@@ -24,7 +24,7 @@ dialogues:
     reviewed: "a native speaker, 2026-11-08"
     lines:
       - [Олег, "Где моя книга? Она была на столе.", "Where is my book? It was on the table."]
-      - [Анна, "Я убирала и положила её в шкаф.", "I was tidying up and put it in the cupboard."]
+      - [Анна, "Я убиралась и положила её в шкаф.", "I was tidying up and put it in the cupboard."]
       - [Олег, "Спасибо. А почему окно открыто?", "Thanks. And why is the window open?"]
       - [Анна, "Здесь было жарко. Закрой его, если холодно.", "It was hot in here. Close it if you are cold."]
       - [Олег, "Нет, не холодно. Пусть будет открыто.", "No, I am not cold. Leave it open."]
