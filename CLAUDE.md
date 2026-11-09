@@ -171,6 +171,14 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   imperative) of other listed verbs of the same aspect that are neither listed nor found with that noun, never a
   generic verb (сделать, взять, дать, отдать, найти … `GENERIC`), since those fit almost anything. `::collocations
   <verbs>` draws the pairs on a Learn page; Vocabulary themes list the pairs whose noun is one of their words.
+- Syntax lessons (critique batch 5): Learn-only pages aspectNuance (fact-of-action imperfective, came-and-went,
+  trying vs succeeding, не + imperfective, inviting imperfective), discourse (однако, впрочем, зато, итак, кстати…),
+  register (ты/вы, names, greetings, polite requests, bookish vs everyday words); Word order gained approximate
+  numbers (лет пять), inversion after a quotation and colloquial «Ты где…»; Reported speech gained просить/велеть +
+  infinitive and мол. Word order practice (`content/word-order.yaml`, `scripts/lib/wordOrderQa.ts`): our own
+  question + two orders of one answer, word-checked, same words required, published only once reviewed (like the
+  dialogues; `reports/word-order-for-review.md`). Mode `wordOrder` and its generator exist; the topic stays
+  `drill: false` (Learn-only) until reviewed items are published: then make it a drill and add `::drill wordOrder`.
 - Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
   GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
   text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent

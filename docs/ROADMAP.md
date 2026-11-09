@@ -197,7 +197,8 @@ and Ru Wikinews (CC BY; politics only as history before 2014, nothing on the war
    the native speaker before publishing). Done 2026-11-09: words that go together (143 curated pairs, 123 found in
    Tatoeba, 355 "Which verb?" items, Learn page, Vocabulary themes). Also found: OpenRussian conjugates оказать
    like a regular -ать verb and gives five вы- imperatives without their -и (fixed in overrides); 87 imperatives in all
-   disagree with Wiktionary, to audit separately. Still to do: fuller syntax lessons (word order with a drill, reported speech, register, discourse, aspect nuance);
+   disagree with Wiktionary, to audit separately. Syntax lessons done 2026-11-09: three new Learn pages (aspect nuance, linking ideas, register), Word order and
+   Reported speech expanded, 32 word-order question-and-answer items written and waiting for native review. Still to do:
    register labels from Wiktionary; curated collocations from Tatoeba co-occurrence; idioms from Wiktionary.
 Not doing: accounts or sync, social features, leaderboards, gamification, animations, a chatbot, speech recognition.
 
