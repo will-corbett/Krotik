@@ -45,8 +45,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   link) beside it when it plays, on theme pages and on the About page. Files are hosted with the site
   (`public/audio/`, gitignored): no third-party requests. Neither site has a bulk download, so `audio.yml` fetches
   for 45 minutes a run, back to back while recordings remain (then daily), into an Actions cache (`audio-<run>`, older ones deleted) and redeploys when anything
-  new arrived; `deploy.yml` restores the newest cache. Wanted: every Vocabulary theme word, the commonest 1,000 words
-  of each type, minimal-pair words, and every CC BY/CC0 recorded corpus sentence of up to 10 words, most useful first.
+  new arrived; `deploy.yml` restores the newest cache. Wanted: every Vocabulary theme word, minimal-pair words, and
+  every word among the 2,500 commonest of each type with a recording of its own stress (about 7,700), and every CC BY/CC0 recorded corpus sentence of up to 10 words, most useful first.
 - Licences: OpenRussian/Wiktionary-derived data is CC BY-SA 4.0 (share-alike applies to our shards);
   Tatoeba sentences are CC BY 2.0 FR. Keep the About page and public/data/LICENSE.md accurate.
 - Keep the site commercially usable: only sources whose licence allows commercial use (CC BY / CC BY-SA, public
@@ -189,6 +189,17 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   question + two orders of one answer, word-checked, same words required, published only once reviewed (like the
   dialogues; `reports/word-order-for-review.md`). Mode `wordOrder` and its generator exist; the topic stays
   `drill: false` (Learn-only) until reviewed items are published: then make it a drill and add `::drill wordOrder`.
+- Listening page (`/listening/`, `ListeningPage.svelte`, in the main menu after Writing): the four listening drills
+  with their item counts, and "listen and read" (a random recorded sentence; Russian, then English, on request; the
+  first doesn't autoplay; record-and-compare). public/audio is synced by the build, never deleted and rebuilt.
+- Home page: with progress off, a line points to the learning path for your level (with progress on, "Your next
+  steps" does).
+- Full forms in vocabulary rounds load on demand (`Question.lazyParadigm`, `loadParadigm`): a round starts with the
+  word lists only.
+- Verb forms Wiktionary gives as "-" (the extract's `noPresent`: past-only verbs like говаривать, impersonal verbs'
+  я/ты/мы/вы, a missing я form like победить) are blanked in the build and never drilled.
+- Overrides: a `fix` key "bare@accented" names one exact source row (where a spelling has two rows and the first is
+  wrong, as проясниться); a plain key fixes the first row.
 - Report a problem (`src/lib/report.ts`, `ReportLink.svelte`, `ISSUES_URL` in `src/shared/site.ts`): a link to a new
   GitHub issue prefilled with the page and the item (drill question and expected answer, Tatoeba sentence, Reading
   text, Vocabulary theme, Learn page, test question; the footer for any page). It only opens the form: nothing is sent

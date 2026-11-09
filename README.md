@@ -22,6 +22,8 @@ and your words) is optional, off by default, and kept only in your browser.
 - **Reading**: short stories by Tolstoy, Chekhov's stories and comedies (public domain) and science news from Russian
   Wikinews (CC BY 4.0), with every word explained on hover or tap and comprehension questions in English or Russian,
   including reading between the lines and tone from B2 (`curated/literature.yaml`, `content/reading/questions.yaml`).
+- **Listening**: native recordings in four drills (listen and choose, dictation, hear the ending, minimal pairs), and
+  listen-and-read with record-and-compare.
 - **Search**: the whole site (lessons, drills, words, idioms, texts, culture), in English or Russian, from the header
   or by pressing "/".
 - **Culture**: about 120 hand-picked links to videos, cartoons, films, podcasts, books and tools, each type with a suggested activity, filterable by level, topic and region (`content/culture/links.yaml`),
