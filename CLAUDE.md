@@ -203,6 +203,14 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   the source variants against nom/gen. Source order is unreliable; never use position.
 - Shards: `{type}.b{0..3}.json` = frequency ranks 1–250, 251–1000, 1001–2500, rest. "Top N" loads
   b0..bk. Sentence shards load lazily after a round starts.
+- Every answer is explained. A question's own `explain` (sentence drills, collocations, idioms, Find the mistake,
+  Hear the ending) wins; otherwise `src/lib/explain.ts` builds one from the question (label, dictionary form, frame,
+  forms): verb conjugation from the ты form (and a я-only consonant change), past, imperative, aspect and motion
+  pairs, verbal adverbs, participles, comparatives, short forms, diminutives, nominative plurals, case forms with the
+  reason from the frame (`caseReason` in fixExplain.ts: preposition and meaning, number, нет) and the ending from the
+  stem, pronouns (н- after a preposition), numbers, stress, minimal pairs, vocabulary, translate, build.
+  `prepareRound` adds them, so mixed rounds and Learn quick checks have them too; `tests/unit/explain.test.ts` checks
+  every drill.
 - Retry rule: wrong → comes back RETRY_GAP (10) cards later, or at the end if fewer are left (so retries work in
   unlimited rounds too); round ends only when all are answered correctly (or End round).
   Score = first-attempt correct / attempted.
