@@ -437,31 +437,31 @@ function adverbCandidate(slot: FormSlot, ctx: Ctx, keys: Set<string>): LevelTest
 function participleCandidate(slot: ParticipleSlot, ctx: Ctx, keys: Set<string>): LevelTestCandidate | null {
   const { lex, rng } = ctx;
   const verbs = [...lex.participles.keys()].map((id) => lex.byId.verbs.get(id)).filter((v): v is Entry => !!v && inRank(slot, v.rank));
-  for (let tries = 0; tries < 80 && verbs.length; tries++) {
-    const v = pick(rng, verbs);
+  // Every verb and sentence, in a shuffled (seeded) order, until one makes a fair question. (Random tries used to run
+  // out before the rarer C1 participles were found, leaving that question type short.)
+  for (const v of shuffle(rng, verbs)) {
     const p = lex.participles.get(v.id)!;
-    const rows = shard(ctx, 'participles', v.band)[v.id] ?? [];
-    if (!rows.length) continue;
-    const row = pick(rng, rows);
-    const key = `lt:part:${row[0]}:${row[4]}`;
-    // Ending the sentence it is a predicate, and next to я, ты or вы its gender depends on who is meant (я, знающий /
-    // знающая): two options could both be right.
-    if (keys.has(key) || endsSentence(row[1], row[5]) || /(^|[^а-яё])(я|ты|вы)([^а-яё]|$)/i.test(row[1])) continue;
-    const token = normalise(row[1].slice(row[4], row[5]));
-    // The participle(s) the token is a full form of; it must be exactly one.
-    const hits = p[6].filter(([, , cells]) => cells.some((c) => cellForms(c).some((f) => normalise(f) === token)));
-    if (hits.length !== 1) continue;
-    const [kind, , cells] = hits[0]!;
-    if (!slot.pkinds.includes(kind)) continue;
-    const at = cells.findIndex((c) => cellForms(c).some((f) => normalise(f) === token));
-    const alsoRight = formsOf(cells.filter((c) => cellForms(c).some((f) => normalise(f) === token)));
-    const wrong = distinctForms(cells.map((c, i) => ({ f: c, code: `p:${kind}:${i}` })), alsoRight);
-    if (wrong.length < 3) continue;
-    const right = {
-      f: usedForm(cells[at]!, row[1].slice(row[4], row[5])),
-      code: cells.map((c, i) => (cellForms(c).some((f) => normalise(f) === token) ? `p:${kind}:${i}` : '')).filter(Boolean).join('+'),
-    };
-    return candidate({ key, ru: row[1], en: row[2], start: row[4], end: row[5], hint: v.accented, right, wrong, rank: v.rank }, rng);
+    for (const row of shuffle(rng, shard(ctx, 'participles', v.band)[v.id] ?? [])) {
+      const key = `lt:part:${row[0]}:${row[4]}`;
+      // Ending the sentence it is a predicate, and next to я, ты or вы its gender depends on who is meant (я, знающий /
+      // знающая): two options could both be right.
+      if (keys.has(key) || endsSentence(row[1], row[5]) || /(^|[^а-яё])(я|ты|вы)([^а-яё]|$)/i.test(row[1])) continue;
+      const token = normalise(row[1].slice(row[4], row[5]));
+      // The participle(s) the token is a full form of; it must be exactly one.
+      const hits = p[6].filter(([, , cells]) => cells.some((c) => cellForms(c).some((f) => normalise(f) === token)));
+      if (hits.length !== 1) continue;
+      const [kind, , cells] = hits[0]!;
+      if (!slot.pkinds.includes(kind)) continue;
+      const at = cells.findIndex((c) => cellForms(c).some((f) => normalise(f) === token));
+      const alsoRight = formsOf(cells.filter((c) => cellForms(c).some((f) => normalise(f) === token)));
+      const wrong = distinctForms(cells.map((c, i) => ({ f: c, code: `p:${kind}:${i}` })), alsoRight);
+      if (wrong.length < 3) continue;
+      const right = {
+        f: usedForm(cells[at]!, row[1].slice(row[4], row[5])),
+        code: cells.map((c, i) => (cellForms(c).some((f) => normalise(f) === token) ? `p:${kind}:${i}` : '')).filter(Boolean).join('+'),
+      };
+      return candidate({ key, ru: row[1], en: row[2], start: row[4], end: row[5], hint: v.accented, right, wrong, rank: v.rank }, rng);
+    }
   }
   return null;
 }
