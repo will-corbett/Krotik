@@ -50,10 +50,11 @@ export interface VocabPool {
   paradigm?: (w: Word) => ParadigmRef | undefined;
 }
 
-function base(w: Word, pool: VocabPool): Pick<Question, 'mode' | 'others' | 'label' | 'speak' | 'word' | 'sentence' | 'paradigm'> {
+function base(w: Word, pool: VocabPool): Pick<Question, 'mode' | 'others' | 'label' | 'speak' | 'word' | 'sentence' | 'paradigm' | 'lazyParadigm'> {
   const type = SENTENCE_TYPE[w.pos];
   const id = Number(w.key.slice(2));
   const p = pool.paradigm?.(w);
+  const lazy = !p && (w.pos === 'n' || w.pos === 'v' || w.pos === 'a') ? { type: ({ n: 'nouns', v: 'verbs', a: 'adjectives' } as const)[w.pos], id: Number(w.key.slice(2)), band: w.band } : undefined;
   // Typing the other aspect is a near miss worth naming ("…, which is its perfective partner").
   const partner = w.extra === 'impf' ? 'perfective partner' : w.extra === 'pf' ? 'imperfective partner' : 'aspect partner';
   const others = p?.kind === 'verb' ? p.verb.partners.map((cell) => ({ label: partner, cell })) : [];
@@ -64,7 +65,7 @@ function base(w: Word, pool: VocabPool): Pick<Question, 'mode' | 'others' | 'lab
     speak: () => bare(w.accented.split(',')[0]!),
     word: { key: w.key, band: w.band, ...(w.register ? { register: w.register } : {}) },
     ...(type ? { sentence: { type, lemmaId: id, cell: -1, band: w.band } } : {}),
-    ...(p ? { paradigm: p } : {}),
+    ...(p ? { paradigm: p } : lazy ? { lazyParadigm: lazy } : {}),
   };
 }
 

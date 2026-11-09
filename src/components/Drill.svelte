@@ -7,7 +7,7 @@
   import { sameSentence } from '../lib/questions/translate.ts';
   import { normalise } from '../shared/normalise.ts';
   import { toCyrillic } from '../lib/translit.ts';
-  import { chooseSentence, loadSentences } from '../lib/data.ts';
+  import { chooseSentence, loadParadigm, loadSentences } from '../lib/data.ts';
   import { answer, clearedCount, current, endRound, extendRound, isFinished, RETRY_GAP, type Round } from '../lib/queue.ts';
   import { nextBatch, type Generate } from '../lib/start.ts';
   import type { Settings } from '../lib/settings.ts';
@@ -15,7 +15,7 @@
   import Hear from './Hear.svelte';
   import ListenPlayer from './ListenPlayer.svelte';
   import RecordCompare from './RecordCompare.svelte';
-  import type { Question } from '../lib/types.ts';
+  import type { ParadigmRef, Question } from '../lib/types.ts';
   import Keyboard from './Keyboard.svelte';
   import Paradigm from './Paradigm.svelte';
   import Sentence from './Sentence.svelte';
@@ -50,6 +50,16 @@
   let shards = $state<Record<string, SentenceShard>>({});
   let choiceButtons = $state<HTMLButtonElement[]>([]);
   let nextButton = $state<HTMLButtonElement>();
+
+  // Full forms loaded on demand (vocabulary rounds): table by "type:id", null when the word has none.
+  let lazyForms = $state<Record<string, ParadigmRef | null>>({});
+  function openForms(p: NonNullable<Question['lazyParadigm']>) {
+    const k = `${p.type}:${p.id}`;
+    if (k in lazyForms) return;
+    loadParadigm(p)
+      .then((r) => (lazyForms[k] = r ?? null))
+      .catch(() => (lazyForms[k] = null));
+  }
 
   const entry = $derived(current(round));
   const q = $derived(entry?.q);
@@ -472,6 +482,15 @@
           {/if}
           <p class="report-line"><ReportLink what="Drill question ({q.label})" details={[`Question: ${taskText(q.task)}: ${q.headword}${q.frame ? ` (${q.frame})` : ''}`, `Answer given as right: ${q.answer}`, ...(q.source ? [`Tatoeba #${q.source}`] : [])]} /></p>
 
+          {#if q.lazyParadigm && !q.paradigm}
+            {@const lp = q.lazyParadigm}
+            <details class="forms" ontoggle={(e) => { if ((e.currentTarget as HTMLDetailsElement).open) openForms(lp); }}>
+              <summary>Full forms</summary>
+              {#if lazyForms[`${lp.type}:${lp.id}`] === null}<p class="muted small">No table of forms for this word.</p>
+              {:else if lazyForms[`${lp.type}:${lp.id}`]}<Paradigm ref={lazyForms[`${lp.type}:${lp.id}`]!} {stress} />
+              {:else}<p class="muted small">Loading…</p>{/if}
+            </details>
+          {/if}
           {#if q.paradigm}
             <details class="forms">
               <summary>Full forms</summary>

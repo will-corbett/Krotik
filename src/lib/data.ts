@@ -4,7 +4,7 @@ import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
 import type { AudioIndex, CollocationData, IdiomData, ListeningData, SearchIndex, WordOrderData } from '../shared/types.ts';
 import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, ThemeData, ThemeIndex, VerbRow, WordRow } from '../shared/types.ts';
-import type { Adjective, Noun, Verb, Word } from './types.ts';
+import type { Adjective, Noun, ParadigmRef, Verb, Word } from './types.ts';
 
 // (import.meta.env is Vite's; build scripts importing this file run without it)
 const BASE = `${(import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '/'}data/`;
@@ -67,6 +67,19 @@ export async function loadNounsIn(bands: number[]): Promise<Noun[]> {
 }
 export async function loadAdjectivesIn(bands: number[]): Promise<Adjective[]> {
   return (await loadRows<AdjRow>('adjectives', bands)).map(({ row, band }) => toAdjective(row, band));
+}
+/** One word's full table, from its band's shard (loaded on demand: Full forms in a vocabulary round). */
+export async function loadParadigm(p: { type: 'verbs' | 'nouns' | 'adjectives'; id: number; band: number }): Promise<ParadigmRef | undefined> {
+  if (p.type === 'verbs') {
+    const verb = (await loadVerbsIn([p.band])).find((v) => v.id === p.id);
+    return verb && { kind: 'verb', verb };
+  }
+  if (p.type === 'nouns') {
+    const noun = (await loadNounsIn([p.band])).find((n) => n.id === p.id);
+    return noun && { kind: 'noun', noun };
+  }
+  const adjective = (await loadAdjectivesIn([p.band])).find((a) => a.id === p.id);
+  return adjective && { kind: 'adjective', adjective };
 }
 export async function loadVerbs(maxBand: number): Promise<Verb[]> {
   return (await loadRows<VerbRow>('verbs', maxBand)).map(({ row, band }) => toVerb(row, band));

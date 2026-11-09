@@ -176,3 +176,23 @@ for (const theme of ['krotik', 'light', 'dark'] as const) {
     await axe('reading');
   });
 }
+
+test('a vocabulary round loads no form tables until Full forms is opened', async ({ page }) => {
+  const tables: string[] = [];
+  page.on('request', (r) => {
+    if (/\/data\/(verbs|nouns|adjectives)\.b\d\.json/.test(r.url())) tables.push(r.url());
+  });
+  await setup(page, 'Vocabulary');
+  await page.getByRole('radio', { name: /Russian → English/ }).check();
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.locator('.task')).toBeVisible();
+  expect(tables).toEqual([]);
+  // Answer until a noun, verb or adjective offers Full forms, then open it.
+  for (let i = 0; i < 10 && !(await page.getByText('Full forms').isVisible()); i++) {
+    if (await page.getByRole('button', { name: 'Next' }).isVisible()) await page.getByRole('button', { name: 'Next' }).click();
+    await page.getByRole('button', { name: "I don't know" }).click();
+  }
+  await page.getByText('Full forms').click();
+  await expect.poll(() => tables.length).toBeGreaterThan(0);
+  await expect(page.locator('details.forms table').first()).toBeVisible();
+});

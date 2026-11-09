@@ -117,6 +117,8 @@ export interface Question {
   label: string;
   /** Full forms shown after answering (absent for sentence drills). */
   paradigm?: ParadigmRef;
+  /** …or where to find them, loaded only when Full forms is opened (vocabulary: the word's table in its band). */
+  lazyParadigm?: { type: 'verbs' | 'nouns' | 'adjectives'; id: number; band: number };
   /** Multiple choice: the options (the answer cell is one of them). */
   choices?: string[];
   /** Tatoeba sentence id, for sentence drills. */

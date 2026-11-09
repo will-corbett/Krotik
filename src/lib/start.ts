@@ -82,9 +82,8 @@ async function questionsFor(s: Settings, rng: Rng, opts: { keys?: [string, numbe
       const due = record ? dueKeys(record, today()) : opts.keys?.map(([k]) => k);
       const bandOf = (k: string) => record?.words[k]?.b ?? opts.keys?.find(([x]) => x === k)?.[1] ?? 3;
       // Rounds on given words load only what they need: the two commonest bands (for wrong options and other right
-      // answers) plus the bands the words are in, and grammar tables (Full forms) only for words up to the 2,500
-      // commonest. A theme passes its words whole, so its rare words don't need a word list at all. Otherwise (the
-      // commonest words) every band up to the chosen one.
+      // answers) plus the bands the words are in. A theme passes its words whole, so its rare words don't need a word
+      // list at all. Otherwise (the commonest words) every band up to the chosen one.
       const given = opts.words;
       const targetBands = due ? [...new Set(due.map(bandOf))] : given ? [...new Set(given.map((w) => w.band))] : null;
       const wordBands = given ? [0, 1] : targetBands ? [...new Set([0, 1, ...targetBands])].sort() : null;
@@ -93,19 +92,8 @@ async function questionsFor(s: Settings, rng: Rng, opts: { keys?: [string, numbe
       const types = new Set(s.vocab.types);
       const byKey = new Map(all.map((w) => [w.key, w]));
       const targets = given ?? (due ? due.map((k) => byKey.get(k)).filter((w): w is Word => !!w) : all.filter((w) => types.has(w.pos)));
-      const need = new Set(targets.map((w) => w.pos));
-      const lexBands = targetBands ? targetBands.filter((b) => b <= 2) : [0, 1, 2, 3].filter((b) => b <= s.band);
-      const [verbs, nouns, adjs] = await Promise.all([
-        need.has('v') && lexBands.length ? loadVerbsIn(lexBands) : [],
-        need.has('n') && lexBands.length ? loadNounsIn(lexBands) : [],
-        need.has('a') && lexBands.length ? loadAdjectivesIn(lexBands) : [],
-      ]);
-      const lex = new Map<string, ParadigmRef>([
-        ...verbs.map((verb) => [`v:${verb.id}`, { kind: 'verb', verb }] as [string, ParadigmRef]),
-        ...nouns.map((noun) => [`n:${noun.id}`, { kind: 'noun', noun }] as [string, ParadigmRef]),
-        ...adjs.map((adjective) => [`a:${adjective.id}`, { kind: 'adjective', adjective }] as [string, ParadigmRef]),
-      ]);
-      const pool = { all, paradigm: (w: Word) => lex.get(w.key) };
+      // Full forms are loaded only if you open them (Drill: lazyParadigm), so a round starts with the word lists alone.
+      const pool = { all };
       // A theme's gap-fill: its words in real sentences (theme.<id>.json), one question per word.
       if (opts.gapTheme) {
         const theme = await loadTheme(opts.gapTheme);
