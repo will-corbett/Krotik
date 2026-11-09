@@ -510,6 +510,41 @@ verbs:
     чудиться:  # source: чу'дься
       imperative_sg: "-"
       imperative_pl: "-"
+    # Variant disagreements: the source gives several forms (or a fragment); Wiktionary gives one.
+    приподнять:  # source: приподним-//подыми' (a fragment plus the colloquial подыму́ forms); Wiktionary: приподниму́, приподними́
+      imperative_sg: "приподними'" # source: приподним-//подыми'
+      imperative_pl: "приподними'те" # source: приподним-//подыми'те
+      presfut_sg1: "приподниму'" # source: приподним-//подыму'
+      presfut_sg2: "приподни'мешь" # source: приподним-//поды'мешь
+      presfut_sg3: "приподни'мет" # source: приподним-//поды'мет
+      presfut_pl1: "приподни'мем" # source: приподним-//поды'мем
+      presfut_pl2: "приподни'мете" # source: приподним-//поды'мете
+      presfut_pl3: "приподни'мут" # source: приподним-//поды'мут
+    приподняться:  # source: приподним-//подыми'сь (a fragment plus the colloquial подыму́сь forms); Wiktionary: приподниму́сь, приподними́сь
+      imperative_sg: "приподними'сь" # source: приподним-//подыми'сь
+      imperative_pl: "приподними'тесь" # source: приподним-//подыми'тесь
+      presfut_sg1: "приподниму'сь" # source: приподним-//подыму'сь
+      presfut_sg2: "приподни'мешься" # source: приподним-//поды'мешься
+      presfut_sg3: "приподни'мется" # source: приподним-//поды'мется
+      presfut_pl1: "приподни'мемся" # source: приподним-//поды'мемся
+      presfut_pl2: "приподни'метесь" # source: приподним-//поды'метесь
+      presfut_pl3: "приподни'мутся" # source: приподним-//поды'мутся
+    откупорить:  # source: отку'пори//отку'порь; Wiktionary gives only отку́порь
+      imperative_sg: "отку'порь" # source: отку'пори//отку'порь
+    лакомиться:  # source: ла'комись//ла'комься; Wiktionary gives only ла́комься
+      imperative_sg: "ла'комься" # source: ла'комись//ла'комься
+    полакомиться:  # source: пола'комись//пола'комься; Wiktionary gives only пола́комься
+      imperative_sg: "пола'комься" # source: пола'комись//пола'комься
+    вымазаться:  # source: вы'мажись//вы'мажься, plural вы'мажьтесь; Wiktionary gives only вы́мажись, вы́мажитесь
+      imperative_sg: "вы'мажись" # source: вы'мажись//вы'мажься
+      imperative_pl: "вы'мажитесь" # source: вы'мажьтесь
+    почтить:  # source: почтят//почти' (a 3rd-person form among the imperatives)
+      imperative_sg: "почти'" # source: почтят//почти'
+      imperative_pl: "почти'те" # source: почтят//почти'те
+      presfut_pl3: "почтя'т,почту'т" # source: почтят//почтут
+    двигаться:  # source: дви'жься; Wiktionary gives дви́гайся for both present types (дви́гаюсь and дви́жусь)
+      imperative_sg: "дви'гайся" # source: дви'жься
+      imperative_pl: "дви'гайтесь" # source: дви'жьтесь
   exclude:
     размежёвывать: all six present forms are the 1sg form
     выпуститься: past f/n/pl forms are non-reflexive and mismatched
