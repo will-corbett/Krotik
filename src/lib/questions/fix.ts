@@ -7,6 +7,7 @@
 import { bare } from '../../shared/forms.ts';
 import type { LevelTestCandidate, LevelTestData } from '../../shared/types.ts';
 import { TERMS } from '../terms.ts';
+import { explainFix } from '../fixExplain.ts';
 import { shuffle, type Rng } from '../rng.ts';
 import type { FixSettings, Question } from '../types.ts';
 
@@ -39,6 +40,8 @@ export function fixQuestion(c: LevelTestCandidate, level: string, rng: Rng): Que
   // One of the two closest wrong forms (the options are listed closest first).
   const wrong = wrongs[Math.floor(rng() * Math.min(2, wrongs.length))]!;
   if (bare(wrong) === bare(right)) return null;
+  // A comparative in -ей (тощей) is spelt like the feminine instrumental of the full adjective: too easy to misread.
+  if (c[10] === 'a30' && /ей$/.test(bare(right))) return null;
   const { pieces, wrongWord } = fixPieces(ru, start, end, wrong);
   if (wrongWord < 0) return null;
   return {
@@ -52,6 +55,8 @@ export function fixQuestion(c: LevelTestCandidate, level: string, rng: Rng): Que
     others: [],
     label: `${TERMS.fix.en} (${level})`,
     fix: { pieces, wrong: wrongWord, wrongForm: bare(wrong), original: ru },
+    // Why the right form is right, for every question.
+    explain: explainFix(c, wrong),
     source: Number(key.split(':').find((x) => /^\d{4,}$/.test(x)) ?? 0) || undefined,
     speak: () => ru,
   };

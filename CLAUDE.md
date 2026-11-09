@@ -145,6 +145,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
     already in order; the original order is right, any other is self-marked (Russian word order is free).
   - Find the mistake (`fix`, Review group, `src/lib/questions/fix.ts`): a Grammar test sentence with one checked wrong
     form of the same word; tap it, type the right form. Only "word in brackets" items (choice items can also fit).
+    Every answer is explained (`src/lib/fixExplain.ts`): the right and wrong forms named, and why: the sentence
+    drill's rule, else what the sentence shows (preposition + case and its meaning, a small number, нет, the verb's
+    subject), else the rule for that kind of form (short adjectives, comparatives, participles, verbal adverbs).
   - Vocabulary gap-fill: each theme keeps up to 3 real sentences a word (`ThemeData.gaps`; only the hand-chosen one where
     the shortest were idioms); "Practise: fill the gap" (dictionary form in brackets, type the form used).
   - Grammar test stage 2 (`LevelTestTyped.svelte`, `buildTypedTest`): 6 typed questions per level, word in brackets,

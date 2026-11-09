@@ -64,7 +64,10 @@ test('find the mistake: tap the wrong word, type the right form', async ({ page 
   const sentence = page.getByRole('group', { name: 'The sentence: tap the wrong word' });
   await expect(sentence.getByRole('button').first()).toBeVisible();
   const check = page.getByRole('button', { name: 'Check' });
-  await page.getByRole('textbox', { name: /Tap the wrong word/ }).fill('ъъъ');
+  const box = page.getByRole('textbox', { name: /Tap the wrong word/ });
+  // The answer box is a normal one-line box, not a tall square.
+  expect((await box.boundingBox())!.height).toBeLessThan(80);
+  await box.fill('ъъъ');
   await expect(check).toBeDisabled();
   await sentence.getByRole('button').first().click();
   await expect(sentence.getByRole('button').first()).toHaveAttribute('aria-pressed', 'true');
@@ -72,6 +75,8 @@ test('find the mistake: tap the wrong word, type the right form', async ({ page 
   await check.click();
   await expect(page.locator('.feedback')).toContainText('The wrong word was');
   await expect(page.locator('.feedback .verdict')).toHaveText('Not quite');
+  // Every answer is explained.
+  await expect(page.locator('.feedback .explain')).toContainText('The right form is');
 });
 
 test('Grammar test stage 2: typed answers give a separate result beside stage 1', async ({ page }) => {
