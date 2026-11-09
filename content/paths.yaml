@@ -145,6 +145,7 @@
     - { learn: reportedSpeech }
     - { vocab: innovation }
     - { vocab: climate }
+    - { learn: idioms, why: "вешать лапшу на уши, куй железо, пока горячо: idioms and proverbs Russians really use." }
     - { read: muravi-i-temperatura }
     - { read: smert-chinovnika }
     - { read: zhivchik }

@@ -4,7 +4,7 @@
  * numerals, others.csv). Nothing invented gets onto a Learn page.
  */
 import { pairsFor } from '../../src/lib/collocations.ts';
-import type { CollocationData } from '../../src/shared/types.ts';
+import type { CollocationData, IdiomData } from '../../src/shared/types.ts';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
@@ -129,6 +129,11 @@ describe('Learn pages', () => {
             expect(s, `::tatoeba ${id}`).toBeTruthy();
             if (mark) expect([...s![0].matchAll(/[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g)].map((m) => normalise(m[0])), `::tatoeba ${id}:${mark}`).toContain(normalise(mark));
           }
+          continue;
+        }
+        if (b.kind === 'idioms') {
+          const all = json<IdiomData>('idioms.json').idioms.filter((x) => (b.which === 'proverbs') === (x[2] === 1));
+          expect(all.length, `::idioms ${b.which}`).toBeGreaterThan(10);
           continue;
         }
         if (b.kind === 'collocations') {

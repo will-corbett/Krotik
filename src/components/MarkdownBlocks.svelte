@@ -1,4 +1,5 @@
 <script lang="ts">
+  import LearnIdioms from './LearnIdioms.svelte';
   import LearnCollocations from './LearnCollocations.svelte';
   /** Renders parsed Markdown blocks (Learn pages and culture notes), including data blocks. */
   import type { Block } from '../lib/learn.ts';
@@ -50,6 +51,8 @@
     <LearnQuotes items={b.items} />
   {:else if b.type === 'data' && b.kind === 'ipa'}
     <LearnQuotes words={b.words} />
+  {:else if b.type === 'data' && b.kind === 'idioms'}
+    <LearnIdioms which={b.which} stress={settings.stress} />
   {:else if b.type === 'data' && b.kind === 'collocations'}
     <LearnCollocations verbs={b.verbs} stress={settings.stress} />
   {:else if b.type === 'data' && b.kind === 'sentence'}

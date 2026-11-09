@@ -592,6 +592,18 @@
           Write down what you hear. Punctuation, capitals, stress marks and ё don't count. {LISTEN_HINT}
         </p>
       </fieldset>
+    {:else if settings.mode === 'idioms'}
+      <fieldset>
+        <legend>Which</legend>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" checked={settings.idioms.kinds.includes('idioms')} onchange={() => (settings.idioms.kinds = toggle(settings.idioms.kinds, 'idioms'))} /> Idioms (<span lang="ru">вешать лапшу на уши</span>)</label>
+          <label class="chip"><input type="checkbox" checked={settings.idioms.kinds.includes('proverbs')} onchange={() => (settings.idioms.kinds = toggle(settings.idioms.kinds, 'proverbs'))} /> Proverbs (<span lang="ru">куй железо, пока горячо</span>)</label>
+        </div>
+        <p class="hint muted">
+          An idiom or proverb in a real sentence: choose what it means. Each comes from Wiktionary and is used in at
+          least one Tatoeba sentence.
+        </p>
+      </fieldset>
     {:else if settings.mode === 'collocations'}
       <fieldset>
         <legend>How it works</legend>
@@ -700,7 +712,7 @@
       </fieldset>
     {/if}
 
-    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'wordOrder', 'collocations', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'idioms', 'wordOrder', 'collocations', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

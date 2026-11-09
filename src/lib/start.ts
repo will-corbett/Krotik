@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadWordOrder, loadCollocations, loadListening, loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadIdioms, loadWordOrder, loadCollocations, loadListening, loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -23,6 +23,7 @@ import { generateBuildQuestions } from './questions/build.ts';
 import { generateFixQuestions } from './questions/fix.ts';
 import { generateCollocationQuestions } from './questions/collocations.ts';
 import { generateWordOrderQuestions } from './questions/wordOrder.ts';
+import { generateIdiomQuestions } from './questions/idioms.ts';
 import { generateDictationQuestions, generateEndingQuestions, generateListenQuestions, generatePairQuestions } from './questions/listening.ts';
 import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
@@ -130,6 +131,10 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
       if (s.mode === 'dictation') return (n) => generateDictationQuestions(data, s.dictation, n, rng);
       if (s.mode === 'endings') return (n) => generateEndingQuestions(data, n, rng);
       return (n) => generatePairQuestions(data, s.pairs, n, rng);
+    }
+    case 'idioms': {
+      const data = await loadIdioms();
+      return (n) => generateIdiomQuestions(data, s.idioms, n, rng);
     }
     case 'wordOrder': {
       // Published once a native speaker has checked the items (content/word-order.yaml).
@@ -364,6 +369,7 @@ export function settingsValid(s: Settings): string | null {
       if (!dueKeys(w, today()).length) return 'None of your words is due today. Practise the commonest words instead, or come back tomorrow.';
     }
   }
+  if (s.mode === 'idioms' && !s.idioms.kinds.length) return 'Choose idioms, proverbs or both.';
   if (s.mode === 'listen' && !s.listen.tasks.length) return 'Choose at least one question type.';
   if (s.mode === 'dictation' && !s.dictation.lengths.length) return 'Choose at least one sentence length.';
   if (s.mode === 'pairs' && !s.pairs.types.length) return 'Choose at least one kind of pair.';

@@ -107,6 +107,8 @@ export const TERMS = {
   sounds: t('Sounds and spelling', 'произношение'),
   review: t('Review', 'повторение'),
   collocations: t('Words that go together', 'сочетаемость'),
+  idioms: t('Idioms and proverbs', 'идиомы и пословицы'),
+  idiomTask: t('What does it mean?', 'что это значит?'),
   collocTask: t('Which verb goes with it?', 'какой глагол?'),
   listening: t('Listening', 'аудирование'),
   listen: t('Listen and choose', 'слушайте и выбирайте'),

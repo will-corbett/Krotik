@@ -2,7 +2,7 @@
 import { cellForms } from '../shared/forms.ts';
 import { normalise } from '../shared/normalise.ts';
 import type { SentenceType } from '../shared/types.ts';
-import type { AudioIndex, CollocationData, ListeningData, WordOrderData } from '../shared/types.ts';
+import type { AudioIndex, CollocationData, IdiomData, ListeningData, WordOrderData } from '../shared/types.ts';
 import type { AdjRow, ClozeRow, LearnExtras, LevelTestData, ReadingIndex, ReadingUnit, PronounData, DiminutiveRow, LexType, Manifest, MotionData, NounRow, NumeralRow, ParticipleRow, SentenceRow, SentenceShard, ShardType, ThemeData, ThemeIndex, VerbRow, WordRow } from '../shared/types.ts';
 import type { Adjective, Noun, Verb, Word } from './types.ts';
 
@@ -34,6 +34,8 @@ export const loadAudioIndex = () => getJson<AudioIndex>('audio.json');
 /** Listening drills: recorded sentences, "which ending" items, minimal pairs. */
 export const loadListening = () => getJson<ListeningData>('listening.json');
 /** Words that go together: curated verb + noun pairs and the "Which verb?" items. */
+/** Idioms and proverbs, each with real sentences. */
+export const loadIdioms = () => getJson<IdiomData>('idioms.json');
 /** Word order practice: reviewed question-and-answer items only. */
 export const loadWordOrder = () => getJson<WordOrderData>('word-order.json');
 export const loadCollocations = () => getJson<CollocationData>('verb-noun.json');

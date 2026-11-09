@@ -49,7 +49,8 @@ export type Mode =
   | 'endings'
   | 'pairs'
   | 'collocations'
-  | 'wordOrder';
+  | 'wordOrder'
+  | 'idioms';
 
 export interface Verb {
   id: number;
@@ -157,6 +158,10 @@ export interface Question {
   speak: (answerForm: string) => string;
 }
 
+/** Idioms: idioms (вешать лапшу на уши) and/or proverbs (куй железо, пока горячо). */
+export interface IdiomSettings {
+  kinds: ('idioms' | 'proverbs')[];
+}
 /** Listen and choose: what you heard (the Russian) and/or what it means (the English). */
 export interface ListenSettings {
   tasks: ('meaning' | 'text')[];

@@ -5,7 +5,7 @@
  * Interactive pages (drills) get a short description and `noindex`. Deterministic: same input, same files.
  */
 import { pairsFor } from '../src/lib/collocations.ts';
-import type { CollocationData } from '../src/shared/types.ts';
+import type { CollocationData, IdiomData } from '../src/shared/types.ts';
 import { reviewedText } from '../src/lib/reviewed.ts';
 import { readingCredit } from '../src/lib/readingCredit.ts';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -90,6 +90,10 @@ function block(b: Block): string {
       if (b.kind === 'examples') {
         const rows = json<ClozeRow[]>(`cloze.${b.topic}.json`).filter((r) => r[7] === b.item);
         return pickExamples(rows, b.count).map(([id, ru, en, , s, e]) => sentence(id, ru, en, s, e)).join('');
+      }
+      if (b.kind === 'idioms') {
+        const all = json<IdiomData>('idioms.json').idioms.filter((x) => (b.which === 'proverbs') === (x[2] === 1));
+        return `<dl>${all.map(([phrase, meaning, , ex]) => `<dt lang="ru">${esc(renderForm(phrase, true))}</dt><dd>${esc(meaning)}${ex[0] ? sentence(ex[0][0], ex[0][1], ex[0][2], ex[0][3], ex[0][4]) : ''}</dd>`).join('')}</dl>`;
       }
       if (b.kind === 'collocations') {
         const vn = json<CollocationData>('verb-noun.json');

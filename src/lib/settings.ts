@@ -2,7 +2,7 @@
 import type { Case, VerbGroup } from '../shared/cells.ts';
 import type { AlphabetSettings, ChtobySettings, TenseSettings, GovernmentSettings, NarechiyaSettings, OrdinalSettings, PrefixedMotionSettings, QuestionWordSettings, SpecialCaseSettings } from './types.ts';
 import type { NegationSettings, NounCaseSettings, ParticleTopicSettings, PossessiveSettings, PronounSettings, StressSettings } from './types.ts';
-import type { DictationSettings, ListenSettings, PairSettings } from './types.ts';
+import type { DictationSettings, IdiomSettings, ListenSettings, PairSettings } from './types.ts';
 import type { BuildSettings, FixSettings, MixedSettings, TranslateSettings, VocabSettings } from './types.ts';
 import type { AdjSettings, AdverbSettings, AspectSettings, CompareSettings, DiminutiveSettings, Mode, MotionSettings, NumberSettings, ParticipleSettings, PluralSettings, VerbSettings } from './types.ts';
 
@@ -36,6 +36,7 @@ export interface Settings {
   fix: FixSettings;
   vocab: VocabSettings;
   listen: ListenSettings;
+  idioms: IdiomSettings;
   dictation: DictationSettings;
   pairs: PairSettings;
   /**
@@ -120,6 +121,7 @@ export const DEFAULTS: Settings = {
   build: { lengths: ['short'] },
   fix: { levels: ['A1', 'A2'] },
   listen: { tasks: ['meaning', 'text'] },
+  idioms: { kinds: ['idioms', 'proverbs'] },
   dictation: { lengths: ['short'] },
   pairs: { types: ['soft', 'yi', 'shsch'] },
   vocab: { direction: 'both', types: ['n', 'v', 'a', 'o'], source: 'common' },
@@ -180,6 +182,7 @@ export function loadSettings(): Settings {
       fix: { ...DEFAULTS.fix, ...saved.fix },
       vocab: { ...DEFAULTS.vocab, ...saved.vocab },
       listen: { ...DEFAULTS.listen, ...saved.listen },
+      idioms: { ...DEFAULTS.idioms, ...saved.idioms },
       dictation: { ...DEFAULTS.dictation, ...saved.dictation },
       pairs: { ...DEFAULTS.pairs, ...saved.pairs },
     };
