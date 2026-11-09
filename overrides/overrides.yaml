@@ -382,6 +382,134 @@ verbs:
       presfut_pl1: "отсы'племся,отсы'пемся" # source: отсы'паемся
       presfut_pl2: "отсы'плетесь,отсы'петесь" # source: отсы'паетесь
       presfut_pl3: "отсы'плются" # source: отсы'паются
+    # No imperative: Wiktionary marks these verbs' imperative as absent (perception and state verbs, impersonal
+    # verbs, frequentatives used in the past only), and lists the source's form under no other tag either.
+    видеть:  # source: ви'дь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    видеться:  # source: ви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    виднеться:  # source: видне'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    гнить:  # source: гни'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    говаривать:  # source: гова'ривай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    езжать:  # source: езжа'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    заблагорассудиться:  # source: заблагорассу'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    загнить:  # source: за'гний
+      imperative_sg: "-"
+      imperative_pl: "-"
+    заслышать:  # source: заслы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    застояться:  # source: засто'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    знавать:  # source: знава'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    наслышаться:  # source: наслы'шься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    настоять:  # source: насто'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    нашивать:  # source: на'шивай; this row is на́шивать, the frequentative of носить; нашива́ть "sew on" (нашива́й) is another word
+      imperative_sg: "-"
+      imperative_pl: "-"
+    недоставать:  # source: недостава'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    послышаться:  # source: послы'шься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    посчастливиться:  # source: посчастли'вься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    почудиться:  # source: почу'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    предвидеть:  # source: предви'дь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    предвидеться:  # source: предви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    преминуть:  # source: преми'нь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    привидеться:  # source: приви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    приспичить:  # source: приспи'чь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    приуныть:  # source: приуно'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    прогнить:  # source: про'гний
+      imperative_sg: "-"
+      imperative_pl: "-"
+    прослышать:  # source: прослы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    прояснить:  # source: проя'сни; this row is проя́снить (impersonal); проясни́ть "clarify" is a separate row with проясни́
+      imperative_sg: "-"
+      imperative_pl: "-"
+    разуметься:  # source: разуме'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    расслышать:  # source: расслы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    сгнить:  # source: сгний
+      imperative_sg: "-"
+      imperative_pl: "-"
+    сиживать:  # source: си'живай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    слыхивать:  # source: слы'хивай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    слышать:  # source: слы'шь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    слышаться:  # source: слы'шься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    состояться:  # source: состо'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    твориться:  # source: твори'сь
+      imperative_sg: "-"
+      imperative_pl: "-"
+    увидеться:  # source: уви'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
+    устоять:  # source: усто'й
+      imperative_sg: "-"
+      imperative_pl: "-"
+    устояться:  # source: усто'йся
+      imperative_sg: "-"
+      imperative_pl: "-"
+    хаживать:  # source: ха'живай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    читывать:  # source: чи'тывай
+      imperative_sg: "-"
+      imperative_pl: "-"
+    чудиться:  # source: чу'дься
+      imperative_sg: "-"
+      imperative_pl: "-"
   exclude:
     размежёвывать: all six present forms are the 1sg form
     выпуститься: past f/n/pl forms are non-reflexive and mismatched
