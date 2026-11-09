@@ -101,6 +101,11 @@ export interface WkExtract {
    * that every sense of every entry for that word and part of speech carries. Words with none aren't listed.
    */
   registers: Record<string, string>;
+  /**
+   * Verbs with present (or simple future) forms Wiktionary gives as "-", none at all: verb → the person cells (0 я …
+   * 5 они) that don't exist. говаривать has none of the six; светать has only он/она (светает).
+   */
+  noPresent: Record<string, number[]>;
 }
 
 /** "прочи́танный" → "прочи'танный"; drops grave (secondary) stress. */
@@ -121,7 +126,7 @@ interface RawEntry {
 }
 
 /** Bump when the extract's shape changes, so an old cache is rebuilt. */
-const EXTRACT_VERSION = 8;
+const EXTRACT_VERSION = 9;
 const LOOSE_TAGS = new Set(['colloquial', 'regional', 'dialectal', 'rare', 'poetic']);
 /** Register labels worth showing a learner, most telling first (a word tagged both is labelled by the first). */
 const REGISTERS = ['vulgar', 'offensive', 'derogatory', 'slang', 'colloquial', 'informal', 'literary', 'formal', 'poetic', 'humorous'];
@@ -187,7 +192,9 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
     if (cached.sha256 === key) return cached;
   }
   log('extracting from the Wiktionary dump (one pass, ~1–2 min)…');
-  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {}, idioms: [], registers: {} };
+  const out: WkExtract = { sha256: key, verbs: {}, participles: {}, nouns: {}, adjectives: {}, numerals: {}, pronouns: {}, adverbs: {}, attested: [], ipa: {}, checkedModern: [], checkedOld: [], checkedInfo: {}, audio: {}, idioms: [], registers: {}, noPresent: {} };
+  // verb → person cell → every present/future form Wiktionary gives for it (all entries).
+  const presentForms = new Map<string, string[][]>();
   const senseTags = new Map<string, Set<string>[]>();
   const idiomSeen = new Set<string>();
   // Commons file → the words (dictionary form) Wiktionary gives it for, and its MP3 address.
@@ -289,6 +296,15 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
       continue;
     }
     if (e.pos === 'verb' && wanted.verbs.has(word)) {
+      const cellsOf = presentForms.get(word) ?? [[], [], [], [], [], []];
+      for (const f of e.forms ?? []) {
+        const t = f.tags ?? [];
+        if (!(t.includes('present') || t.includes('future')) || t.includes('participle') || / /.test(f.form)) continue;
+        const person = t.includes('first-person') ? 0 : t.includes('second-person') ? 1 : t.includes('third-person') ? 2 : -1;
+        if (person < 0) continue;
+        cellsOf[person + (t.includes('plural') ? 3 : 0)]!.push(f.form.trim());
+      }
+      presentForms.set(word, cellsOf);
       const v: WkVerb = { canonical: canonical(e), adv_pres: [], adv_past: [], act_pres: [], act_past: [], pass_pres: [], pass_past: [] };
       for (const [f, t] of usableForms(e)) {
         if (!t.includes('participle')) continue;
@@ -326,6 +342,10 @@ export async function loadWiktionary(wanted: Wanted, sha256: string, log: (s: st
   out.attested = [...attested].sort();
   out.checkedModern = [...checkModern].sort();
   out.checkedOld = [...checkOld].filter((w) => !checkModern.has(w)).sort();
+  for (const [verb, cells] of [...presentForms].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))) {
+    const absent = cells.flatMap((forms, i) => (forms.length && forms.every((f) => f === '-') ? [i] : []));
+    if (absent.length) out.noPresent[verb] = absent;
+  }
   for (const [k, list] of [...senseTags].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))) {
     if (!list.length) continue;
     const label = REGISTERS.find((t) => list.every((tags) => tags.has(t)));
