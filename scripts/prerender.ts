@@ -4,6 +4,8 @@
  * JavaScript) can read it. The app replaces this content when it starts. Also writes sitemap.xml and 404.html.
  * Interactive pages (drills) get a short description and `noindex`. Deterministic: same input, same files.
  */
+import { pairsFor } from '../src/lib/collocations.ts';
+import type { CollocationData } from '../src/shared/types.ts';
 import { reviewedText } from '../src/lib/reviewed.ts';
 import { readingCredit } from '../src/lib/readingCredit.ts';
 import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -88,6 +90,12 @@ function block(b: Block): string {
       if (b.kind === 'examples') {
         const rows = json<ClozeRow[]>(`cloze.${b.topic}.json`).filter((r) => r[7] === b.item);
         return pickExamples(rows, b.count).map(([id, ru, en, , s, e]) => sentence(id, ru, en, s, e)).join('');
+      }
+      if (b.kind === 'collocations') {
+        const vn = json<CollocationData>('verb-noun.json');
+        return `<table><thead><tr><th>Russian</th><th>English</th></tr></thead><tbody>${pairsFor(vn, b.verbs)
+          .map((p) => `<tr><td lang="ru">${esc(renderForm(p.phrase, true))}</td><td>${esc(p.en)}</td></tr>`)
+          .join('')}</tbody></table>`;
       }
       // Tables of forms, single sentences and quick checks are drawn by the app from the data.
       return '';

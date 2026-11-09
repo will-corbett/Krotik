@@ -1,5 +1,5 @@
 /** Loads the data a round needs and returns a question source for it. */
-import { loadListening, loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
+import { loadCollocations, loadListening, loadLevelTest, loadTheme, loadWordList, loadAdjectivesIn, loadNounsIn, loadVerbsIn, loadAdjectives, loadCloze, loadDiminutives, loadExtraJson, loadPronouns, loadMotion, loadNouns, loadNumerals, loadParticiples, loadSentences, loadVerbs, toVerb } from './data.ts';
 import { generateAdverbQuestions } from './questions/adverbs.ts';
 import { generateParticipleQuestions } from './questions/participles.ts';
 import { generateNumberQuestions } from './questions/numbers.ts';
@@ -21,6 +21,7 @@ import { generateAlphabetQuestions } from './questions/alphabet.ts';
 import { generateTranslateQuestions } from './questions/translate.ts';
 import { generateBuildQuestions } from './questions/build.ts';
 import { generateFixQuestions } from './questions/fix.ts';
+import { generateCollocationQuestions } from './questions/collocations.ts';
 import { generateDictationQuestions, generateEndingQuestions, generateListenQuestions, generatePairQuestions } from './questions/listening.ts';
 import { generateGapQuestions, generateVocabQuestions } from './questions/vocab.ts';
 import { dueKeys, loadWords } from './words.ts';
@@ -128,6 +129,10 @@ export async function prepareRound(s: Settings, rng: Rng, opts: { keys?: [string
       if (s.mode === 'dictation') return (n) => generateDictationQuestions(data, s.dictation, n, rng);
       if (s.mode === 'endings') return (n) => generateEndingQuestions(data, n, rng);
       return (n) => generatePairQuestions(data, s.pairs, n, rng);
+    }
+    case 'collocations': {
+      const data = await loadCollocations();
+      return (n) => generateCollocationQuestions(data, n, rng);
     }
     case 'fix': {
       const data = await loadLevelTest();

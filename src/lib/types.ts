@@ -47,7 +47,8 @@ export type Mode =
   | 'listen'
   | 'dictation'
   | 'endings'
-  | 'pairs';
+  | 'pairs'
+  | 'collocations';
 
 export interface Verb {
   id: number;

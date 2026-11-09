@@ -3,6 +3,8 @@
  * the explanations must exist as a real form in the data (verbs, nouns, adjectives, pronouns,
  * numerals, others.csv). Nothing invented gets onto a Learn page.
  */
+import { pairsFor } from '../../src/lib/collocations.ts';
+import type { CollocationData } from '../../src/shared/types.ts';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
@@ -127,6 +129,11 @@ describe('Learn pages', () => {
             expect(s, `::tatoeba ${id}`).toBeTruthy();
             if (mark) expect([...s![0].matchAll(/[А-ЯЁа-яё]+(?:-[А-ЯЁа-яё]+)*/g)].map((m) => normalise(m[0])), `::tatoeba ${id}:${mark}`).toContain(normalise(mark));
           }
+          continue;
+        }
+        if (b.kind === 'collocations') {
+          const vn = json<CollocationData>('verb-noun.json');
+          for (const v of b.verbs) expect(pairsFor(vn, [v]).length, `::collocations ${v}`).toBeGreaterThan(0);
           continue;
         }
         if (b.kind === 'ipa') {

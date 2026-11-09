@@ -592,6 +592,15 @@
           Write down what you hear. Punctuation, capitals, stress marks and ё don't count. {LISTEN_HINT}
         </p>
       </fieldset>
+    {:else if settings.mode === 'collocations'}
+      <fieldset>
+        <legend>How it works</legend>
+        <p class="hint muted">
+          A real sentence with its verb missing, and its English. Choose the verb that goes with the noun: in Russian you
+          <span lang="ru">принимаете решение</span> and <span lang="ru">задаёте вопрос</span>. The wrong options are
+          verbs that are never used with that noun.
+        </p>
+      </fieldset>
     {:else if settings.mode === 'endings'}
       <fieldset>
         <legend>How it works</legend>
@@ -691,7 +700,7 @@
       </fieldset>
     {/if}
 
-    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
+    {#if !(settings.mode === 'vocab' && settings.vocab.source === 'mine') && !['fix', 'collocations', 'listen', 'dictation', 'endings', 'pairs', 'motion', 'numbers', 'kotoryi', 'chtoby', 'conditional', 'negation', 'indefinite', 'particles', 'pronouns', 'possessives', 'prepositions', 'aspectContext', 'government', 'prefixedMotion', 'position', 'impersonal', 'comparison', 'conjunctions', 'time', 'questionWords', 'ordinals'].includes(settings.mode)}
       <fieldset>
         <legend>Vocabulary (by frequency)</legend>
         <div class="chips">

@@ -119,7 +119,10 @@ export const TOPIC_GROUPS: TopicGroup[] = [
   },
   {
     title: TERMS.words,
-    modes: [{ id: 'vocab', title: TERMS.vocab, learn: false, blurb: 'The commonest words, both ways round', level: ['A1', 'C1'], related: [] }],
+    modes: [
+      { id: 'vocab', title: TERMS.vocab, learn: false, blurb: 'The commonest words, both ways round', level: ['A1', 'C1'], related: [] },
+      { id: 'collocations', title: TERMS.collocations, blurb: 'принять решение, сделать ошибку, задать вопрос', level: ['A2', 'C1'], related: ['government', 'aspect'] },
+    ],
   },
   {
     title: TERMS.review,

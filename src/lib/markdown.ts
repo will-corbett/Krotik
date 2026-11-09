@@ -12,6 +12,7 @@
  *   ::examples chtoby past 3       the shortest real sentences of one sentence-drill kind, target highlighted
  *   ::tatoeba 467752:книга 2171689  real Tatoeba sentences by id, with their English; ":word" highlights that word
  *   ::ipa молоко хорошо            each word with its stress and its IPA from Wiktionary
+ *   ::collocations делать сделать  words that go together (verb-noun.json) for these verbs; none = every pair
  * The data build fails if a ::tatoeba sentence isn't in the corpus or an ::ipa word has no IPA in Wiktionary.
  */
 export type TableKind = 'noun' | 'verb' | 'adjective' | 'pronouns' | 'participles' | 'numeral' | 'possessive';
@@ -31,7 +32,8 @@ export type Block =
   | { type: 'data'; kind: 'drill'; mode: string; settings: Record<string, unknown>; count: number }
   | { type: 'data'; kind: 'examples'; topic: string; item: string; count: number }
   | { type: 'data'; kind: 'tatoeba'; items: { id: string; mark?: string }[] }
-  | { type: 'data'; kind: 'ipa'; words: string[] };
+  | { type: 'data'; kind: 'ipa'; words: string[] }
+  | { type: 'data'; kind: 'collocations'; verbs: string[] };
 
 /** **bold**, *italic*, `code`, [link](target) */
 export function parseInline(s: string): Inline[] {
@@ -89,6 +91,7 @@ function parseDirective(line: string): Block {
     if (!words.length) throw new Error(`::ipa needs words: ${line}`);
     return { type: 'data', kind: 'ipa', words };
   }
+  if (kind === 'collocations') return { type: 'data', kind: 'collocations', verbs: rest.split(/\s+/).filter(Boolean) };
   throw new Error(`Unknown data block ::${kind}`);
 }
 

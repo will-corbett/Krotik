@@ -6,6 +6,9 @@
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
   import { audioIndex, wordRecordingFrom, type Credit } from '../lib/recordings.ts';
+  import { loadCollocations } from '../lib/data.ts';
+  import { pairsWithNouns } from '../lib/collocations.ts';
+  import type { CollocationData } from '../shared/types.ts';
   import Hear from './Hear.svelte';
   import { addWords, loadWords, saveWords } from '../lib/words.ts';
   import { bare, renderForm } from '../shared/forms.ts';
@@ -29,6 +32,14 @@
   let index = $state<ThemeIndex | null>(null);
   let error = $state('');
   let english = $state(false);
+  /** Words that go together whose noun is one of this theme's words (принять душ in Home, сделать покупки in Shopping). */
+  let together = $state<CollocationData['pairs']>([]);
+  $effect(() => {
+    const keys = new Set(all.map(([k]) => k));
+    loadCollocations()
+      .then((d) => (together = pairsWithNouns(d, keys)))
+      .catch(() => (together = []));
+  });
   /** Who recorded this theme's words (each credited, as their licences ask). */
   let credits = $state<Credit[]>([]);
   $effect(() => {
@@ -145,6 +156,18 @@
         </ul>
       </section>
     {/each}
+
+    {#if together.length}
+      <section class="together" aria-labelledby="together-h">
+        <h2 id="together-h">Words that go together</h2>
+        <p class="muted small">Verbs these nouns are used with, where English would choose another verb. More on <a href={href({ page: 'learn', topic: 'collocations' })}>the Learn page</a>.</p>
+        <ul>
+          {#each together as p (p.phrase)}
+            <li><strong lang="ru">{renderForm(p.phrase, settings.stress)}</strong> <span>{p.en}</span></li>
+          {/each}
+        </ul>
+      </section>
+    {/if}
 
     {#if credits.length}
       <p class="muted small credits">
@@ -304,6 +327,19 @@
   }
   .meaning {
     flex: 1 1 12rem;
+  }
+  .together ul {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+  }
+  .together li {
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .together strong {
+    font-family: var(--serif);
+    margin-right: 8px;
   }
   .d-head {
     display: flex;

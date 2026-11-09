@@ -1,4 +1,5 @@
 <script lang="ts">
+  import LearnCollocations from './LearnCollocations.svelte';
   /** Renders parsed Markdown blocks (Learn pages and culture notes), including data blocks. */
   import type { Block } from '../lib/learn.ts';
   import type { Settings } from '../lib/settings.ts';
@@ -49,6 +50,8 @@
     <LearnQuotes items={b.items} />
   {:else if b.type === 'data' && b.kind === 'ipa'}
     <LearnQuotes words={b.words} />
+  {:else if b.type === 'data' && b.kind === 'collocations'}
+    <LearnCollocations verbs={b.verbs} stress={settings.stress} />
   {:else if b.type === 'data' && b.kind === 'sentence'}
     <LearnData kind="sentence" what={b.what} word={b.word} cell={b.cell} stress={settings.stress} />
   {/if}

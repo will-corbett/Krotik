@@ -102,6 +102,8 @@ export const TERMS = {
   wordOrder: t('Word order', 'порядок слов'),
   sounds: t('Sounds and spelling', 'произношение'),
   review: t('Review', 'повторение'),
+  collocations: t('Words that go together', 'сочетаемость'),
+  collocTask: t('Which verb goes with it?', 'какой глагол?'),
   listening: t('Listening', 'аудирование'),
   listen: t('Listen and choose', 'слушайте и выбирайте'),
   listenMeaning: t('What does it mean?', 'что это значит?'),
