@@ -6,6 +6,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import type { AudioIndex, ListeningData } from '../../src/shared/types.ts';
+import { goTo } from './helpers.ts';
 
 /** A tenth of a second of silence, as a WAV file. */
 function silence(): Buffer {
@@ -147,3 +148,22 @@ async function axe(page: Page, where: string) {
   const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(r.violations.map((v) => `${where} ${v.id}: ${v.nodes.map((n) => n.target).join(' ')}`)).toEqual([]);
 }
+
+test('the Listening page: in the menu after Writing, its drills, and listen-and-read', async ({ page }) => {
+  await serve(page);
+  await page.goto('./');
+  await goTo(page, 'Listening');
+  await expect(page).toHaveURL(/\/listening\/$/);
+  await expect(page.getByRole('heading', { name: /Listening/, level: 1 })).toBeVisible();
+  for (const d of ['Listen and choose', 'Dictation', 'Hear the ending', 'Minimal pairs']) await expect(page.getByRole('link', { name: new RegExp(d) })).toBeVisible();
+  // Listen and read: nothing plays by itself; the Russian, then the English, on request.
+  await expect(page.getByRole('button', { name: 'Play', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Show the Russian' }).click();
+  await expect(page.locator('.lr-ru')).toBeVisible();
+  await page.getByRole('button', { name: 'Show the English' }).click();
+  await expect(page.locator('.lr [lang="en"]').last()).toBeVisible();
+  await page.getByRole('button', { name: 'Another sentence' }).click();
+  await expect(page.getByRole('button', { name: 'Show the Russian' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Record yourself' })).toBeVisible();
+  await axe(page, 'listening page');
+});

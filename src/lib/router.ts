@@ -10,6 +10,7 @@
  *   /culture/           Culture links      /culture/<note>/  a culture note
  *   /about/             About and sources
  *   /search/?q=…        Search the site
+ *   /listening/         Listening: the drills and listen-and-read
  * Old hash addresses (#/learn/aspect) are still understood (parseHash) and rewritten on load.
  */
 import { SITE_BASE } from '../shared/site.ts';
@@ -28,7 +29,8 @@ export type Route =
   | { page: 'writing' }
   | { page: 'culture'; note?: string }
   | { page: 'about' }
-  | { page: 'search' };
+  | { page: 'search' }
+  | { page: 'listening' };
 
 function fromParts(parts: string[]): Route {
   switch (parts[0]) {
@@ -58,6 +60,8 @@ function fromParts(parts: string[]): Route {
       return { page: 'about' };
     case 'search':
       return { page: 'search' };
+    case 'listening':
+      return { page: 'listening' };
     default:
       return { page: 'home' };
   }
@@ -104,6 +108,8 @@ export function pathOf(route: Route): string {
       return 'about/';
     case 'search':
       return 'search/';
+    case 'listening':
+      return 'listening/';
   }
 }
 export const href = (route: Route): string => SITE_BASE + pathOf(route);

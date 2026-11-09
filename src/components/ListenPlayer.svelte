@@ -7,7 +7,7 @@
   import CreditLine from './CreditLine.svelte';
   import { speak } from '../lib/speech.ts';
 
-  let { where, text, reveal = false }: { where: { rid?: number; key?: string }; text: string; reveal?: boolean } = $props();
+  let { where, text, reveal = false, autoplay = true }: { where: { rid?: number; key?: string }; text: string; reveal?: boolean; autoplay?: boolean } = $props();
 
   let rec = $state<Recording | null>(null);
   let blocked = $state(false);
@@ -32,7 +32,8 @@
     recordingFor(w).then((r) => {
       if (gone) return;
       rec = r;
-      go();
+      if (autoplay) go();
+      else blocked = true;
     });
     return () => {
       gone = true;

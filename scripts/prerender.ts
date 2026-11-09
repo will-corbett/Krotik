@@ -125,6 +125,7 @@ const nav = `<nav aria-label="Main"><ul>${(
     [{ page: 'vocabulary' }, 'Vocabulary'],
     [{ page: 'reading' }, 'Reading'],
     [{ page: 'writing' }, 'Writing'],
+    [{ page: 'listening' }, 'Listening'],
     [{ page: 'culture' }, 'Culture'],
   ] as [Route, string][]
 )
@@ -303,6 +304,12 @@ pages.push({
   body: `<h1>Writing</h1><p>Short writing tasks for each level, with a checklist to check your own text.</p>${writing
     .map((l) => `<h2>${l.level}</h2>${l.prompts.map((p) => `<h3>${esc(p.title)} (${esc(p.words)} words)</h3><p>${esc(p.task)}</p><ul>${p.checklist.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>`).join('')}`)
     .join('')}`,
+});
+pages.push({
+  route: { page: 'listening' },
+  description: 'Russian listening practice with native speakers’ recordings: listen and choose, dictation, hearing endings, minimal pairs, and listen-and-read with record-and-compare.',
+  index: true,
+  body: '<h1>Listening <span lang="ru">аудирование</span></h1><p>Native speakers’ recordings of real sentences and words. Drills: listen and choose, dictation, hear the ending, minimal pairs. Listen and read: hear a sentence, then show its Russian and English, and record yourself to compare.</p>',
 });
 pages.push({ route: { page: 'search' }, description: 'Search Krotik: lessons, drills, words, idioms, texts and culture, in English or Russian.', index: false, body: '<h1>Search</h1><p>Search the lessons, drills, vocabulary, idioms, texts and culture links, in English or Russian.</p>' });
 pages.push({ route: { page: 'settings' }, description: 'Krotik settings: your level, display, reading and progress, kept in this browser only.', index: false, body: '<h1>Settings</h1><p>Your level, display and reading settings, and whether Krotik keeps track of your progress. Kept in this browser only.</p>' });

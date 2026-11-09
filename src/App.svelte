@@ -1,4 +1,5 @@
 <script lang="ts">
+  import ListeningPage from './components/ListeningPage.svelte';
   import SearchPage from './components/SearchPage.svelte';
   import Setup from './components/Setup.svelte';
   import DrillChoose from './components/DrillChoose.svelte';
@@ -252,6 +253,7 @@
     { label: 'Vocabulary', route: { page: 'vocabulary' } },
     { label: 'Reading', route: { page: 'reading' } },
     { label: 'Writing', route: { page: 'writing' } },
+    { label: 'Listening', route: { page: 'listening' } },
     { label: 'Culture', route: { page: 'culture' } },
   ];
 </script>
@@ -326,6 +328,8 @@
       <CultureNote id={route.note} bind:settings />
     {:else if route.page === 'culture'}
       <Culture />
+    {:else if route.page === 'listening'}
+      <ListeningPage />
     {:else if route.page === 'search'}
       <SearchPage {settings} />
     {:else if route.page === 'about'}

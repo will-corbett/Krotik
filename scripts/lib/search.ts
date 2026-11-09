@@ -42,6 +42,7 @@ export function buildSearch(): SearchIndex {
     ['vocabulary/', 'Vocabulary', 'Words by theme from A1 to C1, with real sentences, dialogues and practice.'],
     ['reading/', 'Reading', 'Stories by Tolstoy and Chekhov, Chekhov’s comedies and science news, every word explained.'],
     ['writing/', 'Writing', 'Writing tasks for each level, with a checklist.'],
+    ['listening/', 'Listening', 'Native recordings: listen and choose, dictation, hear the ending, minimal pairs, listen and read.'],
     ['culture/', 'Culture', 'Hand-picked videos, films, podcasts, books and tools, and short culture notes.'],
     ['settings/', 'Settings', 'Your level, stress marks, the Cyrillic keyboard, phonetic typing, theme, progress.'],
     ['progress/', 'Your progress', 'Rounds, scores and your words, kept only in this browser if you turn progress on.'],
