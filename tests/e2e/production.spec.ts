@@ -79,24 +79,15 @@ test('find the mistake: tap the wrong word, type the right form', async ({ page 
   await expect(page.locator('.feedback .explain')).toContainText('The right form is');
 });
 
-test('Grammar test stage 2: typed answers give a separate result beside stage 1', async ({ page }) => {
+test('Grammar test stage 2 (typed answers) is off the site until its questions are reviewed', async ({ page }) => {
   test.setTimeout(90_000);
   await page.goto('test/');
   await page.getByRole('button', { name: 'Start the test' }).click();
   await expect(page.getByText('Question 1 of 60')).toBeVisible({ timeout: 30_000 });
   await page.getByRole('button', { name: 'End test now' }).click();
   await expect(page.getByRole('heading', { name: 'Your grammar level' })).toBeVisible();
-  await page.getByRole('button', { name: 'Start stage 2' }).click();
-  await expect(page.getByText('Question 1 of 30')).toBeVisible();
-  const box = page.getByRole('textbox', { name: 'Your answer' });
-  await box.fill('ъъъ');
-  await box.press('Enter');
-  await expect(page.getByText('Question 2 of 30')).toBeVisible();
-  await page.getByRole('button', { name: "I don't know" }).click();
-  await page.getByRole('button', { name: 'End stage 2 now' }).click();
-  await expect(page.getByRole('heading', { name: 'Stage 2 result: producing the forms' })).toBeVisible();
-  await expect(page.getByText(/Choosing the form \(stage 1\): .* · Typing it \(stage 2\): /)).toBeVisible();
-  await expect(page.getByText('You typed: ъъъ')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start stage 2' })).toHaveCount(0);
+  await expect(page.getByText(/stage 2/i)).toHaveCount(0);
 });
 
 test('Writing: tasks by level with a checklist; nothing typed is stored', async ({ page }) => {

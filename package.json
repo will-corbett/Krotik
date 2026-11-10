@@ -21,7 +21,8 @@
     "data": "npm run data:fetch && npm run data:build",
     "data:verify-overrides": "tsx scripts/verify-overrides.ts",
     "links:check": "tsx scripts/check-links.ts",
-    "audio:fetch": "tsx scripts/fetch-audio.ts"
+    "audio:fetch": "tsx scripts/fetch-audio.ts",
+    "review:stage2": "tsx scripts/review-stage2.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

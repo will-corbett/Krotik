@@ -5,7 +5,7 @@
   import { renderForm } from '../shared/forms.ts';
   import { loadLevelTest } from '../lib/data.ts';
   import { formTerm, ruleFor, termText } from '../lib/levelTestExplain.ts';
-  import { FLOOR, loadTest, PASS, PER_LEVEL, responseOf, scoreTest, session, TEST_LEVELS, type Answer, type TestItem, type TestLevel } from '../lib/levelTest.ts';
+  import { FLOOR, loadTest, PASS, PER_LEVEL, responseOf, scoreTest, session, STAGE2_PUBLISHED, TEST_LEVELS, type Answer, type TestItem, type TestLevel } from '../lib/levelTest.ts';
   import { mulberry32 } from '../lib/rng.ts';
   import { href } from '../lib/router.ts';
   import type { Settings } from '../lib/settings.ts';
@@ -323,7 +323,9 @@
       </tbody>
     </table>
 
-    <LevelTestTyped bind:settings receptive={result.level} exclude={items.map((x) => x.c[0])} />
+    {#if STAGE2_PUBLISHED}
+      <LevelTestTyped bind:settings receptive={result.level} exclude={items.map((x) => x.c[0])} />
+    {/if}
 
     {#snippet reviewList(list: typeof now)}
       <ul class="review">

@@ -154,7 +154,12 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   - Vocabulary gap-fill: each theme keeps up to 3 real sentences a word (`ThemeData.gaps`; only the hand-chosen one where
     the shortest were idioms); "Practise: fill the gap" (dictionary form in brackets, type the form used).
   - Grammar test stage 2 (`LevelTestTyped.svelte`, `buildTypedTest`): 6 typed questions per level, word in brackets,
-    none from stage 1; a separate productive result beside the receptive one. In memory only.
+    none from stage 1; a separate productive result beside the receptive one. In memory only. **Off the site**
+    (`STAGE2_PUBLISHED = false`, owner's decision 2026-11-10) until a native speaker has reviewed its questions: a word
+    in brackets often allows more than one form (я ел/ела, another tense, singular/plural), so right answers were
+    marked wrong. `npm run review:stage2` writes `reports/grammar-test-stage2-for-review.md` (228 questions, 4 per
+    question type and level) and a `.keys.json` matching numbers to items. Bring it back only from reviewed items,
+    accepting every form the reviewer lists.
   - Writing (`/writing/`, `content/writing.yaml`, word-checked in learn.test.ts): 3 tasks per level with a checklist and
     links to grammar and vocabulary. What's typed is never stored; no model answers until a native speaker can review
     them. Self-marked drills (translate, build) are never suggested as weak or due.

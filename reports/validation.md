@@ -8,7 +8,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 
 | file | rows / lemmas | size (uncompressed) |
 |---|---:|---:|
-| search.json | 649 entries | 249 KB |
+| search.json | 650 entries | 249 KB |
 | verbs.b0.json | 250 | 75 KB |
 | verbs.b1.json | 750 | 240 KB |
 | verbs.b2.json | 1500 | 495 KB |
@@ -50,7 +50,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
 | sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| level-test.json | 2250 questions | 650 KB |
+| level-test.json | 2250 questions | 649 KB |
 | learn.json | 80 sentences, 50 pronunciations | 9.3 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2086 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |

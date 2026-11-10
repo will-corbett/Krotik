@@ -143,6 +143,12 @@ export const session: {
 } = { items: [], answers: [], at: 0, finished: false, typed: { items: [], answers: [], at: 0, finished: false } };
 
 // ---- Stage 2: typed answers (productive grammar)
+/**
+ * Stage 2 is off the site (2026-11-10) until a native speaker has reviewed its questions: a word in brackets often
+ * doesn't pin down one form (я ел / я ела, a different tense, singular or plural), so right answers were marked wrong.
+ * The review list is reports/grammar-test-stage2-for-review.md (`npm run review:stage2`).
+ */
+export const STAGE2_PUBLISHED = false;
 /** Typed questions per level in stage 2. */
 export const TYPED_PER_LEVEL = 6;
 

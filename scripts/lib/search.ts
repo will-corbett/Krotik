@@ -36,7 +36,7 @@ export function buildSearch(): SearchIndex {
   const PAGES: [string, string, string][] = [
     ['start/', 'Start here', 'A beginner’s guide: what’s here, a first path through the site, how drills work, levels.'],
     ['paths/', 'Learning paths', 'A recommended order of topics, vocabulary and reading for each level, A1 to C1.'],
-    ['test/', 'Grammar test', 'Sixty questions from A1 to C1, then a typed stage: an estimate of your grammar level.'],
+    ['test/', 'Grammar test', 'Sixty questions from A1 to C1: an estimate of your grammar level.'],
     ['learn/', 'Learn', 'Every grammar topic with its level: short explanations with real sentences.'],
     ['drill/', 'Drill', 'Choose a drill: verbs, cases, adjectives, sentences, listening, words and review.'],
     ['vocabulary/', 'Vocabulary', 'Words by theme from A1 to C1, with real sentences, dialogues and practice.'],
