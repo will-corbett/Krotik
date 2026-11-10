@@ -55,7 +55,10 @@
   });
   const wordCount = $derived(lines.reduce((k, l) => k + l.pieces.filter((p) => p.word !== undefined).length, 0));
   let active = $state(0);
-  let shown = $state<{ word: string; readings: WordReading[]; x: number; y: number; below: boolean } | null>(null);
+  type Shown = { word: string; readings: WordReading[]; x: number; y: number; below: boolean };
+  let shown = $state<Shown | null>(null);
+  /** While the box is being taken off the page its bindings can run once more after `shown` is null ("reading 'below'"). */
+  const NONE: Shown = { word: '', readings: [], x: 0, y: 0, below: false };
   let textEl = $state<HTMLElement>();
   let buttons: HTMLButtonElement[] = [];
   /**
@@ -72,11 +75,18 @@
     const btn = e.currentTarget as HTMLElement;
     const box = textEl!.getBoundingClientRect();
     const r = btn.getBoundingClientRect();
-    // Above the word, or below it near the top of the screen; kept inside the text column (the box is at most
-    // 320px wide, and never wider than the column).
-    const below = r.top < 170;
+    // Above the word, or below it when there's no room above: near the top of the screen, or near the top of the
+    // text (above it are the page's own controls, such as Reading's key words, which the box mustn't cover). Kept
+    // inside the text column (the box is at most 320px wide, and never wider than the column).
+    const below = r.top < 170 || r.top - box.top < 170;
     const half = Math.min(160, box.width / 2);
     shown = { word, readings, x: Math.min(Math.max(r.left + r.width / 2 - box.left, half), box.width - half), y: below ? r.bottom - box.top + 6 : r.top - box.top - 6, below };
+  }
+  /** Add a word; the button becomes "In your words ✓", so focus goes back to the word (the box stays open). */
+  async function add(keys: Parameters<typeof onadd>[0]) {
+    onadd(keys);
+    await tick();
+    buttons[active]?.focus();
   }
   function hide() {
     shown = null;
@@ -106,8 +116,10 @@
   onkeydown={(e) => e.key === 'Escape' && hide()}
   onclick={(e) => {
     // Only a click on one of this text's words, or its box, keeps the box (another text on the page has its own).
-    const t = e.target as Element | null;
-    if (!(t?.closest?.('.w, .pop') && textEl?.contains(t))) hide();
+    // The path is where the click happened: the button pressed may be gone by now (Add becomes "In your words ✓").
+    const path = e.composedPath();
+    const inside = textEl !== undefined && path.includes(textEl) && path.some((n) => n instanceof Element && n.matches('.w, .pop'));
+    if (!inside) hide();
   }}
 />
 
@@ -119,7 +131,7 @@
   role="group"
   aria-label={label}
   lang="ru"
-  onfocusout={(e) => !textEl?.contains(e.relatedTarget as Node | null) && hide()}
+  onfocusout={(e) => (e.target as Node).isConnected && !textEl?.contains(e.relatedTarget as Node | null) && hide()}
 >
   {#each lines as l, li (li)}
     <p class:stage={l.stage === 1}>
@@ -141,13 +153,14 @@
   {/each}
 
   {#if shown}
-    {@const addable = progress && pinned ? shown.readings.filter(keyed).filter((r) => !r[3].includes('n')) : []}
-    <div class="pop" class:below={shown.below} class:pinned style="left: {shown.x}px; top: {shown.y}px" lang="en">
+    {@const box = shown ?? NONE}
+    {@const addable = progress && pinned ? box.readings.filter(keyed).filter((r) => !r[3].includes('n')) : []}
+    <div class="pop" class:below={box.below} class:pinned style="left: {box.x}px; top: {box.y}px" lang="en">
       <div id={boxId} role="tooltip">
-        {#if !shown.readings.length}
-          <p><strong lang="ru">{shown.word}</strong></p>
+        {#if !box.readings.length}
+          <p><strong lang="ru">{box.word}</strong></p>
         {/if}
-        {#each shown.readings as [dict, meaning, form, flags], ri (ri)}
+        {#each box.readings as [dict, meaning, form, flags], ri (ri)}
           <div class="reading-item">
             {#if flags.includes('n')}
               <p><strong lang="ru">{dict}</strong> <span class="muted">a name</span>{#if meaning}: <span>{meaning}</span>{/if}</p>
@@ -163,7 +176,7 @@
         {#if mine.has(r[4])}
           <p class="added muted">In your words ✓</p>
         {:else}
-          <button type="button" class="btn small-btn add" onclick={() => onadd([[r[4], r[5]]])}>Add {addable.length > 1 ? renderForm(r[0].split(',')[0]!, true) : ''} to my words</button>
+          <button type="button" class="btn small-btn add" onclick={() => add([[r[4], r[5]]])}>Add {addable.length > 1 ? renderForm(r[0].split(',')[0]!, true) : ''} to my words</button>
         {/if}
       {/each}
     </div>
