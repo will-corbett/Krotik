@@ -32,7 +32,8 @@
     onreviewwords: () => void;
     onreview: (topics: import('../lib/types.ts').Mode[]) => void;
   } = $props();
-  const last = $derived(topicById(settings.mode));
+  // Only a drill you've actually started a round of (a first visit has none).
+  const last = $derived(settings.lastDrill ? topicById(settings.lastDrill) : undefined);
   const topics = ALL_TOPICS.filter((t) => t.learn !== false).length;
   const drills = ALL_TOPICS.filter(isDrill).length;
   const progress = $derived(settings.progress ? summarise(loadProgress(), today()) : null);

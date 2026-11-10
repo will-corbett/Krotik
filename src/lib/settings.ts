@@ -20,6 +20,11 @@ export interface Settings {
   /** The Dashboard's "Continue drilling" card was dismissed; it comes back when the next round starts. */
   hideContinue: boolean;
   /**
+   * The drill of the last round you started (null until you've started one), for the home page's "Your last drill".
+   * Not `mode`, which is set by opening a drill's page and is Verb forms for a first visit.
+   */
+  lastDrill: Mode | null;
+  /**
    * The beginner's guide is shown big ("New to Krotik?" card) until you've found your way: opened the guide, started a
    * drill round, or pressed "Got it". After that it's a small link under the title (and always in the footer); it never
    * disappears, so a misclick can't lose it.
@@ -89,6 +94,7 @@ export const DEFAULTS: Settings = {
   translit: false,
   theme: 'krotik',
   hideContinue: false,
+  lastDrill: null,
   guideSeen: false,
   progress: false,
   betaNoteHidden: false,
@@ -145,6 +151,8 @@ export function loadSettings(): Settings {
     // the small link instead.
     const old = saved as Record<string, unknown>;
     if (old.hideStart === true) saved.guideSeen = true;
+    // Before lastDrill existed, the home page showed `mode`: keep that for anyone who has found their way.
+    if (!('lastDrill' in saved)) saved.lastDrill = saved.guideSeen && saved.mode ? saved.mode : null;
     delete old.hideStart;
     delete old.readingLang;
     // "No path chosen" is gone: everyone starts on A1.

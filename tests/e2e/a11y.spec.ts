@@ -122,7 +122,7 @@ test('settings saved under the previous name carry over', async ({ page }) => {
   // A returning visitor: only the old key exists.
   await page.evaluate(() => {
     localStorage.clear();
-    localStorage.setItem('rgd.settings.v1', JSON.stringify({ mode: 'motion', count: 40 }));
+    localStorage.setItem('rgd.settings.v1', JSON.stringify({ mode: 'motion', count: 40, guideSeen: true }));
   });
   await page.goto('./#/');
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible(); // the Continue card

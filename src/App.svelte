@@ -153,6 +153,7 @@
       round = createRound(qs);
       screen = 'drill';
       settings.hideContinue = false;
+      if (!practice) settings.lastDrill = settings.mode;
       // Someone who has started a drill has found their way: the guide becomes a small link on the home page.
       settings.guideSeen = true;
     } catch (e) {
@@ -172,6 +173,7 @@
 
   /** Dashboard "Continue": go to the drill's page and start a round with the saved settings. */
   async function continueDrill() {
+    if (settings.lastDrill) settings.mode = settings.lastDrill;
     if (route.page !== 'drill') {
       route = { page: 'drill', mode: settings.mode };
       history.pushState(null, '', href(route) + location.search);

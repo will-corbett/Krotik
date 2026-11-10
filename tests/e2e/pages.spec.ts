@@ -45,13 +45,31 @@ test('from the menu, the choose page has no drill selected', async ({ page }) =>
 
 test('Continue starts a round with the saved settings', async ({ page }) => {
   await setup(page, 'Motion verbs');
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByText('0 of 10 cleared')).toBeVisible();
+  // Opening another drill's page doesn't change your last drill.
+  await page.goto('./drill/cases/');
   await goTo(page, 'Dashboard');
   await expect(page.getByText('Motion verbs', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Start another round', exact: true }).click();
   await expect(page.getByText('0 of 10 cleared')).toBeVisible();
 });
 
+test('a first visit has no last drill, nor does only opening a drill page', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.getByRole('heading', { name: /^Grammar грамматика/ })).toBeVisible();
+  await expect(page.getByText('Your last drill')).toHaveCount(0);
+  await page.goto('./drill/cases/');
+  await expect(page.getByRole('button', { name: 'Start' })).toBeVisible();
+  await goTo(page, 'Dashboard');
+  await expect(page.getByRole('heading', { name: /^Grammar грамматика/ })).toBeVisible();
+  await expect(page.getByText('Your last drill')).toHaveCount(0);
+});
+
 test('the Continue card can be hidden, and comes back after the next drill', async ({ page }) => {
+  await page.goto('./?seed=4#/drill/verbs');
+  await page.getByRole('button', { name: 'Start' }).click();
+  await expect(page.getByText(/of \d+ cleared/)).toBeVisible();
   await page.goto('./');
   await expect(page.getByText('Your last drill')).toBeVisible();
   await page.getByRole('button', { name: /Hide your last drill/ }).click();
