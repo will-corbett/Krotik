@@ -594,6 +594,9 @@ export function buildLevelTestPool(read: ReadJson, seed = 1): LevelTestData {
           continue;
         }
         keys.add(c[0]);
+        // A sentence written with stress marks (горла́) has gap positions counted without them, so the gap would land
+        // on the wrong letters: leave it out.
+        if (/\u0301/.test(c[1])) continue;
         items.push(c);
       }
       slots.push({ level, w: slot.w, topic: slot.learn, ask: slot.ask, items });

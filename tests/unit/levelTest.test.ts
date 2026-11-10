@@ -233,6 +233,13 @@ describe('every Grammar test answer is the word in its sentence', () => {
   });
 });
 
+describe('gaps', () => {
+  it('never uses a sentence written with stress marks (its gap positions would be off)', () => {
+    const data = JSON.parse(readFileSync('public/data/level-test.json', 'utf8')) as LevelTestData;
+    for (const slot of data.slots) for (const c of slot.items) expect(c[1], c[0]).not.toMatch(/\u0301/);
+  });
+});
+
 describe('stage 2: typed answers', async () => {
   const { readFileSync } = await import('node:fs');
   const { buildTypedTest, TYPED_PER_LEVEL, scoreTest } = await import('../../src/lib/levelTest.ts');
