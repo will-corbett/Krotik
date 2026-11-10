@@ -19,7 +19,7 @@ import { buildMotion } from './lib/motion.ts';
 import { BANDS, OUT_DIR, bandOf, writeBands, writeBandsByRank, writeJson } from './lib/shard.ts';
 import { cleanGloss, hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
-import { buildLevelTestPool, PER_SLOT } from '../src/lib/levelTestPool.ts';
+import { buildLevelTestPool, loadLexicon, PER_SLOT } from '../src/lib/levelTestPool.ts';
 import { buildSentences } from './lib/sentences.ts';
 import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } from './lib/literature.ts';
 import { buildThemes, loadThemes } from './lib/themes.ts';
@@ -383,6 +383,25 @@ for (const s of levelTest.slots) {
   report.count('Level test', `${s.level} question types`);
   report.count('Level test', 'candidate questions', s.items.length);
   if (s.items.length < PER_SLOT) report.anomaly('Level test', `question types with fewer than ${PER_SLOT} candidates`, `${s.level} ${s.topic} (w${s.w}): ${s.items.length}`);
+}
+// Stage 2 (typed): other forms each question also accepts, checked to be real forms of its word.
+{
+  const also = (parseYaml(readFileSync('curated/stage2-answers.yaml', 'utf8')) as { also?: Record<string, string[]> }).also ?? {};
+  const lex = loadLexicon(<T>(file: string) => JSON.parse(readFileSync(join(OUT_DIR, file), 'utf8')) as T);
+  const byKey = new Map(levelTest.slots.flatMap((s) => s.items.map((c) => [c[0], c] as const)));
+  for (const [key, forms] of Object.entries(also)) {
+    const c = byKey.get(key);
+    if (!c) {
+      report.anomaly('Level test', 'stage 2 answers whose question is gone (curated/stage2-answers.yaml)', key);
+      continue;
+    }
+    const e = lex.byAccented.get(c[5]);
+    const real = new Set((e?.cells ?? []).flatMap((x) => cellForms(x)).map(normalise));
+    const bad = forms.filter((f) => !real.has(normalise(f)));
+    if (bad.length) throw new Error(`curated/stage2-answers.yaml: ${key}: not a form of ${c[5]}: ${bad.join(', ')}`);
+    c[13] = forms;
+    report.count('Level test', 'stage 2 questions with more than one right answer');
+  }
 }
 const levelTestBytes = writeJson('level-test.json', levelTest);
 

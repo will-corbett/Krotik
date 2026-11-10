@@ -158,8 +158,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
     (`STAGE2_PUBLISHED = false`, owner's decision 2026-11-10) until a native speaker has reviewed its questions: a word
     in brackets often allows more than one form (я ел/ела, another tense, singular/plural), so right answers were
     marked wrong. `npm run review:stage2` writes `reports/grammar-test-stage2-for-review.md` (228 questions, 4 per
-    question type and level) and a `.keys.json` matching numbers to items. Bring it back only from reviewed items,
-    accepting every form the reviewer lists.
+    question type and level) and a `.keys.json` matching numbers to items. `curated/stage2-answers.yaml` lists the
+    other forms each question also accepts (rule: right in the Russian and fits the English; gender after я/ты and
+    ты/вы imperatives always both), checked by the build to be real forms of that word; `typedQuestion` accepts them
+    all. Bring stage 2 back only from reviewed items, adding every form the reviewer lists.
   - Writing (`/writing/`, `content/writing.yaml`, word-checked in learn.test.ts): 3 tasks per level with a checklist and
     links to grammar and vocabulary. What's typed is never stored; no model answers until a native speaker can review
     them. Self-marked drills (translate, build) are never suggested as weak or due.
@@ -250,6 +252,9 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
 - Retry rule: wrong → comes back RETRY_GAP (10) cards later, or at the end if fewer are left (so retries work in
   unlimited rounds too); round ends only when all are answered correctly (or End round).
   Score = first-attempt correct / attempted.
+- Sentence matching and ё (`scripts/lib/sentences.ts`): normalising folds ё into е, but a sentence word written with ё
+  only matches forms spelt with ё (headwords don't count: крёстный / кре́стный), and a short adjective that differs from
+  a participle only by ё (отменен, of отменный, against отменён) is treated as ambiguous.
 - Example sentences: only shown when the highlighted word is exactly the answer form (`chooseSentence`); never
   fall back to another form of the word.
 - Modes are grouped (Verbs / Adjectives / Pronouns / Nouns & numbers / Sentences / Pronunciation / Listening); each mode has a generator in

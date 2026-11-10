@@ -154,7 +154,7 @@ export const TYPED_PER_LEVEL = 6;
 
 /** A pool question as a typed one: the sentence with a gap and the word in brackets; type the form. */
 export function typedQuestion(c: LevelTestCandidate, topic: Mode, level: TestLevel): Question {
-  const [key, ru, en, start, end, hint, right] = c;
+  const [key, ru, en, start, end, hint, right, , , , , , , also = []] = c;
   const before = ru.slice(0, start);
   const after = ru.slice(end);
   return {
@@ -165,7 +165,8 @@ export function typedQuestion(c: LevelTestCandidate, topic: Mode, level: TestLev
     gloss: '',
     task: [],
     frame: `${before}___ (${hint})${after}`,
-    answer: right,
+    // Every form that is also right here (я ел / я ела …), as cell variants.
+    answer: [right, ...also].join(','),
     others: [],
     label: `${level} ${topic}`,
     speak: (f) => `${before}${f.replace(/'/g, '')}${after}`,

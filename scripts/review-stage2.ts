@@ -24,11 +24,11 @@ const out: string[] = [
   '',
   'For each question, please check:',
   '',
-  '1. **Is our answer right?**',
-  '2. **Would another form of the word also be right here?** This is the main problem we know of: the word in',
-  '   brackets doesn\'t always decide the form. For example *Я ___ (хотеть) бы* could be хоте́л or хоте́ла; *Она его',
-  '   ___ (бросить)* could be бро́сила or бро́сит; *Мы вытерли ___ (лицо)* could be лицо́ or ли́ца. Please write every',
-  '   other form that would also be right.',
+  '1. **Are the accepted answers right?** Where a question has more than one, each of them should be right.',
+  '2. **Is any other form of the word also right here?** The word in brackets doesn\'t always decide the form: after',
+  '   я or ты a past verb can be either gender (я хоте́л / я хоте́ла бы), and English "you" can be ты or вы (не слу́шай /',
+  '   не слу́шайте). We have added every other form we think fits both the sentence and the English (so "I\'ll find"',
+  '   accepts найду́ only, not нашёл); please write any we missed, or any you think should not be accepted.',
   '3. **Is the sentence natural, and is the English a fair translation?** If not, write "remove".',
   '',
   'In the last column, write **OK**, the other right forms, a correction, or **remove**. Stress is marked with ´.',
@@ -44,11 +44,11 @@ for (const level of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
     const items = slot.items.filter((c) => c[5]).slice(0, PER_SLOT);
     if (!items.length) continue;
     const topic = topicById(slot.topic)?.title.en ?? slot.topic;
-    out.push(`### ${topic}`, '', '| # | Sentence | Word given | Our answer | English | OK / also right / correction / remove |', '|---:|---|---|---|---|---|');
-    for (const [key, text, en, start, end, hint, right] of items) {
+    out.push(`### ${topic}`, '', '| # | Sentence | Word given | Accepted answers | English | OK / also right / correction / remove |', '|---:|---|---|---|---|---|');
+    for (const [key, text, en, start, end, hint, right, , , , , , , also = []] of items) {
       n++;
       const gap = `${text.slice(0, start)}___${text.slice(end)}`;
-      out.push(`| ${n} | ${cell(gap)} | ${ru(hint)} | ${ru(right)} | ${cell(en)} |  |`);
+      out.push(`| ${n} | ${cell(gap)} | ${ru(hint)} | ${[right, ...also].map(ru).join(' **or** ')} | ${cell(en)} |  |`);
       keys[n] = key;
     }
     out.push('');
@@ -57,7 +57,7 @@ for (const level of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
 out.push(
   '## Sources',
   '',
-  `${n} questions: the first ${PER_SLOT} of each question type at each level. Sentences and English from Tatoeba`,
+  `${n} questions: the first ${PER_SLOT} of each question type at each level; ${Object.values(data.slots).flatMap((s) => s.items).filter((c) => c[5] && c[13]?.length).length} accept more than one answer. Sentences and English from Tatoeba`,
   '(tatoeba.org, CC BY 2.0 FR); forms from OpenRussian.org and Wiktionary (CC BY-SA 4.0).',
   '',
 );

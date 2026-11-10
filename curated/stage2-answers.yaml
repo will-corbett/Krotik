@@ -1,0 +1,28 @@
+# Grammar test stage 2 (typed answers): other forms that are also right.
+#
+# In stage 2 the learner types the form of the word in brackets, with the English as the cue. The word in brackets
+# doesn't always decide the form: after я or ты a past verb can be masculine or feminine (я ел / я ела), and an
+# English "you" can be ты or вы. Every form a question should also accept is listed here under the question's key
+# (reports/grammar-test-stage2-for-review.keys.json maps the review file's numbers to keys).
+#
+# Rule (2026-11-10): accept every form that is right in the Russian sentence and fits the English. Where the English
+# can't tell (gender, ты/вы), accept all. Forms only, never new words: the data build checks that every form listed
+# is a real form of that question's word, and fails if not. A key the build no longer finds (after a source refresh)
+# is listed in the report. Stage 2 stays off the site until a native speaker has reviewed the list
+# (STAGE2_PUBLISHED in src/lib/levelTest.ts).
+
+also:
+  "lt:verbs:2799617:13": [е'л] # Какую еду ты ___? (есть): ты, either gender
+  "lt:nouns:10038235:11": [лицо'] # Мы вытерли ___ (лицо): one face each is also said
+  "lt:nouns:3570027:9": [молоко'] # Я попила ___ (молоко): "drank the milk" is right too
+  "lt:verbs:1401045:3": [слу'шай] # Не ___ его! (слушать): "Don't" can be ты or вы
+  "lt:verbs:7633003:6": [закро'й] # Лучше ___ дверь (закрыть)
+  "lt:verbs:12866411:7": [приходи'] # Просто ___ (приходить)
+  "lt:verbs:3014995:11": [учи'ла] # Ты меня не ___ (учить)
+  "lt:verbs:5523820:2": [мча'лась] # Я ___ как ветер (мчаться)
+  "lt:nouns:3480322:4": [основа'ния] # Нет ___ для тревоги (основание): нет основания is also said
+  "lt:gap:conditional:9176342:12": [помогла'] # Даже ты мне ___ бы (помочь)
+  "lt:gap:conditional:10793235:2": [хоте'л] # Я ___ бы знать больше языков (хотеть)
+  "lt:gap:conditional:12073182:22": [смогла'] # ты бы ___ забраться (смочь)
+  "lt:nouns:4610433:14": [неуда'чи] # Том не боится ___ (неудача): неудач or неудачи
+  "lt:gap:comparison:7995252:10": [полно'чи] # раньше ___ (полночь): полуночи or полночи

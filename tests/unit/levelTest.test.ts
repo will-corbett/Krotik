@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { checkAnswer } from '../../src/lib/check.ts';
 import { ASK, buildTest, PER_LEVEL, scoreTest, TEST_LEVELS, type TestItem } from '../../src/lib/levelTest.ts';
@@ -230,6 +230,54 @@ describe('every Grammar test answer is the word in its sentence', () => {
     const n = (s: string) => s.toLowerCase().replace(/'/g, '').replace(/ё/g, 'е');
     const bad = data.slots.flatMap((s) => s.items).filter((c) => !c[6].split(',').map((x) => n(x.replace(/[()]/g, ''))).includes(n(c[1].slice(c[3], c[4]))));
     expect(bad.map((c) => `${c[0]}: ${c[1].slice(c[3], c[4])} vs ${c[6]}`)).toEqual([]);
+  });
+});
+
+describe('sentences: ё', () => {
+  // A sentence that writes ё has told us the word: отменён (cancelled) is never отменен, the short form of отменный.
+  it('a highlighted word spelt with ё is always a form spelt with ё', () => {
+    const manifest = JSON.parse(readFileSync('public/data/manifest.json', 'utf8')) as { shards: Record<string, { file: string }[]>; sentences?: Record<string, { file: string }[]> };
+    for (const type of ['verbs', 'adjectives', 'nouns'] as const) {
+      const forms = new Map<number, string[]>();
+      for (const s of manifest.shards[type] ?? []) {
+        for (const row of JSON.parse(readFileSync(`public/data/${s.file}`, 'utf8')) as unknown[][]) {
+          const cells = (type === 'nouns' ? row[6] : type === 'verbs' ? row[5] : [...(row[3] as string[]), ...(row[4] as string[])]) as string[];
+          forms.set(row[0] as number, [row[1] as string, ...cells.flatMap((c) => cellForms(c))].map((f) => f.replace(/'/g, '').toLowerCase()));
+        }
+      }
+      let checked = 0;
+      for (const file of readdirSync('public/data').filter((f) => f.startsWith(`sentences.${type}.`))) {
+        const shard = JSON.parse(readFileSync(`public/data/${file}`, 'utf8')) as Record<string, [number, string, string, number, number, number][]>;
+        for (const [id, rows] of Object.entries(shard)) {
+          for (const [rid, ru, , , start, end] of rows) {
+            const token = ru.slice(start, end).toLowerCase();
+            if (!token.includes('ё')) continue;
+            checked++;
+            expect(forms.get(Number(id))?.includes(token), `${type} ${id} #${rid}: ${token}`).toBe(true);
+          }
+        }
+      }
+      expect(checked).toBeGreaterThan(0);
+    }
+  });
+});
+
+describe('stage 2: other right answers (curated/stage2-answers.yaml)', () => {
+  it('every listed form is accepted by its question', async () => {
+    const { parse } = await import('yaml');
+    const { typedQuestion } = await import('../../src/lib/levelTest.ts');
+    const also = (parse(readFileSync('curated/stage2-answers.yaml', 'utf8')) as { also: Record<string, string[]> }).also;
+    const data = JSON.parse(readFileSync('public/data/level-test.json', 'utf8')) as LevelTestData;
+    const byKey = new Map(data.slots.flatMap((s) => s.items.map((c) => [c[0], [c, s] as const] as const)));
+    let found = 0;
+    for (const [key, forms] of Object.entries(also)) {
+      const hit = byKey.get(key);
+      if (!hit) continue;
+      found++;
+      const q = typedQuestion(hit[0], hit[1].topic as never, hit[1].level);
+      for (const f of [hit[0][6], ...forms]) expect(checkAnswer(q, f.replace(/'/g, '')).correct, `${key}: ${f}`).toBe(true);
+    }
+    expect(found).toBeGreaterThan(10);
   });
 });
 

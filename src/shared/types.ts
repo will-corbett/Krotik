@@ -140,7 +140,8 @@ export interface Collocations {
  * drill kind ("" if none), code of the right option's form, codes of the wrong options, frequency rank of the word
  * (-1 if none)]. Codes are explained in src/lib/levelTestPool.ts.
  */
-export type LevelTestCandidate = [string, string, string, number, number, string, string, string[], string, string, string, string[], number];
+/** … then, optionally, other forms a typed answer may also be (curated/stage2-answers.yaml). */
+export type LevelTestCandidate = [string, string, string, number, number, string, string, string[], string, string, string, string[], number, string[]?];
 /**
  * public/data/learn.json: what Learn pages quote, by block. `sentences`: Tatoeba id → [Russian, English] for
  * `::tatoeba`; `ipa`: word → [headword with stress, IPA from Wiktionary] for `::ipa`.

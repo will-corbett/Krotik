@@ -33,24 +33,24 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | words.b1.json | 2892 | 184 KB |
 | words.b2.json | 5171 | 338 KB |
 | words.b3.json | 36192 | 2296 KB |
-| sentences.verbs.b0.json | 247 lemmas, 2235 sentences | 183 KB |
-| sentences.verbs.b1.json | 736 lemmas, 5441 sentences | 512 KB |
-| sentences.verbs.b2.json | 1371 lemmas, 6750 sentences | 704 KB |
-| sentences.verbs.b3.json | 4353 lemmas, 11973 sentences | 1375 KB |
-| sentences.adjectives.b0.json | 248 lemmas, 2181 sentences | 219 KB |
-| sentences.adjectives.b1.json | 697 lemmas, 4288 sentences | 500 KB |
-| sentences.adjectives.b2.json | 1131 lemmas, 4143 sentences | 521 KB |
-| sentences.adjectives.b3.json | 2116 lemmas, 5298 sentences | 683 KB |
+| sentences.verbs.b0.json | 247 lemmas, 2236 sentences | 183 KB |
+| sentences.verbs.b1.json | 736 lemmas, 5442 sentences | 512 KB |
+| sentences.verbs.b2.json | 1372 lemmas, 6762 sentences | 705 KB |
+| sentences.verbs.b3.json | 4355 lemmas, 11976 sentences | 1376 KB |
+| sentences.adjectives.b0.json | 248 lemmas, 2182 sentences | 219 KB |
+| sentences.adjectives.b1.json | 696 lemmas, 4286 sentences | 500 KB |
+| sentences.adjectives.b2.json | 1130 lemmas, 4137 sentences | 520 KB |
+| sentences.adjectives.b3.json | 2112 lemmas, 5288 sentences | 682 KB |
 | sentences.nouns.b0.json | 245 lemmas, 1627 sentences | 154 KB |
-| sentences.nouns.b1.json | 736 lemmas, 3984 sentences | 413 KB |
-| sentences.nouns.b2.json | 1387 lemmas, 5689 sentences | 628 KB |
-| sentences.nouns.b3.json | 6412 lemmas, 15973 sentences | 1939 KB |
+| sentences.nouns.b1.json | 736 lemmas, 3988 sentences | 414 KB |
+| sentences.nouns.b2.json | 1387 lemmas, 5692 sentences | 628 KB |
+| sentences.nouns.b3.json | 6416 lemmas, 15979 sentences | 1939 KB |
 | sentences.participles.b0.json | 172 lemmas, 603 sentences | 83 KB |
-| sentences.participles.b1.json | 325 lemmas, 888 sentences | 121 KB |
-| sentences.participles.b2.json | 359 lemmas, 759 sentences | 108 KB |
-| sentences.participles.b3.json | 623 lemmas, 1174 sentences | 166 KB |
+| sentences.participles.b1.json | 325 lemmas, 894 sentences | 122 KB |
+| sentences.participles.b2.json | 358 lemmas, 760 sentences | 108 KB |
+| sentences.participles.b3.json | 625 lemmas, 1178 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| level-test.json | 2250 questions | 649 KB |
+| level-test.json | 2250 questions | 648 KB |
 | learn.json | 80 sentences, 50 pronunciations | 9.3 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2086 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
@@ -287,16 +287,16 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | count | n |
 |---|---:|
 | Russian sentences in Tatoeba export | 1233736 |
-| kept after filters (with an English translation) | 650395 |
-| token occurrences skipped as ambiguous (form of >1 lemma) | 274791 |
-| verbs: lemmas with ≥1 sentence | 6707 |
-| adjectives: lemmas with ≥1 sentence | 4192 |
-| nouns: lemmas with ≥1 sentence | 8780 |
-| participles: lemmas with ≥1 sentence | 1479 |
+| kept after filters (with an English translation) | 650392 |
+| token occurrences skipped as ambiguous (form of >1 lemma) | 273784 |
+| verbs: lemmas with ≥1 sentence | 6710 |
+| adjectives: lemmas with ≥1 sentence | 4186 |
+| nouns: lemmas with ≥1 sentence | 8784 |
+| participles: lemmas with ≥1 sentence | 1480 |
 
 verbs: 983 of the top-1000 lemmas have at least one sentence.
 
-adjectives: 945 of the top-1000 lemmas have at least one sentence.
+adjectives: 944 of the top-1000 lemmas have at least one sentence.
 
 nouns: 981 of the top-1000 lemmas have at least one sentence.
 
@@ -724,7 +724,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | chtoby / past: candidates (kept up to 1500) | 437 |
 | conditional / cond: candidates (kept up to 1500) | 9526 |
 | negation / net: candidates (kept up to 1500) | 2534 |
-| negation / nipron: candidates (kept up to 1500) | 7182 |
+| negation / nipron: candidates (kept up to 1500) | 7181 |
 | negation / ne-ni: candidates (kept up to 1500) | 1500 |
 | indefinite / нибудь: candidates (kept up to 1500) | 6355 |
 | indefinite / то: candidates (kept up to 1500) | 5887 |
@@ -769,7 +769,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | prepositions / про:acc: candidates (kept up to 400) | 24 |
 | prepositions / около:gen: candidates (kept up to 400) | 42 |
 | aspectContext / impf@presfut: candidates (kept up to 400) | 148948 |
-| aspectContext / pf@presfut: candidates (kept up to 400) | 28416 |
+| aspectContext / pf@presfut: candidates (kept up to 400) | 28415 |
 | aspectContext / impf@past: candidates (kept up to 400) | 63325 |
 | aspectContext / impf@inf: candidates (kept up to 400) | 20227 |
 | aspectContext / pf@past: candidates (kept up to 400) | 120084 |
@@ -860,7 +860,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | impersonal / imp-pron: candidates (kept up to 1500) | 2854 |
 | impersonal / imp-noun: candidates (kept up to 1500) | 146 |
 | comparison / cmp-gen: candidates (kept up to 1500) | 293 |
-| conjunctions / conj:что: candidates (kept up to 1500) | 54493 |
+| conjunctions / conj:что: candidates (kept up to 1500) | 54492 |
 | conjunctions / conj:когда: candidates (kept up to 1500) | 3771 |
 | conjunctions / conj:чтобы: candidates (kept up to 1500) | 12032 |
 | conjunctions / conj:если: candidates (kept up to 1500) | 2966 |
@@ -869,7 +869,7 @@ Agreement drills pair an adjective, possessive, ordinal or participle only with 
 | time / v-day: candidates (kept up to 1500) | 774 |
 | time / cherez: candidates (kept up to 1500) | 220 |
 | time / po-days: candidates (kept up to 1500) | 233 |
-| narechiya / adj: candidates (kept up to 1500) | 18688 |
+| narechiya / adj: candidates (kept up to 1500) | 18687 |
 | narechiya / adv: candidates (kept up to 1500) | 17728 |
 | questionWords / kakoy: candidates (kept up to 1500) | 3165 |
 | questionWords / chto: candidates (kept up to 1500) | 8148 |
@@ -892,4 +892,5 @@ Typed answers are the sentence’s own word; the blanked token must belong to ex
 | B1 question types | 15 |
 | B2 question types | 15 |
 | C1 question types | 14 |
+| stage 2 questions with more than one right answer | 14 |
 
