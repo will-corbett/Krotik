@@ -299,7 +299,11 @@ describe('stage 2: typed answers', async () => {
     const before = new Set(exclude);
     const items = buildTypedTest(mulberry32(7), data, exclude);
     expect(items.length).toBe(TYPED_PER_LEVEL * 5);
+    // Only questions on the reviewed list.
+    expect(data.stage2?.length).toBeGreaterThan(200);
+    const listed = new Set(data.stage2);
     for (const it of items) {
+      expect(listed.has(it.c[0]), it.c[0]).toBe(true);
       expect(before.has(it.c[0])).toBe(false);
       expect(it.c[5]).not.toBe('');
       expect(it.q.choices).toBeUndefined();

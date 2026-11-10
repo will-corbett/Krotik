@@ -154,6 +154,8 @@ export interface LearnExtras {
 /** public/data/level-test.json: candidates for each question type, by level (built by src/lib/levelTestPool.ts). */
 export interface LevelTestData {
   slots: { level: 'A1' | 'A2' | 'B1' | 'B2' | 'C1'; w: 1 | 2 | 3; topic: string; ask: string; items: LevelTestCandidate[] }[];
+  /** The questions stage 2 (typed) may ask: the list sent for native review (STAGE2_PER_SLOT a question type). */
+  stage2?: string[];
 }
 
 /** A line of a reading text: [speaker ('' for narration), text, 1 for a stage direction]. */

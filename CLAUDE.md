@@ -66,7 +66,8 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
   work, levels). The home page shows a big "New to Krotik?" card until you've found your way (opened the
   guide, started a drill round, or pressed "Got it": `settings.guideSeen`); then it's a small link under the title. It
   never disappears, and the footer always links to it.
-- Home (`Dashboard.svelte`): the Krotik header, a slim "Your last drill" strip, and five cards (Grammar, i.e. Learn & drill;
+- Home (`Dashboard.svelte`): the Krotik header, a slim "Your last drill" strip (only once you've started a round:
+  `settings.lastDrill`, not `mode`, which opening a drill page sets), and five cards (Grammar, i.e. Learn & drill;
   Vocabulary; Grammar test; Reading; Your progress) — no topic list. The full topic map is the Learn page (`LearnIndex.svelte`: every topic
   with its level and Learn/Drill links, Review drills included); progress details are `/progress/`
   (`ProgressPage.svelte`, not in the menu, noindex).
@@ -160,8 +161,10 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
     marked wrong. `npm run review:stage2` writes `reports/grammar-test-stage2-for-review.md` (228 questions, 4 per
     question type and level) and a `.keys.json` matching numbers to items. `curated/stage2-answers.yaml` lists the
     other forms each question also accepts (rule: right in the Russian and fits the English; gender after я/ты and
-    ты/вы imperatives always both), checked by the build to be real forms of that word; `typedQuestion` accepts them
-    all. Bring stage 2 back only from reviewed items, adding every form the reviewer lists.
+    ты/вы imperatives always both; a predicate adjective's long form where it's also said; an imperative's other
+    aspect where both are said), checked by the build to be real forms of the word, its participles or its aspect
+    partner; `typedQuestion` accepts them all. Stage 2 draws only from `level-test.json` `stage2` (the review list,
+    `STAGE2_PER_SLOT` = 4 a question type). Bring it back only once reviewed, adding every form the reviewer lists.
   - Writing (`/writing/`, `content/writing.yaml`, word-checked in learn.test.ts): 3 tasks per level with a checklist and
     links to grammar and vocabulary. What's typed is never stored; no model answers until a native speaker can review
     them. Self-marked drills (translate, build) are never suggested as weak or due.

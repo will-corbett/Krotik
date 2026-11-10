@@ -20,6 +20,7 @@ import { BANDS, OUT_DIR, bandOf, writeBands, writeBandsByRank, writeJson } from 
 import { cleanGloss, hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildLevelTestPool, loadLexicon, PER_SLOT } from '../src/lib/levelTestPool.ts';
+import { STAGE2_PER_SLOT } from '../src/lib/levelTest.ts';
 import { buildSentences } from './lib/sentences.ts';
 import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } from './lib/literature.ts';
 import { buildThemes, loadThemes } from './lib/themes.ts';
@@ -389,20 +390,29 @@ for (const s of levelTest.slots) {
   const also = (parseYaml(readFileSync('curated/stage2-answers.yaml', 'utf8')) as { also?: Record<string, string[]> }).also ?? {};
   const lex = loadLexicon(<T>(file: string) => JSON.parse(readFileSync(join(OUT_DIR, file), 'utf8')) as T);
   const byKey = new Map(levelTest.slots.flatMap((s) => s.items.map((c) => [c[0], c] as const)));
+  const verbByAccented = new Map(verbRows.map((r) => [r[1], r] as const));
   for (const [key, forms] of Object.entries(also)) {
     const c = byKey.get(key);
     if (!c) {
       report.anomaly('Level test', 'stage 2 answers whose question is gone (curated/stage2-answers.yaml)', key);
       continue;
     }
+    // A real form of the word in brackets, of its participles, or of its aspect partner (просни́тесь / просыпа́йтесь).
     const e = lex.byAccented.get(c[5]);
-    const real = new Set((e?.cells ?? []).flatMap((x) => cellForms(x)).map(normalise));
+    const p = e?.type === 'verb' ? lex.participles.get(e.id) : undefined;
+    const partnerCells = (verbByAccented.get(c[5])?.[4] ?? []).flatMap((a) => verbByAccented.get(a)?.[5] ?? []);
+    const pForms = p ? [p[4], p[5], ...p[6].flatMap((k) => [...k[2], ...k[3]])] : [];
+    const real = new Set([...(e?.cells ?? []), ...partnerCells, ...pForms].flatMap((x) => cellForms(x)).map(normalise));
     const bad = forms.filter((f) => !real.has(normalise(f)));
-    if (bad.length) throw new Error(`curated/stage2-answers.yaml: ${key}: not a form of ${c[5]}: ${bad.join(', ')}`);
+    if (bad.length) throw new Error(`curated/stage2-answers.yaml: ${key}: not a form of ${c[5]}, its participles or its aspect partner: ${bad.join(', ')}`);
     c[13] = forms;
     report.count('Level test', 'stage 2 questions with more than one right answer');
   }
 }
+// Stage 2 asks only these: the first STAGE2_PER_SLOT typed questions of each type, the list sent for native review
+// (npm run review:stage2).
+levelTest.stage2 = levelTest.slots.flatMap((s) => s.items.filter((c) => c[5]).slice(0, STAGE2_PER_SLOT).map((c) => c[0]));
+report.count('Level test', 'stage 2 questions (the review list)', levelTest.stage2.length);
 const levelTestBytes = writeJson('level-test.json', levelTest);
 
 for (const list of [...Object.values(shards), wordShards]) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);

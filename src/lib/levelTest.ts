@@ -149,6 +149,8 @@ export const session: {
  * The review list is reports/grammar-test-stage2-for-review.md (`npm run review:stage2`).
  */
 export const STAGE2_PUBLISHED = false;
+/** Stage 2 questions per question type and level: the list for review (level-test.json `stage2`). */
+export const STAGE2_PER_SLOT = 4;
 /** Typed questions per level in stage 2. */
 export const TYPED_PER_LEVEL = 6;
 
@@ -179,11 +181,13 @@ export function typedQuestion(c: LevelTestCandidate, topic: Mode, level: TestLev
  */
 export function buildTypedTest(rng: Rng, data: LevelTestData, exclude: Set<string>): TestItem[] {
   const items: TestItem[] = [];
+  const allowed = data.stage2 ? new Set(data.stage2) : undefined;
   for (const level of TEST_LEVELS) {
     let n = 0;
     for (const slot of chooseSlots<PoolSlot>(data.slots.filter((s) => s.level === level), rng)) {
       if (n >= TYPED_PER_LEVEL) break;
-      const fresh = slot.items.filter((c) => c[5] && !exclude.has(c[0]));
+      // Only the reviewed list (data.stage2), when the data has one.
+      const fresh = slot.items.filter((c) => c[5] && !exclude.has(c[0]) && (!allowed || allowed.has(c[0])));
       if (!fresh.length) continue;
       const c = pick(rng, fresh);
       exclude.add(c[0]);

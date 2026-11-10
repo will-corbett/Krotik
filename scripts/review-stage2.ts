@@ -1,18 +1,20 @@
 /**
  * Grammar test stage 2 (typed answers) is off the site until a native speaker has reviewed its questions
  * (STAGE2_PUBLISHED in src/lib/levelTest.ts). This writes the list to review, reports/grammar-test-stage2-for-review.md:
- * the first PER_SLOT typed questions (word in brackets) of every question type at every level, from
+ * the first STAGE2_PER_SLOT typed questions (word in brackets) of every question type at every level, from
  * public/data/level-test.json (run after a data build). Usage: npm run review:stage2
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { topicById } from '../src/lib/topics.ts';
+import { STAGE2_PER_SLOT } from '../src/lib/levelTest.ts';
 import { renderForm } from '../src/shared/forms.ts';
 import type { LevelTestData } from '../src/shared/types.ts';
 
-const PER_SLOT = 4;
 const OUT = 'reports/grammar-test-stage2-for-review.md';
 const data = JSON.parse(readFileSync('public/data/level-test.json', 'utf8')) as LevelTestData;
 const ru = (s: string) => renderForm(s, true);
+const listed = new Set(data.stage2 ?? []);
+const shown = new Set<string>();
 const cell = (s: string) => s.replace(/\|/g, '\\|');
 
 const out: string[] = [
@@ -41,7 +43,9 @@ const keys: Record<number, string> = {};
 for (const level of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
   out.push(`## ${level}`, '');
   for (const slot of data.slots.filter((s) => s.level === level)) {
-    const items = slot.items.filter((c) => c[5]).slice(0, PER_SLOT);
+    // A question can sit in two question types (or levels); it's listed once, under the first.
+    const items = slot.items.filter((c) => listed.has(c[0]) && !shown.has(c[0]));
+    for (const c of items) shown.add(c[0]);
     if (!items.length) continue;
     const topic = topicById(slot.topic)?.title.en ?? slot.topic;
     out.push(`### ${topic}`, '', '| # | Sentence | Word given | Accepted answers | English | OK / also right / correction / remove |', '|---:|---|---|---|---|---|');
@@ -57,7 +61,7 @@ for (const level of ['A1', 'A2', 'B1', 'B2', 'C1'] as const) {
 out.push(
   '## Sources',
   '',
-  `${n} questions: the first ${PER_SLOT} of each question type at each level; ${Object.values(data.slots).flatMap((s) => s.items).filter((c) => c[5] && c[13]?.length).length} accept more than one answer. Sentences and English from Tatoeba`,
+  `${n} questions: the first ${STAGE2_PER_SLOT} of each question type at each level; ${data.slots.flatMap((s) => s.items).filter((c) => listed.has(c[0]) && c[13]?.length).length} accept more than one answer. Sentences and English from Tatoeba`,
   '(tatoeba.org, CC BY 2.0 FR); forms from OpenRussian.org and Wiktionary (CC BY-SA 4.0).',
   '',
 );
