@@ -18,7 +18,7 @@ import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import bz2 from 'unbzip2-stream';
 import { cellForms } from '../../src/shared/forms.ts';
-import { VERB_INFINITIVE_CELL } from '../../src/shared/cells.ts';
+import { ADJ_EXTRA_CELL_OFFSET, VERB_INFINITIVE_CELL } from '../../src/shared/cells.ts';
 import { normalise } from '../../src/shared/normalise.ts';
 import type { SentenceRow } from '../../src/shared/types.ts';
 import { RAW_DIR } from './sources.ts';
@@ -80,9 +80,14 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
   // Participle/adverb forms live in their own index, consulted only for tokens that aren't a form of any
   // other word, so adding them never makes an existing match ambiguous (будущее the noun stays a noun).
   const pOwners = new Map<string, Set<string>>();
-  const addOwner = (form: string, owner: string, cell: number) => {
+  // Normalising folds ё into е, but a sentence that writes ё has told us the word: отменён (cancelled) is not
+  // отменен, the short form of отменный (excellent). `yo` holds each owner's normalised forms spelt with ё.
+  const yo = new Set<string>();
+  // (Only real forms count: a few headwords are spelt with ё where their forms aren't, крёстный / кре́стный.)
+  const addOwner = (form: string, owner: string, cell: number, headword = false) => {
     const n = normalise(form);
     if (!n) return;
+    if (/ё/i.test(form) && !headword) yo.add(`${n}|${owner}`);
     const map = owner.startsWith('participles:') ? pOwners : owners;
     let o = map.get(n);
     if (!o) map.set(n, (o = new Set()));
@@ -95,7 +100,7 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
   for (const [type, list] of [['verbs', inp.verbs], ['adjectives', inp.adjectives], ['nouns', inp.nouns], ['participles', inp.participles ?? []]] as const) {
     for (const l of list) {
       // Verb infinitives are cell 12 (after the 12 verb cells), so infinitive answers can find sentences too.
-      addOwner(l.bare, `${type}:${l.id}`, type === 'verbs' ? INFINITIVE_BIT : -1);
+      addOwner(l.bare, `${type}:${l.id}`, type === 'verbs' ? INFINITIVE_BIT : -1, type !== 'verbs');
       const cells = type === 'adjectives' ? [...l.cells, ...(l.extra ?? [])] : l.cells;
       cells.forEach((c, i) => cellForms(c).forEach((f) => addOwner(f, `${type}:${l.id}`, type === 'participles' ? i % 31 : i)));
     }
@@ -169,8 +174,11 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
       const n = normalise(tok);
       const capital = /^[А-ЯЁ]/.test(tok);
       if (capital && (!isFirst || capitalisedMid.has(n))) continue;
-      const o = owners.get(n) ?? pOwners.get(n);
-      if (!o) continue;
+      // A token with ё only matches forms with ё (see `yo`).
+      const withYo = (set: Set<string> | undefined) => (set && /ё/i.test(tok) ? new Set([...set].filter((x) => yo.has(`${n}|${x}`))) : set);
+      const main = withYo(owners.get(n));
+      const o = main?.size ? main : withYo(pOwners.get(n));
+      if (!o?.size) continue;
       if (o.size !== 1) {
         skippedAmbiguous++;
         continue;
@@ -179,6 +187,14 @@ export async function buildSentences(inp: Input): Promise<{ shards: Record<strin
       if (!/^(verbs|adjectives|nouns|participles):/.test(owner)) continue;
       const mask = masks.get(`${n}|${owner}`) ?? 0;
       if (!mask) continue; // matched the infinitive / headword only
+      // A short adjective that differs from a participle only by ё (отменен, of отменный "excellent", against отменён
+      // "cancelled") can't be told apart when a sentence leaves out the dots, and is nearly always the participle:
+      // treat it as ambiguous. (уверен, занят: same spelling and stress for both, so left alone.)
+      const yoParticiple = [...(pOwners.get(n) ?? [])].some((p) => yo.has(`${n}|${p}`)) && !yo.has(`${n}|${owner}`);
+      if (owner.startsWith('adjectives:') && (mask & ((1 << ADJ_EXTRA_CELL_OFFSET) - 1)) === 0 && yoParticiple) {
+        skippedAmbiguous++;
+        continue;
+      }
       const list = hits.get(owner);
       const h = { rid, ru, en, mask, start: m.index!, end: m.index! + tok.length };
       if (list) list.push(h);

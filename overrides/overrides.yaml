@@ -621,6 +621,9 @@ sentences:
   # Tatoeba sentence id → reason
   deny:
     4763116: "vulgar English translation; was picked as a Learn page example"
+    4474399: "Рейс был отменен: отменён (cancelled) read as the short form of отменный (excellent), spelt alike without ё"
+    12200322: "Рейс был отменен из-за тумана: the same (отменён written without ё)"
+    10971713: "English translation is wrong (ничто не удержит их ... 'nothing will be restrained from them')"
 
 
 adverbs:
