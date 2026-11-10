@@ -146,11 +146,9 @@ export const session: {
 /**
  * Stage 2 is off the site (2026-11-10) until a native speaker has reviewed its questions: a word in brackets often
  * doesn't pin down one form (я ел / я ела, a different tense, singular or plural), so right answers were marked wrong.
- * The review list is reports/grammar-test-stage2-for-review.md (`npm run review:stage2`).
+ * Its questions are fixed in curated/stage2-questions.yaml; the review file is made from it (`npm run review:stage2`).
  */
 export const STAGE2_PUBLISHED = false;
-/** Stage 2 questions per question type and level: the list for review (level-test.json `stage2`). */
-export const STAGE2_PER_SLOT = 4;
 /** Typed questions per level in stage 2. */
 export const TYPED_PER_LEVEL = 6;
 
@@ -176,24 +174,28 @@ export function typedQuestion(c: LevelTestCandidate, topic: Mode, level: TestLev
 }
 
 /**
- * Stage 2: TYPED_PER_LEVEL questions per level where the word is given in brackets (so one form is right), not used in
- * stage 1 (`exclude`), easiest level first. Typing the form shows whether you can produce it, not just recognise it.
+ * Stage 2: TYPED_PER_LEVEL questions per level from its fixed, reviewed list (`data.stage2`, from
+ * curated/stage2-questions.yaml), none used in stage 1 (`exclude`), each of a different question type where there are
+ * enough, easiest level first. Typing the form shows whether you can produce it, not just recognise it.
  */
 export function buildTypedTest(rng: Rng, data: LevelTestData, exclude: Set<string>): TestItem[] {
   const items: TestItem[] = [];
-  const allowed = data.stage2 ? new Set(data.stage2) : undefined;
   for (const level of TEST_LEVELS) {
+    const byTopic = new Map<string, LevelTestCandidate[]>();
+    for (const q of data.stage2 ?? []) if (q.level === level && !exclude.has(q.c[0])) byTopic.set(q.topic, [...(byTopic.get(q.topic) ?? []), q.c]);
     let n = 0;
-    for (const slot of chooseSlots<PoolSlot>(data.slots.filter((s) => s.level === level), rng)) {
-      if (n >= TYPED_PER_LEVEL) break;
-      // Only the reviewed list (data.stage2), when the data has one.
-      const fresh = slot.items.filter((c) => c[5] && !exclude.has(c[0]) && (!allowed || allowed.has(c[0])));
-      if (!fresh.length) continue;
-      const c = pick(rng, fresh);
-      exclude.add(c[0]);
-      const topic = slot.topic as Mode;
-      items.push({ level, topic, instruction: 'Type the right form of the word in brackets.', q: typedQuestion(c, topic, level), c });
-      n++;
+    // One of each type in a random order, then round again if there aren't enough types.
+    while (n < TYPED_PER_LEVEL && [...byTopic.values()].some((l) => l.length)) {
+      for (const topic of shuffle(rng, [...byTopic.keys()])) {
+        if (n >= TYPED_PER_LEVEL) break;
+        const fresh = byTopic.get(topic)!.filter((c) => !exclude.has(c[0]));
+        if (!fresh.length) continue;
+        const c = pick(rng, fresh);
+        exclude.add(c[0]);
+        byTopic.set(topic, fresh.filter((x) => x !== c));
+        items.push({ level, topic: topic as Mode, instruction: 'Type the right form of the word in brackets.', q: typedQuestion(c, topic as Mode, level), c });
+        n++;
+      }
     }
   }
   return items;

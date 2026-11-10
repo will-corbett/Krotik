@@ -89,11 +89,6 @@ In the last column, write **OK**, the other right forms, a correction, or **remo
 | 31 | Том разговаривает во ___. | сон | сне | Tom talks in his sleep. |  |
 | 32 | Не всем в ___ он нравится. | го́род | го́роде | Not everyone in town likes him. |  |
 | 33 | Том звонил Мэри в ___ половины третьего. | райо́н | райо́не | Tom called Mary at around 2:30. |  |
-
-### Prepositions and cases
-
-| # | Sentence | Word given | Accepted answers | English | OK / also right / correction / remove |
-|---:|---|---|---|---|---|
 | 34 | Я иду в ___ в семь часов. | шко́ла | шко́лу | I go to school at seven. |  |
 | 35 | Как только в ___ вошла Мэри, Том перешёл на французский язык. | ко́мната | ко́мнату | Tom switched to French as soon as Mary entered the room. |  |
 | 36 | Том вернулся к себе в ___. | ко́мната | ко́мнату | Tom returned to his room. |  |
@@ -153,11 +148,6 @@ In the last column, write **OK**, the other right forms, a correction, or **remo
 | 58 | Люди - жестокие ___. | созда́ние | созда́ния | Humans are violent creatures. |  |
 | 59 | Выберите ___ от каждой группы. | представи́тель | представи́теля | Choose a spokesperson for every group. |  |
 | 60 | Тебя понизили в ___. | до́лжность | до́лжности | You've been demoted. |  |
-
-### Noun cases
-
-| # | Sentence | Word given | Accepted answers | English | OK / also right / correction / remove |
-|---:|---|---|---|---|---|
 | 61 | Что у тебя с ___? | глаз | гла́зом | What happened to your eye? |  |
 | 62 | Мы окружены ___. | поли́ция | поли́цией | We're surrounded by police. |  |
 | 63 | Верится с ___. | труд | трудо́м | That's hard to believe. |  |
@@ -493,11 +483,6 @@ In the last column, write **OK**, the other right forms, a correction, or **remo
 | 207 | Если налить ___ воды в бокал, он может треснуть. | кипе́ть | кипя́щей | If you pour boiling water into the glass, it may crack. |  |
 | 208 | Звезды, ___ в ночном небе, выглядели как драгоценные камни. | мерца́ть | мерца́вшие | The stars twinkling in the night sky looked like jewels. |  |
 | 209 | Количество людей, ___ Сингапур, росло из года в год. | посеща́ть | посеща́ющих | The number of visitors to Singapore has increased year by year. |  |
-
-### Participles
-
-| # | Sentence | Word given | Accepted answers | English | OK / also right / correction / remove |
-|---:|---|---|---|---|---|
 | 210 | Мы нашли ___ сумку в этих кустах. | укра́сть | укра́денную | We found the stolen bag in this bush. |  |
 | 211 | У Тома ___ иммунитет. | осла́бить | осла́бленный **or** осла́блен | Tom is immunocompromised. |  |
 | 212 | Том взял на себя вину за ошибку, ___ его другом. | допусти́ть | допу́щенную | Tom took the fall for his friend's mistake. |  |
@@ -520,11 +505,6 @@ In the last column, write **OK**, the other right forms, a correction, or **remo
 | 219 | Том пошел по стопам своего отца и стал ___. | адвока́т | адвока́том | Tom followed in his father's footsteps and became a lawyer. |  |
 | 220 | По субботам Боб работал ___ в продуктовом магазине. | продаве́ц | продавцо́м | Bob worked as a clerk in the grocery store on Saturday. |  |
 | 221 | Том получше меня умеет играть на ___. | гита́ра | гита́ре | Tom can play the guitar better than I can. |  |
-
-### Verb government
-
-| # | Sentence | Word given | Accepted answers | English | OK / also right / correction / remove |
-|---:|---|---|---|---|---|
 | 222 | Я участвовала в ___. | обсужде́ние | обсужде́нии | I participated in the discussion. |  |
 | 223 | Я слышу, как Том играет на ___ у себя в комнате. | гита́ра | гита́ре | I can hear Tom playing guitar in his bedroom. |  |
 | 224 | Хочешь заняться ___ со мной вечером? | секс | се́ксом | Do you want to have sex with me tonight? |  |
@@ -540,5 +520,5 @@ In the last column, write **OK**, the other right forms, a correction, or **remo
 
 ## Sources
 
-228 questions: the first 4 of each question type at each level; 21 accept more than one answer. Sentences and English from Tatoeba
+228 questions; 21 accept more than one answer. Sentences and English from Tatoeba
 (tatoeba.org, CC BY 2.0 FR); forms from OpenRussian.org and Wiktionary (CC BY-SA 4.0).

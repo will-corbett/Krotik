@@ -1,0 +1,2072 @@
+# Grammar test stage 2 (typed answers): the questions it may ask, fixed.
+#
+# These are the 228 questions sent for native review on 2026-11-10 (reports/grammar-test-stage2-for-review.md, made
+# from this file by `npm run review:stage2`; its numbers are the order here). They're stored here, not drawn from the
+# data build, because the build's random draw changes whenever the Tatoeba export does (monthly, and between
+# machines): the reviewed questions must stay exactly the ones reviewed.
+#
+# Each question: a real Tatoeba sentence (`ru`, `en`, CC BY 2.0 FR), the gap as [start, end] in `ru`, the word given
+# in brackets, and every answer accepted. The first answer is the sentence's own word.
+#
+# Rule for answers (2026-11-10, with a native speaker's notes): accept every form that is right in the Russian
+# sentence and fits the English. Where the English can't tell (gender, ты/вы), accept all. A predicate adjective takes
+# its short form, and its long form where that is also said (жива / живая). An imperative takes the other aspect where
+# both are said (послушай / слушай).
+#
+# The data build checks every question: the gap holds the first answer, and every answer is a real form of the word,
+# its participles or its aspect partner (never made up); it fails otherwise. Edit answers here when the reviewer
+# replies. Stage 2 stays off the site until the review is done (STAGE2_PUBLISHED in src/lib/levelTest.ts).
+
+questions:
+  # 1
+  - key: "lt:verbs:6168422:3"
+    level: A1
+    topic: verbs
+    ru: "Вы остановитесь."
+    gap: [3, 15]
+    en: "You will stop."
+    word: "останови'ться"
+    answers: ["остано'витесь"]
+  # 2
+  - key: "lt:verbs:6455538:8"
+    level: A1
+    topic: verbs
+    ru: "Том вас услышит."
+    gap: [8, 15]
+    en: "Tom is going to hear you."
+    word: "услы'шать"
+    answers: ["услы'шит"]
+  # 3
+  - key: "lt:verbs:2734580:2"
+    level: A1
+    topic: verbs
+    ru: "Я найду другого."
+    gap: [2, 7]
+    en: "I'll find another one."
+    word: "найти'"
+    answers: ["найду'"]
+  # 4
+  - key: "lt:verbs:3205929:11"
+    level: A1
+    topic: verbs
+    ru: "Что ты ему дашь?"
+    gap: [11, 15]
+    en: "What'll you give him?"
+    word: "дать"
+    answers: ["да'шь"]
+  # 5
+  - key: "lt:nouns:4853534:5"
+    level: A1
+    topic: nounCases
+    ru: "Мы в процессе обсуждения этого."
+    gap: [5, 13]
+    en: "We're discussing that."
+    word: "проце'сс"
+    answers: ["проце'ссе"]
+  # 6
+  - key: "lt:nouns:2517660:10"
+    level: A1
+    topic: nounCases
+    ru: "Отворяйте двери."
+    gap: [10, 15]
+    en: "Open the doors."
+    word: "дверь"
+    answers: ["две'ри"]
+  # 7
+  - key: "lt:nouns:5319597:2"
+    level: A1
+    topic: nounCases
+    ru: "В самолёте бомба!"
+    gap: [2, 10]
+    en: "There is a bomb in the plane!"
+    word: "самолёт"
+    answers: ["самолёте"]
+  # 8
+  - key: "lt:nouns:3672137:10"
+    level: A1
+    topic: nounCases
+    ru: "Том ещё в сознании."
+    gap: [10, 18]
+    en: "Tom is still conscious."
+    word: "созна'ние"
+    answers: ["созна'нии"]
+  # 9
+  - key: "lt:adjectives:3466847:4"
+    level: A1
+    topic: adjectives
+    ru: "Это чёрная дыра."
+    gap: [4, 10]
+    en: "It's a black hole."
+    word: "чёрный"
+    answers: ["чёрная"]
+  # 10
+  - key: "lt:adjectives:472277:6"
+    level: A1
+    topic: adjectives
+    ru: "Я ищу свои очки."
+    gap: [6, 10]
+    en: "I'm looking for my glasses."
+    word: "свой"
+    answers: ["свои'"]
+  # 11
+  - key: "lt:adjectives:3899462:4"
+    level: A1
+    topic: adjectives
+    ru: "Где остальная часть группы?"
+    gap: [4, 13]
+    en: "Where's the rest of the group?"
+    word: "остально'й"
+    answers: ["остальна'я"]
+  # 12
+  - key: "lt:adjectives:8563062:2"
+    level: A1
+    topic: adjectives
+    ru: "В ближайшие дни нас ждёт сюрприз."
+    gap: [2, 11]
+    en: "A surprise awaits us in the days to come."
+    word: "ближа'йший"
+    answers: ["ближа'йшие"]
+  # 13
+  - key: "lt:nouns:5908784:10"
+    level: A1
+    topic: nounCases
+    ru: "Я вошёл в класс."
+    gap: [10, 15]
+    en: "I walked into the classroom."
+    word: "класс"
+    answers: ["кла'сс"]
+  # 14
+  - key: "lt:nouns:5643575:11"
+    level: A1
+    topic: nounCases
+    ru: "У Тома нет волос."
+    gap: [11, 16]
+    en: "Tom has no hair."
+    word: "во'лос"
+    answers: ["во'лос"]
+  # 15
+  - key: "lt:nouns:4241911:10"
+    level: A1
+    topic: nounCases
+    ru: "Том пишет роман."
+    gap: [10, 15]
+    en: "Tom is writing a novel."
+    word: "рома'н"
+    answers: ["рома'н"]
+  # 16
+  - key: "lt:nouns:4996800:10"
+    level: A1
+    topic: nounCases
+    ru: "Кто любит войну?"
+    gap: [10, 15]
+    en: "Who loves war?"
+    word: "война'"
+    answers: ["войну'"]
+  # 17
+  - key: "lt:verbs:10305005:9"
+    level: A1
+    topic: verbs
+    ru: "Он тогда уходил."
+    gap: [9, 15]
+    en: "He was leaving then."
+    word: "уходи'ть"
+    answers: ["уходи'л"]
+  # 18
+  - key: "lt:verbs:5192094:8"
+    level: A1
+    topic: verbs
+    ru: "Она его бросила."
+    gap: [8, 15]
+    en: "She dumped him."
+    word: "бро'сить"
+    answers: ["бро'сила"]
+  # 19
+  - key: "lt:verbs:2799617:13"
+    level: A1
+    topic: verbs
+    ru: "Какую еду ты ела?"
+    gap: [13, 16]
+    en: "What kind of meal did you eat?"
+    word: "есть"
+    answers: ["е'ла", "е'л"]
+  # 20
+  - key: "lt:verbs:473388:12"
+    level: A1
+    topic: verbs
+    ru: "Эксперимент удался."
+    gap: [12, 18]
+    en: "The experiment succeeded."
+    word: "уда'ться"
+    answers: ["уда'лся"]
+  # 21
+  - key: "lt:nouns:8166823:12"
+    level: A1
+    topic: plurals
+    ru: "Шли уличные бои."
+    gap: [12, 15]
+    en: "There was fighting in the streets."
+    word: "бой"
+    answers: ["бои'"]
+  # 22
+  - key: "lt:nouns:2759883:9"
+    level: A1
+    topic: plurals
+    ru: "Где твои газеты?"
+    gap: [9, 15]
+    en: "Where are your newspapers?"
+    word: "газе'та"
+    answers: ["газе'ты"]
+  # 23
+  - key: "lt:nouns:4887539:0"
+    level: A1
+    topic: plurals
+    ru: "Хозяева победили."
+    gap: [0, 7]
+    en: "The home team won."
+    word: "хозя'ин"
+    answers: ["хозя'ева"]
+  # 24
+  - key: "lt:nouns:3306014:3"
+    level: A1
+    topic: plurals
+    ru: "По уши в долгах."
+    gap: [3, 6]
+    en: "Up to my ears in debt."
+    word: "у'хо"
+    answers: ["у'ши"]
+  # 25
+  - key: "lt:nouns:9152288:9"
+    level: A1
+    topic: plurals
+    ru: "Это твои картины?"
+    gap: [9, 16]
+    en: "Are these your paintings?"
+    word: "карти'на"
+    answers: ["карти'ны"]
+  # 26
+  - key: "lt:gap:impersonal:8934667:34"
+    level: A1
+    topic: pronouns
+    ru: "Я хочу, чтобы ты сказал Тому, что ему нельзя больше сюда приходить."
+    gap: [34, 37]
+    en: "I want you to tell Tom he can't come here anymore."
+    word: "он"
+    answers: ["ему"]
+  # 27
+  - key: "lt:gap:impersonal:7133921:9"
+    level: A1
+    topic: pronouns
+    ru: "Я думаю, нам надо взять такси."
+    gap: [9, 12]
+    en: "I think we should take a taxi."
+    word: "мы"
+    answers: ["нам"]
+  # 28
+  - key: "lt:gap:impersonal:2709775:7"
+    level: A1
+    topic: pronouns
+    ru: "Думаю, нам надо позвонить в полицию."
+    gap: [7, 10]
+    en: "I think we should call the police."
+    word: "мы"
+    answers: ["нам"]
+  # 29
+  - key: "lt:gap:impersonal:10564933:9"
+    level: A1
+    topic: pronouns
+    ru: "Всё, что вам надо сделать, - это поехать туда."
+    gap: [9, 12]
+    en: "All you have to do is go there."
+    word: "вы"
+    answers: ["вам"]
+  # 30
+  - key: "lt:gap:prepositions:11271789:16"
+    level: A1
+    topic: prepositions
+    ru: "Может, я его на столе оставил."
+    gap: [16, 21]
+    en: "Maybe I left it on the table."
+    word: "стол"
+    answers: ["столе'"]
+  # 31
+  - key: "lt:gap:prepositions:1947431:21"
+    level: A1
+    topic: prepositions
+    ru: "Том разговаривает во сне."
+    gap: [21, 24]
+    en: "Tom talks in his sleep."
+    word: "сон"
+    answers: ["сне'"]
+  # 32
+  - key: "lt:gap:prepositions:6332823:10"
+    level: A1
+    topic: prepositions
+    ru: "Не всем в городе он нравится."
+    gap: [10, 16]
+    en: "Not everyone in town likes him."
+    word: "го'род"
+    answers: ["го'роде"]
+  # 33
+  - key: "lt:gap:prepositions:6860813:18"
+    level: A1
+    topic: prepositions
+    ru: "Том звонил Мэри в районе половины третьего."
+    gap: [18, 24]
+    en: "Tom called Mary at around 2:30."
+    word: "райо'н"
+    answers: ["райо'не"]
+  # 34
+  - key: "lt:gap:prepositions:2065866:8"
+    level: A1
+    topic: prepositions
+    ru: "Я иду в школу в семь часов."
+    gap: [8, 13]
+    en: "I go to school at seven."
+    word: "шко'ла"
+    answers: ["шко'лу"]
+  # 35
+  - key: "lt:gap:prepositions:7361819:13"
+    level: A1
+    topic: prepositions
+    ru: "Как только в комнату вошла Мэри, Том перешёл на французский язык."
+    gap: [13, 20]
+    en: "Tom switched to French as soon as Mary entered the room."
+    word: "ко'мната"
+    answers: ["ко'мнату"]
+  # 36
+  - key: "lt:gap:prepositions:5373328:22"
+    level: A1
+    topic: prepositions
+    ru: "Том вернулся к себе в комнату."
+    gap: [22, 29]
+    en: "Tom returned to his room."
+    word: "ко'мната"
+    answers: ["ко'мнату"]
+  # 37
+  - key: "lt:gap:prepositions:3460921:12"
+    level: A1
+    topic: prepositions
+    ru: "Он похож на девочку."
+    gap: [12, 19]
+    en: "He looks like a girl."
+    word: "де'вочка"
+    answers: ["де'вочку"]
+  # 38
+  - key: "lt:verbs:1670521:8"
+    level: A1
+    topic: verbs
+    ru: "Если мы откажемся, какие альтернативы?"
+    gap: [8, 17]
+    en: "If we decline, what are the alternatives?"
+    word: "отказа'ться"
+    answers: ["отка'жемся"]
+  # 39
+  - key: "lt:verbs:2369354:11"
+    level: A1
+    topic: verbs
+    ru: "Вы к этому привыкнете."
+    gap: [11, 21]
+    en: "You'll get used to it."
+    word: "привы'кнуть"
+    answers: ["привы'кнете"]
+  # 40
+  - key: "lt:verbs:3675698:12"
+    level: A1
+    topic: verbs
+    ru: "Сколько оно служит?"
+    gap: [12, 18]
+    en: "How long does it last?"
+    word: "служи'ть"
+    answers: ["слу'жит"]
+  # 41
+  - key: "lt:verbs:6334034:8"
+    level: A1
+    topic: verbs
+    ru: "Я с ней встречусь."
+    gap: [8, 17]
+    en: "I'll meet her."
+    word: "встре'титься"
+    answers: ["встре'чусь"]
+  # 42
+  - key: "lt:nouns:10038235:11"
+    level: A1
+    topic: nounCases
+    ru: "Мы вытерли лица."
+    gap: [11, 15]
+    en: "We dried our faces."
+    word: "лицо'"
+    answers: ["лица'", "лицо'"]
+  # 43
+  - key: "lt:nouns:5066186:11"
+    level: A1
+    topic: nounCases
+    ru: "У меня нет номера."
+    gap: [11, 17]
+    en: "I don't have the number."
+    word: "но'мер"
+    answers: ["но'мера"]
+  # 44
+  - key: "lt:nouns:4950609:20"
+    level: A1
+    topic: nounCases
+    ru: "Он сделал ей массаж спины."
+    gap: [20, 25]
+    en: "He massaged her back."
+    word: "спина'"
+    answers: ["спины'"]
+  # 45
+  - key: "lt:adjectives:5484038:6"
+    level: A1
+    topic: adjectives
+    ru: "Том — близкий друг."
+    gap: [6, 13]
+    en: "Tom's a close friend."
+    word: "бли'зкий"
+    answers: ["бли'зкий"]
+  # 46
+  - key: "lt:adjectives:2857248:12"
+    level: A1
+    topic: adjectives
+    ru: "Давай споём весёлую песню."
+    gap: [12, 19]
+    en: "Let's sing a happy song."
+    word: "весёлый"
+    answers: ["весёлую"]
+  # 47
+  - key: "lt:adjectives:2959364:9"
+    level: A1
+    topic: adjectives
+    ru: "Я живу в тихом районе."
+    gap: [9, 14]
+    en: "I live in a quiet neighborhood."
+    word: "ти'хий"
+    answers: ["ти'хом"]
+  # 48
+  - key: "lt:adjectives:10709589:4"
+    level: A1
+    topic: adjectives
+    ru: "Где детский дом?"
+    gap: [4, 11]
+    en: "Where's the orphanage?"
+    word: "де'тский"
+    answers: ["де'тский"]
+  # 49
+  - key: "lt:nouns:8607114:11"
+    level: A1
+    topic: plurals
+    ru: "У меня нет камеры."
+    gap: [11, 17]
+    en: "I don't have a camera."
+    word: "ка'мера"
+    answers: ["ка'меры"]
+  # 50
+  - key: "lt:nouns:2708075:9"
+    level: A1
+    topic: plurals
+    ru: "Не имеет значения."
+    gap: [9, 17]
+    en: "It doesn't matter."
+    word: "значе'ние"
+    answers: ["значе'ния"]
+  # 51
+  - key: "lt:nouns:1787717:6"
+    level: A1
+    topic: plurals
+    ru: "У неё сотни книг."
+    gap: [6, 11]
+    en: "She has hundreds of books."
+    word: "со'тня"
+    answers: ["со'тни"]
+  # 52
+  - key: "lt:nouns:2159152:9"
+    level: A1
+    topic: plurals
+    ru: "Это наши машины."
+    gap: [9, 15]
+    en: "They are our cars."
+    word: "маши'на"
+    answers: ["маши'ны"]
+  # 53
+  - key: "lt:gap:time:10876830:20"
+    level: A1
+    topic: time
+    ru: "Хэллоуин отмечают в октябре."
+    gap: [20, 27]
+    en: "Halloween is celebrated in October."
+    word: "октя'брь"
+    answers: ["октябре'"]
+  # 54
+  - key: "lt:gap:time:1845189:13"
+    level: A1
+    topic: time
+    ru: "Я свободен в воскресенье."
+    gap: [13, 24]
+    en: "I'm free on Sunday."
+    word: "воскресе'нье"
+    answers: ["воскресе'нье"]
+  # 55
+  - key: "lt:gap:time:6020790:13"
+    level: A1
+    topic: time
+    ru: "Моему отцу в мае исполнится сорок пять."
+    gap: [13, 16]
+    en: "My father will be forty-five in May."
+    word: "май"
+    answers: ["ма'е"]
+  # 56
+  - key: "lt:gap:time:6860054:23"
+    level: A1
+    topic: time
+    ru: "Я сделал этот снимок в октябре."
+    gap: [23, 30]
+    en: "I took this picture in October."
+    word: "октя'брь"
+    answers: ["октябре'"]
+  # 57
+  - key: "lt:nouns:3570027:9"
+    level: A2
+    topic: nounCases
+    ru: "Я попила молока."
+    gap: [9, 15]
+    en: "I drank some milk."
+    word: "молоко'"
+    answers: ["молока'", "молоко'"]
+  # 58
+  - key: "lt:nouns:11703207:16"
+    level: A2
+    topic: nounCases
+    ru: "Люди - жестокие создания."
+    gap: [16, 24]
+    en: "Humans are violent creatures."
+    word: "созда'ние"
+    answers: ["созда'ния"]
+  # 59
+  - key: "lt:nouns:1449564:9"
+    level: A2
+    topic: nounCases
+    ru: "Выберите представителя от каждой группы."
+    gap: [9, 22]
+    en: "Choose a spokesperson for every group."
+    word: "представи'тель"
+    answers: ["представи'теля"]
+  # 60
+  - key: "lt:nouns:8385918:16"
+    level: A2
+    topic: nounCases
+    ru: "Тебя понизили в должности."
+    gap: [16, 25]
+    en: "You've been demoted."
+    word: "до'лжность"
+    answers: ["до'лжности"]
+  # 61
+  - key: "lt:nouns:4305627:13"
+    level: A2
+    topic: nounCases
+    ru: "Что у тебя с глазом?"
+    gap: [13, 19]
+    en: "What happened to your eye?"
+    word: "глаз"
+    answers: ["гла'зом"]
+  # 62
+  - key: "lt:nouns:4299757:12"
+    level: A2
+    topic: nounCases
+    ru: "Мы окружены полицией."
+    gap: [12, 20]
+    en: "We're surrounded by police."
+    word: "поли'ция"
+    answers: ["поли'цией"]
+  # 63
+  - key: "lt:nouns:3528242:10"
+    level: A2
+    topic: nounCases
+    ru: "Верится с трудом."
+    gap: [10, 16]
+    en: "That's hard to believe."
+    word: "труд"
+    answers: ["трудо'м"]
+  # 64
+  - key: "lt:nouns:6796337:10"
+    level: A2
+    topic: nounCases
+    ru: "Том пишет другу."
+    gap: [10, 15]
+    en: "Tom writes to his friend."
+    word: "друг"
+    answers: ["дру'гу"]
+  # 65
+  - key: "lt:adjectives:3032119:6"
+    level: A2
+    topic: adjectives
+    ru: "Боб в театральном клубе."
+    gap: [6, 17]
+    en: "Bob is in the drama club."
+    word: "театра'льный"
+    answers: ["театра'льном"]
+  # 66
+  - key: "lt:adjectives:9941582:3"
+    level: A2
+    topic: adjectives
+    ru: "От такого слышу!"
+    gap: [3, 9]
+    en: "It takes one to know one."
+    word: "тако'й"
+    answers: ["тако'го"]
+  # 67
+  - key: "lt:adjectives:13805627:3"
+    level: A2
+    topic: adjectives
+    ru: "Ты общую идею понял?"
+    gap: [3, 8]
+    en: "Did you understand the concept?"
+    word: "о'бщий"
+    answers: ["о'бщую"]
+  # 68
+  - key: "lt:adjectives:4827812:6"
+    level: A2
+    topic: adjectives
+    ru: "У вас лишний вес."
+    gap: [6, 12]
+    en: "You're overweight."
+    word: "ли'шний"
+    answers: ["ли'шний"]
+  # 69
+  - key: "lt:verbs:1401045:3"
+    level: A2
+    topic: verbs
+    ru: "Не слушайте его!"
+    gap: [3, 11]
+    en: "Don't listen to him!"
+    word: "слу'шать"
+    answers: ["слу'шайте", "слу'шай"]
+  # 70
+  - key: "lt:verbs:7633003:6"
+    level: A2
+    topic: verbs
+    ru: "Лучше закройте дверь."
+    gap: [6, 14]
+    en: "Better shut the door."
+    word: "закры'ть"
+    answers: ["закро'йте", "закро'й"]
+  # 71
+  - key: "lt:verbs:12866411:7"
+    level: A2
+    topic: verbs
+    ru: "Просто приходите."
+    gap: [7, 16]
+    en: "Just come."
+    word: "приходи'ть"
+    answers: ["приходи'те", "приходи'"]
+  # 72
+  - key: "lt:verbs:3648508:9"
+    level: A2
+    topic: verbs
+    ru: "Постой и послушай."
+    gap: [9, 17]
+    en: "Stay a while and listen."
+    word: "послу'шать"
+    answers: ["послу'шай", "слу'шай"]
+  # 73
+  - key: "lt:adjectives:2625993:8"
+    level: A2
+    topic: compare
+    ru: "Ну, иди быстрее."
+    gap: [8, 15]
+    en: "Well, go faster."
+    word: "бы'стрый"
+    answers: ["быстре'е"]
+  # 74
+  - key: "lt:adjectives:11058668:7"
+    level: A2
+    topic: compare
+    ru: "Я стал стройнее."
+    gap: [7, 15]
+    en: "I've become thinner."
+    word: "стро'йный"
+    answers: ["стройне'е"]
+  # 75
+  - key: "lt:adjectives:6883925:31"
+    level: A2
+    topic: compare
+    ru: "Три года назад Том и Мэри были жирнее, чем теперь."
+    gap: [31, 37]
+    en: "Tom and Mary were both fatter three years ago than they are now."
+    word: "жи'рный"
+    answers: ["жирне'е"]
+  # 76
+  - key: "lt:adjectives:14003604:27"
+    level: A2
+    topic: compare
+    ru: "Я начинаю чувствовать себя увереннее."
+    gap: [27, 36]
+    en: "I'm starting to feel more confident."
+    word: "уве'ренный"
+    answers: ["уве'реннее"]
+  # 77
+  - key: "lt:gap:impersonal:5701351:7"
+    level: A2
+    topic: pronouns
+    ru: "Думаю, мне надо было вам об этом сказать."
+    gap: [7, 10]
+    en: "I think I should've told you about that."
+    word: "я"
+    answers: ["мне"]
+  # 78
+  - key: "lt:gap:impersonal:4432798:20"
+    level: A2
+    topic: pronouns
+    ru: "У меня есть то, что тебе надо."
+    gap: [20, 24]
+    en: "I have what you need."
+    word: "ты"
+    answers: ["тебе"]
+  # 79
+  - key: "lt:gap:impersonal:6803235:23"
+    level: A2
+    topic: pronouns
+    ru: "Это я сказал Тому, что ему надо прочесть эту книгу."
+    gap: [23, 26]
+    en: "I'm the one who told Tom that he should read that book."
+    word: "он"
+    answers: ["ему"]
+  # 80
+  - key: "lt:gap:impersonal:10179148:17"
+    level: A2
+    topic: pronouns
+    ru: "Том говорит, что ему нужно быть в Бостоне на следующей неделе."
+    gap: [17, 20]
+    en: "Tom says he needs to be in Boston next week."
+    word: "он"
+    answers: ["ему"]
+  # 81
+  - key: "lt:gap:time:7957111:11"
+    level: A2
+    topic: time
+    ru: "Я приеду в понедельник, Том во вторник, а Мэри - в среду."
+    gap: [11, 22]
+    en: "I'll arrive on Monday, Tom on Tuesday and Mary on Wednesday."
+    word: "понеде'льник"
+    answers: ["понеде'льник"]
+  # 82
+  - key: "lt:gap:time:7089414:10"
+    level: A2
+    topic: time
+    ru: "Я этого в понедельник не сделал."
+    gap: [10, 21]
+    en: "I didn't do that on Monday."
+    word: "понеде'льник"
+    answers: ["понеде'льник"]
+  # 83
+  - key: "lt:gap:time:7090996:5"
+    level: A2
+    topic: time
+    ru: "Вы в пятницу вечером заняты?"
+    gap: [5, 12]
+    en: "Are you busy Friday night?"
+    word: "пя'тница"
+    answers: ["пя'тницу"]
+  # 84
+  - key: "lt:gap:time:4812247:12"
+    level: A2
+    topic: time
+    ru: "Я видел его минуту назад."
+    gap: [12, 18]
+    en: "I saw him a minute ago."
+    word: "мину'та"
+    answers: ["мину'ту"]
+  # 85
+  - key: "lt:gap:negation:2717006:10"
+    level: A2
+    topic: negation
+    ru: "У вас нет выбора."
+    gap: [10, 16]
+    en: "You have no choice."
+    word: "вы'бор"
+    answers: ["вы'бора"]
+  # 86
+  - key: "lt:gap:negation:7930718:39"
+    level: A2
+    topic: negation
+    ru: "Она говорит, что у неё никогда не было машины."
+    gap: [39, 45]
+    en: "She says she's never owned a car."
+    word: "маши'на"
+    answers: ["маши'ны"]
+  # 87
+  - key: "lt:gap:negation:4901207:17"
+    level: A2
+    topic: negation
+    ru: "Вижу, у меня нет выбора."
+    gap: [17, 23]
+    en: "I see I have no choice."
+    word: "вы'бор"
+    answers: ["вы'бора"]
+  # 88
+  - key: "lt:gap:negation:8970269:26"
+    level: A2
+    topic: negation
+    ru: "Они поняли, что у них нет выбора."
+    gap: [26, 32]
+    en: "They realized they had no choice."
+    word: "вы'бор"
+    answers: ["вы'бора"]
+  # 89
+  - key: "lt:gap:prepositions:3971213:39"
+    level: A2
+    topic: prepositions
+    ru: "Том, наконец, добрался сюда примерно к обеду."
+    gap: [39, 44]
+    en: "Tom finally got here around lunch time."
+    word: "обе'д"
+    answers: ["обе'ду"]
+  # 90
+  - key: "lt:gap:prepositions:12787266:42"
+    level: A2
+    topic: prepositions
+    ru: "На каникулах мы всегда навещаем дедушку с бабушкой."
+    gap: [42, 50]
+    en: "We always visit our grandparents during the holidays."
+    word: "ба'бушка"
+    answers: ["ба'бушкой"]
+  # 91
+  - key: "lt:gap:prepositions:3599663:22"
+    level: A2
+    topic: prepositions
+    ru: "Она застрелила его из пистолета."
+    gap: [22, 31]
+    en: "She shot him with a pistol."
+    word: "пистоле'т"
+    answers: ["пистоле'та"]
+  # 92
+  - key: "lt:gap:prepositions:3987683:23"
+    level: A2
+    topic: prepositions
+    ru: "Том вытащил конверт из кармана своей куртки."
+    gap: [23, 30]
+    en: "Tom withdrew an envelope from his jacket pocket."
+    word: "карма'н"
+    answers: ["карма'на"]
+  # 93
+  - key: "lt:verbs:9470772:8"
+    level: A2
+    topic: verbs
+    ru: "Они нас выставили."
+    gap: [8, 17]
+    en: "They kicked us out."
+    word: "вы'ставить"
+    answers: ["вы'ставили"]
+  # 94
+  - key: "lt:verbs:8090478:6"
+    level: A2
+    topic: verbs
+    ru: "Мы не торопились."
+    gap: [6, 16]
+    en: "We took our time."
+    word: "торопи'ться"
+    answers: ["торопи'лись"]
+  # 95
+  - key: "lt:verbs:3014995:11"
+    level: A2
+    topic: verbs
+    ru: "Ты меня не учил."
+    gap: [11, 15]
+    en: "You haven't taught me."
+    word: "учи'ть"
+    answers: ["учи'л", "учи'ла"]
+  # 96
+  - key: "lt:verbs:5523820:2"
+    level: A2
+    topic: verbs
+    ru: "Я мчался как ветер."
+    gap: [2, 8]
+    en: "I ran like the wind."
+    word: "мча'ться"
+    answers: ["мча'лся", "мча'лась"]
+  # 97
+  - key: "lt:adjectives:3644932:7"
+    level: B1
+    topic: short
+    ru: "Вы так талантливы!"
+    gap: [7, 17]
+    en: "You're so talented."
+    word: "тала'нтливый"
+    answers: ["тала'нтливы"]
+  # 98
+  - key: "lt:adjectives:643288:10"
+    level: B1
+    topic: short
+    ru: "Эта книга достойна похвалы."
+    gap: [10, 18]
+    en: "This book is worthy of praise."
+    word: "досто'йный"
+    answers: ["досто'йна"]
+  # 99
+  - key: "lt:adjectives:3654653:11"
+    level: B1
+    topic: short
+    ru: "Собака еще жива."
+    gap: [11, 15]
+    en: "The dog is still alive."
+    word: "живо'й"
+    answers: ["жива'", "жива'я"]
+  # 100
+  - key: "lt:adjectives:10761323:4"
+    level: B1
+    topic: short
+    ru: "Она мягка с детьми."
+    gap: [4, 9]
+    en: "She's gentle with children."
+    word: "мя'гкий"
+    answers: ["мягка'", "мя'гкая"]
+  # 101
+  - key: "lt:verbs:5908562:4"
+    level: B1
+    topic: verbs
+    ru: "Том удержал меня от этого шага."
+    gap: [4, 11]
+    en: "Tom stopped me from doing that."
+    word: "удержа'ть"
+    answers: ["удержа'л"]
+  # 102
+  - key: "lt:verbs:5515269:4"
+    level: B1
+    topic: verbs
+    ru: "Том кидает фрисби."
+    gap: [4, 10]
+    en: "Tom is playing frisbee."
+    word: "кида'ть"
+    answers: ["кида'ет"]
+  # 103
+  - key: "lt:verbs:5565040:7"
+    level: B1
+    topic: verbs
+    ru: "Ты это переживёшь."
+    gap: [7, 17]
+    en: "You'll get over it."
+    word: "пережи'ть"
+    answers: ["переживёшь"]
+  # 104
+  - key: "lt:verbs:4835632:3"
+    level: B1
+    topic: verbs
+    ru: "Он пересёк мост."
+    gap: [3, 10]
+    en: "He crossed the bridge."
+    word: "пересе'чь"
+    answers: ["пересёк"]
+  # 105
+  - key: "lt:nouns:2575304:19"
+    level: B1
+    topic: plurals
+    ru: "Мне надо позвонить клиентам."
+    gap: [19, 27]
+    en: "I have clients to call."
+    word: "клие'нт"
+    answers: ["клие'нтам"]
+  # 106
+  - key: "lt:nouns:1525274:38"
+    level: B1
+    topic: plurals
+    ru: "Этот документ был распространён среди начальников всех отделов."
+    gap: [38, 49]
+    en: "The document was distributed to all department heads."
+    word: "нача'льник"
+    answers: ["нача'льников"]
+  # 107
+  - key: "lt:nouns:11769248:0"
+    level: B1
+    topic: plurals
+    ru: "Входов несколько."
+    gap: [0, 6]
+    en: "There are several entrances."
+    word: "вход"
+    answers: ["вхо'дов"]
+  # 108
+  - key: "lt:nouns:3480322:4"
+    level: B1
+    topic: plurals
+    ru: "Нет оснований для тревоги."
+    gap: [4, 13]
+    en: "There's no cause for alarm."
+    word: "основа'ние"
+    answers: ["основа'ний", "основа'ния"]
+  # 109
+  - key: "lt:adjectives:8968579:25"
+    level: B1
+    topic: adjectives
+    ru: "Пожарные - одни из самых храбрых людей в мире."
+    gap: [25, 32]
+    en: "Firefighters are some of the most courageous people in the world."
+    word: "хра'брый"
+    answers: ["хра'брых"]
+  # 110
+  - key: "lt:adjectives:6731388:9"
+    level: B1
+    topic: adjectives
+    ru: "Сами был необыкновенным ребёнком."
+    gap: [9, 23]
+    en: "Sami was an extraordinary child."
+    word: "необыкнове'нный"
+    answers: ["необыкнове'нным"]
+  # 111
+  - key: "lt:adjectives:598453:21"
+    level: B1
+    topic: adjectives
+    ru: "История была во всех дневных газетах."
+    gap: [21, 28]
+    en: "The story was in all daily newspapers."
+    word: "дневно'й"
+    answers: ["дневны'х"]
+  # 112
+  - key: "lt:adjectives:4509219:30"
+    level: B1
+    topic: adjectives
+    ru: "Они ругались друг с другом на повышенных тонах."
+    gap: [30, 40]
+    en: "They were swearing at each other at the top of their voices."
+    word: "повы'шенный"
+    answers: ["повы'шенных"]
+  # 113
+  - key: "lt:gap:conditional:9176342:12"
+    level: B1
+    topic: conditional
+    ru: "Даже ты мне помог бы."
+    gap: [12, 17]
+    en: "Even you would have helped me."
+    word: "помо'чь"
+    answers: ["помо'г", "помогла'"]
+  # 114
+  - key: "lt:gap:conditional:10793235:2"
+    level: B1
+    topic: conditional
+    ru: "Я хотела бы знать больше языков."
+    gap: [2, 8]
+    en: "I'd like to know more languages."
+    word: "хоте'ть"
+    answers: ["хоте'ла", "хоте'л"]
+  # 115
+  - key: "lt:gap:conditional:12073182:22"
+    level: B1
+    topic: conditional
+    ru: "Как ты думаешь, ты бы смог забраться на вершину этого дерева?"
+    gap: [22, 26]
+    en: "Do you think you could climb to the top of this tree?"
+    word: "смочь"
+    answers: ["смо'г", "смогла'"]
+  # 116
+  - key: "lt:gap:conditional:8898677:4"
+    level: B1
+    topic: conditional
+    ru: "Том попробовал бы это сделать?"
+    gap: [4, 14]
+    en: "Would Tom try to do that?"
+    word: "попро'бовать"
+    answers: ["попро'бовал"]
+  # 117
+  - key: "lt:gap:impersonal:598323:15"
+    level: B1
+    topic: impersonal
+    ru: "И мальчикам, и девочкам нужно учиться готовить еду в школе."
+    gap: [15, 23]
+    en: "Both boys and girls should take cooking class in school."
+    word: "де'вочка"
+    answers: ["де'вочкам"]
+  # 118
+  - key: "lt:gap:impersonal:609907:8"
+    level: B1
+    topic: impersonal
+    ru: "Сколько времени нужно, чтобы дойти до вокзала пешком?"
+    gap: [8, 15]
+    en: "How long does it take to walk to the station?"
+    word: "вре'мя"
+    answers: ["вре'мени"]
+  # 119
+  - key: "lt:gap:impersonal:13371144:0"
+    level: B1
+    topic: impersonal
+    ru: "Японцам трудно свободно говорить по-английски."
+    gap: [0, 7]
+    en: "It is difficult for Japanese people to speak English fluently."
+    word: "япо'нец"
+    answers: ["япо'нцам"]
+  # 120
+  - key: "lt:gap:impersonal:13842375:6"
+    level: B1
+    topic: impersonal
+    ru: "Этому типу нельзя доверять."
+    gap: [6, 10]
+    en: "You can't trust that bloke."
+    word: "тип"
+    answers: ["ти'пу"]
+  # 121
+  - key: "lt:gap:kotoryi:3251409:18"
+    level: B1
+    topic: kotoryi
+    ru: "Я знаю девушку, с которой ты вчера разговаривал."
+    gap: [18, 25]
+    en: "I know the girl you were talking to yesterday."
+    word: "кото'рый"
+    answers: ["кото'рой"]
+  # 122
+  - key: "lt:gap:kotoryi:12892391:20"
+    level: B1
+    topic: kotoryi
+    ru: "Вчера снесли дом, в котором Том родился."
+    gap: [20, 27]
+    en: "The house where Tom was born was demolished yesterday."
+    word: "кото'рый"
+    answers: ["кото'ром"]
+  # 123
+  - key: "lt:gap:kotoryi:13963471:24"
+    level: B1
+    topic: kotoryi
+    ru: "Вдовец — это человек, у которого умерла жена."
+    gap: [24, 32]
+    en: "A widower is a man whose wife has died."
+    word: "кото'рый"
+    answers: ["кото'рого"]
+  # 124
+  - key: "lt:gap:kotoryi:8452624:17"
+    level: B1
+    topic: kotoryi
+    ru: "Это не та книга, которую я читал."
+    gap: [17, 24]
+    en: "This isn't the book that I was reading."
+    word: "кото'рый"
+    answers: ["кото'рую"]
+  # 125
+  - key: "lt:gap:chtoby:3091448:23"
+    level: B1
+    topic: chtoby
+    ru: "Том поднял руку, чтобы обратить на себя внимание учителя."
+    gap: [23, 31]
+    en: "Tom raised his hand to get the teacher's attention."
+    word: "обрати'ть"
+    answers: ["обрати'ть"]
+  # 126
+  - key: "lt:gap:chtoby:11461530:25"
+    level: B1
+    topic: chtoby
+    ru: "Он записал его, чтобы не забыть."
+    gap: [25, 31]
+    en: "He wrote it down so as not to forget it."
+    word: "забы'ть"
+    answers: ["забы'ть"]
+  # 127
+  - key: "lt:gap:chtoby:2839564:34"
+    level: B1
+    topic: chtoby
+    ru: "Тысячи людей вышли на пляж, чтобы увидеть дельфина."
+    gap: [34, 41]
+    en: "Thousands of people went to the beach to see the dolphin."
+    word: "уви'деть"
+    answers: ["уви'деть"]
+  # 128
+  - key: "lt:gap:chtoby:3675644:54"
+    level: B1
+    topic: chtoby
+    ru: "Выслушав печальное известие, он вышел на улицу, чтобы побыть одному."
+    gap: [54, 60]
+    en: "After hearing the tragic news, he went outside to be alone."
+    word: "побы'ть"
+    answers: ["побы'ть"]
+  # 129
+  - key: "lt:gap:comparison:2742840:35"
+    level: B1
+    topic: comparison
+    ru: "Откуда Вы знаете, что свет быстрее звука?"
+    gap: [35, 40]
+    en: "How do you know that light travels faster than sound?"
+    word: "звук"
+    answers: ["зву'ка"]
+  # 130
+  - key: "lt:gap:comparison:11669539:13"
+    level: B1
+    topic: comparison
+    ru: "Майор старше капитана по званию."
+    gap: [13, 21]
+    en: "A major outranks a captain."
+    word: "капита'н"
+    answers: ["капита'на"]
+  # 131
+  - key: "lt:gap:comparison:2035532:12"
+    level: B1
+    topic: comparison
+    ru: "Он не лучше вора."
+    gap: [12, 16]
+    en: "He is no better than a thief."
+    word: "вор"
+    answers: ["во'ра"]
+  # 132
+  - key: "lt:gap:comparison:3646682:26"
+    level: B1
+    topic: comparison
+    ru: "Мужчины в этом деле лучше женщин."
+    gap: [26, 32]
+    en: "Men are better at this than women."
+    word: "же'нщина"
+    answers: ["же'нщин"]
+  # 133
+  - key: "lt:gap:government:8963961:26"
+    level: B1
+    topic: government
+    ru: "Вы постоянно жалуетесь на мужа."
+    gap: [26, 30]
+    en: "You're always complaining about your husband."
+    word: "муж"
+    answers: ["му'жа"]
+  # 134
+  - key: "lt:gap:government:6359412:12"
+    level: B1
+    topic: government
+    ru: "Том помогал отцу."
+    gap: [12, 16]
+    en: "Tom helped his father."
+    word: "оте'ц"
+    answers: ["отцу'"]
+  # 135
+  - key: "lt:gap:government:8886942:22"
+    level: B1
+    topic: government
+    ru: "Почему вы смотрите на солнце?"
+    gap: [22, 28]
+    en: "Why are you looking at the Sun?"
+    word: "со'лнце"
+    answers: ["со'лнце"]
+  # 136
+  - key: "lt:gap:government:2625481:22"
+    level: B1
+    topic: government
+    ru: "Я не буду отвечать на вопросы."
+    gap: [22, 29]
+    en: "I won't answer questions."
+    word: "вопро'с"
+    answers: ["вопро'сы"]
+  # 137
+  - key: "lt:gap:prepositions:12043785:21"
+    level: B1
+    topic: prepositions
+    ru: "Мать Тома умерла при родах."
+    gap: [21, 26]
+    en: "Tom's mother died in childbirth."
+    word: "род"
+    answers: ["рода'х"]
+  # 138
+  - key: "lt:gap:prepositions:2994104:11"
+    level: B1
+    topic: prepositions
+    ru: "Я уснул за уроками."
+    gap: [11, 18]
+    en: "I fell asleep while I was doing my homework."
+    word: "уро'к"
+    answers: ["уро'ками"]
+  # 139
+  - key: "lt:gap:prepositions:7958194:18"
+    level: B1
+    topic: prepositions
+    ru: "Самолёт летит над облаками."
+    gap: [18, 26]
+    en: "The plane is flying above the clouds."
+    word: "о'блако"
+    answers: ["облака'ми"]
+  # 140
+  - key: "lt:gap:prepositions:13892839:30"
+    level: B1
+    topic: prepositions
+    ru: "Я соглашусь на эту работу при условии, что вы мне поможете."
+    gap: [30, 37]
+    en: "I will accept the work, provided you help me."
+    word: "усло'вие"
+    answers: ["усло'вии"]
+  # 141
+  - key: "lt:verbs:445667:11"
+    level: B2
+    topic: verbs
+    ru: "Только что пробило восемь, так?"
+    gap: [11, 18]
+    en: "It has just struck eight, hasn't it?"
+    word: "проби'ть"
+    answers: ["проби'ло"]
+  # 142
+  - key: "lt:verbs:11458888:15"
+    level: B2
+    topic: verbs
+    ru: "Обстоятельства складывались в его пользу."
+    gap: [15, 27]
+    en: "The circumstances were in his favour."
+    word: "скла'дываться"
+    answers: ["скла'дывались"]
+  # 143
+  - key: "lt:verbs:5469876:29"
+    level: B2
+    topic: verbs
+    ru: "Проделайте в земле борозду и высыпьте семена."
+    gap: [29, 37]
+    en: "Make a furrow in the ground and sow the seeds."
+    word: "вы'сыпать"
+    answers: ["вы'сыпьте"]
+  # 144
+  - key: "lt:verbs:2820922:3"
+    level: B2
+    topic: verbs
+    ru: "Мы свалили дрова во дворе."
+    gap: [3, 10]
+    en: "We piled the wood in the backyard."
+    word: "свали'ть"
+    answers: ["свали'ли"]
+  # 145
+  - key: "lt:nouns:739585:14"
+    level: B2
+    topic: nounCases
+    ru: "Поздравляю со сдачей экзамена."
+    gap: [14, 20]
+    en: "I congratulate you on passing the examination."
+    word: "сда'ча"
+    answers: ["сда'чей"]
+  # 146
+  - key: "lt:nouns:5652263:14"
+    level: B2
+    topic: nounCases
+    ru: "Я живу в этой местности."
+    gap: [14, 23]
+    en: "I live in this area."
+    word: "ме'стность"
+    answers: ["ме'стности"]
+  # 147
+  - key: "lt:nouns:12196947:28"
+    level: B2
+    topic: nounCases
+    ru: "Виниловые пластинки покрыты дорожками."
+    gap: [28, 37]
+    en: "Vinyl records are covered in grooves."
+    word: "доро'жка"
+    answers: ["доро'жками"]
+  # 148
+  - key: "lt:nouns:7576728:29"
+    level: B2
+    topic: nounCases
+    ru: "Ты должен спрятаться за этим кустарником."
+    gap: [29, 40]
+    en: "You need to hide behind this bush."
+    word: "куста'рник"
+    answers: ["куста'рником"]
+  # 149
+  - key: "lt:adjectives:4971342:14"
+    level: B2
+    topic: adjectives
+    ru: "Он работает в литейном цеху."
+    gap: [14, 22]
+    en: "He works in a foundry."
+    word: "лите'йный"
+    answers: ["лите'йном"]
+  # 150
+  - key: "lt:adjectives:4199386:11"
+    level: B2
+    topic: adjectives
+    ru: "Я чищу уши ватными палочками."
+    gap: [11, 18]
+    en: "I clean my ears using cotton swabs."
+    word: "ва'тный"
+    answers: ["ва'тными"]
+  # 151
+  - key: "lt:adjectives:13328510:30"
+    level: B2
+    topic: adjectives
+    ru: "Том часто носит зимой вязаную лыжную шапочку."
+    gap: [30, 36]
+    en: "Tom often wears a knit ski cap in the winter."
+    word: "лы'жный"
+    answers: ["лы'жную"]
+  # 152
+  - key: "lt:adjectives:10979069:4"
+    level: B2
+    topic: adjectives
+    ru: "Это весомый аргумент."
+    gap: [4, 11]
+    en: "That's a sound argument."
+    word: "весо'мый"
+    answers: ["весо'мый"]
+  # 153
+  - key: "lt:adv:3281158:24"
+    level: B2
+    topic: adverbs
+    ru: "Мы можем пойти туда, не сообщая им."
+    gap: [24, 31]
+    en: "We can go there without having to inform them."
+    word: "сообща'ть"
+    answers: ["сообща'я"]
+  # 154
+  - key: "lt:adv:3840379:41"
+    level: B2
+    topic: adverbs
+    ru: "Том испортил Мэри впечатление от фильма, рассказав его концовку."
+    gap: [41, 50]
+    en: "Tom spoiled the movie for Mary by telling her how it ends."
+    word: "рассказа'ть"
+    answers: ["рассказа'в"]
+  # 155
+  - key: "lt:adv:14087066:0"
+    level: B2
+    topic: adverbs
+    ru: "Согласившись на этот контракт, он выстрелил себе в ногу."
+    gap: [0, 12]
+    en: "He shot himself in the foot by accepting the contract."
+    word: "согласи'ться"
+    answers: ["согласи'вшись"]
+  # 156
+  - key: "lt:adv:13966626:24"
+    level: B2
+    topic: adverbs
+    ru: "Мы учим родной язык, не изучая его."
+    gap: [24, 30]
+    en: "We learn our native language without studying it."
+    word: "изуча'ть"
+    answers: ["изуча'я"]
+  # 157
+  - key: "lt:gap:government:7783421:45"
+    level: B2
+    topic: government
+    ru: "Том весь день только и делает, что играет на гитаре."
+    gap: [45, 51]
+    en: "All Tom does all day long is play the guitar."
+    word: "гита'ра"
+    answers: ["гита'ре"]
+  # 158
+  - key: "lt:gap:government:8458939:9"
+    level: B2
+    topic: government
+    ru: "Том стал судьёй."
+    gap: [9, 15]
+    en: "Tom became a judge."
+    word: "судья'"
+    answers: ["судьёй"]
+  # 159
+  - key: "lt:gap:government:5451967:9"
+    level: B2
+    topic: government
+    ru: "Том стал танцором."
+    gap: [9, 17]
+    en: "Tom became a dancer."
+    word: "танцо'р"
+    answers: ["танцо'ром"]
+  # 160
+  - key: "lt:gap:government:1570517:51"
+    level: B2
+    topic: government
+    ru: "Ваш сайт обращён к тем людям, которые интересуются кошками."
+    gap: [51, 58]
+    en: "Your site appeals to people who are interested in cats."
+    word: "ко'шка"
+    answers: ["ко'шками"]
+  # 161
+  - key: "lt:gap:chtoby:6364388:19"
+    level: B2
+    topic: chtoby
+    ru: "Скажите ему, чтобы помог мне."
+    gap: [19, 24]
+    en: "Tell him to help me."
+    word: "помо'чь"
+    answers: ["помо'г"]
+  # 162
+  - key: "lt:gap:chtoby:4035717:29"
+    level: B2
+    topic: chtoby
+    ru: "Пожалуйста, скажи ему, чтобы поспешил."
+    gap: [29, 37]
+    en: "Please tell him to hurry up."
+    word: "поспеши'ть"
+    answers: ["поспеши'л"]
+  # 163
+  - key: "lt:gap:chtoby:5187958:16"
+    level: B2
+    topic: chtoby
+    ru: "Скажи ей, чтобы ушла."
+    gap: [16, 20]
+    en: "Tell her to leave."
+    word: "уйти'"
+    answers: ["ушла'"]
+  # 164
+  - key: "lt:gap:chtoby:10526128:23"
+    level: B2
+    topic: chtoby
+    ru: "Скажите Тому, чтобы не лез не в своё дело."
+    gap: [23, 26]
+    en: "Tell Tom to mind his own business."
+    word: "лезть"
+    answers: ["ле'з"]
+  # 165
+  - key: "lt:gap:comparison:475341:19"
+    level: B2
+    topic: comparison
+    ru: "Нет ничего вкуснее блюд, которые ты готовишь."
+    gap: [19, 23]
+    en: "Nothing is so tasty as the dish you make."
+    word: "блю'до"
+    answers: ["блю'д"]
+  # 166
+  - key: "lt:gap:comparison:11784429:36"
+    level: B2
+    topic: comparison
+    ru: "Прошлой ночью температура была ниже нуля."
+    gap: [36, 40]
+    en: "It was below freezing last night."
+    word: "нуль"
+    answers: ["нуля'"]
+  # 167
+  - key: "lt:gap:comparison:7995252:10"
+    level: B2
+    topic: comparison
+    ru: "Мы раньше полуночи никогда не ложимся."
+    gap: [10, 18]
+    en: "We never go to bed before midnight."
+    word: "по'лночь"
+    answers: ["полу'ночи", "полно'чи"]
+  # 168
+  - key: "lt:gap:comparison:9869942:13"
+    level: B2
+    topic: comparison
+    ru: "Конь сильнее оленя."
+    gap: [13, 18]
+    en: "Horses are stronger than deer."
+    word: "оле'нь"
+    answers: ["оле'ня"]
+  # 169
+  - key: "lt:gap:negation:5242400:21"
+    level: B2
+    topic: negation
+    ru: "У меня тогда не было адвоката."
+    gap: [21, 29]
+    en: "I had no lawyer at that time."
+    word: "адвока'т"
+    answers: ["адвока'та"]
+  # 170
+  - key: "lt:gap:negation:7222106:27"
+    level: B2
+    topic: negation
+    ru: "Том сказал, что у него нет адвоката."
+    gap: [27, 35]
+    en: "Tom said he didn't have a lawyer."
+    word: "адвока'т"
+    answers: ["адвока'та"]
+  # 171
+  - key: "lt:gap:negation:10708728:17"
+    level: B2
+    topic: negation
+    ru: "Здесь больше нет риса."
+    gap: [17, 21]
+    en: "There is no rice here anymore."
+    word: "рис"
+    answers: ["ри'са"]
+  # 172
+  - key: "lt:gap:negation:6199160:10"
+    level: B2
+    topic: negation
+    ru: "У нас нет воображения."
+    gap: [10, 21]
+    en: "We're unimaginative."
+    word: "воображе'ние"
+    answers: ["воображе'ния"]
+  # 173
+  - key: "lt:gap:specialCases:5126723:30"
+    level: B2
+    topic: specialCases
+    ru: "Том и Мэри обучают дочерей на дому."
+    gap: [30, 34]
+    en: "Tom and Mary homeschool their daughters."
+    word: "дом"
+    answers: ["дому'"]
+  # 174
+  - key: "lt:gap:specialCases:3532695:11"
+    level: B2
+    topic: specialCases
+    ru: "Спрячься в шкафу."
+    gap: [11, 16]
+    en: "Hide in the closet."
+    word: "шкаф"
+    answers: ["шкафу'"]
+  # 175
+  - key: "lt:gap:specialCases:1576241:17"
+    level: B2
+    topic: specialCases
+    ru: "Никого не было в саду."
+    gap: [17, 21]
+    en: "There was nobody in the garden."
+    word: "сад"
+    answers: ["саду'"]
+  # 176
+  - key: "lt:gap:specialCases:8888616:20"
+    level: B2
+    topic: specialCases
+    ru: "Дети любят играть в снегу."
+    gap: [20, 25]
+    en: "Children like to play in the snow."
+    word: "снег"
+    answers: ["снегу'"]
+  # 177
+  - key: "lt:gap:specialCases:6127495:26"
+    level: B2
+    topic: specialCases
+    ru: "Для едящих в кинотеатре в аду есть отдельный котёл."
+    gap: [26, 29]
+    en: "There's a special place in hell for people who eat in movie theaters."
+    word: "ад"
+    answers: ["аду'"]
+  # 178
+  - key: "lt:gap:prepositions:12428374:21"
+    level: B2
+    topic: prepositions
+    ru: "Что вы делаете перед завтраком?"
+    gap: [21, 30]
+    en: "What do you do before breakfast?"
+    word: "за'втрак"
+    answers: ["за'втраком"]
+  # 179
+  - key: "lt:gap:prepositions:5803429:42"
+    level: B2
+    topic: prepositions
+    ru: "Вот список того, что нам нужно сделать до понедельника."
+    gap: [42, 54]
+    en: "Here's a list of things that we need to do before Monday."
+    word: "понеде'льник"
+    answers: ["понеде'льника"]
+  # 180
+  - key: "lt:gap:prepositions:10008000:12"
+    level: B2
+    topic: prepositions
+    ru: "Почисть под ногтями."
+    gap: [12, 19]
+    en: "Clean under your nails."
+    word: "но'готь"
+    answers: ["ногтя'ми"]
+  # 181
+  - key: "lt:gap:prepositions:8401793:24"
+    level: B2
+    topic: prepositions
+    ru: "Бегун перепрыгнул через дыру в земле."
+    gap: [24, 28]
+    en: "The runner jumped over the hole in the ground."
+    word: "дыра'"
+    answers: ["дыру'"]
+  # 182
+  - key: "lt:part:932616:30"
+    level: B2
+    topic: participles
+    ru: "Здания были повреждены бурей, случившейся вчера ночью."
+    gap: [30, 41]
+    en: "The buildings were damaged by the storm last night."
+    word: "случи'ться"
+    answers: ["случи'вшейся"]
+  # 183
+  - key: "lt:part:3166744:33"
+    level: B2
+    topic: participles
+    ru: "Человек - единственное животное, владеющее речью."
+    gap: [33, 42]
+    en: "Man is the only animal that possesses language."
+    word: "владе'ть"
+    answers: ["владе'ющее"]
+  # 184
+  - key: "lt:part:4709676:9"
+    level: B2
+    topic: participles
+    ru: "Человек, заложивший бомбу, не был пойман."
+    gap: [9, 19]
+    en: "The person who planted the bomb hasn't been caught."
+    word: "заложи'ть"
+    answers: ["заложи'вший"]
+  # 185
+  - key: "lt:part:3032646:25"
+    level: B2
+    topic: participles
+    ru: "Она танцевала с грацией, поразившей всех нас."
+    gap: [25, 35]
+    en: "She danced with a grace that surprised us all."
+    word: "порази'ть"
+    answers: ["порази'вшей"]
+  # 186
+  - key: "lt:gap:time:4954402:6"
+    level: B2
+    topic: time
+    ru: "Вы по воскресеньям работаете?"
+    gap: [6, 18]
+    en: "Do you work on Sundays?"
+    word: "воскресе'нье"
+    answers: ["воскресе'ньям"]
+  # 187
+  - key: "lt:gap:time:1572579:19"
+    level: B2
+    topic: time
+    ru: "Это было несколько недель назад!"
+    gap: [19, 25]
+    en: "This was a few weeks ago!"
+    word: "неде'ля"
+    answers: ["неде'ль"]
+  # 188
+  - key: "lt:gap:time:12462731:21"
+    level: B2
+    topic: time
+    ru: "Я познакомился с ней неделю назад."
+    gap: [21, 27]
+    en: "I met her a week ago."
+    word: "неде'ля"
+    answers: ["неде'лю"]
+  # 189
+  - key: "lt:gap:time:2459492:16"
+    level: B2
+    topic: time
+    ru: "Баня открыта по субботам."
+    gap: [16, 24]
+    en: "The bath is open on Saturdays."
+    word: "суббо'та"
+    answers: ["суббо'там"]
+  # 190
+  - key: "lt:verbs:10696683:9"
+    level: C1
+    topic: verbs
+    ru: "Над нами пролетала ласточка."
+    gap: [9, 18]
+    en: "A swallow was flying above us."
+    word: "пролета'ть"
+    answers: ["пролета'ла"]
+  # 191
+  - key: "lt:verbs:573285:3"
+    level: C1
+    topic: verbs
+    ru: "Он жаждет славы."
+    gap: [3, 9]
+    en: "He's thirsty for fame."
+    word: "жа'ждать"
+    answers: ["жа'ждет"]
+  # 192
+  - key: "lt:verbs:3699329:3"
+    level: C1
+    topic: verbs
+    ru: "Мы перебросили проект на новый сервер."
+    gap: [3, 14]
+    en: "We moved the project to a new server."
+    word: "перебро'сить"
+    answers: ["перебро'сили"]
+  # 193
+  - key: "lt:verbs:12316744:0"
+    level: C1
+    topic: verbs
+    ru: "Побеждаешь, сынок?"
+    gap: [0, 10]
+    en: "Are ya winning, son?"
+    word: "побежда'ть"
+    answers: ["побежда'ешь"]
+  # 194
+  - key: "lt:adv:4990257:38"
+    level: C1
+    topic: adverbs
+    ru: "Первые переселенцы прибыли в Америку, спасаясь от религиозных гонений."
+    gap: [38, 46]
+    en: "The Pilgrims came to America, fleeing religious persecution."
+    word: "спаса'ться"
+    answers: ["спаса'ясь"]
+  # 195
+  - key: "lt:adv:2524244:34"
+    level: C1
+    topic: adverbs
+    ru: "Этот человек живёт впроголодь, не откладывая и цента."
+    gap: [34, 44]
+    en: "The man lives from hand to mouth and never saves a cent."
+    word: "откла'дывать"
+    answers: ["откла'дывая"]
+  # 196
+  - key: "lt:adv:5974072:26"
+    level: C1
+    topic: adverbs
+    ru: "Мы потеряли кучу времени, разыскивая Тома."
+    gap: [26, 36]
+    en: "We wasted a lot of time looking for Tom."
+    word: "разы'скивать"
+    answers: ["разы'скивая"]
+  # 197
+  - key: "lt:adv:13314494:0"
+    level: C1
+    topic: adverbs
+    ru: "Объединив наши усилия, мы сможем это закончить."
+    gap: [0, 9]
+    en: "If we unite our efforts, we'll be able to finish this."
+    word: "объедини'ть"
+    answers: ["объедини'в"]
+  # 198
+  - key: "lt:adjectives:3306905:14"
+    level: C1
+    topic: short
+    ru: "Его ответ был логичен."
+    gap: [14, 21]
+    en: "His reply was logical."
+    word: "логи'чный"
+    answers: ["логи'чен", "логи'чным", "логи'чный"]
+  # 199
+  - key: "lt:adjectives:4962888:12"
+    level: C1
+    topic: short
+    ru: "Последствия непоправимы."
+    gap: [12, 23]
+    en: "The effects are irreversible."
+    word: "непоправи'мый"
+    answers: ["непоправи'мы", "непоправи'мые"]
+  # 200
+  - key: "lt:adjectives:2932921:4"
+    level: C1
+    topic: short
+    ru: "Том недалёк от истины."
+    gap: [4, 11]
+    en: "Tom is not far off the mark."
+    word: "недалёкий"
+    answers: ["недалёк"]
+  # 201
+  - key: "lt:adjectives:9299671:18"
+    level: C1
+    topic: short
+    ru: "Его любовь ко мне необъятна."
+    gap: [18, 27]
+    en: "His love for me is immense."
+    word: "необъя'тный"
+    answers: ["необъя'тна", "необъя'тная"]
+  # 202
+  - key: "lt:nouns:4136009:19"
+    level: C1
+    topic: plurals
+    ru: "Я не понимаю ваших рассуждений."
+    gap: [19, 30]
+    en: "I don't understand your reasoning."
+    word: "рассужде'ние"
+    answers: ["рассужде'ний"]
+  # 203
+  - key: "lt:nouns:10663320:21"
+    level: C1
+    topic: plurals
+    ru: "Дверь была сорвана с петель."
+    gap: [21, 27]
+    en: "The gate was off its hinges."
+    word: "петля'"
+    answers: ["пе'тель"]
+  # 204
+  - key: "lt:nouns:13820508:18"
+    level: C1
+    topic: plurals
+    ru: "От них добивались признаний пытками."
+    gap: [18, 27]
+    en: "Torture was used to wring confessions from them."
+    word: "призна'ние"
+    answers: ["призна'ний"]
+  # 205
+  - key: "lt:nouns:4610433:14"
+    level: C1
+    topic: plurals
+    ru: "Том не боится неудач."
+    gap: [14, 20]
+    en: "Tom isn't afraid to fail."
+    word: "неуда'ча"
+    answers: ["неуда'ч", "неуда'чи"]
+  # 206
+  - key: "lt:part:2222564:6"
+    level: C1
+    topic: participles
+    ru: "Люди, пребывающие в тюрьме, называются заключёнными."
+    gap: [6, 17]
+    en: "The people who stay in prison are called prisoners."
+    word: "пребыва'ть"
+    answers: ["пребыва'ющие"]
+  # 207
+  - key: "lt:part:12657433:12"
+    level: C1
+    topic: participles
+    ru: "Если налить кипящей воды в бокал, он может треснуть."
+    gap: [12, 19]
+    en: "If you pour boiling water into the glass, it may crack."
+    word: "кипе'ть"
+    answers: ["кипя'щей"]
+  # 208
+  - key: "lt:part:471776:8"
+    level: C1
+    topic: participles
+    ru: "Звезды, мерцавшие в ночном небе, выглядели как драгоценные камни."
+    gap: [8, 17]
+    en: "The stars twinkling in the night sky looked like jewels."
+    word: "мерца'ть"
+    answers: ["мерца'вшие"]
+  # 209
+  - key: "lt:part:4150115:18"
+    level: C1
+    topic: participles
+    ru: "Количество людей, посещающих Сингапур, росло из года в год."
+    gap: [18, 28]
+    en: "The number of visitors to Singapore has increased year by year."
+    word: "посеща'ть"
+    answers: ["посеща'ющих"]
+  # 210
+  - key: "lt:part:1570317:9"
+    level: C1
+    topic: participles
+    ru: "Мы нашли украденную сумку в этих кустах."
+    gap: [9, 19]
+    en: "We found the stolen bag in this bush."
+    word: "укра'сть"
+    answers: ["укра'денную"]
+  # 211
+  - key: "lt:part:10239509:7"
+    level: C1
+    topic: participles
+    ru: "У Тома ослабленный иммунитет."
+    gap: [7, 18]
+    en: "Tom is immunocompromised."
+    word: "осла'бить"
+    answers: ["осла'бленный", "осла'блен"]
+  # 212
+  - key: "lt:part:5141834:33"
+    level: C1
+    topic: participles
+    ru: "Том взял на себя вину за ошибку, допущенную его другом."
+    gap: [33, 43]
+    en: "Tom took the fall for his friend's mistake."
+    word: "допусти'ть"
+    answers: ["допу'щенную"]
+  # 213
+  - key: "lt:part:3656641:13"
+    level: C1
+    topic: participles
+    ru: "В мире много брошенных кошек."
+    gap: [13, 22]
+    en: "There are many abandoned cats in the world."
+    word: "бро'сить"
+    answers: ["бро'шенных"]
+  # 214
+  - key: "lt:gap:chtoby:6364457:17"
+    level: C1
+    topic: chtoby
+    ru: "Скажи ему, чтобы приготовился к отъезду."
+    gap: [17, 29]
+    en: "Tell him to get ready to leave."
+    word: "пригото'виться"
+    answers: ["пригото'вился"]
+  # 215
+  - key: "lt:gap:chtoby:4813183:18"
+    level: C1
+    topic: chtoby
+    ru: "Скажите им, чтобы приготовились."
+    gap: [18, 31]
+    en: "Tell them to get ready."
+    word: "пригото'виться"
+    answers: ["пригото'вились"]
+  # 216
+  - key: "lt:gap:chtoby:5470428:23"
+    level: C1
+    topic: chtoby
+    ru: "Скажите Тому, чтобы не опаздывал."
+    gap: [23, 32]
+    en: "Tell Tom not to be late."
+    word: "опа'здывать"
+    answers: ["опа'здывал"]
+  # 217
+  - key: "lt:gap:chtoby:4813184:16"
+    level: C1
+    topic: chtoby
+    ru: "Скажи им, чтобы приготовились."
+    gap: [16, 29]
+    en: "Tell them to get ready."
+    word: "пригото'виться"
+    answers: ["пригото'вились"]
+  # 218
+  - key: "lt:gap:government:4609977:43"
+    level: C1
+    topic: government
+    ru: "Я не хочу, чтобы кто-то из моих детей стал юристом."
+    gap: [43, 50]
+    en: "I don't want any of my children to be lawyers."
+    word: "юри'ст"
+    answers: ["юри'стом"]
+  # 219
+  - key: "lt:gap:government:4550975:39"
+    level: C1
+    topic: government
+    ru: "Том пошел по стопам своего отца и стал адвокатом."
+    gap: [39, 48]
+    en: "Tom followed in his father's footsteps and became a lawyer."
+    word: "адвока'т"
+    answers: ["адвока'том"]
+  # 220
+  - key: "lt:gap:government:4180267:24"
+    level: C1
+    topic: government
+    ru: "По субботам Боб работал продавцом в продуктовом магазине."
+    gap: [24, 33]
+    en: "Bob worked as a clerk in the grocery store on Saturday."
+    word: "продаве'ц"
+    answers: ["продавцо'м"]
+  # 221
+  - key: "lt:gap:government:3931062:33"
+    level: C1
+    topic: government
+    ru: "Том получше меня умеет играть на гитаре."
+    gap: [33, 39]
+    en: "Tom can play the guitar better than I can."
+    word: "гита'ра"
+    answers: ["гита'ре"]
+  # 222
+  - key: "lt:gap:government:5999182:16"
+    level: C1
+    topic: government
+    ru: "Я участвовала в обсуждении."
+    gap: [16, 26]
+    en: "I participated in the discussion."
+    word: "обсужде'ние"
+    answers: ["обсужде'нии"]
+  # 223
+  - key: "lt:gap:government:10366064:27"
+    level: C1
+    topic: government
+    ru: "Я слышу, как Том играет на гитаре у себя в комнате."
+    gap: [27, 33]
+    en: "I can hear Tom playing guitar in his bedroom."
+    word: "гита'ра"
+    answers: ["гита'ре"]
+  # 224
+  - key: "lt:gap:government:1569920:16"
+    level: C1
+    topic: government
+    ru: "Хочешь заняться сексом со мной вечером?"
+    gap: [16, 22]
+    en: "Do you want to have sex with me tonight?"
+    word: "секс"
+    answers: ["се'ксом"]
+  # 225
+  - key: "lt:gap:government:5044985:20"
+    level: C1
+    topic: government
+    ru: "Том не участвовал в обсуждении."
+    gap: [20, 30]
+    en: "Tom didn't participate in the discussion."
+    word: "обсужде'ние"
+    answers: ["обсужде'нии"]
+  # 226
+  - key: "lt:gap:specialCases:8378499:30"
+    level: C1
+    topic: specialCases
+    ru: "Том и Мария легли рядышком на лугу и смотрели на облака."
+    gap: [30, 34]
+    en: "Tom and Mary lay down side by side on the grass and looked at the clouds."
+    word: "луг"
+    answers: ["лугу'"]
+  # 227
+  - key: "lt:gap:specialCases:8017722:18"
+    level: C1
+    topic: specialCases
+    ru: "Коровы пасутся на лугу."
+    gap: [18, 22]
+    en: "Cows are grazing in the meadow."
+    word: "луг"
+    answers: ["лугу'"]
+  # 228
+  - key: "lt:gap:specialCases:2316114:23"
+    level: C1
+    topic: specialCases
+    ru: "Когда мы должны быть в аэропорту?"
+    gap: [23, 32]
+    en: "When should we be at the airport?"
+    word: "аэропо'рт"
+    answers: ["аэропорту'"]

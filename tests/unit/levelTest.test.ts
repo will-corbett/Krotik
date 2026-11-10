@@ -262,22 +262,20 @@ describe('sentences: ё', () => {
   });
 });
 
-describe('stage 2: other right answers (curated/stage2-answers.yaml)', () => {
-  it('every listed form is accepted by its question', async () => {
+describe('stage 2: the fixed questions (curated/stage2-questions.yaml)', () => {
+  it('are all in the data, and every accepted answer is accepted', async () => {
     const { parse } = await import('yaml');
     const { typedQuestion } = await import('../../src/lib/levelTest.ts');
-    const also = (parse(readFileSync('curated/stage2-answers.yaml', 'utf8')) as { also: Record<string, string[]> }).also;
+    const { questions } = parse(readFileSync('curated/stage2-questions.yaml', 'utf8')) as { questions: { key: string; answers: string[] }[] };
     const data = JSON.parse(readFileSync('public/data/level-test.json', 'utf8')) as LevelTestData;
-    const byKey = new Map(data.slots.flatMap((s) => s.items.map((c) => [c[0], [c, s] as const] as const)));
-    let found = 0;
-    for (const [key, forms] of Object.entries(also)) {
-      const hit = byKey.get(key);
-      if (!hit) continue;
-      found++;
-      const q = typedQuestion(hit[0], hit[1].topic as never, hit[1].level);
-      for (const f of [hit[0][6], ...forms]) expect(checkAnswer(q, f.replace(/'/g, '')).correct, `${key}: ${f}`).toBe(true);
+    expect(data.stage2?.map((q) => q.c[0])).toEqual(questions.map((q) => q.key));
+    expect(questions.length).toBe(228);
+    for (const [i, q] of data.stage2!.entries()) {
+      const tq = typedQuestion(q.c, q.topic as never, q.level);
+      for (const f of questions[i]!.answers) expect(checkAnswer(tq, f.replace(/'/g, '')).correct, `${q.c[0]}: ${f}`).toBe(true);
+      // The sentence's own word is right.
+      expect(checkAnswer(tq, q.c[1].slice(q.c[3], q.c[4])).correct, q.c[0]).toBe(true);
     }
-    expect(found).toBeGreaterThan(10);
   });
 });
 
@@ -299,9 +297,9 @@ describe('stage 2: typed answers', async () => {
     const before = new Set(exclude);
     const items = buildTypedTest(mulberry32(7), data, exclude);
     expect(items.length).toBe(TYPED_PER_LEVEL * 5);
-    // Only questions on the reviewed list.
-    expect(data.stage2?.length).toBeGreaterThan(200);
-    const listed = new Set(data.stage2);
+    // Only the fixed, reviewed questions.
+    expect(data.stage2?.length).toBe(228);
+    const listed = new Set(data.stage2!.map((q) => q.c[0]));
     for (const it of items) {
       expect(listed.has(it.c[0]), it.c[0]).toBe(true);
       expect(before.has(it.c[0])).toBe(false);

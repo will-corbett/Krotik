@@ -6,7 +6,7 @@
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
-import type { AdjRow, LearnExtras, Manifest, NounRow, VerbRow } from '../src/shared/types.ts';
+import type { AdjRow, LearnExtras, LevelTestCandidate, LevelTestData, Manifest, NounRow, VerbRow } from '../src/shared/types.ts';
 import { readTsv } from './lib/csv.ts';
 import { parse as parseYaml } from 'yaml';
 import { cleanVerbs } from './lib/clean-verbs.ts';
@@ -20,7 +20,6 @@ import { BANDS, OUT_DIR, bandOf, writeBands, writeBandsByRank, writeJson } from 
 import { cleanGloss, hasWordList, primeGlossCorpus } from './lib/glosses.ts';
 import { RAW_DIR } from './lib/sources.ts';
 import { buildLevelTestPool, loadLexicon, PER_SLOT } from '../src/lib/levelTestPool.ts';
-import { STAGE2_PER_SLOT } from '../src/lib/levelTest.ts';
 import { buildSentences } from './lib/sentences.ts';
 import { adjFormLabel, buildReading, caseLabel, literatureWords, type Lexicon } from './lib/literature.ts';
 import { buildThemes, loadThemes } from './lib/themes.ts';
@@ -385,34 +384,42 @@ for (const s of levelTest.slots) {
   report.count('Level test', 'candidate questions', s.items.length);
   if (s.items.length < PER_SLOT) report.anomaly('Level test', `question types with fewer than ${PER_SLOT} candidates`, `${s.level} ${s.topic} (w${s.w}): ${s.items.length}`);
 }
-// Stage 2 (typed): other forms each question also accepts, checked to be real forms of its word.
+// Stage 2 (typed): the fixed, reviewed questions in curated/stage2-questions.yaml (not the random draw above, which
+// changes with every Tatoeba export). Each is checked: the gap holds the first answer, and every answer is a real form
+// of the word in brackets, its participles or its aspect partner.
 {
-  const also = (parseYaml(readFileSync('curated/stage2-answers.yaml', 'utf8')) as { also?: Record<string, string[]> }).also ?? {};
+  type Q = { key: string; level: LevelTestData['slots'][number]['level']; topic: string; ru: string; gap: [number, number]; en: string; word: string; answers: string[] };
+  const { questions } = parseYaml(readFileSync('curated/stage2-questions.yaml', 'utf8')) as { questions: Q[] };
   const lex = loadLexicon(<T>(file: string) => JSON.parse(readFileSync(join(OUT_DIR, file), 'utf8')) as T);
-  const byKey = new Map(levelTest.slots.flatMap((s) => s.items.map((c) => [c[0], c] as const)));
+  const rows = new Map<string, string[]>();
+  const addRow = (accented: string, cells: string[]) => rows.set(accented, [...(rows.get(accented) ?? []), ...cells]);
+  for (const r of verbRows) addRow(r[1], r[5]);
+  for (const r of adjRows) addRow(r[1], [...r[3], ...r[4]]);
+  for (const r of nounRows) addRow(r[1], r[6]);
   const verbByAccented = new Map(verbRows.map((r) => [r[1], r] as const));
-  for (const [key, forms] of Object.entries(also)) {
-    const c = byKey.get(key);
-    if (!c) {
-      report.anomaly('Level test', 'stage 2 answers whose question is gone (curated/stage2-answers.yaml)', key);
-      continue;
-    }
-    // A real form of the word in brackets, of its participles, or of its aspect partner (просни́тесь / просыпа́йтесь).
-    const e = lex.byAccented.get(c[5]);
+  const fail = (q: Q, why: string) => {
+    throw new Error(`curated/stage2-questions.yaml: ${q.key} (${q.ru}): ${why}`);
+  };
+  levelTest.stage2 = questions.map((q) => {
+    const [start, end] = q.gap;
+    const [right, ...also] = q.answers;
+    if (!right) fail(q, 'no answers');
+    if (normalise(q.ru.slice(start, end)) !== normalise(right!)) fail(q, `the gap holds "${q.ru.slice(start, end)}", not ${right}`);
+    const e = lex.byAccented.get(q.word);
     const p = e?.type === 'verb' ? lex.participles.get(e.id) : undefined;
-    const partnerCells = (verbByAccented.get(c[5])?.[4] ?? []).flatMap((a) => verbByAccented.get(a)?.[5] ?? []);
     const pForms = p ? [p[4], p[5], ...p[6].flatMap((k) => [...k[2], ...k[3]])] : [];
-    const real = new Set([...(e?.cells ?? []), ...partnerCells, ...pForms].flatMap((x) => cellForms(x)).map(normalise));
-    const bad = forms.filter((f) => !real.has(normalise(f)));
-    if (bad.length) throw new Error(`curated/stage2-answers.yaml: ${key}: not a form of ${c[5]}, its participles or its aspect partner: ${bad.join(', ')}`);
-    c[13] = forms;
-    report.count('Level test', 'stage 2 questions with more than one right answer');
-  }
+    const partnerCells = (verbByAccented.get(q.word)?.[4] ?? []).flatMap((a) => verbByAccented.get(a)?.[5] ?? []);
+    // (The dictionary form counts too: чтобы + infinitive.)
+    const partners = verbByAccented.get(q.word)?.[4] ?? [];
+    const real = new Set([q.word, ...partners, ...(rows.get(q.word) ?? []), ...(e?.cells ?? []), ...pForms, ...partnerCells].flatMap((x) => cellForms(x)).map(normalise));
+    const bad = q.answers.filter((f) => !real.has(normalise(f)));
+    if (bad.length) fail(q, `not a form of ${q.word}, its participles or its aspect partner: ${bad.join(', ')}`);
+    if (also.length) report.count('Level test', 'stage 2 questions with more than one right answer');
+    const c: LevelTestCandidate = [q.key, q.ru, q.en, start, end, q.word, right!, [], '', '', '', [], -1, also];
+    return { level: q.level, topic: q.topic, c };
+  });
+  report.count('Level test', 'stage 2 questions (fixed, curated/stage2-questions.yaml)', levelTest.stage2.length);
 }
-// Stage 2 asks only these: the first STAGE2_PER_SLOT typed questions of each type, the list sent for native review
-// (npm run review:stage2).
-levelTest.stage2 = levelTest.slots.flatMap((s) => s.items.filter((c) => c[5]).slice(0, STAGE2_PER_SLOT).map((c) => c[0]));
-report.count('Level test', 'stage 2 questions (the review list)', levelTest.stage2.length);
 const levelTestBytes = writeJson('level-test.json', levelTest);
 
 for (const list of [...Object.values(shards), wordShards]) for (const s of list) sizes.push(`| ${s.file} | ${s.count} | ${(s.bytes / 1024).toFixed(0)} KB |`);

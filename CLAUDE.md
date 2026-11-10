@@ -158,13 +158,15 @@ On this Mac, Node 22 is keg-only: `export PATH=/opt/homebrew/opt/node@22/bin:$PA
     none from stage 1; a separate productive result beside the receptive one. In memory only. **Off the site**
     (`STAGE2_PUBLISHED = false`, owner's decision 2026-11-10) until a native speaker has reviewed its questions: a word
     in brackets often allows more than one form (я ел/ела, another tense, singular/plural), so right answers were
-    marked wrong. `npm run review:stage2` writes `reports/grammar-test-stage2-for-review.md` (228 questions, 4 per
-    question type and level) and a `.keys.json` matching numbers to items. `curated/stage2-answers.yaml` lists the
-    other forms each question also accepts (rule: right in the Russian and fits the English; gender after я/ты and
-    ты/вы imperatives always both; a predicate adjective's long form where it's also said; an imperative's other
-    aspect where both are said), checked by the build to be real forms of the word, its participles or its aspect
-    partner; `typedQuestion` accepts them all. Stage 2 draws only from `level-test.json` `stage2` (the review list,
-    `STAGE2_PER_SLOT` = 4 a question type). Bring it back only once reviewed, adding every form the reviewer lists.
+    marked wrong. Its 228 questions are **fixed** in `curated/stage2-questions.yaml` (sentence, gap, word, every
+    accepted answer), not drawn by the data build, whose random draw changes with each Tatoeba export (monthly, and
+    between machines: a list keyed to one machine's draw broke CI). The build checks each (the gap holds the first
+    answer; every answer is a real form of the word, its participles or its aspect partner) and writes them to
+    `level-test.json` `stage2`; stage 2 draws only from them. Answer rule: right in the Russian and fits the English;
+    gender after я/ты and ты/вы imperatives always both; a predicate adjective's long form where it's also said; an
+    imperative's other aspect where both are said. `npm run review:stage2` writes
+    `reports/grammar-test-stage2-for-review.md` from the same file (numbers = its order). Bring stage 2 back only once
+    reviewed, editing the answers there.
   - Writing (`/writing/`, `content/writing.yaml`, word-checked in learn.test.ts): 3 tasks per level with a checklist and
     links to grammar and vocabulary. What's typed is never stored; no model answers until a native speaker can review
     them. Self-marked drills (translate, build) are never suggested as weak or due.

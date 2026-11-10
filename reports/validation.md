@@ -50,7 +50,7 @@ Sources: `verbs.csv` (sha256 8659de6799b9…, fetched 2026-11-05), `nouns.csv` (
 | sentences.participles.b2.json | 358 lemmas, 760 sentences | 108 KB |
 | sentences.participles.b3.json | 625 lemmas, 1178 sentences | 166 KB |
 | numerals.json | 37 | 8.4 KB |
-| level-test.json | 2250 questions | 654 KB |
+| level-test.json | 2250 questions | 698 KB |
 | learn.json | 80 sentences, 50 pronunciations | 9.3 KB |
 | reading.json, reading.*.json | 93 texts, 241 questions | 2086 KB |
 | themes.json, theme.*.json | 47 themes, 94 dialogues published | 721 KB |
@@ -892,6 +892,6 @@ Typed answers are the sentence’s own word; the blanked token must belong to ex
 | B1 question types | 15 |
 | B2 question types | 15 |
 | C1 question types | 14 |
-| stage 2 questions with more than one right answer | 24 |
-| stage 2 questions (the review list) | 228 |
+| stage 2 questions with more than one right answer | 21 |
+| stage 2 questions (fixed, curated/stage2-questions.yaml) | 228 |
 
